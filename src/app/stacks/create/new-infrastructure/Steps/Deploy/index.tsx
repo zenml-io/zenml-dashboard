@@ -1,12 +1,24 @@
+import { useEffect } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
+import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { WizardStepWrapper } from "../../Wizard";
-import { AWSDeployStep } from "./AWS";
+import { ProvisioningStep } from "./ProvisioningStep";
+import { DeployButtonPart } from "./ButtonStep";
 
 export function DeployStep() {
-	const { data } = useNewInfraFormContext();
 	return (
 		<WizardStepWrapper title="Deploy ZenML Stack">
-			{data.provider === "aws" && <AWSDeployStep />}
+			<DisplaySteps />
 		</WizardStepWrapper>
 	);
+}
+
+function DisplaySteps() {
+	const { isLoading } = useNewInfraWizardContext();
+	const { setIsNextButtonDisabled } = useNewInfraFormContext();
+	useEffect(() => {
+		setIsNextButtonDisabled(true);
+	}, []);
+	if (isLoading) return <ProvisioningStep />;
+	return <DeployButtonPart />;
 }

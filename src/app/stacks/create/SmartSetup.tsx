@@ -37,13 +37,12 @@ function NewInfrastructure() {
 
 function ExistingCloud() {
 	return (
-		<Link to="#">
-			<CreateStackOptionCard
-				title="Use existing Cloud"
-				subtitle="Connect to your existing Cloud and configure your components manually."
-				icon={<CloudTenant className="h-6 w-6 fill-primary-400" />}
-				estimatedTime="15"
-			/>
-		</Link>
+		<CreateStackOptionCard
+			comingSoon
+			title="Use existing Cloud"
+			subtitle="Connect to your existing Cloud and configure your components manually."
+			icon={<CloudTenant className="h-6 w-6 fill-primary-400" />}
+			estimatedTime="15"
+		/>
 	);
 }

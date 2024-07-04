@@ -1,13 +1,11 @@
-import Aws from "@/assets/icons/services/aws.svg?react";
-import Azure from "@/assets/icons/services/azure.svg?react";
-import GCP from "@/assets/icons/services/gcp.svg?react";
+import { CloudProviderIcon } from "@/components/ProviderIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@zenml-io/react-component-library";
+import { Badge, cn } from "@zenml-io/react-component-library";
 import { InputHTMLAttributes, ReactNode, forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
-import { ProviderForm, providerSchema } from "./schemas";
 import { WizardStepWrapper } from "../Wizard";
+import { ProviderForm, providerSchema } from "./schemas";
 
 export function ProviderStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
@@ -47,21 +45,33 @@ export function ProviderStep() {
 				>
 					<CloudProviderRadioButton id="aws-provider" {...register("provider")} value="aws">
 						<ProviderCard
-							icon={<Aws className="h-6 w-6 shrink-0" />}
+							icon={<CloudProviderIcon provider="aws" className="h-6 w-6 shrink-0" />}
 							title="AWS"
 							subtitle="ZenML stack with S3, ECR, and SageMaker integration"
 						/>
 					</CloudProviderRadioButton>
-					<CloudProviderRadioButton id="gcp-provider" {...register("provider")} value="gcp">
+					<CloudProviderRadioButton
+						disabled
+						id="gcp-provider"
+						{...register("provider")}
+						value="gcp"
+					>
 						<ProviderCard
-							icon={<GCP className="h-6 w-6 shrink-0" />}
+							comingSoon
+							icon={<CloudProviderIcon provider="gcp" className="h-6 w-6 shrink-0" />}
 							title="GCP"
 							subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"
 						/>
 					</CloudProviderRadioButton>
-					<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
+					<CloudProviderRadioButton
+						disabled
+						id="azure-provider"
+						{...register("provider")}
+						value="azure"
+					>
 						<ProviderCard
-							icon={<Azure className="h-6 w-6 shrink-0" />}
+							comingSoon
+							icon={<CloudProviderIcon provider="azure" className="h-6 w-6 shrink-0" />}
 							title="Azure"
 							subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
 						/>
@@ -79,7 +89,7 @@ const CloudProviderRadioButton = forwardRef<HTMLInputElement, ProviderRadioProps
 			<input id={id} {...rest} ref={ref} className={cn("peer sr-only", className)} type="radio" />
 			<label
 				htmlFor={id}
-				className="flex h-full w-full flex-col items-start justify-center space-y-5 rounded-md border border-theme-border-minimal bg-theme-surface-primary p-5 text-text-lg text-theme-text-secondary hover:cursor-pointer	peer-checked:border-primary-100 peer-checked:bg-primary-25 peer-focus-visible:border-primary-100 peer-disabled:cursor-default"
+				className="flex h-full w-full flex-col items-start justify-center space-y-5 rounded-md border border-theme-border-minimal bg-theme-surface-primary p-5 text-text-lg text-theme-text-secondary hover:cursor-pointer	peer-checked:border-primary-100 peer-checked:bg-primary-25 peer-focus-visible:border-primary-100 peer-disabled:cursor-default peer-disabled:bg-neutral-50"
 			>
 				{children}
 			</label>
@@ -93,12 +103,20 @@ type ProviderCardProps = {
 	icon: ReactNode;
 	title: ReactNode;
 	subtitle: ReactNode;
+	comingSoon?: boolean;
 };
-function ProviderCard({ icon, title, subtitle }: ProviderCardProps) {
+function ProviderCard({ icon, title, subtitle, comingSoon }: ProviderCardProps) {
 	return (
 		<div className="space-y-1 text-left">
 			{icon}
-			<p className="text-text-lg font-semibold text-theme-text-primary">{title}</p>
+			<div className="flex items-center gap-1">
+				<p className="text-text-lg font-semibold text-theme-text-primary">{title}</p>{" "}
+				{comingSoon && (
+					<Badge className="font-semibold" color="purple" size="sm">
+						Coming Soon
+					</Badge>
+				)}
+			</div>
 			<p className="text-text-sm text-theme-text-secondary">{subtitle}</p>
 		</div>
 	);

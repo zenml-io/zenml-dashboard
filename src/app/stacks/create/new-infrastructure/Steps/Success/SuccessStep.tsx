@@ -30,7 +30,7 @@ function SuccessList() {
 		data: stack
 	} = useQuery({
 		...stackQueries.stackDeploymentStack({
-			provider: "aws",
+			provider: data.provider!,
 			stack_name: data.stackName!,
 			date_start: timestamp
 		}),

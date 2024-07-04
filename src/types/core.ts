@@ -1719,9 +1719,11 @@ export type paths = {
 		 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
 		 *
 		 * Args:
+		 *     request: The FastAPI request object.
 		 *     provider: The stack deployment provider.
 		 *     stack_name: The name of the stack.
 		 *     location: The location where the stack should be deployed.
+		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
 		 *     The URL to deploy the ZenML stack to the specified cloud provider
@@ -4429,6 +4431,10 @@ export type components = {
 			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
 			 */
 			components: {
+				[key: string]: unknown;
+			};
+			/** Labels to be set. */
+			labels?: {
 				[key: string]: unknown;
 			};
 		};
@@ -15647,9 +15653,11 @@ export type operations = {
 	 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
 	 *
 	 * Args:
+	 *     request: The FastAPI request object.
 	 *     provider: The stack deployment provider.
 	 *     stack_name: The name of the stack.
 	 *     location: The location where the stack should be deployed.
+	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
 	 *     The URL to deploy the ZenML stack to the specified cloud provider

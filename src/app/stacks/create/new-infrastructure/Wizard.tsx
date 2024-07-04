@@ -23,10 +23,13 @@ function NextButton() {
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 	const navigate = useNavigate();
 
-	function nextStep() {
+	async function nextStep() {
 		if (formRef.current) {
 			formRef.current.requestSubmit();
+			//hack
+			await new Promise((r) => setTimeout(r, 20));
 		}
+
 		setCurrentStep((prev) => {
 			if (prev < maxSteps) {
 				return prev + 1;
@@ -40,7 +43,12 @@ function NextButton() {
 	}
 
 	return (
-		<Button form={formRef.current?.id} disabled={isNextButtonDisabled} onClick={nextStep} size="md">
+		<Button
+			form={formRef.current?.id}
+			disabled={isNextButtonDisabled}
+			onClick={() => nextStep()}
+			size="md"
+		>
 			{currentStep === maxSteps ? "Finish" : "Next"}
 		</Button>
 	);

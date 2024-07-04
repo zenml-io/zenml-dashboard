@@ -8,8 +8,9 @@ import {
 	ScrollArea,
 	Skeleton
 } from "@zenml-io/react-component-library";
+import { useNewInfraFormContext } from "../../NewInfraFormContext";
 
-export function AWSPermissionsCard() {
+export function PermissionsCard() {
 	return (
 		<HoverCard>
 			<HoverCardTrigger className="block">
@@ -28,8 +29,9 @@ export function AWSPermissionsCard() {
 }
 
 function CardContent() {
+	const { data: formData } = useNewInfraFormContext();
 	const { isPending, isError, error, data } = useQuery(
-		stackQueries.stackDeploymentInfo({ provider: "aws" })
+		stackQueries.stackDeploymentInfo({ provider: formData.provider! })
 	);
 
 	if (isPending) return <Skeleton className="h-[100px] w-full" />;

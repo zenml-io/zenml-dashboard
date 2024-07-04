@@ -7,12 +7,14 @@ type Props = {
 	isRecommended?: boolean;
 	subtitle: ReactNode;
 	estimatedTime: string;
+	comingSoon?: boolean;
 };
 export function CreateStackOptionCard({
 	icon,
 	estimatedTime,
 	subtitle,
 	title,
+	comingSoon = false,
 	isRecommended = false
 }: Props) {
 	return (
@@ -23,6 +25,11 @@ export function CreateStackOptionCard({
 				{isRecommended && (
 					<Badge className="font-semibold" color="green" size="sm">
 						Recommended
+					</Badge>
+				)}
+				{comingSoon && (
+					<Badge className="font-semibold" color="purple" size="sm">
+						Coming Soon
 					</Badge>
 				)}
 			</div>

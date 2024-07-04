@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, createContext, useContext, useRef, useState }
 import { z } from "zod";
 
 const dataSchema = z.object({
-	provider: z.enum(["aws", "gcp", "azure"]).optional(),
+	provider: z.enum(["aws"]).optional(),
 	location: z.string().optional(),
 	stackName: z.string().optional()
 });
