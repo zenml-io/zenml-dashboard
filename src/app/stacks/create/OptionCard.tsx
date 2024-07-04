@@ -18,7 +18,7 @@ export function CreateStackOptionCard({
 	isRecommended = false
 }: Props) {
 	return (
-		<Box className="w-full space-y-1 px-6 py-5">
+		<Box className={`h-full w-full space-y-1 px-6 py-5 ${comingSoon && "bg-neutral-50"}`}>
 			{icon}
 			<div className="flex flex-wrap items-center gap-1">
 				<h2 className="text-text-lg font-semibold">{title}</h2>
