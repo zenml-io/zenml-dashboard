@@ -5,7 +5,7 @@ import { AWSDeployStep } from "./AWS";
 export function DeployStep() {
 	const { data } = useNewInfraFormContext();
 	return (
-		<WizardStepWrapper title="Review Stack Configuration">
+		<WizardStepWrapper title="Deploy ZenML Stack">
 			{data.provider === "aws" && <AWSDeployStep />}
 		</WizardStepWrapper>
 	);

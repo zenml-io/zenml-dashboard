@@ -8,7 +8,7 @@ import { Tick } from "@/components/Tick";
 export function ConfigurationStep() {
 	const { data } = useNewInfraFormContext();
 	return (
-		<WizardStepWrapper title="Deploy AWS ZenML Stack">
+		<WizardStepWrapper title="Review Stack Configuration">
 			{data.provider === "aws" && <AWSConfigurationStep />}
 		</WizardStepWrapper>
 	);

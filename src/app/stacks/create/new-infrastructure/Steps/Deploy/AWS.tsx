@@ -4,7 +4,6 @@ import Configuration from "@/assets/icons/tool-02.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { stackQueries } from "@/data/stacks";
 import { useDeploymentUrl } from "@/data/stacks/stack-deployment-url";
-import { StackComponent } from "@/types/components";
 import { StackDeploymentStack } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Button, Skeleton } from "@zenml-io/react-component-library";
@@ -45,7 +44,8 @@ function DeployButtonPart() {
 }
 
 function ProvisioningStep() {
-	const { data, setIsNextButtonDisabled, timestamp } = useNewInfraFormContext();
+	const { data, timestamp } = useNewInfraFormContext();
+	const { setCurrentStep } = useNewInfraWizardContext();
 
 	const {
 		isPending,
@@ -62,28 +62,17 @@ function ProvisioningStep() {
 	});
 
 	useEffect(() => {
-		if (stackData) setIsNextButtonDisabled(false);
+		if (stackData) setCurrentStep((prev) => prev + 1);
 	}, [stackData]);
 
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return null;
 
-	const isReady = !!stackData;
-
 	return (
 		<div className="space-y-5">
-			{isReady ? <SuccessHeader /> : <LoadingHeader />}
+			<LoadingHeader />
 			<PollingList stack={stackData} />
 		</div>
-	);
-}
-
-function SuccessHeader() {
-	return (
-		<p className="text-theme-text-secondary">
-			Here you can review the created stack and stack components. Now you can start running
-			pipelines using this new configuration.
-		</p>
 	);
 }
 
@@ -162,25 +151,10 @@ function Components({ stack }: CompnentProps) {
 	const isReady = !!stack;
 	const { data } = useNewInfraFormContext();
 
-	const names = stack && {
-		orchestratorName: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0]
-			.name,
-		artifactStoreName: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0]
-			.name,
-		registryName: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0]
-			.name,
-		connectorName: stack.service_connector?.name
-	};
-
 	return (
 		<div className="relative overflow-hidden rounded-md">
 			{!isReady && <div className="absolute z-50 h-full w-full bg-neutral-50/50"></div>}
-			<AWSComponents
-				names={names}
-				isLoading={!isReady}
-				isSuccess={isReady}
-				stackName={data.stackName!}
-			/>
+			<AWSComponents isLoading={!isReady} isSuccess={isReady} stackName={data.stackName!} />
 		</div>
 	);
 }

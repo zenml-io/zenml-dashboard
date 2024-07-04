@@ -52,18 +52,18 @@ export function ProviderStep() {
 							subtitle="ZenML stack with S3, ECR, and SageMaker integration"
 						/>
 					</CloudProviderRadioButton>
-					<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
-						<ProviderCard
-							icon={<Azure className="h-6 w-6 shrink-0" />}
-							title="Azure"
-							subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
-						/>
-					</CloudProviderRadioButton>
 					<CloudProviderRadioButton id="gcp-provider" {...register("provider")} value="gcp">
 						<ProviderCard
 							icon={<GCP className="h-6 w-6 shrink-0" />}
 							title="GCP"
 							subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"
+						/>
+					</CloudProviderRadioButton>
+					<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
+						<ProviderCard
+							icon={<Azure className="h-6 w-6 shrink-0" />}
+							title="Azure"
+							subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
 						/>
 					</CloudProviderRadioButton>
 				</form>

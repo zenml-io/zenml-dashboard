@@ -37,7 +37,7 @@ export function AWSRegionSelect() {
 						<ScrollArea viewportClassName="max-h-[300px]">
 							{locations.map(([region, name]) => (
 								<SelectItem key={region} value={name as string}>
-									{region}
+									{region} - <span className="text-theme-text-secondary">{name as string}</span>
 								</SelectItem>
 							))}
 						</ScrollArea>

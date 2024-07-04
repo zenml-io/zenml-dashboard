@@ -1,22 +1,24 @@
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
+import { ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
-import { ProviderStep } from "./Steps/Provider";
 import { DeployStep } from "./Steps/Deploy";
-import { ReactNode } from "react";
+import { ProviderStep } from "./Steps/Provider";
+import { SuccessStep } from "./Steps/Success/SuccessStep";
 
 export function CreateNewInfraWizard() {
 	const { currentStep } = useNewInfraWizardContext();
 	if (currentStep === 1) return <ProviderStep />;
 	if (currentStep === 2) return <ConfigurationStep />;
 	if (currentStep === 3) return <DeployStep />;
+	if (currentStep === 4) return <SuccessStep />;
 }
 
 function NextButton() {
-	const maxSteps = 3;
+	const maxSteps = 4;
 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 	const navigate = useNavigate();
