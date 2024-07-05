@@ -44,9 +44,9 @@ export function ReviewYourStack() {
 				componentProps={{ displayPermissions: true, stackName: watch("stackName") }}
 			/>
 			<InfoBox>
-				These resources create a basic ZenML AWS stack for ML workflow management. ZenML supports
-				highly flexible stacks. You can build advanced stacks at any time, combining your preferred
-				tools and components for more complex MLOps.
+				These resources create a basic ZenML stack for ML workflow management. ZenML supports highly
+				flexible stacks. You can build advanced stacks at any time, combining your preferred tools
+				and components for more complex MLOps.
 			</InfoBox>
 		</div>
 	);

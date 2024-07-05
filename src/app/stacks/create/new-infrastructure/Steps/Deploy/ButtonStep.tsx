@@ -20,7 +20,7 @@ export function DeployButtonPart() {
 					<p className="text-text-lg font-semibold">Deploy the Stack</p>
 				</div>
 				<p className="text-theme-text-secondary">
-					Deploy the stack using AWS CloudFormation in your browser by clicking the button below:
+					Deploy the stack from your browser by clicking the button below:
 				</p>
 			</div>
 			<DeploymentButton setTimestampBool />

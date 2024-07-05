@@ -6,6 +6,11 @@ import { PermissionsCard } from "./PermissionsCard";
 
 type Props = ProviderComponents;
 
+export const gcpPrizes = {
+	orchestratorCosts: "$0.27",
+	storageCosts: "$4.60"
+};
+
 export function GcpComponents({
 	stackName,
 	isLoading,

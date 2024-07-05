@@ -1,12 +1,15 @@
-import Coin from "@/assets/icons/coin.svg?react";
-import CreditCard from "@/assets/icons/credit-card.svg?react";
 import { Tick } from "@/components/Tick";
-import { Avatar, AvatarFallback, Box, Spinner } from "@zenml-io/react-component-library";
+import { Avatar, AvatarFallback, Spinner } from "@zenml-io/react-component-library";
+import { ComponentListItem, ProviderComponents } from ".";
 import { ComponentBadge } from "../ComponentBadge";
 import { PermissionsCard } from "./PermissionsCard";
-import { ComponentListItem, ProviderComponents } from ".";
 
 type Props = ProviderComponents;
+
+export const awsPrizes = {
+	orchestratorCosts: "$0.45",
+	storageCosts: "$4.90"
+};
 
 export function AWSComponents({
 	stackName,
@@ -78,46 +81,6 @@ export function AWSComponents({
 					}}
 				/>
 			</div>
-		</div>
-	);
-}
-
-export function AwsEstimateCosts() {
-	return (
-		<div className="space-y-5">
-			<div className="space-y-1">
-				<p className="flex items-center gap-1 text-text-lg font-semibold">
-					<Coin className="h-5 w-5 fill-primary-400" />
-					Estimated Cost
-				</p>
-				<p className="text-theme-text-secondary">
-					These are rough estimates and actual costs may vary based on your usage and specific AWS
-					pricing. Some services may be eligible for AWS Free Tier.
-				</p>
-			</div>
-			<Box className="flex items-start gap-[10px] p-3">
-				<div className="content-center rounded-sm bg-blue-25 p-1">
-					<CreditCard className="h-5 w-5 fill-blue-400" />
-				</div>
-				<div>
-					<p>
-						Processing jobs: <span className="font-semibold text-theme-text-secondary">$0.922</span>{" "}
-						<span className="text-theme-text-secondary">per hour</span>
-					</p>
-					<p>
-						200GB of general storage:{" "}
-						<span className="font-semibold text-theme-text-secondary">$0.14</span>{" "}
-						<span className="text-theme-text-secondary">per hour</span>
-					</p>
-					<p>
-						An average processing example would cost:{" "}
-						<span className="font-semibold text-theme-text-success">$0.3112</span>
-					</p>
-					<p className="pt-3 text-text-xs text-theme-text-secondary">
-						Use AWS Pricing Calculator for a detailed estimate
-					</p>
-				</div>
-			</Box>
 		</div>
 	);
 }

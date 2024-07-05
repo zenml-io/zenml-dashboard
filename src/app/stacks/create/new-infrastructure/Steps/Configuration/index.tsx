@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
-import { AwsEstimateCosts } from "../../Providers/AWS";
+import { EstimateCosts } from "../../Providers";
 import { WizardStepWrapper } from "../../Wizard";
 import { ConfigurationForm, configurationSchema } from "../schemas";
 import { Region, ReviewYourStack } from "./Partials";
@@ -46,7 +46,7 @@ export function ConfigurationStep() {
 						<StackName />
 					</form>
 					<ReviewYourStack />
-					<AwsEstimateCosts />
+					<EstimateCosts />
 				</div>
 			</FormProvider>
 		</WizardStepWrapper>
