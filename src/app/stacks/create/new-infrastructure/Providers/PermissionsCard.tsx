@@ -8,7 +8,7 @@ import {
 	ScrollArea,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import { useNewInfraFormContext } from "../../NewInfraFormContext";
+import { useNewInfraFormContext } from "../NewInfraFormContext";
 
 export function PermissionsCard() {
 	return (

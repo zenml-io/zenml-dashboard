@@ -3,8 +3,8 @@ import { StackComponent } from "@/types/components";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
+import { CloudComponents } from "../../Providers";
 import { WizardStepWrapper } from "../../Wizard";
-import { AWSComponents } from "../aws/Components";
 
 export function SuccessStep() {
 	const { setIsNextButtonDisabled } = useNewInfraFormContext();
@@ -41,6 +41,7 @@ function SuccessList() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return null;
 
+	const stackName = stack.stack.name;
 	const components = {
 		orchestrator: {
 			name: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0].name,
@@ -64,5 +65,10 @@ function SuccessList() {
 		}
 	};
 
-	return <AWSComponents components={components} isSuccess stackName={data.stackName!} />;
+	return (
+		<CloudComponents
+			type={data.provider!}
+			componentProps={{ components: components, isSuccess: true, stackName }}
+		/>
+	);
 }

@@ -2,26 +2,12 @@ import Coin from "@/assets/icons/coin.svg?react";
 import CreditCard from "@/assets/icons/credit-card.svg?react";
 import { Tick } from "@/components/Tick";
 import { Avatar, AvatarFallback, Box, Spinner } from "@zenml-io/react-component-library";
-import { ComponentBadge } from "../../ComponentBadge";
-import { ComponentListItem } from "../Configuration";
-import { PermissionsCard } from "../Configuration/AWSPermissions";
+import { ComponentBadge } from "../ComponentBadge";
+import { PermissionsCard } from "./PermissionsCard";
+import { ComponentListItem, ProviderComponents } from ".";
 
-type Component = {
-	name: string;
-	id: string;
-};
-type Props = {
-	stackName: string;
-	isLoading?: boolean;
-	isSuccess?: boolean;
-	displayPermissions?: boolean;
-	components?: {
-		connector?: Component;
-		artifactStore?: Component;
-		registry?: Component;
-		orchestrator?: Component;
-	};
-};
+type Props = ProviderComponents;
+
 export function AWSComponents({
 	stackName,
 	isLoading,

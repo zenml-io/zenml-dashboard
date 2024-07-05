@@ -8,7 +8,7 @@ import { Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
-import { AWSComponents } from "../aws/Components";
+import { CloudComponents } from "../../Providers";
 import { DeploymentButton } from "./ButtonStep";
 
 export function ProvisioningStep() {
@@ -101,7 +101,10 @@ function Components({ stack }: CompnentProps) {
 	return (
 		<div className="relative overflow-hidden rounded-md">
 			{!isReady && <div className="absolute z-50 h-full w-full bg-neutral-50/50"></div>}
-			<AWSComponents isLoading={!isReady} isSuccess={isReady} stackName={data.stackName!} />
+			<CloudComponents
+				type={data.provider!}
+				componentProps={{ isLoading: !isReady, isSuccess: isReady, stackName: data.stackName! }}
+			/>
 		</div>
 	);
 }

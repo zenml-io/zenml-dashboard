@@ -2,9 +2,10 @@ import Package from "@/assets/icons/package.svg?react";
 import Pin from "@/assets/icons/pin.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { useFormContext } from "react-hook-form";
-import { AWSComponents } from "../aws/Components";
 import { ConfigurationForm } from "../schemas";
 import { LocationSelect } from "./LocationSelect";
+import { CloudComponents } from "../../Providers";
+import { useNewInfraFormContext } from "../../NewInfraFormContext";
 
 export function Region() {
 	return (
@@ -25,6 +26,7 @@ export function Region() {
 }
 
 export function ReviewYourStack() {
+	const { data } = useNewInfraFormContext();
 	const { watch } = useFormContext<ConfigurationForm>();
 	return (
 		<div className="space-y-5 border-b border-theme-border-moderate pb-5">
@@ -37,7 +39,10 @@ export function ReviewYourStack() {
 					The following components will be created for your ZenML stack.
 				</p>
 			</div>
-			<AWSComponents displayPermissions stackName={watch("stackName")} />
+			<CloudComponents
+				type={data.provider!}
+				componentProps={{ displayPermissions: true, stackName: watch("stackName") }}
+			/>
 			<InfoBox>
 				These resources create a basic ZenML AWS stack for ML workflow management. ZenML supports
 				highly flexible stacks. You can build advanced stacks at any time, combining your preferred
