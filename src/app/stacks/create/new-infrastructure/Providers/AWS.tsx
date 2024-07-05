@@ -34,7 +34,7 @@ export function AWSComponents({
 					badge={<ComponentBadge type="annotator">Service Connector</ComponentBadge>}
 					img={{
 						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/service_connector/iam.webp",
-						alt: "Sagemaker logo"
+						alt: "IAM logo"
 					}}
 				/>
 				{displayPermissions && <PermissionsCard />}
@@ -61,7 +61,7 @@ export function AWSComponents({
 					isSuccess={isSuccess}
 					img={{
 						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png",
-						alt: "Sagemaker logo"
+						alt: "ECR logo"
 					}}
 				/>
 			</div>
@@ -70,7 +70,7 @@ export function AWSComponents({
 					title={components?.orchestrator?.name || "SageMaker"}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
-					subtitle={components?.orchestrator?.id || "Manage access to AWS resources"}
+					subtitle={components?.orchestrator?.id || "ML Workflow orchestration"}
 					badge={<ComponentBadge type="orchestrator">Orchestrator</ComponentBadge>}
 					img={{
 						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/sagemaker.png",
