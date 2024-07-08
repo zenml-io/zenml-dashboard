@@ -31,7 +31,7 @@ function GCPConnector() {
 				<Codesnippet
 					wrap
 					codeClasses="whitespace-pre-wrap"
-					code="zenml service-connector register cloud_connector --type gcp --auth-method service-account --service_account_json=@<PATH_TO_SERVICE_ACCOUNT_JSON> --project-id=<PROJECT_ID> --generate_temporary_tokens=False"
+					code="zenml service-connector register cloud_connector --type gcp --auth-method service-account --service_account_json=@<PATH_TO_SERVICE_ACCOUNT_JSON> --project_id=<PROJECT_ID> --generate_temporary_tokens=False"
 				/>
 			</div>
 		</>
