@@ -1,13 +1,11 @@
+import { StackDeploymentProvider } from "@/types/stack";
 import { Dispatch, SetStateAction, createContext, useContext, useRef, useState } from "react";
-import { z } from "zod";
 
-const dataSchema = z.object({
-	provider: z.enum(["aws"]).optional(),
-	location: z.string().optional(),
-	stackName: z.string().optional()
-});
-
-type Data = z.infer<typeof dataSchema>;
+type Data = {
+	provider?: StackDeploymentProvider;
+	location?: string;
+	stackName?: string;
+};
 
 type NewInfraFormType = {
 	isNextButtonDisabled: boolean;
