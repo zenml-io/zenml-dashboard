@@ -1,11 +1,12 @@
-import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
-import { HeaderBox, InfoBox, StacksHeader } from "./Fragments";
-import { StackCollapsible } from "./StackCollapsible";
-import { StackComponentCollapsible } from "./StackComponentsCollapsible";
 import { useTourContext } from "@/components/tour/TourContext";
 import { useEffect } from "react";
+import { StacksHeader } from "./Fallback/Fragments";
+import { StackList } from "./StackList";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 
 export default function StacksPage() {
+	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
+
 	const {
 		setTourState,
 		tourState: { tourActive }
@@ -17,24 +18,14 @@ export default function StacksPage() {
 		}
 	}, [tourActive]);
 
+	useEffect(() => {
+		setCurrentBreadcrumbData({ segment: "stacks", data: null });
+	}, []);
+
 	return (
 		<div>
 			<StacksHeader />
-
-			<div className="layout-container py-5">
-				<InfoBox />
-				<div className="grid grid-cols-4 gap-5 py-5">
-					<div className="col-span-4 space-y-5 lg:col-span-3">
-						<HeaderBox />
-						<StackCollapsible />
-						<StackComponentCollapsible />
-					</div>
-					<div className="col-span-4 space-y-5 lg:col-span-1">
-						<FallbackSupportCard />
-						<ResourcesCard />
-					</div>
-				</div>
-			</div>
+			<StackList />
 		</div>
 	);
 }

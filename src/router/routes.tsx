@@ -19,7 +19,11 @@ export const routes = {
 		namespace: (namespace: string) => `/pipelines/${namespace}`
 	},
 	stacks: {
-		overview: "/stacks"
+		overview: "/stacks",
+		create: {
+			index: "/stacks/create",
+			newInfra: "/stacks/create/new-infrastructure"
+		}
 	},
 	runs: {
 		detail: (id: string) => `/runs/${id}`

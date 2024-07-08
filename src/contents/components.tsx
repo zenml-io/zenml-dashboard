@@ -1,5 +1,5 @@
 import { CommandListItem } from "@/components/fallback-pages/Commands";
-import { ComponentTypeSectionProps } from "../app/stacks/StackComponentFragments";
+import { ComponentTypeSectionProps } from "../app/stacks/Fallback/StackComponentFragments";
 import { StackComponentType } from "../types/components";
 import { ReactNode } from "react";
 import MlModel from "@/assets/icons/ml_model.svg?react";
