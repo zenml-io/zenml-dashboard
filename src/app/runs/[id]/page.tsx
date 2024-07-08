@@ -1,16 +1,22 @@
+import Expand from "@/assets/icons/expand.svg?react";
+import { useServerInfo } from "@/data/server/info-query";
+import { checkIsLocalServer } from "@/lib/server";
 import { Button } from "@zenml-io/react-component-library";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DAG } from "./Dag";
 import { RunsDetailHeader } from "./Header";
-import { Dispatch, SetStateAction, useState } from "react";
 import { RunsDetailTabs, TabsHeader } from "./_Tabs";
-import Expand from "@/assets/icons/expand.svg?react";
 
 export default function RunDetailPage() {
+	const serverInfo = useServerInfo();
+	const isLocal = checkIsLocalServer(serverInfo.data?.deployment_type || "other");
 	const [isPanelOpen, setIsPanelOpen] = useState(true);
 	return (
 		<div>
 			<RunsDetailHeader />
-			<div className="flex h-[calc(100vh_-_4rem_-_4rem_-_2px)] w-full">
+			<div
+				className={`flex ${isLocal ? "h-[calc(100vh_-_4rem_-_4rem_-_4rem_-_2px)]" : "h-[calc(100vh_-_4rem_-_4rem_-_2px)]"}  w-full`}
+			>
 				<div
 					className={`relative bg-white/40 transition-all duration-500 ${
 						isPanelOpen ? "w-1/2" : "w-full"
