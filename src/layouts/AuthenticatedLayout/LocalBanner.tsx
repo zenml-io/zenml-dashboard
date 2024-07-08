@@ -1,11 +1,12 @@
 import ZenMLIcon from "@/assets/icons/zenml-icon.svg?react";
-import { Button } from "@zenml-io/react-component-library";
 import { useServerInfo } from "@/data/server/info-query";
+import { checkIsLocalServer } from "@/lib/server";
+import { Button } from "@zenml-io/react-component-library";
 
 export function LocalBanner() {
 	const serverInfo = useServerInfo();
 
-	if (serverInfo.data?.deployment_type !== "local") return null;
+	if (!checkIsLocalServer(serverInfo.data?.deployment_type || "other")) return null;
 
 	return (
 		<aside className="flex h-9 items-center justify-between gap-2 bg-warning-400 px-4 py-3">
