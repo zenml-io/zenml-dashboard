@@ -1,11 +1,12 @@
 import Coin from "@/assets/icons/coin.svg?react";
 import CreditCard from "@/assets/icons/credit-card.svg?react";
 import { Tick } from "@/components/Tick";
+import { StackDeploymentProvider } from "@/types/stack";
 import { Box, Spinner } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { AWSComponents, awsPrizes } from "./AWS";
-import { GcpComponents, gcpPrizes } from "./GCP";
+import { gcpPrizes } from "./GCP";
 
 export type ProviderComponents = {
 	stackName: string;
@@ -25,14 +26,14 @@ type Component = {
 	id: string;
 };
 
-type Props = { componentProps: ProviderComponents } & { type: Providers };
+type Props = { componentProps: ProviderComponents } & { type: StackDeploymentProvider };
 
 export function CloudComponents({ componentProps, type }: Props) {
 	switch (type) {
 		case "aws":
 			return <AWSComponents {...componentProps} />;
-		case "gcp":
-			return <GcpComponents {...componentProps} />;
+		// case "gcp":
+		// 	return <GcpComponents {...componentProps} />;
 	}
 }
 
@@ -123,5 +124,3 @@ export function EstimateCosts() {
 		</div>
 	);
 }
-
-type Providers = "aws" | "gcp";

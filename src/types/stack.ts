@@ -24,3 +24,5 @@ export type StackDeploymentStackQueryParams = NonNullable<
 	operations["get_deployed_stack_api_v1_stack_deployment_stack_get"]["parameters"]["query"]
 >;
 export type StackDeploymentStack = components["schemas"]["DeployedStack"];
+
+export type StackDeploymentProvider = components["schemas"]["StackDeploymentProvider"];
