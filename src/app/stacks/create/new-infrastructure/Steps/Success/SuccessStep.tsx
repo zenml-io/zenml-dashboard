@@ -42,26 +42,31 @@ function SuccessList() {
 	if (isError) return null;
 
 	const stackName = stack.stack.name;
+	const orchestrators = stack.stack.metadata?.components["orchestrator"] as
+		| StackComponent[]
+		| undefined;
+	const artifactStores = stack.stack.metadata?.components["artifact_store"] as
+		| StackComponent[]
+		| undefined;
+	const registry = stack.stack.metadata?.components["container_registry"] as
+		| StackComponent[]
+		| undefined;
 	const components = {
 		orchestrator: {
-			name: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0].name,
-			id: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0].id.split("-")[0]
+			name: orchestrators?.[0]?.name ?? "Orchestrator",
+			id: orchestrators?.[0]?.id.split("-")[0] ?? ""
 		},
 		artifactStore: {
-			name: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0].name,
-			id: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0].id.split(
-				"-"
-			)[0]
+			name: artifactStores?.[0]?.name ?? "Artifact Store",
+			id: artifactStores?.[0]?.id.split("-")[0] ?? ""
 		},
 		registry: {
-			name: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0].name,
-			id: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0].id.split(
-				"-"
-			)[0]
+			name: registry?.[0]?.name ?? "Container Registry",
+			id: registry?.[0]?.id.split("-")[0] ?? ""
 		},
 		connector: {
 			name: stack.service_connector?.name as string,
-			id: (stack.service_connector?.id as string).split("-")[0]
+			id: stack.service_connector?.id?.split("-")[0] ?? ""
 		}
 	};
 
