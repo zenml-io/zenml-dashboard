@@ -6,6 +6,7 @@ import Settings from "@/assets/icons/settings.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
 import Stacks from "@/assets/icons/stack.svg?react";
 
+import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
 import {
 	Button,
@@ -20,15 +21,15 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
+import { useServerInfo } from "../../data/server/info-query";
 import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { WhatsNewButton } from "./WhatsNewButton";
-import { useServerInfo } from "../../data/server/info-query";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
 	const serverInfo = useServerInfo();
-	const isLocal = serverInfo.data?.deployment_type === "local";
+	const isLocal = checkIsLocalServer(serverInfo.data?.deployment_type || "other");
 	return (
 		<div>
 			<ZenMLSidebar
