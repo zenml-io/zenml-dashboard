@@ -26,9 +26,8 @@ export function Breadcrumbs() {
 
 	useEffect(() => {
 		let matchedData: BreadcrumbData = {};
-
 		const pathSegments = pathname.split("/").filter((segment: string) => segment !== "");
-		const segmentsToCheck: string[] = ["pipelines", "runs"];
+		const segmentsToCheck: string[] = ["pipelines", "runs", "stacks"];
 		const mainPaths = segmentsToCheck.some((segment) => pathSegments.includes(segment));
 
 		if (!mainPaths) {

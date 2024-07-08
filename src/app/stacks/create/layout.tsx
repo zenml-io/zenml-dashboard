@@ -1,8 +1,14 @@
 import { PageHeader } from "@/components/PageHeader";
 import Stack from "@/assets/icons/stack.svg?react";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useBreadcrumbsContext } from "../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
 
 export function CreateStacksLayout() {
+	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
+	useEffect(() => {
+		setCurrentBreadcrumbData({ segment: "create_stack", data: null });
+	}, []);
 	return (
 		<div>
 			<PageHeader>
