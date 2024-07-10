@@ -9,6 +9,8 @@ import { Button } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 
 export function CreateNewStack({ completed, active, hasDownstreamStep }: OnboardingStep) {
+	const link =
+		routes.stacks.create.index + "?" + new URLSearchParams({ origin: "onboarding" }).toString();
 	return (
 		<ChecklistItem
 			hasDownstream={hasDownstreamStep}
@@ -24,7 +26,7 @@ export function CreateNewStack({ completed, active, hasDownstreamStep }: Onboard
 				<div className="space-y-3">
 					<p>Connect your Cloud to deploy your ZenML pipelines in a remote stack.</p>
 					<Button className="w-fit" size="md" asChild>
-						<Link className="flex" to={routes.stacks.create.index}>
+						<Link className="flex" to={link}>
 							<Plus className="h-5 w-5 shrink-0 fill-white" />
 							Register a stack
 						</Link>

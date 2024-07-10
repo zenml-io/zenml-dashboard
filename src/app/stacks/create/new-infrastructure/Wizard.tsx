@@ -1,7 +1,7 @@
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
@@ -19,9 +19,11 @@ export function CreateNewInfraWizard() {
 
 function NextButton() {
 	const maxSteps = 4;
+	const [searchParams] = useSearchParams();
 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 	const navigate = useNavigate();
+	const isFromOnboarding = searchParams.get("origin") === "onboarding";
 
 	async function nextStep() {
 		if (formRef.current) {
@@ -38,7 +40,7 @@ function NextButton() {
 		});
 
 		if (currentStep === maxSteps) {
-			navigate(routes.stacks.overview);
+			navigate(isFromOnboarding ? routes.onboarding : routes.stacks.overview);
 		}
 	}
 
