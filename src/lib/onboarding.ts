@@ -60,7 +60,7 @@ function getItem(
 ) {
 	return {
 		isCompleted: state.includes(item),
-		hasDownStreamStep: checkDownstreamStep(item, state, "starter", isLocal || false),
+		hasDownStreamStep: checkDownstreamStep(item, state, flow, isLocal || false),
 		isActive: isStepActive(item, state, flow, isLocal || false)
 	};
 }
