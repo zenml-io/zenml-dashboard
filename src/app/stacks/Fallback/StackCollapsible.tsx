@@ -10,7 +10,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Fragment, useState } from "react";
 import { InfoBox } from "@/components/Infobox";
-import { stackCommands } from "../../contents/stack";
+import { stackCommands } from "../../../contents/stack";
 
 export function StackCollapsible() {
 	const [open, setOpen] = useState(true);

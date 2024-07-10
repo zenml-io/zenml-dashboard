@@ -12,6 +12,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			pipelines: { id: data?.body?.pipeline?.id, name: "pipelines" },
 			pipeline_detail: { id: data?.name, name: data?.name }
 		},
+		stacks: {
+			stacks: { name: "stacks" }
+		},
+		create_stack: {
+			stacks: { name: "stacks" },
+			create: { name: "New Stack" }
+		},
 		runs: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "pipelines" },
 			pipeline_detail: {
@@ -39,7 +46,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 	};
 
 	const routeMap = {
-		...generateRouteMap(["onboarding", "overview", "stacks", "models", "artifacts"]),
+		...generateRouteMap(["onboarding", "overview", "models", "artifacts"]),
 		...generateRouteMap(
 			[
 				"general",
@@ -64,7 +71,10 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		// Pipelines
 		pipelines: routes.pipelines.overview,
 		pipeline_detail: routes.pipelines.namespace(id),
-		runs: routes.runs.detail(id)
+		runs: routes.runs.detail(id),
+		//Stacks
+		stacks: routes.stacks.overview,
+		createStack: routes.stacks.create.index
 	};
 
 	return routeMap[segment] || "#";

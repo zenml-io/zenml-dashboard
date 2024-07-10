@@ -6,6 +6,7 @@ import Settings from "@/assets/icons/settings.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
 import Stacks from "@/assets/icons/stack.svg?react";
 
+import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
 import {
 	Button,
@@ -20,15 +21,20 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
+import { useServerInfo } from "../../data/server/info-query";
+import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { WhatsNewButton } from "./WhatsNewButton";
-import { OnboardingItem } from "./OnboardingItem";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
+	const serverInfo = useServerInfo();
+	const isLocal = checkIsLocalServer(serverInfo.data?.deployment_type || "other");
 	return (
 		<div>
-			<ZenMLSidebar className="sticky top-9 h-[calc(100vh_-_64px)] overflow-y-auto overflow-x-clip">
+			<ZenMLSidebar
+				className={`sticky  ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
+			>
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
 					<SidebarHeader
 						icon={
@@ -91,7 +97,11 @@ export function Sidebar() {
 							<li className="w-full">
 								<SidebarLink
 									id="stacks-sidebar-link"
-									routePatterns={[routes.stacks.overview]}
+									routePatterns={[
+										routes.stacks.overview,
+										routes.stacks.create.index,
+										routes.stacks.create.newInfra
+									]}
 									icon={<Stacks />}
 									label="Stacks"
 									to={"/stacks"}

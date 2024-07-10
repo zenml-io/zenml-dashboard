@@ -6,7 +6,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs/Breadcrumbs";
 
 export function AuthenticatedHeader() {
 	return (
-		<header className="sticky top-0 z-10 h-9 border-b border-theme-border-moderate bg-theme-surface-primary">
+		<header className="h-9 border-b border-theme-border-moderate bg-theme-surface-primary">
 			<div className="flex h-full items-center justify-between">
 				<Link
 					aria-label="Go to organizations page"
