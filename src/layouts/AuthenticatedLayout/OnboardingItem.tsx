@@ -33,6 +33,8 @@ export function OnboardingItem() {
 	const totalItems = starterSetup.isFinished ? productionSetup.totalItems : starterSetup.totalItems;
 	const progress = starterSetup.isFinished ? productionSetup.progress : starterSetup.progress;
 
+	if (starterSetup.isFinished && productionSetup.isFinished) return null;
+
 	return (
 		<li className="w-full">
 			<Link to={routes.onboarding}>
