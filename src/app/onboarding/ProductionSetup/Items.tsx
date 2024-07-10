@@ -47,11 +47,7 @@ export function RunNewPipeline({ active, completed, hasDownstreamStep }: Onboard
 			<div className="space-y-5">
 				<div className="space-y-1">
 					<p className="text-text-sm text-theme-text-secondary">Set the new stack</p>
-					<Codesnippet
-						wrap
-						codeClasses="whitespace-pre-wrap"
-						code="zenml stack set local_with_remote_storage"
-					/>
+					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="zenml stack set REMOTE_STACK" />
 				</div>
 				<div className="space-y-1">
 					<p className="text-text-sm text-theme-text-secondary">Run the pipeline</p>
