@@ -13,12 +13,7 @@ import {
 	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import {
-	CreateArtifactStore,
-	CreateNewStack,
-	CreateServiceConnector,
-	RunNewPipeline
-} from "./Items";
+import { CreateNewStack, RunNewPipeline } from "./Items";
 
 export function ProductionSetupChecklist() {
 	const onboarding = useOnboarding({ refetchInterval: 5000 });
@@ -36,10 +31,8 @@ export function ProductionSetupChecklist() {
 
 	const { progress, totalItems, itemsDone, getItem } = getProductionSetup(onboarding.data);
 
-	const connectorStep = getItem("service_connector_created");
-	const storeStep = getItem("remote_artifact_store_created");
-	const stackStep = getItem("stack_with_remote_artifact_store_created");
-	const pipelineStep = getItem("pipeline_run_with_remote_artifact_store");
+	const stackStep = getItem("stack_with_remote_orchestrator_created");
+	const pipelineStep = getItem("pipeline_run_with_remote_orchestrator");
 
 	return (
 		<>
@@ -84,20 +77,6 @@ export function ProductionSetupChecklist() {
 				</CollapsibleTrigger>
 				<CollapsibleContent className="border-t border-theme-border-moderate p-5">
 					<ul className="divide-y divide-theme-border-moderate">
-						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateServiceConnector
-								active={starterSetup.isFinished && connectorStep.isActive}
-								completed={connectorStep.isCompleted}
-								hasDownstreamStep={connectorStep.hasDownStreamStep}
-							/>
-						</li>
-						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateArtifactStore
-								active={starterSetup.isFinished && storeStep.isActive}
-								completed={storeStep.isCompleted}
-								hasDownstreamStep={storeStep.hasDownStreamStep}
-							/>
-						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateNewStack
 								active={starterSetup.isFinished && stackStep.isActive}

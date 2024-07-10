@@ -7,12 +7,7 @@ export function getStarterSetupItems(isLocal: boolean): OnboardingChecklistItemN
 }
 
 function getProductionSetupItems(): OnboardingChecklistItemName[] {
-	return [
-		"service_connector_created",
-		"remote_artifact_store_created",
-		"pipeline_run_with_remote_artifact_store",
-		"stack_with_remote_artifact_store_created"
-	];
+	return ["stack_with_remote_orchestrator_created", "pipeline_run_with_remote_orchestrator"];
 }
 
 const finalSteps: {

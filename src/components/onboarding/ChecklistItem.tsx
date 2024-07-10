@@ -20,9 +20,10 @@ export function ChecklistItem({
 	completed,
 	title,
 	children,
-	hasDownstream
+	hasDownstream,
+	active
 }: PropsWithChildren<Props>) {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(active);
 
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
