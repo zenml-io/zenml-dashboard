@@ -4430,6 +4430,10 @@ export type components = {
 			 * @default
 			 */
 			description?: string | null;
+			/** The stack labels. */
+			labels?: {
+				[key: string]: unknown;
+			} | null;
 			/**
 			 * The service connectors dictionary for the full stack registration.
 			 * @description The UUID of an already existing service connector or request information to create a service connector from scratch.
@@ -4441,10 +4445,6 @@ export type components = {
 			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
 			 */
 			components: {
-				[key: string]: unknown;
-			};
-			/** Labels to be set. */
-			labels?: {
 				[key: string]: unknown;
 			};
 		};
@@ -7931,6 +7931,10 @@ export type components = {
 			components?: {
 				[key: string]: unknown;
 			} | null;
+			/** The stack labels. */
+			labels?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * StackResponse
@@ -7992,6 +7996,10 @@ export type components = {
 			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
 			stack_spec_path?: string | null;
+			/** The stack labels. */
+			labels?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * StackResponseResources
@@ -8013,6 +8021,10 @@ export type components = {
 			stack_spec_path?: string | null;
 			/** A mapping of stack component types to the actualinstances of components of this type. */
 			components?: {
+				[key: string]: unknown;
+			} | null;
+			/** The stack labels. */
+			labels?: {
 				[key: string]: unknown;
 			} | null;
 		};
