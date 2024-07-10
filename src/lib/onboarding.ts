@@ -20,13 +20,14 @@ const finalSteps: {
 
 export function getStarterSetup(data: OnboardingResponse, isLocal: boolean) {
 	const flowType: Flow = "starter";
+	const finalStep = finalSteps[flowType];
 	const itemsDone = getProgress(data, flowType, isLocal);
 	const totalItems = getOnboardingLength(flowType, isLocal);
 	return {
 		itemsDone,
 		totalItems,
 		items: getStarterSetupItems(isLocal),
-		isFinished: itemsDone === totalItems,
+		isFinished: data.includes(finalStep),
 		progress: (itemsDone / totalItems) * 100,
 		finalStep: finalSteps.starter,
 		hasItem: (item: OnboardingChecklistItemName) => hasOnboardingItem(item, data),
@@ -36,13 +37,14 @@ export function getStarterSetup(data: OnboardingResponse, isLocal: boolean) {
 
 export function getProductionSetup(data: OnboardingResponse) {
 	const flowType: Flow = "production";
+	const finalStep = finalSteps[flowType];
 	const itemsDone = getProgress(data, flowType);
 	const totalItems = getOnboardingLength(flowType);
 	return {
 		itemsDone,
 		totalItems,
 		items: getProductionSetupItems(),
-		isFinished: itemsDone === totalItems,
+		isFinished: data.includes(finalStep),
 		progress: (itemsDone / totalItems) * 100,
 		finalStep: finalSteps.starter,
 		hasItem: (item: OnboardingChecklistItemName) => hasOnboardingItem(item, data),
