@@ -78,6 +78,18 @@ describe("checks if the item has downstream items", () => {
 		const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState, "starter", true);
 		expect(hasDownStreamFinishded).toBe(false);
 	});
+
+	test("only final step is there", () => {
+		const itemName: OnboardingChecklistItemName = "stack_with_remote_orchestrator_created";
+		const onboarding_state: OnboardingChecklistItemName[] = ["production_setup_completed"];
+		const hasDownStreamFinished = checkDownstreamStep(
+			itemName,
+			onboarding_state,
+			"production",
+			false
+		);
+		expect(hasDownStreamFinished).toBe(true);
+	});
 });
 
 describe("checks if the correct length is returned", () => {

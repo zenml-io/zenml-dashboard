@@ -8,7 +8,6 @@ import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library
 
 export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
-
 	return (
 		<ChecklistItem
 			active={active}
