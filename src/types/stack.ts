@@ -16,10 +16,10 @@ export type StackDeploymentInfo = components["schemas"]["StackDeploymentInfo"];
 export type StackDeploymentInfoQueryParams = NonNullable<
 	operations["get_stack_deployment_info_api_v1_stack_deployment_info_get"]["parameters"]["query"]
 >;
-export type StackDeploymentURLQueryParams = NonNullable<
-	operations["get_stack_deployment_url_api_v1_stack_deployment_url_get"]["parameters"]["query"]
+export type StackDeploymentConfigQueryParams = NonNullable<
+	operations["get_stack_deployment_config_api_v1_stack_deployment_config_get"]["parameters"]["query"]
 >;
-export type StackDeploymentURLResponse = [string, string];
+export type StackDeploymentConfig = components["schemas"]["StackDeploymentConfig"];
 export type StackDeploymentStackQueryParams = NonNullable<
 	operations["get_deployed_stack_api_v1_stack_deployment_stack_get"]["parameters"]["query"]
 >;

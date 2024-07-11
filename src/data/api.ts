@@ -34,7 +34,7 @@ export const apiPaths = {
 	},
 	stackDeployment: {
 		info: "/stack-deployment/info",
-		url: "/stack-deployment/url",
+		config: "/stack-deployment/config",
 		stack: "/stack-deployment/stack"
 	},
 	stacks: {

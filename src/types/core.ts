@@ -1713,9 +1713,9 @@ export type paths = {
 		 */
 		get: operations["get_stack_deployment_info_api_v1_stack_deployment_info_get"];
 	};
-	"/api/v1/stack-deployment/url": {
+	"/api/v1/stack-deployment/config": {
 		/**
-		 * Get Stack Deployment Url
+		 * Get Stack Deployment Config
 		 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
 		 *
 		 * Args:
@@ -1726,10 +1726,10 @@ export type paths = {
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
-		 *     The URL to deploy the ZenML stack to the specified cloud provider
-		 *     and a text description of the URL.
+		 *     The cloud provider console URL where the stack will be deployed and
+		 *     the configuration for the stack deployment.
 		 */
-		get: operations["get_stack_deployment_url_api_v1_stack_deployment_url_get"];
+		get: operations["get_stack_deployment_config_api_v1_stack_deployment_config_get"];
 	};
 	"/api/v1/stack-deployment/stack": {
 		/**
@@ -4420,6 +4420,10 @@ export type components = {
 			 * @default
 			 */
 			description?: string | null;
+			/** The stack labels. */
+			labels?: {
+				[key: string]: unknown;
+			} | null;
 			/**
 			 * The service connectors dictionary for the full stack registration.
 			 * @description The UUID of an already existing service connector or request information to create a service connector from scratch.
@@ -4431,10 +4435,6 @@ export type components = {
 			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
 			 */
 			components: {
-				[key: string]: unknown;
-			};
-			/** Labels to be set. */
-			labels?: {
 				[key: string]: unknown;
 			};
 		};
@@ -7866,6 +7866,18 @@ export type components = {
 			| "step_operator"
 			| "model_registry";
 		/**
+		 * StackDeploymentConfig
+		 * @description Configuration about a stack deployment.
+		 */
+		StackDeploymentConfig: {
+			/** The cloud provider console URL where the stack will be deployed. */
+			deployment_url: string;
+			/** A textual description for the cloud provider console URL. */
+			deployment_url_text: string;
+			/** Configuration for the stack deployment that the user must manually configure into the cloud provider console. */
+			configuration: string | null;
+		};
+		/**
 		 * StackDeploymentInfo
 		 * @description Information about a stack deployment.
 		 */
@@ -7888,6 +7900,11 @@ export type components = {
 			 */
 			post_deploy_instructions: string;
 			/**
+			 * ZenML integrations required for the stack.
+			 * @description The list of ZenML integrations that need to be installed for the stack to be usable.
+			 */
+			integrations: string[];
+			/**
 			 * The permissions granted to ZenML to access the cloud resources.
 			 * @description The permissions granted to ZenML to access the cloud resources, as a dictionary grouping permissions by resource.
 			 */
@@ -7905,10 +7922,9 @@ export type components = {
 		/**
 		 * StackDeploymentProvider
 		 * @description All possible stack deployment providers.
-		 * @constant
 		 * @enum {string}
 		 */
-		StackDeploymentProvider: "aws";
+		StackDeploymentProvider: "aws" | "gcp";
 		/**
 		 * StackRequest
 		 * @description Request model for stacks.
@@ -7935,6 +7951,10 @@ export type components = {
 			stack_spec_path?: string | null;
 			/** A mapping of stack component types to the actualinstances of components of this type. */
 			components?: {
+				[key: string]: unknown;
+			} | null;
+			/** The stack labels. */
+			labels?: {
 				[key: string]: unknown;
 			} | null;
 		};
@@ -7998,6 +8018,10 @@ export type components = {
 			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
 			stack_spec_path?: string | null;
+			/** The stack labels. */
+			labels?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * StackResponseResources
@@ -8019,6 +8043,10 @@ export type components = {
 			stack_spec_path?: string | null;
 			/** A mapping of stack component types to the actualinstances of components of this type. */
 			components?: {
+				[key: string]: unknown;
+			} | null;
+			/** The stack labels. */
+			labels?: {
 				[key: string]: unknown;
 			} | null;
 		};
@@ -15649,7 +15677,7 @@ export type operations = {
 		};
 	};
 	/**
-	 * Get Stack Deployment Url
+	 * Get Stack Deployment Config
 	 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
 	 *
 	 * Args:
@@ -15660,10 +15688,10 @@ export type operations = {
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
-	 *     The URL to deploy the ZenML stack to the specified cloud provider
-	 *     and a text description of the URL.
+	 *     The cloud provider console URL where the stack will be deployed and
+	 *     the configuration for the stack deployment.
 	 */
-	get_stack_deployment_url_api_v1_stack_deployment_url_get: {
+	get_stack_deployment_config_api_v1_stack_deployment_config_get: {
 		parameters: {
 			query: {
 				provider: components["schemas"]["StackDeploymentProvider"];
@@ -15675,7 +15703,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": [string, string];
+					"application/json": components["schemas"]["StackDeploymentConfig"];
 				};
 			};
 			/** @description Unauthorized */
