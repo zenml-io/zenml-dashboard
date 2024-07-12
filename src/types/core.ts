@@ -1301,6 +1301,16 @@ export type paths = {
 		 */
 		get: operations["server_info_api_v1_info_get"];
 	};
+	"/api/v1/onboarding_state": {
+		/**
+		 * Get Onboarding State
+		 * @description Get the onboarding state of the server.
+		 *
+		 * Returns:
+		 *     The onboarding state of the server.
+		 */
+		get: operations["get_onboarding_state_api_v1_onboarding_state_get"];
+	};
 	"/api/v1/settings": {
 		/**
 		 * Get Settings
@@ -7005,10 +7015,6 @@ export type components = {
 			display_announcements?: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
 			display_updates?: boolean | null;
-			/** The server's onboarding state. */
-			onboarding_state?: {
-				[key: string]: unknown;
-			} | null;
 			/** The username of the default admin account to create. Leave empty to skip creating the default admin account. */
 			admin_username?: string | null;
 			/** The password of the default admin account to create. Leave empty to skip creating the default admin account. */
@@ -7148,15 +7154,7 @@ export type components = {
 		 * ServerSettingsResponseMetadata
 		 * @description Response metadata for server settings.
 		 */
-		ServerSettingsResponseMetadata: {
-			/**
-			 * The server's onboarding state.
-			 * @default {}
-			 */
-			onboarding_state?: {
-				[key: string]: unknown;
-			};
-		};
+		ServerSettingsResponseMetadata: Record<string, never>;
 		/**
 		 * ServerSettingsResponseResources
 		 * @description Response resources for server settings.
@@ -7179,10 +7177,6 @@ export type components = {
 			display_announcements?: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
 			display_updates?: boolean | null;
-			/** The server's onboarding state. */
-			onboarding_state?: {
-				[key: string]: unknown;
-			} | null;
 		};
 		/**
 		 * ServiceAccountRequest
@@ -14136,6 +14130,41 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["ServerModel"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Onboarding State
+	 * @description Get the onboarding state of the server.
+	 *
+	 * Returns:
+	 *     The onboarding state of the server.
+	 */
+	get_onboarding_state_api_v1_onboarding_state_get: {
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": string[];
 				};
 			};
 			/** @description Unauthorized */

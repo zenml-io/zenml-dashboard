@@ -4,7 +4,7 @@ import { useServerInfo } from "@/data/server/info-query";
 import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { CreateStackOptionCard } from "./OptionCard";
 
 export function SmartSetup() {
@@ -34,10 +34,13 @@ type Props = {
 	isLocalDeployment: boolean;
 };
 function NewInfrastructure({ isLocalDeployment }: Props) {
+	const [searchParams] = useSearchParams();
+	const link =
+		routes.stacks.create.newInfra + (searchParams.size >= 1 ? `?${searchParams.toString()}` : "");
 	return (
 		<div className="relative">
 			{isLocalDeployment && <LocalOverlay />}
-			<Link to={routes.stacks.create.newInfra}>
+			<Link to={link}>
 				<CreateStackOptionCard
 					title="New Infrastructure"
 					isRecommended

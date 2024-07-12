@@ -1,22 +1,20 @@
-import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
+import Help from "@/assets/icons/help.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
-import Help from "@/assets/icons/help.svg?react";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getOnboardingItem } from "@/lib/onboarding";
+import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
+import { OnboardingStep } from "@/types/onboarding";
+import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 
-type Props = {
-	onboardingState?: OnboardingState;
-};
-export function ConnectZenMLStep({ onboardingState }: Props) {
+export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
-
-	const itemName = "connect_zenml";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
 	return (
-		<ChecklistItem itemName={itemName} completed={!!item} title="Connect to ZenML">
+		<ChecklistItem
+			active={active}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
+			title="Connect to ZenML"
+		>
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
@@ -34,11 +32,14 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 	);
 }
 
-export function RunFirstPipeline({ onboardingState }: Props) {
-	const itemName: OnboardingChecklistItemName = "run_first_pipeline";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+export function RunFirstPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
 	return (
-		<ChecklistItem itemName={itemName} completed={!!item} title="Run your first pipeline">
+		<ChecklistItem
+			active={active}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
+			title="Run your first pipeline"
+		>
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">

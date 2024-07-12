@@ -1,9 +1,8 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
-import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
-import { PRODUCTION_SETUP_ITEMS } from "@/lib/constants";
-import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { useOnboarding } from "@/data/server/onboarding-state";
+import { getProductionSetup, getStarterSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import {
 	Collapsible,
@@ -14,30 +13,26 @@ import {
 	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import {
-	CreateArtifactStore,
-	CreateNewStack,
-	CreateServiceConnector,
-	RunNewPipeline
-} from "./Items";
+import { CreateNewStack, RunNewPipeline } from "./Items";
 
 export function ProductionSetupChecklist() {
-	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError || serverInfo.isError) return null;
+	if (onboarding.isPending || serverInfo.isPending)
+		return <Skeleton className="h-[200px] w-full" />;
+	if (onboarding.isError || serverInfo.isError) return null;
 
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(
+	const starterSetup = getStarterSetup(
+		onboarding.data,
 		checkIsLocalServer(serverInfo.data.deployment_type || "other")
 	);
 
-	const onboardingState = getOnboardingState(data);
-	const isStarterSetupFinished =
-		getProgress(onboardingState, STARTER_SETUP_ITEMS) === STARTER_SETUP_ITEMS.length;
-	const doneItems = getProgress(onboardingState, PRODUCTION_SETUP_ITEMS);
-	const progress = (doneItems / PRODUCTION_SETUP_ITEMS.length) * 100;
+	const { progress, totalItems, itemsDone, getItem } = getProductionSetup(onboarding.data);
+
+	const stackStep = getItem("stack_with_remote_orchestrator_created");
+	const pipelineStep = getItem("pipeline_run_with_remote_orchestrator");
 
 	return (
 		<>
@@ -53,7 +48,7 @@ export function ProductionSetupChecklist() {
 						) : (
 							<RadialProgress value={progress}>
 								<span className="absolute text-text-xs font-semibold">
-									{doneItems}/{PRODUCTION_SETUP_ITEMS.length}
+									{itemsDone}/{totalItems}
 								</span>
 							</RadialProgress>
 						)}
@@ -64,7 +59,7 @@ export function ProductionSetupChecklist() {
 								<span className="text-text-md font-medium text-theme-text-secondary">(10 min)</span>
 							</p>
 							<p className="text-theme-text-secondary">
-								{isStarterSetupFinished ? (
+								{starterSetup.isFinished ? (
 									"Level up your skills in a production setting."
 								) : (
 									<span className="text-primary-400">
@@ -83,22 +78,18 @@ export function ProductionSetupChecklist() {
 				<CollapsibleContent className="border-t border-theme-border-moderate p-5">
 					<ul className="divide-y divide-theme-border-moderate">
 						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateServiceConnector
-								onboardingState={onboardingState}
-								active={isStarterSetupFinished}
+							<CreateNewStack
+								active={starterSetup.isFinished && stackStep.isActive}
+								completed={stackStep.isCompleted}
+								hasDownstreamStep={stackStep.hasDownStreamStep}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateArtifactStore
-								onboardingState={onboardingState}
-								active={isStarterSetupFinished}
+							<RunNewPipeline
+								active={starterSetup.isFinished && pipelineStep.isActive}
+								completed={pipelineStep.isCompleted}
+								hasDownstreamStep={pipelineStep.hasDownStreamStep}
 							/>
-						</li>
-						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateNewStack onboardingState={onboardingState} active={isStarterSetupFinished} />
-						</li>
-						<li className="py-5 first:pt-0 last:pb-0">
-							<RunNewPipeline onboardingState={onboardingState} active={isStarterSetupFinished} />
 						</li>
 					</ul>
 				</CollapsibleContent>
