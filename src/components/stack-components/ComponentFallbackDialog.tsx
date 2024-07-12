@@ -1,5 +1,5 @@
 import { snakeCaseToDashCase, snakeCaseToLowerCase, snakeCaseToTitleCase } from "@/lib/strings";
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
+import { StackComponentType } from "@/types/components";
 import {
 	Dialog,
 	DialogContent,
@@ -7,9 +7,9 @@ import {
 	DialogTitle,
 	DialogTrigger
 } from "@zenml-io/react-component-library";
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import { Codesnippet } from "../CodeSnippet";
 import { InfoBox } from "../Infobox";
-import { StackComponentType } from "@/types/components";
 
 type Props = {
 	name: string;
@@ -47,16 +47,6 @@ export const ComponentFallbackDialog = forwardRef<
 							codeClasses="whitespace-pre-wrap"
 							wrap
 							code={`zenml ${snakeCaseToDashCase(type)} update ${name}`}
-						/>
-					</div>
-					<div className="space-y-1">
-						<p className="text-text-sm text-theme-text-secondary">
-							Remove your {snakeCaseToLowerCase(type)}
-						</p>
-						<Codesnippet
-							codeClasses="whitespace-pre-wrap"
-							wrap
-							code={`zenml ${snakeCaseToDashCase(type)} delete ${name}`}
 						/>
 					</div>
 				</div>
