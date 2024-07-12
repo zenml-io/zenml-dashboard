@@ -98,7 +98,7 @@ const steps: Step[] = [
 	},
 	{
 		content:
-			"Find out more about our advanced ZenML Cloud features like model and artifact management.",
+			"Find out more about our advanced ZenML Pro features like model and artifact management.",
 		target: "#models-sidebar-link",
 		title: "OSS is just the beginning",
 		disableBeacon: true,

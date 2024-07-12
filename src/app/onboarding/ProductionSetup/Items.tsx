@@ -25,7 +25,7 @@ export function CreateServiceConnector({ onboardingState, active }: Props) {
 			itemName={itemName}
 		>
 			<p className="mb-3">
-				A service connector grants users of your ZenML tenant the ability to access components like
+				A service connector grants users of your ZenML server the ability to access components like
 				your artifact store{" "}
 				<LearnMoreLink href="https://docs.zenml.io/user-guide/production-guide/remote-storage#configuring-permissions-with-your-first-service-connector" />
 			</p>
