@@ -6,10 +6,6 @@ import { PermissionsCard } from "./PermissionsCard";
 
 type Props = ProviderComponents;
 
-export const awsPrizes = {
-	cost: "$0.60"
-};
-
 export function AWSComponents({
 	stackName,
 	isLoading,

@@ -16,7 +16,7 @@ export default function StackWithNewInfrastructurePage() {
 							"Deploy Stack"
 						]}
 					/>
-					<div className="w-full">
+					<div className="w-full overflow-y-hidden">
 						<CreateNewInfraWizard />
 					</div>
 				</section>
