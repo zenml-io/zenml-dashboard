@@ -3,6 +3,8 @@ import {
 	extractDockerImageKey,
 	formatIdToTitleCase,
 	renderAnyToString,
+	snakeCaseToDashCase,
+	snakeCaseToLowerCase,
 	snakeCaseToTitleCase,
 	transformToEllipsis
 } from "./strings";
@@ -101,6 +103,42 @@ describe("formatIdToTitleCase converts hyphenated-strings to Title Case", () => 
 	testCases.forEach(({ input, expected }) => {
 		test(input, () => {
 			expect(formatIdToTitleCase(input)).toBe(expected);
+		});
+	});
+});
+
+describe("format snake_case to lowercase correctly", () => {
+	const testCases = [
+		{
+			input: "hello_world",
+			expected: "hello world",
+			description: "string in snakecase to lowercase"
+		},
+		{ input: "single", expected: "single", description: "string without separator to lowercase" },
+		{ input: "", expected: "", description: "empty string" }
+	];
+
+	testCases.forEach(({ input, expected, description }) => {
+		test(description, () => {
+			expect(snakeCaseToLowerCase(input)).toBe(expected);
+		});
+	});
+});
+
+describe("format snake_case to dashcase correctly", () => {
+	const testCases = [
+		{
+			input: "hello_world",
+			expected: "hello-world",
+			description: "string in snakecase to dashcase"
+		},
+		{ input: "single", expected: "single", description: "string without separator to dashcase" },
+		{ input: "", expected: "", description: "empty string" }
+	];
+
+	testCases.forEach(({ input, expected, description }) => {
+		test(description, () => {
+			expect(snakeCaseToDashCase(input)).toBe(expected);
 		});
 	});
 });
