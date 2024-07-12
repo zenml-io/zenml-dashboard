@@ -52,6 +52,7 @@ function LoadingHeader() {
 	const { data } = useNewInfraFormContext();
 	return (
 		<section className="space-y-5 border-b border-theme-border-moderate pb-5">
+			<Warning />
 			<Box className="flex items-center justify-between gap-4 px-6 py-5">
 				<div className="flex items-start gap-3">
 					<CloudProviderIcon provider={data.provider!} className="h-6 w-6 shrink-0" />
@@ -128,6 +129,18 @@ function ItTakesLongerBox({ isReady }: { isReady: boolean }) {
 		<InfoBox>
 			Your stack is taking longer than usual to deploy. Please check your Cloud console, or the
 			stacks list in ZenML.
+		</InfoBox>
+	);
+}
+
+function Warning() {
+	return (
+		<InfoBox
+			className="border-warning-300 bg-warning-50 text-text-sm text-warning-900"
+			intent="warning"
+		>
+			<strong>Please, do not leave this screen</strong> until the stack and the components are fully
+			created.
 		</InfoBox>
 	);
 }
