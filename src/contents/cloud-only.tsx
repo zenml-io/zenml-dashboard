@@ -22,13 +22,15 @@ type CTASectionProps = {
 		alt: string;
 	};
 	features: string[];
+	feature: "model" | "artifact";
 };
-export function CTASection({ features, image }: CTASectionProps) {
+export function CTASection({ features, image, feature }: CTASectionProps) {
 	return (
 		<Box className="relative overflow-hidden px-7 py-5">
 			<div className="max-w-[450px] space-y-4">
 				<p className="text-display-xs font-semibold">
-					Access Advanced Model Management Features with ZenML Pro
+					Access Advanced {feature === "artifact" ? "Artifact" : "Model"} Management Features with
+					ZenML Pro
 				</p>
 				<ul className="space-y-2">
 					{features.map((item, i) => (

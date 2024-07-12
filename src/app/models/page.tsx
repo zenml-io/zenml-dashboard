@@ -29,6 +29,7 @@ export default function ModelsPage() {
 			<div className="layout-container space-y-5 py-5">
 				<InfoBox />
 				<CTASection
+					feature="model"
 					image={{ src: MCP, alt: "Screenshot of the ZenML Pro Model Control plane" }}
 					features={modelFeatures}
 				/>
