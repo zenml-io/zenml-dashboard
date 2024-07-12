@@ -7,6 +7,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { fetchStacks } from "./stacklist-query";
 import { fetchStackDeploymentInfo } from "./stack-deployment-info";
 import { fetchStackDeploymentStack } from "./stack-deployment-stack";
+import { fetchStack } from "./stack-detail-query";
 
 export const stackQueries = {
 	all: ["stacks"],
@@ -15,6 +16,11 @@ export const stackQueries = {
 		queryOptions({
 			queryKey: [...stackQueries.all, queryParams],
 			queryFn: async () => fetchStacks(queryParams)
+		}),
+	stackDetail: (stackId: string) =>
+		queryOptions({
+			queryKey: [...stackQueries.all, stackId],
+			queryFn: async () => fetchStack({ stackId })
 		}),
 	stackDeploymentInfo: (queryParams: StackDeploymentInfoQueryParams) =>
 		queryOptions({
