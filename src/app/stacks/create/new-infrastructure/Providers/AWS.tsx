@@ -1,7 +1,7 @@
 import { Tick } from "@/components/Tick";
 import { Avatar, AvatarFallback, Spinner } from "@zenml-io/react-component-library";
 import { ComponentListItem, ProviderComponents } from ".";
-import { ComponentBadge } from "../ComponentBadge";
+import { ComponentBadge } from "../../../../../components/stack-components/ComponentBadge";
 import { PermissionsCard } from "./PermissionsCard";
 
 type Props = ProviderComponents;

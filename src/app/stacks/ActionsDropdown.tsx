@@ -1,5 +1,3 @@
-"use client";
-
 import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import Edit from "@/assets/icons/edit.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";

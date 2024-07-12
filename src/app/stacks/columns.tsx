@@ -6,7 +6,7 @@ import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
 import { StackActionsMenu } from "./ActionsDropdown";
-import { DescribeDialog } from "./DescribeDialog";
+import { StackSheet } from "@/components/stacks/Sheet";
 
 export function getStackColumns(): ColumnDef<Stack>[] {
 	return [
@@ -23,9 +23,9 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 						</Avatar>
 						<div>
 							<div className="flex items-center gap-1">
-								<DescribeDialog name={name}>
+								<StackSheet stackId={id}>
 									<h2 className="text-text-md font-semibold">{name}</h2>
-								</DescribeDialog>
+								</StackSheet>
 							</div>
 							<div className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>

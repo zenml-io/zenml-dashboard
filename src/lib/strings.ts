@@ -43,3 +43,14 @@ export const formatIdToTitleCase = (text: string): string => {
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
 		.join(" ");
 };
+
+export function snakeCaseToLowerCase(input: string): string {
+	return input
+		.split("_")
+		.map((word) => word.charAt(0).toLowerCase() + word.slice(1))
+		.join(" ");
+}
+
+export function snakeCaseToDashCase(input: string): string {
+	return input.split("_").join("-");
+}
