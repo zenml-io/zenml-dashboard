@@ -73,7 +73,7 @@ export function ComponentListItem({
 export function EstimateCosts() {
 	const { data } = useNewInfraFormContext();
 	gcpPrizes;
-	function getPrizes() {
+	function getPrize() {
 		switch (data.provider) {
 			case "aws":
 				return awsPrizes;
@@ -99,25 +99,11 @@ export function EstimateCosts() {
 				</div>
 				<div>
 					<p>
-						Processing jobs:{" "}
-						<span className="font-semibold text-theme-text-secondary">
-							{getPrizes()?.orchestratorCosts}
-						</span>{" "}
-						<span className="text-theme-text-secondary">per hour</span>
+						A small training job would cost around:{" "}
+						<span className="font-semibold text-theme-text-success">{getPrize()?.cost}</span>
 					</p>
-					<p>
-						200GB of general storage:{" "}
-						<span className="font-semibold text-theme-text-secondary">
-							{getPrizes()?.storageCosts}
-						</span>{" "}
-						<span className="text-theme-text-secondary">per month</span>
-					</p>
-					{/* <p>
-						An average processing example would cost:{" "}
-						<span className="font-semibold text-theme-text-success">$0.3112</span>
-					</p> */}
-					<p className="pt-3 text-text-xs text-theme-text-secondary">
-						Use the official pricing Calculator for a detailed estimate
+					<p className="text-text-xs text-theme-text-secondary">
+						Please use the official pricing Calculator for a detailed estimate
 					</p>
 				</div>
 			</Box>
