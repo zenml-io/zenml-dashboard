@@ -36,7 +36,7 @@ export function AuthenticatedLayout() {
 						<SidebarProvider initialOpen={isMinWidth}>
 							<Sidebar />
 						</SidebarProvider>
-						<div className="w-full">
+						<div className="w-full overflow-y-hidden">
 							<Analytics />
 							<ProductTour />
 							<Outlet />
