@@ -6,7 +6,7 @@ import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, Skeleton, Spinner } from "@zenml-io/react-component-library";
 import { ComponentListItem, ProviderComponents } from ".";
-import { ComponentBadge } from "../ComponentBadge";
+import { ComponentBadge } from "../../../../../components/stack-components/ComponentBadge";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { PermissionsCard } from "./PermissionsCard";
 

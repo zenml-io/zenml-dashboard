@@ -25,9 +25,7 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 					/>
 				</div>
 				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Login to your ZenML Cloud tenant
-					</p>
+					<p className="mb-1 text-text-sm text-theme-text-secondary">Login to your ZenML Server</p>
 					<Codesnippet code={`zenml connect --url ${window.location.origin}`} />
 				</div>
 				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />

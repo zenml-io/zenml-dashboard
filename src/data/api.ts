@@ -41,6 +41,9 @@ export const apiPaths = {
 		all: "/stacks",
 		detail: (stackId: string) => `/stacks/${stackId}`
 	},
+	flavors: {
+		all: "/flavors"
+	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
 		logs: (stepId: string) => `/steps/${stepId}/logs`

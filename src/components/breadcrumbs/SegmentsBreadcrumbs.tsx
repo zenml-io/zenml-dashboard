@@ -6,21 +6,21 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 	const routeMap: { [key: string]: { [key: string]: { id?: string | null; name?: string } } } = {
 		// Pipelines
 		pipelines: {
-			pipelines: { id: data?.body?.pipeline?.id, name: "pipelines" }
+			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" }
 		},
 		pipeline_detail: {
-			pipelines: { id: data?.body?.pipeline?.id, name: "pipelines" },
+			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
 			pipeline_detail: { id: data?.name, name: data?.name }
 		},
 		stacks: {
-			stacks: { name: "stacks" }
+			stacks: { name: "Stacks" }
 		},
 		create_stack: {
-			stacks: { name: "stacks" },
+			stacks: { name: "Stacks" },
 			create: { name: "New Stack" }
 		},
 		runs: {
-			pipelines: { id: data?.body?.pipeline?.id, name: "pipelines" },
+			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
 			pipeline_detail: {
 				id: data?.body?.pipeline?.name,
 				name: data?.body?.pipeline?.name
