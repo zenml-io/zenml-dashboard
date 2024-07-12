@@ -35,12 +35,15 @@ export const apiPaths = {
 	},
 	stackDeployment: {
 		info: "/stack-deployment/info",
-		url: "/stack-deployment/url",
+		config: "/stack-deployment/config",
 		stack: "/stack-deployment/stack"
 	},
 	stacks: {
 		all: "/stacks",
 		detail: (stackId: string) => `/stacks/${stackId}`
+	},
+	flavors: {
+		all: "/flavors"
 	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,

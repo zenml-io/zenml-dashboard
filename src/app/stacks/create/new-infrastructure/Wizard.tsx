@@ -77,7 +77,7 @@ function NextButton() {
 
 function CancelButton() {
 	return (
-		<Button intent="secondary" size="md">
+		<Button asChild intent="secondary" size="md">
 			<Link to={routes.stacks.create.index}>Cancel</Link>
 		</Button>
 	);

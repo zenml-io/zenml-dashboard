@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const providerSchema = z.object({
-	provider: z.enum(["aws"])
+	provider: z.enum(["aws", "gcp"])
 });
 
 export type ProviderForm = z.infer<typeof providerSchema>;

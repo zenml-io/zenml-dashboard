@@ -50,14 +50,8 @@ export function ProviderStep() {
 							subtitle="ZenML stack with S3, ECR, and SageMaker integration"
 						/>
 					</CloudProviderRadioButton>
-					<CloudProviderRadioButton
-						disabled
-						id="gcp-provider"
-						{...register("provider")}
-						value="gcp"
-					>
+					<CloudProviderRadioButton id="gcp-provider" {...register("provider")} value="gcp">
 						<ProviderCard
-							comingSoon
 							icon={<CloudProviderIcon provider="gcp" className="h-6 w-6 shrink-0" />}
 							title="GCP"
 							subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"

@@ -13,7 +13,7 @@ export function OverviewHeader() {
 					{serverSettings ? (
 						<Avatar size="xxl" type="square">
 							<AvatarImage
-								alt="Logo displayed for the tenant"
+								alt="Logo displayed for the server"
 								src={getGradientImage(serverSettings.body?.server_name || "default", 64)}
 							/>
 							<AvatarFallback size="xxl">
