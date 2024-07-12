@@ -16,7 +16,8 @@ export default function ModelsPage() {
 			<div className="layout-container space-y-5 py-5">
 				<InfoBox />
 				<CTASection
-					image={{ src: ACP, alt: "Screenshot of the ZenML Pro Model Control plane" }}
+					feature="artifact"
+					image={{ src: ACP, alt: "Screenshot of the ZenML Pro Artifact Control plane" }}
 					features={artifactFeatures}
 				/>
 				<CommandSection />
