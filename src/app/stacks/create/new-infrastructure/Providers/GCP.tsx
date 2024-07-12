@@ -103,7 +103,7 @@ export function GCPWarning() {
 	return (
 		<InfoBox className="border-warning-300 bg-warning-50" intent="warning">
 			The Cloud Shell session will warn you that the ZenML GitHub repository is untrusted. We
-			recommend that you review the contents of the repository and then check the Trust repo
+			recommend that you review the contents of the repository and then check the "Trust repo"
 			checkbox to proceed with the deployment, otherwise the Cloud Shell session will not be
 			authenticated to access your GCP projects.
 		</InfoBox>
