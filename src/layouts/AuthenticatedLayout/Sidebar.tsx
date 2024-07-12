@@ -54,7 +54,7 @@ export function Sidebar() {
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
-							{<OnboardingItem />}
+							<OnboardingItem />
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.home]}
