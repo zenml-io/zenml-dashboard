@@ -51,6 +51,10 @@ function SuccessList() {
 	const registry = stack.stack.metadata?.components["container_registry"] as
 		| StackComponent[]
 		| undefined;
+	const imageBuilder = stack.stack.metadata?.components["image_builder"] as
+		| StackComponent[]
+		| undefined;
+
 	const components = {
 		orchestrator: {
 			name: orchestrators?.[0]?.name ?? "Orchestrator",
@@ -67,6 +71,10 @@ function SuccessList() {
 		connector: {
 			name: stack.service_connector?.name as string,
 			id: stack.service_connector?.id?.split("-")[0] ?? ""
+		},
+		imageBuilder: {
+			name: imageBuilder?.[0]?.name ?? "Image Builder",
+			id: imageBuilder?.[0]?.id.split("-")[0] ?? ""
 		}
 	};
 

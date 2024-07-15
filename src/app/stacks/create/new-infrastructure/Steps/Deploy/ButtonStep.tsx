@@ -1,10 +1,12 @@
 import External from "@/assets/icons/link-external.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { CloudProviderIcon } from "@/components/ProviderIcon";
-import { useDeploymentUrl } from "@/data/stacks/stack-deployment-url";
-import { Button } from "@zenml-io/react-component-library";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Skeleton } from "@zenml-io/react-component-library";
+import { stackQueries } from "../../../../../../data/stacks";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
+import { GCPCodesnippet, GCPWarning } from "../../Providers/GCP";
 
 export function DeployButtonPart() {
 	const { data } = useNewInfraFormContext();
@@ -23,7 +25,9 @@ export function DeployButtonPart() {
 					Deploy the stack from your browser by clicking the button below:
 				</p>
 			</div>
+			{data.provider === "gcp" && <GCPWarning />}
 			<DeploymentButton setTimestampBool />
+			{data.provider === "gcp" && <GCPCodesnippet />}
 		</div>
 	);
 }
@@ -33,25 +37,36 @@ type DeploymentButtonProps = {
 };
 export function DeploymentButton({ setTimestampBool }: DeploymentButtonProps) {
 	const { data, setTimestamp } = useNewInfraFormContext();
+
 	const { setIsLoading } = useNewInfraWizardContext();
-	const { mutate } = useDeploymentUrl({
-		onSuccess: async (data) => {
-			setTimestampBool && setTimestamp(new Date().toISOString().slice(0, -1)!);
-			setIsLoading(true);
-			window.open(data[0], "_blank");
-		}
+
+	const stackDeploymentConfig = useQuery({
+		...stackQueries.stackDeploymentConfig({
+			provider: data.provider!,
+			location: data.location,
+			stack_name: data.stackName!
+		})
 	});
 
-	function handleClick() {
-		mutate({
-			stack_name: data.stackName!,
-			location: data.location,
-			provider: data.provider!
-		});
+	if (stackDeploymentConfig.isError) {
+		return null;
 	}
+
+	if (stackDeploymentConfig.isPending) {
+		return <Skeleton className="h-[48px] w-[100px]" />;
+	}
+
+	function handleClick() {
+		setTimestampBool && setTimestamp(new Date().toISOString().slice(0, -1)!);
+		setIsLoading(true);
+	}
+
 	return (
-		<Button className="min-w-fit" size="md" onClick={() => handleClick()}>
-			Deploy in {data.provider?.toUpperCase()} <External className="h-5 w-5 fill-white" />
+		<Button asChild className="w-fit whitespace-nowrap" size="md" onClick={() => handleClick()}>
+			<a href={stackDeploymentConfig.data.deployment_url} target="_blank" rel="noopener noreferrer">
+				Deploy in {data.provider?.toUpperCase()}{" "}
+				<External className="h-5 w-5 shrink-0 fill-white" />
+			</a>
 		</Button>
 	);
 }

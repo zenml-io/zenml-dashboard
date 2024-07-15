@@ -1,15 +1,10 @@
 import { Tick } from "@/components/Tick";
 import { Avatar, AvatarFallback, Spinner } from "@zenml-io/react-component-library";
 import { ComponentListItem, ProviderComponents } from ".";
-import { ComponentBadge } from "../ComponentBadge";
+import { ComponentBadge } from "../../../../../components/stack-components/ComponentBadge";
 import { PermissionsCard } from "./PermissionsCard";
 
 type Props = ProviderComponents;
-
-export const awsPrizes = {
-	orchestratorCosts: "$0.45",
-	storageCosts: "$4.90"
-};
 
 export function AWSComponents({
 	stackName,
