@@ -85,7 +85,7 @@ function ComponentList({ stackId }: Props) {
 	return (
 		<ul className="space-y-5 p-5">
 			{components.map((component) => (
-				<li key={component.body?.flavor}>
+				<li key={component.id}>
 					<ComponentListItem component={component} />
 				</li>
 			))}
