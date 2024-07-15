@@ -144,13 +144,16 @@ function FlavorIcon({ flavor, type }: FlavorIconProps) {
 	const flavorQuery = useQuery({ ...flavorQueries.flavorList({ name: flavor, type }) });
 
 	useEffect(() => {
-		if (!flavorQuery.data) return;
-		if (!flavorQuery.data.items[0].body?.integration) return;
-		if (flavorQuery.data.items[0].body?.integration === "built-in") return;
-		setIntegrations((prev) => {
-			const newIntegration = flavorQuery.data.items[0].body?.integration || "";
-			return Array.from(new Set([...prev, newIntegration])).filter(Boolean);
-		});
+		if (
+			flavorQuery.data?.items?.length &&
+			flavorQuery.data.items[0].body?.integration &&
+			flavorQuery.data.items[0].body.integration !== "built-in"
+		) {
+			setIntegrations((prev) => {
+				const newIntegration = flavorQuery.data.items[0].body?.integration || "";
+				return Array.from(new Set([...prev, newIntegration])).filter(Boolean);
+			});
+		}
 	}, [setIntegrations, flavorQuery.data]);
 
 	if (flavorQuery.isError) return null;
@@ -174,13 +177,9 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 
 	return (
 		<section className="px-5 pt-5">
-			<CollapsibleCard
-				className=""
-				initialOpen
-				title={<span className="text-text-lg">Set Command</span>}
-			>
-				<div className="space-y-5">
-					<div className="space-y-2">
+			<CollapsibleCard title={<span className="text-text-lg">Set this stack</span>}>
+				<ul className="space-y-5">
+					<li className="space-y-2">
 						<div className="flex items-center gap-2">
 							<Number>1</Number>
 							<p className="font-semibold">Set your stack</p>
@@ -195,9 +194,9 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 								code={`zenml stack set ${name}`}
 							/>
 						</div>
-					</div>
+					</li>
 					{integrations.length >= 1 && (
-						<div className="space-y-2">
+						<li className="space-y-2">
 							<div className="flex items-center gap-2">
 								<Number>2</Number>
 								<p className="font-semibold">Install the integrations</p>
@@ -212,9 +211,9 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 									code={`zenml integration install ${integrations.join(" ")}`}
 								/>
 							</div>
-						</div>
+						</li>
 					)}
-				</div>
+				</ul>
 			</CollapsibleCard>
 		</section>
 	);
