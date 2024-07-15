@@ -23,7 +23,7 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 						</Avatar>
 						<div>
 							<div className="flex items-center gap-1">
-								<StackSheet stackId={id}>
+								<StackSheet stackName={name} stackId={id}>
 									<h2 className="text-text-md font-semibold">{name}</h2>
 								</StackSheet>
 							</div>
