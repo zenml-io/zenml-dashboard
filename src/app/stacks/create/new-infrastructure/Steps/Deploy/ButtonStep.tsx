@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { stackQueries } from "../../../../../../data/stacks";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
-import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { GCPCodesnippet, GCPWarning } from "../../Providers/GCP";
+import { setWizardData } from "../../persist";
 
 export function DeployButtonPart() {
 	const { data } = useNewInfraFormContext();
@@ -36,9 +36,7 @@ type DeploymentButtonProps = {
 	setTimestampBool?: boolean;
 };
 export function DeploymentButton({ setTimestampBool }: DeploymentButtonProps) {
-	const { data, setTimestamp } = useNewInfraFormContext();
-
-	const { setIsLoading } = useNewInfraWizardContext();
+	const { data, setTimestamp, setIsLoading } = useNewInfraFormContext();
 
 	const stackDeploymentConfig = useQuery({
 		...stackQueries.stackDeploymentConfig({
@@ -57,7 +55,14 @@ export function DeploymentButton({ setTimestampBool }: DeploymentButtonProps) {
 	}
 
 	function handleClick() {
-		setTimestampBool && setTimestamp(new Date().toISOString().slice(0, -1)!);
+		const timestamp = new Date().toISOString().slice(0, -1);
+		setTimestampBool && setTimestamp(timestamp);
+		setWizardData({
+			location: data.location || "",
+			provider: data.provider || "aws",
+			stackName: data.stackName!,
+			timestamp
+		});
 		setIsLoading(true);
 	}
 
