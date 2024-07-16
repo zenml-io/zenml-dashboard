@@ -5,7 +5,7 @@ import { InputHTMLAttributes, ReactNode, forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { WizardStepWrapper } from "../Wizard";
-import { ProviderForm, providerSchema } from "./schemas";
+import { ProviderForm, providerFormSchema } from "./schemas";
 
 export function ProviderStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
@@ -15,7 +15,7 @@ export function ProviderStep() {
 		handleSubmit,
 		formState: { isValid }
 	} = useForm<ProviderForm>({
-		resolver: zodResolver(providerSchema),
+		resolver: zodResolver(providerFormSchema),
 		defaultValues: { provider: data.provider }
 	});
 

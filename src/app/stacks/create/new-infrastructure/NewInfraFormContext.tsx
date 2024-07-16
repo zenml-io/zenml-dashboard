@@ -1,5 +1,6 @@
 import { StackDeploymentProvider } from "@/types/stack";
 import { Dispatch, SetStateAction, createContext, useContext, useRef, useState } from "react";
+import { parseWizardData } from "./persist";
 
 type Data = {
 	provider?: StackDeploymentProvider;
@@ -15,14 +16,27 @@ type NewInfraFormType = {
 	formRef: React.RefObject<HTMLFormElement>;
 	setTimestamp: Dispatch<SetStateAction<string>>;
 	timestamp: string;
+	isLoading: boolean;
+	setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const NewInfraFormContext = createContext<NewInfraFormType | null>(null);
 
 export function NewInfraFormProvider({ children }: { children: React.ReactNode }) {
+	const { success, data: parsedData } = parseWizardData();
+
 	const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
-	const [data, setData] = useState<Data>({});
-	const [timestamp, setTimestamp] = useState<string>("");
+	const [isLoading, setIsLoading] = useState(success ? true : false);
+	const [data, setData] = useState<Data>(
+		success
+			? {
+					location: parsedData.location,
+					provider: parsedData.provider,
+					stackName: parsedData.stackName
+				}
+			: {}
+	);
+	const [timestamp, setTimestamp] = useState<string>(success ? parsedData.timestamp : "");
 	const formRef = useRef<HTMLFormElement>(null);
 
 	return (
@@ -32,6 +46,8 @@ export function NewInfraFormProvider({ children }: { children: React.ReactNode }
 				setIsNextButtonDisabled,
 				data,
 				setData,
+				isLoading,
+				setIsLoading,
 				formRef,
 				timestamp,
 				setTimestamp
