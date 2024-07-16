@@ -1,16 +1,20 @@
-import { stackQueries } from "@/data/stacks";
-import Refresh from "@/assets/icons/refresh.svg?react";
 import Plus from "@/assets/icons/plus.svg?react";
+import Refresh from "@/assets/icons/refresh.svg?react";
+import Pagination from "@/components/Pagination";
+import { SearchField } from "@/components/SearchField";
+import { stackQueries } from "@/data/stacks";
+import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
-import Pagination from "@/components/Pagination";
-import { getStackColumns } from "./columns";
-import { useStacklistQueryParams } from "./service";
-import { SearchField } from "@/components/SearchField";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { routes } from "@/router/routes";
+import { getStackColumns } from "./columns";
+import { parseWizardData } from "./create/new-infrastructure/persist";
+import { ResumeStackBanner } from "./ResumeStackBanner";
+import { useStacklistQueryParams } from "./service";
 
 export function StackList() {
+	const [hasResumeableStack, setResumeableStack] = useState(parseWizardData().success);
 	const queryParams = useStacklistQueryParams();
 	const { refetch, data } = useQuery({
 		...stackQueries.stackList({ ...queryParams, sort_by: "desc:updated" }),
@@ -20,7 +24,7 @@ export function StackList() {
 	return (
 		<section className="p-5">
 			<div className="flex flex-col gap-5">
-				<div className="flex items-center justify-between">
+				<div className="flex flex-wrap items-center justify-between gap-y-4">
 					<SearchField searchParams={queryParams} />
 					<div className="flex items-center justify-between gap-2">
 						<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
@@ -36,6 +40,7 @@ export function StackList() {
 					</div>
 				</div>
 				<div className="flex flex-col items-center gap-5">
+					{hasResumeableStack && <ResumeStackBanner setHasResumeableStack={setResumeableStack} />}
 					<div className="w-full">
 						{data ? (
 							<DataTable columns={getStackColumns()} data={data.items} />

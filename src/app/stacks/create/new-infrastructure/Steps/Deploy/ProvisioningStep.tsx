@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { CloudComponents } from "../../Providers";
-import { DeploymentButton } from "./ButtonStep";
 import { GCPCodesnippet } from "../../Providers/GCP";
+import { clearWizardData } from "../../persist";
+import { DeploymentButton } from "./ButtonStep";
 
 export function ProvisioningStep() {
 	const { data, timestamp, setIsNextButtonDisabled } = useNewInfraFormContext();
@@ -32,6 +33,7 @@ export function ProvisioningStep() {
 
 	useEffect(() => {
 		if (stackData) {
+			clearWizardData();
 			setCurrentStep((prev) => prev + 1);
 			setIsNextButtonDisabled(false);
 		}
