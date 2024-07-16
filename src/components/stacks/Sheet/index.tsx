@@ -1,3 +1,5 @@
+import { Codesnippet } from "@/components/CodeSnippet";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { flavorQueries } from "@/data/flavors";
 import { stackQueries } from "@/data/stacks";
@@ -15,23 +17,31 @@ import {
 	SheetTrigger,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { CopyButton } from "../../CopyButton";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { ComponentFallbackDialog } from "../../stack-components/ComponentFallbackDialog";
+import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
 
 type Props = {
 	stackId: string;
 };
 
-export function StackSheet({ children, stackId }: PropsWithChildren<Props>) {
+export function StackSheet({
+	children,
+	stackId,
+	stackName
+}: PropsWithChildren<Props & { stackName: string }>) {
 	return (
 		<Sheet>
 			<SheetTrigger>{children}</SheetTrigger>
 			<SheetContent className="w-[1000px] overflow-y-auto">
-				<SheetHeader />
-				<StackHeadline stackId={stackId} />
-				<ComponentList stackId={stackId} />
+				<IntegrationsContextProvider>
+					<SheetHeader />
+					<StackHeadline stackId={stackId} />
+					<StackSetCommand name={stackName} />
+					<ComponentList stackId={stackId} />
+				</IntegrationsContextProvider>
 			</SheetContent>
 		</Sheet>
 	);
@@ -130,7 +140,21 @@ type FlavorIconProps = {
 };
 
 function FlavorIcon({ flavor, type }: FlavorIconProps) {
+	const { setIntegrations } = useIntegrationsContext();
 	const flavorQuery = useQuery({ ...flavorQueries.flavorList({ name: flavor, type }) });
+
+	useEffect(() => {
+		if (
+			flavorQuery.data?.items?.length &&
+			flavorQuery.data.items[0].body?.integration &&
+			flavorQuery.data.items[0].body.integration !== "built-in"
+		) {
+			setIntegrations((prev) => {
+				const newIntegration = flavorQuery.data.items[0].body?.integration || "";
+				return Array.from(new Set([...prev, newIntegration])).filter(Boolean);
+			});
+		}
+	}, [setIntegrations, flavorQuery.data]);
 
 	if (flavorQuery.isError) return null;
 	if (flavorQuery.isPending) return <Skeleton className="h-6 w-6" />;
@@ -142,5 +166,63 @@ function FlavorIcon({ flavor, type }: FlavorIconProps) {
 			alt={`${flavor} logo`}
 			src={sanitizeUrl(flavorQuery.data.items[0].body?.logo_url ?? "")}
 		/>
+	);
+}
+
+type StackSetCommandProps = {
+	name: string;
+};
+function StackSetCommand({ name }: StackSetCommandProps) {
+	const { integrations } = useIntegrationsContext();
+
+	return (
+		<section className="px-5 pt-5">
+			<CollapsibleCard title={<span className="text-text-lg">Set this stack</span>}>
+				<ul className="space-y-5">
+					<li className="space-y-2">
+						<div className="flex items-center gap-2">
+							<Number>1</Number>
+							<p className="font-semibold">Set your stack</p>
+						</div>
+						<div className="space-y-1">
+							<p className="text-text-sm text-theme-text-secondary">
+								Set the stack as active on your client
+							</p>
+							<Codesnippet
+								codeClasses="whitespace-pre-wrap"
+								wrap
+								code={`zenml stack set ${name}`}
+							/>
+						</div>
+					</li>
+					{integrations.length >= 1 && (
+						<li className="space-y-2">
+							<div className="flex items-center gap-2">
+								<Number>2</Number>
+								<p className="font-semibold">Install the integrations</p>
+							</div>
+							<div className="space-y-1">
+								<p className="text-text-sm text-theme-text-secondary">
+									Install the required integrations to run pipelines in your stack
+								</p>
+								<Codesnippet
+									codeClasses="whitespace-pre-wrap"
+									wrap
+									code={`zenml integration install ${integrations.join(" ")}`}
+								/>
+							</div>
+						</li>
+					)}
+				</ul>
+			</CollapsibleCard>
+		</section>
+	);
+}
+
+function Number({ children }: PropsWithChildren) {
+	return (
+		<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary-100 text-text-lg font-semibold text-theme-text-brand">
+			{children}
+		</div>
 	);
 }

@@ -1,10 +1,12 @@
 import { z } from "zod";
 
-export const providerSchema = z.object({
-	provider: z.enum(["aws", "gcp"])
+export const providerSchema = z.enum(["aws", "gcp"]);
+
+export const providerFormSchema = z.object({
+	provider: providerSchema
 });
 
-export type ProviderForm = z.infer<typeof providerSchema>;
+export type ProviderForm = z.infer<typeof providerFormSchema>;
 
 export const configurationSchema = z.object({
 	region: z.string().trim().min(1),

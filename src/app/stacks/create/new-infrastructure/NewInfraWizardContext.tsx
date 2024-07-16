@@ -3,20 +3,21 @@ import { Dispatch, SetStateAction, createContext, useContext, useState } from "r
 type NewInfraWizardType = {
 	currentStep: number;
 	setCurrentStep: Dispatch<SetStateAction<number>>;
-	isLoading: boolean;
-	setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 export const NewInfraWizardContext = createContext<NewInfraWizardType | null>(null);
 
-export function NewInfraWizardProvider({ children }: { children: React.ReactNode }) {
-	const [currentStep, setCurrentStep] = useState(1);
-	const [isLoading, setIsLoading] = useState(false);
+export function NewInfraWizardProvider({
+	children,
+	initialStep = 1
+}: {
+	children: React.ReactNode;
+	initialStep?: number;
+}) {
+	const [currentStep, setCurrentStep] = useState(initialStep);
 
 	return (
-		<NewInfraWizardContext.Provider
-			value={{ currentStep, setCurrentStep, isLoading, setIsLoading }}
-		>
+		<NewInfraWizardContext.Provider value={{ currentStep, setCurrentStep }}>
 			{children}
 		</NewInfraWizardContext.Provider>
 	);

@@ -9,8 +9,9 @@ import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { CloudComponents } from "../../Providers";
-import { DeploymentButton } from "./ButtonStep";
 import { GCPCodesnippet } from "../../Providers/GCP";
+import { clearWizardData } from "../../persist";
+import { DeploymentButton } from "./ButtonStep";
 
 export function ProvisioningStep() {
 	const { data, timestamp, setIsNextButtonDisabled } = useNewInfraFormContext();
@@ -32,6 +33,7 @@ export function ProvisioningStep() {
 
 	useEffect(() => {
 		if (stackData) {
+			clearWizardData();
 			setCurrentStep((prev) => prev + 1);
 			setIsNextButtonDisabled(false);
 		}
@@ -52,7 +54,6 @@ function LoadingHeader() {
 	const { data } = useNewInfraFormContext();
 	return (
 		<section className="space-y-5 border-b border-theme-border-moderate pb-5">
-			<Warning />
 			<Box className="flex items-center justify-between gap-4 px-6 py-5">
 				<div className="flex items-start gap-3">
 					<CloudProviderIcon provider={data.provider!} className="h-6 w-6 shrink-0" />
@@ -129,18 +130,6 @@ function ItTakesLongerBox({ isReady }: { isReady: boolean }) {
 		<InfoBox>
 			Your stack is taking longer than usual to deploy. Please check your Cloud console, or the
 			stacks list in ZenML.
-		</InfoBox>
-	);
-}
-
-function Warning() {
-	return (
-		<InfoBox
-			className="border-warning-300 bg-warning-50 text-text-sm text-warning-900"
-			intent="warning"
-		>
-			<strong>Please, do not leave this screen</strong> until the stack and the components are fully
-			created.
 		</InfoBox>
 	);
 }

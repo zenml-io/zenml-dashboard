@@ -1,13 +1,14 @@
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
 import { DeployStep } from "./Steps/Deploy";
 import { ProviderStep } from "./Steps/Provider";
 import { SuccessStep } from "./Steps/Success/SuccessStep";
+import { clearWizardData } from "./persist";
 
 export function CreateNewInfraWizard() {
 	const { currentStep } = useNewInfraWizardContext();
@@ -40,6 +41,7 @@ function NextButton() {
 		});
 
 		if (currentStep === maxSteps) {
+			clearWizardData();
 			navigate(isFromOnboarding ? routes.onboarding : routes.stacks.overview);
 		}
 	}
@@ -56,29 +58,16 @@ function NextButton() {
 	);
 }
 
-// function PrevButton() {
-// 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
-
-// 	function previousStep() {
-// 		setCurrentStep((prev) => {
-// 			if (prev > 1) {
-// 				return prev - 1;
-// 			}
-// 			return prev;
-// 		});
-// 	}
-
-// 	return (
-// 		<Button disabled={currentStep === 1} onClick={previousStep} emphasis="subtle" size="md">
-// 			Prev
-// 		</Button>
-// 	);
-// }
-
 function CancelButton() {
+	const navigate = useNavigate();
+
+	function cancel() {
+		clearWizardData();
+		navigate(routes.stacks.create.index);
+	}
 	return (
-		<Button asChild intent="secondary" size="md">
-			<Link to={routes.stacks.create.index}>Cancel</Link>
+		<Button onClick={() => cancel()} intent="secondary" size="md">
+			Cancel
 		</Button>
 	);
 }
@@ -92,7 +81,6 @@ export function WizardStepWrapper({ children, title }: { children: ReactNode; ti
 			<div className="p-5">{children}</div>
 			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
 				<CancelButton />
-				{/* <PrevButton /> */}
 				<NextButton />
 			</div>
 		</Box>
