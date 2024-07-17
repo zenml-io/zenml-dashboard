@@ -10,7 +10,6 @@ import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import { ElementRef, useRef, useState } from "react";
 
 export default function SecretsDropdown() {
-	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
@@ -21,14 +20,9 @@ export default function SecretsDropdown() {
 	}
 
 	function handleDialogItemOpenChange(open: boolean) {
-		if (open === false) {
+		if (open === true) {
 			setDropdownOpen(false);
-			setTimeout(() => {
-				setHasOpenDialog(open);
-			}, 200);
-			return;
 		}
-		setHasOpenDialog(open);
 	}
 
 	return (
@@ -37,7 +31,6 @@ export default function SecretsDropdown() {
 				<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				hidden={hasOpenDialog}
 				onCloseAutoFocus={(event) => {
 					if (focusRef.current) {
 						focusRef.current.focus();

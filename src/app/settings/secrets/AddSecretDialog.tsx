@@ -23,7 +23,7 @@ export function AddSecretDialog() {
 					Add Secret
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="">
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle> Register New Secret</DialogTitle>
 				</DialogHeader>
