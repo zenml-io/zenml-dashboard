@@ -1,12 +1,11 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
-import { flavorQueries } from "@/data/flavors";
 import { stackQueries } from "@/data/stacks";
 import { extractComponents } from "@/lib/components";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
-import { StackComponent, StackComponentType } from "@/types/components";
+import { StackComponent } from "@/types/components";
 import { useQuery } from "@tanstack/react-query";
 import {
 	Avatar,
@@ -78,7 +77,27 @@ function StackHeadline({ stackId }: Props) {
 }
 
 function ComponentList({ stackId }: Props) {
+	const { setIntegrations } = useIntegrationsContext();
 	const stack = useQuery({ ...stackQueries.stackDetail(stackId) });
+
+	useEffect(() => {
+		if (!stack.data) return;
+
+		const components = extractComponents(
+			stack.data.metadata?.components as Record<string, StackComponent[]> | undefined
+		);
+
+		const integrations = components
+			.map((component) => component.body?.integration)
+			.filter(
+				(integration): integration is string =>
+					!!integration && integration !== "built-in" && integration !== "custom"
+			);
+
+		if (integrations.length >= 1) {
+			setIntegrations((prev) => Array.from(new Set([...prev, ...integrations])));
+		}
+	}, [stack.data]);
 
 	if (stack.isError) return null;
 	if (stack.isPending)
@@ -110,9 +129,11 @@ function ComponentListItem({ component }: ComponentListItemProps) {
 	return (
 		<Box className="flex items-center justify-between p-5">
 			<div className="flex items-center space-x-3">
-				<FlavorIcon
-					flavor={component.body?.flavor || ""}
-					type={component.body?.type || "orchestrator"}
+				<img
+					width={32}
+					height={32}
+					alt={`${component.body?.flavor} logo`}
+					src={sanitizeUrl(component.body?.logo_url || "")}
 				/>
 				<div>
 					<ComponentFallbackDialog
@@ -131,41 +152,6 @@ function ComponentListItem({ component }: ComponentListItemProps) {
 				{snakeCaseToTitleCase(component.body?.type || "")}
 			</ComponentBadge>
 		</Box>
-	);
-}
-
-type FlavorIconProps = {
-	flavor: string;
-	type: StackComponentType;
-};
-
-function FlavorIcon({ flavor, type }: FlavorIconProps) {
-	const { setIntegrations } = useIntegrationsContext();
-	const flavorQuery = useQuery({ ...flavorQueries.flavorList({ name: flavor, type }) });
-
-	useEffect(() => {
-		if (
-			flavorQuery.data?.items?.length &&
-			flavorQuery.data.items[0].body?.integration &&
-			flavorQuery.data.items[0].body.integration !== "built-in"
-		) {
-			setIntegrations((prev) => {
-				const newIntegration = flavorQuery.data.items[0].body?.integration || "";
-				return Array.from(new Set([...prev, newIntegration])).filter(Boolean);
-			});
-		}
-	}, [setIntegrations, flavorQuery.data]);
-
-	if (flavorQuery.isError) return null;
-	if (flavorQuery.isPending) return <Skeleton className="h-6 w-6" />;
-
-	return (
-		<img
-			width={32}
-			height={32}
-			alt={`${flavor} logo`}
-			src={sanitizeUrl(flavorQuery.data.items[0].body?.logo_url ?? "")}
-		/>
 	);
 }
 
