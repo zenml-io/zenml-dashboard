@@ -74,16 +74,18 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 				</p>
 			)
 		},
-
 		{
 			id: "admin_actions",
 			header: "Actions",
-			cell: ({ row }) =>
-				row.original.body?.user?.body?.is_admin ? (
-					<SecretsDropdown></SecretsDropdown>
+			accessorFn: (row) => String(row.id),
+			cell: ({ row, getValue }) => {
+				const secretId = getValue() as string;
+				return row.original.body?.user?.body?.is_admin ? (
+					<SecretsDropdown secretId={secretId} />
 				) : (
-					<p className="text-text-sm text-theme-text-secondary">No Actions</p>
-				)
+					<p className="text-sm text-theme-text-secondary">No Actions</p>
+				);
+			}
 		}
 	];
 }
