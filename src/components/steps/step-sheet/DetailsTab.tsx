@@ -181,9 +181,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 									>
 										<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
 										{pipelineRunData.body?.pipeline?.name}
-										<div className="rounded-sm bg-primary-50 px-1 py-0.25">
-											{pipelineRunData.body?.pipeline?.body?.version}
-										</div>
 									</Tag>
 								</Link>
 							}

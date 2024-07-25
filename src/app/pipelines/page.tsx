@@ -1,27 +1,22 @@
 import Refresh from "@/assets/icons/refresh.svg?react";
 import { PageHeader } from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
-import { useAllPipelineNamespaces } from "@/data/pipelines/pipeline-namespaces-query";
+import { pipelineQueries } from "@/data/pipelines";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
+import { useEffect } from "react";
 import { getPipelineColumns } from "./columns";
 import { usePipelineOverviewSearchParams } from "./service";
-import Pagination from "@/components/Pagination";
-import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { useEffect } from "react";
 
 export default function PipelinesPage() {
 	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const queryParams = usePipelineOverviewSearchParams();
 
-	const { data, refetch } = useAllPipelineNamespaces(
-		{
-			params: {
-				...queryParams,
-				sort_by: "desc:updated"
-			}
-		},
-		{ throwOnError: true }
-	);
+	const { data, refetch } = useQuery({
+		...pipelineQueries.pipelineList({ ...queryParams, sort_by: "desc:latest_run" })
+	});
 
 	useEffect(() => {
 		setCurrentBreadcrumbData({ segment: "pipelines", data: null });

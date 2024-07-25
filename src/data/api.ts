@@ -7,7 +7,7 @@ export const apiPaths = {
 	settings: "/settings",
 	onboarding: "/onboarding_state",
 	pipelines: {
-		namespaces: "/pipeline_namespaces"
+		all: "/pipelines"
 	},
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`,

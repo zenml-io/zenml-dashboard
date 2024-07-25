@@ -6,11 +6,10 @@ import { InlineAvatar } from "@/components/InlineAvatar";
 import { routes } from "@/router/routes";
 import { CodeRepository } from "@/types/code-repository";
 import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
-import { PipelineBody } from "@/types/pipelines";
 import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge, Tag } from "@zenml-io/react-component-library";
+import { Tag } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
@@ -45,19 +44,6 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 							</Link>
 						</div>
 					</div>
-				);
-			}
-		},
-		{
-			id: "version",
-			header: "Version",
-			accessorFn: (row) => row.body?.pipeline?.body?.version,
-			cell: ({ getValue }) => {
-				const version = getValue<PipelineBody["version"]>();
-				return (
-					<Badge color="purple" className="inline-flex" size="sm">
-						{version}
-					</Badge>
 				);
 			}
 		},
