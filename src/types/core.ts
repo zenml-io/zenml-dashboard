@@ -1620,6 +1620,25 @@ export type paths = {
 		 */
 		get: operations["get_service_connector_client_api_v1_service_connectors__connector_id__client_get"];
 	};
+	"/api/v1/service_connectors/full_stack_resources": {
+		/**
+		 * Get Resources Based On Service Connector Info
+		 * @description Gets the list of resources that a service connector can access.
+		 *
+		 * Args:
+		 *     connector_info: The service connector info.
+		 *     connector_uuid: The service connector uuid.
+		 *
+		 * Returns:
+		 *     The list of resources that the service connector configuration has
+		 *     access to and consumable from UI/CLI.
+		 *
+		 * Raises:
+		 *     ValueError: If both connector_info and connector_uuid are provided.
+		 *     ValueError: If neither connector_info nor connector_uuid are provided.
+		 */
+		post: operations["get_resources_based_on_service_connector_info_api_v1_service_connectors_full_stack_resources_post"];
+	};
 	"/api/v1/service_connector_types": {
 		/**
 		 * List Service Connector Types
@@ -6586,6 +6605,32 @@ export type components = {
 			emoji?: string | null;
 		};
 		/**
+		 * ResourcesInfo
+		 * @description Information about the resources needed for CLI and UI.
+		 */
+		ResourcesInfo: {
+			/** Flavor */
+			flavor: string;
+			/** Flavor Display Name */
+			flavor_display_name: string;
+			/**
+			 * Required Configuration
+			 * @default {}
+			 */
+			required_configuration?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Use Resource Value As Fixed Config
+			 * @default false
+			 */
+			use_resource_value_as_fixed_config?: boolean;
+			/** Accessible By Service Connector */
+			accessible_by_service_connector: string[];
+			/** Connected Through Service Connector */
+			connected_through_service_connector: components["schemas"]["ComponentResponse"][];
+		};
+		/**
 		 * RunMetadataRequest
 		 * @description Request model for run metadata.
 		 */
@@ -7333,6 +7378,18 @@ export type components = {
 			};
 			/** Service connector labels. */
 			labels?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * ServiceConnectorResourcesInfo
+		 * @description Information about the service connector resources needed for CLI and UI.
+		 */
+		ServiceConnectorResourcesInfo: {
+			/** Connector Type */
+			connector_type: string;
+			/** Components Resources Info */
+			components_resources_info: {
 				[key: string]: unknown;
 			};
 		};
@@ -15279,6 +15336,66 @@ export type operations = {
 			};
 			/** @description Not Found */
 			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Resources Based On Service Connector Info
+	 * @description Gets the list of resources that a service connector can access.
+	 *
+	 * Args:
+	 *     connector_info: The service connector info.
+	 *     connector_uuid: The service connector uuid.
+	 *
+	 * Returns:
+	 *     The list of resources that the service connector configuration has
+	 *     access to and consumable from UI/CLI.
+	 *
+	 * Raises:
+	 *     ValueError: If both connector_info and connector_uuid are provided.
+	 *     ValueError: If neither connector_info nor connector_uuid are provided.
+	 */
+	get_resources_based_on_service_connector_info_api_v1_service_connectors_full_stack_resources_post: {
+		parameters: {
+			query?: {
+				connector_uuid?: string | null;
+			};
+		};
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["ServiceConnectorInfo"] | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ServiceConnectorResourcesInfo"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
 				content: {
 					"application/json": components["schemas"]["ErrorModel"];
 				};
