@@ -69,7 +69,7 @@ export function OrchestratorForm() {
 								orchestrator.use_resource_value_as_fixed_config === false) && (
 								<div className="space-y-3 py-5 pl-8">
 									{orchestrator.flavor === kubernetesKey && (
-										<ul>
+										<ul className="space-y-1">
 											{orchestrator.accessible_by_service_connector.map((instance) => (
 												<li key={instance}>
 													<Controller
