@@ -4,6 +4,8 @@ import { ArtifactStoreStep } from "./steps/artifact_store";
 import { ConnectCloudStep } from "./steps/connect";
 import { newConnectorBaseSchema } from "./steps/connect/schema";
 import { ProviderStep } from "./steps/provider";
+import { OrchestratorStep } from "./steps/orchestrator";
+import { orchestratorFormBaseSchema } from "./steps/orchestrator/schema";
 
 export function ExistingInfraWizard() {
 	const { currentStep } = useWizardContext();
@@ -15,4 +17,10 @@ export function ExistingInfraWizard() {
 			</SchemaProvider>
 		);
 	if (currentStep === 3) return <ArtifactStoreStep />;
+	if (currentStep === 4)
+		return (
+			<SchemaProvider initialSchema={orchestratorFormBaseSchema}>
+				<OrchestratorStep />
+			</SchemaProvider>
+		);
 }
