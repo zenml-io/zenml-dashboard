@@ -105,7 +105,7 @@ export function OrchestratorForm() {
 									)}
 									{orchestrator.use_resource_value_as_fixed_config === false &&
 										orchestrator.required_configuration &&
-										Object.keys(orchestrator.required_configuration || {}).length >= 1 && (
+										Object.keys(orchestrator.required_configuration).length >= 1 && (
 											<div>
 												{Object.entries(orchestrator.required_configuration).map(([key, value]) => (
 													<div key={key}>
