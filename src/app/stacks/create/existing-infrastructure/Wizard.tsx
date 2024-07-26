@@ -1,5 +1,6 @@
 import { SchemaProvider } from "@/context/SchemaContext";
 import { useWizardContext } from "@/context/WizardContext";
+import { ArtifactStoreStep } from "./steps/artifact_store";
 import { ConnectCloudStep } from "./steps/connect";
 import { newConnectorBaseSchema } from "./steps/connect/schema";
 import { ProviderStep } from "./steps/provider";
@@ -13,4 +14,5 @@ export function ExistingInfraWizard() {
 				<ConnectCloudStep />
 			</SchemaProvider>
 		);
+	if (currentStep === 3) return <ArtifactStoreStep />;
 }
