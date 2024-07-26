@@ -45,6 +45,12 @@ export const apiPaths = {
 	flavors: {
 		all: "/flavors"
 	},
+	serviceConnectors: {
+		fullStackResources: "/service_connectors/full_stack_resources",
+		types: {
+			detail: (connectorType: string) => `/service_connector_types/${connectorType}`
+		}
+	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
 		logs: (stepId: string) => `/steps/${stepId}/logs`
