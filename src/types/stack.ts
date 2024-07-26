@@ -26,3 +26,5 @@ export type StackDeploymentStackQueryParams = NonNullable<
 export type StackDeploymentStack = components["schemas"]["DeployedStack"];
 
 export type StackDeploymentProvider = components["schemas"]["StackDeploymentProvider"];
+
+export type FullStackRequest = components["schemas"]["FullStackRequest"];

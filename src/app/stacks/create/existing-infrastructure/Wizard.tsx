@@ -3,9 +3,10 @@ import { useWizardContext } from "@/context/WizardContext";
 import { ArtifactStoreStep } from "./steps/artifact_store";
 import { ConnectCloudStep } from "./steps/connect";
 import { newConnectorBaseSchema } from "./steps/connect/schema";
-import { ProviderStep } from "./steps/provider";
+import { ContainerRegistryStep } from "./steps/container_registry";
 import { OrchestratorStep } from "./steps/orchestrator";
 import { orchestratorFormBaseSchema } from "./steps/orchestrator/schema";
+import { ProviderStep } from "./steps/provider";
 
 export function ExistingInfraWizard() {
 	const { currentStep } = useWizardContext();
@@ -23,4 +24,5 @@ export function ExistingInfraWizard() {
 				<OrchestratorStep />
 			</SchemaProvider>
 		);
+	if (currentStep === 5) return <ContainerRegistryStep />;
 }
