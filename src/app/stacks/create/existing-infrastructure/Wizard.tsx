@@ -7,6 +7,7 @@ import { ContainerRegistryStep } from "./steps/container_registry";
 import { OrchestratorStep } from "./steps/orchestrator";
 import { orchestratorFormBaseSchema } from "./steps/orchestrator/schema";
 import { ProviderStep } from "./steps/provider";
+import { FinalStep } from "./steps/final";
 
 export function ExistingInfraWizard() {
 	const { currentStep } = useWizardContext();
@@ -25,4 +26,5 @@ export function ExistingInfraWizard() {
 			</SchemaProvider>
 		);
 	if (currentStep === 5) return <ContainerRegistryStep />;
+	if (currentStep === 6) return <FinalStep />;
 }
