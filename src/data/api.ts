@@ -52,7 +52,11 @@ export const apiPaths = {
 	},
 	secrets: {
 		all: "/secrets",
-		detail: (secretId: string) => `/secrets/${secretId}`
+		detail: (secretId: string) => `/secrets/${secretId}`,
+		add: (workspaceId: string) => `/workspaces/${workspaceId}/secrets`
+	},
+	workspaces: {
+		detail: (workspaceName: string) => `/workspaces/${workspaceName}`
 	}
 };
 

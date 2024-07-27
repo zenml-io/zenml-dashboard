@@ -5,7 +5,7 @@ import { AddSecretDialog } from "./AddSecretDialog";
 import { useAllSecrets } from "@/data/secrets/secrets-all-query";
 import { DataTable } from "@zenml-io/react-component-library";
 import { getSecretColumns } from "./columns";
-import { usegetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
+import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
 
 export default function SecretsTable() {
 	const queryParams = useUserOverviewSearchParams();
@@ -20,11 +20,9 @@ export default function SecretsTable() {
 		data: workspaceData,
 		isLoading,
 		isError
-	} = usegetWorkSpaceDetail(workspaceName || "", {
+	} = useGetWorkSpaceDetail(workspaceName || "", {
 		enabled: !!workspaceName
 	});
-
-	console.log(workspaceData, isLoading, isError);
 
 	return (
 		<>
