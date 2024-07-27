@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	Button,
 	Dialog,
@@ -8,17 +8,24 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-	Input
+	Input,
+	useToast
 } from "@zenml-io/react-component-library";
 import PlusIcon from "@/assets/icons/secret-add.svg?react";
 import DeleteIcon from "@/assets/icons/secret-delete.svg?react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
+import { isFetchError } from "@/lib/fetch-error";
 
 interface KeyValue {
 	key: string;
 	value: string;
 }
 
-export function AddSecretDialog() {
+interface Workspace {
+	id: string;
+}
+export function AddSecretDialog({ id, workspace }: { id: string; workspace: Workspace }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -33,17 +40,25 @@ export function AddSecretDialog() {
 					Add Secret
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
 				<DialogHeader>
 					<DialogTitle>Register New Secret</DialogTitle>
 				</DialogHeader>
-				<AddSecret />
+				<AddSecret userId={id} setOpen={setOpen} workspaceId={workspace.id} />
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-function AddSecret() {
+export function AddSecret({
+	userId,
+	setOpen,
+	workspaceId
+}: {
+	userId: string;
+	setOpen: (open: boolean) => void;
+	workspaceId: string;
+}) {
 	const [secretName, setSecretName] = useState("");
 	const [keysValues, setKeysValues] = useState<KeyValue[]>([{ key: "", value: "" }]);
 
@@ -56,6 +71,29 @@ function AddSecret() {
 			alert("Please fill out all previous key-value pairs before adding a new one.");
 		}
 	};
+
+	useEffect(() => {});
+
+	const { toast } = useToast();
+	const queryClient = useQueryClient();
+	const { mutate } = useCreateSecretMutation({
+		onError(error) {
+			if (isFetchError(error)) {
+				toast({
+					status: "error",
+					emphasis: "subtle",
+					description: error.message,
+					rounded: true
+				});
+			}
+		},
+		onSuccess() {
+			queryClient.invalidateQueries({ queryKey: ["secrets"] });
+			setOpen(false);
+			setSecretName("");
+			setKeysValues([{ key: "", value: "" }]);
+		}
+	});
 
 	const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
@@ -73,10 +111,24 @@ function AddSecret() {
 		}
 	};
 
+	const postSecret = () => {
+		mutate({
+			user: userId,
+			workspace: workspaceId,
+			name: secretName,
+			scope: "workspace",
+			values: keysValues.reduce(
+				(acc, pair) => {
+					if (pair.key && pair.value) acc[pair.key] = pair.value;
+					return acc;
+				},
+				{} as Record<string, string>
+			)
+		});
+	};
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setSecretName("");
-		setKeysValues([{ key: "", value: "" }]);
+		postSecret();
 	};
 
 	return (
@@ -84,7 +136,9 @@ function AddSecret() {
 			<form id="create-secret-form" className="space-y-5 p-7" onSubmit={handleSubmit}>
 				<div className="space-y-5">
 					<div className="space-y-0.5">
-						<label className="text-text-sm">Secret Name</label>
+						<label className="font-inter text-sm text-left font-medium leading-5">
+							Secret Name
+						</label>
 						<Input
 							className="w-full"
 							value={secretName}
@@ -92,11 +146,11 @@ function AddSecret() {
 							required
 						/>
 					</div>
-					<h1>Keys</h1>
+					<h1 className="font-inter text-lg text-left font-semibold leading-7">Keys</h1>
 					{keysValues.map((pair, index) => (
 						<div key={index} className="flex flex-row items-center space-x-1">
 							<div className="flex-grow">
-								<label className="text-sm">Key</label>
+								<label className="font-inter text-sm text-left font-medium leading-5">Key</label>
 								<Input
 									name="key"
 									value={pair.key}
@@ -106,7 +160,7 @@ function AddSecret() {
 								/>
 							</div>
 							<div className="flex-grow">
-								<label className="text-sm">Value</label>
+								<label className="font-inter text-sm text-left font-medium leading-5">Value</label>
 								<Input
 									name="value"
 									value={pair.value}
@@ -135,12 +189,15 @@ function AddSecret() {
 						Cancel
 					</Button>
 				</DialogClose>
-				<Button intent="primary" type="submit">
+				<Button
+					intent="primary"
+					type="submit"
+					form="create-secret-form"
+					// onClick={handleSubmit}
+				>
 					Register Secret
 				</Button>
 			</DialogFooter>
 		</>
 	);
 }
-
-export default AddSecret;

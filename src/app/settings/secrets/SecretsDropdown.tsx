@@ -11,10 +11,12 @@ import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import { ElementRef, useRef, useState } from "react";
 import { DeleteSecretAlert } from "./DeleteSecretAlert";
+import { EditSecretDialog } from "./EditSecretDialog";
 
 export default function SecretsDropdown({ secretId }: { secretId: string }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
 
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
@@ -27,9 +29,14 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 		if (open === false) {
 			setDropdownOpen(false);
 			setHasOpenDialog(open);
+			setEditDialogOpen(false);
 			return;
 		}
 		setHasOpenDialog(open);
+	}
+
+	function handleEditDialogOpenChange(open: boolean) {
+		setEditDialogOpen(open);
 	}
 
 	return (
@@ -59,11 +66,15 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 				</AlertDialogItem>
 				<AlertDialogItem
 					onSelect={handleDialogItemSelect}
-					onOpenChange={handleDialogItemOpenChange}
+					onOpenChange={handleEditDialogOpenChange}
 					triggerChildren="Edit "
 					icon={<EditIcon fill="red" />}
 				>
-					<></>
+					<EditSecretDialog
+						secretId={secretId}
+						isOpen={editDialogOpen}
+						onClose={() => setEditDialogOpen(false)}
+					></EditSecretDialog>
 				</AlertDialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

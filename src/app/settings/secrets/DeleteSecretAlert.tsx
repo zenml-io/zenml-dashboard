@@ -36,10 +36,12 @@ export function DeleteSecretAlert({ secretId }: { secretId: string }) {
 			</AlertDialogTitle>
 			<div className="border-y border-theme-border-moderate px-5 py-5">
 				<AlertDialogDescription>
-					<p>Are you sure you want to delete this secret?</p>
-					<p>This action cannot be undone</p>
+					<p className="text-text-md">Are you sure you want to delete this secret?</p>
+					<p className="text-text-md">This action cannot be undone</p>
 				</AlertDialogDescription>
-				<h3 className="mt-4">Please type DELETE to confirm</h3>
+				<h3 className="font-inter text-sm mt-4 text-left font-medium leading-5">
+					Please type DELETE to confirm
+				</h3>
 				<Input name="key" onChange={handleInputChange} className="w-full" required />
 			</div>
 
