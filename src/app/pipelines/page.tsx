@@ -15,7 +15,8 @@ export default function PipelinesPage() {
 	const queryParams = usePipelineOverviewSearchParams();
 
 	const { data, refetch } = useQuery({
-		...pipelineQueries.pipelineList({ ...queryParams, sort_by: "desc:latest_run" })
+		...pipelineQueries.pipelineList({ ...queryParams, sort_by: "desc:latest_run" }),
+		throwOnError: true
 	});
 
 	useEffect(() => {
