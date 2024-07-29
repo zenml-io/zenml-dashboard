@@ -65,13 +65,11 @@ export function ProviderStep() {
 								/>
 							</CloudProviderRadioButton>
 							<CloudProviderRadioButton
-								disabled
 								id="azure-provider"
 								{...form.register("provider")}
 								value="azure"
 							>
 								<ProviderCard
-									comingSoon
 									icon={<CloudProviderIcon provider="azure" className="h-6 w-6 shrink-0" />}
 									title="Azure"
 									subtitle="Integrate ZenML with your Blob Storage, Container Registry, and Azure ML"
