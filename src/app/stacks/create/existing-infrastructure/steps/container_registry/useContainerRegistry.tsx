@@ -1,18 +1,32 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { useWizardContext } from "@/context/WizardContext";
+import { stackQueries } from "@/data/stacks";
+import { useCreateFullstack } from "@/data/stacks/full-stack-create";
+import { ComponentResourceInfo } from "@/types/service-connectors";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@zenml-io/react-component-library";
 import { produce } from "immer";
 import { useExistingInfraContext } from "../../ExistingInfraContext";
 import { ContainerRegistryFormType } from "./schema";
-import { useQueryClient } from "@tanstack/react-query";
-import { ComponentResourceInfo } from "@/types/service-connectors";
-import { useCreateFullstack } from "@/data/stacks/full-stack-create";
-import { stackQueries } from "@/data/stacks";
 
 export function useContainerRegistries() {
 	const { data, setData } = useExistingInfraContext();
 	const queryClient = useQueryClient();
+	const { toast } = useToast();
 
 	const { setCurrentStep } = useWizardContext();
 	const { mutate } = useCreateFullstack({
+		onError: (error) => {
+			if (error instanceof Error) {
+				toast({
+					status: "error",
+					emphasis: "subtle",
+					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					description: error.message,
+					rounded: true
+				});
+			}
+		},
 		onSuccess: async (res) => {
 			setData((prev) =>
 				produce(prev, (draft) => {

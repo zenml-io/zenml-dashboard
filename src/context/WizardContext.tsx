@@ -28,7 +28,7 @@ export function WizardProvider({
 export function useWizardContext() {
 	const context = useContext(WizardContext);
 	if (context === null) {
-		throw new Error("useWizardContext must be used within an AuthProvider");
+		throw new Error("useWizardContext must be used within a WizardProvider");
 	}
 	return context;
 }

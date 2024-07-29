@@ -34,7 +34,7 @@ export function useNewConnector() {
 				rest[key] === "" ||
 				rest[key] === null ||
 				rest[key] === undefined ||
-				(rest[key] instanceof Array && rest[key].length === 0)
+				(Array.isArray(rest[key]) && rest[key].length === 0)
 			) {
 				delete rest[key];
 			}
