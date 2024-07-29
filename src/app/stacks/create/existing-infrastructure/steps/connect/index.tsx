@@ -31,24 +31,17 @@ export function ConnectCloudStep() {
 
 function NextButton() {
 	const {
-		formState: { isValid }
+		formState: { isValid, isSubmitting }
 	} = useFormContext();
 	const isMutating = !!useIsMutating();
 	return (
 		<Button
 			className="justify-center gap-2"
-			disabled={!isValid || isMutating}
+			disabled={!isValid || isMutating || isSubmitting}
 			form="connect-form"
 			size="md"
 		>
-			{isMutating && (
-				<div
-					role="alert"
-					aria-busy="true"
-					className="full h-[20px] w-[20px] animate-spin rounded-rounded border-2 border-theme-text-negative border-b-theme-text-brand"
-				></div>
-			)}
-			{isMutating ? "Loading..." : "Next"}
+			{isMutating || isSubmitting ? "Loading..." : "Next"}
 		</Button>
 	);
 }
