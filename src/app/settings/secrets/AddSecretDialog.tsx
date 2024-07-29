@@ -133,8 +133,8 @@ export function AddSecret({
 
 	return (
 		<>
-			<form id="create-secret-form" className="space-y-5 p-7" onSubmit={handleSubmit}>
-				<div className="space-y-5">
+			<form id="create-secret-form" className="gap-5 p-5" onSubmit={handleSubmit}>
+				<div className="space-y-4">
 					<div className="space-y-0.5">
 						<label className="font-inter text-sm text-left font-medium leading-5">
 							Secret Name
@@ -146,11 +146,11 @@ export function AddSecret({
 							required
 						/>
 					</div>
-					<h1 className="font-inter text-lg text-left font-semibold leading-7">Keys</h1>
+					<h1 className="font-inter text-lg gap-7 text-left font-semibold">Keys</h1>
 					{keysValues.map((pair, index) => (
-						<div key={index} className="flex flex-row items-center space-x-1">
+						<div key={index} className="flex flex-row items-center gap-1 space-x-1">
 							<div className="flex-grow">
-								<label className="font-inter text-sm text-left font-medium leading-5">Key</label>
+								<label className="font-inter text-sm text-left font-medium">Key</label>
 								<Input
 									name="key"
 									value={pair.key}

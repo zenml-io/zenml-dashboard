@@ -73,7 +73,10 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 					<EditSecretDialog
 						secretId={secretId}
 						isOpen={editDialogOpen}
-						onClose={() => setEditDialogOpen(false)}
+						onClose={() => {
+							setDropdownOpen(false);
+							setEditDialogOpen(false);
+						}}
 					></EditSecretDialog>
 				</AlertDialogItem>
 			</DropdownMenuContent>

@@ -40,7 +40,7 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 					<LockIcon />
 					<div className="flex flex-col">
 						<div className="flex flex-row space-x-1">
-							<span className="text-text-sm font-semibold text-theme-text-primary">
+							<span className="text-text-md font-semibold text-theme-text-primary">
 								{getValue<string>()}
 							</span>
 							<InfoIcon />
@@ -69,7 +69,7 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 			header: "Created At",
 			accessorFn: (row) => row.body?.created,
 			cell: ({ getValue }) => (
-				<p className="text-text-sm text-theme-text-secondary">
+				<p className="font-inter text-sm text-left font-medium leading-[20px]">
 					<DisplayDate dateString={getValue<string>()} />
 				</p>
 			)

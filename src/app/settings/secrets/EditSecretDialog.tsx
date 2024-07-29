@@ -7,7 +7,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 	Input,
 	useToast
 } from "@zenml-io/react-component-library";
@@ -28,11 +27,6 @@ interface EditSecretDialogProps {
 export function EditSecretDialog({ secretId, isOpen, onClose }: EditSecretDialogProps) {
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogTrigger asChild>
-				<Button className="shrink-0" intent="primary">
-					Edit Secret
-				</Button>
-			</DialogTrigger>
 			<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
 				<DialogHeader>
 					<DialogTitle>Edit Secret</DialogTitle>
@@ -47,6 +41,7 @@ interface EditSecretProps {
 	secretId: string;
 	onClose: () => void;
 }
+
 interface KeyValue {
 	key: string;
 	value: string;
@@ -129,12 +124,12 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 		mutate({ id: secretId, body: updatedSecretData });
 	};
 
-	if (isLoading) return <p></p>;
+	if (isLoading) return <p>Loading...</p>;
 	if (isError) return <p>Error fetching secret details.</p>;
 
 	return (
 		<>
-			<form id="edit-secret-form" className="space-y-5 p-7" onSubmit={handleSubmit}>
+			<form id="edit-secret-form" className="gap-5 p-5" onSubmit={handleSubmit}>
 				<div className="space-y-5">
 					<div className="space-y-0.5">
 						<label className="font-inter text-sm text-left font-medium leading-5">
@@ -147,9 +142,9 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 							required
 						/>
 					</div>
-					<h1 className="font-inter text-lg text-left font-semibold leading-7">Keys</h1>
+					<h1 className="font-inter text-lg space-y-0.1 text-left font-semibold">Keys</h1>
 					{keysValues.map((pair, index) => (
-						<div key={index} className="flex flex-row items-center space-x-1">
+						<div key={index} className="space-y-0.1 flex flex-row items-center space-x-1">
 							<div className="flex-grow">
 								<label className="font-inter text-sm text-left font-medium leading-5">Key</label>
 								<Input
