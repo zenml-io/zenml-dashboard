@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { stackNameSchema } from "../../components/sharedSchema";
 
-export const providerSchema = z.enum(["aws", "gcp"]);
+export const providerSchema = z.enum(["aws", "gcp", "azure"]);
 
 export const providerFormSchema = z.object({
 	provider: providerSchema

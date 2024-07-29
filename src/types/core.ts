@@ -903,36 +903,6 @@ export type paths = {
 		 */
 		get: operations["list_pipeline_runs_api_v1_pipelines__pipeline_id__runs_get"];
 	};
-	"/api/v1/pipelines/{pipeline_id}/pipeline-spec": {
-		/**
-		 * Get Pipeline Spec
-		 * @description Gets the spec of a specific pipeline using its unique id.
-		 *
-		 * Args:
-		 *     pipeline_id: ID of the pipeline to get.
-		 *
-		 * Returns:
-		 *     The spec of the pipeline.
-		 */
-		get: operations["get_pipeline_spec_api_v1_pipelines__pipeline_id__pipeline_spec_get"];
-	};
-	"/api/v1/pipeline_namespaces": {
-		/**
-		 * List Pipeline Namespaces
-		 * @description Gets a list of pipeline namespaces.
-		 *
-		 * Args:
-		 *     filter_model: Filter model used for pagination, sorting,
-		 *         filtering.
-		 *     hydrate: Flag deciding whether to hydrate the output model(s)
-		 *         by including metadata fields in the response.
-		 *     auth_context: Authentication context.
-		 *
-		 * Returns:
-		 *     List of pipeline namespace objects.
-		 */
-		get: operations["list_pipeline_namespaces_api_v1_pipeline_namespaces_get"];
-	};
 	"/api/v1/pipeline_builds": {
 		/**
 		 * List Builds
@@ -1145,6 +1115,57 @@ export type paths = {
 		 *     The run metadata response.
 		 */
 		get: operations["get_run_metadata_api_v1_run_metadata__run_metadata_id__get"];
+	};
+	"/api/v1/run_templates": {
+		/**
+		 * List Run Templates
+		 * @description Get a page of run templates.
+		 *
+		 * Args:
+		 *     filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     Page of run templates.
+		 */
+		get: operations["list_run_templates_api_v1_run_templates_get"];
+	};
+	"/api/v1/run_templates/{template_id}": {
+		/**
+		 * Get Run Template
+		 * @description Get a run template.
+		 *
+		 * Args:
+		 *     template_id: ID of the run template to get.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     The run template.
+		 */
+		get: operations["get_run_template_api_v1_run_templates__template_id__get"];
+		/**
+		 * Update Run Template
+		 * @description Update a run template.
+		 *
+		 * Args:
+		 *     template_id: ID of the run template to get.
+		 *     update: The updates to apply.
+		 *
+		 * Returns:
+		 *     The updated run template.
+		 */
+		put: operations["update_run_template_api_v1_run_templates__template_id__put"];
+		/**
+		 * Delete Run Template
+		 * @description Delete a run template.
+		 *
+		 * Args:
+		 *     template_id: ID of the run template to delete.
+		 */
+		delete: operations["delete_run_template_api_v1_run_templates__template_id__delete"];
 	};
 	"/api/v1/schedules": {
 		/**
@@ -2548,6 +2569,39 @@ export type paths = {
 		 *         deployment does not match the current workspace.
 		 */
 		post: operations["create_deployment_api_v1_workspaces__workspace_name_or_id__pipeline_deployments_post"];
+	};
+	"/api/v1/workspaces/{workspace_name_or_id}/run_templates": {
+		/**
+		 * List Workspace Run Templates
+		 * @description Get a page of run templates.
+		 *
+		 * Args:
+		 *     workspace_name_or_id: Name or ID of the workspace.
+		 *     filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     Page of run templates.
+		 */
+		get: operations["list_workspace_run_templates_api_v1_workspaces__workspace_name_or_id__run_templates_get"];
+		/**
+		 * Create Run Template
+		 * @description Create a run template.
+		 *
+		 * Args:
+		 *     workspace_name_or_id: Name or ID of the workspace.
+		 *     run_template: Run template to create.
+		 *
+		 * Returns:
+		 *     The created run template.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the workspace specified in the
+		 *         run template does not match the current workspace.
+		 */
+		post: operations["create_run_template_api_v1_workspaces__workspace_name_or_id__run_templates_post"];
 	};
 	"/api/v1/workspaces/{workspace_name_or_id}/runs": {
 		/**
@@ -5677,19 +5731,6 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineDeploymentResponse"][];
 		};
-		/** Page[PipelineNamespaceResponse] */
-		Page_PipelineNamespaceResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["PipelineNamespaceResponse"][];
-		};
 		/** Page[PipelineResponse] */
 		Page_PipelineResponse_: {
 			/** Index */
@@ -5728,6 +5769,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["RunMetadataResponse"][];
+		};
+		/** Page[RunTemplateResponse] */
+		Page_RunTemplateResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["RunTemplateResponse"][];
 		};
 		/** Page[ScheduleResponse] */
 		Page_ScheduleResponse_: {
@@ -5917,12 +5971,12 @@ export type components = {
 			python_version?: string | null;
 			/** The build checksum. */
 			checksum?: string | null;
+			/** The stack checksum. */
+			stack_checksum?: string | null;
 			/** The stack that was used for this build. */
 			stack?: string | null;
 			/** The pipeline that was used for this build. */
 			pipeline?: string | null;
-			/** Template Deployment Id */
-			template_deployment_id?: string | null;
 		};
 		/**
 		 * PipelineBuildResponse
@@ -5988,12 +6042,12 @@ export type components = {
 			python_version?: string | null;
 			/** The build checksum. */
 			checksum?: string | null;
+			/** The stack checksum. */
+			stack_checksum?: string | null;
 			/** Whether the build images are stored in a container registry or locally. */
 			is_local: boolean;
 			/** Whether any image of the build contains user code. */
 			contains_code: boolean;
-			/** Template Deployment Id */
-			template_deployment_id?: string | null;
 		};
 		/**
 		 * PipelineBuildResponseResources
@@ -6115,6 +6169,10 @@ export type components = {
 			client_version?: string | null;
 			/** The version of the ZenML installation on the server side. */
 			server_version?: string | null;
+			/** The pipeline version hash of the deployment. */
+			pipeline_version_hash?: string | null;
+			/** The pipeline spec of the deployment. */
+			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
 			/**
 			 * The stack associated with the deployment.
 			 * Format: uuid
@@ -6128,6 +6186,11 @@ export type components = {
 			schedule?: string | null;
 			/** The code reference associated with the deployment. */
 			code_reference?: components["schemas"]["CodeReferenceRequest"] | null;
+			/**
+			 * Template
+			 * @description Template used for the deployment.
+			 */
+			template?: string | null;
 		};
 		/**
 		 * PipelineDeploymentResponse
@@ -6198,6 +6261,10 @@ export type components = {
 			client_version: string | null;
 			/** The version of the ZenML installation on the server side. */
 			server_version: string | null;
+			/** The pipeline version hash of the deployment. */
+			pipeline_version_hash?: string | null;
+			/** The pipeline spec of the deployment. */
+			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
 			/** The pipeline associated with the deployment. */
 			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The stack associated with the deployment. */
@@ -6208,6 +6275,11 @@ export type components = {
 			schedule?: components["schemas"]["ScheduleResponse"] | null;
 			/** The code reference associated with the deployment. */
 			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/**
+			 * Template Id
+			 * @description Template used for the pipeline run.
+			 */
+			template_id?: string | null;
 		};
 		/**
 		 * PipelineDeploymentResponseResources
@@ -6216,42 +6288,6 @@ export type components = {
 		PipelineDeploymentResponseResources: {
 			/** The triggers configured with this event source. */
 			triggers: components["schemas"]["Page_TriggerResponse_"];
-			[key: string]: unknown;
-		};
-		/**
-		 * PipelineNamespaceResponse
-		 * @description Response model for pipeline namespaces.
-		 */
-		PipelineNamespaceResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["PipelineNamespaceResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineNamespaceResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineNamespaceResponseResources"] | null;
-			/** The name of the pipeline namespace. */
-			name: string;
-		};
-		/**
-		 * PipelineNamespaceResponseBody
-		 * @description Response body for pipeline namespaces.
-		 */
-		PipelineNamespaceResponseBody: {
-			/** The ID of the latest run of the pipeline namespace. */
-			latest_run_id?: string | null;
-			/** The status of the latest run of the pipeline namespace. */
-			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
-		};
-		/**
-		 * PipelineNamespaceResponseMetadata
-		 * @description Response metadata for pipeline namespaces.
-		 */
-		PipelineNamespaceResponseMetadata: Record<string, never>;
-		/**
-		 * PipelineNamespaceResponseResources
-		 * @description Class for all resource models associated with the pipeline namespace entity.
-		 */
-		PipelineNamespaceResponseResources: {
 			[key: string]: unknown;
 		};
 		/**
@@ -6271,14 +6307,10 @@ export type components = {
 			workspace: string;
 			/** The name of the pipeline. */
 			name: string;
-			/** The version of the pipeline. */
-			version: string;
-			/** The version hash of the pipeline. */
-			version_hash: string;
-			/** The docstring of the pipeline. */
-			docstring?: string | null;
-			/** The spec of the pipeline. */
-			spec: components["schemas"]["PipelineSpec-Input"];
+			/** The description of the pipeline. */
+			description?: string | null;
+			/** Tags of the pipeline. */
+			tags?: string[] | null;
 		};
 		/**
 		 * PipelineResponse
@@ -6321,10 +6353,10 @@ export type components = {
 			updated: string;
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
-			/** The status of the last 3 Pipeline Runs. */
-			status?: components["schemas"]["ExecutionStatus"][] | null;
-			/** The version of the pipeline. */
-			version: string;
+			/** The ID of the latest run of the pipeline. */
+			latest_run_id?: string | null;
+			/** The status of the latest run of the pipeline. */
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 		};
 		/**
 		 * PipelineResponseMetadata
@@ -6333,18 +6365,14 @@ export type components = {
 		PipelineResponseMetadata: {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
-			/** The version hash of the pipeline. */
-			version_hash: string;
-			/** The spec of the pipeline. */
-			spec: components["schemas"]["PipelineSpec-Output"];
-			/** The docstring of the pipeline. */
-			docstring?: string | null;
 		};
 		/**
 		 * PipelineResponseResources
 		 * @description Class for all resource models associated with the pipeline entity.
 		 */
 		PipelineResponseResources: {
+			/** Tags associated with the pipeline. */
+			tags: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -6395,6 +6423,8 @@ export type components = {
 			};
 			/** ID of the trigger execution that triggered this run. */
 			trigger_execution_id?: string | null;
+			/** Tags of the pipeline run. */
+			tags?: string[] | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -6497,6 +6527,11 @@ export type components = {
 			};
 			/** The orchestrator run ID. */
 			orchestrator_run_id?: string | null;
+			/**
+			 * Template Id
+			 * @description Template used for the pipeline run.
+			 */
+			template_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -6504,6 +6539,8 @@ export type components = {
 		 */
 		PipelineRunResponseResources: {
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
+			/** Tags associated with the pipeline run. */
+			tags: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -6514,6 +6551,10 @@ export type components = {
 			status?: components["schemas"]["ExecutionStatus"] | null;
 			/** End Time */
 			end_time?: string | null;
+			/** New tags to add to the pipeline run. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the pipeline run. */
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * PipelineSpec
@@ -6562,16 +6603,12 @@ export type components = {
 		 * @description Update model for pipelines.
 		 */
 		PipelineUpdate: {
-			/** The name of the pipeline. */
-			name?: string | null;
-			/** The version of the pipeline. */
-			version?: string | null;
-			/** The version hash of the pipeline. */
-			version_hash?: string | null;
-			/** The docstring of the pipeline. */
-			docstring?: string | null;
-			/** The spec of the pipeline. */
-			spec?: components["schemas"]["PipelineSpec-Input"] | null;
+			/** The description of the pipeline. */
+			description?: string | null;
+			/** New tags to add to the pipeline. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the pipeline. */
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * PluginType
@@ -6743,6 +6780,132 @@ export type components = {
 		 */
 		RunMetadataResponseResources: {
 			[key: string]: unknown;
+		};
+		/**
+		 * RunTemplateRequest
+		 * @description Request model for run templates.
+		 */
+		RunTemplateRequest: {
+			/**
+			 * The id of the user that created this resource.
+			 * Format: uuid
+			 */
+			user: string;
+			/**
+			 * The workspace to which this resource belongs.
+			 * Format: uuid
+			 */
+			workspace: string;
+			/** The name of the run template. */
+			name: string;
+			/** The description of the run template. */
+			description?: string | null;
+			/**
+			 * The deployment that should be the base of the created template.
+			 * Format: uuid
+			 */
+			source_deployment_id: string;
+			/** Tags of the run template. */
+			tags?: string[] | null;
+		};
+		/**
+		 * RunTemplateResponse
+		 * @description Response model for run templates.
+		 */
+		RunTemplateResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["RunTemplateResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["RunTemplateResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["RunTemplateResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the run template. */
+			name: string;
+		};
+		/**
+		 * RunTemplateResponseBody
+		 * @description Response body for run templates.
+		 */
+		RunTemplateResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** If a run can be started from the template. */
+			runnable: boolean;
+			/** The ID of the latest run of the run template. */
+			latest_run_id?: string | null;
+			/** The status of the latest run of the run template. */
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
+		};
+		/**
+		 * RunTemplateResponseMetadata
+		 * @description Response metadata for run templates.
+		 */
+		RunTemplateResponseMetadata: {
+			/** The workspace of this resource. */
+			workspace: components["schemas"]["WorkspaceResponse"];
+			/** The description of the run template. */
+			description?: string | null;
+			/** The spec of the pipeline. */
+			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
+			/** Run configuration template. */
+			config_template?: {
+				[key: string]: unknown;
+			} | null;
+			/** Run configuration schema. */
+			config_schema?: {
+				[key: string]: unknown;
+			} | null;
+		};
+		/**
+		 * RunTemplateResponseResources
+		 * @description All resource models associated with the run template.
+		 */
+		RunTemplateResponseResources: {
+			/** The deployment that is the source of the template. */
+			source_deployment?: components["schemas"]["PipelineDeploymentResponse"] | null;
+			/** The pipeline associated with the template. */
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
+			/** The pipeline build associated with the template. */
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
+			/** The code reference associated with the template. */
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/** Tags associated with the run template. */
+			tags: components["schemas"]["TagResponse"][];
+			[key: string]: unknown;
+		};
+		/**
+		 * RunTemplateUpdate
+		 * @description Run template update model.
+		 */
+		RunTemplateUpdate: {
+			/** The name of the run template. */
+			name?: string | null;
+			/** The description of the run template. */
+			description?: string | null;
+			/** New tags to add to the run template. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the run template. */
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * Schedule
@@ -7973,13 +8136,20 @@ export type components = {
 			locations: {
 				[key: string]: unknown;
 			};
+			/**
+			 * The locations where the Skypilot clusters can be deployed by default.
+			 * @description The locations where the Skypilot clusters can be deployed by default, as a dictionary mapping location names to descriptions.
+			 */
+			skypilot_default_regions: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * StackDeploymentProvider
 		 * @description All possible stack deployment providers.
 		 * @enum {string}
 		 */
-		StackDeploymentProvider: "aws" | "gcp";
+		StackDeploymentProvider: "aws" | "gcp" | "azure";
 		/**
 		 * StackRequest
 		 * @description Request model for stacks.
@@ -12313,10 +12483,8 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_workspace?: string | null;
+				tag?: string | null;
 				name?: string | null;
-				version?: string | null;
-				version_hash?: string | null;
-				docstring?: string | null;
 				workspace_id?: string | null;
 				user_id?: string | null;
 			};
@@ -12534,6 +12702,7 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_workspace?: string | null;
+				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
 				pipeline_name?: string | null;
@@ -12544,6 +12713,7 @@ export type operations = {
 				build_id?: string | null;
 				deployment_id?: string | null;
 				code_repository_id?: string | null;
+				template_id?: string | null;
 				status?: string | null;
 				start_time?: string | null;
 				end_time?: string | null;
@@ -12558,116 +12728,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["Page_PipelineRunResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Get Pipeline Spec
-	 * @description Gets the spec of a specific pipeline using its unique id.
-	 *
-	 * Args:
-	 *     pipeline_id: ID of the pipeline to get.
-	 *
-	 * Returns:
-	 *     The spec of the pipeline.
-	 */
-	get_pipeline_spec_api_v1_pipelines__pipeline_id__pipeline_spec_get: {
-		parameters: {
-			path: {
-				pipeline_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["PipelineSpec-Output"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * List Pipeline Namespaces
-	 * @description Gets a list of pipeline namespaces.
-	 *
-	 * Args:
-	 *     filter_model: Filter model used for pagination, sorting,
-	 *         filtering.
-	 *     hydrate: Flag deciding whether to hydrate the output model(s)
-	 *         by including metadata fields in the response.
-	 *     auth_context: Authentication context.
-	 *
-	 * Returns:
-	 *     List of pipeline namespace objects.
-	 */
-	list_pipeline_namespaces_api_v1_pipeline_namespaces_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				name?: string | null;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["Page_PipelineNamespaceResponse_"];
 				};
 			};
 			/** @description Unauthorized */
@@ -12896,6 +12956,7 @@ export type operations = {
 				stack_id?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
+				template_id?: string | null;
 			};
 		};
 		responses: {
@@ -13055,6 +13116,7 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_workspace?: string | null;
+				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
@@ -13066,6 +13128,7 @@ export type operations = {
 				build_id?: string | null;
 				deployment_id?: string | null;
 				code_repository_id?: string | null;
+				template_id?: string | null;
 				status?: string | null;
 				start_time?: string | null;
 				end_time?: string | null;
@@ -13571,6 +13634,229 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["RunMetadataResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * List Run Templates
+	 * @description Get a page of run templates.
+	 *
+	 * Args:
+	 *     filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     Page of run templates.
+	 */
+	list_run_templates_api_v1_run_templates_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				build_id?: string | null;
+				stack_id?: string | null;
+				code_repository_id?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_RunTemplateResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Run Template
+	 * @description Get a run template.
+	 *
+	 * Args:
+	 *     template_id: ID of the run template to get.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     The run template.
+	 */
+	get_run_template_api_v1_run_templates__template_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				template_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["RunTemplateResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Run Template
+	 * @description Update a run template.
+	 *
+	 * Args:
+	 *     template_id: ID of the run template to get.
+	 *     update: The updates to apply.
+	 *
+	 * Returns:
+	 *     The updated run template.
+	 */
+	update_run_template_api_v1_run_templates__template_id__put: {
+		parameters: {
+			path: {
+				template_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["RunTemplateUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["RunTemplateResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Run Template
+	 * @description Delete a run template.
+	 *
+	 * Args:
+	 *     template_id: ID of the run template to delete.
+	 */
+	delete_run_template_api_v1_run_templates__template_id__delete: {
+		parameters: {
+			path: {
+				template_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -18385,10 +18671,8 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_workspace?: string | null;
+				tag?: string | null;
 				name?: string | null;
-				version?: string | null;
-				version_hash?: string | null;
-				docstring?: string | null;
 				workspace_id?: string | null;
 				user_id?: string | null;
 			};
@@ -18633,6 +18917,7 @@ export type operations = {
 				stack_id?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
+				template_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18720,6 +19005,125 @@ export type operations = {
 		};
 	};
 	/**
+	 * List Workspace Run Templates
+	 * @description Get a page of run templates.
+	 *
+	 * Args:
+	 *     workspace_name_or_id: Name or ID of the workspace.
+	 *     filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     Page of run templates.
+	 */
+	list_workspace_run_templates_api_v1_workspaces__workspace_name_or_id__run_templates_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				build_id?: string | null;
+				stack_id?: string | null;
+				code_repository_id?: string | null;
+			};
+			path: {
+				workspace_name_or_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_RunTemplateResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Run Template
+	 * @description Create a run template.
+	 *
+	 * Args:
+	 *     workspace_name_or_id: Name or ID of the workspace.
+	 *     run_template: Run template to create.
+	 *
+	 * Returns:
+	 *     The created run template.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the workspace specified in the
+	 *         run template does not match the current workspace.
+	 */
+	create_run_template_api_v1_workspaces__workspace_name_or_id__run_templates_post: {
+		parameters: {
+			path: {
+				workspace_name_or_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["RunTemplateRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["RunTemplateResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * List Runs
 	 * @description Get pipeline runs according to query filters.
 	 *
@@ -18745,6 +19149,7 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_workspace?: string | null;
+				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
@@ -18756,6 +19161,7 @@ export type operations = {
 				build_id?: string | null;
 				deployment_id?: string | null;
 				code_repository_id?: string | null;
+				template_id?: string | null;
 				status?: string | null;
 				start_time?: string | null;
 				end_time?: string | null;

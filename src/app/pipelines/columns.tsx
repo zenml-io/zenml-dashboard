@@ -1,15 +1,15 @@
-import RunIcon from "@/assets/icons/terminal.svg?react";
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
+import { CopyButton } from "@/components/CopyButton";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { routes } from "@/router/routes";
 import { ExecutionStatus } from "@/types/pipeline-runs";
-import { PipelineNamespace, PipelineNamespaceBody } from "@/types/pipelines";
+import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag, TagProps } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { routes } from "@/router/routes";
-import { CopyButton } from "@/components/CopyButton";
 
-export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
+export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 	return [
 		{
 			id: "name",
@@ -17,8 +17,8 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 			accessorFn: (row) => ({ name: row.name, status: row.body?.latest_run_status }),
 			cell: ({ getValue }) => {
 				const { name, status } = getValue<{
-					name: PipelineNamespace["name"];
-					status: PipelineNamespaceBody["latest_run_status"];
+					name: string;
+					status: ExecutionStatus;
 				}>();
 
 				return (
@@ -46,7 +46,7 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 			cell: ({ getValue }) => {
 				const { runId, status } = getValue<{
 					runId?: string;
-					status?: PipelineNamespaceBody["latest_run_status"];
+					status?: ExecutionStatus;
 				}>();
 
 				if (!runId || !status) return <div>No run</div>;
