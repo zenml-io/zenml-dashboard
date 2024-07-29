@@ -1,17 +1,19 @@
 import { SearchField } from "@/components/SearchField";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { useUserOverviewSearchParams } from "../members/service";
 import { AddSecretDialog } from "./AddSecretDialog";
 import { useAllSecrets } from "@/data/secrets/secrets-all-query";
 import { DataTable } from "@zenml-io/react-component-library";
 import { getSecretColumns } from "./columns";
 import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
+import { useSecretOverviewSearchParams } from "./service";
 
 export default function SecretsTable() {
-	const queryParams = useUserOverviewSearchParams();
+	const queryParams = useSecretOverviewSearchParams();
+	const { data: secretsData } = useAllSecrets(
+		{ params: { ...queryParams, sort_by: "desc:created" } },
+		{ throwOnError: true }
+	);
 	const { data: currentUser } = useCurrentUser();
-
-	const { data: secretsData } = useAllSecrets();
 
 	const workspaceName = currentUser?.name;
 	const isAdmin = currentUser?.body?.is_admin;
