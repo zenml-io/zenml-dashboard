@@ -4018,6 +4018,10 @@ export type components = {
 			type: components["schemas"]["StackComponentType"];
 			/** The flavor of the stack component. */
 			flavor: string;
+			/** The name of the integration that the component's flavor belongs to. */
+			integration?: string | null;
+			/** Optionally, a url pointing to a png,svg or jpg can be attached. */
+			logo_url?: string | null;
 		};
 		/**
 		 * ComponentResponseMetadata
