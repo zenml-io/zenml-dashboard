@@ -64,18 +64,11 @@ function DynamicArray({ name, schema, isOptional }: DynamicFieldProps) {
 			</label>
 			<ul className="space-y-5">
 				{fields.map((field, index) => (
-					<li className="flex w-full items-center gap-4" key={field.id}>
+					<li className="flex w-full items-center gap-4 [&>div]:w-full" key={field.id}>
 						<Controller
 							defaultValue=""
 							name={`${name}.${index}`}
-							render={({ field }) => (
-								<Input
-									// wrapperClasses="w-full"
-									className="w-full flex-1"
-									inputSize="md"
-									{...field}
-								/>
-							)}
+							render={({ field }) => <Input className="w-full flex-1" inputSize="md" {...field} />}
 						/>
 						<Button
 							className="h-7 w-7"
