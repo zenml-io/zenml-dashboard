@@ -17,6 +17,8 @@ import { useUpdateSecret } from "@/data/secrets/update-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateSecret } from "@/types/secret";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import EyeIcon from "@/assets/icons/eye.svg?react";
+import EyeOffIcon from "@/assets/icons/eye-off.svg?react";
 
 interface EditSecretDialogProps {
 	secretId: string;
@@ -51,6 +53,7 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId);
 	const [secretName, setSecretName] = useState<string>("");
 	const [keysValues, setKeysValues] = useState<KeyValue[]>([{ key: "", value: "" }]);
+	const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
 
 	useEffect(() => {
 		if (secretDetail) {
@@ -124,57 +127,82 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 		mutate({ id: secretId, body: updatedSecretData });
 	};
 
-	if (isLoading) return <p>Loading...</p>;
+	const togglePasswordVisibility = (index: number) => {
+		setVisibleIndex(visibleIndex === index ? null : index);
+	};
+	if (isLoading) return <p></p>;
 	if (isError) return <p>Error fetching secret details.</p>;
 
 	return (
 		<>
 			<form id="edit-secret-form" className="gap-5 p-5" onSubmit={handleSubmit}>
-				<div className="space-y-5">
+				<div className="space-y-0.5">
 					<div className="space-y-0.5">
 						<label className="font-inter text-sm text-left font-medium leading-5">
 							Secret Name
+							<span className="ml-1 text-theme-text-error">*</span>
 						</label>
 						<Input
-							className="w-full"
+							className="mb-3 w-full"
 							value={secretName}
 							onChange={(e) => setSecretName(e.target.value)}
 							required
 						/>
 					</div>
-					<h1 className="font-inter text-lg space-y-0.1 text-left font-semibold">Keys</h1>
-					{keysValues.map((pair, index) => (
-						<div key={index} className="space-y-0.1 flex flex-row items-center space-x-1">
+					<div className="mt-10">
+						<div>
+							<h1 className="font-inter text-lg text-left font-semibold ">Keys</h1>
+						</div>
+						<div className="mt-5 flex flex-row ">
 							<div className="flex-grow">
-								<label className="font-inter text-sm text-left font-medium leading-5">Key</label>
+								<label className="font-inter text-sm text-left font-medium">Key</label>
+							</div>
+							<div className="flex-grow pr-12">
+								<label className="font-inter text-sm text-left font-medium">Value</label>
+							</div>
+						</div>
+					</div>
+					{keysValues.map((pair, index) => (
+						<div key={index} className="flex flex-row items-center space-x-1 ">
+							<div className="relative flex-grow ">
 								<Input
 									name="key"
 									value={pair.key}
 									onChange={(event) => handleInputChange(index, event)}
-									className="w-full"
+									className="mb-2 w-full"
 									required
 								/>
 							</div>
-							<div className="flex-grow">
-								<label className="font-inter text-sm text-left font-medium leading-5">Value</label>
-								<Input
-									name="value"
-									value={pair.value}
-									onChange={(event) => handleInputChange(index, event)}
-									className="w-full"
-									required
-								/>
+							<div className="relative flex-grow ">
+								<div className="relative">
+									<Input
+										name="value"
+										value={pair.value}
+										onChange={(event) => handleInputChange(index, event)}
+										className="mb-2 w-full pr-10"
+										required
+										type={visibleIndex === index ? "text" : "password"}
+									/>
+									<div
+										onClick={() => togglePasswordVisibility(index)}
+										className="absolute inset-y-1 right-0 flex cursor-pointer items-center pb-1 pr-3"
+									>
+										{visibleIndex === index ? <EyeOffIcon /> : <EyeIcon />}
+									</div>
+								</div>
 							</div>
-							{index === keysValues.length - 1 && (
-								<div onClick={addKeyValuePair} className="mt-5 cursor-pointer">
-									<PlusIcon />
-								</div>
-							)}
-							{index !== keysValues.length - 1 && (
-								<div onClick={() => removeKeyValuePair(index)} className="mt-5 cursor-pointer">
-									<DeleteIcon />
-								</div>
-							)}
+							<div className="flex items-center">
+								{index === keysValues.length - 1 && (
+									<div onClick={addKeyValuePair} className="mb-2 ml-2">
+										<PlusIcon />
+									</div>
+								)}
+								{index !== keysValues.length - 1 && (
+									<div onClick={() => removeKeyValuePair(index)} className="mb-2 ml-2">
+										<DeleteIcon />
+									</div>
+								)}
+							</div>
 						</div>
 					))}
 				</div>
