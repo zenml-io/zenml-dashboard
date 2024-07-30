@@ -1,4 +1,4 @@
-import { PipelineNamespacesParams } from "@/types/pipelines";
+import { PipelineListParams } from "@/types/pipelines";
 import { useSearchParams } from "react-router-dom";
 
 import { z } from "zod";
@@ -11,7 +11,7 @@ const filterParamsSchema = z.object({
 	operator: z.enum(["and", "or"]).optional()
 });
 
-export function usePipelineOverviewSearchParams(): PipelineNamespacesParams {
+export function usePipelineOverviewSearchParams(): PipelineListParams {
 	const [searchParams] = useSearchParams();
 
 	const { page, name, operator } = filterParamsSchema.parse({

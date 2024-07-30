@@ -1,9 +1,10 @@
+import { useWizardContext } from "@/context/WizardContext";
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { CancelButton } from "../components/CancelButton";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
-import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
 import { DeployStep } from "./Steps/Deploy";
 import { ProviderStep } from "./Steps/Provider";
@@ -11,7 +12,7 @@ import { SuccessStep } from "./Steps/Success/SuccessStep";
 import { clearWizardData } from "./persist";
 
 export function CreateNewInfraWizard() {
-	const { currentStep } = useNewInfraWizardContext();
+	const { currentStep } = useWizardContext();
 	if (currentStep === 1) return <ProviderStep />;
 	if (currentStep === 2) return <ConfigurationStep />;
 	if (currentStep === 3) return <DeployStep />;
@@ -21,7 +22,7 @@ export function CreateNewInfraWizard() {
 function NextButton() {
 	const maxSteps = 4;
 	const [searchParams] = useSearchParams();
-	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
+	const { setCurrentStep, currentStep } = useWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 	const navigate = useNavigate();
 	const isFromOnboarding = searchParams.get("origin") === "onboarding";
@@ -54,20 +55,6 @@ function NextButton() {
 			size="md"
 		>
 			{currentStep === maxSteps ? "Finish" : "Next"}
-		</Button>
-	);
-}
-
-function CancelButton() {
-	const navigate = useNavigate();
-
-	function cancel() {
-		clearWizardData();
-		navigate(routes.stacks.create.index);
-	}
-	return (
-		<Button onClick={() => cancel()} intent="secondary" size="md">
-			Cancel
 		</Button>
 	);
 }

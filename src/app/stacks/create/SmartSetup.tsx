@@ -54,16 +54,21 @@ function NewInfrastructure({ isLocalDeployment }: Props) {
 }
 
 function ExistingCloud({ isLocalDeployment }: Props) {
+	const [searchParams] = useSearchParams();
+	const link =
+		routes.stacks.create.existingInfra +
+		(searchParams.size >= 1 ? `?${searchParams.toString()}` : "");
 	return (
 		<div className="relative">
 			{isLocalDeployment && <LocalOverlay />}
-			<CreateStackOptionCard
-				comingSoon
-				title="Use existing Cloud"
-				subtitle="Connect to your existing Cloud and configure your components manually."
-				icon={<CloudTenant className="h-6 w-6 fill-primary-400" />}
-				estimatedTime="15"
-			/>
+			<Link to={link}>
+				<CreateStackOptionCard
+					title="Use existing Cloud"
+					subtitle="Connect to your existing Cloud and configure your components manually."
+					icon={<CloudTenant className="h-6 w-6 fill-primary-400" />}
+					estimatedTime="15"
+				/>
+			</Link>
 		</div>
 	);
 }

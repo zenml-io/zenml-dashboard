@@ -7,7 +7,7 @@ import { EstimateCosts } from "../../Providers";
 import { WizardStepWrapper } from "../../Wizard";
 import { ConfigurationForm, configurationSchema } from "../schemas";
 import { Region, ReviewYourStack } from "./Partials";
-import { StackName } from "./StackName";
+import { StackName } from "../../../components/StackName";
 
 export function ConfigurationStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();

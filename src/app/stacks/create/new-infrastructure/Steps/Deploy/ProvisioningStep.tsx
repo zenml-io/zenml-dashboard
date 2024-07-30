@@ -1,13 +1,13 @@
 import Configuration from "@/assets/icons/tool-02.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { CloudProviderIcon } from "@/components/ProviderIcon";
+import { useWizardContext } from "@/context/WizardContext";
 import { stackQueries } from "@/data/stacks";
 import { StackDeploymentStack } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
-import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { CloudComponents } from "../../Providers";
 import { GCPCodesnippet } from "../../Providers/GCP";
 import { clearWizardData } from "../../persist";
@@ -15,7 +15,7 @@ import { DeploymentButton } from "./ButtonStep";
 
 export function ProvisioningStep() {
 	const { data, timestamp, setIsNextButtonDisabled } = useNewInfraFormContext();
-	const { setCurrentStep } = useNewInfraWizardContext();
+	const { setCurrentStep } = useWizardContext();
 
 	const {
 		isPending,
