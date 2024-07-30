@@ -17,6 +17,7 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
@@ -26,13 +27,7 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 	}
 
 	function handleDialogItemOpenChange(open: boolean) {
-		if (open === false) {
-			setDropdownOpen(false);
-			setHasOpenDialog(open);
-			setEditDialogOpen(false);
-			return;
-		}
-		setHasOpenDialog(open);
+		setDeleteDialogOpen(true);
 	}
 
 	function handleEditDialogOpenChange(open: boolean) {
@@ -58,14 +53,6 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 			>
 				<AlertDialogItem
 					onSelect={handleDialogItemSelect}
-					onOpenChange={handleDialogItemOpenChange}
-					triggerChildren="Delete "
-					icon={<DeleteIcon fill="red" />}
-				>
-					<DeleteSecretAlert secretId={secretId}></DeleteSecretAlert>
-				</AlertDialogItem>
-				<AlertDialogItem
-					onSelect={handleDialogItemSelect}
 					onOpenChange={handleEditDialogOpenChange}
 					triggerChildren="Edit "
 					icon={<EditIcon fill="red" />}
@@ -78,6 +65,21 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 							setEditDialogOpen(false);
 						}}
 					></EditSecretDialog>
+				</AlertDialogItem>
+				<AlertDialogItem
+					onSelect={handleDialogItemSelect}
+					onOpenChange={handleDialogItemOpenChange}
+					triggerChildren="Delete "
+					icon={<DeleteIcon fill="red" />}
+				>
+					<DeleteSecretAlert
+						isOpen={deleteDialogOpen}
+						onClose={() => {
+							setDropdownOpen(false);
+							setDeleteDialogOpen(false);
+						}}
+						secretId={secretId}
+					></DeleteSecretAlert>
 				</AlertDialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

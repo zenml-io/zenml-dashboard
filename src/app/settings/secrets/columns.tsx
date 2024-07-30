@@ -1,3 +1,4 @@
+// columns.ts
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SecretNamespace } from "@/types/secret";
@@ -5,8 +6,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import SecretsDropdown from "./SecretsDropdown";
 import LockIcon from "@/assets/icons/lock-icon.svg?react";
 import InfoIcon from "@/assets/icons/info-icon.svg?react";
+import { NavigateFunction } from "react-router-dom";
 
-export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
+export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
 	return [
 		{
 			id: "select",
@@ -35,8 +37,11 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 			id: "secret",
 			header: "Secret",
 			accessorFn: (row) => row.name,
-			cell: ({ getValue }) => (
-				<div className="flex items-center space-x-2">
+			cell: ({ getValue, row }) => (
+				<div
+					className="flex cursor-pointer items-center space-x-2"
+					onClick={() => navigate(`/settings/secrets/${row.original.id}`)}
+				>
 					<LockIcon />
 					<div className="flex flex-col">
 						<div className="flex flex-row space-x-1">
@@ -45,7 +50,7 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 							</span>
 							<InfoIcon />
 						</div>
-						<span className="text-sm text-gray-500">85ff662e</span>
+						<span className="text-sm text-gray-500"> {row.original.id.slice(0, 8)}</span>
 					</div>
 				</div>
 			)
@@ -69,7 +74,7 @@ export function getSecretColumns(): ColumnDef<SecretNamespace>[] {
 			header: "Created At",
 			accessorFn: (row) => row.body?.created,
 			cell: ({ getValue }) => (
-				<p className="font-inter text-sm text-left font-medium leading-[20px]">
+				<p className="text-text-sm text-theme-text-secondary">
 					<DisplayDate dateString={getValue<string>()} />
 				</p>
 			)
