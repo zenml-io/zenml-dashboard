@@ -6,8 +6,10 @@ import { DataTable } from "@zenml-io/react-component-library";
 import { getSecretColumns } from "./columns";
 import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
 import { useSecretOverviewSearchParams } from "./service";
+import { useNavigate } from "react-router-dom";
 
 export default function SecretsTable() {
+	const navigate = useNavigate();
 	const queryParams = useSecretOverviewSearchParams();
 	const { data: secretsData } = useAllSecrets(
 		{ params: { ...queryParams, sort_by: "desc:created" } },
@@ -46,7 +48,7 @@ export default function SecretsTable() {
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{secretsData ? (
-						<DataTable columns={getSecretColumns()} data={secretsData.items} />
+						<DataTable columns={getSecretColumns(navigate)} data={secretsData.items} />
 					) : (
 						<></>
 					)}
