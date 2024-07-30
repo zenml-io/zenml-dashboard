@@ -5,11 +5,9 @@ import { DataTable } from "@zenml-io/react-component-library";
 import { getSecretDetailColumn } from "./columns";
 import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
 import { useSecretOverviewSearchParams } from "../service";
-import { useNavigate } from "react-router-dom";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
 
 export default function SecretDetailTable({ secretId }: { secretId: string }) {
-	const navigate = useNavigate();
 	const queryParams = useSecretOverviewSearchParams();
 
 	const { data: secretDetail } = useGetSecretDetail(secretId);

@@ -15,7 +15,7 @@ import { EditSecretDialog } from "./EditSecretDialog";
 
 export default function SecretsDropdown({ secretId }: { secretId: string }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [hasOpenDialog, setHasOpenDialog] = useState(false);
+	const [hasOpenDialog] = useState(false);
 	const [editDialogOpen, setEditDialogOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -26,7 +26,7 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 		focusRef.current = dropdownTriggerRef.current;
 	}
 
-	function handleDialogItemOpenChange(open: boolean) {
+	function handleDialogItemOpenChange() {
 		setDeleteDialogOpen(true);
 	}
 
