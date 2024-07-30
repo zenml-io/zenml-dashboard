@@ -1,12 +1,15 @@
 import { useWizardContext } from "@/context/WizardContext";
 import { useConnectorFullstackResources } from "@/data/service-connectors/resources-info";
+import { sleep } from "@/lib/common";
 import { useToast } from "@zenml-io/react-component-library";
 import { produce } from "immer";
-import { useExistingInfraContext } from "../../ExistingInfraContext";
+import { useState } from "react";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useExistingInfraContext } from "../../ExistingInfraContext";
 
 export function useNewConnector() {
 	const { setCurrentStep } = useWizardContext();
+	const [loadingComponents, setIsLoadingComponents] = useState(true);
 	const { toast } = useToast();
 	const { setData, data } = useExistingInfraContext();
 	const fullStackResources = useConnectorFullstackResources({
@@ -16,6 +19,8 @@ export function useNewConnector() {
 					draft.fullstackResources = data;
 				})
 			);
+			setIsLoadingComponents(false);
+			await sleep(200);
 			setCurrentStep((prev) => prev + 1);
 		},
 		onError: (e) => {
@@ -34,7 +39,7 @@ export function useNewConnector() {
 				rest[key] === "" ||
 				rest[key] === null ||
 				rest[key] === undefined ||
-				(rest[key] instanceof Array && rest[key].length === 0)
+				(Array.isArray(rest[key]) && rest[key].length === 0)
 			) {
 				delete rest[key];
 			}
@@ -57,5 +62,5 @@ export function useNewConnector() {
 		});
 	};
 
-	return { handleFormSubmit };
+	return { handleFormSubmit, fullStackResources, loadingComponents };
 }

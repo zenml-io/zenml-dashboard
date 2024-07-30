@@ -49,8 +49,12 @@ export function OrchestratorForm() {
 													)
 												);
 											}
-											if (orchestrator.flavor !== kubernetesKey)
+											if (
+												orchestrator.flavor !== kubernetesKey &&
+												orchestrator.accessible_by_service_connector.length > 0
+											)
 												setValue("resourceId", orchestrator.accessible_by_service_connector[0]);
+
 											onChange(e);
 										}}
 										{...restField}
