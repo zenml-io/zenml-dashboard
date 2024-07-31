@@ -48,7 +48,6 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 							<span className="text-text-md font-semibold text-theme-text-primary">
 								{getValue<string>()}
 							</span>
-							<InfoIcon />
 						</div>
 						<span className="text-sm text-gray-500"> {row.original.id.slice(0, 8)}</span>
 					</div>
