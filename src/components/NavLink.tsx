@@ -1,12 +1,23 @@
-import { NavLink as NavLinkPrimitive, NavLinkProps } from "react-router-dom";
+import { NavLink as NavLinkPrimitive, NavLinkProps, useLocation } from "react-router-dom";
 
-export default function NavLink({ children, ...rest }: NavLinkProps) {
+interface CustomNavLinkProps extends NavLinkProps {
+	isActiveOverride?: (pathname: string) => boolean;
+}
+
+export default function NavLink({ children, isActiveOverride, ...rest }: CustomNavLinkProps) {
+	const location = useLocation();
+	const isActive = isActiveOverride ? isActiveOverride(location.pathname) : false;
+
 	return (
 		<NavLinkPrimitive
-			className={({ isActive }) =>
-				` ${isActive ? "bg-primary-50 text-theme-text-brand" : "hover:bg-neutral-200"} block rounded-md px-4 py-1 text-text-sm font-semibold `
-			}
 			{...rest}
+			className={({ isActive: defaultIsActive }) =>
+				` ${
+					isActive || defaultIsActive
+						? "bg-primary-50 text-theme-text-brand"
+						: "hover:bg-neutral-200"
+				} block rounded-md px-4 py-1 text-text-sm font-semibold `
+			}
 		>
 			{children}
 		</NavLinkPrimitive>
