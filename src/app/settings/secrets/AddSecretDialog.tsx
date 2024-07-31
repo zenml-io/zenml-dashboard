@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import {
 	Button,
 	Dialog,
@@ -14,15 +14,12 @@ import {
 import PlusIcon from "@/assets/icons/secret-add.svg?react";
 import DeleteIcon from "@/assets/icons/secret-delete.svg?react";
 import EyeIcon from "@/assets/icons/eye.svg?react";
-import EyeOffIcon from "@/assets/icons/eye-off.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
-
-interface KeyValue {
-	key: string;
-	value: string;
-}
+import { zodResolver } from "@hookform/resolvers/zod";
+import { secretFormSchema, SecretFormType } from "./form-schema";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 
 interface Workspace {
 	id: string;
@@ -62,20 +59,25 @@ export function AddSecret({
 	setOpen: (open: boolean) => void;
 	workspaceId: string;
 }) {
-	const [secretName, setSecretName] = useState("");
-	const [keysValues, setKeysValues] = useState<KeyValue[]>([{ key: "", value: "" }]);
-	const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
-
-	const addKeyValuePair = () => {
-		const allFilled = keysValues.every((pair) => pair.key !== "" && pair.value !== "");
-		if (allFilled) {
-			setKeysValues([...keysValues, { key: "", value: "" }]);
-		} else {
-			alert("Please fill out all previous key-value pairs before adding a new one.");
+	const {
+		handleSubmit,
+		control,
+		watch,
+		setValue,
+		formState: { isValid },
+		reset
+	} = useForm<SecretFormType>({
+		resolver: zodResolver(secretFormSchema),
+		defaultValues: {
+			secretName: "",
+			keysValues: [{ key: "", value: "" }]
 		}
-	};
+	});
 
-	useEffect(() => {});
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: "keysValues"
+	});
 
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
@@ -93,38 +95,17 @@ export function AddSecret({
 		onSuccess() {
 			queryClient.invalidateQueries({ queryKey: ["secrets"] });
 			setOpen(false);
-			setSecretName("");
-			setKeysValues([{ key: "", value: "" }]);
+			reset();
 		}
 	});
 
-	const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		const updatedKeysValues = keysValues.map((pair, idx) =>
-			idx === index ? { ...pair, [name]: value } : pair
-		);
-		setKeysValues(updatedKeysValues);
-	};
-
-	const removeKeyValuePair = (index: number) => {
-		if (keysValues.length > 1) {
-			const updatedKeysValues = [...keysValues];
-			updatedKeysValues.splice(index, 1);
-			setKeysValues(updatedKeysValues);
-		}
-	};
-
-	const togglePasswordVisibility = (index: number) => {
-		setVisibleIndex(visibleIndex === index ? null : index);
-	};
-
-	const postSecret = () => {
+	const postSecret = (data: SecretFormType) => {
 		mutate({
 			user: userId,
 			workspace: workspaceId,
-			name: secretName,
+			name: data.secretName,
 			scope: "workspace",
-			values: keysValues.reduce(
+			values: data.keysValues.reduce(
 				(acc, pair) => {
 					if (pair.key && pair.value) acc[pair.key] = pair.value;
 					return acc;
@@ -134,25 +115,23 @@ export function AddSecret({
 		});
 	};
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		postSecret();
+	const onSubmit = (data: SecretFormType) => {
+		postSecret(data);
 	};
 
 	return (
 		<>
-			<form id="create-secret-form" className="gap-5 p-5" onSubmit={handleSubmit}>
+			<form id="create-secret-form" className="gap-5 p-5" onSubmit={handleSubmit(onSubmit)}>
 				<div className="space-y-1">
 					<div className="space-y-0.5">
 						<label className="font-inter text-sm text-left font-medium leading-5">
 							Secret Name
 							<span className="ml-1 text-theme-text-error">*</span>
 						</label>
-						<Input
-							className="mb-3 w-full"
-							value={secretName}
-							onChange={(e) => setSecretName(e.target.value)}
-							required
+						<Controller
+							name="secretName"
+							control={control}
+							render={({ field }) => <Input {...field} className="mb-3 w-full" required />}
 						/>
 					</div>
 					<div className="mt-10">
@@ -169,45 +148,51 @@ export function AddSecret({
 						</div>
 					</div>
 
-					{keysValues.map((pair, index) => (
-						<div key={index} className="flex flex-row items-center space-x-1 ">
+					{fields.map((field, index) => (
+						<div key={field.id} className="flex flex-row items-center space-x-1 ">
 							<div className="relative flex-grow ">
-								<Input
-									name="key"
-									value={pair.key}
-									onChange={(event) => handleInputChange(index, event)}
-									className="mb-2 w-full"
-									required
-									placeholder="key"
+								<Controller
+									name={`keysValues.${index}.key`}
+									control={control}
+									render={({ field }) => (
+										<Input {...field} className="mb-2 w-full" required placeholder="key" />
+									)}
 								/>
 							</div>
 							<div className="relative flex-grow">
 								<div className="relative">
-									<Input
-										name="value"
-										value={pair.value}
-										onChange={(event) => handleInputChange(index, event)}
-										className="mb-2 w-full pr-10"
-										required
-										placeholder="•••••••••"
-										type={visibleIndex === index ? "text" : "password"}
+									<Controller
+										name={`keysValues.${index}.value`}
+										control={control}
+										render={({ field }) => (
+											<Input
+												{...field}
+												className="mb-2 w-full pr-10"
+												required
+												placeholder="•••••••••"
+												type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
+											/>
+										)}
 									/>
 									<div
-										onClick={() => togglePasswordVisibility(index)}
+										onClick={() => {
+											const showPassword = watch(`keysValues.${index}.showPassword`);
+											setValue(`keysValues.${index}.showPassword`, !showPassword);
+										}}
 										className="absolute inset-y-1 right-0 flex cursor-pointer items-center pb-1 pr-3"
 									>
-										{visibleIndex === index ? <EyeOffIcon /> : <EyeIcon />}
+										<EyeIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
 									</div>
 								</div>
 							</div>
 							<div className="flex items-center">
-								{index === keysValues.length - 1 && (
-									<div onClick={addKeyValuePair} className="mb-2 ml-2">
-										<PlusIcon />
+								{index === fields.length - 1 && (
+									<div onClick={() => append({ key: "", value: "" })} className="mb-2 ml-2">
+										<PlusIcon className="h-7 w-7 flex-shrink-0 cursor-pointer" />
 									</div>
 								)}
-								{index !== keysValues.length - 1 && (
-									<div onClick={() => removeKeyValuePair(index)} className="mb-2 ml-2 ">
+								{index !== fields.length - 1 && (
+									<div onClick={() => remove(index)} className="mb-2 ml-2 ">
 										<DeleteIcon />
 									</div>
 								)}
@@ -222,7 +207,7 @@ export function AddSecret({
 						Cancel
 					</Button>
 				</DialogClose>
-				<Button intent="primary" type="submit" form="create-secret-form">
+				<Button intent="primary" disabled={!isValid} type="submit" form="create-secret-form">
 					Register Secret
 				</Button>
 			</DialogFooter>

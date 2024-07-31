@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import {
 	Button,
 	Dialog,
@@ -12,28 +12,42 @@ import {
 } from "@zenml-io/react-component-library";
 import PlusIcon from "@/assets/icons/secret-add.svg?react";
 import DeleteIcon from "@/assets/icons/secret-delete.svg?react";
+import EyeIcon from "@/assets/icons/eye.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateSecret } from "@/data/secrets/update-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
-import { UpdateSecret } from "@/types/secret";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
-import EyeIcon from "@/assets/icons/eye.svg?react";
-import EyeOffIcon from "@/assets/icons/eye-off.svg?react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { secretFormSchema, SecretFormType } from "./form-schema";
+import { UpdateSecret } from "@/types/secret";
 
 interface EditSecretDialogProps {
 	secretId: string;
 	isOpen: boolean;
 	onClose: () => void;
+	isSecretNameEditable: boolean;
+	dialogTitle: string;
 }
 
-export function EditSecretDialog({ secretId, isOpen, onClose }: EditSecretDialogProps) {
+export function EditSecretDialog({
+	secretId,
+	isOpen,
+	onClose,
+	isSecretNameEditable,
+	dialogTitle
+}: EditSecretDialogProps) {
 	return (
 		<Dialog open={isOpen} onOpenChange={onClose}>
 			<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
 				<DialogHeader>
-					<DialogTitle>Edit Secret</DialogTitle>
+					<DialogTitle>{dialogTitle}</DialogTitle>
 				</DialogHeader>
-				<EditSecret secretId={secretId} onClose={onClose} />
+				<EditSecret
+					secretId={secretId}
+					onClose={onClose}
+					isSecretNameEditable={isSecretNameEditable}
+				/>
 			</DialogContent>
 		</Dialog>
 	);
@@ -42,38 +56,46 @@ export function EditSecretDialog({ secretId, isOpen, onClose }: EditSecretDialog
 interface EditSecretProps {
 	secretId: string;
 	onClose: () => void;
+	isSecretNameEditable: boolean;
 }
 
-interface KeyValue {
-	key: string;
-	value: string;
-}
-
-export function EditSecret({ secretId, onClose }: EditSecretProps) {
+export function EditSecret({ secretId, onClose, isSecretNameEditable }: EditSecretProps) {
 	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId);
-	const [secretName, setSecretName] = useState<string>("");
-	const [keysValues, setKeysValues] = useState<KeyValue[]>([{ key: "", value: "" }]);
-	const [visibleIndex, setVisibleIndex] = useState<number | null>(null);
+
+	const {
+		handleSubmit,
+		control,
+		setValue,
+		watch,
+		formState: { isValid }
+	} = useForm<SecretFormType>({
+		resolver: zodResolver(secretFormSchema),
+		defaultValues: {
+			secretName: "",
+			keysValues: [{ key: "", value: "" }]
+		}
+	});
+
+	const { fields, append, remove } = useFieldArray({
+		control,
+		name: "keysValues"
+	});
 
 	useEffect(() => {
 		if (secretDetail) {
-			setSecretName(secretDetail.name);
-			setKeysValues(
+			setValue("secretName", secretDetail.name);
+			setValue(
+				"keysValues",
 				Object.entries(secretDetail.body.values || {}).map(([key, value]) => ({
 					key,
 					value: String(value)
 				}))
 			);
 		}
-	}, [secretDetail]);
+	}, [secretDetail, setValue]);
 
 	const addKeyValuePair = () => {
-		const allFilled = keysValues.every((pair) => pair.key !== "" && pair.value !== "");
-		if (allFilled) {
-			setKeysValues([...keysValues, { key: "", value: "" }]);
-		} else {
-			alert("Please fill out all previous key-value pairs before adding a new one.");
-		}
+		append({ key: "", value: "", showPassword: false });
 	};
 
 	const { toast } = useToast();
@@ -91,69 +113,61 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 		},
 		onSuccess() {
 			queryClient.invalidateQueries({ queryKey: ["secrets"] });
-			onClose(); // Close dialog on success
+			queryClient.invalidateQueries({ queryKey: ["secretDetail", secretId] });
+			onClose();
 		}
 	});
 
-	const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = event.target;
-		const updatedKeysValues = keysValues.map((pair, idx) =>
-			idx === index ? { ...pair, [name]: value } : pair
-		);
-		setKeysValues(updatedKeysValues);
-	};
-
-	const removeKeyValuePair = (index: number) => {
-		if (keysValues.length > 1) {
-			const updatedKeysValues = [...keysValues];
-			updatedKeysValues.splice(index, 1);
-			setKeysValues(updatedKeysValues);
-		}
-	};
-
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
+	const onSubmit = (data: SecretFormType) => {
 		const updatedSecretData: UpdateSecret = {
-			name: secretName,
-			scope: "workspace", // Ensure this is a valid value from components["schemas"]["SecretScope"]
-			values: keysValues.reduce(
+			name: data.secretName,
+			scope: "workspace",
+			values: data.keysValues.reduce(
 				(acc, pair) => {
 					if (pair.key && pair.value) acc[pair.key] = pair.value;
 					return acc;
 				},
-				{} as Record<string, unknown>
+				{} as Record<string, string>
 			)
 		};
 		mutate({ id: secretId, body: updatedSecretData });
 	};
 
 	const togglePasswordVisibility = (index: number) => {
-		setVisibleIndex(visibleIndex === index ? null : index);
+		const currentValue = watch(`keysValues.${index}.showPassword`);
+		setValue(`keysValues.${index}.showPassword`, !currentValue);
 	};
-	if (isLoading) return <p></p>;
+
+	if (isLoading) return <p>Loading...</p>;
 	if (isError) return <p>Error fetching secret details.</p>;
 
 	return (
 		<>
-			<form id="edit-secret-form" className="gap-5 p-5" onSubmit={handleSubmit}>
+			<form id="edit-secret-form" className="gap-5 p-5" onSubmit={handleSubmit(onSubmit)}>
 				<div className="space-y-0.5">
 					<div className="space-y-0.5">
 						<label className="font-inter text-sm text-left font-medium leading-5">
 							Secret Name
 							<span className="ml-1 text-theme-text-error">*</span>
 						</label>
-						<Input
-							className="mb-3 w-full"
-							value={secretName}
-							onChange={(e) => setSecretName(e.target.value)}
-							required
+						<Controller
+							name="secretName"
+							control={control}
+							render={({ field }) => (
+								<Input
+									{...field}
+									className="mb-3 w-full"
+									required
+									disabled={!isSecretNameEditable}
+								/>
+							)}
 						/>
 					</div>
 					<div className="mt-10">
 						<div>
-							<h1 className="font-inter text-lg text-left font-semibold ">Keys</h1>
+							<h1 className="font-inter text-lg text-left font-semibold">Keys</h1>
 						</div>
-						<div className="mt-5 flex flex-row ">
+						<div className="mt-5 flex flex-row">
 							<div className="flex-grow">
 								<label className="font-inter text-sm text-left font-medium">Key</label>
 							</div>
@@ -162,43 +176,48 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 							</div>
 						</div>
 					</div>
-					{keysValues.map((pair, index) => (
-						<div key={index} className="flex flex-row items-center space-x-1 ">
-							<div className="relative flex-grow ">
-								<Input
-									name="key"
-									value={pair.key}
-									onChange={(event) => handleInputChange(index, event)}
-									className="mb-2 w-full"
-									required
+					{fields.map((field, index) => (
+						<div key={field.id} className="flex flex-row items-center space-x-1">
+							<div className="relative flex-grow">
+								<Controller
+									name={`keysValues.${index}.key`}
+									control={control}
+									render={({ field }) => (
+										<Input {...field} className="mb-2 w-full" required placeholder="key" />
+									)}
 								/>
 							</div>
-							<div className="relative flex-grow ">
+							<div className="relative flex-grow">
 								<div className="relative">
-									<Input
-										name="value"
-										value={pair.value}
-										onChange={(event) => handleInputChange(index, event)}
-										className="mb-2 w-full pr-10"
-										required
-										type={visibleIndex === index ? "text" : "password"}
+									<Controller
+										name={`keysValues.${index}.value`}
+										control={control}
+										render={({ field }) => (
+											<Input
+												{...field}
+												className="mb-2 w-full pr-10"
+												required
+												placeholder="•••••••••"
+												type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
+											/>
+										)}
 									/>
 									<div
 										onClick={() => togglePasswordVisibility(index)}
 										className="absolute inset-y-1 right-0 flex cursor-pointer items-center pb-1 pr-3"
 									>
-										{visibleIndex === index ? <EyeOffIcon /> : <EyeIcon />}
+										<EyeIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
 									</div>
 								</div>
 							</div>
 							<div className="flex items-center">
-								{index === keysValues.length - 1 && (
+								{index === fields.length - 1 && (
 									<div onClick={addKeyValuePair} className="mb-2 ml-2">
-										<PlusIcon />
+										<PlusIcon className="h-7 w-7 flex-shrink-0 cursor-pointer" />
 									</div>
 								)}
-								{index !== keysValues.length - 1 && (
-									<div onClick={() => removeKeyValuePair(index)} className="mb-2 ml-2">
+								{index !== fields.length - 1 && (
+									<div onClick={() => remove(index)} className="mb-2 ml-2">
 										<DeleteIcon />
 									</div>
 								)}
@@ -207,13 +226,14 @@ export function EditSecret({ secretId, onClose }: EditSecretProps) {
 					))}
 				</div>
 			</form>
+
 			<DialogFooter className="gap-[10px]">
 				<DialogClose asChild>
 					<Button size="sm" intent="secondary">
 						Cancel
 					</Button>
 				</DialogClose>
-				<Button intent="primary" type="submit" form="edit-secret-form">
+				<Button intent="primary" type="submit" form="edit-secret-form" disabled={!isValid}>
 					Save Secret
 				</Button>
 			</DialogFooter>
