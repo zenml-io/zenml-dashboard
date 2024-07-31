@@ -9,9 +9,13 @@ export default function SecretsPage() {
 				<p className="text-text-md text-theme-text-secondary">
 					Configure and manage your pipeline secrets and configurations.
 				</p>
-				<span className="text-text-md" style={{ color: "#7A3EF4" }}>
+				<a
+					href="https://docs.zenml.io/how-to/interact-with-secrets"
+					className="text-text-md"
+					style={{ color: "#7A3EF4" }}
+				>
 					Learn More
-				</span>
+				</a>
 			</div>
 			<SecretsTable />
 		</Box>
