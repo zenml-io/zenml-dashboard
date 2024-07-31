@@ -5,7 +5,6 @@ import { SecretNamespace } from "@/types/secret";
 import { ColumnDef } from "@tanstack/react-table";
 import SecretsDropdown from "./SecretsDropdown";
 import LockIcon from "@/assets/icons/lock-icon.svg?react";
-import InfoIcon from "@/assets/icons/info-icon.svg?react";
 import { NavigateFunction } from "react-router-dom";
 
 export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
@@ -42,7 +41,7 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 					className="flex cursor-pointer items-center space-x-2"
 					onClick={() => navigate(`/settings/secrets/${row.original.id}`)}
 				>
-					<LockIcon />
+					<LockIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
 					<div className="flex flex-col">
 						<div className="flex flex-row space-x-1">
 							<span className="text-text-md font-semibold text-theme-text-primary">
