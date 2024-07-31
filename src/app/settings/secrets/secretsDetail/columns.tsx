@@ -20,7 +20,7 @@ const ValueCell: React.FC<{ value: unknown }> = ({ value }) => {
 	);
 };
 
-export function getSecretDetailColumn(isAdmin: any): ColumnDef<any>[] {
+export function getSecretDetailColumn(secretId: any): ColumnDef<any>[] {
 	const columns: ColumnDef<any>[] = [
 		{
 			id: "key",
@@ -47,13 +47,11 @@ export function getSecretDetailColumn(isAdmin: any): ColumnDef<any>[] {
 		}
 	];
 
-	if (isAdmin) {
-		columns.push({
-			id: "actions",
-			header: "Actions",
-			cell: () => <SecretTableDropDown />
-		});
-	}
+	columns.push({
+		id: "actions",
+		header: "Actions",
+		cell: ({ row }) => <SecretTableDropDown secretId={secretId} keyName={row.getValue("key")} />
+	});
 
 	return columns;
 }

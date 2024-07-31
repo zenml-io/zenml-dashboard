@@ -72,7 +72,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 
 			<div className="w-full">
 				{secretDetail ? (
-					<DataTable columns={getSecretDetailColumn(isAdmin)} data={filteredData} />
+					<DataTable columns={getSecretDetailColumn(secretId)} data={filteredData} />
 				) : (
 					<></>
 				)}
