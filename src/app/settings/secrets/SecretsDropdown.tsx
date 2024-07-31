@@ -64,6 +64,8 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 							setDropdownOpen(false);
 							setEditDialogOpen(false);
 						}}
+						isSecretNameEditable={true}
+						dialogTitle="Edit secret"
 					></EditSecretDialog>
 				</AlertDialogItem>
 				<AlertDialogItem

@@ -35,13 +35,6 @@ export async function fetchAllSecrets({ params }: SecretsOverview) {
 	return res.json();
 }
 
-// export function useAllSecrets() {
-//   return useQuery({
-//     queryKey: ["secrets"],
-//     queryFn: fetchAllSecrets,
-//   });
-// }
-
 export function useAllSecrets(
 	params: SecretsOverview,
 	options?: Omit<UseQueryOptions<SecretsPage, FetchError>, "queryKey" | "queryFn">
