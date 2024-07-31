@@ -9,7 +9,7 @@ const entries = ["Infrastructure Type", "Cloud Provider", "Review Configuration"
 export default function StackWithNewInfrastructurePage() {
 	const { success } = parseWizardData();
 	return (
-		<WizardProvider maxSteps={entries.length + 1} initialStep={success ? 3 : 1}>
+		<WizardProvider maxSteps={entries.length} initialStep={success ? 3 : 1}>
 			<NewInfraFormProvider>
 				<section className="layout-container flex flex-col gap-5 p-5 xl:flex-row">
 					<LeftSideMenu entries={entries} />
