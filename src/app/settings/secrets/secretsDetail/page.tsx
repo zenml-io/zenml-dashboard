@@ -5,9 +5,7 @@ import SecretDetailTable from "./SecretDetailTable";
 
 export default function SecretDetailsPage() {
 	const { secretId } = useParams<{ secretId: string }>() || "";
-	console.log("from secret detail apge", secretId);
-	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId || "");
-	console.log(secretDetail, isLoading, isError);
+	const { data: secretDetail } = useGetSecretDetail(secretId || "");
 
 	return (
 		<>

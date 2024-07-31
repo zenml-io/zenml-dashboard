@@ -10,29 +10,6 @@ import { NavigateFunction } from "react-router-dom";
 export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
 	return [
 		{
-			id: "select",
-			header: ({ table }) => (
-				<input
-					type="checkbox"
-					style={{ borderRadius: 5 }}
-					{...{
-						checked: table.getIsAllPageRowsSelected(),
-						onChange: table.getToggleAllPageRowsSelectedHandler()
-					}}
-				/>
-			),
-			cell: ({ row }) => (
-				<input
-					type="checkbox"
-					style={{ borderRadius: 5 }}
-					{...{
-						checked: row.getIsSelected(),
-						onChange: row.getToggleSelectedHandler()
-					}}
-				/>
-			)
-		},
-		{
 			id: "secret",
 			header: "Secret",
 			accessorFn: (row) => row.name,
@@ -53,10 +30,7 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 				</div>
 			)
 		},
-		{
-			id: "keys",
-			header: "Keys"
-		},
+
 		{
 			id: "author",
 			header: "Author",

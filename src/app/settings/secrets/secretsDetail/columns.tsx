@@ -23,29 +23,6 @@ const ValueCell: React.FC<{ value: unknown }> = ({ value }) => {
 export function getSecretDetailColumn(isAdmin: any): ColumnDef<any>[] {
 	const columns: ColumnDef<any>[] = [
 		{
-			id: "select",
-			header: ({ table }) => (
-				<input
-					type="checkbox"
-					style={{ borderRadius: 5 }}
-					{...{
-						checked: table.getIsAllPageRowsSelected(),
-						onChange: table.getToggleAllPageRowsSelectedHandler()
-					}}
-				/>
-			),
-			cell: ({ row }) => (
-				<input
-					type="checkbox"
-					style={{ borderRadius: 5 }}
-					{...{
-						checked: row.getIsSelected(),
-						onChange: row.getToggleSelectedHandler()
-					}}
-				/>
-			)
-		},
-		{
 			id: "key",
 			header: "Key",
 			accessorKey: "key",
