@@ -1,18 +1,15 @@
-import { SearchField } from "@/components/SearchField";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { Button, DataTable } from "@zenml-io/react-component-library";
+import { Button, DataTable, Input } from "@zenml-io/react-component-library";
 import { getSecretDetailColumn } from "./columns";
-import { useSecretOverviewSearchParams } from "../service";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
 import { EditSecretDialog } from "../EditSecretDialog";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 export default function SecretDetailTable({ secretId }: { secretId: string }) {
-	const queryParams = useSecretOverviewSearchParams();
 	const [editDialogOpen, setEditDialogOpen] = useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const { data: secretDetail } = useGetSecretDetail(secretId);
-
 	const { data: currentUser } = useCurrentUser();
 
 	const isAdmin = currentUser?.body?.is_admin || undefined;
@@ -31,10 +28,24 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 			}))
 		: [];
 
+	// Filter data based on search input
+	const filteredData = useMemo(() => {
+		if (!searchTerm) return secretDetailData;
+		return secretDetailData.filter((item) =>
+			item.key.toLowerCase().includes(searchTerm.toLowerCase())
+		);
+	}, [searchTerm, secretDetailData]);
+
 	return (
 		<>
 			<div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-				<SearchField searchParams={queryParams} />
+				<Input
+					type="text"
+					placeholder="Search by key..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					inputSize="md"
+				/>
 
 				<Button
 					size="sm"
@@ -61,7 +72,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 
 			<div className="w-full">
 				{secretDetail ? (
-					<DataTable columns={getSecretDetailColumn(isAdmin)} data={secretDetailData} />
+					<DataTable columns={getSecretDetailColumn(isAdmin)} data={filteredData} />
 				) : (
 					<></>
 				)}
