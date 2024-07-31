@@ -1,29 +1,22 @@
 import { SearchField } from "@/components/SearchField";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { AddSecretDialog } from "../AddSecretDialog";
-import { DataTable } from "@zenml-io/react-component-library";
+import { Button, DataTable } from "@zenml-io/react-component-library";
 import { getSecretDetailColumn } from "./columns";
-import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
 import { useSecretOverviewSearchParams } from "../service";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { EditSecretDialog } from "../EditSecretDialog";
+import { useState } from "react";
 
 export default function SecretDetailTable({ secretId }: { secretId: string }) {
 	const queryParams = useSecretOverviewSearchParams();
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
 
 	const { data: secretDetail } = useGetSecretDetail(secretId);
 
 	const { data: currentUser } = useCurrentUser();
 
-	const workspaceName = currentUser?.name;
 	const isAdmin = currentUser?.body?.is_admin || undefined;
 
-	const {
-		data: workspaceData,
-		isLoading,
-		isError
-	} = useGetWorkSpaceDetail(workspaceName || "", {
-		enabled: !!workspaceName
-	});
 	// Prepare data for DataTable
 	const secretDetailData = secretDetail
 		? Object.entries(secretDetail.body.values).map(([key, value]) => ({
@@ -40,29 +33,38 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 
 	return (
 		<>
-			<div className="flex flex-wrap items-center justify-between gap-2">
+			<div className="mb-4 flex flex-wrap items-center justify-between gap-2">
 				<SearchField searchParams={queryParams} />
 
-				{isAdmin && workspaceName && (
-					<>
-						{isLoading ? (
-							<div>Loading...</div>
-						) : isError ? (
-							<div>Error loading workspace details.</div>
-						) : (
-							<AddSecretDialog id={currentUser.id} workspace={workspaceData} />
-						)}
-					</>
-				)}
+				<Button
+					size="sm"
+					intent="primary"
+					onClick={() => {
+						setEditDialogOpen(true);
+					}}
+				>
+					Add key
+				</Button>
 			</div>
-			<div className="flex flex-col items-center gap-5">
-				<div className="w-full">
-					{secretDetail ? (
-						<DataTable columns={getSecretDetailColumn(isAdmin)} data={secretDetailData} />
-					) : (
-						<></>
-					)}
-				</div>
+
+			{isAdmin && (
+				<EditSecretDialog
+					secretId={secretId}
+					isOpen={editDialogOpen}
+					onClose={() => {
+						setEditDialogOpen(false);
+					}}
+					isSecretNameEditable={false}
+					dialogTitle="Add keys"
+				/>
+			)}
+
+			<div className="w-full">
+				{secretDetail ? (
+					<DataTable columns={getSecretDetailColumn(isAdmin)} data={secretDetailData} />
+				) : (
+					<></>
+				)}
 			</div>
 		</>
 	);

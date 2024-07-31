@@ -17,32 +17,21 @@ export default function SecretsTable() {
 	);
 	const { data: currentUser } = useCurrentUser();
 
-	const workspaceName = currentUser?.name;
-	const isAdmin = currentUser?.body?.is_admin;
+	const userId = currentUser?.id || "";
 
-	const {
-		data: workspaceData,
-		isLoading,
-		isError
-	} = useGetWorkSpaceDetail(workspaceName || "", {
-		enabled: !!workspaceName
-	});
+	const { data: workspaceData, isLoading, isError } = useGetWorkSpaceDetail("default");
 
 	return (
 		<>
 			<div className="flex flex-wrap items-center justify-between gap-2">
 				<SearchField searchParams={queryParams} />
 
-				{isAdmin && workspaceName && (
-					<>
-						{isLoading ? (
-							<div>Loading...</div>
-						) : isError ? (
-							<div>Error loading workspace details.</div>
-						) : (
-							<AddSecretDialog id={currentUser.id} workspace={workspaceData} />
-						)}
-					</>
+				{isLoading ? (
+					<div>Loading...</div>
+				) : isError ? (
+					<div>Error loading workspace details.</div>
+				) : (
+					<AddSecretDialog id={userId} workspace={workspaceData} />
 				)}
 			</div>
 			<div className="flex flex-col items-center gap-5">
