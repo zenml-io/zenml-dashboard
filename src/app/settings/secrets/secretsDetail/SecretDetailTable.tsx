@@ -50,7 +50,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 				/>
 
 				<Button size="sm" intent="primary" onClick={() => setEditDialogOpen(true)}>
-					Add key
+					Edit Keys
 				</Button>
 			</div>
 
