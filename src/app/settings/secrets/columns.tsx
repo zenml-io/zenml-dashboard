@@ -7,6 +7,8 @@ import SecretsDropdown from "./SecretsDropdown";
 import LockIcon from "@/assets/icons/lock-icon.svg?react";
 import { NavigateFunction } from "react-router-dom";
 import { CopyButton } from "@/components/CopyButton";
+import { User } from "@/types/user";
+import { getUsername } from "@/lib/user";
 
 export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
 	return [
@@ -36,12 +38,15 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => row.body?.user?.body?.full_name,
-			cell: ({ getValue }) => (
-				<>
-					<InlineAvatar username={getValue<string>()} />
-				</>
-			)
+			accessorFn: (row) => row.body?.user,
+			cell: ({ getValue }) => {
+				const user = getValue<User>();
+				return (
+					<>
+						<InlineAvatar username={getUsername(user)} />
+					</>
+				);
+			}
 		},
 		{
 			id: "created_at",

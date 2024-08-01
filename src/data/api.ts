@@ -67,7 +67,8 @@ export const apiPaths = {
 	},
 	workspaces: {
 		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
-     fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`
+		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`
+	}
 };
 
 export function createApiPath(path: string) {
