@@ -66,7 +66,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 						setEditDialogOpen(false);
 					}}
 					isSecretNameEditable={false}
-					dialogTitle="Add keys"
+					dialogTitle="Edit keys"
 				/>
 			)}
 

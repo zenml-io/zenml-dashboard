@@ -6,10 +6,9 @@ import {
 } from "@zenml-io/react-component-library";
 
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import { ElementRef, useEffect, useRef, useState } from "react";
+import { ElementRef, useRef, useState } from "react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import DeleteIcon from "@/assets/icons/icon-trash.svg?react";
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
 import { DeleteKeyAlert } from "./DeleteKeyAlert";
 
 export default function SecretTableDropDown({
@@ -22,7 +21,6 @@ export default function SecretTableDropDown({
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [hasOpenDialog] = useState(false);
-	const { data: secretDetail } = useGetSecretDetail(secretId);
 
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
@@ -34,14 +32,6 @@ export default function SecretTableDropDown({
 		setDeleteDialogOpen(true);
 	}
 
-	useEffect(() => {
-		if (secretDetail) {
-			// Delete the key-value pair
-			const updatedValues = { ...secretDetail.body.values };
-			console.log(updatedValues);
-			delete updatedValues[keyName];
-		}
-	}, []);
 	return (
 		<DropdownMenu onOpenChange={setDropdownOpen} open={dropdownOpen}>
 			<DropdownMenuTrigger ref={dropdownTriggerRef}>

@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import SecretsDropdown from "./SecretsDropdown";
 import LockIcon from "@/assets/icons/lock-icon.svg?react";
 import { NavigateFunction } from "react-router-dom";
+import { CopyButton } from "@/components/CopyButton";
 
 export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
 	return [
@@ -14,16 +15,17 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 			header: "Secret",
 			accessorFn: (row) => row.name,
 			cell: ({ getValue, row }) => (
-				<div
-					className="flex cursor-pointer items-center space-x-2"
-					onClick={() => navigate(`/settings/secrets/${row.original.id}`)}
-				>
+				<div className="flex cursor-pointer items-center space-x-2">
 					<LockIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
 					<div className="flex flex-col">
-						<div className="flex flex-row space-x-1">
-							<span className="text-text-md font-semibold text-theme-text-primary">
+						<div className="group/copybutton flex flex flex-row items-center gap-0.5 space-x-1">
+							<span
+								className=" text-text-md font-semibold text-theme-text-primary"
+								onClick={() => navigate(`/settings/secrets/${row.original.id}`)}
+							>
 								{getValue<string>()}
 							</span>
+							<CopyButton copyText={getValue<string>()} />
 						</div>
 						<span className="text-sm text-gray-500"> {row.original.id.slice(0, 8)}</span>
 					</div>
@@ -53,7 +55,7 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 		},
 		{
 			id: "admin_actions",
-			header: "Actions",
+			header: "",
 			accessorFn: (row) => String(row.id),
 			cell: ({ row, getValue }) => {
 				const secretId = getValue() as string;

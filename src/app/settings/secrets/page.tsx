@@ -11,8 +11,7 @@ export default function SecretsPage() {
 				</p>
 				<a
 					href="https://docs.zenml.io/how-to/interact-with-secrets"
-					className="text-text-md"
-					style={{ color: "#7A3EF4" }}
+					className="text-text-md  text-primary-400"
 				>
 					Learn More
 				</a>

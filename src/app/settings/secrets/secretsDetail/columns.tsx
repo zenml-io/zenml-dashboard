@@ -44,14 +44,13 @@ export function getSecretDetailColumn(secretId: any): ColumnDef<any>[] {
 			header: "Value",
 			accessorKey: "value",
 			cell: ({ row }) => <ValueCell value={row.getValue("value")} />
+		},
+		{
+			id: "actions",
+			header: "",
+			cell: ({ row }) => <SecretTableDropDown secretId={secretId} keyName={row.getValue("key")} />
 		}
 	];
-
-	columns.push({
-		id: "actions",
-		header: "Actions",
-		cell: ({ row }) => <SecretTableDropDown secretId={secretId} keyName={row.getValue("key")} />
-	});
 
 	return columns;
 }
