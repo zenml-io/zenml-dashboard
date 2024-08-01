@@ -8,7 +8,7 @@ import {
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import { ElementRef, useRef, useState } from "react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
-import DeleteIcon from "@/assets/icons/icon-trash.svg?react";
+import DeleteIcon from "@/assets/icons/trash.svg?react";
 import { DeleteKeyAlert } from "./DeleteKeyAlert";
 
 export default function SecretTableDropDown({
@@ -53,7 +53,7 @@ export default function SecretTableDropDown({
 					onSelect={handleDialogItemSelect}
 					onOpenChange={handleDialogItemOpenChange}
 					triggerChildren="Delete "
-					icon={<DeleteIcon fill="red" />}
+					icon={<DeleteIcon />}
 				>
 					<DeleteKeyAlert
 						isOpen={deleteDialogOpen}

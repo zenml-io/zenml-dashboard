@@ -4,8 +4,8 @@ import {
 	DropdownMenuContent,
 	AlertDialogTrigger
 } from "@zenml-io/react-component-library";
-import EditIcon from "@/assets/icons/edit-icon.svg?react";
-import DeleteIcon from "@/assets/icons/icon-trash.svg?react";
+import EditIcon from "@/assets/icons/edit.svg?react";
+import DeleteIcon from "@/assets/icons/trash.svg?react";
 
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
@@ -55,7 +55,7 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 					onSelect={handleDialogItemSelect}
 					onOpenChange={handleEditDialogOpenChange}
 					triggerChildren="Edit "
-					icon={<EditIcon fill="red" />}
+					icon={<EditIcon />}
 				>
 					<EditSecretDialog
 						secretId={secretId}
@@ -72,7 +72,7 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 					onSelect={handleDialogItemSelect}
 					onOpenChange={handleDialogItemOpenChange}
 					triggerChildren="Delete "
-					icon={<DeleteIcon fill="red" />}
+					icon={<DeleteIcon />}
 				>
 					<DeleteSecretAlert
 						isOpen={deleteDialogOpen}

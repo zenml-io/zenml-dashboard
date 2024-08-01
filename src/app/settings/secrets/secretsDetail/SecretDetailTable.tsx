@@ -12,21 +12,23 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 	const { data: secretDetail } = useGetSecretDetail(secretId);
 	const { data: currentUser } = useCurrentUser();
 
-	const isAdmin = currentUser?.body?.is_admin || undefined;
+	const isAdmin = currentUser?.body?.is_admin;
 
 	// Prepare data for DataTable
-	const secretDetailData = secretDetail
-		? Object.entries(secretDetail.body.values).map(([key, value]) => ({
-				id: secretDetail.id,
-				name: secretDetail.name,
-				key,
-				value,
-				scope: secretDetail.body.scope,
-				created: secretDetail.body.created,
-				updated: secretDetail.body.updated,
-				user: secretDetail.body.user
-			}))
-		: [];
+	const secretDetailData = useMemo(() => {
+		return secretDetail
+			? Object.entries(secretDetail.body.values).map(([key, value]) => ({
+					id: secretDetail.id,
+					name: secretDetail.name,
+					key,
+					value,
+					scope: secretDetail.body.scope,
+					created: secretDetail.body.created,
+					updated: secretDetail.body.updated,
+					user: secretDetail.body.user
+				}))
+			: [];
+	}, [secretDetail]);
 
 	// Filter data based on search input
 	const filteredData = useMemo(() => {
@@ -34,7 +36,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 		return secretDetailData.filter((item) =>
 			item.key.toLowerCase().includes(searchTerm.toLowerCase())
 		);
-	}, [searchTerm]);
+	}, [searchTerm, secretDetailData]);
 
 	return (
 		<>
@@ -47,13 +49,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 					inputSize="md"
 				/>
 
-				<Button
-					size="sm"
-					intent="primary"
-					onClick={() => {
-						setEditDialogOpen(true);
-					}}
-				>
+				<Button size="sm" intent="primary" onClick={() => setEditDialogOpen(true)}>
 					Add key
 				</Button>
 			</div>
@@ -62,19 +58,15 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 				<EditSecretDialog
 					secretId={secretId}
 					isOpen={editDialogOpen}
-					onClose={() => {
-						setEditDialogOpen(false);
-					}}
+					onClose={() => setEditDialogOpen(false)}
 					isSecretNameEditable={false}
 					dialogTitle="Edit keys"
 				/>
 			)}
 
 			<div className="w-full">
-				{secretDetail ? (
+				{secretDetail && (
 					<DataTable columns={getSecretDetailColumn(secretId)} data={filteredData} />
-				) : (
-					<></>
 				)}
 			</div>
 		</>

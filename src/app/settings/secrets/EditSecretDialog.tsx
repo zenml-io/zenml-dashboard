@@ -11,7 +11,7 @@ import {
 	useToast
 } from "@zenml-io/react-component-library";
 import PlusIcon from "@/assets/icons/secret-add.svg?react";
-import DeleteIcon from "@/assets/icons/secret-delete.svg?react";
+import DeleteIcon from "@/assets/icons/trash.svg?react";
 import EyeIcon from "@/assets/icons/eye.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpdateSecret } from "@/data/secrets/update-secret-query";
@@ -218,7 +218,7 @@ export function EditSecret({ secretId, onClose, isSecretNameEditable }: EditSecr
 								)}
 								{index !== fields.length - 1 && (
 									<div onClick={() => remove(index)} className="mb-2 ml-2">
-										<DeleteIcon />
+										<DeleteIcon className="h-6 w-7 flex-shrink-0 cursor-pointer fill-theme-text-secondary" />
 									</div>
 								)}
 							</div>

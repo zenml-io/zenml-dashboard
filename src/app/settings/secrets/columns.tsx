@@ -4,7 +4,7 @@ import { InlineAvatar } from "@/components/InlineAvatar";
 import { SecretNamespace } from "@/types/secret";
 import { ColumnDef } from "@tanstack/react-table";
 import SecretsDropdown from "./SecretsDropdown";
-import LockIcon from "@/assets/icons/lock-icon.svg?react";
+import LockIcon from "@/assets/icons/Lock.svg?react";
 import { NavigateFunction } from "react-router-dom";
 import { CopyButton } from "@/components/CopyButton";
 import { User } from "@/types/user";
@@ -18,7 +18,7 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 			accessorFn: (row) => row.name,
 			cell: ({ getValue, row }) => (
 				<div className="flex cursor-pointer items-center space-x-2">
-					<LockIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
+					<LockIcon className="h-4 w-4 flex-shrink-0 cursor-pointer fill-primary-400" />
 					<div className="flex flex-col">
 						<div className="group/copybutton flex flex flex-row items-center gap-0.5 space-x-1">
 							<span
