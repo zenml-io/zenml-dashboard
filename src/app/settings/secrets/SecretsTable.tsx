@@ -2,11 +2,12 @@ import { SearchField } from "@/components/SearchField";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { AddSecretDialog } from "./AddSecretDialog";
 import { useAllSecrets } from "@/data/secrets/secrets-all-query";
-import { DataTable } from "@zenml-io/react-component-library";
+import { DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { getSecretColumns } from "./columns";
 import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
 import { useSecretOverviewSearchParams } from "./service";
 import { useNavigate } from "react-router-dom";
+import Pagination from "@/components/Pagination";
 
 export default function SecretsTable() {
 	const navigate = useNavigate();
@@ -39,9 +40,16 @@ export default function SecretsTable() {
 					{secretsData ? (
 						<DataTable columns={getSecretColumns(navigate)} data={secretsData.items} />
 					) : (
-						<></>
+						<Skeleton className="h-[250px] w-full" />
 					)}
 				</div>
+				{secretsData ? (
+					secretsData.total_pages > 1 && (
+						<Pagination searchParams={queryParams} paginate={secretsData} />
+					)
+				) : (
+					<Skeleton className="h-[36px] w-[300px]" />
+				)}
 			</div>
 		</>
 	);
