@@ -5,8 +5,8 @@ import { StackDeploymentProvider } from "@/types/stack";
 import { Box, Spinner } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
-import { AWSComponents, awsPrizes } from "./AWS";
-import { gcpPrizes } from "./GCP";
+import { AWSComponents } from "./AWS";
+import { GcpComponents } from "./GCP";
 
 export type ProviderComponents = {
 	stackName: string;
@@ -18,6 +18,7 @@ export type ProviderComponents = {
 		artifactStore?: Component;
 		registry?: Component;
 		orchestrator?: Component;
+		imageBuilder?: Component;
 	};
 };
 
@@ -32,8 +33,8 @@ export function CloudComponents({ componentProps, type }: Props) {
 	switch (type) {
 		case "aws":
 			return <AWSComponents {...componentProps} />;
-		// case "gcp":
-		// 	return <GcpComponents {...componentProps} />;
+		case "gcp":
+			return <GcpComponents {...componentProps} />;
 	}
 }
 
@@ -72,14 +73,22 @@ export function ComponentListItem({
 
 export function EstimateCosts() {
 	const { data } = useNewInfraFormContext();
-	gcpPrizes;
-	function getPrizes() {
+
+	function PricingCalculatorLink() {
+		let link = "#";
 		switch (data.provider) {
 			case "aws":
-				return awsPrizes;
-			// case "gcp":
-			// 	return gcpPrizes;
+				link = "https://calculator.aws/#/";
+				break;
+			case "gcp":
+				link = "https://cloud.google.com/products/calculator";
 		}
+
+		return (
+			<a href={link} target="_blank" rel="noopener noreferrer" className="link">
+				official pricing calculator
+			</a>
+		);
 	}
 
 	return (
@@ -99,25 +108,11 @@ export function EstimateCosts() {
 				</div>
 				<div>
 					<p>
-						Processing jobs:{" "}
-						<span className="font-semibold text-theme-text-secondary">
-							{getPrizes()?.orchestratorCosts}
-						</span>{" "}
-						<span className="text-theme-text-secondary">per hour</span>
+						A small training job would cost around:{" "}
+						<span className="font-semibold text-theme-text-success">$0.60</span>
 					</p>
-					<p>
-						200GB of general storage:{" "}
-						<span className="font-semibold text-theme-text-secondary">
-							{getPrizes()?.storageCosts}
-						</span>{" "}
-						<span className="text-theme-text-secondary">per month</span>
-					</p>
-					{/* <p>
-						An average processing example would cost:{" "}
-						<span className="font-semibold text-theme-text-success">$0.3112</span>
-					</p> */}
-					<p className="pt-3 text-text-xs text-theme-text-secondary">
-						Use the official pricing Calculator for a detailed estimate
+					<p className="text-text-xs text-theme-text-secondary">
+						Please use the <PricingCalculatorLink /> for a detailed estimate
 					</p>
 				</div>
 			</Box>

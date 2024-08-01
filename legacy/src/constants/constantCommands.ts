@@ -32,7 +32,7 @@ export const constantCommandsToCreateStack = {
 export const constantCommandsToCreateSecret = {
   title: 'Stack Cheatsheet',
   documentation:
-    'https://docs.zenml.io/getting-started/deploying-zenml/manage-the-deployed-services/secret-management',
+    'https://docs.zenml.io/getting-started/deploying-zenml/secret-management',
 };
 
 export const constantCommandsToCreateRepository = {

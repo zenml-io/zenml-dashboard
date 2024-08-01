@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
-import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { WizardStepWrapper } from "../../Wizard";
-import { ProvisioningStep } from "./ProvisioningStep";
 import { DeployButtonPart } from "./ButtonStep";
+import { ProvisioningStep } from "./ProvisioningStep";
 
 export function DeployStep() {
 	return (
@@ -14,8 +13,7 @@ export function DeployStep() {
 }
 
 function DisplaySteps() {
-	const { isLoading } = useNewInfraWizardContext();
-	const { setIsNextButtonDisabled } = useNewInfraFormContext();
+	const { setIsNextButtonDisabled, isLoading } = useNewInfraFormContext();
 	useEffect(() => {
 		setIsNextButtonDisabled(true);
 	}, []);

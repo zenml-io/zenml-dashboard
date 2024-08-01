@@ -16,7 +16,7 @@ export function Region() {
 					Choose Your Location
 				</p>
 				<p className="text-theme-text-secondary">
-					Select where you want to deploy your Cloud components for optimal performance and
+					Select where you want to deploy your cloud infrastructure for optimal performance and
 					compliance.
 				</p>
 			</div>

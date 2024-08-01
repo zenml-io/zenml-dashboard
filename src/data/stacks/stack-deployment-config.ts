@@ -1,16 +1,15 @@
-import { StackDeploymentURLQueryParams, StackDeploymentURLResponse } from "@/types/stack";
+import { StackDeploymentConfigQueryParams, StackDeploymentConfig } from "@/types/stack";
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
 import { objectToSearchParams } from "@/lib/url";
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 
-export async function fetchStackDeploymentUrl(
-	queryParams: StackDeploymentURLQueryParams
-): Promise<StackDeploymentURLResponse> {
+export async function fetchStackDeploymentConfig(
+	queryParams: StackDeploymentConfigQueryParams
+): Promise<StackDeploymentConfig> {
 	const url =
-		createApiPath(apiPaths.stackDeployment.url) +
+		createApiPath(apiPaths.stackDeployment.config) +
 		(queryParams ? `?${objectToSearchParams(queryParams)}` : "");
 	const res = await fetcher(url, {
 		method: "GET",
@@ -30,7 +29,7 @@ export async function fetchStackDeploymentUrl(
 				}
 				return data.detail;
 			})
-			.catch(() => "Error while fetching stack deployment url");
+			.catch(() => "Error while fetching stack deployment config");
 		throw new FetchError({
 			status: res.status,
 			statusText: res.statusText,
@@ -38,18 +37,4 @@ export async function fetchStackDeploymentUrl(
 		});
 	}
 	return res.json();
-}
-
-export function useDeploymentUrl(
-	options?: Omit<
-		UseMutationOptions<StackDeploymentURLResponse, FetchError, StackDeploymentURLQueryParams>,
-		"mutationFn"
-	>
-) {
-	return useMutation<StackDeploymentURLResponse, FetchError, StackDeploymentURLQueryParams>({
-		mutationFn: async (payload) => {
-			return fetchStackDeploymentUrl(payload);
-		},
-		...options
-	});
 }

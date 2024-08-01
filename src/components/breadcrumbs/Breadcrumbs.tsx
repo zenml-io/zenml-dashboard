@@ -71,7 +71,7 @@ export function Breadcrumbs() {
 									<span
 										className={`
 											${isLastOne ? "pointer-events-none text-theme-text-primary" : "text-theme-text-secondary"}
-											ml-1 flex items-center text-text-md font-semibold capitalize`}
+											ml-1 flex items-center text-text-md font-semibold`}
 									>
 										{formatIdToTitleCase(value?.name as string)}
 									</span>
@@ -80,7 +80,7 @@ export function Breadcrumbs() {
 								<Link
 									className={`${isLastOne || segment === "settings" ? "pointer-events-none" : ""} 
 									${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"}
-									rounded-sm p-0.5 px-1 text-text-md  capitalize hover:text-purple-900 hover:underline`}
+									rounded-sm p-0.5 px-1 text-text-md hover:text-purple-900 hover:underline`}
 									to={matchSegmentWithURL(segment, value?.id as string)}
 								>
 									{typeof value?.name === "string" ? (

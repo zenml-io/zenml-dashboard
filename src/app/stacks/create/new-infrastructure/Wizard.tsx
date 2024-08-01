@@ -1,16 +1,18 @@
+import { useWizardContext } from "@/context/WizardContext";
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { CancelButton } from "../components/CancelButton";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
-import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
 import { DeployStep } from "./Steps/Deploy";
 import { ProviderStep } from "./Steps/Provider";
 import { SuccessStep } from "./Steps/Success/SuccessStep";
+import { clearWizardData } from "./persist";
 
 export function CreateNewInfraWizard() {
-	const { currentStep } = useNewInfraWizardContext();
+	const { currentStep } = useWizardContext();
 	if (currentStep === 1) return <ProviderStep />;
 	if (currentStep === 2) return <ConfigurationStep />;
 	if (currentStep === 3) return <DeployStep />;
@@ -19,9 +21,11 @@ export function CreateNewInfraWizard() {
 
 function NextButton() {
 	const maxSteps = 4;
-	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
+	const [searchParams] = useSearchParams();
+	const { setCurrentStep, currentStep } = useWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 	const navigate = useNavigate();
+	const isFromOnboarding = searchParams.get("origin") === "onboarding";
 
 	async function nextStep() {
 		if (formRef.current) {
@@ -38,7 +42,8 @@ function NextButton() {
 		});
 
 		if (currentStep === maxSteps) {
-			navigate(routes.stacks.overview);
+			clearWizardData();
+			navigate(isFromOnboarding ? routes.onboarding : routes.stacks.overview);
 		}
 	}
 
@@ -54,33 +59,6 @@ function NextButton() {
 	);
 }
 
-// function PrevButton() {
-// 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
-
-// 	function previousStep() {
-// 		setCurrentStep((prev) => {
-// 			if (prev > 1) {
-// 				return prev - 1;
-// 			}
-// 			return prev;
-// 		});
-// 	}
-
-// 	return (
-// 		<Button disabled={currentStep === 1} onClick={previousStep} emphasis="subtle" size="md">
-// 			Prev
-// 		</Button>
-// 	);
-// }
-
-function CancelButton() {
-	return (
-		<Button intent="secondary" size="md">
-			<Link to={routes.stacks.create.index}>Cancel</Link>
-		</Button>
-	);
-}
-
 export function WizardStepWrapper({ children, title }: { children: ReactNode; title: ReactNode }) {
 	return (
 		<Box className="w-full">
@@ -90,7 +68,6 @@ export function WizardStepWrapper({ children, title }: { children: ReactNode; ti
 			<div className="p-5">{children}</div>
 			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
 				<CancelButton />
-				{/* <PrevButton /> */}
 				<NextButton />
 			</div>
 		</Box>

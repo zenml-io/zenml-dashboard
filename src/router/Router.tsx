@@ -37,6 +37,9 @@ const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const CreateStack = lazy(() => import("@/app/stacks/create/page"));
 const CreateStackNewInfra = lazy(() => import("@/app/stacks/create/new-infrastructure/page"));
+const CreateStackExistingInfra = lazy(
+	() => import("@/app/stacks/create/existing-infrastructure/page")
+);
 
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -238,6 +241,15 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<CreateStackNewInfra />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.create.existingInfra}
+							element={
+								<ProtectedRoute>
+									<CreateStackExistingInfra />
 								</ProtectedRoute>
 							}
 						/>

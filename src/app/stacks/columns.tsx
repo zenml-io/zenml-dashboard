@@ -5,6 +5,8 @@ import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
+import { StackActionsMenu } from "./ActionsDropdown";
+import { StackSheet } from "@/components/stacks/Sheet";
 
 export function getStackColumns(): ColumnDef<Stack>[] {
 	return [
@@ -21,7 +23,9 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 						</Avatar>
 						<div>
 							<div className="flex items-center gap-1">
-								<h2 className="text-text-md font-semibold">{name}</h2>
+								<StackSheet stackName={name} stackId={id}>
+									<h2 className="text-text-md font-semibold">{name}</h2>
+								</StackSheet>
 							</div>
 							<div className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
@@ -50,6 +54,14 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 				const { author } = getValue<{ author?: User }>();
 				if (!author) return null;
 				return <InlineAvatar username={author.name} />;
+			}
+		},
+		{
+			id: "actions",
+			header: "",
+			accessorKey: "name",
+			cell: ({ getValue }) => {
+				return <StackActionsMenu name={getValue<string>()} />;
 			}
 		}
 	];

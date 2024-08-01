@@ -7,9 +7,9 @@ export function InfoBox() {
 	return (
 		<InfoBoxPrimitive>
 			<div className="flex w-full flex-wrap items-center gap-x-2 gap-y-0.5 text-text-md">
-				<p className="font-semibold">This is a ZenML Cloud feature. </p>
+				<p className="font-semibold">This is a ZenML Pro feature. </p>
 				<p>
-					Upgrade to ZenML Cloud to access the Model Control Plane and interact with your models in
+					Upgrade to ZenML Pro to access the Model Control Plane and interact with your models in
 					the Dashboard.
 				</p>
 			</div>

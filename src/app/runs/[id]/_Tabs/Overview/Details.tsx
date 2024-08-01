@@ -87,9 +87,6 @@ export function Details() {
 							>
 								<Pipelines className="h-4 w-4 fill-theme-text-brand" />
 								{data.body?.pipeline?.name}
-								<div className="rounded-sm bg-primary-50 px-1 py-0.25">
-									{data.body?.pipeline?.body?.version}
-								</div>
 							</Tag>
 						</Link>
 					</Value>

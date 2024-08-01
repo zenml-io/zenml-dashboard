@@ -1,19 +1,21 @@
 import Configuration from "@/assets/icons/tool-02.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { CloudProviderIcon } from "@/components/ProviderIcon";
+import { useWizardContext } from "@/context/WizardContext";
 import { stackQueries } from "@/data/stacks";
 import { StackDeploymentStack } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
-import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { CloudComponents } from "../../Providers";
+import { GCPCodesnippet } from "../../Providers/GCP";
+import { clearWizardData } from "../../persist";
 import { DeploymentButton } from "./ButtonStep";
 
 export function ProvisioningStep() {
 	const { data, timestamp, setIsNextButtonDisabled } = useNewInfraFormContext();
-	const { setCurrentStep } = useNewInfraWizardContext();
+	const { setCurrentStep } = useWizardContext();
 
 	const {
 		isPending,
@@ -31,6 +33,7 @@ export function ProvisioningStep() {
 
 	useEffect(() => {
 		if (stackData) {
+			clearWizardData();
 			setCurrentStep((prev) => prev + 1);
 			setIsNextButtonDisabled(false);
 		}
@@ -50,19 +53,22 @@ export function ProvisioningStep() {
 function LoadingHeader() {
 	const { data } = useNewInfraFormContext();
 	return (
-		<Box className="flex items-center justify-between gap-4 px-6 py-5">
-			<div className="flex items-start gap-3">
-				<CloudProviderIcon provider={data.provider!} className="h-6 w-6 shrink-0" />
-				<div>
-					<p className="text-text-lg font-semibold">Deploying the Stack...</p>
-					<p className="text-theme-text-secondary">
-						Follow the steps in your Cloud console to finish the setup. You can come back to check
-						once your components are deployed.
-					</p>
+		<section className="space-y-5 border-b border-theme-border-moderate pb-5">
+			<Box className="flex items-center justify-between gap-4 px-6 py-5">
+				<div className="flex items-start gap-3">
+					<CloudProviderIcon provider={data.provider!} className="h-6 w-6 shrink-0" />
+					<div>
+						<p className="text-text-lg font-semibold">Deploying the Stack...</p>
+						<p className="text-theme-text-secondary">
+							Follow the steps in your Cloud console to finish the setup. You can come back to check
+							once your components are deployed.
+						</p>
+					</div>
 				</div>
-			</div>
-			<DeploymentButton />
-		</Box>
+				<DeploymentButton />
+			</Box>
+			{data.provider === "gcp" && <GCPCodesnippet />}
+		</section>
 	);
 }
 

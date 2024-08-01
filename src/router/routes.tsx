@@ -23,7 +23,8 @@ export const routes = {
 		overview: "/stacks",
 		create: {
 			index: "/stacks/create",
-			newInfra: "/stacks/create/new-infrastructure"
+			newInfra: "/stacks/create/new-infrastructure",
+			existingInfra: "/stacks/create/existing-infrastructure"
 		}
 	},
 	runs: {

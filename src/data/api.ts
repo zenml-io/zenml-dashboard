@@ -5,8 +5,9 @@ export const apiPaths = {
 	currentUser: "/current-user",
 	info: "/info",
 	settings: "/settings",
+	onboarding: "/onboarding_state",
 	pipelines: {
-		namespaces: "/pipeline_namespaces"
+		all: "/pipelines"
 	},
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`,
@@ -34,12 +35,21 @@ export const apiPaths = {
 	},
 	stackDeployment: {
 		info: "/stack-deployment/info",
-		url: "/stack-deployment/url",
+		config: "/stack-deployment/config",
 		stack: "/stack-deployment/stack"
 	},
 	stacks: {
 		all: "/stacks",
 		detail: (stackId: string) => `/stacks/${stackId}`
+	},
+	flavors: {
+		all: "/flavors"
+	},
+	serviceConnectors: {
+		fullStackResources: "/service_connectors/full_stack_resources",
+		types: {
+			detail: (connectorType: string) => `/service_connector_types/${connectorType}`
+		}
 	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
@@ -56,8 +66,8 @@ export const apiPaths = {
 		add: (workspaceId: string) => `/workspaces/${workspaceId}/secrets`
 	},
 	workspaces: {
-		detail: (workspaceName: string) => `/workspaces/${workspaceName}`
-	}
+		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
+     fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`
 };
 
 export function createApiPath(path: string) {
