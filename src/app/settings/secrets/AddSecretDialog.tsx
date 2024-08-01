@@ -1,4 +1,10 @@
-import { useState } from "react";
+import EyeIcon from "@/assets/icons/eye.svg?react";
+import Plus from "@/assets/icons/plus.svg?react";
+import Trash from "@/assets/icons/trash.svg?react";
+import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
+import { isFetchError } from "@/lib/fetch-error";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	Button,
 	Dialog,
@@ -11,15 +17,9 @@ import {
 	Input,
 	useToast
 } from "@zenml-io/react-component-library";
-import PlusIcon from "@/assets/icons/secret-add.svg?react";
-import DeleteIcon from "@/assets/icons/trash.svg?react";
-import EyeIcon from "@/assets/icons/eye.svg?react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
-import { isFetchError } from "@/lib/fetch-error";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { secretFormSchema, SecretFormType } from "./form-schema";
+import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { secretFormSchema, SecretFormType } from "./form-schema";
 
 interface Workspace {
 	id: string;
@@ -187,14 +187,24 @@ export function AddSecret({
 							</div>
 							<div className="flex items-center">
 								{index === fields.length - 1 && (
-									<div onClick={() => append({ key: "", value: "" })} className="mb-2 ml-2">
-										<PlusIcon className="h-7 w-7 flex-shrink-0 cursor-pointer" />
-									</div>
+									<Button
+										intent="primary"
+										emphasis="subtle"
+										onClick={() => append({ key: "", value: "" })}
+										className="mb-2 flex h-7 w-7 items-center justify-center"
+									>
+										<Plus className="flex-shrink-0 fill-primary-600" />
+									</Button>
 								)}
 								{index !== fields.length - 1 && (
-									<div onClick={() => remove(index)} className="mb-2 ml-2 ">
-										<DeleteIcon className="h-6 w-7 flex-shrink-0 cursor-pointer fill-theme-text-secondary" />
-									</div>
+									<Button
+										intent="secondary"
+										emphasis="minimal"
+										onClick={() => remove(index)}
+										className="mb-2 h-7 w-7 items-center justify-center"
+									>
+										<Trash className="flex-shrink-0 fill-theme-text-secondary" />
+									</Button>
 								)}
 							</div>
 						</div>
