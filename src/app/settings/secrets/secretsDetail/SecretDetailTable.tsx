@@ -34,7 +34,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 		return secretDetailData.filter((item) =>
 			item.key.toLowerCase().includes(searchTerm.toLowerCase())
 		);
-	}, [searchTerm, secretDetailData]);
+	}, [searchTerm]);
 
 	return (
 		<>
