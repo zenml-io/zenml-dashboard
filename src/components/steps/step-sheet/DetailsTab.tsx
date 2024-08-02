@@ -1,20 +1,21 @@
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { KeyValue } from "../../KeyValue";
-import { Badge, Skeleton, Tag } from "@zenml-io/react-component-library";
-import { DisplayDate } from "../../DisplayDate";
-import { CollapsibleCard } from "../../CollapsibleCard";
-import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
-import { useStepDetail } from "@/data/steps/step-detail-query";
-import Pipelines from "@/assets/icons/pipeline.svg?react";
-import { calculateTimeDifference } from "@/lib/dates";
-import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
+import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
-import { transformToEllipsis } from "@/lib/strings";
-import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Link } from "react-router-dom";
+import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { useStepDetail } from "@/data/steps/step-detail-query";
+import { calculateTimeDifference } from "@/lib/dates";
+import { transformToEllipsis } from "@/lib/strings";
 import { routes } from "@/router/routes";
+import { Badge, Skeleton, Tag } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
+import { Codesnippet } from "../../CodeSnippet";
+import { CollapsibleCard } from "../../CollapsibleCard";
+import { DisplayDate } from "../../DisplayDate";
+import { ErrorFallback } from "../../Error";
+import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
+import { Key, KeyValue, Value } from "../../KeyValue";
 
 type Props = {
 	stepId: string;
@@ -211,6 +212,14 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								}
 							/>
 						)}
+						<Key className={pipelineRunData.metadata?.code_path ? "col-span-3" : ""}>Code Path</Key>
+						<Value className={pipelineRunData.metadata?.code_path ? "col-span-3 h-auto" : ""}>
+							{pipelineRunData.metadata?.code_path ? (
+								<Codesnippet code={pipelineRunData.metadata.code_path} />
+							) : (
+								"Not available"
+							)}
+						</Value>
 					</>
 				) : (
 					<Skeleton className="h-6 w-full" />
