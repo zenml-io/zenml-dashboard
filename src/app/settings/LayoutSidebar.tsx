@@ -5,7 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage, Skeleton } from "@zenml-io/react-c
 import { SettingsMenu } from "./Menu";
 
 export function DisplayServer() {
-	const { data, isError, isPending } = useServerSettings({ throwOnError: true });
+	const { data, isError, isPending } = useServerSettings({
+		throwOnError: true
+	});
 
 	if (isPending) return <Skeleton className="h-9 w-full" />;
 	if (isError) return null;
@@ -38,7 +40,9 @@ export function ServerSettingsMenu() {
 			},
 			{
 				name: "Secrets",
-				href: routes.settings.secrets.overview
+				href: routes.settings.secrets.overview,
+				isActiveOverride: (pathname: string) =>
+					pathname.startsWith(routes.settings.secrets.overview)
 			},
 			{
 				name: "Connectors",

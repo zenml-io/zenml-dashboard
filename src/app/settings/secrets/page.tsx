@@ -1,17 +1,22 @@
-import { Box, ProgressOutstanding } from "@zenml-io/react-component-library";
-import { Commands, HeaderBox, InfoBox } from "./Fragments";
+import { Box } from "@zenml-io/react-component-library";
+import SecretsTable from "./SecretsTable";
 
 export default function SecretsPage() {
 	return (
 		<Box className="space-y-4 p-5">
 			<h1 className="text-text-xl font-semibold">Secrets</h1>
-			<InfoBox />
-			<HeaderBox />
-			<div className="flex items-center gap-2">
-				<ProgressOutstanding />
-				Administering your Secrets
+			<div className="flex flex-row space-x-2">
+				<p className="text-text-md text-theme-text-secondary">
+					Configure and manage your pipeline secrets and configurations.
+				</p>
+				<a
+					href="https://docs.zenml.io/how-to/interact-with-secrets"
+					className="text-text-md  text-primary-400"
+				>
+					Learn More
+				</a>
 			</div>
-			<Commands />
+			<SecretsTable />
 		</Box>
 	);
 }

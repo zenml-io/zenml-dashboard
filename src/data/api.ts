@@ -60,7 +60,13 @@ export const apiPaths = {
 		detail: (userId: string) => `/users/${userId}`,
 		activate: (userId: string) => `/users/${userId}/activate`
 	},
+	secrets: {
+		all: "/secrets",
+		detail: (secretId: string) => `/secrets/${secretId}`,
+		add: (workspaceId: string) => `/workspaces/${workspaceId}/secrets`
+	},
 	workspaces: {
+		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
 		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`
 	}
 };

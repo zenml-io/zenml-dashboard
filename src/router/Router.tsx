@@ -30,6 +30,7 @@ const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
+const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/secretsDetail/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 
 //Stacks
@@ -124,6 +125,7 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					/>
+
 					<Route
 						errorElement={<PageBoundary />}
 						path={routes.onboarding}
@@ -178,6 +180,15 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<Secrets />
+								</ProtectedRoute>
+							}
+						/>
+
+						<Route
+							path="secrets/:secretId"
+							element={
+								<ProtectedRoute>
+									<SecretDetailsPage />
 								</ProtectedRoute>
 							}
 						/>
@@ -284,7 +295,9 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 			<Navigate
 				to={
 					routes.login +
-					`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`
+					`?${new URLSearchParams({
+						redirect: location.pathname + location.search
+					}).toString()}`
 				}
 			/>
 		);
