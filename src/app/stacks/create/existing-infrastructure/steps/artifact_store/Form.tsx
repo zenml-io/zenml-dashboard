@@ -2,7 +2,7 @@ import { StackComponentType } from "@/types/components";
 import { Input } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { RadioItem, RadioItemLabel } from "../../RadioItem";
+import { RadioItem, RadioItemLabel } from "../../../components/RadioItem";
 import { ArtifactStoreForm } from "./schema";
 import { useArtifactStore } from "./useArtifactStore";
 import { FlavorIcon } from "../../FlavorIcon";

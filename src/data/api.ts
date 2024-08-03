@@ -14,6 +14,7 @@ export const apiPaths = {
 		visualize: (versionId: string) => `/artifact_versions/${versionId}/visualize`
 	},
 	components: {
+		all: "/components",
 		detail: (componentId: string) => `/components/${componentId}`
 	},
 	devices: {
@@ -67,7 +68,8 @@ export const apiPaths = {
 	},
 	workspaces: {
 		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
-		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`
+		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`,
+		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`
 	}
 };
 
