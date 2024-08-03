@@ -1,4 +1,5 @@
 import {
+	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogTitle
@@ -31,9 +32,9 @@ export const DeleteStackDialog = forwardRef<
 				</AlertDialogDescription>
 			</div>
 			<div className="flex justify-end gap-3 px-5 py-3">
-				<Button onClick={() => closeModal?.()} intent="secondary">
-					Cancel
-				</Button>
+				<AlertDialogCancel onClick={() => closeModal?.()} asChild>
+					<Button intent="secondary">Cancel</Button>
+				</AlertDialogCancel>
 				<Button
 					disabled={deleteStack.isPending}
 					type="button"
