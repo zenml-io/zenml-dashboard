@@ -5,10 +5,12 @@ import { useCurrentUser } from "@/data/users/current-user-query";
 import { workspaceQueries } from "@/data/workspaces";
 import { routes } from "@/router/routes";
 import { StackRequest } from "@/types/stack";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { FormType } from "./schema";
+import { FormType, formSchema } from "./schema";
 
 export function useManualStack() {
 	const workspace = useQuery({ ...workspaceQueries.workspaceDetail("default") });
@@ -54,5 +56,26 @@ export function useManualStack() {
 		createStack.mutate({ workspaceId: workspace.data?.id || "", payload });
 	}
 
-	return { createManualStack };
+	const form = useForm<FormType>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			components: {
+				alerter: null,
+				orchestrator: {},
+				annotator: null,
+				artifact_store: {},
+				container_registry: null,
+				data_validator: null,
+				experiment_tracker: null,
+				feature_store: null,
+				model_registry: null,
+				image_builder: null,
+				model_deployer: null,
+				step_operator: null
+			},
+			stackName: ""
+		}
+	});
+
+	return { createManualStack, form };
 }

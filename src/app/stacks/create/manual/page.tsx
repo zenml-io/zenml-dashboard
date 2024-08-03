@@ -1,36 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Tabs } from "@radix-ui/react-tabs";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import { HTMLAttributes, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
 import { ComponentsSelection } from "./ComponentSelection";
-import { formSchema, FormType } from "./schema";
 import { TypeOverview } from "./TypeOverview";
 import { useManualStack } from "./useManualStack";
 
 export default function CreateStackManualPage() {
 	const [selectedTab, setSelectedTab] = useState("");
-	const { createManualStack } = useManualStack();
-	const form = useForm<FormType>({
-		resolver: zodResolver(formSchema),
-		defaultValues: {
-			components: {
-				alerter: null,
-				orchestrator: {},
-				annotator: null,
-				artifact_store: {},
-				container_registry: null,
-				data_validator: null,
-				experiment_tracker: null,
-				feature_store: null,
-				model_registry: null,
-				image_builder: null,
-				model_deployer: null,
-				step_operator: null
-			},
-			stackName: ""
-		}
-	});
+	const { createManualStack, form } = useManualStack();
 
 	return (
 		<FormProvider {...form}>
