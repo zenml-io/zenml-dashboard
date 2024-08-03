@@ -24,6 +24,7 @@ export const routes = {
 		create: {
 			index: "/stacks/create",
 			newInfra: "/stacks/create/new-infrastructure",
+			manual: "/stacks/create/manual",
 			existingInfra: "/stacks/create/existing-infrastructure"
 		}
 	},
