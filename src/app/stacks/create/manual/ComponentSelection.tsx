@@ -14,6 +14,7 @@ import { StackComponentType } from "@/types/components";
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { ComponentTooltip } from "./ComponentsTooltip";
 
 export function ComponentsSelection() {
 	return (
@@ -146,7 +147,7 @@ function ComponentHeader({ type }: Props) {
 			<div className="flex items-center gap-1">
 				<ComponentIcon className="h-5 w-5 fill-primary-400" type={type} />
 				<h2 className="text-text-lg font-semibold">{snakeCaseToTitleCase(type)}</h2>
-				{/* <ComponentTooltip type={type} /> */}
+				<ComponentTooltip type={type} />
 			</div>
 			<p className="text-theme-text-secondary">
 				Select a existing {snakeCaseToLowerCase(type)} from your server:
