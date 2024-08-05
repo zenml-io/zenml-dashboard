@@ -18,6 +18,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, useEffect } from "react";
 import { CopyButton } from "../../CopyButton";
+import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { ComponentFallbackDialog } from "../../stack-components/ComponentFallbackDialog";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
@@ -167,7 +168,7 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 				<ul className="space-y-5">
 					<li className="space-y-2">
 						<div className="flex items-center gap-2">
-							<Number>1</Number>
+							<Numberbox>1</Numberbox>
 							<p className="font-semibold">Set your stack</p>
 						</div>
 						<div className="space-y-1">
@@ -184,7 +185,7 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 					{integrations.length >= 1 && (
 						<li className="space-y-2">
 							<div className="flex items-center gap-2">
-								<Number>2</Number>
+								<Numberbox>2</Numberbox>
 								<p className="font-semibold">Install the integrations</p>
 							</div>
 							<div className="space-y-1">
@@ -202,13 +203,5 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 				</ul>
 			</CollapsibleCard>
 		</section>
-	);
-}
-
-function Number({ children }: PropsWithChildren) {
-	return (
-		<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-primary-100 text-text-lg font-semibold text-theme-text-brand">
-			{children}
-		</div>
 	);
 }
