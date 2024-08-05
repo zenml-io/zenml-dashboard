@@ -11,12 +11,14 @@ import {
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 
 export function PermissionsCard() {
+	const { data } = useNewInfraFormContext();
 	return (
 		<HoverCard>
 			<HoverCardTrigger className="block">
 				<InfoBox intent="warning">
-					This will give ZenML permissions and create secret keys for secure ZenML -{">"} Provider
-					communication. You can revoke these permissions at any time.
+					This will give ZenML permissions and create secret keys for secure ZenML -{">"}{" "}
+					<span className="capitalize">{data.provider || "Provider"}</span> communication. You can
+					revoke these permissions at any time.
 				</InfoBox>
 			</HoverCardTrigger>
 			<HoverCardContent sideOffset={0} className="w-auto p-5">

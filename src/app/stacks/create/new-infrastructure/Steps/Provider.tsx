@@ -57,14 +57,8 @@ export function ProviderStep() {
 							subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"
 						/>
 					</CloudProviderRadioButton>
-					<CloudProviderRadioButton
-						disabled
-						id="azure-provider"
-						{...register("provider")}
-						value="azure"
-					>
+					<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
 						<ProviderCard
-							comingSoon
 							icon={<CloudProviderIcon provider="azure" className="h-6 w-6 shrink-0" />}
 							title="Azure"
 							subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
