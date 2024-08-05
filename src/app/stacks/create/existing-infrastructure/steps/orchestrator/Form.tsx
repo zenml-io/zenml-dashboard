@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from "react-hook-form";
-import { RadioItem, RadioItemLabel } from "../../RadioItem";
+import { RadioItem, RadioItemLabel } from "../../../components/RadioItem";
 import { useOrchestrator } from "./useOrchestrator";
 import { Input } from "@zenml-io/react-component-library/components/server";
 import { orchestratorFormBaseSchema, OrchestratorForm as OrchestratorFormType } from "./schema";

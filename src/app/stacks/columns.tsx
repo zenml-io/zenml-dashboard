@@ -59,9 +59,10 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 		{
 			id: "actions",
 			header: "",
-			accessorKey: "name",
+			accessorFn: (row) => ({ name: row.name, id: row.id }),
 			cell: ({ getValue }) => {
-				return <StackActionsMenu name={getValue<string>()} />;
+				const { id, name } = getValue<{ name: string; id: string }>();
+				return <StackActionsMenu name={name} id={id} />;
 			}
 		}
 	];

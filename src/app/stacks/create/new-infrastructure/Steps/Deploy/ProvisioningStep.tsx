@@ -9,6 +9,7 @@ import { Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { CloudComponents } from "../../Providers";
+import { AzureInstructions } from "../../Providers/Azure";
 import { GCPCodesnippet } from "../../Providers/GCP";
 import { clearWizardData } from "../../persist";
 import { DeploymentButton } from "./ButtonStep";
@@ -65,9 +66,16 @@ function LoadingHeader() {
 						</p>
 					</div>
 				</div>
-				<DeploymentButton />
+				{data.provider === "azure" ? (
+					<DeploymentButton>
+						<span>Deploy in Azure</span>
+					</DeploymentButton>
+				) : (
+					<DeploymentButton />
+				)}
 			</Box>
 			{data.provider === "gcp" && <GCPCodesnippet />}
+			{data.provider === "azure" && <AzureInstructions />}
 		</section>
 	);
 }
