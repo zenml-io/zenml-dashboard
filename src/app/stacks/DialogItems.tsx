@@ -34,28 +34,6 @@ export const UpdateStackDialog = forwardRef<
 
 UpdateStackDialog.displayName = "UpdateStackDialog";
 
-export const DeleteStackDialog = forwardRef<
-	ElementRef<typeof DialogContent>,
-	ComponentPropsWithoutRef<typeof DialogContent> & Props
->(({ closeModal, name, ...rest }, ref) => {
-	return (
-		<DialogContent {...rest} ref={ref}>
-			<DialogHeader>
-				<DialogTitle>Delete Stack</DialogTitle>
-			</DialogHeader>
-			<div className="space-y-5 p-7">
-				<Infobox action="delete" />
-				<div className="space-y-1">
-					<p className="text-text-sm text-theme-text-secondary">Delete a stack</p>
-					<Codesnippet codeClasses="whitespace-pre-wrap" wrap code={`zenml stack delete ${name}`} />
-				</div>
-			</div>
-		</DialogContent>
-	);
-});
-
-DeleteStackDialog.displayName = "DeleteStackDialog";
-
 type InfoProps = {
 	action: "delete" | "update" | "describe";
 };
