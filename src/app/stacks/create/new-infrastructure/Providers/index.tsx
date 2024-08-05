@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { AWSComponents } from "./AWS";
 import { GcpComponents } from "./GCP";
+import { AzureComponents } from "./Azure";
 
 export type ProviderComponents = {
 	stackName: string;
@@ -35,6 +36,8 @@ export function CloudComponents({ componentProps, type }: Props) {
 			return <AWSComponents {...componentProps} />;
 		case "gcp":
 			return <GcpComponents {...componentProps} />;
+		case "azure":
+			return <AzureComponents {...componentProps} />;
 	}
 }
 
@@ -82,6 +85,10 @@ export function EstimateCosts() {
 				break;
 			case "gcp":
 				link = "https://cloud.google.com/products/calculator";
+				break;
+			case "azure":
+				link = "https://azure.microsoft.com/en-us/pricing/calculator/";
+				break;
 		}
 
 		return (

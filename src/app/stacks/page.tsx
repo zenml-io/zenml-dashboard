@@ -1,8 +1,8 @@
 import { useTourContext } from "@/components/tour/TourContext";
 import { useEffect } from "react";
-import { StacksHeader } from "./Fallback/Fragments";
 import { StackList } from "./StackList";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { PageHeader } from "@/components/PageHeader";
 
 export default function StacksPage() {
 	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
@@ -27,5 +27,13 @@ export default function StacksPage() {
 			<StacksHeader />
 			<StackList />
 		</div>
+	);
+}
+
+function StacksHeader() {
+	return (
+		<PageHeader>
+			<h1 className="text-display-xs font-semibold">Stacks</h1>
+		</PageHeader>
 	);
 }

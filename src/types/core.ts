@@ -6186,6 +6186,8 @@ export type components = {
 			schedule?: string | null;
 			/** The code reference associated with the deployment. */
 			code_reference?: components["schemas"]["CodeReferenceRequest"] | null;
+			/** Optional path where the code is stored in the artifact store. */
+			code_path?: string | null;
 			/**
 			 * Template
 			 * @description Template used for the deployment.
@@ -6265,6 +6267,8 @@ export type components = {
 			pipeline_version_hash?: string | null;
 			/** The pipeline spec of the deployment. */
 			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
+			/** Optional path where the code is stored in the artifact store. */
+			code_path?: string | null;
 			/** The pipeline associated with the deployment. */
 			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The stack associated with the deployment. */
@@ -6365,6 +6369,8 @@ export type components = {
 		PipelineResponseMetadata: {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
+			/** The description of the pipeline. */
+			description?: string | null;
 		};
 		/**
 		 * PipelineResponseResources
@@ -6527,6 +6533,8 @@ export type components = {
 			};
 			/** The orchestrator run ID. */
 			orchestrator_run_id?: string | null;
+			/** Optional path where the code is stored in the artifact store. */
+			code_path?: string | null;
 			/**
 			 * Template Id
 			 * @description Template used for the pipeline run.
@@ -8064,6 +8072,7 @@ export type components = {
 			| "internal"
 			| "distribution_package"
 			| "code_repository"
+			| "notebook"
 			| "unknown";
 		/**
 		 * StackComponentType
@@ -8093,7 +8102,9 @@ export type components = {
 			/** A textual description for the cloud provider console URL. */
 			deployment_url_text: string;
 			/** Configuration for the stack deployment that the user must manually configure into the cloud provider console. */
-			configuration: string | null;
+			configuration?: string | null;
+			/** Instructions for deploying the stack. */
+			instructions?: string | null;
 		};
 		/**
 		 * StackDeploymentInfo

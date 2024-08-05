@@ -30,12 +30,14 @@ const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
+const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/secretsDetail/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const CreateStack = lazy(() => import("@/app/stacks/create/page"));
 const CreateStackNewInfra = lazy(() => import("@/app/stacks/create/new-infrastructure/page"));
+const CreateStackManually = lazy(() => import("@/app/stacks/create/manual/page"));
 const CreateStackExistingInfra = lazy(
 	() => import("@/app/stacks/create/existing-infrastructure/page")
 );
@@ -124,6 +126,7 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					/>
+
 					<Route
 						errorElement={<PageBoundary />}
 						path={routes.onboarding}
@@ -178,6 +181,15 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<Secrets />
+								</ProtectedRoute>
+							}
+						/>
+
+						<Route
+							path="secrets/:secretId"
+							element={
+								<ProtectedRoute>
+									<SecretDetailsPage />
 								</ProtectedRoute>
 							}
 						/>
@@ -242,6 +254,15 @@ export const router = createBrowserRouter(
 								</ProtectedRoute>
 							}
 						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.create.manual}
+							element={
+								<ProtectedRoute>
+									<CreateStackManually />
+								</ProtectedRoute>
+							}
+						/>
 					</Route>
 				</Route>
 			</Route>
@@ -284,7 +305,9 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 			<Navigate
 				to={
 					routes.login +
-					`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`
+					`?${new URLSearchParams({
+						redirect: location.pathname + location.search
+					}).toString()}`
 				}
 			/>
 		);

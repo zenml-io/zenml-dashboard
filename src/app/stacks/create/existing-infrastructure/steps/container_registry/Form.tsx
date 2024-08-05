@@ -3,7 +3,7 @@ import { Input } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { FlavorIcon } from "../../FlavorIcon";
-import { RadioItem, RadioItemLabel } from "../../RadioItem";
+import { RadioItem, RadioItemLabel } from "../../../components/RadioItem";
 import { ContainerRegistryFormType } from "./schema";
 import { useContainerRegistries } from "./useContainerRegistry";
 

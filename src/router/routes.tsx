@@ -18,11 +18,13 @@ export const routes = {
 		overview: "/pipelines",
 		namespace: (namespace: string) => `/pipelines/${namespace}`
 	},
+
 	stacks: {
 		overview: "/stacks",
 		create: {
 			index: "/stacks/create",
 			newInfra: "/stacks/create/new-infrastructure",
+			manual: "/stacks/create/manual",
 			existingInfra: "/stacks/create/existing-infrastructure"
 		}
 	},

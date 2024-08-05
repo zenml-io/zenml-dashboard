@@ -8,10 +8,12 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
 import { useRef, useState } from "react";
-import { DeleteStackDialog, UpdateStackDialog } from "./DialogItems";
+import { UpdateStackDialog } from "./DialogItems";
+import { AlertDialogItem } from "../../components/AlertDialogDropdownItem";
+import { DeleteStackDialog } from "./DeleteStackModal";
 
-type Props = { name: string };
-export function StackActionsMenu({ name }: Props) {
+type Props = { name: string; id: string };
+export function StackActionsMenu({ name, id }: Props) {
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -60,18 +62,19 @@ export function StackActionsMenu({ name }: Props) {
 							closeModal={() => handleDialogItemOpenChange(false)}
 						/>
 					</DialogItem>
-					<DialogItem
+					<AlertDialogItem
 						onSelect={handleDialogItemSelect}
 						onOpenChange={handleDialogItemOpenChange}
 						icon={<Trash className="h-3  w-3 !fill-neutral-400" />}
 						triggerChildren="Delete"
 					>
 						<DeleteStackDialog
+							stackId={id}
 							name={name}
 							className="lg:min-w-[600px]"
 							closeModal={() => handleDialogItemOpenChange(false)}
 						/>
-					</DialogItem>
+					</AlertDialogItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</DropdownMenu>
