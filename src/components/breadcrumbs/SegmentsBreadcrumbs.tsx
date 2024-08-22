@@ -19,6 +19,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			stacks: { name: "Stacks" },
 			create: { name: "New Stack" }
 		},
+		secrets: {
+			secrets: { name: "Secrets" }
+		},
+		secretsDetail: {
+			secrets: { id: "secrets", name: "Secrets" },
+			secretDetail: { id: data?.id, name: data?.name }
+		},
 		runs: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
 			pipeline_detail: {
@@ -37,7 +44,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 		return segments.reduce(
 			(acc, name) => {
 				acc[name] = withSettings
-					? { settings: { name: "settings" }, [name]: { name } }
+					? { settings: { name: "Settings" }, [name]: { name } }
 					: { [name]: { name } };
 				return acc;
 			},
@@ -55,7 +62,6 @@ export const matchSegmentWithPages = (segment: string): any => {
 				"updates",
 				"repositories",
 				"connectors",
-				"secrets",
 				"notifications",
 				"profile"
 			],
@@ -74,7 +80,9 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		runs: routes.runs.detail(id),
 		//Stacks
 		stacks: routes.stacks.overview,
-		createStack: routes.stacks.create.index
+		createStack: routes.stacks.create.index,
+		//Secrets
+		secrets: routes.settings.secrets.overview
 	};
 
 	return routeMap[segment] || "#";

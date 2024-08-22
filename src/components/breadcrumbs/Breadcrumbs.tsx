@@ -1,12 +1,4 @@
 import Divider from "@/assets/icons/slash-divider.svg?react";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
-import {
-	matchSegmentWithPages,
-	matchSegmentWithRequest,
-	matchSegmentWithTab,
-	matchSegmentWithURL
-} from "./SegmentsBreadcrumbs";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { formatIdToTitleCase, transformToEllipsis } from "@/lib/strings";
 import {
@@ -15,6 +7,14 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import {
+	matchSegmentWithPages,
+	matchSegmentWithRequest,
+	matchSegmentWithTab,
+	matchSegmentWithURL
+} from "./SegmentsBreadcrumbs";
 
 type BreadcrumbData = { [key: string]: { id?: string; name?: string } };
 
@@ -27,9 +27,8 @@ export function Breadcrumbs() {
 	useEffect(() => {
 		let matchedData: BreadcrumbData = {};
 		const pathSegments = pathname.split("/").filter((segment: string) => segment !== "");
-		const segmentsToCheck: string[] = ["pipelines", "runs", "stacks"];
+		const segmentsToCheck: string[] = ["pipelines", "runs", "stacks", "secrets"];
 		const mainPaths = segmentsToCheck.some((segment) => pathSegments.includes(segment));
-
 		if (!mainPaths) {
 			const currentSegment =
 				pathSegments.length === 0
@@ -44,8 +43,8 @@ export function Breadcrumbs() {
 			if (data && data.segment) {
 				const tabParam = searchParams.get("tab");
 				matchedData = matchSegmentWithRequest(data) as BreadcrumbData;
-
 				const newMatchedData = {
+					...(pathSegments.includes("settings") && { settings: { name: "Settings" } }),
 					...matchedData,
 					...(tabParam && { tab: { id: tabParam, name: tabParam } })
 				};
