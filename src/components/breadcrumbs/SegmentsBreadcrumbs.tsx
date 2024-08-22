@@ -1,5 +1,6 @@
 import Info from "@/assets/icons/info.svg?react";
 import Tools from "@/assets/icons/tool-02.svg?react";
+import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
 
 export const matchSegmentWithRequest = ({ segment, data }: { segment: string; data?: any }) => {
@@ -44,8 +45,8 @@ export const matchSegmentWithPages = (segment: string): any => {
 		return segments.reduce(
 			(acc, name) => {
 				acc[name] = withSettings
-					? { settings: { name: "Settings" }, [name]: { name } }
-					: { [name]: { name } };
+					? { settings: { name: "Settings" }, [name]: { name: capitalize(name) } }
+					: { [name]: { name: capitalize(name) } };
 				return acc;
 			},
 			{} as { [key: string]: any }
