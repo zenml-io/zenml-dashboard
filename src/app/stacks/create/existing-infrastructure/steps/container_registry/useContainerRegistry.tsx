@@ -73,9 +73,9 @@ export function useContainerRegistries() {
 				name: updatedData.stackName || Math.random().toString(36).substring(7),
 				service_connectors: updatedData.connectorConfig ? [updatedData.connectorConfig] : [],
 				components: {
-					orchestrator: updatedData.orchestratorConfig,
-					artifact_store: updatedData.artifactStoreConfig,
-					container_registry: updatedData.registryConfig
+					orchestrator: { ...updatedData.orchestratorConfig, service_connector_index: 0 },
+					artifact_store: { ...updatedData.artifactStoreConfig, service_connector_index: 0 },
+					container_registry: { ...updatedData.registryConfig, service_connector_index: 0 }
 				}
 			}
 		});
