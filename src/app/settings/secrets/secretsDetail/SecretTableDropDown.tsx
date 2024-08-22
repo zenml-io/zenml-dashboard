@@ -1,13 +1,12 @@
+import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
+import DeleteIcon from "@/assets/icons/trash.svg?react";
+import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import {
 	AlertDialogTrigger,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
-
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import DeleteIcon from "@/assets/icons/trash.svg?react";
-import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import { ElementRef, useRef, useState } from "react";
 import { DeleteKeyAlert } from "./DeleteKeyAlert";
 

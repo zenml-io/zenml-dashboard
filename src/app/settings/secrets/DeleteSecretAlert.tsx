@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 	Input
 } from "@zenml-io/react-component-library";
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 export function DeleteSecretAlert({ secretId }: { secretId: string }) {
 	const queryClient = useQueryClient();
