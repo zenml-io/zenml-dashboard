@@ -1,5 +1,6 @@
 import { InfoBox } from "@/components/Infobox";
 import { stackQueries } from "@/data/stacks";
+import { getCloudProviderName } from "@/lib/provider";
 import { useQuery } from "@tanstack/react-query";
 import {
 	HoverCard,
@@ -17,8 +18,8 @@ export function PermissionsCard() {
 			<HoverCardTrigger className="block">
 				<InfoBox intent="warning">
 					This will give ZenML permissions and create secret keys for secure ZenML -{">"}{" "}
-					<span className="capitalize">{data.provider || "Provider"}</span> communication. You can
-					revoke these permissions at any time.
+					{getCloudProviderName(data.provider || "aws")} communication. You can revoke these
+					permissions at any time.
 				</InfoBox>
 			</HoverCardTrigger>
 			<HoverCardContent sideOffset={0} className="w-auto p-5">
