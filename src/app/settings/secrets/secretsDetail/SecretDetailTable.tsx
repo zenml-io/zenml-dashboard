@@ -1,18 +1,13 @@
-import { useCurrentUser } from "@/data/users/current-user-query";
-import { Button, DataTable, Input } from "@zenml-io/react-component-library";
-import { getSecretDetailColumn } from "./columns";
 import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { Button, DataTable, Dialog, DialogTrigger, Input } from "@zenml-io/react-component-library";
+import { useMemo, useState } from "react";
 import { EditSecretDialog } from "../EditSecretDialog";
-import { useState, useMemo } from "react";
+import { getSecretDetailColumn } from "./columns";
 
 export default function SecretDetailTable({ secretId }: { secretId: string }) {
-	const [editDialogOpen, setEditDialogOpen] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 
 	const { data: secretDetail } = useGetSecretDetail(secretId);
-	const { data: currentUser } = useCurrentUser();
-
-	const isAdmin = currentUser?.body?.is_admin;
 
 	// Prepare data for DataTable
 	const secretDetailData = useMemo(() => {
@@ -48,22 +43,19 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 					onChange={(e) => setSearchTerm(e.target.value)}
 					inputSize="md"
 				/>
-
-				<Button size="sm" intent="primary" onClick={() => setEditDialogOpen(true)}>
-					Edit Keys
-				</Button>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button size="sm" intent="primary">
+							Edit Keys
+						</Button>
+					</DialogTrigger>
+					<EditSecretDialog
+						secretId={secretId}
+						isSecretNameEditable={false}
+						dialogTitle="Edit keys"
+					/>
+				</Dialog>
 			</div>
-
-			{isAdmin && (
-				<EditSecretDialog
-					secretId={secretId}
-					isOpen={editDialogOpen}
-					onClose={() => setEditDialogOpen(false)}
-					isSecretNameEditable={false}
-					dialogTitle="Edit keys"
-				/>
-			)}
-
 			<div className="w-full">
 				{secretDetail && (
 					<DataTable columns={getSecretDetailColumn(secretId)} data={filteredData} />

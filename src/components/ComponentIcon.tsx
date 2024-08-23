@@ -4,6 +4,7 @@ import Clipboard from "@/assets/icons/clipboard.svg?react";
 import Container from "@/assets/icons/container.svg?react";
 import Database from "@/assets/icons/database.svg?react";
 import Folder from "@/assets/icons/folder.svg?react";
+import Route from "@/assets/icons/route.svg?react";
 import Layout from "@/assets/icons/layout.svg?react";
 import MLModel from "@/assets/icons/ml_model.svg?react";
 import Package from "@/assets/icons/package-plus.svg?react";
@@ -25,7 +26,7 @@ export function ComponentIcon({ type, ...rest }: Props) {
 		case "container_registry":
 			return <Container {...rest} />;
 		case "step_operator":
-			return <Container {...rest} />;
+			return <Route {...rest} />;
 		case "model_deployer":
 			return <Rocket {...rest} />;
 		case "feature_store":

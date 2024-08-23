@@ -6,7 +6,8 @@ import {
 	snakeCaseToDashCase,
 	snakeCaseToLowerCase,
 	snakeCaseToTitleCase,
-	transformToEllipsis
+	transformToEllipsis,
+	capitalize
 } from "./strings";
 
 describe("snakeCaseToTitleCase converts snake_case to Title Case", () => {
@@ -139,6 +140,24 @@ describe("format snake_case to dashcase correctly", () => {
 	testCases.forEach(({ input, expected, description }) => {
 		test(description, () => {
 			expect(snakeCaseToDashCase(input)).toBe(expected);
+		});
+	});
+});
+
+describe("capitalizes string correctly", () => {
+	const testCases = [
+		{
+			input: "hello_world",
+			expected: "Hello_world",
+			description: "string in snake case"
+		},
+		{ input: "single", expected: "Single", description: "lowercase string" },
+		{ input: "Single", expected: "Single", description: "already capitalized" },
+		{ input: "SINGLE", expected: "SINGLE", description: "uppercase string" }
+	];
+	testCases.forEach(({ input, expected, description }) => {
+		test(description, () => {
+			expect(capitalize(input)).toBe(expected);
 		});
 	});
 });
