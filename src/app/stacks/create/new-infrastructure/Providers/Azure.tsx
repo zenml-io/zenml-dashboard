@@ -86,8 +86,8 @@ export function AzureComponents({
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={components?.registry?.name || "Azure Step Operator"}
-					subtitle={components?.registry?.id || "Execute individual steps"}
+					title={components?.operator?.name || "Azure Step Operator"}
+					subtitle={components?.operator?.id || "Execute individual steps"}
 					badge={<ComponentBadge type="step_operator">Step Operator</ComponentBadge>}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
