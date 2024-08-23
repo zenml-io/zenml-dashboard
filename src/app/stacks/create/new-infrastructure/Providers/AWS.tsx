@@ -76,6 +76,19 @@ export function AWSComponents({
 					}}
 				/>
 			</div>
+			<div className="py-3 pl-9 pr-5">
+				<ComponentListItem
+					title={components?.operator?.name || "Sagemaker Step Operator"}
+					subtitle={components?.operator?.id || "Execute individual steps"}
+					badge={<ComponentBadge type="step_operator">Step Operator</ComponentBadge>}
+					isLoading={isLoading}
+					isSuccess={isSuccess}
+					img={{
+						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/step_operator/sagemaker.png",
+						alt: "Sagemaker step operator logo"
+					}}
+				/>
+			</div>
 		</div>
 	);
 }
