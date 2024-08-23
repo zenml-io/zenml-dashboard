@@ -29,12 +29,7 @@ export function AddSecretDialog({ id, workspace }: { id: string; workspace: Work
 	const [open, setOpen] = useState(false);
 
 	return (
-		<Dialog
-			open={open}
-			onOpenChange={(val) => {
-				setOpen(val);
-			}}
-		>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button className="shrink-0" intent="primary">
 					Add secret

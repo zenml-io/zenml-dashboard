@@ -1,14 +1,13 @@
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	AlertDialogTrigger
-} from "@zenml-io/react-component-library";
-
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import { ElementRef, useRef, useState } from "react";
-import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import DeleteIcon from "@/assets/icons/trash.svg?react";
+import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
+import {
+	AlertDialogTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger
+} from "@zenml-io/react-component-library";
+import { ElementRef, useRef, useState } from "react";
 import { DeleteKeyAlert } from "./DeleteKeyAlert";
 
 export default function SecretTableDropDown({
@@ -19,17 +18,23 @@ export default function SecretTableDropDown({
 	keyName: string;
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [hasOpenDialog] = useState(false);
-
+	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 
 	function handleDialogItemSelect() {
 		focusRef.current = dropdownTriggerRef.current;
 	}
-	function handleDialogItemOpenChange() {
-		setDeleteDialogOpen(true);
+
+	function handleDialogItemOpenChange(open: boolean) {
+		if (open === false) {
+			setDropdownOpen(false);
+			setTimeout(() => {
+				setHasOpenDialog(open);
+			}, 200);
+			return;
+		}
+		setHasOpenDialog(open);
 	}
 
 	return (
@@ -55,15 +60,7 @@ export default function SecretTableDropDown({
 					triggerChildren="Delete "
 					icon={<DeleteIcon />}
 				>
-					<DeleteKeyAlert
-						isOpen={deleteDialogOpen}
-						onClose={() => {
-							setDropdownOpen(false);
-							setDeleteDialogOpen(false);
-						}}
-						secretId={secretId}
-						keyName={keyName}
-					></DeleteKeyAlert>
+					<DeleteKeyAlert secretId={secretId} keyName={keyName}></DeleteKeyAlert>
 				</AlertDialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
