@@ -19,6 +19,7 @@ export type ProviderComponents = {
 		registry?: Component;
 		orchestrator?: Component;
 		imageBuilder?: Component;
+		operator?: Component;
 	};
 };
 

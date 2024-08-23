@@ -43,7 +43,7 @@ export function SuccessList({ provider, stackName, timestamp, isTerraform }: Suc
 	const imageBuilder = stack.stack.metadata?.components["image_builder"] as
 		| StackComponent[]
 		| undefined;
-	const stepOperator = stack.stack.metadata?.components["step_operator"] as
+	const operator = stack.stack.metadata?.components["step_operator"] as
 		| StackComponent[]
 		| undefined;
 
@@ -68,9 +68,9 @@ export function SuccessList({ provider, stackName, timestamp, isTerraform }: Suc
 			name: imageBuilder?.[0]?.name ?? "Image Builder",
 			id: imageBuilder?.[0]?.id.split("-")[0] ?? ""
 		},
-		stepOperator: {
-			name: stepOperator?.[0]?.name ?? "Step Operator",
-			id: stepOperator?.[0]?.id.split("-")[0] ?? ""
+		operator: {
+			name: operator?.[0]?.name ?? "Step Operator",
+			id: operator?.[0]?.id.split("-")[0] ?? ""
 		}
 	};
 
