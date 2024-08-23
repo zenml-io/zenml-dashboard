@@ -1,14 +1,13 @@
-// columns.ts
+import LockIcon from "@/assets/icons/Lock.svg?react";
+import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { SecretNamespace } from "@/types/secret";
-import { ColumnDef } from "@tanstack/react-table";
-import SecretsDropdown from "./SecretsDropdown";
-import LockIcon from "@/assets/icons/Lock.svg?react";
-import { NavigateFunction } from "react-router-dom";
-import { CopyButton } from "@/components/CopyButton";
-import { User } from "@/types/user";
 import { getUsername } from "@/lib/user";
+import { SecretNamespace } from "@/types/secret";
+import { User } from "@/types/user";
+import { ColumnDef } from "@tanstack/react-table";
+import { NavigateFunction } from "react-router-dom";
+import SecretsDropdown from "./SecretsDropdown";
 
 export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNamespace>[] {
 	return [
@@ -20,7 +19,7 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 				<div className="flex cursor-pointer items-center space-x-2">
 					<LockIcon className="h-4 w-4 flex-shrink-0 cursor-pointer fill-primary-400" />
 					<div className="flex flex-col">
-						<div className="group/copybutton flex flex flex-row items-center gap-0.5 space-x-1">
+						<div className="group/copybutton flex flex-row items-center gap-0.5 space-x-1">
 							<span
 								className=" text-text-md font-semibold text-theme-text-primary"
 								onClick={() => navigate(`/settings/secrets/${row.original.id}`)}

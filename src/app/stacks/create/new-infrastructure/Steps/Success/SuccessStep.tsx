@@ -54,6 +54,9 @@ function SuccessList() {
 	const imageBuilder = stack.stack.metadata?.components["image_builder"] as
 		| StackComponent[]
 		| undefined;
+	const operator = stack.stack.metadata?.components["step_operator"] as
+		| StackComponent[]
+		| undefined;
 
 	const components = {
 		orchestrator: {
@@ -75,6 +78,10 @@ function SuccessList() {
 		imageBuilder: {
 			name: imageBuilder?.[0]?.name ?? "Image Builder",
 			id: imageBuilder?.[0]?.id.split("-")[0] ?? ""
+		},
+		operator: {
+			name: operator?.[0]?.name ?? "Step Operator",
+			id: operator?.[0]?.id.split("-")[0] ?? ""
 		}
 	};
 

@@ -1,7 +1,14 @@
-import { useEffect } from "react";
+import EyeIcon from "@/assets/icons/eye.svg?react";
+import Plus from "@/assets/icons/plus.svg?react";
+import Trash from "@/assets/icons/trash.svg?react";
+import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { useUpdateSecret } from "@/data/secrets/update-secret-query";
+import { isFetchError } from "@/lib/fetch-error";
+import { UpdateSecret } from "@/types/secret";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	Button,
-	Dialog,
 	DialogClose,
 	DialogContent,
 	DialogFooter,
@@ -10,56 +17,38 @@ import {
 	Input,
 	useToast
 } from "@zenml-io/react-component-library";
-import Trash from "@/assets/icons/trash.svg?react";
-import EyeIcon from "@/assets/icons/eye.svg?react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useUpdateSecret } from "@/data/secrets/update-secret-query";
-import { isFetchError } from "@/lib/fetch-error";
-import Plus from "@/assets/icons/plus.svg?react";
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { secretFormSchema, SecretFormType } from "./form-schema";
-import { UpdateSecret } from "@/types/secret";
 
 interface EditSecretDialogProps {
 	secretId: string;
-	isOpen: boolean;
-	onClose: () => void;
 	isSecretNameEditable: boolean;
 	dialogTitle: string;
 }
 
 export function EditSecretDialog({
 	secretId,
-	isOpen,
-	onClose,
+
 	isSecretNameEditable,
 	dialogTitle
 }: EditSecretDialogProps) {
 	return (
-		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
-				<DialogHeader>
-					<DialogTitle>{dialogTitle}</DialogTitle>
-				</DialogHeader>
-				<EditSecret
-					secretId={secretId}
-					onClose={onClose}
-					isSecretNameEditable={isSecretNameEditable}
-				/>
-			</DialogContent>
-		</Dialog>
+		<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
+			<DialogHeader>
+				<DialogTitle>{dialogTitle}</DialogTitle>
+			</DialogHeader>
+			<EditSecret secretId={secretId} isSecretNameEditable={isSecretNameEditable} />
+		</DialogContent>
 	);
 }
 
 interface EditSecretProps {
 	secretId: string;
-	onClose: () => void;
 	isSecretNameEditable: boolean;
 }
 
-export function EditSecret({ secretId, onClose, isSecretNameEditable }: EditSecretProps) {
+export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) {
 	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId);
 
 	const {
@@ -112,9 +101,14 @@ export function EditSecret({ secretId, onClose, isSecretNameEditable }: EditSecr
 			}
 		},
 		onSuccess() {
+			toast({
+				status: "success",
+				emphasis: "subtle",
+				description: "Secret updated successfull",
+				rounded: true
+			});
 			queryClient.invalidateQueries({ queryKey: ["secrets"] });
 			queryClient.invalidateQueries({ queryKey: ["secretDetail", secretId] });
-			onClose();
 		}
 	});
 
