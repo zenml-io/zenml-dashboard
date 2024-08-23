@@ -41,6 +41,7 @@ const CreateStackManually = lazy(() => import("@/app/stacks/create/manual/page")
 const CreateStackExistingInfra = lazy(
 	() => import("@/app/stacks/create/existing-infrastructure/page")
 );
+const CreateTerraform = lazy(() => import("@/app/stacks/create/terraform/page"));
 
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -251,6 +252,15 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<CreateStackExistingInfra />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.create.terraform}
+							element={
+								<ProtectedRoute>
+									<CreateTerraform />
 								</ProtectedRoute>
 							}
 						/>

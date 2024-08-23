@@ -25,7 +25,8 @@ export const routes = {
 			index: "/stacks/create",
 			newInfra: "/stacks/create/new-infrastructure",
 			manual: "/stacks/create/manual",
-			existingInfra: "/stacks/create/existing-infrastructure"
+			existingInfra: "/stacks/create/existing-infrastructure",
+			terraform: "/stacks/create/terraform"
 		}
 	},
 	runs: {

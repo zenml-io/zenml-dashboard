@@ -41,7 +41,7 @@ export function GcpComponents({
 						alt: "Service Account logo"
 					}}
 				/>
-				{displayPermissions && <PermissionsCard />}
+				{displayPermissions && <PermissionsCard provider="gcp" />}
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
