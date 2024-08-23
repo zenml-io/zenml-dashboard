@@ -100,7 +100,9 @@ export function Sidebar() {
 									routePatterns={[
 										routes.stacks.overview,
 										routes.stacks.create.index,
-										routes.stacks.create.newInfra
+										routes.stacks.create.newInfra,
+										routes.stacks.create.existingInfra,
+										routes.stacks.create.manual
 									]}
 									icon={<Stacks />}
 									label="Stacks"
