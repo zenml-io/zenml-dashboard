@@ -35,7 +35,7 @@ export function AWSComponents({
 						alt: "IAM logo"
 					}}
 				/>
-				{displayPermissions && <PermissionsCard />}
+				{displayPermissions && <PermissionsCard provider="aws" />}
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
