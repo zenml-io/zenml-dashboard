@@ -1,7 +1,7 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { useWizardContext } from "@/context/WizardContext";
 import { stackQueries } from "@/data/stacks";
-import { useCreateFullstack } from "@/data/stacks/full-stack-create";
+import { useCreateStack } from "@/data/stacks/create-stack";
 import { ComponentResourceInfo } from "@/types/service-connectors";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
@@ -15,7 +15,7 @@ export function useContainerRegistries() {
 	const { toast } = useToast();
 
 	const { setCurrentStep } = useWizardContext();
-	const { mutate } = useCreateFullstack({
+	const { mutate } = useCreateStack({
 		onError: (error) => {
 			if (error instanceof Error) {
 				toast({
@@ -73,9 +73,9 @@ export function useContainerRegistries() {
 				name: updatedData.stackName || Math.random().toString(36).substring(7),
 				service_connectors: updatedData.connectorConfig ? [updatedData.connectorConfig] : [],
 				components: {
-					orchestrator: { ...updatedData.orchestratorConfig, service_connector_index: 0 },
-					artifact_store: { ...updatedData.artifactStoreConfig, service_connector_index: 0 },
-					container_registry: { ...updatedData.registryConfig, service_connector_index: 0 }
+					orchestrator: [{ ...updatedData.orchestratorConfig, service_connector_index: 0 }],
+					artifact_store: [{ ...updatedData.artifactStoreConfig, service_connector_index: 0 }],
+					container_registry: [{ ...updatedData.registryConfig, service_connector_index: 0 }]
 				}
 			}
 		});

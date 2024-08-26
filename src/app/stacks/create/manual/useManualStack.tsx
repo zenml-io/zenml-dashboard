@@ -1,7 +1,6 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { stackQueries } from "@/data/stacks";
 import { useCreateStack } from "@/data/stacks/create-stack";
-import { useCurrentUser } from "@/data/users/current-user-query";
 import { workspaceQueries } from "@/data/workspaces";
 import { routes } from "@/router/routes";
 import { StackRequest } from "@/types/stack";
@@ -14,7 +13,6 @@ import { FormType, formSchema } from "./schema";
 
 export function useManualStack() {
 	const workspace = useQuery({ ...workspaceQueries.workspaceDetail("default") });
-	const user = useCurrentUser();
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -48,8 +46,6 @@ export function useManualStack() {
 
 		const payload: StackRequest = {
 			name: data.stackName,
-			user: user.data?.id || "",
-			workspace: workspace.data?.id || "",
 			components: components
 		};
 
