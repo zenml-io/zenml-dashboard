@@ -120,7 +120,22 @@ export function DetailsCard({ artifactVersionId }: Props) {
 						}
 					/>
 				)}
-
+				<KeyValue
+					label="Materializer"
+					value={
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger className="cursor-default">
+									{artifactVersion.data.body?.materializer.attribute}
+								</TooltipTrigger>
+								<TooltipContent align="start">
+									{artifactVersion.data.body?.materializer.module}.
+									{artifactVersion.data.body?.materializer.attribute}
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					}
+				/>
 				<KeyValue label="Type" value={artifactVersion.data.body?.type} />
 				<KeyValue
 					label="Author"

@@ -1,10 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode } from "react";
-import { KeyValue } from "./KeyValue";
-import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
-import { CollapsibleCard } from "./CollapsibleCard";
-import { Codesnippet } from "./CodeSnippet";
 import { renderAnyToString } from "@/lib/strings";
+import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library/components/client";
+import { ReactNode } from "react";
+import { Codesnippet } from "./CodeSnippet";
+import { CollapsibleCard } from "./CollapsibleCard";
+import { KeyValue } from "./KeyValue";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -56,7 +62,14 @@ export function NestedCollapsible({
 					{values.map(([key, value]) => (
 						<KeyValue
 							key={key}
-							label={key}
+							label={
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
+										<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							}
 							value={
 								<>
 									{typeof value === "boolean" ? (
@@ -98,7 +111,14 @@ function RenderArray({ title, value }: { title: string; value: any }) {
 						{Object.entries(simpleValues).map(([key, value]) => (
 							<KeyValue
 								key={key}
-								label={key}
+								label={
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
+											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								}
 								value={<div className="py-1">{renderAnyToString(value)}</div>}
 							/>
 						))}
