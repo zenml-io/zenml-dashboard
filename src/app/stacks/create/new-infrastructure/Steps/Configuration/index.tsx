@@ -42,11 +42,11 @@ export function ConfigurationStep() {
 						ref={formRef}
 						className="space-y-5"
 					>
-						<Region />
+						<Region provider={data.provider || "aws"} />
 						<StackName />
 					</form>
-					<ReviewYourStack />
-					<EstimateCosts />
+					<ReviewYourStack provider={data.provider || "aws"} />
+					<EstimateCosts provider={data.provider || "aws"} />
 				</div>
 			</FormProvider>
 		</WizardStepWrapper>

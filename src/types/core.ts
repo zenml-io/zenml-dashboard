@@ -1773,6 +1773,7 @@ export type paths = {
 		 *     provider: The stack deployment provider.
 		 *     stack_name: The name of the stack.
 		 *     location: The location where the stack should be deployed.
+		 *     terraform: Whether the stack should be deployed using Terraform.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
@@ -1791,6 +1792,7 @@ export type paths = {
 		 *     stack_name: The name of the stack.
 		 *     location: The location where the stack should be deployed.
 		 *     date_start: The date when the deployment started.
+		 *     terraform: Whether the stack was deployed using Terraform.
 		 *
 		 * Returns:
 		 *     The ZenML stack that was deployed and registered or None if the stack
@@ -7329,6 +7331,8 @@ export type components = {
 			 * @default false
 			 */
 			use_legacy_dashboard?: boolean;
+			/** Timestamp of latest user activity traced on the server. */
+			last_user_activity?: string | null;
 		};
 		/**
 		 * ServerSettingsResponse
@@ -7364,6 +7368,11 @@ export type components = {
 			display_announcements: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
 			display_updates: boolean | null;
+			/**
+			 * The timestamp when the last user activity was detected.
+			 * Format: date-time
+			 */
+			last_user_activity: string;
 			/**
 			 * The timestamp when this resource was last updated.
 			 * Format: date-time
@@ -9067,8 +9076,6 @@ export type components = {
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
 			email_opted_in?: boolean | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** A password for the user. */
 			password?: string | null;
 			/** Activation Token */
@@ -9169,8 +9176,6 @@ export type components = {
 			 * @default
 			 */
 			email?: string | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** The external user ID associated with the account. Only relevant for user accounts. */
 			external_user_id?: string | null;
 			/**
@@ -9200,8 +9205,6 @@ export type components = {
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
 			email_opted_in?: boolean | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** A password for the user. */
 			password?: string | null;
 			/** Activation Token */
@@ -16132,6 +16135,7 @@ export type operations = {
 	 *     provider: The stack deployment provider.
 	 *     stack_name: The name of the stack.
 	 *     location: The location where the stack should be deployed.
+	 *     terraform: Whether the stack should be deployed using Terraform.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
@@ -16144,6 +16148,7 @@ export type operations = {
 				provider: components["schemas"]["StackDeploymentProvider"];
 				stack_name: string;
 				location?: string | null;
+				terraform?: boolean;
 			};
 		};
 		responses: {
@@ -16182,6 +16187,7 @@ export type operations = {
 	 *     stack_name: The name of the stack.
 	 *     location: The location where the stack should be deployed.
 	 *     date_start: The date when the deployment started.
+	 *     terraform: Whether the stack was deployed using Terraform.
 	 *
 	 * Returns:
 	 *     The ZenML stack that was deployed and registered or None if the stack
@@ -16194,6 +16200,7 @@ export type operations = {
 				stack_name: string;
 				location?: string | null;
 				date_start?: string | null;
+				terraform?: boolean;
 			};
 		};
 		responses: {
