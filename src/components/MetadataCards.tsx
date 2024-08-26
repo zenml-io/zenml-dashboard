@@ -5,6 +5,12 @@ import { CollapsibleCard } from "./CollapsibleCard";
 import { Codesnippet } from "./CodeSnippet";
 import { EmptyState } from "./EmptyState";
 import File from "@/assets/icons/file.svg?react";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library/components/client";
 
 type Props = { metadata: MetadataMap };
 
@@ -68,7 +74,16 @@ export function UncategorizedCard({ metadata, title }: Props & { title?: string 
 					{nonDicts.map(([_, value]) => (
 						<KeyValue
 							key={value.id}
-							label={value.body.key}
+							label={
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default truncate">
+											{value.body.key}
+										</TooltipTrigger>
+										<TooltipContent className="max-w-[480px]">{value.body.key}</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							}
 							value={
 								<>
 									{(() => {
