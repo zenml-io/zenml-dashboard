@@ -55,11 +55,11 @@ export function InfoCollapsible() {
 									className="underline transition-all duration-200 hover:decoration-transparent"
 									rel="noopener noreferrer"
 									target="_blank"
-									href={orchestrator_url.body.key}
+									href={orchestrator_url.body.value}
 								>
-									{orchestrator_url.body.key}
+									{orchestrator_url.body.value}
 								</a>
-								<CopyButton copyText={orchestrator_url.body.key} />
+								<CopyButton copyText={orchestrator_url.body.value} />
 							</div>
 						) : (
 							"Not available"

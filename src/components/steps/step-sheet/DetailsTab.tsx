@@ -6,6 +6,7 @@ import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { routes } from "@/router/routes";
+import { Metadata, MetadataMap } from "@/types/common";
 import {
 	Badge,
 	Skeleton,
@@ -29,10 +30,6 @@ type Props = {
 	runId: string;
 };
 
-export type Metadata = {
-	orchestrator_url?: string;
-};
-
 export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
@@ -43,7 +40,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
 	const enable_cache = data.metadata?.config?.enable_cache;
-	const orchestrator_url = (pipelineRunData?.metadata as Metadata)?.orchestrator_url;
+	const orchestrator_url: Metadata | undefined = (data?.metadata?.run_metadata as MetadataMap)
+		?.orchestrator_url;
 	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
@@ -57,8 +55,15 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					value={
 						orchestrator_url ? (
 							<div className="group/copybutton flex items-center gap-0.5">
-								{orchestrator_url}
-								<CopyButton copyText={orchestrator_url} />
+								<a
+									className="underline transition-all duration-200 hover:decoration-transparent"
+									rel="noopener noreferrer"
+									target="_blank"
+									href={orchestrator_url.body.value}
+								>
+									{orchestrator_url.body.value}
+								</a>
+								<CopyButton copyText={orchestrator_url.body.value} />
 							</div>
 						) : (
 							"Not available"
