@@ -1,14 +1,20 @@
-import Github from "@/assets/icons/github.svg?react";
+import Info from "@/assets/icons/info.svg?react";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
-import { transformToEllipsis } from "@/lib/strings";
 import { routes } from "@/router/routes";
-import { Badge, Skeleton, Tag } from "@zenml-io/react-component-library";
+import {
+	Badge,
+	Skeleton,
+	Tag,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
@@ -16,6 +22,7 @@ import { DisplayDate } from "../../DisplayDate";
 import { ErrorFallback } from "../../Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
 import { Key, KeyValue, Value } from "../../KeyValue";
+import { RepoBadge } from "../../repositories/RepoBadge";
 
 type Props = {
 	stepId: string;
@@ -32,13 +39,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 
 	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
 
-	const { data: codeRepositoryData } = useCodeRepository(
-		{ repositoryId: repository?.id as string },
-		{ throwOnError: true, enabled: !!repository?.id }
-	);
-
-	const repositoryMetadata = codeRepositoryData?.metadata?.config;
-
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
@@ -49,37 +49,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
 
-	const getRepositoryLink = () => {
-		let name: string = repository?.name as string;
-		let url: string | null = "";
-
-		if (repository?.body?.source?.attribute === "GitHubCodeRepository") {
-			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
-			url = `https://www.github.com/${name}`;
-		} else if (repository?.body?.source?.attribute === "GitLabCodeRepository") {
-			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
-			url = `https://www.gitlab.com/${name}`;
-		}
-
-		return (
-			<a
-				target="_blank"
-				rel="noopener noreferrer"
-				className={`flex items-center ${url ? "" : "pointer-events-none"}`}
-				onClick={(e) => e.stopPropagation()}
-				href={url}
-			>
-				<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
-				{name}
-			</a>
-		);
-	};
-
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
 				<KeyValue
-					label="Orchestrator url"
+					label="Orchestrator URL"
 					value={
 						orchestrator_url ? (
 							<div className="group/copybutton flex items-center gap-0.5">
@@ -92,7 +66,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					}
 				/>
 				<KeyValue
-					label="Orchestrator run Id"
+					label="Orchestrator Run ID"
 					value={
 						orchestrator_run_id ? (
 							<div className="group/copybutton flex items-center gap-0.5">
@@ -134,36 +108,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						</div>
 					}
 				></KeyValue>
-				{/* TODO ModelVersion */}
-				{/* {modelVersion && (
-					<KeyValue
-						label="Model"
-						value={
-							<Link
-								href={routes.organizations.tenants.dashboard.models.detail(
-									orgId,
-									tenantID,
-									modelId || ""
-								)}
-							>
-								<div className="flex items-center">
-									<Tag
-										rounded={false}
-										emphasis="subtle"
-										color="yellow"
-										className="flex w-fit items-center gap-1 "
-									>
-										<Model className="h-4 w-4 fill-warning-500" />
-										{modelVersion?.name}
-										<div className="rounded-sm bg-warning-200 px-1 py-0.25">
-											{modelVersion?.body?.latest_version_name}
-										</div>
-									</Tag>
-								</div>
-							</Link>
-						}
-					/>
-				)} */}
 				{pipelineRunData ? (
 					<>
 						<KeyValue
@@ -186,33 +130,53 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								</Link>
 							}
 						/>
-						{pipelineRunData.body?.code_reference && repositoryMetadata && (
-							<KeyValue
-								label="Repository/Commit"
-								value={
-									<div className="group/copybutton mr-1">
-										<Tag
-											color="grey"
-											className="inline-flex items-center  font-semibold text-neutral-900"
-											rounded={false}
-											emphasis="subtle"
-										>
-											{getRepositoryLink()}
-											<div className="ml-1 rounded-sm bg-neutral-200 px-1 py-0.25">
-												{transformToEllipsis(
-													pipelineRunData?.body?.code_reference?.body?.commit as string,
-													10
-												)}
-											</div>
-										</Tag>
-										<CopyButton
-											copyText={pipelineRunData?.body?.code_reference?.body?.commit as string}
-										/>
-									</div>
-								}
-							/>
-						)}
-						<Key className={pipelineRunData.metadata?.code_path ? "col-span-3" : ""}>Code Path</Key>
+						<KeyValue
+							label={
+								<div className="flex items-center space-x-0.5 truncate">
+									<span>Repository/Commit</span>
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger className="cursor-default">
+												<Info className="h-3 w-3 fill-theme-text-secondary" />
+												<span className="sr-only">Info</span>
+											</TooltipTrigger>
+											<TooltipContent className="w-full max-w-md whitespace-normal">
+												Git hash of code repository. Only set if pipeline was run in a clean git
+												repository connected to your ZenML server.
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								</div>
+							}
+							value={
+								pipelineRunData.body?.code_reference ? (
+									<RepoBadge
+										repositoryId={repository?.id}
+										commit={pipelineRunData.body.code_reference.body?.commit}
+									/>
+								) : (
+									"Not available"
+								)
+							}
+						/>
+
+						<Key className={pipelineRunData.metadata?.code_path ? "col-span-3" : ""}>
+							<div className="flex items-center space-x-0.5 truncate">
+								<span>Code Path</span>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default">
+											<Info className="h-3 w-3 fill-theme-text-secondary" />
+											<span className="sr-only">Info</span>
+										</TooltipTrigger>
+										<TooltipContent className="w-full max-w-md whitespace-normal">
+											Path to where code was uploaded in the artifact store. Only set on a pipeline
+											with a non-local orchestrator and if Repository/Commit is not set
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+						</Key>
 						<Value className={pipelineRunData.metadata?.code_path ? "col-span-3 h-auto" : ""}>
 							{pipelineRunData.metadata?.code_path ? (
 								<Codesnippet code={pipelineRunData.metadata.code_path} />
