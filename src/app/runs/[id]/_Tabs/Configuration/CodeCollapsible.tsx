@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function CodeCollapsible({ runId }: Props) {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 	const runCode = `from zenml.client import Client
 run = Client().get_pipeline_run('${runId}')
 config = run.config`;
