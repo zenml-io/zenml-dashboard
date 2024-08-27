@@ -11,7 +11,7 @@ export function getActivationToken(user: User) {
 
 export function checkUserOnboarding(user: User) {
 	if (user.body?.email_opted_in === null) return true;
-	if (!(user.metadata?.user_metadata as UserMetadata)?.awareness_channels?.length) return true;
+	if (!(user.metadata?.user_metadata as UserMetadata)?.infra_providers?.length) return true;
 
 	return false;
 }

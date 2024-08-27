@@ -4,7 +4,7 @@ import { useCurrentUser } from "@/data/users/current-user-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { SuccessStep } from "../../components/survey/SuccessStep";
 import { AccountDetailsStep } from "./AccountDetailsStep";
-import { AwarenessStep } from "./AwarenessStep";
+import { InfrastructureStep } from "./InfrastructureStep";
 import { PrimaryUseStep } from "./PrimaryUseStep";
 import { SlackStep } from "./SlackStep";
 import { SurveyUserProvider } from "./SurveyUserContext";
@@ -22,7 +22,7 @@ export function SurveyWizard() {
 				<StepDisplay stepAmount={4} />
 				{surveyStep === 1 && <AccountDetailsStep user={data} />}
 				{surveyStep === 2 && <PrimaryUseStep user={data} />}
-				{surveyStep === 3 && <AwarenessStep />}
+				{surveyStep === 3 && <InfrastructureStep />}
 				{surveyStep === 4 && <SlackStep />}
 				{surveyStep === 5 && (
 					<SuccessStep

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
 import { ReactNode, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { AwarenessFormType, AwarenessFormSchema } from "./form-schemas";
+import { InfrastructureFormSchema, InfrastructureFormType } from "./form-schemas";
 import Linkedin from "@/assets/icons/services/linkedin.svg?react";
 import Twitter from "@/assets/icons/services/x-twitter-primary.svg?react";
 import Mail from "@/assets/icons/mail.svg?react";
@@ -14,56 +14,56 @@ import Users from "@/assets/icons/users.svg?react";
 import FileText from "@/assets/icons/file-text.svg?react";
 import Search from "@/assets/icons/search.svg?react";
 
-export type AwarenessFormProps = {
+export type InfrastructureFormProps = {
 	user?: User;
-	submitHandler: (data: AwarenessFormType) => void;
+	submitHandler: (data: InfrastructureFormType) => void;
 };
 
-type AwarenessChannel = {
-	channel: string;
+type InfraProvider = {
+	name: string;
 	icon: ReactNode;
 };
 
-const channels: AwarenessChannel[] = [
+const names: InfraProvider[] = [
 	{
-		channel: "LinkedIn",
+		name: "LinkedIn",
 		icon: <Linkedin className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "X / Twitter",
+		name: "X / Twitter",
 		icon: <Twitter className="h-5 w-5" />
 	},
 	{
-		channel: "Newsletter",
+		name: "Newsletter",
 		icon: <Mail className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "Webinar",
+		name: "Webinar",
 		icon: <PlayCircle className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "Reddit",
+		name: "Reddit",
 		icon: <Reddit className="h-5 w-5" />
 	},
 	{
-		channel: "Conference",
+		name: "Conference",
 		icon: <Announcement className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "Recommendation",
+		name: "Recommendation",
 		icon: <Users className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "Blog",
+		name: "Blog",
 		icon: <FileText className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		channel: "Google / Search Engine",
+		name: "Google / Search Engine",
 		icon: <Search className="h-5 w-5 fill-primary-400" />
 	}
 ];
 
-export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
+export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 	const {
 		register,
 		setValue,
@@ -72,9 +72,9 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 		unregister,
 		control,
 		formState: { isValid }
-	} = useForm<AwarenessFormType>({
-		resolver: zodResolver(AwarenessFormSchema),
-		defaultValues: { channels: [] }
+	} = useForm<InfrastructureFormType>({
+		resolver: zodResolver(InfrastructureFormSchema),
+		defaultValues: { providers: [] }
 	});
 
 	const watchOtherCheckbox = watch("other");
@@ -97,10 +97,10 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 				<div className="grid w-full grid-cols-1 gap-[20px] md:grid-cols-2 xl:min-w-[700px]">
 					<Controller
 						control={control}
-						name="channels"
+						name="providers"
 						render={({ field: { onChange, value } }) => (
 							<>
-								{channels.map((channel, i) => (
+								{names.map((name, i) => (
 									<div
 										key={i}
 										className="flex items-center gap-1 rounded-md bg-theme-surface-primary pl-3"
@@ -108,21 +108,21 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 										<Checkbox
 											onCheckedChange={(val) => {
 												if (val) {
-													onChange([...value, channel.channel]);
+													onChange([...value, name.name]);
 												} else {
-													onChange(value.filter((item) => item !== channel.channel));
+													onChange(value.filter((item) => item !== name.name));
 												}
 											}}
-											value={channel.channel}
+											value={name.name}
 											className="h-3 w-3"
-											id={channel.channel}
+											id={name.name}
 										/>
 										<label
 											className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
-											htmlFor={channel.channel}
+											htmlFor={name.name}
 										>
-											{channel.icon}
-											{channel.channel}
+											{name.icon}
+											{name.name}
 										</label>
 									</div>
 								))}

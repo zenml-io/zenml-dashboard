@@ -3,7 +3,7 @@ import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { AccountDetailsStep } from "./AccountDetailsStep";
 import { SetPasswordStep } from "./PasswordStep";
 import { PrimaryUseStep } from "./PrimaryUseStep";
-import { AwarenessStep } from "./AwarenessStep";
+import { InfraStep } from "./InfrastructureStep";
 import { ActivationProvider } from "./ActivationContext";
 import { useSearchParams } from "react-router-dom";
 import { EmptyState } from "@/components/EmptyState";
@@ -33,7 +33,7 @@ export function ActivateWizard() {
 				{surveyStep === 1 && <AccountDetailsStep />}
 				{surveyStep === 2 && <SetPasswordStep />}
 				{surveyStep === 3 && <PrimaryUseStep />}
-				{surveyStep === 4 && <AwarenessStep setUsername={setUsername} userId={id} />}
+				{surveyStep === 4 && <InfraStep setUsername={setUsername} userId={id} />}
 				{surveyStep === 5 && (
 					<SuccessStep subHeader="Your created your ZenML account" username={username} />
 				)}

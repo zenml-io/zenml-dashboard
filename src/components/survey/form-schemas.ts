@@ -22,9 +22,9 @@ export const primaryUseFormSchema = z.object({
 
 export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
 
-export const AwarenessFormSchema = z
+export const InfrastructureFormSchema = z
 	.object({
-		channels: z.string().array(),
+		providers: z.string().array(),
 		other: z.boolean(),
 		otherVal: z.string().optional()
 	})
@@ -32,10 +32,10 @@ export const AwarenessFormSchema = z
 		if (data.other) {
 			return data.otherVal !== "";
 		}
-		return data.channels.length > 0;
+		return data.providers.length > 0;
 	});
 
-export type AwarenessFormType = z.infer<typeof AwarenessFormSchema>;
+export type InfrastructureFormType = z.infer<typeof InfrastructureFormSchema>;
 
 export const ServerNameFormSchema = z.object({
 	serverName: z.string().optional()
