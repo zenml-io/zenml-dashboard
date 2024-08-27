@@ -27,5 +27,4 @@ export type StackDeploymentStack = components["schemas"]["DeployedStack"];
 
 export type StackDeploymentProvider = components["schemas"]["StackDeploymentProvider"];
 
-export type FullStackRequest = components["schemas"]["FullStackRequest"];
 export type StackRequest = components["schemas"]["StackRequest"];
