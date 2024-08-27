@@ -12,9 +12,8 @@ export function PrimaryUseStep({ user }: Props) {
 	const { setSurveyStep } = useSurveyContext();
 	const { setUser } = useSurveyUserContext();
 
-	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {
+	function handlePrimaryUseSubmit({ primaryUse }: PrimaryUseFormType) {
 		const metadata: UserMetadata = {
-			models_production: amountProductionModels,
 			primary_use: primaryUse
 		};
 		setUser((prev) => ({

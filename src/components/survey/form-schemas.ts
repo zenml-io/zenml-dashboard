@@ -17,8 +17,7 @@ export const accountDetailsFormSchema = z
 export type AccountDetailForm = z.infer<typeof accountDetailsFormSchema>;
 
 export const primaryUseFormSchema = z.object({
-	primaryUse: z.string().min(1),
-	amountProductionModels: z.string().min(1)
+	primaryUse: z.string().min(1)
 });
 
 export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
