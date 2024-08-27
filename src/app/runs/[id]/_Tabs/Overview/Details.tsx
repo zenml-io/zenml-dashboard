@@ -75,21 +75,25 @@ export function Details() {
 					</Value>
 					<Key>Pipeline</Key>
 					<Value>
-						<Link
-							to={routes.pipelines.namespace(
-								encodeURIComponent(data.body?.pipeline?.name as string)
-							)}
-						>
-							<Tag
-								color="purple"
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
+						{data.body?.pipeline ? (
+							<Link
+								to={routes.pipelines.namespace(
+									encodeURIComponent(data.body?.pipeline?.name as string)
+								)}
 							>
-								<Pipelines className="h-4 w-4 fill-theme-text-brand" />
-								{data.body?.pipeline?.name}
-							</Tag>
-						</Link>
+								<Tag
+									color="purple"
+									className="inline-flex items-center gap-0.5"
+									rounded={false}
+									emphasis="subtle"
+								>
+									<Pipelines className="h-4 w-4 fill-theme-text-brand" />
+									{data.body?.pipeline?.name}
+								</Tag>
+							</Link>
+						) : (
+							"Not available"
+						)}
 					</Value>
 					<Key>Author</Key>
 					<Value>
