@@ -115,8 +115,8 @@ export function Details() {
 					</Value>
 					<Key>Duration</Key>
 					<Value>
-						{data?.metadata?.start_time && data?.metadata?.end_time
-							? calculateTimeDifference(data?.metadata?.start_time, data?.metadata?.end_time)
+						{data.metadata?.start_time && data.metadata?.end_time
+							? calculateTimeDifference(data.metadata?.start_time, data.metadata?.end_time)
 							: "Not available"}
 					</Value>
 				</dl>
