@@ -1,18 +1,13 @@
+import AWS from "@/assets/icons/services/aws.svg?react";
+import Azure from "@/assets/icons/services/azure.svg?react";
+import GCP from "@/assets/icons/services/gcp.svg?react";
+import Kubernetes from "@/assets/icons/services/kubernetes.svg?react";
 import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
-import { ReactNode, useEffect } from "react";
+import { Button, Checkbox } from "@zenml-io/react-component-library";
+import { ReactNode, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InfrastructureFormSchema, InfrastructureFormType } from "./form-schemas";
-import Linkedin from "@/assets/icons/services/linkedin.svg?react";
-import Twitter from "@/assets/icons/services/x-twitter-primary.svg?react";
-import Mail from "@/assets/icons/mail.svg?react";
-import PlayCircle from "@/assets/icons/play-circle.svg?react";
-import Reddit from "@/assets/icons/services/reddit-primary.svg?react";
-import Announcement from "@/assets/icons/announcement.svg?react";
-import Users from "@/assets/icons/users.svg?react";
-import FileText from "@/assets/icons/file-text.svg?react";
-import Search from "@/assets/icons/search.svg?react";
 
 export type InfrastructureFormProps = {
 	user?: User;
@@ -26,71 +21,54 @@ type InfraProvider = {
 
 const names: InfraProvider[] = [
 	{
-		name: "LinkedIn",
-		icon: <Linkedin className="h-5 w-5 fill-primary-400" />
+		name: "GCP",
+		icon: <GCP className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		name: "X / Twitter",
-		icon: <Twitter className="h-5 w-5" />
+		name: "AWS",
+		icon: <AWS className="h-5 w-5" />
 	},
 	{
-		name: "Newsletter",
-		icon: <Mail className="h-5 w-5 fill-primary-400" />
+		name: "Azure",
+		icon: <Azure className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		name: "Webinar",
-		icon: <PlayCircle className="h-5 w-5 fill-primary-400" />
+		name: "Kubernetes",
+		icon: <Kubernetes className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		name: "Reddit",
-		icon: <Reddit className="h-5 w-5" />
-	},
-	{
-		name: "Conference",
-		icon: <Announcement className="h-5 w-5 fill-primary-400" />
-	},
-	{
-		name: "Recommendation",
-		icon: <Users className="h-5 w-5 fill-primary-400" />
-	},
-	{
-		name: "Blog",
-		icon: <FileText className="h-5 w-5 fill-primary-400" />
-	},
-	{
-		name: "Google / Search Engine",
-		icon: <Search className="h-5 w-5 fill-primary-400" />
+		name: "Openshift",
+		icon: <Kubernetes className="h-5 w-5" /> // TODO Openshift Icon
 	}
 ];
 
 export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
+	const inputRef = useRef<HTMLInputElement | null>(null);
 	const {
 		register,
 		setValue,
 		watch,
 		handleSubmit,
-		unregister,
+
 		control,
 		formState: { isValid }
 	} = useForm<InfrastructureFormType>({
 		resolver: zodResolver(InfrastructureFormSchema),
-		defaultValues: { providers: [] }
+		defaultValues: { providers: [] },
+		shouldUnregister: true
 	});
 
 	const watchOtherCheckbox = watch("other");
-
 	useEffect(() => {
 		if (watchOtherCheckbox) {
-			register("otherVal");
-		} else {
-			unregister("otherVal");
+			inputRef.current?.focus();
 		}
-	}, [register, unregister, watchOtherCheckbox]);
+	}, [watchOtherCheckbox]);
 
 	return (
 		<div className="space-y-5">
 			<div>
-				<h1 className="text-display-xs font-semibold">How did you hear about us?</h1>
+				<h1 className="text-display-xs font-semibold">What is your current infrastructure?</h1>
 				<p className="text-theme-text-secondary">Select all the applicable options</p>
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
@@ -136,21 +114,25 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 							className="mr-2 h-3 w-3"
 							id={"other"}
 						/>
-						<label
-							className="w-full py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
-							htmlFor={"other"}
-						>
-							Other (specify)
-						</label>
+						{watchOtherCheckbox ? (
+							<input
+								{...register("otherVal")}
+								ref={(e) => {
+									register("otherVal").ref(e);
+									inputRef.current = e;
+								}}
+								placeholder="Other (specify)"
+								className="w-full border-none p-0 text-theme-text-secondary focus:outline-none focus:ring-0"
+							/>
+						) : (
+							<label
+								className="w-full py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
+								htmlFor={"other"}
+							>
+								Other (specify)
+							</label>
+						)}
 					</div>
-					{watchOtherCheckbox && (
-						<Input
-							inputSize="lg"
-							{...register("otherVal")}
-							placeholder="Specify..."
-							className="w-full border-theme-border-minimal"
-						/>
-					)}
 				</div>
 				<Button disabled={!isValid} type="submit" className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
