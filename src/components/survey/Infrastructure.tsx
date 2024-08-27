@@ -5,6 +5,7 @@ import Kubernetes from "@/assets/icons/services/kubernetes.svg?react";
 import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
+import { clsx } from "clsx";
 import { ReactNode, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InfrastructureFormSchema, InfrastructureFormType } from "./form-schemas";
@@ -79,9 +80,18 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 						render={({ field: { onChange, value } }) => (
 							<>
 								{names.map((name, i) => (
-									<div
+									<label
 										key={i}
-										className="flex items-center gap-1 rounded-md bg-theme-surface-primary pl-3"
+										className={clsx(
+											"flex items-center gap-1 rounded-md border pl-3 transition-all duration-150",
+											{
+												"border-primary-400 bg-primary-25 shadow-sm": watch("providers").includes(
+													name.name
+												),
+												"border-transparent bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
+													!watch("providers").includes(name.name)
+											}
+										)}
 									>
 										<Checkbox
 											onCheckedChange={(val) => {
@@ -93,21 +103,25 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 											}}
 											value={name.name}
 											className="h-3 w-3"
-											id={name.name}
 										/>
-										<label
-											className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
-											htmlFor={name.name}
-										>
+										<div className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer">
 											{name.icon}
 											{name.name}
-										</label>
-									</div>
+										</div>
+									</label>
 								))}
 							</>
 						)}
 					></Controller>
-					<div className="flex items-center rounded-md bg-theme-surface-primary pl-3">
+					<div
+						className={clsx(
+							"flex items-center rounded-md border bg-theme-surface-primary pl-3 transition duration-150",
+							{
+								"border-primary-400": !!watch("other"),
+								"border-transparent hover:border-theme-border-bold": !watch("other")
+							}
+						)}
+					>
 						<Checkbox
 							onCheckedChange={(val) => setValue("other", !!val)}
 							{...register(`other`, { value: false })}
@@ -121,8 +135,8 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 									register("otherVal").ref(e);
 									inputRef.current = e;
 								}}
-								placeholder="Other (specify)"
-								className="w-full border-none p-0 text-theme-text-secondary focus:outline-none focus:ring-0"
+								placeholder="Specify..."
+								className="w-full border-none p-0 pr-2 placeholder:text-theme-text-tertiary focus:outline-none focus:ring-0"
 							/>
 						) : (
 							<label
