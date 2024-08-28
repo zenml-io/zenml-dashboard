@@ -56,7 +56,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						orchestrator_url ? (
 							<div className="group/copybutton flex items-center gap-0.5">
 								<a
-									className="underline transition-all duration-200 hover:decoration-transparent"
+									className="truncate underline transition-all duration-200 hover:decoration-transparent"
 									rel="noopener noreferrer"
 									target="_blank"
 									href={orchestrator_url.body.value}
@@ -138,7 +138,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						<KeyValue
 							label={
 								<div className="flex items-center space-x-0.5 truncate">
-									<span>Repository/Commit</span>
+									<span className="truncate">Repository/Commit</span>
 									<TooltipProvider>
 										<Tooltip>
 											<TooltipTrigger className="cursor-default">
