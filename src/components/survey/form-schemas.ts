@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { updatePasswordBaseFormSchema } from "../password/UpdatePasswordSchemas";
 
+// Account Details
 export const accountDetailsFormSchema = z
 	.object({
 		fullName: z.union([z.string(), z.literal("")]),
@@ -16,12 +17,14 @@ export const accountDetailsFormSchema = z
 
 export type AccountDetailForm = z.infer<typeof accountDetailsFormSchema>;
 
+// Primary Use
 export const primaryUseFormSchema = z.object({
 	primaryUse: z.string().min(1)
 });
 
 export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
 
+// Infrastructure
 export const InfrastructureFormSchema = z
 	.object({
 		providers: z.string().array(),
@@ -37,12 +40,14 @@ export const InfrastructureFormSchema = z
 
 export type InfrastructureFormType = z.infer<typeof InfrastructureFormSchema>;
 
+// Server Name
 export const ServerNameFormSchema = z.object({
 	serverName: z.string().optional()
 });
 
 export type ServerNameFormType = z.infer<typeof ServerNameFormSchema>;
 
+// Server Password
 export function getSetPasswordStepSchema(withUsername: boolean = false) {
 	return updatePasswordBaseFormSchema
 		.extend({
@@ -62,3 +67,29 @@ export function getSetPasswordStepSchema(withUsername: boolean = false) {
 
 const setPasswordStepSchema = getSetPasswordStepSchema();
 export type SetPasswordStepType = z.infer<typeof setPasswordStepSchema>;
+
+// Usage Reason
+
+export const UsageReasonFormSchema = z
+	.object({
+		usageReason: z.union([
+			z.enum([
+				"exploring",
+				"planning_poc",
+				"comparing_tools",
+				"implementing_production_environment"
+			]),
+			z.literal("")
+		]),
+		comparison_tools: z.string().array().optional(),
+		otherTool: z.boolean().optional(),
+		otherToolVal: z.string().optional()
+	})
+	.refine((data) => {
+		if (data.usageReason.length === 0) return false;
+		if (data.otherTool) return data.otherToolVal !== "";
+		if (data.usageReason === "comparing_tools") return data.comparison_tools?.length ?? 0 > 0;
+
+		return true;
+	});
+export type UsageReasonFormType = z.infer<typeof UsageReasonFormSchema>;

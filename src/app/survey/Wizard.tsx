@@ -8,6 +8,7 @@ import { InfrastructureStep } from "./InfrastructureStep";
 import { PrimaryUseStep } from "./PrimaryUseStep";
 import { SlackStep } from "./SlackStep";
 import { SurveyUserProvider } from "./SurveyUserContext";
+import { UsageReasonStep } from "./UsageReasonStep";
 
 export function SurveyWizard() {
 	const { data, isPending, isError } = useCurrentUser({ throwOnError: true });
@@ -19,12 +20,13 @@ export function SurveyWizard() {
 	return (
 		<>
 			<SurveyUserProvider>
-				<StepDisplay stepAmount={4} />
+				<StepDisplay stepAmount={5} />
 				{surveyStep === 1 && <AccountDetailsStep user={data} />}
 				{surveyStep === 2 && <PrimaryUseStep user={data} />}
-				{surveyStep === 3 && <InfrastructureStep />}
-				{surveyStep === 4 && <SlackStep />}
-				{surveyStep === 5 && (
+				{surveyStep === 3 && <UsageReasonStep />}
+				{surveyStep === 4 && <InfrastructureStep />}
+				{surveyStep === 5 && <SlackStep />}
+				{surveyStep === 6 && (
 					<SuccessStep
 						subHeader="Your ZenML account is now updated"
 						displayBody={false}

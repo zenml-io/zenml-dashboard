@@ -16,4 +16,7 @@ export type UserMetadata = {
 	infra_providers?: string[];
 	primary_use?: string;
 	overview_tour_done?: boolean;
+	usage_reason?: string;
+	comparing_tools?: string[];
+	finished_onboarding_survey?: boolean;
 };

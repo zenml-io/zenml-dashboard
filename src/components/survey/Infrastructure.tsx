@@ -2,7 +2,6 @@ import AWS from "@/assets/icons/services/aws.svg?react";
 import Azure from "@/assets/icons/services/azure.svg?react";
 import GCP from "@/assets/icons/services/gcp.svg?react";
 import Kubernetes from "@/assets/icons/services/kubernetes.svg?react";
-import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import { clsx } from "clsx";
@@ -11,7 +10,6 @@ import { Controller, useForm } from "react-hook-form";
 import { InfrastructureFormSchema, InfrastructureFormType } from "./form-schemas";
 
 export type InfrastructureFormProps = {
-	user?: User;
 	submitHandler: (data: InfrastructureFormType) => void;
 };
 
@@ -115,7 +113,7 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 					></Controller>
 					<div
 						className={clsx(
-							"flex items-center rounded-md border bg-theme-surface-primary pl-3 transition duration-150",
+							"flex items-center rounded-md border bg-theme-surface-primary p-3 transition duration-150",
 							{
 								"border-primary-400": !!watch("other"),
 								"border-transparent hover:border-theme-border-bold": !watch("other")
@@ -140,10 +138,10 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 							/>
 						) : (
 							<label
-								className="w-full py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
+								className="w-full text-theme-text-secondary hover:cursor-pointer"
 								htmlFor={"other"}
 							>
-								Other (specify)
+								Other
 							</label>
 						)}
 					</div>
