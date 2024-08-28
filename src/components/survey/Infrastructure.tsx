@@ -150,6 +150,15 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 				<Button disabled={!isValid} type="submit" className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
 				</Button>
+				<Button
+					intent="secondary"
+					emphasis="minimal"
+					onClick={() => submitHandler({ providers: ["local"], other: false })}
+					className="mx-auto justify-center text-neutral-500"
+					size="sm"
+				>
+					Skip this step
+				</Button>
 			</form>
 		</div>
 	);

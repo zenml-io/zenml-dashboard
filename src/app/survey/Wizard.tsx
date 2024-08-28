@@ -1,12 +1,12 @@
+import { SlackStep } from "@/components/survey/SlackStep";
 import StepDisplay from "@/components/survey/StepDisplay";
+import { SuccessStep } from "@/components/survey/SuccessStep";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { SuccessStep } from "../../components/survey/SuccessStep";
 import { AccountDetailsStep } from "./AccountDetailsStep";
 import { InfrastructureStep } from "./InfrastructureStep";
 import { PrimaryUseStep } from "./PrimaryUseStep";
-import { SlackStep } from "./SlackStep";
 import { SurveyUserProvider } from "./SurveyUserContext";
 import { UsageReasonStep } from "./UsageReasonStep";
 

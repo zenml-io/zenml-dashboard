@@ -1,7 +1,12 @@
+import Airflow from "@/assets/icons/services/airflow.svg";
+import Flyte from "@/assets/icons/services/flyte.svg";
+import Kedro from "@/assets/icons/services/kedro.svg";
+import Metaflow from "@/assets/icons/services/metaflow.svg";
+import Prefect from "@/assets/icons/services/prefect.svg";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import clsx from "clsx";
-import { ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { UsageReasonFormSchema, UsageReasonFormType } from "./form-schemas";
 
@@ -20,28 +25,28 @@ const options: { key: string; label: string }[] = [
 ];
 
 const tools: {
-	icon: ReactNode;
+	icon: string;
 	name: string;
 }[] = [
 	{
 		name: "Metaflow",
-		icon: ""
+		icon: Metaflow
 	},
 	{
 		name: "Flyte",
-		icon: ""
+		icon: Flyte
 	},
 	{
 		name: "Prefect",
-		icon: ""
+		icon: Prefect
 	},
 	{
 		name: "Kedro",
-		icon: ""
+		icon: Kedro
 	},
 	{
 		name: "Airflow",
-		icon: ""
+		icon: Airflow
 	}
 ];
 
@@ -107,7 +112,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 									<p className="text-text-sm text-theme-text-secondary">
 										Select all the tools that apply:
 									</p>
-									<ul className="grid w-full grid-cols-1 gap-2 xl:grid-cols-2">
+									<ul className="grid w-full grid-cols-1 gap-2 xl:grid-cols-3">
 										{tools.map(({ icon, name }) => (
 											<li key={name} className="">
 												<Controller
@@ -140,7 +145,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 																className="h-3 w-3"
 															/>
 															<div className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer">
-																{icon}
+																<img className="h-5 w-5" src={icon} alt={`${name} icon`} />
 																{name}
 															</div>
 														</label>
@@ -172,7 +177,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 															inputRef.current = e;
 														}}
 														placeholder="Specify..."
-														className="border-none p-0 pr-2 placeholder:text-theme-text-tertiary focus:outline-none focus:ring-0"
+														className="box-border w-full border-none p-0 pr-1 placeholder:text-theme-text-tertiary focus:outline-none focus:ring-0"
 													/>
 												) : (
 													<label

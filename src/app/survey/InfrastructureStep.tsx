@@ -34,7 +34,10 @@ export function InfrastructureStep() {
 
 	function handleInfrastructureSubmit({ other, providers, otherVal }: InfrastructureFormType) {
 		const providerArr = other ? [...providers, otherVal] : providers;
-		const updateMetadata: UserMetadata = { infra_providers: providerArr as string[] };
+		const updateMetadata: UserMetadata = {
+			infra_providers: providerArr as string[],
+			finished_onboarding_survey: true
+		};
 		mutate({ ...user, user_metadata: { ...user.user_metadata, ...updateMetadata } });
 	}
 
