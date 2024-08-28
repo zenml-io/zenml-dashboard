@@ -26,12 +26,12 @@ export function InfoCollapsible() {
 	const [open, setOpen] = useState(true);
 	const { data, isError, isPending } = usePipelineRun({ runId });
 
-	const orchestrator_url: Metadata | undefined = (data?.metadata?.run_metadata as MetadataMap)
-		?.orchestrator_url;
-	const orchestrator_run_id = data?.metadata?.orchestrator_run_id;
-
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-[200px]" />;
+
+	const orchestrator_url: Metadata | undefined = (data.metadata?.run_metadata as MetadataMap)
+		?.orchestrator_url;
+	const orchestrator_run_id = data.metadata?.orchestrator_run_id;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>

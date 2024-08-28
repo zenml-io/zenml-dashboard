@@ -1,6 +1,6 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { AwarenessForm } from "@/components/survey/AwarenessChannel";
-import { AwarenessFormType } from "@/components/survey/form-schemas";
+import { InfrastructureForm } from "@/components/survey/Infrastructure";
+import { InfrastructureFormType } from "@/components/survey/form-schemas";
 import { useActivateUser } from "@/data/users/activate-user-mutation";
 import { useToast } from "@zenml-io/react-component-library";
 import { useActivationContext } from "./ActivationContext";
@@ -15,7 +15,7 @@ type Props = {
 	setUsername: Dispatch<SetStateAction<string>>;
 };
 
-export function AwarenessStep({ userId, setUsername }: Props) {
+export function InfraStep({ userId, setUsername }: Props) {
 	const { newUser } = useActivationContext();
 	const { setAuthState } = useAuthContext();
 	const { setSurveyStep } = useSurveyContext();
@@ -44,14 +44,17 @@ export function AwarenessStep({ userId, setUsername }: Props) {
 		}
 	});
 
-	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
-		const channelArr = other ? [...channels, otherVal] : channels;
-		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
+	function handleInfraFormSubmit({ other, providers, otherVal }: InfrastructureFormType) {
+		const providerArr = other ? [...providers, otherVal] : providers;
+		const updateMetadata: UserMetadata = {
+			infra_providers: providerArr as string[],
+			finished_onboarding_survey: true
+		};
 		mutate({
 			userId,
 			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
 		});
 	}
 
-	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;
+	return <InfrastructureForm submitHandler={handleInfraFormSubmit} />;
 }

@@ -110,10 +110,8 @@ export function KeyValueCard({ data, title }: { title: string; data: AnyDict }) 
 								label={
 									<TooltipProvider>
 										<Tooltip>
-											<TooltipTrigger className="cursor-default truncate">
-												{value.body.key}
-											</TooltipTrigger>
-											<TooltipContent className="max-w-[480px]">{value.body.key}</TooltipContent>
+											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
+											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
 										</Tooltip>
 									</TooltipProvider>
 								}
