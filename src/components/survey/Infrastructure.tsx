@@ -2,6 +2,7 @@ import AWS from "@/assets/icons/services/aws.svg?react";
 import Azure from "@/assets/icons/services/azure.svg?react";
 import GCP from "@/assets/icons/services/gcp.svg?react";
 import Kubernetes from "@/assets/icons/services/kubernetes.svg?react";
+import Openshift from "@/assets/icons/services/openshift.svg?react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import { clsx } from "clsx";
@@ -32,12 +33,12 @@ const names: InfraProvider[] = [
 		icon: <Azure className="h-5 w-5 fill-primary-400" />
 	},
 	{
-		name: "Kubernetes",
+		name: "Native Kubernetes",
 		icon: <Kubernetes className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		name: "Openshift",
-		icon: <Kubernetes className="h-5 w-5" /> // TODO Openshift Icon
+		icon: <Openshift className="h-5 w-5" />
 	}
 ];
 
