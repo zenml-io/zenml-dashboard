@@ -1,7 +1,9 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import Codebrowser from "@/assets/icons/code-browser.svg?react";
 import ConnectorAdd from "@/assets/icons/connector-add.svg?react";
 import Help from "@/assets/icons/help.svg?react";
+import Info from "@/assets/icons/info.svg?react";
+import { useServerInfo } from "@/data/server/info-query";
+import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
 import { Skeleton } from "@zenml-io/react-component-library";
 import {
@@ -11,8 +13,6 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Link, useSearchParams } from "react-router-dom";
-import { useServerInfo } from "../../../data/server/info-query";
-import { checkIsLocalServer } from "../../../lib/server";
 import { LocalOverlay } from "./LocalOverlay";
 import * as OptionsCard from "./OptionCard";
 
@@ -66,7 +66,7 @@ function InBrowserCard({ isLocalDeployment }: Props) {
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<div className="z-10">
-											<AlertCircle className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
+											<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
 										</div>
 									</TooltipTrigger>
 									<TooltipContent
@@ -139,7 +139,7 @@ function TerraformCard({ isLocalDeployment }: Props) {
 									<Tooltip>
 										<TooltipTrigger asChild>
 											<div className="z-10">
-												<AlertCircle className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
+												<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
 											</div>
 										</TooltipTrigger>
 										<TooltipContent
