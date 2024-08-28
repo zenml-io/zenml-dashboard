@@ -1,8 +1,11 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import CloudTenant from "@/assets/icons/cloud-tenant.svg?react";
 import Help from "@/assets/icons/help.svg?react";
+import Info from "@/assets/icons/info.svg?react";
 import Layout from "@/assets/icons/layout.svg?react";
+import { useServerInfo } from "@/data/server/info-query";
+import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
+import { Skeleton } from "@zenml-io/react-component-library";
 import {
 	Tooltip,
 	TooltipContent,
@@ -10,11 +13,8 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Link, useSearchParams } from "react-router-dom";
-import * as OptionsCard from "./OptionCard";
-import { useServerInfo } from "@/data/server/info-query";
-import { Skeleton } from "@zenml-io/react-component-library";
-import { checkIsLocalServer } from "@/lib/server";
 import { LocalOverlay } from "./LocalOverlay";
+import * as OptionsCard from "./OptionCard";
 
 const learnMoreLink = "https://docs.zenml.io/how-to/stack-deployment/deploy-a-cloud-stack";
 
@@ -67,7 +67,7 @@ function ManualSetupCard() {
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<div className="z-10">
-											<AlertCircle className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
+											<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
 										</div>
 									</TooltipTrigger>
 									<TooltipContent
@@ -136,7 +136,7 @@ function ScanCard({ isLocalDeployment }: Props) {
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<div className="z-10">
-											<AlertCircle className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
+											<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary" />
 										</div>
 									</TooltipTrigger>
 									<TooltipContent
