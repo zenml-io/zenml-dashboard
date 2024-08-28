@@ -39,11 +39,11 @@ export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyNam
 
 	const deleteSecret = () => {
 		if (secretDetail) {
-			const updatedValues = { ...secretDetail.body.values };
+			const updatedValues = { ...secretDetail.body?.values };
 			delete updatedValues[keyName];
 
 			const updatedSecretData: UpdateSecret = {
-				name: secretDetail.secretName,
+				name: secretDetail.name,
 				scope: "workspace",
 				values: updatedValues
 			};

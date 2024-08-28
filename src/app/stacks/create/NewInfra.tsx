@@ -3,18 +3,27 @@ import Codebrowser from "@/assets/icons/code-browser.svg?react";
 import ConnectorAdd from "@/assets/icons/connector-add.svg?react";
 import Help from "@/assets/icons/help.svg?react";
 import { routes } from "@/router/routes";
+import { Skeleton } from "@zenml-io/react-component-library";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import * as OptionsCard from "./OptionCard";
 import { Link, useSearchParams } from "react-router-dom";
+import { useServerInfo } from "../../../data/server/info-query";
+import { checkIsLocalServer } from "../../../lib/server";
+import { LocalOverlay } from "./LocalOverlay";
+import * as OptionsCard from "./OptionCard";
 
 const learnMoreLink = "https://docs.zenml.io/how-to/stack-deployment/deploy-a-cloud-stack";
 
 export function NewInfrastructure() {
+	const { isError, isPending, data } = useServerInfo();
+	if (isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError) return <div>Failed to load server info</div>;
+
+	const isLocalServer = checkIsLocalServer(data.deployment_type || "other");
 	return (
 		<section className="w-full space-y-5">
 			<div>
@@ -24,19 +33,24 @@ export function NewInfrastructure() {
 				</p>
 			</div>
 			<div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-				<InBrowserCard />
-				<TerraformCard />
+				<InBrowserCard isLocalDeployment={isLocalServer} />
+				<TerraformCard isLocalDeployment={isLocalServer} />
 			</div>
 		</section>
 	);
 }
 
-function InBrowserCard() {
+type Props = {
+	isLocalDeployment: boolean;
+};
+
+function InBrowserCard({ isLocalDeployment }: Props) {
 	const [searchParams] = useSearchParams();
 	const link =
 		routes.stacks.create.newInfra + (searchParams.size >= 1 ? `?${searchParams.toString()}` : "");
 	return (
 		<div className="relative">
+			{isLocalDeployment && <LocalOverlay />}
 			<Link to={link}>
 				<OptionsCard.Root>
 					<OptionsCard.Header>
@@ -101,13 +115,14 @@ function InBrowserCard() {
 	);
 }
 
-function TerraformCard() {
+function TerraformCard({ isLocalDeployment }: Props) {
 	const [searchParams] = useSearchParams();
 	const link =
 		routes.stacks.create.terraform + (searchParams.size >= 1 ? `?${searchParams.toString()}` : "");
 
 	return (
 		<div className="relative">
+			{isLocalDeployment && <LocalOverlay />}
 			<Link to={link}>
 				<OptionsCard.Root className="flex flex-col justify-between space-y-0">
 					<div className="space-y-1">

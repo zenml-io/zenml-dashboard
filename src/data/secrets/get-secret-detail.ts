@@ -1,8 +1,9 @@
-import { apiPaths, createApiPath } from "../api";
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
-import { fetcher } from "../fetch";
+import { Secret } from "@/types/secret";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { apiPaths, createApiPath } from "../api";
+import { fetcher } from "../fetch";
 
 export async function getSecretDetail(secretId: string) {
 	const url = createApiPath(apiPaths.secrets.detail(secretId));
@@ -27,11 +28,11 @@ export async function getSecretDetail(secretId: string) {
 
 export function useGetSecretDetail(
 	secretId: string,
-	options?: Omit<UseQueryOptions<any, unknown, any>, "queryFn" | "queryKey">
+	options?: Omit<UseQueryOptions<Secret, FetchError>, "queryFn" | "queryKey">
 ) {
-	return useQuery<any, unknown, any>({
+	return useQuery<Secret, FetchError>({
 		queryFn: () => getSecretDetail(secretId),
-		queryKey: ["secretDetail", secretId],
+		queryKey: ["secrets", secretId],
 		...options
 	});
 }

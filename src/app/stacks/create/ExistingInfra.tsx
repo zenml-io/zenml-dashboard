@@ -11,10 +11,20 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { Link, useSearchParams } from "react-router-dom";
 import * as OptionsCard from "./OptionCard";
+import { useServerInfo } from "@/data/server/info-query";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { checkIsLocalServer } from "@/lib/server";
+import { LocalOverlay } from "./LocalOverlay";
 
 const learnMoreLink = "https://docs.zenml.io/how-to/stack-deployment/deploy-a-cloud-stack";
 
 export function ExistingInfrastructure() {
+	const { isError, isPending, data } = useServerInfo();
+	if (isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError) return <div>Failed to load server info</div>;
+
+	const isLocalServer = checkIsLocalServer(data.deployment_type || "other");
+
 	return (
 		<section className="w-full space-y-5">
 			<div>
@@ -24,12 +34,16 @@ export function ExistingInfrastructure() {
 				</p>
 			</div>
 			<div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-				<ScanCard />
+				<ScanCard isLocalDeployment={isLocalServer} />
 				<ManualSetupCard />
 			</div>
 		</section>
 	);
 }
+
+type Props = {
+	isLocalDeployment: boolean;
+};
 
 function ManualSetupCard() {
 	const [searchParams] = useSearchParams();
@@ -103,9 +117,10 @@ function ManualSetupCard() {
 	);
 }
 
-function ScanCard() {
+function ScanCard({ isLocalDeployment }: Props) {
 	return (
 		<div className="relative">
+			{isLocalDeployment && <LocalOverlay />}
 			<Link to={routes.stacks.create.existingInfra}>
 				<OptionsCard.Root>
 					<OptionsCard.Header>

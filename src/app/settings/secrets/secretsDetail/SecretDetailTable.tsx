@@ -12,15 +12,15 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 	// Prepare data for DataTable
 	const secretDetailData = useMemo(() => {
 		return secretDetail
-			? Object.entries(secretDetail.body.values).map(([key, value]) => ({
+			? Object.entries(secretDetail.body?.values || []).map(([key, value]) => ({
 					id: secretDetail.id,
 					name: secretDetail.name,
 					key,
 					value,
-					scope: secretDetail.body.scope,
-					created: secretDetail.body.created,
-					updated: secretDetail.body.updated,
-					user: secretDetail.body.user
+					scope: secretDetail.body?.scope,
+					created: secretDetail.body?.created,
+					updated: secretDetail.body?.updated,
+					user: secretDetail.body?.user
 				}))
 			: [];
 	}, [secretDetail]);

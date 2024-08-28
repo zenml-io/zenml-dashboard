@@ -75,7 +75,7 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 			setValue("secretName", secretDetail.name);
 			setValue(
 				"keysValues",
-				Object.entries(secretDetail.body.values || {}).map(([key, value]) => ({
+				Object.entries(secretDetail.body?.values || {}).map(([key, value]) => ({
 					key,
 					value: String(value)
 				}))

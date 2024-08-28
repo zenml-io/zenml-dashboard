@@ -108,7 +108,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 									"flex items-center gap-1 rounded-md border pl-3 transition-all duration-150",
 									{
 										"border-primary-400 bg-primary-25 shadow-sm": watch("usageReason") === key,
-										"border-transparent bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
+										"border-theme-border-minimal bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
 											watch("usageReason") !== key
 									}
 								)}
@@ -144,7 +144,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 																{
 																	"border-primary-400 bg-primary-25 shadow-sm":
 																		watch("comparison_tools")?.includes(name),
-																	"border-transparent bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
+																	"border-theme-border-minimal bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
 																		!watch("comparison_tools")?.includes(name)
 																}
 															)}
@@ -177,7 +177,8 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 													"flex h-full items-center rounded-md border bg-theme-surface-primary p-3 transition duration-150",
 													{
 														"border-primary-400": !!watch("otherTool"),
-														"border-transparent hover:border-theme-border-bold": !watch("otherTool")
+														"border-theme-border-minimal hover:border-theme-border-bold":
+															!watch("otherTool")
 													}
 												)}
 											>
