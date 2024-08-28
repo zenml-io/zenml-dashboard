@@ -11,7 +11,7 @@ export function getActivationToken(user: User) {
 
 export function checkUserOnboarding(user: User) {
 	if (user.body?.email_opted_in === null) return true;
-	if ((user.metadata?.user_metadata as UserMetadata)?.finished_onboarding_survey) return true;
+	if ((user.metadata?.user_metadata as UserMetadata)?.finished_onboarding_survey) return false;
 	// old versions need to check for awareness_channels
 	if (
 		!(user.metadata?.user_metadata as { awareness_channels?: string[] })?.awareness_channels?.length

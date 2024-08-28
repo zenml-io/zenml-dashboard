@@ -72,7 +72,7 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 				<p className="text-theme-text-secondary">Select all the applicable options</p>
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
-				<div className="grid w-full grid-cols-1 gap-[20px] md:grid-cols-2 xl:min-w-[700px]">
+				<div className="grid w-full grid-cols-1 gap-[20px] md:grid-cols-2 lg:min-w-[700px]">
 					<Controller
 						control={control}
 						name="providers"

@@ -46,7 +46,10 @@ export function InfraStep({ userId, setUsername }: Props) {
 
 	function handleInfraFormSubmit({ other, providers, otherVal }: InfrastructureFormType) {
 		const providerArr = other ? [...providers, otherVal] : providers;
-		const updateMetadata: UserMetadata = { infra_providers: providerArr as string[] };
+		const updateMetadata: UserMetadata = {
+			infra_providers: providerArr as string[],
+			finished_onboarding_survey: true
+		};
 		mutate({
 			userId,
 			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
