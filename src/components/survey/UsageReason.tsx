@@ -145,7 +145,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 																className="h-3 w-3"
 															/>
 															<div className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer">
-																<img className="h-5 w-5" src={icon} alt={`${name} icon`} />
+																<img className="h-5 w-5 shrink-0" src={icon} alt={`${name} icon`} />
 																{name}
 															</div>
 														</label>

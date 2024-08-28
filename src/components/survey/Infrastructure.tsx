@@ -22,23 +22,23 @@ type InfraProvider = {
 const names: InfraProvider[] = [
 	{
 		name: "GCP",
-		icon: <GCP className="h-5 w-5 fill-primary-400" />
+		icon: <GCP className="h-5 w-5 shrink-0" />
 	},
 	{
 		name: "AWS",
-		icon: <AWS className="h-5 w-5" />
+		icon: <AWS className="h-5 w-5 shrink-0" />
 	},
 	{
 		name: "Azure",
-		icon: <Azure className="h-5 w-5 fill-primary-400" />
+		icon: <Azure className="h-5 w-5 shrink-0" />
 	},
 	{
 		name: "Native Kubernetes",
-		icon: <Kubernetes className="h-5 w-5 fill-primary-400" />
+		icon: <Kubernetes className="h-5 w-5 shrink-0" />
 	},
 	{
 		name: "Openshift",
-		icon: <Openshift className="h-5 w-5" />
+		icon: <Openshift className="h-5 w-5 shrink-0" />
 	}
 ];
 
