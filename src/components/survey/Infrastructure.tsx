@@ -87,7 +87,7 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 												"border-primary-400 bg-primary-25 shadow-sm": watch("providers").includes(
 													name.name
 												),
-												"border-transparent bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
+												"border-theme-border-minimal bg-theme-surface-primary hover:border-theme-border-bold hover:shadow-sm":
 													!watch("providers").includes(name.name)
 											}
 										)}
@@ -117,7 +117,7 @@ export function InfrastructureForm({ submitHandler }: InfrastructureFormProps) {
 							"flex items-center rounded-md border bg-theme-surface-primary p-3 transition duration-150",
 							{
 								"border-primary-400": !!watch("other"),
-								"border-transparent hover:border-theme-border-bold": !watch("other")
+								"border-theme-border-minimal hover:border-theme-border-bold": !watch("other")
 							}
 						)}
 					>
