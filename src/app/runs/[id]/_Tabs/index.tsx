@@ -1,3 +1,4 @@
+import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Collapse from "@/assets/icons/collapse.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
@@ -13,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { ConfigurationTab } from "./Configuration";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
+import { MetadataTab } from "./Metadata";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -57,6 +59,10 @@ export function RunsDetailTabs() {
 						<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 						<span>Configuration</span>
 					</TabsTrigger>
+					<TabsTrigger className="flex items-center gap-2 text-text-md" value="metadata">
+						<MetadataIcon className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<span>Metadata</span>
+					</TabsTrigger>
 				</TabsList>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
@@ -64,6 +70,9 @@ export function RunsDetailTabs() {
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 					<ConfigurationTab />
+				</TabsContent>
+				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
+					<MetadataTab />
 				</TabsContent>
 			</Tabs>
 		</div>

@@ -6,6 +6,7 @@ import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/Ex
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, Value } from "@/components/KeyValue";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { calculateTimeDifference } from "@/lib/dates";
 import { routes } from "@/router/routes";
 import {
 	CollapsibleContent,
@@ -16,7 +17,7 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams, useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 export function Details() {
 	const { runId } = useParams() as { runId: string };
@@ -74,21 +75,25 @@ export function Details() {
 					</Value>
 					<Key>Pipeline</Key>
 					<Value>
-						<Link
-							to={routes.pipelines.namespace(
-								encodeURIComponent(data.body?.pipeline?.name as string)
-							)}
-						>
-							<Tag
-								color="purple"
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
+						{data.body?.pipeline ? (
+							<Link
+								to={routes.pipelines.namespace(
+									encodeURIComponent(data.body?.pipeline?.name as string)
+								)}
 							>
-								<Pipelines className="h-4 w-4 fill-theme-text-brand" />
-								{data.body?.pipeline?.name}
-							</Tag>
-						</Link>
+								<Tag
+									color="purple"
+									className="inline-flex items-center gap-0.5"
+									rounded={false}
+									emphasis="subtle"
+								>
+									<Pipelines className="h-4 w-4 fill-theme-text-brand" />
+									{data.body?.pipeline?.name}
+								</Tag>
+							</Link>
+						) : (
+							"Not available"
+						)}
 					</Value>
 					<Key>Author</Key>
 					<Value>
@@ -111,6 +116,12 @@ export function Details() {
 						) : (
 							"Not available"
 						)}
+					</Value>
+					<Key>Duration</Key>
+					<Value>
+						{data.metadata?.start_time && data.metadata?.end_time
+							? calculateTimeDifference(data.metadata?.start_time, data.metadata?.end_time)
+							: "Not available"}
 					</Value>
 				</dl>
 			</CollapsibleContent>
