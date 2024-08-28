@@ -1,13 +1,14 @@
-import { SearchField } from "@/components/SearchField";
-import { useCurrentUser } from "@/data/users/current-user-query";
-import { AddSecretDialog } from "./AddSecretDialog";
-import { useAllSecrets } from "@/data/secrets/secrets-all-query";
-import { DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { getSecretColumns } from "./columns";
-import { useGetWorkSpaceDetail } from "@/data/workspaces/workspace-all-query";
-import { useSecretOverviewSearchParams } from "./service";
-import { useNavigate } from "react-router-dom";
 import Pagination from "@/components/Pagination";
+import { SearchField } from "@/components/SearchField";
+import { useAllSecrets } from "@/data/secrets/secrets-all-query";
+import { useCurrentUser } from "@/data/users/current-user-query";
+import { useQuery } from "@tanstack/react-query";
+import { DataTable, Skeleton } from "@zenml-io/react-component-library";
+import { useNavigate } from "react-router-dom";
+import { workspaceQueries } from "../../../data/workspaces";
+import { AddSecretDialog } from "./AddSecretDialog";
+import { getSecretColumns } from "./columns";
+import { useSecretOverviewSearchParams } from "./service";
 
 export default function SecretsTable() {
 	const navigate = useNavigate();
@@ -20,7 +21,12 @@ export default function SecretsTable() {
 
 	const userId = currentUser?.id || "";
 
-	const { data: workspaceData, isLoading, isError } = useGetWorkSpaceDetail("default");
+	const {
+		data: workspaceData,
+		isLoading,
+		isError,
+		isSuccess
+	} = useQuery({ ...workspaceQueries.workspaceDetail("default") });
 
 	return (
 		<>
@@ -32,7 +38,7 @@ export default function SecretsTable() {
 				) : isError ? (
 					<div>Error loading workspace details.</div>
 				) : (
-					<AddSecretDialog id={userId} workspace={workspaceData} />
+					isSuccess && <AddSecretDialog id={userId} workspace={workspaceData} />
 				)}
 			</div>
 			<div className="flex flex-col items-center gap-5">

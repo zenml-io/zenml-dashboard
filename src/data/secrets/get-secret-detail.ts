@@ -31,7 +31,7 @@ export function useGetSecretDetail(
 ) {
 	return useQuery<any, unknown, any>({
 		queryFn: () => getSecretDetail(secretId),
-		queryKey: ["secretDetail", secretId],
+		queryKey: ["secrets", secretId],
 		...options
 	});
 }

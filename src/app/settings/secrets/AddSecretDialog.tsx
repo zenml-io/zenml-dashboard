@@ -3,6 +3,7 @@ import Plus from "@/assets/icons/plus.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
+import { Workspace } from "@/types/workspaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -20,10 +21,6 @@ import {
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { secretFormSchema, SecretFormType } from "./form-schema";
-
-interface Workspace {
-	id: string;
-}
 
 export function AddSecretDialog({ id, workspace }: { id: string; workspace: Workspace }) {
 	const [open, setOpen] = useState(false);
