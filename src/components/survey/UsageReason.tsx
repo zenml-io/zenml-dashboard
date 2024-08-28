@@ -1,26 +1,43 @@
+import Rocket from "@/assets/icons/rocket.svg?react";
 import Airflow from "@/assets/icons/services/airflow.svg";
 import Flyte from "@/assets/icons/services/flyte.svg";
 import Kedro from "@/assets/icons/services/kedro.svg";
 import Metaflow from "@/assets/icons/services/metaflow.svg";
 import Prefect from "@/assets/icons/services/prefect.svg";
+import Stars from "@/assets/icons/stars.svg?react";
+import Switch from "@/assets/icons/switch-horizontal.svg?react";
+import Tools from "@/assets/icons/tool-02.svg?react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import clsx from "clsx";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { UsageReasonFormSchema, UsageReasonFormType } from "./form-schemas";
 
 export type InfrastructureFormProps = {
 	submitHandler: (data: UsageReasonFormType) => void;
 };
-
-const options: { key: string; label: string }[] = [
-	{ label: "I'm new to MLOps and exploring", key: "exploring" },
-	{ label: "I'm planning or conducting a Proof of Concept", key: "planning_poc" },
-	{ label: "I'm comparing ZenML to other MLOps tools", key: "comparing_tools" },
+const classname = "h-5 w-5 shrink-0 fill-primary-400";
+const options: { key: string; label: string; icon: ReactNode }[] = [
+	{
+		label: "I'm new to MLOps and exploring",
+		key: "exploring",
+		icon: <Stars className={classname} />
+	},
+	{
+		label: "I'm planning or conducting a Proof of Concept",
+		key: "planning_poc",
+		icon: <Tools className={classname} />
+	},
+	{
+		label: "I'm comparing ZenML to other MLOps tools",
+		key: "comparing_tools",
+		icon: <Switch className={classname} />
+	},
 	{
 		label: "I'm implementing ZenML in a production environment",
-		key: "implementing_production_environment"
+		key: "implementing_production_environment",
+		icon: <Rocket className={classname} />
 	}
 ];
 
@@ -84,7 +101,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="w-full space-y-5 lg:w-[700px]">
 				<ul className="space-y-2">
-					{options.map(({ key, label }) => (
+					{options.map(({ key, label, icon }) => (
 						<li className="space-y-2" key={key}>
 							<label
 								className={clsx(
@@ -104,6 +121,7 @@ export function UsageReasonForm({ submitHandler }: InfrastructureFormProps) {
 									className="h-3 w-3 border !border-theme-border-bold text-theme-surface-primary focus:ring-2 focus:ring-theme-surface-strong"
 								/>
 								<div className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer">
+									{icon}
 									{label}
 								</div>
 							</label>
