@@ -31,14 +31,19 @@ export function ConfigurationTab() {
 
 	return (
 		<div className="grid grid-cols-1 gap-5">
-			<NestedCollapsible title="Parameters" data={data.metadata?.config.parameters ?? undefined} />
+			<NestedCollapsible
+				isInitialOpen
+				title="Parameters"
+				data={data.metadata?.config.parameters ?? undefined}
+			/>
 			{(buildData?.metadata?.images as BuildItemMap)?.orchestrator && (
 				<DockerImageCollapsible data={buildData?.metadata?.images?.orchestrator as BuildItem} />
 			)}
 			<CodeCollapsible runId={runId} />
 			<EnvironmentCollapsible run={data} />
-			<NestedCollapsible title="Extra" data={data.metadata?.config.extra} />
+			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 			<NestedCollapsible
+				isInitialOpen
 				title="Resources"
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}

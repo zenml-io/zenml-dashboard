@@ -2,7 +2,11 @@ import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
 const tabParamSchema = z.object({
-	tab: z.enum(["overview", "configuration"]).optional().default("overview").catch("overview")
+	tab: z
+		.enum(["overview", "configuration", "metadata"])
+		.optional()
+		.default("overview")
+		.catch("overview")
 });
 
 export function useSelectedTab() {

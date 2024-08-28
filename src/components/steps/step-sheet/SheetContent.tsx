@@ -1,6 +1,9 @@
+import { StackCollapsible } from "@/app/runs/[id]/_Tabs/Overview/Stack";
 import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Code from "@/assets/icons/code-browser.svg?react";
+import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
+import Logs from "@/assets/icons/logs.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { ExecutionStatus } from "@/types/pipeline-runs";
@@ -20,8 +23,7 @@ import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
 import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
-import { StackCollapsible } from "@/app/runs/[id]/_Tabs/Overview/Stack";
-import Logs from "@/assets/icons/logs.svg?react";
+import { StepMetadataTab } from "./MetadataTab";
 
 type Props = {
 	stepId: string;
@@ -95,6 +97,10 @@ export function StepSheetContent({ stepId }: Props) {
 							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Configuration</span>
 						</TabsTrigger>
+						<TabsTrigger className="flex items-center gap-2 text-text-md" value="metadata">
+							<MetadataIcon className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<span>Metadata</span>
+						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
@@ -111,6 +117,9 @@ export function StepSheetContent({ stepId }: Props) {
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
 						<StepConfigTab stepId={stepId} />
+					</TabsContent>
+					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
+						<StepMetadataTab stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>

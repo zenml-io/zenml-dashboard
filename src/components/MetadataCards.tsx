@@ -1,31 +1,16 @@
 import { MetadataMap } from "@/types/common";
-import { KeyValue } from "./KeyValue";
-import { NestedCollapsible } from "./NestedCollapsible";
-import { CollapsibleCard } from "./CollapsibleCard";
-import { Codesnippet } from "./CodeSnippet";
-import { EmptyState } from "./EmptyState";
-import File from "@/assets/icons/file.svg?react";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
+import { Codesnippet } from "./CodeSnippet";
+import { CollapsibleCard } from "./CollapsibleCard";
+import { KeyValue } from "./KeyValue";
+import { NestedCollapsible } from "./NestedCollapsible";
 
 type Props = { metadata: MetadataMap };
-
-export function EmptyCards() {
-	return (
-		<CollapsibleCard initialOpen title="Metadata">
-			<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
-				<div className="text-center">
-					<p className="mb-2 text-display-xs font-semibold">No metadata found</p>
-					<p className="text-text-lg text-theme-text-secondary">There are no metadata available.</p>
-				</div>
-			</EmptyState>
-		</CollapsibleCard>
-	);
-}
 
 export function MetadataCards({ metadata }: Props) {
 	const dictMetadata = Object.values(metadata || {}).filter((val) => val.body.type === "dict");

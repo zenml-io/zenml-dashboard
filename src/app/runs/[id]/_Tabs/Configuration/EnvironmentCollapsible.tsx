@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function EnvironmentCollapsible({ run }: Props) {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
