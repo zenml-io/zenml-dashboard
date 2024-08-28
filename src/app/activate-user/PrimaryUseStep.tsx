@@ -8,10 +8,9 @@ export function PrimaryUseStep() {
 	const { setSurveyStep } = useSurveyContext();
 	const { setNewUser } = useActivationContext();
 
-	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {
+	function handlePrimaryUseSubmit({ primaryUse }: PrimaryUseFormType) {
 		const newMetadata: UserMetadata = {
-			primary_use: primaryUse,
-			models_production: amountProductionModels
+			primary_use: primaryUse
 		};
 		setNewUser((prev) => ({
 			...prev,

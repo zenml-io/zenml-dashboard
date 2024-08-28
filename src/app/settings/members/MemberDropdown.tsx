@@ -17,7 +17,6 @@ type Props = {
 export default function MembersDropdown({ userId, name }: Props) {
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 

@@ -1,24 +1,20 @@
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	AlertDialogTrigger
-} from "@zenml-io/react-component-library";
+import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import EditIcon from "@/assets/icons/edit.svg?react";
 import DeleteIcon from "@/assets/icons/trash.svg?react";
-
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
+import { DialogItem } from "@/components/dialog/DialogItem";
+import {
+	AlertDialogTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuTrigger
+} from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
 import { DeleteSecretAlert } from "./DeleteSecretAlert";
 import { EditSecretDialog } from "./EditSecretDialog";
 
 export default function SecretsDropdown({ secretId }: { secretId: string }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [hasOpenDialog] = useState(false);
-	const [editDialogOpen, setEditDialogOpen] = useState(false);
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
+	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 
@@ -26,12 +22,15 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 		focusRef.current = dropdownTriggerRef.current;
 	}
 
-	function handleDialogItemOpenChange() {
-		setDeleteDialogOpen(true);
-	}
-
-	function handleEditDialogOpenChange(open: boolean) {
-		setEditDialogOpen(open);
+	function handleDialogItemOpenChange(open: boolean) {
+		if (open === false) {
+			setDropdownOpen(false);
+			setTimeout(() => {
+				setHasOpenDialog(open);
+			}, 200);
+			return;
+		}
+		setHasOpenDialog(open);
 	}
 
 	return (
@@ -51,38 +50,26 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 				align="end"
 				sideOffset={7}
 			>
-				<AlertDialogItem
+				<DialogItem
 					onSelect={handleDialogItemSelect}
-					onOpenChange={handleEditDialogOpenChange}
+					onOpenChange={handleDialogItemOpenChange}
 					triggerChildren="Edit "
 					icon={<EditIcon />}
 				>
 					<EditSecretDialog
 						secretId={secretId}
-						isOpen={editDialogOpen}
-						onClose={() => {
-							setDropdownOpen(false);
-							setEditDialogOpen(false);
-						}}
 						isSecretNameEditable={true}
 						dialogTitle="Edit secret"
 					></EditSecretDialog>
-				</AlertDialogItem>
-				<AlertDialogItem
+				</DialogItem>
+				<DialogItem
 					onSelect={handleDialogItemSelect}
 					onOpenChange={handleDialogItemOpenChange}
 					triggerChildren="Delete "
 					icon={<DeleteIcon />}
 				>
-					<DeleteSecretAlert
-						isOpen={deleteDialogOpen}
-						onClose={() => {
-							setDropdownOpen(false);
-							setDeleteDialogOpen(false);
-						}}
-						secretId={secretId}
-					></DeleteSecretAlert>
-				</AlertDialogItem>
+					<DeleteSecretAlert secretId={secretId}></DeleteSecretAlert>
+				</DialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

@@ -1773,6 +1773,7 @@ export type paths = {
 		 *     provider: The stack deployment provider.
 		 *     stack_name: The name of the stack.
 		 *     location: The location where the stack should be deployed.
+		 *     terraform: Whether the stack should be deployed using Terraform.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
@@ -1791,6 +1792,7 @@ export type paths = {
 		 *     stack_name: The name of the stack.
 		 *     location: The location where the stack should be deployed.
 		 *     date_start: The date when the deployment started.
+		 *     terraform: Whether the stack was deployed using Terraform.
 		 *
 		 * Returns:
 		 *     The ZenML stack that was deployed and registered or None if the stack
@@ -2403,30 +2405,12 @@ export type paths = {
 		 * Args:
 		 *     workspace_name_or_id: Name or ID of the workspace.
 		 *     stack: Stack to register.
-		 *
-		 * Returns:
-		 *     The created stack.
-		 *
-		 * Raises:
-		 *     IllegalOperationError: If the workspace specified in the stack
-		 *         does not match the current workspace.
-		 */
-		post: operations["create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post"];
-	};
-	"/api/v1/workspaces/{workspace_name_or_id}/full-stack": {
-		/**
-		 * Create Full Stack
-		 * @description Creates a stack for a particular workspace.
-		 *
-		 * Args:
-		 *     workspace_name_or_id: Name or ID of the workspace.
-		 *     full_stack: Stack to register.
 		 *     auth_context: Authentication context.
 		 *
 		 * Returns:
 		 *     The created stack.
 		 */
-		post: operations["create_full_stack_api_v1_workspaces__workspace_name_or_id__full_stack_post"];
+		post: operations["create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post"];
 	};
 	"/api/v1/workspaces/{workspace_name_or_id}/components": {
 		/**
@@ -4490,40 +4474,6 @@ export type components = {
 			is_custom?: boolean | null;
 			/** The workspace to which this resource belongs. */
 			workspace?: string | null;
-		};
-		/**
-		 * FullStackRequest
-		 * @description Request model for a full-stack.
-		 */
-		FullStackRequest: {
-			/** User */
-			user?: string | null;
-			/** Workspace */
-			workspace?: string | null;
-			/** The name of the stack. */
-			name: string;
-			/**
-			 * The description of the stack
-			 * @default
-			 */
-			description?: string | null;
-			/** The stack labels. */
-			labels?: {
-				[key: string]: unknown;
-			} | null;
-			/**
-			 * The service connectors dictionary for the full stack registration.
-			 * @description The UUID of an already existing service connector or request information to create a service connector from scratch.
-			 * @default []
-			 */
-			service_connectors?: (string | components["schemas"]["ServiceConnectorInfo"])[];
-			/**
-			 * The mapping for the components of the full stack registration.
-			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
-			 */
-			components: {
-				[key: string]: unknown;
-			};
 		};
 		/** HTTPValidationError */
 		HTTPValidationError: {
@@ -7329,6 +7279,8 @@ export type components = {
 			 * @default false
 			 */
 			use_legacy_dashboard?: boolean;
+			/** Timestamp of latest user activity traced on the server. */
+			last_user_activity?: string | null;
 		};
 		/**
 		 * ServerSettingsResponse
@@ -7364,6 +7316,11 @@ export type components = {
 			display_announcements: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
 			display_updates: boolean | null;
+			/**
+			 * The timestamp when the last user activity was detected.
+			 * Format: date-time
+			 */
+			last_user_activity: string;
 			/**
 			 * The timestamp when this resource was last updated.
 			 * Format: date-time
@@ -8163,19 +8120,13 @@ export type components = {
 		StackDeploymentProvider: "aws" | "gcp" | "azure";
 		/**
 		 * StackRequest
-		 * @description Request model for stacks.
+		 * @description Request model for a stack.
 		 */
 		StackRequest: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace: string;
+			/** User */
+			user?: string | null;
+			/** Workspace */
+			workspace?: string | null;
 			/** The name of the stack. */
 			name: string;
 			/**
@@ -8185,14 +8136,23 @@ export type components = {
 			description?: string;
 			/** The path to the stack spec used for mlstacks deployments. */
 			stack_spec_path?: string | null;
-			/** A mapping of stack component types to the actualinstances of components of this type. */
-			components?: {
+			/**
+			 * The mapping for the components of the full stack registration.
+			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
+			 */
+			components: {
 				[key: string]: unknown;
-			} | null;
+			};
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
 			} | null;
+			/**
+			 * The service connectors dictionary for the full stack registration.
+			 * @description The UUID of an already existing service connector or request information to create a service connector from scratch.
+			 * @default []
+			 */
+			service_connectors?: (string | components["schemas"]["ServiceConnectorInfo"])[];
 		};
 		/**
 		 * StackResponse
@@ -9067,8 +9027,6 @@ export type components = {
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
 			email_opted_in?: boolean | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** A password for the user. */
 			password?: string | null;
 			/** Activation Token */
@@ -9169,8 +9127,6 @@ export type components = {
 			 * @default
 			 */
 			email?: string | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** The external user ID associated with the account. Only relevant for user accounts. */
 			external_user_id?: string | null;
 			/**
@@ -9200,8 +9156,6 @@ export type components = {
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
 			email_opted_in?: boolean | null;
-			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string | null;
 			/** A password for the user. */
 			password?: string | null;
 			/** Activation Token */
@@ -16132,6 +16086,7 @@ export type operations = {
 	 *     provider: The stack deployment provider.
 	 *     stack_name: The name of the stack.
 	 *     location: The location where the stack should be deployed.
+	 *     terraform: Whether the stack should be deployed using Terraform.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
@@ -16144,6 +16099,7 @@ export type operations = {
 				provider: components["schemas"]["StackDeploymentProvider"];
 				stack_name: string;
 				location?: string | null;
+				terraform?: boolean;
 			};
 		};
 		responses: {
@@ -16182,6 +16138,7 @@ export type operations = {
 	 *     stack_name: The name of the stack.
 	 *     location: The location where the stack should be deployed.
 	 *     date_start: The date when the deployment started.
+	 *     terraform: Whether the stack was deployed using Terraform.
 	 *
 	 * Returns:
 	 *     The ZenML stack that was deployed and registered or None if the stack
@@ -16194,6 +16151,7 @@ export type operations = {
 				stack_name: string;
 				location?: string | null;
 				date_start?: string | null;
+				terraform?: boolean;
 			};
 		};
 		responses: {
@@ -18437,13 +18395,10 @@ export type operations = {
 	 * Args:
 	 *     workspace_name_or_id: Name or ID of the workspace.
 	 *     stack: Stack to register.
+	 *     auth_context: Authentication context.
 	 *
 	 * Returns:
 	 *     The created stack.
-	 *
-	 * Raises:
-	 *     IllegalOperationError: If the workspace specified in the stack
-	 *         does not match the current workspace.
 	 */
 	create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post: {
 		parameters: {
@@ -18454,56 +18409,6 @@ export type operations = {
 		requestBody: {
 			content: {
 				"application/json": components["schemas"]["StackRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["StackResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Create Full Stack
-	 * @description Creates a stack for a particular workspace.
-	 *
-	 * Args:
-	 *     workspace_name_or_id: Name or ID of the workspace.
-	 *     full_stack: Stack to register.
-	 *     auth_context: Authentication context.
-	 *
-	 * Returns:
-	 *     The created stack.
-	 */
-	create_full_stack_api_v1_workspaces__workspace_name_or_id__full_stack_post: {
-		parameters: {
-			path: {
-				workspace_name_or_id: string;
-			};
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["FullStackRequest"];
 			};
 		};
 		responses: {

@@ -43,7 +43,7 @@ export function AzureComponents({
 						alt: "Service Principal logo"
 					}}
 				/>
-				{displayPermissions && <PermissionsCard />}
+				{displayPermissions && <PermissionsCard provider="azure" />}
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
@@ -73,14 +73,27 @@ export function AzureComponents({
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={components?.orchestrator?.name || "Azure Skypilot Orchestrator"}
+					title={components?.orchestrator?.name || "Azure ML"}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
 					subtitle={components?.orchestrator?.id || "ML Workflow orchestration"}
 					badge={<ComponentBadge type="orchestrator">Orchestrator</ComponentBadge>}
 					img={{
-						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/azure-skypilot.png",
-						alt: "Azure Skypilot logo"
+						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/azureml.png",
+						alt: "Azure ML logo"
+					}}
+				/>
+			</div>
+			<div className="py-3 pl-9 pr-5">
+				<ComponentListItem
+					title={components?.operator?.name || "Azure Step Operator"}
+					subtitle={components?.operator?.id || "Execute individual steps"}
+					badge={<ComponentBadge type="step_operator">Step Operator</ComponentBadge>}
+					isLoading={isLoading}
+					isSuccess={isSuccess}
+					img={{
+						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/step_operator/azureml.png",
+						alt: "Azure Step Operator logo"
 					}}
 				/>
 			</div>

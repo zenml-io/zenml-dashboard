@@ -1,13 +1,16 @@
 import Package from "@/assets/icons/package.svg?react";
 import Pin from "@/assets/icons/pin.svg?react";
 import { InfoBox } from "@/components/Infobox";
+import { StackDeploymentProvider } from "@/types/stack";
 import { useFormContext } from "react-hook-form";
+import { CloudComponents } from "../../Providers";
 import { ConfigurationForm } from "../schemas";
 import { LocationSelect } from "./LocationSelect";
-import { CloudComponents } from "../../Providers";
-import { useNewInfraFormContext } from "../../NewInfraFormContext";
 
-export function Region() {
+type Props = {
+	provider: StackDeploymentProvider;
+};
+export function Region({ provider }: Props) {
 	return (
 		<div className="space-y-5 border-b border-theme-border-moderate pb-5">
 			<div className="space-y-1">
@@ -20,13 +23,15 @@ export function Region() {
 					compliance.
 				</p>
 			</div>
-			<LocationSelect />
+			<LocationSelect provider={provider} />
 		</div>
 	);
 }
 
-export function ReviewYourStack() {
-	const { data } = useNewInfraFormContext();
+type ReviewYourStackProps = {
+	provider: StackDeploymentProvider;
+};
+export function ReviewYourStack({ provider }: ReviewYourStackProps) {
 	const { watch } = useFormContext<ConfigurationForm>();
 	return (
 		<div className="space-y-5 border-b border-theme-border-moderate pb-5">
@@ -40,7 +45,7 @@ export function ReviewYourStack() {
 				</p>
 			</div>
 			<CloudComponents
-				type={data.provider!}
+				type={provider}
 				componentProps={{ displayPermissions: true, stackName: watch("stackName") }}
 			/>
 			<InfoBox>

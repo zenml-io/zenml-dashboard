@@ -9,6 +9,12 @@ import { renderAnyToString } from "@/lib/strings";
 import { AnyDict, MetadataMap } from "@/types/common";
 import { BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library/components/client";
 import { useParams } from "react-router-dom";
 import { ErrorFallback } from "../../Error";
 import { UncategorizedCard } from "../../MetadataCards";
@@ -85,13 +91,32 @@ export function StepConfigTab({ stepId }: Props) {
 }
 
 export function KeyValueCard({ data, title }: { title: string; data: AnyDict }) {
+	const hasData = Object.keys(data).length > 0;
+
+	if (!hasData)
+		return (
+			<CollapsibleCard initialOpen title={title}>
+				<p className="text-theme-text-secondary">No data available</p>
+			</CollapsibleCard>
+		);
 	return (
 		<CollapsibleCard initialOpen title={title}>
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
 				{Object.entries(data).map(
 					([key, value]) =>
 						typeof value !== "object" && (
-							<KeyValue key={key} label={key} value={<div>{renderAnyToString(value)}</div>} />
+							<KeyValue
+								key={key}
+								label={
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
+											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								}
+								value={<div>{renderAnyToString(value)}</div>}
+							/>
 						)
 				)}
 			</dl>

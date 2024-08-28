@@ -1,4 +1,5 @@
 import { stackQueries } from "@/data/stacks";
+import { StackDeploymentProvider } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import {
 	ScrollArea,
@@ -10,14 +11,14 @@ import {
 	Skeleton
 } from "@zenml-io/react-component-library";
 import { Controller, useFormContext } from "react-hook-form";
-import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { ConfigurationForm } from "../schemas";
-
-export function LocationSelect() {
+type Props = {
+	provider: StackDeploymentProvider;
+};
+export function LocationSelect({ provider }: Props) {
 	const { control } = useFormContext<ConfigurationForm>();
-	const { data: formData } = useNewInfraFormContext();
 	const { isPending, isError, data } = useQuery({
-		...stackQueries.stackDeploymentInfo({ provider: formData.provider! })
+		...stackQueries.stackDeploymentInfo({ provider: provider })
 	});
 
 	if (isError) return null;

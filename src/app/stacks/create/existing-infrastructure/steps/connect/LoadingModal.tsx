@@ -2,6 +2,7 @@ import Dots from "@/assets/icons/dots-horizontal.svg?react";
 import Zenml from "@/assets/icons/zenml-icon.svg?react";
 import { CloudProviderIcon } from "@/components/ProviderIcon";
 import { Tick } from "@/components/Tick";
+import { getCloudProviderName } from "@/lib/provider";
 import { StackDeploymentProvider } from "@/types/stack";
 import { Spinner } from "@zenml-io/react-component-library";
 import {
@@ -44,9 +45,8 @@ export function LoadingModal({ open, loadingComponents }: Props) {
 				</div>
 				<div className="flex flex-col gap-1 px-7 pb-6 pt-5">
 					<p className="text-theme-text-secondary">
-						We're securely connecting to{" "}
-						<span className="capitalize">{data.connectorConfig?.type}</span> and retrieving your
-						custom components. This process typically takes about 30-60 seconds.
+						We're securely connecting to {getCloudProviderName(data.connectorConfig?.type || "aws")}{" "}
+						and retrieving your custom components. This process typically takes about 30-60 seconds.
 					</p>
 					<Loaders loadingComponents={loadingComponents} />
 				</div>

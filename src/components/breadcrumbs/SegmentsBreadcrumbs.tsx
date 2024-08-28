@@ -1,5 +1,6 @@
 import Info from "@/assets/icons/info.svg?react";
 import Tools from "@/assets/icons/tool-02.svg?react";
+import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
 
 export const matchSegmentWithRequest = ({ segment, data }: { segment: string; data?: any }) => {
@@ -19,6 +20,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			stacks: { name: "Stacks" },
 			create: { name: "New Stack" }
 		},
+		secrets: {
+			secrets: { name: "Secrets" }
+		},
+		secretsDetail: {
+			secrets: { id: "secrets", name: "Secrets" },
+			secretDetail: { id: data?.id, name: data?.name }
+		},
 		runs: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
 			pipeline_detail: {
@@ -37,8 +45,8 @@ export const matchSegmentWithPages = (segment: string): any => {
 		return segments.reduce(
 			(acc, name) => {
 				acc[name] = withSettings
-					? { settings: { name: "settings" }, [name]: { name } }
-					: { [name]: { name } };
+					? { settings: { name: "Settings" }, [name]: { name: capitalize(name) } }
+					: { [name]: { name: capitalize(name) } };
 				return acc;
 			},
 			{} as { [key: string]: any }
@@ -55,7 +63,6 @@ export const matchSegmentWithPages = (segment: string): any => {
 				"updates",
 				"repositories",
 				"connectors",
-				"secrets",
 				"notifications",
 				"profile"
 			],
@@ -74,7 +81,9 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		runs: routes.runs.detail(id),
 		//Stacks
 		stacks: routes.stacks.overview,
-		createStack: routes.stacks.create.index
+		createStack: routes.stacks.create.index,
+		//Secrets
+		secrets: routes.settings.secrets.overview
 	};
 
 	return routeMap[segment] || "#";

@@ -33,6 +33,7 @@
 		"@zenml-io/react-component-library": "^0.18.0",
 		"awesome-debounce-promise": "^2.1.0",
 		"class-variance-authority": "^0.7.0",
+		"clsx": "^2.1.1",
 		"immer": "^10.1.1",
 		"lodash.debounce": "^4.0.8",
 		"papaparse": "^5.4.1",

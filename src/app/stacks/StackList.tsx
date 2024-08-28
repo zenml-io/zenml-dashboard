@@ -10,11 +10,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getStackColumns } from "./columns";
 import { parseWizardData } from "./create/new-infrastructure/persist";
+import { parseWizardData as parseTerraform } from "./create/terraform/persist";
 import { ResumeStackBanner } from "./ResumeStackBanner";
 import { useStacklistQueryParams } from "./service";
+import { ResumeTerraformBanner } from "./ResumeTerraformBanner";
 
 export function StackList() {
 	const [hasResumeableStack, setResumeableStack] = useState(parseWizardData().success);
+	const [hasResumeableTerraform, setResumeableTerraform] = useState<boolean>(
+		parseTerraform().success
+	);
 	const queryParams = useStacklistQueryParams();
 	const { refetch, data } = useQuery({
 		...stackQueries.stackList({ ...queryParams, sort_by: "desc:updated" }),
@@ -41,6 +46,9 @@ export function StackList() {
 				</div>
 				<div className="flex flex-col items-center gap-5">
 					{hasResumeableStack && <ResumeStackBanner setHasResumeableStack={setResumeableStack} />}
+					{hasResumeableTerraform && (
+						<ResumeTerraformBanner setHasResumeableTerraform={setResumeableTerraform} />
+					)}
 					<div className="w-full">
 						{data ? (
 							<DataTable columns={getStackColumns()} data={data.items} />

@@ -54,3 +54,7 @@ export function snakeCaseToLowerCase(input: string): string {
 export function snakeCaseToDashCase(input: string): string {
 	return input.split("_").join("-");
 }
+
+export function capitalize(string: string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}

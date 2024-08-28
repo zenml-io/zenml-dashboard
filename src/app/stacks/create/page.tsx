@@ -1,11 +1,11 @@
-import { ManualSetup } from "./ManualStep";
-import { SmartSetup } from "./SmartSetup";
+import { NewInfrastructure } from "./NewInfra";
+import { ExistingInfrastructure } from "./ExistingInfra";
 
 export default function NewStacksPage() {
 	return (
 		<section className="layout-container space-y-5 py-5">
-			<SmartSetup />
-			<ManualSetup />
+			<NewInfrastructure />
+			<ExistingInfrastructure />
 		</section>
 	);
 }

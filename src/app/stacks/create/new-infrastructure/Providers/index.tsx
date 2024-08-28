@@ -4,10 +4,9 @@ import { Tick } from "@/components/Tick";
 import { StackDeploymentProvider } from "@/types/stack";
 import { Box, Spinner } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { AWSComponents } from "./AWS";
-import { GcpComponents } from "./GCP";
 import { AzureComponents } from "./Azure";
+import { GcpComponents } from "./GCP";
 
 export type ProviderComponents = {
 	stackName: string;
@@ -20,6 +19,7 @@ export type ProviderComponents = {
 		registry?: Component;
 		orchestrator?: Component;
 		imageBuilder?: Component;
+		operator?: Component;
 	};
 };
 
@@ -74,12 +74,13 @@ export function ComponentListItem({
 	);
 }
 
-export function EstimateCosts() {
-	const { data } = useNewInfraFormContext();
-
+type EstimateCostsProps = {
+	provider: StackDeploymentProvider;
+};
+export function EstimateCosts({ provider }: EstimateCostsProps) {
 	function PricingCalculatorLink() {
 		let link = "#";
-		switch (data.provider) {
+		switch (provider) {
 			case "aws":
 				link = "https://calculator.aws/#/";
 				break;
