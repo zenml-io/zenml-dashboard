@@ -53,11 +53,7 @@ export function RunNewPipeline({ active, completed, hasDownstreamStep }: Onboard
 				</div>
 				<div className="space-y-1">
 					<p className="text-text-sm text-theme-text-secondary">Run the pipeline</p>
-					<Codesnippet
-						wrap
-						codeClasses="whitespace-pre-wrap"
-						code="python run.py --training-pipeline"
-					/>
+					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="python run.py" />
 				</div>
 				<div>
 					<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />

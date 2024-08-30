@@ -66,7 +66,7 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 						Once it is running, your dashboard will show all the details of the associated run,
 						models, and artifacts.
 					</p>
-					<Codesnippet code="python run.py --training-pipeline" />
+					<Codesnippet code="python run.py" />
 				</div>
 				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
 					<div className="flex items-center gap-[10px]">
