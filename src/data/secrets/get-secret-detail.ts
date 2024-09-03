@@ -1,11 +1,10 @@
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
 import { Secret } from "@/types/secret";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
 
-export async function getSecretDetail(secretId: string) {
+export async function fetchSecretDetail(secretId: string): Promise<Secret> {
 	const url = createApiPath(apiPaths.secrets.detail(secretId));
 	const res = await fetcher(url, {
 		method: "GET",
@@ -17,22 +16,21 @@ export async function getSecretDetail(secretId: string) {
 	if (res.status === 404) notFound();
 
 	if (!res.ok) {
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => `Failed to fetch secret ${secretId}`);
+
 		throw new FetchError({
-			message: "Error fetching secret details",
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();
-}
-
-export function useGetSecretDetail(
-	secretId: string,
-	options?: Omit<UseQueryOptions<Secret, FetchError>, "queryFn" | "queryKey">
-) {
-	return useQuery<Secret, FetchError>({
-		queryFn: () => getSecretDetail(secretId),
-		queryKey: ["secrets", secretId],
-		...options
-	});
 }
