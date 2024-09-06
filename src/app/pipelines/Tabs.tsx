@@ -1,13 +1,15 @@
-import RunIcon from "@/assets/icons/terminal.svg?react";
 import PipelineIcon from "@/assets/icons/dataflow.svg?react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
+import TemplatesIcon from "@/assets/icons/pipeline-template.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
+import { Badge, Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { PipelinesBody } from "./PipelinesTab/PipelinesBody";
+import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
 import { RunsBody } from "./RunsTab/RunsBody";
 import { RunsSelectorProvider } from "./RunsTab/RunsSelectorContext";
 import { useSelectedTab } from "./service";
-import { useEffect } from "react";
-import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
+import { TemplateBody } from "./Templates/TemplateBody";
 
 const tabData = [
 	{
@@ -19,6 +21,11 @@ const tabData = [
 		value: "runs",
 		label: "Runs",
 		icon: RunIcon
+	},
+	{
+		value: "templates",
+		label: "Templates",
+		icon: TemplatesIcon
 	}
 ];
 
@@ -58,6 +65,15 @@ export function PipelineTabs() {
 								}`}
 							/>
 							{tab.label}
+							{tab.value === "templates" && (
+								<Badge
+									className="rounded-sm font-semibold text-primary-500"
+									color="purple"
+									size="sm"
+								>
+									New
+								</Badge>
+							)}
 						</TabsTrigger>
 					))}
 				</TabsList>
@@ -72,6 +88,9 @@ export function PipelineTabs() {
 					<RunsSelectorProvider>
 						<RunsBody />
 					</RunsSelectorProvider>
+				</TabsContent>
+				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="templates">
+					<TemplateBody />
 				</TabsContent>
 			</Tabs>
 		</div>
