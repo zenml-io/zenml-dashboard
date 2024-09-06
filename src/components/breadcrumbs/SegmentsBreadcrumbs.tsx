@@ -27,6 +27,10 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			secrets: { id: "secrets", name: "Secrets" },
 			secretDetail: { id: data?.id, name: data?.name }
 		},
+		runsNoPipelines: {
+			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
+			runs: { id: data?.id, name: data?.name }
+		},
 		runs: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" },
 			pipeline_detail: {
