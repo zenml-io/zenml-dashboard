@@ -1,4 +1,6 @@
 import Info from "@/assets/icons/info.svg?react";
+import PipelineIcon from "@/assets/icons/pipeline.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
 import Tools from "@/assets/icons/tool-02.svg?react";
 import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
@@ -80,7 +82,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 export const matchSegmentWithURL = (segment: string, id: string) => {
 	const routeMap: { [key: string]: string } = {
 		// Pipelines
-		pipelines: routes.pipelines.overview,
+		pipelines: routes.pipelines.overview + "?tab=pipelines",
 		pipeline_detail: routes.pipelines.namespace(id),
 		runs: routes.runs.detail(id),
 		//Stacks
@@ -93,10 +95,14 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 	return routeMap[segment] || "#";
 };
 
+const iconClasses = "h-5 w-5 fill-theme-text-tertiary";
+
 export const matchSegmentWithTab = (segment: string) => {
 	const routeMap: { [key: string]: JSX.Element } = {
-		overview: <Info className="h-5 w-5 fill-theme-text-tertiary" />,
-		configuration: <Tools className="h-5 w-5 fill-theme-text-tertiary" />
+		overview: <Info className={iconClasses} />,
+		configuration: <Tools className={iconClasses} />,
+		pipelines: <PipelineIcon className={iconClasses} />,
+		runs: <RunIcon className={iconClasses} />
 	};
 
 	return routeMap[segment] || <Info className="h-5 w-5 fill-theme-text-tertiary" />;

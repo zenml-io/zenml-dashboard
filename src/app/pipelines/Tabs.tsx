@@ -28,14 +28,13 @@ export function PipelineTabs() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		// To set current tab in URL
 		const tabParam = searchParams.get("tab");
 		if (!tabParam) {
 			const newParams = new URLSearchParams(searchParams);
 			newParams.set("tab", "pipelines");
 			navigate(`?${newParams.toString()}`, { replace: true });
 		}
-	}, []);
+	}, [navigate, searchParams]);
 
 	function handleTabChange(tab: string) {
 		const current = new URLSearchParams();
