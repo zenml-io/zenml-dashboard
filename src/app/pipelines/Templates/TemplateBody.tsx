@@ -55,7 +55,7 @@ function CtaSection() {
 						</a>
 					</Button>
 					<Button emphasis="minimal" size="md">
-						<a href="https://www.zenml.io/cloud" target="_blank" rel="noopener noreferrer">
+						<a href="https://www.zenml.io/pro" target="_blank" rel="noopener noreferrer">
 							Learn more
 						</a>
 					</Button>
