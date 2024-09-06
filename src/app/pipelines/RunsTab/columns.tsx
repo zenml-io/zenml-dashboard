@@ -1,35 +1,36 @@
 import PipelineIcon from "@/assets/icons/dataflow.svg?react";
-
+import { CopyButton } from "@/components/CopyButton";
+import { DisplayDate } from "@/components/DisplayDate";
+import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { InlineAvatar } from "@/components/InlineAvatar";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
 import { ColumnDef } from "@tanstack/react-table";
+import { Tag } from "@zenml-io/react-component-library";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { ExecutionStatusIcon, getExecutionStatusColor } from "../../../components/ExecutionStatus";
 import { Link } from "react-router-dom";
-import { CopyButton } from "../../../components/CopyButton";
-import { Tag } from "@zenml-io/react-component-library";
-import { DisplayDate } from "../../../components/DisplayDate";
-import { InlineAvatar } from "../../../components/InlineAvatar";
+import { RunDropdown } from "./RunDropdown";
+import { RunSelector } from "./RunSelector";
 
 export const runsColumns: ColumnDef<PipelineRun>[] = [
-	// {
-	// 	id: "check",
-	// 	header: "",
-	// 	meta: {
-	// 		width: "1%"
-	// 	},
-	// 	accessorFn: (row) => ({ id: row.id }),
-	// 	cell: ({ getValue }) => {
-	// 		const { id } = getValue<{ id: string }>();
-	// 		return <SelectorStage id={id} />;
-	// 	}
-	// },
+	{
+		id: "check",
+		header: "",
+		meta: {
+			width: "1%"
+		},
+		accessorFn: (row) => ({ id: row.id }),
+		cell: ({ getValue }) => {
+			const { id } = getValue<{ id: string }>();
+			return <RunSelector id={id} />;
+		}
+	},
 	{
 		id: "name",
 		header: "Run",
@@ -143,15 +144,15 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 
 			return <InlineAvatar username={name} />;
 		}
+	},
+	{
+		id: "admin_actions",
+		header: "",
+		meta: {
+			width: "5%"
+		},
+		cell: ({ row }) => {
+			return <RunDropdown runId={row.original.id} />;
+		}
 	}
-
-	// {
-	// 	id: "admin_actions",
-	// 	header: "",
-	// 	accessorFn: (row) => String(row.id),
-	// 	cell: ({ row, getValue }) => {
-	// 		const runId = getValue() as string;
-	// 		return <RunDropDown runId={runId} />;
-	// 	}
-	// }
 ];

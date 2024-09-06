@@ -1,11 +1,15 @@
 import Refresh from "@/assets/icons/refresh.svg?react";
 import Pagination from "@/components/Pagination";
+import { SearchField } from "@/components/SearchField";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { useAllPipelineRuns } from "../../../data/pipeline-runs/all-pipeline-runs-query";
+import { RunsButtonGroup } from "./ButtonGroup";
 import { runsColumns } from "./columns";
+import { useRunsSelectorContext } from "./RunsSelectorContext";
 import { useRunsOverviewSearchParams } from "./service";
 
 export function RunsBody() {
+	const { selectedRuns } = useRunsSelectorContext();
 	const queryParams = useRunsOverviewSearchParams();
 	const { data, refetch } = useAllPipelineRuns({
 		params: {
@@ -17,11 +21,7 @@ export function RunsBody() {
 	return (
 		<div className="mt-5 flex flex-col gap-5">
 			<div className="flex items-center justify-between">
-				{/* {selectedRuns.length ? (
-			<ButtonGroup />
-		) : (
-			<SearchField searchParams={updatedQueryParams} />
-		)}{" "} */}
+				{selectedRuns.length ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">
 					<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 						<Refresh className="h-5 w-5 fill-theme-text-brand" />
