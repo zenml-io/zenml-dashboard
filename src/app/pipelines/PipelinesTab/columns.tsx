@@ -1,14 +1,17 @@
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import { CopyButton } from "@/components/CopyButton";
-import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import {
+	ExecutionStatusIcon,
+	getExecutionStatusColor,
+	getExecutionStatusTagColor
+} from "@/components/ExecutionStatus";
 import { routes } from "@/router/routes";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import {
 	Tag,
-	TagProps,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
@@ -97,9 +100,9 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 							emphasis="subtle"
 							rounded={false}
 							className="inline-flex items-center gap-0.5"
-							color={getTagColor(status)}
+							color={getExecutionStatusTagColor(status)}
 						>
-							<RunIcon className={`h-3 w-3 ${getRunIconColor(status)}`} />
+							<RunIcon className={`h-3 w-3 fill-current`} />
 							{runId?.split("-")[0]}
 						</Tag>
 					</Link>
@@ -117,36 +120,4 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			}
 		}
 	];
-}
-
-function getRunIconColor(status?: ExecutionStatus) {
-	if (!status) return "fill-theme-text-brand";
-	switch (status) {
-		case "running":
-			return "fill-orange-700";
-		case "cached":
-			return "fill-theme-text-secondary";
-		case "completed":
-			return "fill-success-800";
-		case "failed":
-			return "fill-error-800";
-		case "initializing":
-			return "fill-theme-text-brand";
-	}
-}
-
-function getTagColor(status?: ExecutionStatus): TagProps["color"] {
-	if (!status) return "purple";
-	switch (status) {
-		case "running":
-			return "orange";
-		case "cached":
-			return "grey";
-		case "completed":
-			return "green";
-		case "failed":
-			return "red";
-		case "initializing":
-			return "purple";
-	}
 }
