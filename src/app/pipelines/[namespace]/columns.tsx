@@ -9,7 +9,13 @@ import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
-import { Tag } from "@zenml-io/react-component-library";
+import {
+	Tag,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
@@ -33,11 +39,20 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 					<div className="group/copybutton flex items-center gap-2">
 						<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 						<div>
-							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
-								<h2 className="text-text-md font-semibold">{name}</h2>
-								<ExecutionStatusIcon status={status} />
+							<div className="flex items-center gap-1">
+								<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+									<h2 className="text-text-md font-semibold">{name}</h2>
+								</Link>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
+											<ExecutionStatusIcon status={status} />
+										</TooltipTrigger>
+										<TooltipContent className="z-20 capitalize">{status}</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
 								<CopyButton copyText={name} />
-							</Link>
+							</div>
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
 								<CopyButton copyText={id} />
