@@ -1,4 +1,4 @@
-import PipelineIcon from "@/assets/icons/dataflow.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
@@ -47,7 +47,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			}>();
 			return (
 				<div className="group/copybutton flex items-center gap-2">
-					<PipelineIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
@@ -83,14 +83,16 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 				return null;
 			}
 			return (
-				<Tag
-					color="purple"
-					className="inline-flex items-center gap-0.5 truncate"
-					rounded={false}
-					emphasis="subtle"
-				>
-					{value}
-				</Tag>
+				<Link to={routes.pipelines.namespace(value)}>
+					<Tag
+						color="purple"
+						className="inline-flex items-center gap-0.5 truncate"
+						rounded={false}
+						emphasis="subtle"
+					>
+						{value}
+					</Tag>
+				</Link>
 			);
 		}
 	},

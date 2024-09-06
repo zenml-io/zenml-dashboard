@@ -6,7 +6,14 @@ import { routes } from "@/router/routes";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
-import { Tag, TagProps } from "@zenml-io/react-component-library";
+import {
+	Tag,
+	TagProps,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineDropdown } from "./PipelineDropdown";
 import { PipelinesSelector } from "./PipelinesSelector";
@@ -26,24 +33,43 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 		{
 			id: "name",
 			header: "Pipeline",
-			accessorFn: (row) => ({ name: row.name, status: row.body?.latest_run_status }),
-			cell: ({ getValue }) => {
-				const { name, status } = getValue<{
-					name: string;
-					status: ExecutionStatus;
-				}>();
-
+			cell: ({ row }) => {
 				return (
 					<div className="group/copybutton flex items-center gap-2">
-						<PipelineIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
-						<Link
-							to={routes.pipelines.namespace(encodeURIComponent(name))}
-							className="flex items-center gap-1"
-						>
-							<h2 className="text-text-md font-semibold">{name}</h2>
-							<ExecutionStatusIcon status={status} />
-							<CopyButton copyText={name} />
-						</Link>
+						<PipelineIcon
+							className={`h-5 w-5 ${getExecutionStatusColor(row.original.body?.latest_run_status)}`}
+						/>
+						<div>
+							<div className="flex items-center gap-1">
+								<Link
+									to={routes.pipelines.namespace(encodeURIComponent(row.original.name))}
+									className="flex items-center gap-1"
+								>
+									<span className="text-text-md font-semibold text-theme-text-primary">
+										{row.original.name}
+									</span>
+								</Link>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
+											<ExecutionStatusIcon status={row.original.body?.latest_run_status} />
+										</TooltipTrigger>
+										<TooltipContent className="z-20 capitalize">{status}</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+
+								<CopyButton copyText={row.original.name} />
+							</div>
+							<Link
+								to={routes.pipelines.namespace(encodeURIComponent(row.original.name))}
+								className="flex items-center gap-1"
+							>
+								<p className="text-text-xs text-theme-text-secondary">
+									{row.original.id.split("-")[0]}
+								</p>
+								<CopyButton copyText={row.original.id} />
+							</Link>
+						</div>
 					</div>
 				);
 			}
