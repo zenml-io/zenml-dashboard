@@ -1,5 +1,4 @@
 import Trash from "@/assets/icons/trash.svg?react";
-
 import { DeleteAlertContent } from "@/components/DeleteAlertDialog";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";

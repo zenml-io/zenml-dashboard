@@ -51,6 +51,6 @@ export function PipelinesSelectorProvider({ children }: { children: React.ReactN
 export function usePipelinesSelectorContext() {
 	const context = useContext(PipelinesSelectorContext);
 	if (!context)
-		throw new Error("usePipelinesSelectorContext must be used within a SelectPipelinesProvider");
+		throw new Error("usePipelinesSelectorContext must be used within a PipelinesSelectorProvider");
 	return context;
 }

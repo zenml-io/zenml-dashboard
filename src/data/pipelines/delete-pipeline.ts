@@ -6,7 +6,7 @@ export type DeletePipelineArgs = {
 	pipelineId: string;
 };
 
-export async function deleteRun({ pipelineId }: DeletePipelineArgs) {
+export async function deletePipeline({ pipelineId }: DeletePipelineArgs) {
 	const url = createApiPath(apiPaths.pipelines.detail(pipelineId));
 
 	const res = await fetch(url, {
@@ -37,7 +37,7 @@ export function useDeletePipeline(
 	options?: Omit<UseMutationOptions<any, FetchError, DeletePipelineArgs>, "mutationFn">
 ) {
 	return useMutation<any, FetchError, DeletePipelineArgs>({
-		mutationFn: deleteRun,
+		mutationFn: deletePipeline,
 		...options
 	});
 }

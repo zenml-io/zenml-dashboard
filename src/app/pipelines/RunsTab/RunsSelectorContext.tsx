@@ -47,6 +47,7 @@ export function RunsSelectorProvider({ children }: { children: React.ReactNode }
 
 export function useRunsSelectorContext() {
 	const context = useContext(RunsSelectorContext);
-	if (!context) throw new Error("useRunsSelectorContext must be used within a SelectRunsProvider");
+	if (!context)
+		throw new Error("useRunsSelectorContext must be used within a RunsSelectorProvider");
 	return context;
 }
