@@ -7,6 +7,7 @@ import { RunsBody } from "./RunsTab/RunsBody";
 import { RunsSelectorProvider } from "./RunsTab/RunsSelectorContext";
 import { useSelectedTab } from "./service";
 import { useEffect } from "react";
+import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
 
 const tabData = [
 	{
@@ -63,7 +64,9 @@ export function PipelineTabs() {
 				</TabsList>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="pipelines">
-					<PipelinesBody />
+					<PipelinesSelectorProvider>
+						<PipelinesBody />
+					</PipelinesSelectorProvider>
 				</TabsContent>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="runs">

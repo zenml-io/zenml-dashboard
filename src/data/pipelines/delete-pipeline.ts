@@ -2,12 +2,12 @@ import { FetchError } from "@/lib/fetch-error";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { apiPaths, createApiPath } from "../api";
 
-export type DeleteRunArgs = {
-	runId: string;
+export type DeletePipelineArgs = {
+	pipelineId: string;
 };
 
-export async function deleteRun({ runId }: DeleteRunArgs) {
-	const url = createApiPath(apiPaths.runs.detail(runId));
+export async function deleteRun({ pipelineId }: DeletePipelineArgs) {
+	const url = createApiPath(apiPaths.pipelines.detail(pipelineId));
 
 	const res = await fetch(url, {
 		method: "DELETE",
@@ -21,7 +21,7 @@ export async function deleteRun({ runId }: DeleteRunArgs) {
 		const errorData: string = await res
 			.json()
 			.then((data) => data.detail)
-			.catch(() => `Failed to delete run ${runId}`);
+			.catch(() => `Failed to delete pipeline ${pipelineId}`);
 
 		throw new FetchError({
 			status: res.status,
@@ -33,10 +33,10 @@ export async function deleteRun({ runId }: DeleteRunArgs) {
 	return res.json();
 }
 
-export function useDeleteRun(
-	options?: Omit<UseMutationOptions<any, FetchError, DeleteRunArgs>, "mutationFn">
+export function useDeletePipeline(
+	options?: Omit<UseMutationOptions<any, FetchError, DeletePipelineArgs>, "mutationFn">
 ) {
-	return useMutation<any, FetchError, DeleteRunArgs>({
+	return useMutation<any, FetchError, DeletePipelineArgs>({
 		mutationFn: deleteRun,
 		...options
 	});

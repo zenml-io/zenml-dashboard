@@ -9,22 +9,21 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
-import { useRunsSelectorContext } from "./RunsSelectorContext";
+import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
 
 type Props = {
 	id: string;
 };
-
-export function RunDropdown({ id }: Props) {
+export function PipelineDropdown({ id }: Props) {
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 
-	const { bulkDeleteRuns } = useRunsSelectorContext();
+	const { bulkDeletePipelines } = usePipelinesSelectorContext();
 
 	async function handleDelete() {
-		await bulkDeleteRuns([id]);
+		await bulkDeletePipelines([id]);
 		handleDialogItemOpenChange(false);
 	}
 
@@ -68,7 +67,7 @@ export function RunDropdown({ id }: Props) {
 					triggerChildren="Delete"
 					icon={<Trash fill="red" />}
 				>
-					<DeleteAlertContent title="Delete Run" handleDelete={handleDelete} />
+					<DeleteAlertContent title="Delete Pipeline" handleDelete={handleDelete} />
 				</AlertDialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

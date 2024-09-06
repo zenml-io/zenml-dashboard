@@ -8,9 +8,21 @@ import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag, TagProps } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
+import { PipelineDropdown } from "./PipelineDropdown";
+import { PipelinesSelector } from "./PipelinesSelector";
 
 export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 	return [
+		{
+			id: "check",
+			header: "",
+			meta: {
+				width: "1%"
+			},
+			cell: ({ row }) => {
+				return <PipelinesSelector id={row.original.id} />;
+			}
+		},
 		{
 			id: "name",
 			header: "Pipeline",
@@ -64,6 +76,16 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 						</Tag>
 					</Link>
 				);
+			}
+		},
+		{
+			id: "admin_actions",
+			header: "",
+			meta: {
+				width: "5%"
+			},
+			cell: ({ row }) => {
+				return <PipelineDropdown id={row.original.id} />;
 			}
 		}
 	];

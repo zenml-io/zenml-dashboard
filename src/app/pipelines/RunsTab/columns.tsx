@@ -152,7 +152,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			width: "5%"
 		},
 		cell: ({ row }) => {
-			return <RunDropdown runId={row.original.id} />;
+			return <RunDropdown id={row.original.id} />;
 		}
 	}
 ];

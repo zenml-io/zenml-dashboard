@@ -1,15 +1,16 @@
 import Trash from "@/assets/icons/trash.svg?react";
+
 import { DeleteAlertContent } from "@/components/DeleteAlertDialog";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { useRunsSelectorContext } from "./RunsSelectorContext";
+import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
 
-export function DeleteRunAlert() {
+export function DeletePipelineAlert() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { bulkDeleteRuns, selectedRuns } = useRunsSelectorContext();
+	const { bulkDeletePipelines, selectedPipelines } = usePipelinesSelectorContext();
 
 	async function handleDelete() {
-		await bulkDeleteRuns(selectedRuns);
+		await bulkDeletePipelines(selectedPipelines);
 		setIsOpen(false);
 	}
 
@@ -27,7 +28,7 @@ export function DeleteRunAlert() {
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Run${selectedRuns.length >= 2 ? "s" : ""}`}
+				title={`Delete Pipeline${selectedPipelines.length >= 2 ? "s" : ""}`}
 				handleDelete={handleDelete}
 			/>
 		</AlertDialog>
