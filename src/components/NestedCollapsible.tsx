@@ -35,7 +35,7 @@ export function NestedCollapsible({
 	const regex = /^<class\s+'.*'>$/;
 
 	for (const [key, value] of Object.entries(data || {})) {
-		if (typeof value === "object" && !Array.isArray(value)) {
+		if (typeof value === "object" && value !== null && !Array.isArray(value)) {
 			objects[key] = value;
 		} else if (Array.isArray(value)) {
 			arrays[key] = value;
@@ -43,8 +43,6 @@ export function NestedCollapsible({
 			nonObjects[key] = value;
 		}
 	}
-
-	if (Object.keys(data || {}).length === 0) return null;
 
 	const values = Object.entries(nonObjects);
 	values.sort((a, b) => a[0].localeCompare(b[0]));
@@ -57,40 +55,46 @@ export function NestedCollapsible({
 			intent={intent}
 			title={title}
 		>
-			<div className="flex flex-col gap-3">
-				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-					{values.map(([key, value]) => (
-						<KeyValue
-							key={key}
-							label={
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
-										<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							}
-							value={
-								<>
-									{typeof value === "boolean" ? (
-										<div className="py-1">{JSON.stringify(value)}</div>
-									) : regex.test(value) ? (
-										<Codesnippet className="py-1" highlightCode code={value} />
-									) : (
-										<div className="overflow-x-auto py-1">{value}</div>
-									)}
-								</>
-							}
-						/>
+			{Object.keys(data || {}).length === 0 ? (
+				<p>Not available</p>
+			) : (
+				<div className="flex flex-col gap-3">
+					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
+						{values.map(([key, value]) => (
+							<KeyValue
+								key={key}
+								label={
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
+											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								}
+								value={
+									<>
+										{typeof value === "boolean" ? (
+											<div className="py-1">{JSON.stringify(value)}</div>
+										) : regex.test(value) ? (
+											<Codesnippet className="py-1" highlightCode code={value} />
+										) : value === null ? (
+											<div className="overflow-x-auto">null</div>
+										) : (
+											<div className="overflow-x-auto py-1">{value}</div>
+										)}
+									</>
+								}
+							/>
+						))}
+					</dl>
+					{Object.entries(arrays).map(([key, value]) => (
+						<RenderArray key={key} title={key} value={value} />
 					))}
-				</dl>
-				{Object.entries(arrays).map(([key, value]) => (
-					<RenderArray key={key} title={key} value={value} />
-				))}
-				{Object.entries(objects).map(([key, value]) => (
-					<NestedCollapsible intent="secondary" title={key} data={value} key={key} />
-				))}
-			</div>
+					{Object.entries(objects).map(([key, value]) => (
+						<NestedCollapsible intent="secondary" title={key} data={value} key={key} />
+					))}
+				</div>
+			)}
 		</CollapsibleCard>
 	);
 }

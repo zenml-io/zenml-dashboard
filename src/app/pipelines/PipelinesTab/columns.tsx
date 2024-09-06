@@ -54,7 +54,9 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 										<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
 											<ExecutionStatusIcon status={row.original.body?.latest_run_status} />
 										</TooltipTrigger>
-										<TooltipContent className="z-20 capitalize">{status}</TooltipContent>
+										<TooltipContent className="z-20 capitalize">
+											{row.original.body?.latest_run_status}
+										</TooltipContent>
 									</Tooltip>
 								</TooltipProvider>
 

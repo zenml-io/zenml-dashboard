@@ -1,6 +1,6 @@
 import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
-import { useAllSecrets } from "@/data/secrets/secrets-all-query";
+import { secretQueries } from "@/data/secrets";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
@@ -13,10 +13,10 @@ import { useSecretOverviewSearchParams } from "./service";
 export default function SecretsTable() {
 	const navigate = useNavigate();
 	const queryParams = useSecretOverviewSearchParams();
-	const { data: secretsData } = useAllSecrets(
-		{ params: { ...queryParams, sort_by: "desc:created" } },
-		{ throwOnError: true }
-	);
+	const { data: secretsData } = useQuery({
+		...secretQueries.secretList({ ...queryParams, sort_by: "desc:created" }),
+		throwOnError: true
+	});
 	const { data: currentUser } = useCurrentUser();
 
 	const userId = currentUser?.id || "";

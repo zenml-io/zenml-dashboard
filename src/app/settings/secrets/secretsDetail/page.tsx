@@ -1,14 +1,15 @@
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { secretQueries } from "@/data/secrets";
+import { useQuery } from "@tanstack/react-query";
 import { Box } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
-import SecretDetailTable from "./SecretDetailTable";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useBreadcrumbsContext } from "../../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
+import SecretDetailTable from "./SecretDetailTable";
 
 export default function SecretDetailsPage() {
-	const { secretId } = useParams<{ secretId: string }>() || "";
+	const { secretId } = useParams<{ secretId: string }>();
 	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
-	const { data: secretDetail } = useGetSecretDetail(secretId || "");
+	const { data: secretDetail } = useQuery({ ...secretQueries.secretDetail(secretId || "") });
 
 	useEffect(() => {
 		secretDetail &&

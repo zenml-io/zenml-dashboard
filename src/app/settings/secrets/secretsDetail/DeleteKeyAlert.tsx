@@ -1,8 +1,8 @@
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { secretQueries } from "@/data/secrets";
 import { useUpdateSecret } from "@/data/secrets/update-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateSecret } from "@/types/secret";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	AlertDialogCancel,
 	AlertDialogContent,
@@ -16,7 +16,11 @@ import {
 import { ChangeEvent, useState } from "react";
 
 export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyName: string }) {
-	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId);
+	const {
+		data: secretDetail,
+		isLoading,
+		isError
+	} = useQuery({ ...secretQueries.secretDetail(secretId) });
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateSecret({
 		onError(error) {
@@ -66,7 +70,7 @@ export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyNam
 			</AlertDialogHeader>
 			<div className="gap-5 p-5">
 				<p className="text-text-md text-theme-text-secondary">
-					Are you sure you want to delete this eky?
+					Are you sure you want to delete this key?
 				</p>
 				<p className="text-text-md text-theme-text-secondary">This action cannot be undone.</p>
 				<h3 className="font-inter text-sm mb-1 mt-4 text-left font-medium leading-5">
