@@ -1,4 +1,5 @@
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { secretQueries } from "@/data/secrets";
+import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Dialog, DialogTrigger, Input } from "@zenml-io/react-component-library";
 import { useMemo, useState } from "react";
 import { EditSecretDialog } from "../EditSecretDialog";
@@ -7,7 +8,7 @@ import { getSecretDetailColumn } from "./columns";
 export default function SecretDetailTable({ secretId }: { secretId: string }) {
 	const [searchTerm, setSearchTerm] = useState("");
 
-	const { data: secretDetail } = useGetSecretDetail(secretId);
+	const { data: secretDetail } = useQuery({ ...secretQueries.secretDetail(secretId) });
 
 	// Prepare data for DataTable
 	const secretDetailData = useMemo(() => {
