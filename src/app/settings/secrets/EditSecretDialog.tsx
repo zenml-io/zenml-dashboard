@@ -1,12 +1,12 @@
 import EyeIcon from "@/assets/icons/eye.svg?react";
 import Plus from "@/assets/icons/plus.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
-import { useGetSecretDetail } from "@/data/secrets/get-secret-detail";
+import { secretQueries } from "@/data/secrets";
 import { useUpdateSecret } from "@/data/secrets/update-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateSecret } from "@/types/secret";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
 	Button,
 	DialogClose,
@@ -49,7 +49,11 @@ interface EditSecretProps {
 }
 
 export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) {
-	const { data: secretDetail, isLoading, isError } = useGetSecretDetail(secretId);
+	const {
+		data: secretDetail,
+		isLoading,
+		isError
+	} = useQuery({ ...secretQueries.secretDetail(secretId) });
 
 	const {
 		handleSubmit,

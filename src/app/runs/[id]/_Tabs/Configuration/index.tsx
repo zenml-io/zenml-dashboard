@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { CodeCollapsible } from "./CodeCollapsible";
 import { DockerImageCollapsible } from "./DockerImageCollapsible";
 import { EnvironmentCollapsible } from "./EnvironmentCollapsible";
+import { PipelineParamsCollapsible } from "./ParameterCollapsible";
 
 export function ConfigurationTab() {
 	const { runId } = useParams() as { runId: string };
@@ -31,11 +32,7 @@ export function ConfigurationTab() {
 
 	return (
 		<div className="grid grid-cols-1 gap-5">
-			<NestedCollapsible
-				isInitialOpen
-				title="Parameters"
-				data={data.metadata?.config.parameters ?? undefined}
-			/>
+			<PipelineParamsCollapsible deploymentId={data.body?.deployment_id ?? undefined} />
 			{(buildData?.metadata?.images as BuildItemMap)?.orchestrator && (
 				<DockerImageCollapsible data={buildData?.metadata?.images?.orchestrator as BuildItem} />
 			)}

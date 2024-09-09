@@ -7,7 +7,8 @@ export const apiPaths = {
 	settings: "/settings",
 	onboarding: "/onboarding_state",
 	pipelines: {
-		all: "/pipelines"
+		all: "/pipelines",
+		detail: (pipelineId: string) => `/pipelines/${pipelineId}`
 	},
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`,
@@ -29,6 +30,9 @@ export const apiPaths = {
 	pipeline_builds: {
 		all: "/pipeline_builds",
 		detail: (runId: string) => `/pipeline_builds/${runId}`
+	},
+	pipeline_deployments: {
+		detail: (deploymentId: string) => `/pipeline_deployments/${deploymentId}`
 	},
 	code_repositories: {
 		all: "/code_repositories",

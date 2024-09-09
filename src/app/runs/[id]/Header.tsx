@@ -14,7 +14,12 @@ export function RunsDetailHeader() {
 	const { data, isSuccess } = usePipelineRun({ runId }, { throwOnError: true });
 
 	useEffect(() => {
-		data && setCurrentBreadcrumbData({ segment: "runs", data: data });
+		if (!data) return;
+		if (data.body?.pipeline) {
+			setCurrentBreadcrumbData({ segment: "runs", data: data });
+		} else {
+			setCurrentBreadcrumbData({ segment: "runsNoPipelines", data: data });
+		}
 	}, [data]);
 
 	return (

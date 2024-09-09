@@ -1,9 +1,9 @@
-import { Input } from "@zenml-io/react-component-library";
-import { InputHTMLAttributes, forwardRef, useEffect, useMemo, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import debounce from "lodash.debounce";
 import { sanitizeSearchValue } from "@/lib/search";
 import { objectToSearchParams } from "@/lib/url";
+import { Input } from "@zenml-io/react-component-library";
+import debounce from "lodash.debounce";
+import { InputHTMLAttributes, forwardRef, useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type Props = {
 	searchContains?: boolean;
@@ -15,8 +15,9 @@ export const SearchField = forwardRef<
 	HTMLInputElement,
 	InputHTMLAttributes<HTMLInputElement> & Props
 >(({ searchParams, searchContains = true, ...rest }, ref) => {
-	const { pathname } = useLocation();
 	const navigate = useNavigate();
+	const [existingParams] = useSearchParams();
+
 	// const searchParams = useModelOverviewSearchParams();
 	const [searchQuery, setSearchQuery] = useState(
 		sanitizeSearchValue(searchParams.name || "") || ""
@@ -34,7 +35,10 @@ export const SearchField = forwardRef<
 	}, [debouncedSearch]);
 
 	function updateSearchQuery(value: string) {
-		const queryParams = new URLSearchParams(objectToSearchParams(searchParams));
+		const queryParams = new URLSearchParams({
+			...Object.fromEntries(existingParams),
+			...objectToSearchParams(searchParams)
+		});
 		// using operator instead of logical_operator
 		queryParams.delete("logical_operator");
 		if (value) {
@@ -45,7 +49,7 @@ export const SearchField = forwardRef<
 			queryParams.delete("name");
 			queryParams.delete("operator");
 		}
-		navigate(`${pathname}?${queryParams.toString()}`, { preventScrollReset: true, replace: true });
+		navigate(`?${queryParams.toString()}`, { preventScrollReset: true, replace: true });
 	}
 
 	// Event Handlers
