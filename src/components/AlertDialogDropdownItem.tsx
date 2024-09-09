@@ -1,8 +1,8 @@
 import {
-	DropdownMenuItem,
 	AlertDialog,
+	AlertDialogPortal,
 	AlertDialogTrigger,
-	AlertDialogPortal
+	DropdownMenuItem
 } from "@zenml-io/react-component-library";
 import { forwardRef } from "react";
 
@@ -20,9 +20,9 @@ export const AlertDialogItem = forwardRef<
 	React.ElementRef<typeof DropdownMenuItem>,
 	DialogItemProps
 >((props, forwardedRef) => {
-	const { triggerChildren, children, onSelect, onOpenChange, icon, ...itemProps } = props;
+	const { triggerChildren, children, onSelect, onOpenChange, icon, open, ...itemProps } = props;
 	return (
-		<AlertDialog onOpenChange={onOpenChange}>
+		<AlertDialog open={open} onOpenChange={onOpenChange}>
 			<AlertDialogTrigger asChild>
 				<DropdownMenuItem
 					{...itemProps}
