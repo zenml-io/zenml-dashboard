@@ -21,7 +21,7 @@ import { useParams } from "react-router-dom";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
 import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
-import { StepDetailsTab } from "./DetailsTab";
+import { OrchestratorCard, StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
 import { StepMetadataTab } from "./MetadataTab";
 
@@ -103,11 +103,10 @@ export function StepSheetContent({ stepId }: Props) {
 						</TabsTrigger>
 					</TabsList>
 
-					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
+					<TabsContent className="m-0 mt-5 space-y-5 border-0 bg-transparent p-0" value="overview">
 						<StepDetailsTab runId={runId} stepId={stepId} />
-						<div className="mt-5">
-							<StackCollapsible />
-						</div>
+						<OrchestratorCard />
+						<StackCollapsible />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
 						<StepCodeTab stepId={stepId} />

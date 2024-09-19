@@ -6,7 +6,7 @@ import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { routes } from "@/router/routes";
-import { Metadata, MetadataMap } from "@/types/common";
+import { MetadataMap } from "@/types/common";
 import {
 	Badge,
 	Skeleton,
@@ -16,7 +16,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
 import { DisplayDate } from "../../DisplayDate";
@@ -40,9 +40,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
 	const enable_cache = data.metadata?.config?.enable_cache;
-	const orchestrator_url: Metadata | undefined = (data.metadata?.run_metadata as MetadataMap)
-		?.orchestrator_url;
-	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
@@ -50,39 +47,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<KeyValue
-					label="Orchestrator URL"
-					value={
-						orchestrator_url ? (
-							<div className="group/copybutton flex items-center gap-0.5">
-								<a
-									className="truncate underline transition-all duration-200 hover:decoration-transparent"
-									rel="noopener noreferrer"
-									target="_blank"
-									href={orchestrator_url.body.value}
-								>
-									{orchestrator_url.body.value}
-								</a>
-								<CopyButton copyText={orchestrator_url.body.value} />
-							</div>
-						) : (
-							"Not available"
-						)
-					}
-				/>
-				<KeyValue
-					label="Orchestrator Run ID"
-					value={
-						orchestrator_run_id ? (
-							<div className="group/copybutton flex items-center gap-0.5">
-								{orchestrator_run_id}
-								<CopyButton copyText={orchestrator_run_id as string} />
-							</div>
-						) : (
-							"Not available"
-						)
-					}
-				/>
 				<KeyValue
 					label="Id"
 					value={
@@ -252,6 +216,89 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						<Badge size="sm" color={enable_artifact_visualization ? "green" : "grey"}>
 							{enable_artifact_visualization ? "Enable" : "Disabled"}
 						</Badge>
+					}
+				/>
+			</dl>
+		</CollapsibleCard>
+	);
+}
+
+export function OrchestratorCard({ className }: { className?: string }) {
+	const { runId } = useParams() as {
+		runId: string;
+	};
+
+	const {
+		data: pipelineData,
+		isPending,
+		isError
+	} = usePipelineRun({ runId }, { throwOnError: true });
+
+	const orchestrator_url = (pipelineData?.metadata?.run_metadata as MetadataMap)?.orchestrator_url;
+	const orchestrator_logs = (pipelineData?.metadata?.run_metadata as MetadataMap)
+		?.orchestrator_logs_url;
+	const orchestrator_run_id = pipelineData?.metadata?.orchestrator_run_id;
+
+	if (isError) {
+		return <p>Failed to fetch Orchestrator Card</p>;
+	}
+
+	if (isPending) return <Skeleton className="h-[150px] w-full" />;
+
+	return (
+		<CollapsibleCard className={className} initialOpen title="Orchestrator">
+			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
+				<KeyValue
+					label="Orchestrator URL"
+					value={
+						orchestrator_url ? (
+							<div className="group/copybutton flex items-center gap-0.5">
+								<a
+									className="truncate underline transition-all duration-200 hover:decoration-transparent"
+									rel="noopener noreferrer"
+									target="_blank"
+									href={orchestrator_url.body.value}
+								>
+									{orchestrator_url.body.value}
+								</a>
+								<CopyButton copyText={orchestrator_url.body.value} />
+							</div>
+						) : (
+							"Not available"
+						)
+					}
+				/>
+				<KeyValue
+					label="Orchestrator Logs"
+					value={
+						orchestrator_logs && typeof orchestrator_logs.body.value === "string" ? (
+							<div className="group/copybutton flex items-center gap-0.5">
+								<a
+									className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
+									rel="noopener noreferrer"
+									target="_blank"
+									href={orchestrator_logs.body.value}
+								>
+									{orchestrator_logs.body.value}
+								</a>
+								<CopyButton copyText={orchestrator_logs.body.value} />
+							</div>
+						) : (
+							"Not available"
+						)
+					}
+				/>
+				<KeyValue
+					label="Orchestrator Run ID"
+					value={
+						orchestrator_run_id ? (
+							<div className="group/copybutton flex items-center gap-0.5">
+								{orchestrator_run_id}
+								<CopyButton copyText={orchestrator_run_id as string} />
+							</div>
+						) : (
+							"Not available"
+						)
 					}
 				/>
 			</dl>
