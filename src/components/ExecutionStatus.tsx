@@ -2,9 +2,9 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 import { TagProps, cn } from "@zenml-io/react-component-library";
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import Initializing from "@/assets/icons/initializing.svg?react";
+import Running from "@/assets/icons/running.svg?react";
 import Cached from "@/assets/icons/cached.svg?react";
-import Running from "@/assets/icons/dots-circle.svg?react";
+import Initializing from "@/assets/icons/dots-circle.svg?react";
 
 export function getExecutionStatusColor(status?: ExecutionStatus | null) {
 	if (!status) return null;
@@ -73,7 +73,14 @@ export function ExecutionStatusIcon({
 		case "cached":
 			return <Cached className={classNames} />;
 		case "running":
-			return <Running className={classNames} />;
+			return (
+				<Running
+					className={cn(
+						"animate-spin [animation-duration:_5s] motion-reduce:animate-none",
+						classNames
+					)}
+				/>
+			);
 	}
 }
 
