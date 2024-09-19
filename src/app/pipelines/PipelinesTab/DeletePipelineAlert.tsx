@@ -1,5 +1,5 @@
 import Trash from "@/assets/icons/trash.svg?react";
-import { DeleteAlertContent } from "@/components/DeleteAlertDialog";
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
@@ -29,7 +29,12 @@ export function DeletePipelineAlert() {
 			<DeleteAlertContent
 				title={`Delete Pipeline${selectedPipelines.length >= 2 ? "s" : ""}`}
 				handleDelete={handleDelete}
-			/>
+			>
+				<DeleteAlertContentBody>
+					<p>Are you sure?</p>
+					<p>This action cannot be undone.</p>
+				</DeleteAlertContentBody>
+			</DeleteAlertContent>
 		</AlertDialog>
 	);
 }

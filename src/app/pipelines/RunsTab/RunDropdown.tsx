@@ -1,7 +1,7 @@
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
-import { DeleteAlertContent } from "@/components/DeleteAlertDialog";
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import {
 	AlertDialogTrigger,
 	DropdownMenu,
@@ -68,7 +68,12 @@ export function RunDropdown({ id }: Props) {
 					triggerChildren="Delete"
 					icon={<Trash fill="red" />}
 				>
-					<DeleteAlertContent title="Delete Run" handleDelete={handleDelete} />
+					<DeleteAlertContent title="Delete Run" handleDelete={handleDelete}>
+						<DeleteAlertContentBody>
+							<p>Are you sure?</p>
+							<p>This action cannot be undone.</p>
+						</DeleteAlertContentBody>
+					</DeleteAlertContent>
 				</AlertDialogItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
