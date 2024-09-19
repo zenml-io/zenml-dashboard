@@ -4,7 +4,7 @@ import { updatePasswordBaseFormSchema } from "../password/UpdatePasswordSchemas"
 // Account Details
 export const accountDetailsFormSchema = z
 	.object({
-		fullName: z.union([z.string(), z.literal("")]),
+		fullName: z.string().min(1),
 		email: z.union([z.string().email(), z.literal("")]),
 		getUpdates: z.boolean()
 	})
