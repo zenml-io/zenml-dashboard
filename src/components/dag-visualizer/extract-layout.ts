@@ -26,7 +26,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 
 	function addEdge(source: string, target: string) {
 		edges.push({
-			id: `${source}_${target}`,
+			id: `${source}--${target}`,
 			source,
 			target
 		});
@@ -44,7 +44,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 
 		// Create artifact nodes for each output
 		Object.keys(step.config.outputs || {}).forEach((outputName) => {
-			const artifactId = `${stepName}_${outputName}`;
+			const artifactId = `${stepName}--${outputName}`;
 
 			addNode(artifactId, "previewArtifact", outputName);
 
@@ -56,7 +56,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		const inputs = (step.spec.inputs as Record<string, StepOutputInput>) ?? {};
 		Object.keys(inputs).forEach((inputName) => {
 			const input: StepOutputInput = inputs[inputName];
-			const inputArtifactId = `${input.step_name}_${input.output_name}`;
+			const inputArtifactId = `${input.step_name}--${input.output_name}`;
 
 			// Create an edge from the input artifact to the current step
 			addEdge(inputArtifactId, stepName);
@@ -66,7 +66,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		const externalInputs =
 			(step.config.external_input_artifacts as Record<string, ExternalArtifactConfig>) || {};
 		Object.keys(externalInputs).forEach((inputName) => {
-			const externalArtifactId = `${stepName}_${inputName}`;
+			const externalArtifactId = `${stepName}--${inputName}`;
 			addNode(externalArtifactId, "previewArtifact", inputName);
 			addEdge(externalArtifactId, stepName);
 		});
@@ -77,7 +77,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 			ModelVersionLazyLoader
 		>;
 		Object.keys(modelArtifacts).forEach((inputName) => {
-			const modelArtifactId = `${stepName}_${inputName}`;
+			const modelArtifactId = `${stepName}--${inputName}`;
 			addNode(modelArtifactId, "previewArtifact", inputName);
 			addEdge(modelArtifactId, stepName);
 		});
@@ -88,7 +88,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 			ClientLazyLoader
 		>;
 		Object.keys(clientLazyLoadedArtifacts).forEach((inputName) => {
-			const clientLazyLoadedArtifactId = `${stepName}_${inputName}`;
+			const clientLazyLoadedArtifactId = `${stepName}--${inputName}`;
 			addNode(clientLazyLoadedArtifactId, "previewArtifact", inputName);
 			addEdge(clientLazyLoadedArtifactId, stepName);
 		});
@@ -120,7 +120,7 @@ export function extractExistingNodes(stepConfig: StepDict) {
 
 		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion };
 		Object.entries(outputs || {}).forEach(([outputName, artifactVersion]) => {
-			const artifactId = `${stepName}_${outputName}`;
+			const artifactId = `${stepName}--${outputName}`;
 			nodes.push({
 				id: artifactId,
 				type: "artifact",
@@ -130,7 +130,7 @@ export function extractExistingNodes(stepConfig: StepDict) {
 
 		const inputs = step.body?.inputs as { [key: string]: ArtifactVersion };
 		Object.entries(inputs || {}).forEach(([inputName, artifactVersion]) => {
-			const artifactId = `${stepName}_${inputName}`;
+			const artifactId = `${stepName}--${inputName}`;
 
 			if (nodes.find((node) => node.id === artifactId)) return;
 

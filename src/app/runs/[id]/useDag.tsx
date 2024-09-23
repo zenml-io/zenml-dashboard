@@ -1,18 +1,17 @@
+import { addManuallyAddedArtifacts } from "@/components/dag-visualizer/add-manual-artifacts";
 import {
 	extractExistingNodes,
 	extractPlaceholderLayout,
 	StepDict
 } from "@/components/dag-visualizer/extract-layout";
-
+import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
+import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { StepOutput } from "@/types/pipeline-deployments";
 import { useQuery } from "@tanstack/react-query";
-
 import { useCallback, useEffect, useLayoutEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Edge, useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow";
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
-import { StepOutput } from "@/types/pipeline-deployments";
-import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
 
 export function useDag() {
 	const { runId } = useParams() as { runId: string };
@@ -56,6 +55,13 @@ export function useDag() {
 			};
 		});
 
+		addManuallyAddedArtifacts(
+			nodes,
+			realNodes,
+			pipelineRun.data?.metadata?.steps as StepDict,
+			placeholderData.edges
+		);
+
 		// add a custom styling to edges that have a real node as the target
 		const edges: Edge[] = placeholderData.edges.map((edge) => {
 			const realNode = realNodes.find((n) => n.id === edge.target);
@@ -73,7 +79,7 @@ export function useDag() {
 		window.requestAnimationFrame(() => {
 			fitView();
 		});
-	}, [fitView, setNodes, setEdges, placeholderData, realNodes, pipelineRun.data?.body?.status]);
+	}, [fitView, setNodes, setEdges, placeholderData, realNodes, pipelineRun.data]);
 
 	useEffect(() => {
 		fitView(); // Keep an eye on performance here
