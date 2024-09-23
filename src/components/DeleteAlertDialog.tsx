@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ComponentPropsWithoutRef, ElementRef, forwardRef, ReactNode } from "react";
+import { ComponentPropsWithoutRef, ElementRef, forwardRef, HTMLAttributes, ReactNode } from "react";
 import { z } from "zod";
 import {
 	AlertDialogCancel,
@@ -8,6 +8,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 	Button,
+	cn,
 	Input
 } from "@zenml-io/react-component-library";
 import { useForm } from "react-hook-form";
@@ -29,7 +30,7 @@ type RunDeleteAlertContent = {
 export const DeleteAlertContent = forwardRef<
 	ElementRef<typeof AlertDialogContent>,
 	ComponentPropsWithoutRef<typeof AlertDialogContent> & RunDeleteAlertContent
->(({ handleDelete, title }, ref) => {
+>(({ handleDelete, title, children }, ref) => {
 	const {
 		register,
 		handleSubmit,
@@ -49,10 +50,7 @@ export const DeleteAlertContent = forwardRef<
 				id="delete-form"
 				className="space-y-5 p-5"
 			>
-				<div>
-					<p className="text-text-md text-theme-text-secondary">Are you sure?</p>
-					<p className="text-text-md text-theme-text-secondary">This action cannot be undone.</p>
-				</div>
+				{children}
 				<div className="space-y-1">
 					<label className="mb-0.5 text-text-sm">Please type DELETE to confirm</label>
 					<Input onPaste={(e) => e.preventDefault()} {...register("delete")} className="w-full" />
@@ -73,3 +71,7 @@ export const DeleteAlertContent = forwardRef<
 });
 
 DeleteAlertContent.displayName = "DeleteAlertContent";
+
+export function DeleteAlertContentBody({ children, className }: HTMLAttributes<HTMLDivElement>) {
+	return <div className={cn("text-text-md text-theme-text-secondary", className)}>{children}</div>;
+}
