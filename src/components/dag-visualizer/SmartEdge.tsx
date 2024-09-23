@@ -1,5 +1,5 @@
 import { SVGDrawFunction } from "@tisoap/react-flow-smart-edge/src/functions/drawSvgPath";
-import { EdgeProps, SmoothStepEdge, XYPosition, useNodes } from "reactflow";
+import { BaseEdge, EdgeProps, SmoothStepEdge, useNodes, XYPosition } from "reactflow";
 import { getSmartEdge, pathfindingJumpPointNoDiagonal } from "@tisoap/react-flow-smart-edge";
 
 const distance = (a: XYPosition, b: XYPosition) =>
@@ -77,14 +77,5 @@ export function SmoothStepSmart(edge: EdgeProps) {
 		return <SmoothStepEdge {...edge} />;
 	}
 
-	return (
-		<>
-			<path
-				className="react-flow__edge-path"
-				d={edgeProps.svgPathString}
-				markerEnd={edge.markerEnd}
-				markerStart={edge.markerStart}
-			/>
-		</>
-	);
+	return <BaseEdge {...edge} path={edgeProps.svgPathString} />;
 }

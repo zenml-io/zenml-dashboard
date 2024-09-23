@@ -6381,6 +6381,8 @@ export type components = {
 			trigger_execution_id?: string | null;
 			/** Tags of the pipeline run. */
 			tags?: string[] | null;
+			/** The ID of the model version that was configured by this pipeline run explicitly. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -6439,6 +6441,8 @@ export type components = {
 			deployment_id?: string | null;
 			/** The trigger execution that triggered this run. */
 			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
+			/** The ID of the model version that was configured by this pipeline run explicitly. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -6509,6 +6513,8 @@ export type components = {
 			status?: components["schemas"]["ExecutionStatus"] | null;
 			/** End Time */
 			end_time?: string | null;
+			/** The ID of the model version that was configured by this pipeline run explicitly. */
+			model_version_id?: string | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -8551,6 +8557,8 @@ export type components = {
 			 * Format: uuid
 			 */
 			deployment: string;
+			/** The ID of the model version that was configured by this step run explicitly. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * StepRunResponse
@@ -8609,6 +8617,8 @@ export type components = {
 			outputs?: {
 				[key: string]: unknown;
 			};
+			/** The ID of the model version that was configured by this step run explicitly. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * StepRunResponseMetadata
@@ -8695,6 +8705,8 @@ export type components = {
 			status?: components["schemas"]["ExecutionStatus"] | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
+			/** The ID of the model version that was configured by this step run explicitly. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * StepSpec

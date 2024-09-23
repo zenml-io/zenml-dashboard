@@ -1,4 +1,6 @@
+import { ArtifactVersion } from "./artifact-versions";
 import { components, operations } from "./core";
+import { Step } from "./steps";
 
 export type ExecutionStatus = components["schemas"]["ExecutionStatus"];
 export type PipelineRun = components["schemas"]["PipelineRunResponse"];
@@ -9,10 +11,30 @@ export type PipelineRunOvervieweParams = NonNullable<
 >;
 export type PipelineRunPage = components["schemas"]["Page_PipelineRunResponse_"];
 
-export type LineageGraph = components["schemas"]["LineageGraph"];
-export type StepNode = components["schemas"]["StepNode"];
-export type StepNodeDetails = components["schemas"]["StepNodeDetails"];
-export type ArtifactNode = components["schemas"]["ArtifactNode"];
-export type ArtifactNodeDetails = components["schemas"]["ArtifactNodeDetails"];
-export type ZenEdge = components["schemas"]["Edge"];
-export type ZenNode = StepNode | ArtifactNode;
+type ArtifactNodeDetails = ArtifactVersion & { name: string };
+export type ArtifactNode = {
+	id: string;
+	type: "artifact";
+	data: ArtifactNodeDetails;
+};
+
+export type StepNode = {
+	id: string;
+	type: "step";
+	data: Step;
+};
+
+export type PlaceholderNode = {
+	id: string;
+	type: "previewStep" | "previewArtifact";
+	data: { label: string; status: ExecutionStatus };
+};
+export type ZenEdge = {
+	id: string;
+	target: string;
+	source: string;
+};
+
+export type RealNode = ArtifactNode | StepNode;
+
+export type ZenNode = RealNode | PlaceholderNode;
