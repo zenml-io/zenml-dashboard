@@ -32,94 +32,16 @@ export function DetailsCard({ artifactVersionId }: Props) {
 
 	const producerRunId = artifactVersion.data?.body?.producer_pipeline_run_id;
 
-	const pipelineRun = usePipelineRun(
-		{
-			runId: producerRunId as string
-		},
-		{ throwOnError: true, enabled: !!producerRunId }
-	);
-
 	const producerId = artifactVersion.data?.metadata?.producer_step_run_id;
-	const stepDetail = useStepDetail(
-		{
-			stepId: producerId!
-		},
-		{ enabled: !!producerId }
-	);
 
-	if (artifactVersion.isPending || pipelineRun.isPending)
-		return <Skeleton className="h-[500px] w-full" />;
-	if (artifactVersion.isError || pipelineRun.isError)
-		return <ErrorFallback err={artifactVersion.error! || pipelineRun.error!} />;
+	if (artifactVersion.isPending) return <Skeleton className="h-[500px] w-full" />;
+	if (artifactVersion.isError) return <ErrorFallback err={artifactVersion.error} />;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<KeyValue
-					label="Pipeline"
-					value={
-						<Link
-							to={routes.pipelines.namespace(
-								encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
-							)}
-						>
-							<Tag
-								color="purple"
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
-							>
-								<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
-								{pipelineRun.data.body?.pipeline?.name}
-							</Tag>
-						</Link>
-					}
-				/>
-				{artifactVersion.data.body?.producer_pipeline_run_id && pipelineRun.data.body?.status && (
-					<KeyValue
-						label="Producer Run"
-						value={
-							<Link to={routes.runs.detail(artifactVersion.data.body?.producer_pipeline_run_id)}>
-								<Tag
-									color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
-									className="inline-flex items-center gap-0.5"
-									rounded={false}
-									emphasis="subtle"
-								>
-									{pipelineRun.data.body?.status === "running" ? (
-										<Spinner className="mr-1 h-4 w-4 border-[2px]" />
-									) : (
-										<Run className={`mr-1 h-4 w-4 fill-current`} />
-									)}
-
-									{artifactVersion.data.body?.producer_pipeline_run_id}
-								</Tag>
-							</Link>
-						}
-					/>
-				)}
-				{artifactVersion.data.body?.artifact.id && (
-					<KeyValue
-						label="Producer Step"
-						value={
-							<>
-								{stepDetail.data ? (
-									<Tag
-										color={getExecutionStatusTagColor("completed")}
-										className="inline-flex items-center gap-0.5"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<ExecutionStatusIcon className="mr-1 fill-current" status={"completed"} />
-										{stepDetail.data.name}
-									</Tag>
-								) : (
-									<Skeleton className="h-full w-[150px]" />
-								)}
-							</>
-						}
-					/>
-				)}
+				{producerRunId && <ProducerKeys producerRunId={producerRunId} />}
+				{producerId && <ProducerStep producerStepId={producerId} />}
 				<KeyValue
 					label="Materializer"
 					value={
@@ -151,6 +73,98 @@ export function DetailsCard({ artifactVersionId }: Props) {
 				/>
 			</dl>
 		</CollapsibleCard>
+	);
+}
+
+export function ProducerStep({ producerStepId }: { producerStepId: string }) {
+	const stepDetail = useStepDetail({
+		stepId: producerStepId
+	});
+
+	if (stepDetail.isPending)
+		return <KeyValue label="Producer Step" value={<Skeleton className="h-5 w-full" />} />;
+	if (stepDetail.isError) return null;
+	return (
+		<KeyValue
+			label="Producer Step"
+			value={
+				<>
+					{stepDetail.data ? (
+						<Tag
+							color={getExecutionStatusTagColor("completed")}
+							className="inline-flex items-center gap-0.5"
+							rounded={false}
+							emphasis="subtle"
+						>
+							<ExecutionStatusIcon className="mr-1 fill-current" status={"completed"} />
+							{stepDetail.data.name}
+						</Tag>
+					) : (
+						<Skeleton className="h-full w-[150px]" />
+					)}
+				</>
+			}
+		/>
+	);
+}
+
+function ProducerKeys({ producerRunId }: { producerRunId: string }) {
+	const pipelineRun = usePipelineRun({
+		runId: producerRunId as string
+	});
+
+	if (pipelineRun.isPending)
+		return (
+			<KeyValue
+				label={<Skeleton className="h-5 w-full" />}
+				value={<Skeleton className="h-5 w-full" />}
+			/>
+		);
+	if (pipelineRun.isError) return null;
+	return (
+		<>
+			<KeyValue
+				label="Pipeline"
+				value={
+					<Link
+						to={routes.pipelines.namespace(
+							encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
+						)}
+					>
+						<Tag
+							color="purple"
+							className="inline-flex items-center gap-0.5"
+							rounded={false}
+							emphasis="subtle"
+						>
+							<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
+							{pipelineRun.data.body?.pipeline?.name}
+						</Tag>
+					</Link>
+				}
+			/>
+			<KeyValue
+				label="Producer Run"
+				value={
+					<Link to={routes.runs.detail(producerRunId)}>
+						<Tag
+							color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
+							className="inline-flex items-center gap-0.5"
+							rounded={false}
+							emphasis="subtle"
+						>
+							{pipelineRun.data.body?.status === "running" ? (
+								<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+							) : (
+								<Run className={`mr-1 h-4 w-4 fill-current`} />
+							)}
+
+							{producerRunId}
+						</Tag>
+					</Link>
+				}
+			/>
+		</>
 	);
 }
 
