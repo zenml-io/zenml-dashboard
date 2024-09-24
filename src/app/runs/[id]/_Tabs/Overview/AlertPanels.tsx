@@ -1,8 +1,8 @@
+import { InfoBox } from "@/components/Infobox";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { MetadataMap } from "@/types/common";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link, useParams } from "react-router-dom";
-import { InfoBox } from "@/components/Infobox";
+import { useParams } from "react-router-dom";
 
 function FailedPanel() {
 	return (
@@ -12,7 +12,9 @@ function FailedPanel() {
 					Pipeline run failed. Check orchestrator logs for error details and troubleshooting steps.
 				</p>
 				<Button intent="danger" asChild>
-					<Link to="#orchestrator-collapsible">Review</Link>
+					{/* React-Router seems to have issues with Hashes. There's the alternative of using react-router-hash-link, but I refrain for installing a new package for this single use case for now
+					 */}
+					<a href="#orchestrator-collapsible">Review</a>
 				</Button>
 			</div>
 		</InfoBox>
@@ -27,7 +29,9 @@ function InitializingPanel() {
 					Pipeline run initializing. Check orchestrator URL and logs for real-time status updates.
 				</p>
 				<Button asChild>
-					<Link to="#orchestrator-collapsible">Review</Link>
+					{/* React-Router seems to have issues with Hashes. There's the alternative of using react-router-hash-link, but I refrain for installing a new package for this single use case for now
+					 */}
+					<a href="#orchestrator-collapsible">Review</a>
 				</Button>
 			</div>
 		</InfoBox>
