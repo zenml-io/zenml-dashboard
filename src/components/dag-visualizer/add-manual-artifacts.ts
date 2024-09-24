@@ -10,7 +10,6 @@ export function addManuallyAddedArtifacts(
 ) {
 	// find nodes that are in realNodes but not in nodes
 	const missingNodes = findMissingNodes(realNodes, nodes);
-	console.log({ missingNodes });
 
 	// check if missingNode.data.id is part of realnode.data.id already?
 	missingNodes.forEach((missingNode) => {
