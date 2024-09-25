@@ -72,10 +72,9 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		});
 
 		// model artifacts or metadata
-		const modelArtifacts = step.config.model_artifacts_or_metadata as Record<
-			string,
-			ModelVersionLazyLoader
-		>;
+		const modelArtifacts =
+			(step.config.model_artifacts_or_metadata as Record<string, ModelVersionLazyLoader>) || {};
+
 		Object.keys(modelArtifacts).forEach((inputName) => {
 			const modelArtifactId = `${stepName}--${inputName}`;
 			addNode(modelArtifactId, "previewArtifact", inputName);
@@ -83,10 +82,9 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		});
 
 		// client lazy loaded artifacts
-		const clientLazyLoadedArtifacts = step.config.client_lazy_loaders as Record<
-			string,
-			ClientLazyLoader
-		>;
+		const clientLazyLoadedArtifacts =
+			(step.config.client_lazy_loaders as Record<string, ClientLazyLoader>) || {};
+
 		Object.keys(clientLazyLoadedArtifacts).forEach((inputName) => {
 			const clientLazyLoadedArtifactId = `${stepName}--${inputName}`;
 			addNode(clientLazyLoadedArtifactId, "previewArtifact", inputName);
