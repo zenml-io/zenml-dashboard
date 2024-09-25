@@ -55,12 +55,10 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 				</Dialog>
 			</div>
 			<div className="w-full">
-				{secretDetail && (
-					<DataTable
-						columns={getSecretDetailColumn(secretId, secretDetail.data.name)}
-						data={filteredData}
-					/>
-				)}
+				<DataTable
+					columns={getSecretDetailColumn(secretId, secretDetail.data.name)}
+					data={filteredData}
+				/>
 			</div>
 		</>
 	);
