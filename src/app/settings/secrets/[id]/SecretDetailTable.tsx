@@ -21,7 +21,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 	if (secretDetail.isError) return <div>{secretDetail.error.message}</div>;
 
 	const keyValues = Object.entries(
-		(secretDetail.data?.body?.values as Record<string, string>) || {}
+		(secretDetail.data.body?.values as Record<string, string>) || {}
 	).map(([key, value]) => ({
 		key,
 		value
