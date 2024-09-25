@@ -200,12 +200,13 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 											/>
 										)}
 									/>
-									<div
+									<button
+										type="button"
 										onClick={() => togglePasswordVisibility(index)}
-										className="absolute inset-y-1 right-0 flex cursor-pointer items-center pb-1 pr-3"
+										className="absolute inset-y-1 right-0 flex items-center pb-1 pr-3"
 									>
-										<EyeIcon className="h-4 w-4 flex-shrink-0 cursor-pointer" />
-									</div>
+										<EyeIcon className="h-4 w-4 flex-shrink-0" />
+									</button>
 								</div>
 							</div>
 							<div className="flex items-center">

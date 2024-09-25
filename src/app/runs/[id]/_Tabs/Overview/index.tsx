@@ -1,12 +1,14 @@
+import { AlertPanels } from "./AlertPanels";
 import { Details } from "./Details";
-import { InfoCollapsible } from "./Info";
+import { OrchestratorCollapsible } from "./Orchestrator";
 import { StackCollapsible } from "./Stack";
 
 export function OverviewTab() {
 	return (
 		<div className="grid grid-cols-1 gap-5">
+			<AlertPanels />
 			<Details />
-			<InfoCollapsible />
+			<OrchestratorCollapsible />
 			<StackCollapsible />
 		</div>
 	);

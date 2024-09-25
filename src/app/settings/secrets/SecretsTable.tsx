@@ -4,14 +4,12 @@ import { secretQueries } from "@/data/secrets";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
 import { workspaceQueries } from "../../../data/workspaces";
 import { AddSecretDialog } from "./AddSecretDialog";
-import { getSecretColumns } from "./columns";
+import { secretsColumns } from "./columns";
 import { useSecretOverviewSearchParams } from "./service";
 
 export default function SecretsTable() {
-	const navigate = useNavigate();
 	const queryParams = useSecretOverviewSearchParams();
 	const { data: secretsData } = useQuery({
 		...secretQueries.secretList({ ...queryParams, sort_by: "desc:created" }),
@@ -44,7 +42,7 @@ export default function SecretsTable() {
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{secretsData ? (
-						<DataTable columns={getSecretColumns(navigate)} data={secretsData.items} />
+						<DataTable columns={secretsColumns} data={secretsData.items} />
 					) : (
 						<Skeleton className="h-[250px] w-full" />
 					)}

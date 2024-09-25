@@ -1,10 +1,13 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import Info from "@/assets/icons/info.svg?react";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
+import { Codesnippet } from "@/components/CodeSnippet";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, Value } from "@/components/KeyValue";
+import { RepoBadge } from "@/components/repositories/RepoBadge";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { routes } from "@/router/routes";
@@ -14,7 +17,11 @@ import {
 	CollapsiblePanel,
 	CollapsibleTrigger,
 	Skeleton,
-	Tag
+	Tag,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -91,6 +98,57 @@ export function Details() {
 									{data.body?.pipeline?.name}
 								</Tag>
 							</Link>
+						) : (
+							"Not available"
+						)}
+					</Value>
+					<Key>
+						<div className="flex items-center space-x-0.5 truncate">
+							<span className="truncate">Repository/Commit</span>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger className="cursor-default">
+										<Info className="h-3 w-3 fill-theme-text-secondary" />
+										<span className="sr-only">Info</span>
+									</TooltipTrigger>
+									<TooltipContent className="w-full max-w-md whitespace-normal">
+										Git hash of code repository. Only set if pipeline was run in a clean git
+										repository connected to your ZenML server.
+									</TooltipContent>
+								</Tooltip>
+							</TooltipProvider>
+						</div>
+					</Key>
+					<Value>
+						{data.body?.code_reference ? (
+							<RepoBadge
+								repositoryId={data.body?.code_reference.body?.code_repository.id}
+								commit={data.body.code_reference.body?.commit}
+							/>
+						) : (
+							"Not available"
+						)}
+					</Value>
+					<Key className={data.metadata?.code_path ? "col-span-3" : ""}>
+						<div className="flex items-center space-x-0.5 truncate">
+							<span>Code Path</span>
+							<TooltipProvider>
+								<Tooltip>
+									<TooltipTrigger className="cursor-default">
+										<Info className="h-3 w-3 fill-theme-text-secondary" />
+										<span className="sr-only">Info</span>
+									</TooltipTrigger>
+									<TooltipContent className="w-full max-w-md whitespace-normal">
+										Path to where code was uploaded in the artifact store. Only set on a pipeline
+										with a non-local orchestrator and if Repository/Commit is not set
+									</TooltipContent>
+								</Tooltip>
+							</TooltipProvider>
+						</div>
+					</Key>
+					<Value className={data.metadata?.code_path ? "col-span-3 h-auto" : ""}>
+						{data.metadata?.code_path ? (
+							<Codesnippet code={data.metadata.code_path} />
 						) : (
 							"Not available"
 						)}

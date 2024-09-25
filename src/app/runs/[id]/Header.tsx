@@ -6,6 +6,7 @@ import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/Breadcrumbs
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { RunActionsMenu } from "./RunActionMenu";
 
 export function RunsDetailHeader() {
 	const { runId } = useParams() as { runId: string };
@@ -23,8 +24,8 @@ export function RunsDetailHeader() {
 	}, [data]);
 
 	return (
-		<PageHeader>
-			<div className="flex items-center gap-1">
+		<PageHeader className="flex items-center justify-between">
+			<div className="flex items-center gap-1 truncate">
 				{isSuccess ? (
 					<>
 						<RunIcon
@@ -41,6 +42,7 @@ export function RunsDetailHeader() {
 					</>
 				)}
 			</div>
+			<RunActionsMenu />
 		</PageHeader>
 	);
 }

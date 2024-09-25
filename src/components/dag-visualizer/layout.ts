@@ -1,9 +1,9 @@
 import { ZenEdge, ZenNode } from "@/types/pipeline-runs";
-import { Node, Edge } from "reactflow";
 import Dagre from "@dagrejs/dagre";
+import { Edge, Node } from "reactflow";
 
 const nodeWidth = 300;
-const artifactHeight = 44;
+const artifactHeight = 50;
 const stepHeight = 50;
 
 export function getLayoutedNodes(
@@ -11,7 +11,7 @@ export function getLayoutedNodes(
 	edges?: ZenEdge[]
 ): { nodes: Node[]; edges: Edge[] } {
 	const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-	g.setGraph({ rankdir: "TB", ranksep: 35, nodesep: 5 });
+	g.setGraph({ rankdir: "TB", ranksep: 25, nodesep: 10 });
 	if (!nodes || !edges) return { nodes: [], edges: [] };
 	if (nodes.length < 1) return { nodes: [], edges: [] };
 
@@ -33,7 +33,10 @@ export function getLayoutedNodes(
 			return { ...node, position: { x, y } };
 		}),
 		edges: edges.map((edge) => {
-			return { ...edge, type: nodes.length > 30 ? "smoothstep" : "smart" };
+			return {
+				...edge,
+				type: nodes.length > 30 ? "smoothstep" : "smart"
+			};
 		})
 	};
 }

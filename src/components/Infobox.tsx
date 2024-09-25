@@ -1,5 +1,6 @@
-import Info from "@/assets/icons/info.svg?react";
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import AlertTriangle from "@/assets/icons/alert-triangle.svg?react";
+import Info from "@/assets/icons/info.svg?react";
 import { cn } from "@zenml-io/react-component-library";
 import { VariantProps, cva } from "class-variance-authority";
 import { HTMLAttributes, PropsWithChildren } from "react";
@@ -9,7 +10,8 @@ const infoBoxVariants = cva("flex items-center text-text-sm rounded-md border px
 		intent: {
 			primary: "border-primary-400 bg-primary-25",
 			warning: "bg-[#FFF6EA] border-theme-border-moderate",
-			neutral: "border-theme-border-moderate"
+			neutral: "border-theme-border-moderate",
+			error: "bg-error-50 border-error-300"
 		}
 	},
 	defaultVariants: {
@@ -31,7 +33,8 @@ function PrimitiveIcon({ intent }: Pick<Props, "intent">) {
 	switch (intent) {
 		case "warning":
 			return <AlertTriangle className="mr-4 h-5 w-5 shrink-0 fill-warning-700" />;
-
+		case "error":
+			return <AlertCircle className="mr-4 h-5 w-5 shrink-0 fill-error-700" />;
 		default:
 			return <Info className="mr-4 h-5 w-5 shrink-0 fill-theme-text-brand" />;
 	}

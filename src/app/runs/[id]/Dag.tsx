@@ -1,23 +1,21 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
+import { DagControls } from "@/components/dag-visualizer/Controls";
+import { PreviewArtifactNode } from "@/components/dag-visualizer/PreviewArtifact";
+import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
 import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
-import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
-import { usePipelineRunGraph } from "@/data/pipeline-runs/pipeline-run-graph-query";
-import { Spinner } from "@zenml-io/react-component-library";
-import { useCallback, useEffect, useLayoutEffect } from "react";
-import { useParams } from "react-router-dom";
-import ReactFlow, {
-	NodeTypes,
-	useEdgesState,
-	useNodesState,
-	useReactFlow,
-	useStore
-} from "reactflow";
-import { DagControls } from "@/components/dag-visualizer/Controls";
+import { EmptyState } from "@/components/EmptyState";
+import { Spinner } from "@zenml-io/react-component-library/components/server";
+import ReactFlow, { NodeTypes } from "reactflow";
+import { useDag } from "./useDag";
 
 const customNodes: NodeTypes = {
 	step: StepNode,
-	artifact: ArtifactNode
+	artifact: ArtifactNode,
+	previewStep: PreviewStepNode,
+	previewArtifact: PreviewArtifactNode
 };
 
 const customEdge = {
@@ -25,46 +23,17 @@ const customEdge = {
 };
 
 export function DAG() {
-	const { runId } = useParams() as { runId: string };
-	const { data, isPending, isError } = usePipelineRunGraph({ runId });
+	const { pipelineDeployment, pipelineRun, nodes, edges, onEdgesChange, onNodesChange } = useDag();
 
-	const { fitView } = useReactFlow();
-	const { width, height } = useStore((state) => ({ width: state.width, height: state.height }));
+	if (pipelineRun.isError || pipelineDeployment.isError) {
+		return (
+			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+				<p className="text-center">There was an error loading the DAG visualization.</p>
+			</EmptyState>
+		);
+	}
 
-	const [nodes, setNodes, onNodesChange] = useNodesState([]);
-	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
-	const onDagreLayout = useCallback(() => {
-		const layouted = getLayoutedNodes(data?.nodes, data?.edges);
-
-		setNodes([...layouted.nodes]);
-		setEdges([...layouted.edges]);
-
-		window.requestAnimationFrame(() => {
-			fitView();
-		});
-	}, [data?.nodes, data?.edges]);
-
-	useEffect(() => {
-		fitView(); // Keep an eye on performance here
-	}, [width, height]);
-
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			fitView({ duration: 200 });
-		}, 100);
-		return () => {
-			clearTimeout(timeout);
-		};
-	}, [data]);
-
-	useLayoutEffect(() => {
-		onDagreLayout();
-	}, [data?.nodes, data?.edges, onDagreLayout]);
-
-	if (isError) return null;
-
-	if (isPending) {
+	if (pipelineRun.isPending || pipelineDeployment.isPending) {
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />
@@ -91,7 +60,12 @@ export function DAG() {
 			onEdgesChange={onEdgesChange}
 			fitView
 		>
-			<DagControls runId={runId} />
+			<DagControls
+				refetch={() => {
+					pipelineRun.refetch();
+					pipelineDeployment.refetch();
+				}}
+			/>
 		</ReactFlow>
 	);
 }
