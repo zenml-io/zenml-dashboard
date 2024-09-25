@@ -38,7 +38,7 @@ export const routes = {
 		notifications: "/settings/notifications",
 		repositories: { overview: "/settings/repositories" },
 		profile: `/settings/profile`,
-		secrets: { overview: "/settings/secrets" },
+		secrets: { overview: "/settings/secrets", detail: (id: string) => `/settings/secrets/${id}` },
 		connectors: { overview: "/settings/connectors" }
 	}
 };

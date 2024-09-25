@@ -30,7 +30,7 @@ const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
-const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/secretsDetail/page"));
+const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/[id]/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 
 //Stacks
