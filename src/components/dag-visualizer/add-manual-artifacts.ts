@@ -15,6 +15,11 @@ export function addManuallyAddedArtifacts(
 	missingNodes.forEach((missingNode) => {
 		const [stepName, artifactName] = missingNode.id.split("--");
 		const step = steps[stepName];
+
+		if (!step) {
+			return;
+		}
+
 		const existingNode = findExistingArtifactNode(nodes, missingNode);
 		const inputs = step.body?.inputs as { [key: string]: ArtifactVersion };
 		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion };
