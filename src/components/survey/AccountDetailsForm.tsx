@@ -42,7 +42,7 @@ export function AccountDetailsForm({ email, fullName, submitHandler }: AccountDe
 				<div className="space-y-2">
 					<div className="space-y-0.5">
 						<label htmlFor={fullNameId} className="text-text-sm">
-							Full Name (optional)
+							Name
 						</label>
 						<Input {...register("fullName")} id={fullNameId} className="w-full" />
 					</div>
