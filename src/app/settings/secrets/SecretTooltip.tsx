@@ -12,7 +12,7 @@ export function SecretTooltip({ code }: { code: string }) {
 		<TooltipProvider>
 			<Tooltip>
 				<TooltipTrigger>
-					<Info className="ml-1 h-4 w-4 shrink-0 cursor-pointer fill-theme-text-tertiary" />
+					<Info className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
 				</TooltipTrigger>
 				<TooltipContent
 					align="start"

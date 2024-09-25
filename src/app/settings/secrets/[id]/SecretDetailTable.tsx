@@ -36,7 +36,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 			<div className="mb-4 flex flex-wrap items-center justify-between gap-2">
 				<Input
 					type="text"
-					placeholder="Search by key..."
+					placeholder="Search Keys..."
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
 					inputSize="md"

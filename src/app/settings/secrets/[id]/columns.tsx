@@ -39,10 +39,10 @@ secret.secret_values["${row.original.key}"]
 	  `;
 				return (
 					<div className="flex items-center space-x-2">
-						<KeyIcon className="h-4 w-4 flex-shrink-0" />
+						<KeyIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
 						<div className="flex flex-col">
-							<div className="flex flex-row items-center gap-0.5 space-x-1">
-								<div className="flex flex-row items-center">
+							<div className="flex items-center space-x-1">
+								<div className="flex items-center space-x-1">
 									<span className="text-text-md font-semibold text-theme-text-primary">
 										{row.original.key}
 									</span>
