@@ -1,6 +1,7 @@
 import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Collapse from "@/assets/icons/collapse.svg?react";
 import Info from "@/assets/icons/info.svg?react";
+import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import {
 	Button,
@@ -12,9 +13,10 @@ import {
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { ConfigurationTab } from "./Configuration";
+import { MetadataTab } from "./Metadata";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
-import { MetadataTab } from "./Metadata";
+import { StackTab } from "./Stack";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -52,6 +54,10 @@ export function RunsDetailTabs() {
 						<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 						<span>Overview</span>
 					</TabsTrigger>
+					<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="stack">
+						<Stack className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<span>Stack</span>
+					</TabsTrigger>
 					<TabsTrigger
 						className="flex items-center gap-2 truncate text-text-md"
 						value="configuration"
@@ -67,6 +73,9 @@ export function RunsDetailTabs() {
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 					<OverviewTab />
+				</TabsContent>
+				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="stack">
+					<StackTab />
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 					<ConfigurationTab />
