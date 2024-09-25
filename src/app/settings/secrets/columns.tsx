@@ -49,7 +49,9 @@ export function getSecretColumns(navigate: NavigateFunction): ColumnDef<SecretNa
 											side="bottom"
 											className=" z-50 flex max-w-[480px] flex-col gap-2 bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary"
 										>
-											<p>To use your secret in a step, you can use the following code:</p>
+											<p className="text-md text-theme-text-primary">
+												To use your secret in a step, you can use the following code:
+											</p>
 											<Codesnippet
 												fullWidth
 												highlightCode
