@@ -12,10 +12,7 @@ const ValueCell: React.FC<{ value: unknown }> = ({ value }) => {
 
 	return (
 		<div className="flex  items-center gap-2 space-x-2">
-			<EyeIcon
-				onClick={() => setIsVisible(!isVisible)}
-				className="h-4 w-4 flex-shrink-0 cursor-pointer"
-			/>
+			<EyeIcon onClick={() => setIsVisible(!isVisible)} className="h-4 w-4 flex-shrink-0" />
 			<span>{isVisible ? valueStr : dots}</span>
 		</div>
 	);

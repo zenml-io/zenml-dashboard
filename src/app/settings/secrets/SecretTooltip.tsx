@@ -14,17 +14,13 @@ export function SecretTooltip({ code }: { code: string }) {
 				<TooltipTrigger>
 					<Info className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
 				</TooltipTrigger>
-				<TooltipContent
-					align="start"
-					side="bottom"
-					className="z-50 flex max-w-[480px] flex-col gap-2 bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary"
-				>
+				<TooltipContent className="z-50 flex max-w-[480px] flex-col gap-2 bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary">
 					<p className="text-md text-theme-text-primary">
 						To use your secret in a step, you can use the following code:
 					</p>
 					<Codesnippet highlightCode wrap codeClasses="break-words" code={code} />
 					<a
-						className="link text-primary-400"
+						className="link w-fit text-primary-400"
 						target="_blank"
 						href="https://docs.zenml.io/how-to/interact-with-secrets#accessing-registered-secrets"
 					>
