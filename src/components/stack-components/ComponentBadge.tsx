@@ -11,12 +11,12 @@ export function ComponentBadge({ type, children }: Props) {
 	return (
 		<Tag
 			rounded={false}
-			className="inline-flex items-center gap-0.5 text-text-sm"
+			className="inline-flex shrink items-center gap-0.5 overflow-x-hidden text-text-sm"
 			color="purple"
 			emphasis="minimal"
 		>
-			<ComponentIcon type={type} className="h-4 w-4 fill-current" />
-			<span>{children}</span>
+			<ComponentIcon type={type} className="h-4 w-4 shrink-0 fill-current" />
+			<div className="truncate">{children}</div>
 		</Tag>
 	);
 }

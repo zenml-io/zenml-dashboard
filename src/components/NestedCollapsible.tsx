@@ -7,7 +7,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
@@ -27,8 +27,9 @@ export function NestedCollapsible({
 	intent = "primary",
 	isInitialOpen = false,
 	contentClassName,
+	children,
 	className
-}: Props) {
+}: PropsWithChildren<Props>) {
 	const objects: { [key: string]: any } = {};
 	const nonObjects: { [key: string]: any } = {};
 	const arrays: { [key: string]: any } = {};
@@ -95,6 +96,7 @@ export function NestedCollapsible({
 					))}
 				</div>
 			)}
+			{children}
 		</CollapsibleCard>
 	);
 }
