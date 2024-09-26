@@ -1,11 +1,11 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
-import { StackComponent } from "@/types/components";
 import { PipelineRun } from "@/types//pipeline-runs";
+import { StackComponent } from "@/types/components";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
+import { NestedCollapsible } from "../../NestedCollapsible";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { ComponentInfoDialog } from "./ComponentInfoDialog";
-import { NestedCollapsible } from "../../NestedCollapsible";
 
 type Props = {
 	component: StackComponent;
@@ -20,7 +20,7 @@ export function ComponentCollapsible({ component, run }: Props) {
 		return (
 			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
 				<button className="w-full">
-					<Box className="flex items-center justify-between px-5 py-3 text-left">
+					<Box className="flex items-center justify-between gap-3 px-5 py-3 text-left">
 						<ComponentCollapsibleItem component={component} />
 					</Box>
 				</button>
@@ -35,7 +35,7 @@ export function ComponentCollapsible({ component, run }: Props) {
 			className="w-full"
 			isInitialOpen={false}
 			title={
-				<div className="flex w-full items-center justify-between text-left">
+				<div className="flex w-full items-center justify-between gap-3 text-left">
 					<ComponentCollapsibleItem component={component} />
 				</div>
 			}
@@ -44,7 +44,7 @@ export function ComponentCollapsible({ component, run }: Props) {
 			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
 				<Button
 					intent="secondary"
-					emphasis="minimal"
+					emphasis="subtle"
 					className="mx-auto flex w-fit justify-center text-text-sm text-theme-text-secondary"
 				>
 					See Component Details

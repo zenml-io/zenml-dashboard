@@ -9,7 +9,7 @@ type Props = {
 
 export function StackHeader({ stack }: Props) {
 	return (
-		<Box className="flex items-center justify-between px-5 py-3">
+		<Box className="flex items-center justify-between gap-3 px-5 py-3">
 			<div className="flex items-center gap-2">
 				<Avatar type="square" size="md">
 					<AvatarFallback size="md">{stack.name[0]}</AvatarFallback>
@@ -21,12 +21,12 @@ export function StackHeader({ stack }: Props) {
 			</div>
 			<Tag
 				rounded={false}
-				className="inline-flex items-center gap-0.5"
+				className="inline-flex shrink items-center gap-0.5 truncate"
 				color="turquoise"
 				emphasis="subtle"
 			>
-				<StackIcon className="h-4 w-4 fill-current" />
-				<span>Stack</span>
+				<StackIcon className="h-4 w-4 shrink-0 fill-current" />
+				<div className="truncate">{stack.name}</div>
 			</Tag>
 		</Box>
 	);

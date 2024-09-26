@@ -1,9 +1,11 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { StackInfo } from "@/components/stacks/info";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { PipelineRun } from "@/types/pipeline-runs";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
+import { EmptyState } from "../../EmptyState";
 
 export function StackTab() {
 	const { runId } = useParams() as { runId: string };
@@ -15,7 +17,19 @@ export function StackTab() {
 
 	const stackId = run.data?.body?.stack?.id;
 
-	return <StackTabContent run={run.data} stackId={stackId!} />;
+	if (!stackId)
+		return (
+			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+				<div className="text-center">
+					<p className="text-display-xs font-semibold">No Stack</p>
+					<p className="text-text-lg text-theme-text-secondary">
+						There is no stack associated with this run.
+					</p>
+				</div>
+			</EmptyState>
+		);
+
+	return <StackTabContent run={run.data} stackId={stackId} />;
 }
 
 type StackTabContentProps = {
