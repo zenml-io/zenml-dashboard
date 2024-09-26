@@ -1,7 +1,6 @@
 import { AlertPanels } from "./AlertPanels";
 import { Details } from "./Details";
 import { OrchestratorCollapsible } from "./Orchestrator";
-import { StackCollapsible } from "./Stack";
 
 export function OverviewTab() {
 	return (
@@ -9,7 +8,6 @@ export function OverviewTab() {
 			<AlertPanels />
 			<Details />
 			<OrchestratorCollapsible />
-			<StackCollapsible />
 		</div>
 	);
 }

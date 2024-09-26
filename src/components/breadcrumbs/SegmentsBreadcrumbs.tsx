@@ -2,6 +2,7 @@ import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import TemplatesIcon from "@/assets/icons/pipeline-template.svg?react";
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
+import Stack from "@/assets/icons/stack.svg?react";
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import Tools from "@/assets/icons/tool-02.svg?react";
 import { capitalize } from "@/lib/strings";
@@ -106,7 +107,8 @@ export const matchSegmentWithTab = (segment: string) => {
 		pipelines: <PipelineIcon className={iconClasses} />,
 		metadata: <MetadataIcon className={iconClasses} />,
 		runs: <RunIcon className={iconClasses} />,
-		templates: <TemplatesIcon className={iconClasses} />
+		templates: <TemplatesIcon className={iconClasses} />,
+		stack: <Stack className={iconClasses} />
 	};
 
 	return routeMap[segment] || <Info className="h-5 w-5 fill-theme-text-tertiary" />;

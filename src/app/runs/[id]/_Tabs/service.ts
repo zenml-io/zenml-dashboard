@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const tabParamSchema = z.object({
 	tab: z
-		.enum(["overview", "configuration", "metadata"])
+		.enum(["overview", "configuration", "metadata", "stack"])
 		.optional()
 		.default("overview")
 		.catch("overview")
