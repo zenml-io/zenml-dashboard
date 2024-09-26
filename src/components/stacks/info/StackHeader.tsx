@@ -26,7 +26,7 @@ export function StackHeader({ stack }: Props) {
 				emphasis="subtle"
 			>
 				<StackIcon className="h-4 w-4 shrink-0 fill-current" />
-				<div className="truncate">{stack.name}</div>
+				<div className="truncate">Stack</div>
 			</Tag>
 		</Box>
 	);
