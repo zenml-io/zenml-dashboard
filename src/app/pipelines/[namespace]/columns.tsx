@@ -17,9 +17,23 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
+import { RunDropdown } from "../RunsTab/RunDropdown";
+import { RunSelector } from "../RunsTab/RunSelector";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
+		{
+			id: "check",
+			header: "",
+			meta: {
+				width: "1%"
+			},
+			accessorFn: (row) => ({ id: row.id }),
+			cell: ({ getValue }) => {
+				const { id } = getValue<{ id: string }>();
+				return <RunSelector id={id} />;
+			}
+		},
 		{
 			id: "run",
 			header: "Run",
@@ -128,6 +142,16 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author: User }>();
 				return <InlineAvatar username={author.name} />;
+			}
+		},
+		{
+			id: "admin_actions",
+			header: "",
+			meta: {
+				width: "5%"
+			},
+			cell: ({ row }) => {
+				return <RunDropdown id={row.original.id} />;
 			}
 		}
 	];
