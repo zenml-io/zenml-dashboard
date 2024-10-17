@@ -1,12 +1,12 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import {
-	Collapsible,
 	CollapsibleContent,
+	CollapsiblePanel,
 	CollapsibleTrigger,
 	ProgressOutstanding,
 	cn
 } from "@zenml-io/react-component-library";
-import { PropsWithChildren, ReactNode, useState } from "react";
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 import { Tick } from "../Tick";
 import { SkippedStep } from "./SkippedStep";
 
@@ -21,13 +21,21 @@ export function ChecklistItem({
 	title,
 	children,
 	hasDownstream,
-	active
+	active = false
 }: PropsWithChildren<Props>) {
 	const [open, setOpen] = useState(active);
 
+	useEffect(() => {
+		setOpen(active);
+	}, [active]);
+
 	return (
-		<Collapsible open={open} onOpenChange={setOpen}>
-			<div className="flex w-full flex-col gap-3">
+		<CollapsiblePanel
+			disabled={!(hasDownstream || active || completed)}
+			open={open}
+			onOpenChange={setOpen}
+		>
+			<div className="flex w-full flex-col gap-3 bg-theme-surface-primary px-5 py-3">
 				<div className="flex w-full justify-between gap-2">
 					{completed ? (
 						<Tick className="shrink-0" />
@@ -37,7 +45,12 @@ export function ChecklistItem({
 						<ProgressOutstanding className="shrink-0" />
 					)}
 					<CollapsibleTrigger className="w-full">
-						<ChecklistHeader skipped={hasDownstream} title={title} completed={completed} />
+						<ChecklistHeader
+							active={active}
+							skipped={hasDownstream}
+							title={title}
+							completed={completed}
+						/>
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
 						<CollapsibleTrigger>
@@ -49,16 +62,17 @@ export function ChecklistItem({
 						</CollapsibleTrigger>
 					</div>
 				</div>
-				{children && (
-					<CollapsibleContent>
-						<div className="flex w-full items-center gap-2">
-							<div className="w-[28px] shrink-0" />
-							<div className="w-full min-w-0 flex-1">{children}</div>
-						</div>
-					</CollapsibleContent>
-				)}
 			</div>
-		</Collapsible>
+
+			{children && (
+				<CollapsibleContent className="border-t border-theme-border-moderate">
+					<div className="flex w-full items-center gap-2 bg-theme-surface-primary p-5">
+						<div className="w-[28px] shrink-0" />
+						<div className="w-full min-w-0 flex-1">{children}</div>
+					</div>
+				</CollapsibleContent>
+			)}
+		</CollapsiblePanel>
 	);
 }
 
@@ -66,17 +80,19 @@ type HeaderProps = {
 	completed: boolean;
 	title: ReactNode;
 	skipped: boolean;
+	active?: boolean;
 };
-export function ChecklistHeader({ completed, title, skipped }: HeaderProps) {
+export function ChecklistHeader({ completed, title, skipped, active }: HeaderProps) {
 	return (
 		<div className="flex w-full items-center justify-between gap-2">
 			<div className="flex w-full items-center">
 				<div
-					className={`font-semibold ${cn({
-						"text-theme-text-tertiary": completed || skipped,
-						"line-through decoration-theme-text-tertiary": completed
-					})} 
-					`}
+					className={cn("text-text-xl", {
+						"text-theme-text-tertiary line-through decoration-theme-text-tertiary":
+							completed || skipped,
+						"font-semibold": active,
+						"text-theme-text-secondary": !active && !completed
+					})}
 				>
 					{title}
 				</div>
