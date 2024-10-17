@@ -1,6 +1,5 @@
-import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
+import { SupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
 import { HeaderOnboardingBox } from "./Header";
-
 import { OnboardingSetupList } from "./Setup";
 import { useTourContext } from "@/components/tour/TourContext";
 import { useEffect } from "react";
@@ -24,7 +23,7 @@ export default function OnboardingPage() {
 				<OnboardingSetupList />
 			</div>
 			<div className="col-span-4 space-y-5 lg:col-span-1">
-				<FallbackSupportCard />
+				<SupportCard />
 				<ResourcesCard />
 			</div>
 		</div>

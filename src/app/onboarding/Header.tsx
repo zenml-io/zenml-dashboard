@@ -1,4 +1,5 @@
 import { useCurrentUser } from "@/data/users/current-user-query";
+import { getUsername } from "@/lib/user";
 import { Skeleton } from "@zenml-io/react-component-library";
 
 export function HeaderOnboardingBox() {
@@ -22,6 +23,6 @@ function Username() {
 
 	if (user.isError) return null;
 	if (user.isPending) return <Skeleton className="h-6 w-[70px]" />;
-	const name = user.data.name;
+	const name = getUsername(user.data);
 	return <>{name ? `, ${name}` : ""}</>;
 }

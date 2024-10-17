@@ -1,7 +1,6 @@
 export type OnboardingChecklistItemName =
 	| "device_verified"
 	| "pipeline_run"
-	| "starter_setup_completed"
 	| "stack_with_remote_orchestrator_created"
 	| "pipeline_run_with_remote_orchestrator"
 	| "production_setup_completed";
