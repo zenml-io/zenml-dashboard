@@ -10,7 +10,7 @@ on:
 
 jobs:
   run_zenml_tests:
-    runs-on: ubunto-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout repository
