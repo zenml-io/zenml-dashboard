@@ -1,7 +1,7 @@
 import Expand from "@/assets/icons/expand.svg?react";
 import { useServerInfo } from "@/data/server/info-query";
 import { checkIsLocalServer } from "@/lib/server";
-import { Button } from "@zenml-io/react-component-library";
+import { Button, ScrollArea } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction, useState } from "react";
 import { DAG } from "./Dag";
 import { RunsDetailHeader } from "./Header";
@@ -28,13 +28,13 @@ export default function RunDetailPage() {
 				<div
 					aria-hidden={!isPanelOpen}
 					className={`h-full min-w-0 overflow-x-hidden text-ellipsis whitespace-nowrap bg-theme-surface-secondary transition-all duration-500 ${
-						isPanelOpen
-							? "w-1/2 border-l border-theme-border-moderate"
-							: "w-0 overflow-x-hidden border-transparent"
+						isPanelOpen ? "w-1/2 border-l border-theme-border-moderate" : "w-0 border-transparent"
 					}`}
 				>
-					<TabsHeader setIsPanelOpen={setIsPanelOpen} />
-					<RunsDetailTabs />
+					<ScrollArea viewportClassName="[&>*]:!block">
+						<TabsHeader setIsPanelOpen={setIsPanelOpen} />
+						<RunsDetailTabs />
+					</ScrollArea>
 				</div>
 			</div>
 		</div>
