@@ -1,7 +1,7 @@
 import ChevronRight from "@/assets/icons/chevron-right.svg?react";
 import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
-import { getProductionSetup, getStarterSetup } from "@/lib/onboarding";
+import { getOnboardingSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import { routes } from "@/router/routes";
 import { Box, ProgressBar, Skeleton, useSidebarContext } from "@zenml-io/react-component-library";
@@ -20,20 +20,17 @@ export function OnboardingItem() {
 		);
 	}
 
-	const starterSetup = getStarterSetup(
+	const onboardingSetup = getOnboardingSetup(
 		onboarding.data,
 		checkIsLocalServer(serverInfo.data.deployment_type || "other")
 	);
-	const productionSetup = getProductionSetup(onboarding.data);
 
-	const title = starterSetup.isFinished ? "Production Setup" : "Starter Setup";
-	const completedItems = starterSetup.isFinished
-		? productionSetup.itemsDone
-		: starterSetup.itemsDone;
-	const totalItems = starterSetup.isFinished ? productionSetup.totalItems : starterSetup.totalItems;
-	const progress = starterSetup.isFinished ? productionSetup.progress : starterSetup.progress;
+	const title = "Quick Setup";
+	const completedItems = onboardingSetup.itemsDone;
+	const totalItems = onboardingSetup.totalItems;
+	const progress = onboardingSetup.progress;
 
-	if (starterSetup.isFinished && productionSetup.isFinished) return null;
+	if (onboardingSetup.isFinished) return null;
 
 	return (
 		<li className="w-full">

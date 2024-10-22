@@ -38,13 +38,13 @@ export function ConfigurationTab() {
 			)}
 			<CodeCollapsible runId={runId} />
 			<EnvironmentCollapsible run={data} />
-			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 			<NestedCollapsible
 				isInitialOpen
 				title="Resources"
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
 			/>
+			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 		</div>
 	);
 }
