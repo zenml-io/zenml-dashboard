@@ -22,15 +22,15 @@ export function getOnboardingSetup(data: OnboardingResponse, isLocal: boolean) {
 		progress: (itemsDone / totalItems) * 100,
 		finalStep: finalStep,
 		hasItem: (item: OnboardingChecklistItemName) => hasOnboardingItem(item, data),
-		getItem: (item: OnboardingChecklistItemName) => getItem(item, data)
+		getItem: (item: OnboardingChecklistItemName) => getItem(item, data, isLocal)
 	};
 }
 
-function getItem(item: OnboardingChecklistItemName, state: OnboardingResponse, isLocal?: boolean) {
+function getItem(item: OnboardingChecklistItemName, state: OnboardingResponse, isLocal: boolean) {
 	return {
 		isCompleted: state.includes(item),
-		hasDownStreamStep: checkDownstreamStep(item, state, isLocal || false),
-		isActive: isStepActive(item, state, isLocal || false)
+		hasDownStreamStep: checkDownstreamStep(item, state, isLocal),
+		isActive: isStepActive(item, state, isLocal)
 	};
 }
 
