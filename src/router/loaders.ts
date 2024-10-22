@@ -1,23 +1,17 @@
+import { fetchServerSettings, getServerSettingsKey } from "@/data/server/get-server-settings";
 import { fetchServerInfo, getServerInfoKey } from "@/data/server/info-query";
 import { fetchCurrentUser, getCurrentUserKey } from "@/data/users/current-user-query";
-import { getAuthState } from "@/lib/sessions";
 import { QueryClient } from "@tanstack/react-query";
-import { fetchServerSettings, getServerSettingsKey } from "@/data/server/get-server-settings";
 
 export const authenticatedLayoutLoader = (queryClient: QueryClient) => async () => {
-	if (getAuthState()) {
-		await Promise.all([
-			queryClient
-				.ensureQueryData({ queryKey: getCurrentUserKey(), queryFn: fetchCurrentUser })
-				// I'm not sure if I like this handling here. A potential check could also be getAuthstate()
-				.catch(() => {}),
-			queryClient
-				.ensureQueryData({ queryKey: getServerSettingsKey(), queryFn: fetchServerSettings })
-				.catch(() => {})
-		]).catch(() => {});
-	}
-
-	return null;
+	await Promise.all([
+		queryClient
+			.ensureQueryData({ queryKey: getCurrentUserKey(), queryFn: fetchCurrentUser })
+			.catch(() => {}),
+		queryClient
+			.ensureQueryData({ queryKey: getServerSettingsKey(), queryFn: fetchServerSettings })
+			.catch(() => {})
+	]).catch(() => {});
 };
 
 export const rootLoader = (queryClient: QueryClient) => async () => {
