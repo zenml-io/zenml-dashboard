@@ -1,4 +1,4 @@
-import { infiniteQueryOptions } from "@tanstack/react-query";
+import { infiniteQueryOptions, queryOptions } from "@tanstack/react-query";
 import { fetchComponents } from "./components-list";
 import { StackComponentListParams } from "@/types/components";
 
@@ -11,13 +11,10 @@ export const componentQueries = {
 			getNextPageParam: (lastPage) =>
 				lastPage.index < lastPage.total_pages ? lastPage.index + 1 : null,
 			initialPageParam: 1
+		}),
+	componentList: (queryParams: StackComponentListParams) =>
+		queryOptions({
+			queryKey: [...componentQueries.all, queryParams],
+			queryFn: async () => fetchComponents(queryParams)
 		})
-
-	// This is not used for now, in case we need the infinite query, and the regular one, the queryKeys should not be the same
-
-	// componentList: (backendUrl: string, queryParams: StackComponentListParams) =>
-	// 	queryOptions({
-	// 		queryKey: [backendUrl, ...componentQueries.all, queryParams],
-	// 		queryFn: async () => fetchComponents(backendUrl, queryParams)
-	// 	})
 };
