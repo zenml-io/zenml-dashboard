@@ -1,13 +1,22 @@
-name: Playwright Tests
-on:
+name : ZenML Playwright test pipelines
+
+on: 
   push:
-    branches: [main, master]
+    branches:
+      - main
+      - staging
   pull_request:
-    branches: [main, master]
+    branches:
+      - main
+      - staging
+
 jobs:
-  test:
-    timeout-minutes: 60
+  run_zenml_tests:
     runs-on: ubuntu-latest
+
+    env:
+      ZENML_ANALYTICS_OPT_IN: "false"
+
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,3 +34,28 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+        
+      - name: Install ZenML
+        run: |
+          pip install --upgrade pip
+          pip install zenml[server]
+
+      - name: Run ZenML Simple Pipeline
+        run: python e2e-tests/fixtures/simple-pipeline.py
+      
+      - name: ZenMl up
+        run: |
+          zenml init
+          zenml up
+      
+      - name: Run Playwright Tests
+        working-directory: e2e-tests  
+        run: npx playwright test --workers=1
+      
+      - name: Verify ZenML Installation
+        run: zenml version
