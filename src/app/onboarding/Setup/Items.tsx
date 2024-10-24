@@ -122,7 +122,7 @@ export function CreateNewStack({ completed, active, hasDownstreamStep }: Onboard
 					<Button className="w-fit" size="md" asChild>
 						<Link className="flex" to={link}>
 							<Plus className="h-5 w-5 shrink-0 fill-white" />
-							Register a stack
+							Register a remote stack
 						</Link>
 					</Button>
 				</div>
