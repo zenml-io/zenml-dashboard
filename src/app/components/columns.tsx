@@ -5,6 +5,7 @@ import { ComponentBadge } from "@/components/stack-components/ComponentBadge";
 import { ComponentFallbackDialog } from "@/components/stack-components/ComponentFallbackDialog";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
+import { getUsername } from "@/lib/user";
 import { StackComponent } from "@/types/components";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library/components/server";
@@ -87,7 +88,7 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 			cell: ({ row }) => {
 				const author = row.original.body?.user;
 				if (!author) return null;
-				return <InlineAvatar username={author.name || "default"} />;
+				return <InlineAvatar username={getUsername(author)} />;
 			}
 		},
 		{
