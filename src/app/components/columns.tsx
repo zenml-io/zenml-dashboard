@@ -2,6 +2,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { ComponentBadge } from "@/components/stack-components/ComponentBadge";
+import { ComponentFallbackDialog } from "@/components/stack-components/ComponentFallbackDialog";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { StackComponent } from "@/types/components";
@@ -27,7 +28,14 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 						/>
 						<div>
 							<div className="flex items-center gap-1">
-								<h2 className="text-text-md font-semibold">{name}</h2>
+								<ComponentFallbackDialog
+									name={name}
+									type={row.original.body?.type || "orchestrator"}
+								>
+									<button>
+										<h2 className="text-text-md font-semibold">{name}</h2>
+									</button>
+								</ComponentFallbackDialog>
 								<CopyButton copyText={name} />
 							</div>
 							<div className="flex items-center gap-1">
