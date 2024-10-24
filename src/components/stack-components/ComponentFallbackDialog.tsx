@@ -66,7 +66,7 @@ function Info({ type }: InfoProps) {
 			<div className="flex w-full flex-wrap justify-between gap-2">
 				<div className="min-w-0">
 					<p className="truncate text-text-sm font-semibold">
-						We are working on the new Stacks experience.
+						We are working on the new Stack Components experience.
 					</p>
 					<p className="truncate text-text-sm">
 						Meanwhile you can use the CLI to manage your {snakeCaseToLowerCase(type)}.

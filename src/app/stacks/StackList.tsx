@@ -27,7 +27,7 @@ export function StackList() {
 	});
 
 	return (
-		<section className="p-5">
+		<section>
 			<div className="flex flex-col gap-5">
 				<div className="flex flex-wrap items-center justify-between gap-y-4">
 					<SearchField searchParams={queryParams} />
