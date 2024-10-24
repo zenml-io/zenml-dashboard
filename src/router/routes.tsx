@@ -18,7 +18,9 @@ export const routes = {
 		overview: "/pipelines",
 		namespace: (namespace: string) => `/pipelines/${namespace}`
 	},
-
+	components: {
+		overview: "/components"
+	},
 	stacks: {
 		overview: "/stacks",
 		create: {

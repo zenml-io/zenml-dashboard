@@ -25,6 +25,9 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			stacks: { name: "Stacks" },
 			create: { name: "New Stack" }
 		},
+		components: {
+			components: { name: "Components" }
+		},
 		secrets: {
 			secrets: { name: "Secrets" }
 		},
@@ -92,7 +95,9 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		stacks: routes.stacks.overview,
 		createStack: routes.stacks.create.index,
 		//Secrets
-		secrets: routes.settings.secrets.overview
+		secrets: routes.settings.secrets.overview,
+		//components
+		components: routes.components.overview
 	};
 
 	return routeMap[segment] || "#";
