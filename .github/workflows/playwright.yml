@@ -1,15 +1,9 @@
 name : ZenML Playwright test pipelines
 
-on: 
-  push:
-    branches:
-      - main
-      - staging
+on:
   pull_request:
-    branches:
-      - main
-      - staging
-
+    types: [opened, synchronize, ready_for_review]
+    
 jobs:
   run_zenml_tests:
     runs-on: ubuntu-latest
