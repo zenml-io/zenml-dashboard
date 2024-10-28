@@ -3,7 +3,8 @@ import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useServerInfo } from "../data/server/info-query";
 import { routes } from "./routes";
-import { setAuthState } from "../lib/sessions";
+import { setAuthState } from "@/lib/sessions";
+import { isNoAuthServer } from "@/lib/server";
 
 export function ProtectedRoute({ children }: PropsWithChildren) {
 	const { getAuthState, removeAuthState } = useAuthContext();
@@ -12,11 +13,11 @@ export function ProtectedRoute({ children }: PropsWithChildren) {
 
 	if (serverInfo.isError || serverInfo.isPending) return null;
 
-	if (serverInfo.data.auth_scheme === "NO_AUTH") {
+	if (isNoAuthServer(serverInfo.data.auth_scheme)) {
 		setAuthState("true");
 	}
 
-	if (!isLoggedIn && serverInfo.data.auth_scheme !== "NO_AUTH") {
+	if (!isLoggedIn && !isNoAuthServer(serverInfo.data.auth_scheme)) {
 		removeAuthState();
 		return (
 			<Navigate

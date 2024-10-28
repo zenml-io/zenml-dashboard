@@ -2,6 +2,7 @@ import { components } from "./core";
 
 export type ServerInfo = components["schemas"]["ServerModel"];
 export type DeploymentType = components["schemas"]["ServerDeploymentType"];
+export type AuthScheme = components["schemas"]["AuthScheme"];
 
 export type ServerSettings = components["schemas"]["ServerSettingsResponse"];
 export type ServerSettigsUpdate = components["schemas"]["ServerSettingsUpdate"];
