@@ -6,23 +6,19 @@ import { stackQueries } from "@/data/stacks";
 import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getStackColumns } from "./columns";
-import { parseWizardData } from "./create/new-infrastructure/persist";
-import { parseWizardData as parseTerraform } from "./create/terraform/persist";
-import { ResumeStackBanner } from "./ResumeStackBanner";
 import { useStacklistQueryParams } from "./service";
-import { ResumeTerraformBanner } from "./ResumeTerraformBanner";
+import { StackListQueryParams } from "../../types/stack";
 
-export function StackList() {
-	const [hasResumeableStack, setResumeableStack] = useState(parseWizardData().success);
-	const [hasResumeableTerraform, setResumeableTerraform] = useState<boolean>(
-		parseTerraform().success
-	);
+type Props = {
+	fixedQueryParams?: StackListQueryParams;
+};
+
+export function StackList({ fixedQueryParams = {} }: Props) {
 	const queryParams = useStacklistQueryParams();
 	const { refetch, data } = useQuery({
-		...stackQueries.stackList({ ...queryParams, sort_by: "desc:updated" }),
+		...stackQueries.stackList({ ...queryParams, sort_by: "desc:updated", ...fixedQueryParams }),
 		throwOnError: true
 	});
 
@@ -45,10 +41,6 @@ export function StackList() {
 					</div>
 				</div>
 				<div className="flex flex-col items-center gap-5">
-					{hasResumeableStack && <ResumeStackBanner setHasResumeableStack={setResumeableStack} />}
-					{hasResumeableTerraform && (
-						<ResumeTerraformBanner setHasResumeableTerraform={setResumeableTerraform} />
-					)}
 					<div className="w-full">
 						{data ? (
 							<DataTable columns={getStackColumns()} data={data.items} />

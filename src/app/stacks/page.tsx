@@ -1,6 +1,7 @@
 import { useTourContext } from "@/components/tour/TourContext";
 import { useEffect } from "react";
 import { StackList } from "./StackList";
+import { ResumeBanners } from "./ResumeBanner";
 
 export default function StacksPage() {
 	const {
@@ -14,5 +15,10 @@ export default function StacksPage() {
 		}
 	}, [tourActive]);
 
-	return <StackList />;
+	return (
+		<div className="space-y-5">
+			<ResumeBanners />
+			<StackList />
+		</div>
+	);
 }
