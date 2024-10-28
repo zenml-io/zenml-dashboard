@@ -1,67 +1,36 @@
 import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
 
-export type Flow = "starter" | "production";
-
-export function getStarterSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
-	return [...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]), "pipeline_run"];
+export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
+	return [
+		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
+		"pipeline_run",
+		"stack_with_remote_orchestrator_created",
+		"pipeline_run_with_remote_orchestrator"
+	];
 }
 
-function getProductionSetupItems(): OnboardingChecklistItemName[] {
-	return ["stack_with_remote_orchestrator_created", "pipeline_run_with_remote_orchestrator"];
-}
+const finalStep: OnboardingChecklistItemName = "production_setup_completed";
 
-const finalSteps: {
-	starter: OnboardingChecklistItemName;
-	production: OnboardingChecklistItemName;
-} = {
-	starter: "starter_setup_completed",
-	production: "production_setup_completed"
-};
-
-export function getStarterSetup(data: OnboardingResponse, isLocal: boolean) {
-	const flowType: Flow = "starter";
-	const finalStep = finalSteps[flowType];
-	const itemsDone = getProgress(data, flowType, isLocal);
-	const totalItems = getOnboardingLength(flowType, isLocal);
+export function getOnboardingSetup(data: OnboardingResponse, isLocal: boolean) {
+	const itemsDone = getProgress(data, isLocal);
+	const totalItems = getOnboardingLength(isLocal);
 	return {
 		itemsDone,
 		totalItems,
-		items: getStarterSetupItems(isLocal),
+		items: getSetupItems(isLocal),
 		isFinished: data.includes(finalStep),
 		progress: (itemsDone / totalItems) * 100,
-		finalStep: finalSteps.starter,
+		finalStep: finalStep,
 		hasItem: (item: OnboardingChecklistItemName) => hasOnboardingItem(item, data),
-		getItem: (item: OnboardingChecklistItemName) => getItem(item, data, flowType)
+		getItem: (item: OnboardingChecklistItemName) => getItem(item, data, isLocal)
 	};
 }
 
-export function getProductionSetup(data: OnboardingResponse) {
-	const flowType: Flow = "production";
-	const finalStep = finalSteps[flowType];
-	const itemsDone = getProgress(data, flowType);
-	const totalItems = getOnboardingLength(flowType);
-	return {
-		itemsDone,
-		totalItems,
-		items: getProductionSetupItems(),
-		isFinished: data.includes(finalStep),
-		progress: (itemsDone / totalItems) * 100,
-		finalStep: finalSteps.starter,
-		hasItem: (item: OnboardingChecklistItemName) => hasOnboardingItem(item, data),
-		getItem: (item: OnboardingChecklistItemName) => getItem(item, data, flowType)
-	};
-}
-
-function getItem(
-	item: OnboardingChecklistItemName,
-	state: OnboardingResponse,
-	flow: Flow,
-	isLocal?: boolean
-) {
+function getItem(item: OnboardingChecklistItemName, state: OnboardingResponse, isLocal: boolean) {
 	return {
 		isCompleted: state.includes(item),
-		hasDownStreamStep: checkDownstreamStep(item, state, flow, isLocal || false),
-		isActive: isStepActive(item, state, flow, isLocal || false)
+		hasDownStreamStep: checkDownstreamStep(item, state, isLocal),
+		isActive: isStepActive(item, state, isLocal)
 	};
 }
 
@@ -72,12 +41,10 @@ function hasOnboardingItem(item: OnboardingChecklistItemName, state: OnboardingR
 export function checkDownstreamStep(
 	item: OnboardingChecklistItemName,
 	state: OnboardingResponse,
-	flow: Flow,
-	isLocal?: boolean
+	isLocal: boolean
 ) {
-	const order =
-		flow === "starter" ? getStarterSetupItems(isLocal || false) : getProductionSetupItems();
-	const withFinalStep = [...order, finalSteps[flow]];
+	const order = getSetupItems(isLocal);
+	const withFinalStep = [...order, finalStep];
 	const currentIndex = withFinalStep.indexOf(item);
 	if (currentIndex === -1) {
 		return false; // If the item is not found in the order array, return false
@@ -89,10 +56,9 @@ export function checkDownstreamStep(
 function isStepActive(
 	step: OnboardingChecklistItemName,
 	state: OnboardingResponse,
-	flowType: Flow,
 	isLocal: boolean
 ): boolean {
-	const flow = flowType === "starter" ? getStarterSetupItems(isLocal) : getProductionSetupItems();
+	const flow = getSetupItems(isLocal);
 	if (flow.length === 0) {
 		return false;
 	}
@@ -119,10 +85,9 @@ function isStepActive(
 	return state.includes(previousStep);
 }
 
-export function getProgress(onboardingState: OnboardingResponse, flow: Flow, isLocal?: boolean) {
-	const items =
-		flow === "starter" ? getStarterSetupItems(isLocal || false) : getProductionSetupItems();
-	const finalStep = finalSteps[flow];
+export function getProgress(onboardingState: OnboardingResponse, isLocal: boolean) {
+	const items = getSetupItems(isLocal);
+
 	// Filter out the finalStep from the checklist items
 	const filteredItems = items.filter((item) => item !== finalStep);
 
@@ -143,8 +108,7 @@ export function getProgress(onboardingState: OnboardingResponse, flow: Flow, isL
 	return highestIndex + 1;
 }
 
-export function getOnboardingLength(flow: Flow, isLocal?: boolean) {
-	const items =
-		flow === "starter" ? getStarterSetupItems(isLocal || false) : getProductionSetupItems();
+export function getOnboardingLength(isLocal: boolean) {
+	const items = getSetupItems(isLocal);
 	return items.length;
 }

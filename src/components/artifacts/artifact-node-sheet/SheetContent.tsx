@@ -13,10 +13,11 @@ import {
 	TabsList,
 	TabsTrigger
 } from "@zenml-io/react-component-library";
+import { ErrorBoundary } from "react-error-boundary";
 import { ArtifactIcon } from "../../ArtifactIcon";
 import { ArtifactDetailTab } from "./DetailsTab";
 import { ArtifactMetadataTab } from "./MetadataTab";
-import { VisualizationTab } from "./VisualizationTab";
+import { VisualizationErrorFallback, VisualizationTab } from "./VisualizationTab";
 
 type Props = {
 	artifactVersionId: string;
@@ -85,7 +86,9 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 							<ArtifactMetadataTab artifactVersionId={artifactVersionId} />
 						</TabsContent>
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="visualization">
-							<VisualizationTab artifactVersionId={artifactVersionId} />
+							<ErrorBoundary FallbackComponent={VisualizationErrorFallback}>
+								<VisualizationTab artifactVersionId={artifactVersionId} />
+							</ErrorBoundary>
 						</TabsContent>
 					</Tabs>
 				</VisualizationConfirmProvider>

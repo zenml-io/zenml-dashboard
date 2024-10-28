@@ -7,10 +7,11 @@ import { Route, createBrowserRouter, createRoutesFromElements } from "react-rout
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
+import { StackComponentsLayout } from "../layouts/StackComponentsLayout";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
-import { ProtectedRoute } from "./ProtectedRoute";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -32,6 +33,9 @@ const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/[id]/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
+
+// Components
+const Components = lazy(() => import("@/app/components/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
@@ -212,15 +216,26 @@ export const router = createBrowserRouter(
 							}
 						/>
 					</Route>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.stacks.overview}
-						element={
-							<ProtectedRoute>
-								<Stacks />
-							</ProtectedRoute>
-						}
-					/>
+					<Route element={<StackComponentsLayout />}>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.overview}
+							element={
+								<ProtectedRoute>
+									<Stacks />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.components.overview}
+							element={
+								<ProtectedRoute>
+									<Components />
+								</ProtectedRoute>
+							}
+						/>
+					</Route>
 					<Route
 						element={
 							<ProtectedRoute>

@@ -1,10 +1,13 @@
 import Help from "@/assets/icons/help.svg?react";
+import Plus from "@/assets/icons/plus.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
+import { routes } from "@/router/routes";
 import { OnboardingStep } from "@/types/onboarding";
-import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
+import { Box, Button, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
 
 export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
@@ -13,7 +16,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 			active={active}
 			hasDownstream={hasDownstreamStep}
 			completed={completed}
-			title="Connect to ZenML"
+			title="Install and Connect ZenML (5 min)"
 		>
 			<div className="flex flex-col gap-5">
 				<div>
@@ -38,7 +41,7 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 			active={active}
 			hasDownstream={hasDownstreamStep}
 			completed={completed}
-			title="Run your first pipeline"
+			title="Run a pipeline (2 min)"
 		>
 			<div className="flex flex-col gap-5">
 				<div>
@@ -96,5 +99,73 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 				</Box>
 			</div>
 		</ChecklistItem>
+	);
+}
+
+export function CreateNewStack({ completed, active, hasDownstreamStep }: OnboardingStep) {
+	const link =
+		routes.stacks.create.index + "?" + new URLSearchParams({ origin: "onboarding" }).toString();
+	return (
+		<ChecklistItem
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
+			title="Connect to a remote stack (5 min)"
+			active={active}
+		>
+			<p className="mb-3">
+				A stack configures how a pipeline is executed{" "}
+				<LearnMoreLink href="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+			</p>
+			<div className="space-y-5">
+				<div className="space-y-3">
+					<p>Connect your Cloud to deploy your ZenML pipelines in a remote stack.</p>
+					<Button className="w-fit" size="md" asChild>
+						<Link className="flex" to={link}>
+							<Plus className="h-5 w-5 shrink-0 fill-white" />
+							Register a remote stack
+						</Link>
+					</Button>
+				</div>
+				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+			</div>
+		</ChecklistItem>
+	);
+}
+
+export function RunNewPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
+	return (
+		<ChecklistItem
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
+			title="Run a pipeline in a remote stack (3 min)"
+			active={active}
+		>
+			<div className="space-y-5">
+				<div className="space-y-1">
+					<p className="text-text-sm text-theme-text-secondary">Set the new stack</p>
+					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="zenml stack set REMOTE_STACK" />
+				</div>
+				<div className="space-y-1">
+					<p className="text-text-sm text-theme-text-secondary">Run the pipeline</p>
+					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="python run.py" />
+				</div>
+				<div>
+					<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+				</div>
+			</div>
+		</ChecklistItem>
+	);
+}
+
+function LearnMoreLink({ href }: { href: string }) {
+	return (
+		<a
+			href={href}
+			rel="noopener noreferrer"
+			target="_blank"
+			className="link text-text-sm font-semibold text-theme-text-brand"
+		>
+			Learn more
+		</a>
 	);
 }

@@ -1,16 +1,30 @@
-import { Box } from "@zenml-io/react-component-library";
+import { useCurrentUser } from "@/data/users/current-user-query";
+import { getUsername } from "@/lib/user";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { ProgressIndicatior } from "./ProgressIndicator";
 
 export function HeaderOnboardingBox() {
 	return (
-		<Box className="flex flex-col-reverse items-stretch overflow-hidden md:flex-row">
-			<div className="w-full px-7 py-5 md:w-2/3">
-				<h2 className="text-display-xs font-semibold">Welcome to ZenML</h2>
-				<p className="mt-2 text-text-lg text-theme-text-secondary">
-					You successfully installed the ZenML dashboard. Now you can get started with your new
-					ZenML server.
+		<div className="space-between flex flex-col flex-wrap items-center gap-1 space-x-5 overflow-x-hidden lg:flex-row">
+			<div className="flex-1 space-y-1 overflow-x-hidden">
+				<h2 className="truncate text-display-xs font-semibold">
+					Welcome to ZenML
+					<Username />
+				</h2>
+				<p className="truncate text-display-xs text-theme-text-secondary">
+					You can start by following your quick setup.
 				</p>
 			</div>
-			{/* <div className="flex w-full flex-1 items-center justify-center bg-primary-50 md:w-1/3"></div> */}
-		</Box>
+			<ProgressIndicatior />
+		</div>
 	);
+}
+
+function Username() {
+	const user = useCurrentUser();
+
+	if (user.isError) return null;
+	if (user.isPending) return <Skeleton className="h-6 w-[70px]" />;
+	const name = getUsername(user.data);
+	return <>{name ? `, ${name}` : ""}</>;
 }
