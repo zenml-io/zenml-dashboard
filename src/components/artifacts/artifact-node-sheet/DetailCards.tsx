@@ -254,8 +254,8 @@ export function CodeCard({ artifactVersionId }: Props) {
 	function returnConfigSchema(id: string) {
 		return `from zenml.client import Client
 
-artifact = Client().get_artifact_version('${id}')
-loaded_artifact = artifact.load()`;
+step = Client().get_run_step(${id})
+config = step.config`;
 	}
 
 	return (
