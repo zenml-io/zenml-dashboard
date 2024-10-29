@@ -1,6 +1,5 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
-import { PipelineRun } from "@/types//pipeline-runs";
 import { StackComponent } from "@/types/components";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
 import { NestedCollapsible } from "../../NestedCollapsible";
@@ -9,12 +8,11 @@ import { ComponentInfoDialog } from "./ComponentInfoDialog";
 
 type Props = {
 	component: StackComponent;
-	run: PipelineRun;
+	objectConfig: Record<string, any>;
 };
-export function ComponentCollapsible({ component, run }: Props) {
+export function ComponentCollapsible({ component, objectConfig }: Props) {
 	const keyName = `${component.body?.type}.${component.body?.flavor}`;
-	const settings =
-		(run.metadata?.config.settings as { [key: string]: any } | undefined)?.[keyName] ?? undefined;
+	const settings = objectConfig?.[keyName] ?? undefined;
 
 	if (!settings || Object.keys(settings).length === 0) {
 		return (

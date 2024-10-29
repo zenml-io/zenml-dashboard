@@ -113,7 +113,7 @@ export function StepSheetContent({ stepId }: Props) {
 						<OrchestratorCard />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="stack">
-						<StackTab />
+						<StackTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
 						<StepCodeTab stepId={stepId} />
