@@ -2,7 +2,6 @@ import CloudSquares from "@/assets/illustrations/cloud-squares.svg";
 import { Badge, Box, Button } from "@zenml-io/react-component-library";
 import { Codesnippet } from "../components/CodeSnippet";
 import External from "@/assets/icons/link-external.svg?react";
-import Codespaces from "@/assets/images/codespaces.gif";
 import { OverviewHeader } from "./Header";
 import { Link } from "react-router-dom";
 import { routes } from "@/router/routes";
@@ -59,8 +58,8 @@ function OverviewContent() {
 
 function VsCodeBox() {
 	return (
-		<Box className="flex flex-col-reverse items-center overflow-hidden md:max-h-[200px] md:flex-row">
-			<div className="w-full space-y-3 px-7 py-5 xl:w-4/5">
+		<Box className="flex flex-col items-center justify-between gap-3 overflow-hidden px-7 py-5 md:flex-row md:flex-wrap">
+			<div className="space-y-1">
 				<div className="flex items-center space-x-1">
 					<Badge className="text-text-xs font-semibold" color="green">
 						NEW
@@ -68,21 +67,16 @@ function VsCodeBox() {
 					<h2 className="text-text-xl font-semibold">VS Code Quickstart with ZenML</h2>
 				</div>
 				<p className="text-theme-text-secondary">
-					Get started quickly with ZenML using GitHub Codespaces!
-					<br />
-					You can run our quickstart guide in a pre-configured environment.
+					Get started quickly with ZenML using GitHub Codespaces! You can run our quickstart guide
+					in a pre-configured environment.
 				</p>
-				<Button size="sm" className="w-fit" emphasis="subtle" asChild>
-					<a target="_blank" rel="noopener noreferrer" href="https://github.com/zenml-io/zenml">
-						Visit our GitHub repo <External className="h-5 w-5" />
-					</a>
-				</Button>
 			</div>
-			<img
-				className="object-contain"
-				src={Codespaces}
-				alt="Gif explaining how to setup codespaces"
-			/>
+
+			<Button size="sm" className="w-fit" emphasis="subtle" asChild>
+				<a target="_blank" rel="noopener noreferrer" href="https://github.com/zenml-io/zenml">
+					Visit our GitHub repo <External className="h-5 w-5 shrink-0" />
+				</a>
+			</Button>
 		</Box>
 	);
 }
