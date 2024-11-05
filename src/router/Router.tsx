@@ -36,6 +36,7 @@ const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 
 // Components
 const Components = lazy(() => import("@/app/components/page"));
+const ComponentDetail = lazy(() => import("@/app/components/[componentId]/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
@@ -216,6 +217,15 @@ export const router = createBrowserRouter(
 							}
 						/>
 					</Route>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.components.detail(":componentId")}
+						element={
+							<ProtectedRoute>
+								<ComponentDetail />
+							</ProtectedRoute>
+						}
+					/>
 					<Route element={<StackComponentsLayout />}>
 						<Route
 							errorElement={<PageBoundary />}

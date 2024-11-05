@@ -19,7 +19,8 @@ export const routes = {
 		namespace: (namespace: string) => `/pipelines/${namespace}`
 	},
 	components: {
-		overview: "/components"
+		overview: "/components",
+		detail: (componentId: string) => `/components/${componentId}`
 	},
 	stacks: {
 		overview: "/stacks",

@@ -6,6 +6,7 @@ import { InputHTMLAttributes, forwardRef, useEffect, useMemo, useState } from "r
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 type Props = {
+	inMemoryHandler?: (val: string) => void;
 	searchContains?: boolean;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	searchParams: Record<string, any>;
@@ -14,7 +15,7 @@ type Props = {
 export const SearchField = forwardRef<
 	HTMLInputElement,
 	InputHTMLAttributes<HTMLInputElement> & Props
->(({ searchParams, searchContains = true, ...rest }, ref) => {
+>(({ searchParams, searchContains = true, inMemoryHandler, ...rest }, ref) => {
 	const navigate = useNavigate();
 	const [existingParams] = useSearchParams();
 
@@ -35,6 +36,10 @@ export const SearchField = forwardRef<
 	}, [debouncedSearch]);
 
 	function updateSearchQuery(value: string) {
+		if (!!inMemoryHandler) {
+			inMemoryHandler(value);
+			return;
+		}
 		const queryParams = new URLSearchParams({
 			...Object.fromEntries(existingParams),
 			...objectToSearchParams(searchParams)
