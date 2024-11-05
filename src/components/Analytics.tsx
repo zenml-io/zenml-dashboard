@@ -2,6 +2,7 @@ import { fetcher } from "@/data/fetch";
 import { useServerInfo } from "@/data/server/info-query";
 import { useCurrentUser } from "@/data/users/current-user-query";
 
+import { analyticsServerUrl } from "@/lib/analytics";
 import { routes } from "@/router/routes";
 import { PageEvent, PageEventContext, PageEventPage, PageEventProperties } from "@/types/analytics";
 import { useEffect } from "react";
@@ -59,7 +60,7 @@ function performPageEvent(
 		properties: props
 	};
 
-	return fetcher("https://analytics.zenml.io/batch", {
+	return fetcher(analyticsServerUrl, {
 		method: "POST",
 		credentials: "omit",
 		headers: {

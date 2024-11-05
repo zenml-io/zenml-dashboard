@@ -84,7 +84,7 @@ export function ProImage({ className, ...rest }: ImgHTMLAttributes<HTMLImageElem
 	);
 }
 
-function Tick() {
+export function Tick() {
 	return (
 		<div className="flex aspect-square h-5 w-5 shrink-0 items-center justify-center rounded-rounded bg-warning-400">
 			<Check className="h-3 w-3 shrink-0 fill-white" />
