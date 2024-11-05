@@ -1,15 +1,15 @@
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { surveyLoader } from "@/app/survey/loader";
-import { useAuthContext } from "@/context/AuthContext";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
-import { PropsWithChildren, lazy } from "react";
-import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { lazy } from "react";
+import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { StackComponentsLayout } from "../layouts/StackComponentsLayout";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
 
@@ -319,23 +319,3 @@ export const router = createBrowserRouter(
 		</Route>
 	)
 );
-
-function ProtectedRoute({ children }: PropsWithChildren) {
-	const { getAuthState, removeAuthState } = useAuthContext();
-	const isLoggedIn = getAuthState();
-
-	if (!isLoggedIn) {
-		removeAuthState();
-		return (
-			<Navigate
-				to={
-					routes.login +
-					`?${new URLSearchParams({
-						redirect: location.pathname + location.search
-					}).toString()}`
-				}
-			/>
-		);
-	}
-	return children;
-}
