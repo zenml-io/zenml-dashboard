@@ -45,5 +45,7 @@ function StackTabContent({ stackId, run }: StackTabContentProps) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	return <StackInfo stack={data} run={run} />;
+	const config = (run.metadata?.config.settings as { [key: string]: any } | undefined) || {};
+
+	return <StackInfo stack={data} objectConfig={config} />;
 }

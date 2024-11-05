@@ -1,14 +1,13 @@
 import { Stack, StackComponentsList } from "@/types/stack";
-import { StackHeader } from "./StackHeader";
-import { ComponentCollapsible } from "./ComponentCollapsible";
-import { PipelineRun } from "@/types/pipeline-runs";
 import { InfoBox } from "../../Infobox";
+import { ComponentCollapsible } from "./ComponentCollapsible";
+import { StackHeader } from "./StackHeader";
 
 type Props = {
 	stack: Stack;
-	run: PipelineRun;
+	objectConfig: Record<string, any>;
 };
-export function StackInfo({ stack, run }: Props) {
+export function StackInfo({ stack, objectConfig }: Props) {
 	return (
 		<div className="space-y-5">
 			<StackInfobox />
@@ -17,7 +16,7 @@ export function StackInfo({ stack, run }: Props) {
 				{Object.values((stack.metadata?.components as StackComponentsList) || {}).map(
 					(component) => (
 						<li key={component[0].id} className="w-full">
-							<ComponentCollapsible component={component[0]} run={run} />
+							<ComponentCollapsible component={component[0]} objectConfig={objectConfig} />
 						</li>
 					)
 				)}
