@@ -28,6 +28,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 		components: {
 			components: { name: "Components" }
 		},
+		componentDetail: {
+			components: { name: "Components" },
+			component_detail: {
+				id: data?.id,
+				name: data?.name
+			}
+		},
 		secrets: {
 			secrets: { name: "Secrets" }
 		},
@@ -113,7 +120,8 @@ export const matchSegmentWithTab = (segment: string) => {
 		metadata: <MetadataIcon className={iconClasses} />,
 		runs: <RunIcon className={iconClasses} />,
 		templates: <TemplatesIcon className={iconClasses} />,
-		stack: <Stack className={iconClasses} />
+		stack: <Stack className={iconClasses} />,
+		stacks: <Stack className={iconClasses} />
 	};
 
 	return routeMap[segment] || <Info className="h-5 w-5 fill-theme-text-tertiary" />;

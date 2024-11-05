@@ -1,10 +1,11 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
+import { routes } from "@/router/routes";
 import { StackComponent } from "@/types/components";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
+import { Link } from "react-router-dom";
 import { NestedCollapsible } from "../../NestedCollapsible";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
-import { ComponentInfoDialog } from "./ComponentInfoDialog";
 
 type Props = {
 	component: StackComponent;
@@ -16,13 +17,11 @@ export function ComponentCollapsible({ component, objectConfig }: Props) {
 
 	if (!settings || Object.keys(settings).length === 0) {
 		return (
-			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
-				<button className="w-full">
-					<Box className="flex items-center justify-between gap-3 px-5 py-3 text-left">
-						<ComponentCollapsibleItem component={component} />
-					</Box>
-				</button>
-			</ComponentInfoDialog>
+			<Link to={routes.components.detail(component.id)}>
+				<Box className="flex w-full items-center justify-between gap-3 px-5 py-3 text-left">
+					<ComponentCollapsibleItem component={component} />
+				</Box>
+			</Link>
 		);
 	}
 
@@ -39,15 +38,14 @@ export function ComponentCollapsible({ component, objectConfig }: Props) {
 			}
 			data={settings}
 		>
-			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
-				<Button
-					intent="secondary"
-					emphasis="subtle"
-					className="mx-auto flex w-fit justify-center text-text-sm text-theme-text-secondary"
-				>
-					See Component Details
-				</Button>
-			</ComponentInfoDialog>
+			<Button
+				asChild
+				intent="secondary"
+				emphasis="subtle"
+				className="mx-auto flex w-fit justify-center text-text-sm text-theme-text-secondary"
+			>
+				<Link to={routes.components.detail(component.id)}>See Component Details</Link>
+			</Button>
 		</NestedCollapsible>
 	);
 }
