@@ -61,9 +61,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 		{
 			id: "flavor",
 			header: "Flavor",
-			accessorFn: (row) => row.body?.flavor,
+			accessorFn: (row) => row.body?.flavor_name,
 			cell: ({ row }) => {
-				const flavor = row.original.body?.flavor;
+				const flavor = row.original.body?.flavor_name;
 				return (
 					<Tag
 						rounded={false}

@@ -178,8 +178,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="Start Time"
 					value={
-						data.metadata?.start_time ? (
-							<DisplayDate dateString={data.metadata?.start_time} />
+						data.body?.start_time ? (
+							<DisplayDate dateString={data.body?.start_time} />
 						) : (
 							"Not available"
 						)
@@ -188,19 +188,12 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="End Time"
 					value={
-						data.metadata?.end_time ? (
-							<DisplayDate dateString={data.metadata?.end_time} />
-						) : (
-							"Not available"
-						)
+						data.body?.end_time ? <DisplayDate dateString={data.body?.end_time} /> : "Not available"
 					}
 				/>
 				<KeyValue
 					label="Duration"
-					value={calculateTimeDifference(
-						data.metadata?.start_time || "",
-						data.metadata?.end_time || ""
-					)}
+					value={calculateTimeDifference(data.body?.start_time || "", data.body?.end_time || "")}
 				/>
 				<KeyValue
 					label="Artifact metadata"
