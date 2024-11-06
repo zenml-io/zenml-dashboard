@@ -4,14 +4,14 @@ import { Edge, Node } from "reactflow";
 
 const nodeWidth = 300;
 const artifactHeight = 50;
-const stepHeight = 50;
+const stepHeight = 70;
 
 export function getLayoutedNodes(
 	nodes?: ZenNode[],
 	edges?: ZenEdge[]
 ): { nodes: Node[]; edges: Edge[] } {
 	const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-	g.setGraph({ rankdir: "TB", ranksep: 25, nodesep: 10 });
+	g.setGraph({ rankdir: "TB", ranksep: 50, nodesep: 10 });
 	if (!nodes || !edges) return { nodes: [], edges: [] };
 	if (nodes.length < 1) return { nodes: [], edges: [] };
 
