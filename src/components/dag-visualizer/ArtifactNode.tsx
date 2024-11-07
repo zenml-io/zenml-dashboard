@@ -4,6 +4,7 @@ import { NodeProps, useStore } from "reactflow";
 import { ArtifactIcon } from "../ArtifactIcon";
 import { ArtifactSheet } from "../artifacts/artifact-node-sheet";
 import { BaseNode } from "./BaseNode";
+import { CopyNodeButton } from "./NodeCopyButton";
 
 export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { name: string }>) {
 	const { unselectNodesAndEdges } = useStore((state) => ({
@@ -30,7 +31,7 @@ export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { n
 			<ArtifactSheet onOpenChange={openChangeHandler} artifactVersionId={data.id}>
 				<button
 					data-selected={!!selected}
-					className="group flex h-[50px] min-w-0 max-w-[300px] items-center justify-center gap-1 rounded-rounded border border-primary-100 bg-primary-25 py-1 pl-1 pr-2 transition-all duration-200 hover:border-primary-400 data-[selected=true]:border-primary-500 data-[selected=true]:bg-primary-500"
+					className="group group flex h-[50px] min-w-0 max-w-[300px] items-center justify-center gap-1 rounded-rounded border border-primary-100 bg-primary-25 py-1 pl-1 pr-2 transition-all duration-200 hover:border-primary-400 data-[selected=true]:border-primary-500 data-[selected=true]:bg-primary-500"
 				>
 					<div className="rounded-rounded bg-primary-50 p-0.5 group-data-[selected=true]:bg-white/20">
 						<ArtifactIcon
@@ -47,6 +48,13 @@ export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { n
 							{getTypeFromArtifact(data.body?.data_type.attribute || "")}
 						</p>
 					</div>
+					<CopyNodeButton
+						code={`from zenml.client import Client
+
+    artifact = Client().get_artifact_version('${data.id}')
+    loaded_artifact = artifact.load()`}
+						type="artifact"
+					/>
 				</button>
 			</ArtifactSheet>
 		</BaseNode>

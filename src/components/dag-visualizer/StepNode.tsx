@@ -4,6 +4,8 @@ import { NodeProps, ReactFlowState, useStore } from "reactflow";
 import { BaseNode } from "./BaseNode";
 import { StepSheet } from "../steps/step-sheet";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../ExecutionStatus";
+import { CopyNodeButton } from "./NodeCopyButton";
+import { useParams } from "react-router-dom";
 
 const selector = (state: ReactFlowState) => ({
 	unselectAll: state.unselectNodesAndEdges
@@ -11,6 +13,7 @@ const selector = (state: ReactFlowState) => ({
 
 export function StepNode({ data, selected }: NodeProps<Step>) {
 	const { unselectAll } = useStore(selector);
+	const { runId } = useParams() as { runId: string };
 
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
@@ -28,7 +31,7 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 				<button
 					data-selected={!!selected}
 					className={clsx(
-						"h-[50px] max-w-[300px] rounded-md border  bg-theme-surface-primary transition-all duration-200  hover:shadow-md  data-[selected=true]:shadow-md",
+						"group h-[50px] max-w-[300px] rounded-md  border bg-theme-surface-primary transition-all duration-200  hover:shadow-md  data-[selected=true]:shadow-md",
 						{
 							"border-theme-border-moderate hover:border-neutral-400 data-[selected=true]:border-theme-border-bold":
 								data.body?.status !== "failed",
@@ -43,6 +46,12 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 							<ExecutionStatusIcon status={data.body?.status} className="h-4 w-4" />
 						</div>
 						<p className="truncate font-semibold">{data.name}</p>
+						<CopyNodeButton
+							code={`from zenml.client import Client
+    run = Client().get_pipeline_run('${runId}') 
+    config = run.config`}
+							type="step"
+						/>
 					</div>
 				</button>
 			</StepSheet>
