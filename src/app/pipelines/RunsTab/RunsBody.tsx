@@ -1,20 +1,26 @@
 import Refresh from "@/assets/icons/refresh.svg?react";
 import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
+import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
+import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { useAllPipelineRuns } from "../../../data/pipeline-runs/all-pipeline-runs-query";
 import { RunsButtonGroup } from "./ButtonGroup";
 import { runsColumns } from "./columns";
 import { useRunsSelectorContext } from "./RunsSelectorContext";
 import { useRunsOverviewSearchParams } from "./service";
 
-export function RunsBody() {
+type Props = {
+	fixedQueryParams?: PipelineRunOvervieweParams;
+};
+
+export function RunsBody({ fixedQueryParams = {} }: Props) {
 	const { selectedRuns } = useRunsSelectorContext();
 	const queryParams = useRunsOverviewSearchParams();
 	const { data, refetch } = useAllPipelineRuns({
 		params: {
 			...queryParams,
-			sort_by: "desc:updated"
+			sort_by: "desc:updated",
+			...fixedQueryParams
 		}
 	});
 
