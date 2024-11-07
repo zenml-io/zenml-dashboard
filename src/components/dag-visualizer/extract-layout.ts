@@ -116,13 +116,16 @@ export function extractExistingNodes(stepConfig: StepDict) {
 			data: step
 		});
 
-		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion };
-		Object.entries(outputs || {}).forEach(([outputName, artifactVersion]) => {
-			const artifactId = `${stepName}--${outputName}`;
-			nodes.push({
-				id: artifactId,
-				type: "artifact",
-				data: { ...artifactVersion, name: outputName }
+		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion[] };
+		Object.entries(outputs || {}).forEach(([outputName, artifactVersions]) => {
+			console.log(artifactVersions);
+			artifactVersions.forEach((version) => {
+				const artifactId = `${stepName}--${outputName}`;
+				nodes.push({
+					id: artifactId,
+					type: "artifact",
+					data: { ...version, name: outputName }
+				});
 			});
 		});
 
