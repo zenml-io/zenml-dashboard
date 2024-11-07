@@ -187,6 +187,19 @@ export type paths = {
 		 */
 		delete: operations["prune_artifact_versions_api_v1_artifact_versions_delete"];
 	};
+	"/api/v1/artifact_versions/batch": {
+		/**
+		 * Batch Create Artifact Version
+		 * @description Create a batch of artifact versions.
+		 *
+		 * Args:
+		 *     artifact_versions: The artifact versions to create.
+		 *
+		 * Returns:
+		 *     The created artifact versions.
+		 */
+		post: operations["batch_create_artifact_version_api_v1_artifact_versions_batch_post"];
+	};
 	"/api/v1/artifact_versions/{artifact_version_id}": {
 		/**
 		 * Get Artifact Version
@@ -1087,37 +1100,6 @@ export type paths = {
 		 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 		 */
 		get: operations["refresh_run_status_api_v1_runs__run_id__refresh_get"];
-	};
-	"/api/v1/run-metadata": {
-		/**
-		 * List Run Metadata
-		 * @description Get run metadata according to query filters.
-		 *
-		 * Args:
-		 *     run_metadata_filter_model: Filter model used for pagination, sorting,
-		 *         filtering.
-		 *     hydrate: Flag deciding whether to hydrate the output model(s)
-		 *         by including metadata fields in the response.
-		 *
-		 * Returns:
-		 *     The pipeline runs according to query filters.
-		 */
-		get: operations["list_run_metadata_api_v1_run_metadata_get"];
-	};
-	"/api/v1/run-metadata/{run_metadata_id}": {
-		/**
-		 * Get Run Metadata
-		 * @description Get run metadata by ID.
-		 *
-		 * Args:
-		 *     run_metadata_id: The ID of run metadata.
-		 *     hydrate: Flag deciding whether to hydrate the output model(s)
-		 *         by including metadata fields in the response.
-		 *
-		 * Returns:
-		 *     The run metadata response.
-		 */
-		get: operations["get_run_metadata_api_v1_run_metadata__run_metadata_id__get"];
 	};
 	"/api/v1/run_templates": {
 		/**
@@ -3324,6 +3306,12 @@ export type components = {
 			[key: string]: unknown;
 		};
 		/**
+		 * ArtifactSaveType
+		 * @description All possible method types of how artifact versions can be saved.
+		 * @enum {string}
+		 */
+		ArtifactSaveType: "step_output" | "manual" | "preexisting" | "external";
+		/**
 		 * ArtifactType
 		 * @description All possible types an artifact can have.
 		 * @enum {string}
@@ -3393,6 +3381,8 @@ export type components = {
 			tags?: string[] | null;
 			/** Visualizations of the artifact. */
 			visualizations?: components["schemas"]["ArtifactVisualizationRequest"][] | null;
+			/** The save type of the artifact version. */
+			save_type: components["schemas"]["ArtifactSaveType"];
 			/** Metadata of the artifact version. */
 			metadata?: {
 				[key: string]: unknown;
@@ -3453,6 +3443,8 @@ export type components = {
 			tags: components["schemas"]["TagResponse"][];
 			/** The ID of the pipeline run that generated this artifact version. */
 			producer_pipeline_run_id?: string | null;
+			/** The save type of the artifact version. */
+			save_type: components["schemas"]["ArtifactSaveType"];
 			/** ID of the artifact store in which this artifact is stored. */
 			artifact_store_id?: string | null;
 		};
@@ -5650,19 +5642,6 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineRunResponse"][];
 		};
-		/** Page[RunMetadataResponse] */
-		Page_RunMetadataResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["RunMetadataResponse"][];
-		};
 		/** Page[RunTemplateResponse] */
 		Page_RunTemplateResponse_: {
 			/** Index */
@@ -6620,83 +6599,6 @@ export type components = {
 			types: {
 				[key: string]: unknown;
 			};
-		};
-		/**
-		 * RunMetadataResponse
-		 * @description Response model for run metadata.
-		 */
-		RunMetadataResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["RunMetadataResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["RunMetadataResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["RunMetadataResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-		};
-		/**
-		 * RunMetadataResponseBody
-		 * @description Response body for run metadata.
-		 */
-		RunMetadataResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** The key of the metadata. */
-			key: string;
-			/** The value of the metadata. */
-			value:
-				| string
-				| number
-				| boolean
-				| {
-						[key: string]: unknown;
-				  }
-				| unknown[];
-			/** The type of the metadata. */
-			type: components["schemas"]["MetadataTypeEnum"];
-		};
-		/**
-		 * RunMetadataResponseMetadata
-		 * @description Response metadata for run metadata.
-		 */
-		RunMetadataResponseMetadata: {
-			/** The workspace of this resource. */
-			workspace: components["schemas"]["WorkspaceResponse"];
-			/**
-			 * The ID of the resource that this metadata belongs to.
-			 * Format: uuid
-			 */
-			resource_id: string;
-			/** The type of the resource that this metadata belongs to. */
-			resource_type: components["schemas"]["MetadataResourceTypes"];
-			/** The ID of the stack component that this metadata belongs to. */
-			stack_component_id: string | null;
-		};
-		/**
-		 * RunMetadataResponseResources
-		 * @description Class for all resource models associated with the run metadata entity.
-		 */
-		RunMetadataResponseResources: {
-			[key: string]: unknown;
 		};
 		/**
 		 * RunTemplateRequest
@@ -8441,17 +8343,11 @@ export type components = {
 			original_step_run_id?: string | null;
 			/** The IDs of the parent steps of this step run. */
 			parent_step_ids?: string[];
-			/**
-			 * The IDs of the input artifact versions of the step run.
-			 * @default {}
-			 */
+			/** The IDs of the input artifact versions of the step run. */
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * The IDs of the output artifact versions of the step run.
-			 * @default {}
-			 */
+			/** The IDs of the output artifact versions of the step run. */
 			outputs?: {
 				[key: string]: unknown;
 			};
@@ -8512,17 +8408,11 @@ export type components = {
 			start_time?: string | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
-			/**
-			 * The input artifact versions of the step run.
-			 * @default {}
-			 */
+			/** The input artifact versions of the step run. */
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * The output artifact versions of the step run.
-			 * @default {}
-			 */
+			/** The output artifact versions of the step run. */
 			outputs?: {
 				[key: string]: unknown;
 			};
@@ -8590,13 +8480,6 @@ export type components = {
 			 * @default {}
 			 */
 			outputs?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * The IDs of artifact versions that were saved by this step run.
-			 * @default {}
-			 */
-			saved_artifact_versions?: {
 				[key: string]: unknown;
 			};
 			/**
@@ -9961,6 +9844,55 @@ export type operations = {
 			};
 			/** @description Not Found */
 			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Batch Create Artifact Version
+	 * @description Create a batch of artifact versions.
+	 *
+	 * Args:
+	 *     artifact_versions: The artifact versions to create.
+	 *
+	 * Returns:
+	 *     The created artifact versions.
+	 */
+	batch_create_artifact_version_api_v1_artifact_versions_batch_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ArtifactVersionRequest"][];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ArtifactVersionResponse"][];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
 				content: {
 					"application/json": components["schemas"]["ErrorModel"];
 				};
@@ -13426,125 +13358,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * List Run Metadata
-	 * @description Get run metadata according to query filters.
-	 *
-	 * Args:
-	 *     run_metadata_filter_model: Filter model used for pagination, sorting,
-	 *         filtering.
-	 *     hydrate: Flag deciding whether to hydrate the output model(s)
-	 *         by including metadata fields in the response.
-	 *
-	 * Returns:
-	 *     The pipeline runs according to query filters.
-	 */
-	list_run_metadata_api_v1_run_metadata_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				scope_workspace?: string | null;
-				resource_id?: string | null;
-				resource_type?: components["schemas"]["MetadataResourceTypes"] | null;
-				stack_component_id?: string | null;
-				key?: string | null;
-				type?: string | components["schemas"]["MetadataTypeEnum"] | null;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["Page_RunMetadataResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Get Run Metadata
-	 * @description Get run metadata by ID.
-	 *
-	 * Args:
-	 *     run_metadata_id: The ID of run metadata.
-	 *     hydrate: Flag deciding whether to hydrate the output model(s)
-	 *         by including metadata fields in the response.
-	 *
-	 * Returns:
-	 *     The run metadata response.
-	 */
-	get_run_metadata_api_v1_run_metadata__run_metadata_id__get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-			};
-			path: {
-				run_metadata_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["RunMetadataResponse"];
 				};
 			};
 			/** @description Unauthorized */
@@ -19280,7 +19093,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["RunMetadataResponse"][];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
