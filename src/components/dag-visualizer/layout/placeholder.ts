@@ -1,4 +1,3 @@
-import { ArtifactVersion } from "@/types/artifact-versions";
 import {
 	ClientLazyLoader,
 	ExternalArtifactConfig,
@@ -6,15 +5,16 @@ import {
 	StepOutput,
 	StepOutputInput
 } from "@/types/pipeline-deployments";
-import { PlaceholderNode, RealNode, ZenEdge } from "@/types/pipeline-runs";
-import { Step } from "@/types/steps";
+import { PlaceholderNode, ZenEdge } from "@/types/pipeline-runs";
+import { addEdge } from "./helper";
 
 export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>) {
-	const nodes: PlaceholderNode[] = [];
+	const steps: PlaceholderNode[] = [];
+	const artifacts: PlaceholderNode[] = [];
 	const edges: ZenEdge[] = [];
 
-	function addNode(id: string, type: "previewArtifact" | "previewStep", label: string) {
-		nodes.push({
+	function addArtifact(id: string, type: "previewArtifact" | "previewStep", label: string) {
+		artifacts.push({
 			id,
 			type,
 			data: {
@@ -24,19 +24,11 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		});
 	}
 
-	function addEdge(source: string, target: string) {
-		edges.push({
-			id: `${source}--${target}`,
-			source,
-			target
-		});
-	}
-
 	Object.keys(stepConfig).forEach((stepName) => {
 		const step = stepConfig[stepName];
 
 		// Create a step node
-		nodes.push({
+		steps.push({
 			id: stepName,
 			type: "previewStep",
 			data: { label: stepName, status: "running" }
@@ -46,10 +38,10 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		Object.keys(step.config.outputs || {}).forEach((outputName) => {
 			const artifactId = `${stepName}--${outputName}`;
 
-			addNode(artifactId, "previewArtifact", outputName);
+			addArtifact(artifactId, "previewArtifact", outputName);
 
 			// Create an edge from the step to its output artifact
-			addEdge(stepName, artifactId);
+			edges.push(addEdge(stepName, artifactId));
 		});
 
 		// Create edges between input artifacts and the current step
@@ -59,7 +51,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 			const inputArtifactId = `${input.step_name}--${input.output_name}`;
 
 			// Create an edge from the input artifact to the current step
-			addEdge(inputArtifactId, stepName);
+			edges.push(addEdge(inputArtifactId, stepName));
 		});
 
 		// add external Artifacts
@@ -67,8 +59,8 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 			(step.config.external_input_artifacts as Record<string, ExternalArtifactConfig>) || {};
 		Object.keys(externalInputs).forEach((inputName) => {
 			const externalArtifactId = `${stepName}--${inputName}`;
-			addNode(externalArtifactId, "previewArtifact", inputName);
-			addEdge(externalArtifactId, stepName);
+			addArtifact(externalArtifactId, "previewArtifact", inputName);
+			edges.push(addEdge(externalArtifactId, stepName));
 		});
 
 		// model artifacts or metadata
@@ -77,8 +69,8 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 
 		Object.keys(modelArtifacts).forEach((inputName) => {
 			const modelArtifactId = `${stepName}--${inputName}`;
-			addNode(modelArtifactId, "previewArtifact", inputName);
-			addEdge(modelArtifactId, stepName);
+			addArtifact(modelArtifactId, "previewArtifact", inputName);
+			edges.push(addEdge(modelArtifactId, stepName));
 		});
 
 		// client lazy loaded artifacts
@@ -87,8 +79,8 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 
 		Object.keys(clientLazyLoadedArtifacts).forEach((inputName) => {
 			const clientLazyLoadedArtifactId = `${stepName}--${inputName}`;
-			addNode(clientLazyLoadedArtifactId, "previewArtifact", inputName);
-			addEdge(clientLazyLoadedArtifactId, stepName);
+			addArtifact(clientLazyLoadedArtifactId, "previewArtifact", inputName);
+			edges.push(addEdge(clientLazyLoadedArtifactId, stepName));
 		});
 
 		// handle direct links
@@ -96,51 +88,8 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		const diff = upstreamSteps.filter(
 			(upstreamName) => !Object.values(inputs).some((input) => input.step_name === upstreamName)
 		);
-		diff.forEach((item) => addEdge(item, stepName));
+		diff.forEach((item) => edges.push(addEdge(item, stepName)));
 	});
 
-	return { nodes, edges };
-}
-
-export type StepDict = Record<string, Step>;
-export function extractExistingNodes(stepConfig: StepDict) {
-	const nodes: RealNode[] = [];
-
-	Object.keys(stepConfig).forEach((stepName) => {
-		const step = stepConfig[stepName];
-
-		// Create a step node
-		nodes.push({
-			id: stepName,
-			type: "step",
-			data: step
-		});
-
-		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion[] };
-		Object.entries(outputs || {}).forEach(([outputName, artifactVersions]) => {
-			console.log(artifactVersions);
-			artifactVersions.forEach((version) => {
-				const artifactId = `${stepName}--${outputName}`;
-				nodes.push({
-					id: artifactId,
-					type: "artifact",
-					data: { ...version, name: outputName }
-				});
-			});
-		});
-
-		const inputs = step.body?.inputs as { [key: string]: ArtifactVersion };
-		Object.entries(inputs || {}).forEach(([inputName, artifactVersion]) => {
-			const artifactId = `${stepName}--${inputName}`;
-
-			if (nodes.find((node) => node.id === artifactId)) return;
-
-			nodes.push({
-				id: artifactId,
-				type: "artifact",
-				data: { ...artifactVersion, name: inputName }
-			});
-		});
-	});
-	return nodes;
+	return { steps, artifacts, edges };
 }

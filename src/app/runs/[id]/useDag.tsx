@@ -1,17 +1,15 @@
-import { addManuallyAddedArtifacts } from "@/components/dag-visualizer/add-manual-artifacts";
-import {
-	extractExistingNodes,
-	extractPlaceholderLayout,
-	StepDict
-} from "@/components/dag-visualizer/extract-layout";
 import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
+import { mergeRealAndPlacehodlerData } from "@/components/dag-visualizer/layout/helper";
+import { extractPlaceholderLayout } from "@/components/dag-visualizer/layout/placeholder";
+import { extractExistingNodes } from "@/components/dag-visualizer/layout/real-data";
 import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { StepOutput } from "@/types/pipeline-deployments";
+import { StepDict } from "@/types/steps";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useLayoutEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { Edge, useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow";
+import { useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow";
 
 export function useDag() {
 	const { runId } = useParams() as { runId: string };
@@ -22,7 +20,7 @@ export function useDag() {
 		}
 	);
 	const pipelineDeployment = useQuery({
-		...pipelineDeploymentQueries.detail(pipelineRun.data?.body?.deployment_id!),
+		...pipelineDeploymentQueries.detail(pipelineRun.data?.body?.deployment_id || ""),
 		enabled: !!pipelineRun.data?.body?.deployment_id
 	});
 
@@ -44,31 +42,15 @@ export function useDag() {
 
 	const onDagreLayout = useCallback(() => {
 		// replayed layouted with nodes from readNodes, in case the id is the same
-		const nodes = placeholderData.nodes.map((node) => {
-			const realNode = realNodes.find((n) => n.id === node.id);
-			if (realNode) {
-				return { ...node, ...realNode };
-			}
-			return {
-				...node,
-				data: { ...node.data, status: pipelineRun.data?.body?.status ?? "running" }
-			};
-		});
 
-		addManuallyAddedArtifacts(
-			nodes,
-			realNodes,
-			pipelineRun.data?.metadata?.steps as StepDict,
-			placeholderData.edges
-		);
-
-		// add a custom styling to edges that have a real node as the target
-		const edges: Edge[] = placeholderData.edges.map((edge) => {
-			const realNode = realNodes.find((n) => n.id === edge.target);
-			return {
-				...edge,
-				style: { stroke: realNode ? "#9CA3AF" : "#D1D5DB", strokeWidth: 2 }
-			};
+		const { nodes, edges } = mergeRealAndPlacehodlerData({
+			placeholderEdges: placeholderData.edges,
+			placeHolderArtifacts: placeholderData.artifacts,
+			placeHolderSteps: placeholderData.steps,
+			realEdges: realNodes.edges,
+			realArtifacts: realNodes.nodes.artifactNodes,
+			realSteps: realNodes.nodes.steps,
+			runStatus: pipelineRun.data?.body?.status ?? "running"
 		});
 
 		const layouted = getLayoutedNodes(nodes, edges);
@@ -83,7 +65,7 @@ export function useDag() {
 
 	useEffect(() => {
 		fitView(); // Keep an eye on performance here
-	}, [width, height]);
+	}, [width, height, fitView]);
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -92,7 +74,7 @@ export function useDag() {
 		return () => {
 			clearTimeout(timeout);
 		};
-	}, [pipelineDeployment.data, pipelineRun.data]);
+	}, [pipelineDeployment.data, pipelineRun.data, fitView]);
 
 	useLayoutEffect(() => {
 		onDagreLayout();
