@@ -10,6 +10,9 @@ import { routes } from "@/router/routes";
 
 export const matchSegmentWithRequest = ({ segment, data }: { segment: string; data?: any }) => {
 	const routeMap: { [key: string]: { [key: string]: { id?: string | null; name?: string } } } = {
+		upgrade: {
+			upgrade: { name: "Upgrade" }
+		},
 		// Pipelines
 		pipelines: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" }
@@ -73,7 +76,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 	};
 
 	const routeMap = {
-		...generateRouteMap(["onboarding", "overview", "models", "artifacts"]),
+		...generateRouteMap(["onboarding", "overview", "models", "artifacts", "upgrade"]),
 		...generateRouteMap(
 			[
 				"general",
@@ -104,7 +107,8 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		//Secrets
 		secrets: routes.settings.secrets.overview,
 		//components
-		components: routes.components.overview
+		components: routes.components.overview,
+		upgrade: routes.upgrade
 	};
 
 	return routeMap[segment] || "#";

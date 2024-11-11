@@ -23,3 +23,11 @@ export type PageEventContext = {
 };
 
 export type PageEventProperties = PageEventPage & { category: string; [key: string]: any };
+
+export type TrackEvent = {
+	type: "track";
+	user_id: string;
+	debug: boolean;
+	event: string;
+	properties: Record<string, any>;
+};
