@@ -1,8 +1,8 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { CopyButton } from "@/components/CopyButton";
+import { KeyValue } from "@/components/KeyValue";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { isString } from "@/lib/type-guards";
 import { MetadataMap } from "@/types/common";
 import {
 	CollapsibleContent,
@@ -10,8 +10,9 @@ import {
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { KeyValue } from "@/components/KeyValue";
-import { CopyButton } from "@/components/CopyButton";
+import { Skeleton } from "@zenml-io/react-component-library/components/server";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 export function OrchestratorCollapsible() {
 	const { runId } = useParams() as {
@@ -45,17 +46,17 @@ export function OrchestratorCollapsible() {
 					<KeyValue
 						label="Orchestrator URL"
 						value={
-							orchestrator_url && typeof orchestrator_url.body.value === "string" ? (
+							orchestrator_url && isString(orchestrator_url) ? (
 								<div className="group/copybutton flex items-center gap-0.5">
 									<a
 										className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
 										rel="noopener noreferrer"
 										target="_blank"
-										href={orchestrator_url.body.value}
+										href={orchestrator_url}
 									>
-										{orchestrator_url.body.value}
+										{orchestrator_url}
 									</a>
-									<CopyButton copyText={orchestrator_url.body.value} />
+									<CopyButton copyText={orchestrator_url} />
 								</div>
 							) : (
 								"Not available"
@@ -65,17 +66,17 @@ export function OrchestratorCollapsible() {
 					<KeyValue
 						label="Orchestrator Logs"
 						value={
-							orchestrator_logs && typeof orchestrator_logs.body.value === "string" ? (
+							orchestrator_logs && isString(orchestrator_logs) ? (
 								<div className="group/copybutton flex items-center gap-0.5">
 									<a
 										className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
 										rel="noopener noreferrer"
 										target="_blank"
-										href={orchestrator_logs.body.value}
+										href={orchestrator_logs}
 									>
-										{orchestrator_logs.body.value}
+										{orchestrator_logs}
 									</a>
-									<CopyButton copyText={orchestrator_logs.body.value} />
+									<CopyButton copyText={orchestrator_logs} />
 								</div>
 							) : (
 								"Not available"

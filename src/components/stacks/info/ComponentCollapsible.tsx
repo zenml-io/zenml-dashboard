@@ -12,7 +12,7 @@ type Props = {
 	objectConfig: Record<string, any>;
 };
 export function ComponentCollapsible({ component, objectConfig }: Props) {
-	const keyName = `${component.body?.type}.${component.body?.flavor}`;
+	const keyName = `${component.body?.type}.${component.body?.flavor_name}`;
 	const settings = objectConfig?.[keyName] ?? undefined;
 
 	if (!settings || Object.keys(settings).length === 0) {
@@ -57,7 +57,7 @@ export function ComponentCollapsibleItem({ component }: { component: StackCompon
 				<img
 					width={32}
 					height={32}
-					alt={`${component.body?.flavor} logo`}
+					alt={`${component.body?.flavor_name} logo`}
 					src={sanitizeUrl(component.body?.logo_url || "")}
 				/>
 				<div>

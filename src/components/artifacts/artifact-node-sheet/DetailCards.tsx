@@ -177,7 +177,7 @@ export function DataCard({ artifactVersionId }: Props) {
 		error: artifactVersionError
 	} = useArtifactVersion({ versionId: artifactVersionId });
 
-	const artifactStoreId = artifactVersionData?.metadata?.artifact_store_id;
+	const artifactStoreId = artifactVersionData?.body?.artifact_store_id;
 	const { data: storeData, isSuccess: isStoreSuccess } = useQuery({
 		...componentQueries.componentDetail(artifactStoreId!),
 		enabled: !!artifactStoreId
@@ -201,7 +201,7 @@ export function DataCard({ artifactVersionId }: Props) {
 					/>
 				</Value>
 
-				{artifactVersionData.metadata?.artifact_store_id && (
+				{artifactVersionData.body?.artifact_store_id && (
 					<KeyValue
 						label="Artifact Store"
 						value={

@@ -1,6 +1,6 @@
-export function calculateTimeDifference(start_time: string, end_time: string) {
+export function calculateTimeDifference(start_time?: string, end_time?: string) {
 	if (!start_time || !end_time) {
-		return "";
+		return "Not available";
 	}
 	const startTime = new Date(start_time);
 	const endTime = new Date(end_time);

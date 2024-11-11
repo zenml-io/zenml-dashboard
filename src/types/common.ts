@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export type ResponsePage<T> = {
 	index: number;
 	max_size: number;
@@ -13,22 +11,5 @@ export type AnyDict = {
 };
 
 export type MetadataMap = {
-	[key: string]: Metadata;
-};
-
-// interim Type for Intellisense
-export type Metadata = {
-	id: string;
-	permission_denied: boolean;
-	body: MetadataBody;
-	metadata?: any;
-};
-
-export type MetadataBody = {
-	created: string;
-	updated: string;
-	user: User;
-	key: string;
-	value: any;
-	type: string;
+	[key: string]: string | number | boolean | Record<string, unknown> | unknown[];
 };
