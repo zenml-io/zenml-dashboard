@@ -1,5 +1,5 @@
 import { ArtifactVersion } from "@/types/artifact-versions";
-import { ArtifactNode, StepNode, ZenEdge } from "@/types/pipeline-runs";
+import { RealNode, ZenEdge } from "@/types/pipeline-runs";
 import { StepDict } from "@/types/steps";
 import { addEdge } from "./helper";
 
@@ -10,29 +10,27 @@ export function extractExistingNodes(stepConfig: StepDict) {
 }
 
 function extractNodes(stepConfig: StepDict) {
-	const steps: StepNode[] = [];
-	const artifactNodes: ArtifactNode[] = [];
+	const nodes: RealNode[] = [];
 
 	Object.keys(stepConfig).forEach((stepName) => {
 		const step = stepConfig[stepName];
 
 		// Create a step node
-		steps.push({
+		nodes.push({
 			id: step.id,
-			originalId: stepName,
+			placeholderId: stepName,
 			type: "step",
 			data: step
 		});
 
 		// Create artifact nodes for each unique output
 		const outputs = step.body?.outputs as { [key: string]: ArtifactVersion[] };
-		Object.entries(outputs || {}).forEach(([outputName, artifactVersions]) => {
+		Object.entries(outputs || []).forEach(([outputName, artifactVersions]) => {
 			artifactVersions.forEach((version) => {
-				const originalId = `${stepName}--${outputName}--${version.id}`;
-				if (artifactNodes.find((node) => node.id === version.id)) return;
-				artifactNodes.push({
+				const placeholderId = `${stepName}--${outputName}--${version.id}`;
+				nodes.push({
 					id: version.id,
-					originalId,
+					placeholderId,
 					type: "artifact",
 					data: { ...version, name: version.body?.artifact.name || outputName }
 				});
@@ -42,19 +40,16 @@ function extractNodes(stepConfig: StepDict) {
 		// Create artifact nodes for each unique input
 		const inputs = step.body?.inputs as { [key: string]: ArtifactVersion };
 		Object.entries(inputs || {}).forEach(([inputName, artifactVersion]) => {
-			const originalId = `${stepName}--${inputName}--${artifactVersion.id}`;
-
-			if (artifactNodes.find((node) => node.id === artifactVersion.id)) return;
-
-			artifactNodes.push({
+			const placeholderId = `${stepName}--${inputName}--${artifactVersion.id}`;
+			nodes.push({
 				id: artifactVersion.id,
-				originalId,
+				placeholderId,
 				type: "artifact",
 				data: { ...artifactVersion, name: inputName }
 			});
 		});
 	});
-	return { steps, artifactNodes };
+	return nodes;
 }
 
 function extractEdges(stepConfig: StepDict): ZenEdge[] {

@@ -1,9 +1,7 @@
 import {
-	ArtifactNode,
 	ExecutionStatus,
 	PlaceholderNode,
 	RealNode,
-	StepNode,
 	ZenEdge,
 	ZenNode
 } from "@/types/pipeline-runs";
@@ -18,94 +16,106 @@ export function addEdge(source: string, target: string): ZenEdge {
 
 type Args = {
 	placeholderEdges: ZenEdge[];
-	placeHolderArtifacts: PlaceholderNode[];
-	placeHolderSteps: PlaceholderNode[];
+	placeholderNodes: PlaceholderNode[];
 	realEdges: ZenEdge[];
-	realArtifacts: ArtifactNode[];
-	realSteps: StepNode[];
+	realNodes: RealNode[];
 	runStatus: ExecutionStatus;
 };
 export function mergeRealAndPlacehodlerData({
 	placeholderEdges,
-	placeHolderArtifacts,
-	placeHolderSteps,
+	placeholderNodes,
 	realEdges,
-	realArtifacts,
-	realSteps,
+	realNodes,
 	runStatus
 }: Args): { nodes: ZenNode[]; edges: ZenEdge[] } {
-	const realNodes: RealNode[] = [...realArtifacts, ...realSteps];
-	const helperNodes: ZenNode[] = [];
-	const helperEdges: ZenEdge[] = [];
+	const placeholderSteps = placeholderNodes.filter((node) => node.type === "previewStep");
+	const placeholderArtifacts = placeholderNodes.filter((node) => node.type === "previewArtifact");
+	const realSteps = realNodes.filter((node) => node.type === "step");
+	const realArtifacts = realNodes.filter((node) => node.type === "artifact");
 
-	placeHolderArtifacts.forEach((artifact) => {
-		const existingRealArtifacts = realArtifacts.filter((realArtifact) => {
-			return realArtifact.originalId.startsWith(artifact.id);
-		});
+	const finalNodes: ZenNode[] = [...realSteps];
+	const finalEdges: ZenEdge[] = [];
 
-		if (existingRealArtifacts.length === 0) {
-			helperNodes.push({ ...artifact, data: { ...artifact.data, status: runStatus } });
-			return;
-		}
-
-		existingRealArtifacts.forEach((realArtifact) => {
-			helperNodes.push({ ...realArtifact, helperId: artifact.id });
-		});
-	});
-
-	placeHolderSteps.forEach((step) => {
-		const existingRealSteps = realSteps.filter((realStep) => realStep.originalId === step.id);
+	// if there are placeholderNodes that do not have a corresponding realNode, add them to the finalNodes
+	placeholderSteps.forEach((step) => {
+		const existingRealSteps = realSteps.filter((realStep) =>
+			realStep.placeholderId.startsWith(step.id)
+		);
 		if (existingRealSteps.length === 0) {
-			helperNodes.push({ ...step, data: { ...step.data, status: runStatus } });
+			finalNodes.push({ ...step, data: { ...step.data, status: runStatus } });
 			return;
 		}
-		existingRealSteps.forEach((realStep) => {
-			helperNodes.push(realStep);
-		});
 	});
 
-	// in case there are realEdges where both the source and target are realNodes, add them to the helperEdges
+	placeholderArtifacts.forEach((placeholderArtifact) => {
+		const existingRealArtifacts = realArtifacts.filter((realArtifact) =>
+			realArtifact.placeholderId.startsWith(placeholderArtifact.id)
+		);
+		if (existingRealArtifacts.length === 0) {
+			finalNodes.push({
+				...placeholderArtifact,
+				data: { ...placeholderArtifact.data, status: runStatus }
+			});
+			return;
+		}
+	});
+
+	realArtifacts.forEach((realArtifact) => {
+		const duplicateRealArtifacts = finalNodes.filter((node) => node.id === realArtifact.id);
+		if (duplicateRealArtifacts.length === 0) {
+			finalNodes.push(realArtifact);
+		}
+	});
+
+	// in case there are realEdges where both the source and target are realNodes, add them to the finalEdges
 	realEdges.forEach((edge) => {
-		const source = helperNodes.find((node) => node.id === edge.source);
-		const target = helperNodes.find((node) => node.id === edge.target);
+		const source = finalNodes.find((node) => node.id === edge.source);
+		const target = finalNodes.find((node) => node.id === edge.target);
 
 		if (source && target) {
-			helperEdges.push(edge);
+			finalEdges.push(edge);
 		}
 	});
 
-	// in case there are placeHolderEdges where both the source and target are placeholderNodes, add them to the helperEdges
+	// in case there are placeHolderEdges where both the source and target are placeholderNodes, add them to the finalEdges
 	placeholderEdges.forEach((edge) => {
-		const source = helperNodes.find((node) => node.id === edge.source);
-		const target = helperNodes.find((node) => node.id === edge.target);
+		const source = finalNodes.find((node) => node.id === edge.source);
+		const target = finalNodes.find((node) => node.id === edge.target);
 
 		if (source && target) {
-			helperEdges.push(edge);
+			finalEdges.push(edge);
 		}
 
-		if (source && !target) {
-			const realTarget = realNodes.find((node) => node.originalId === edge.target);
-			if (realTarget) {
-				helperEdges.push({ ...edge, target: realTarget.id });
-			}
-		} else if (!source && target) {
-			const realSource = realNodes.find((node) => node.originalId === edge.source);
+		if (!source && target) {
+			const realSource = realNodes.find((node) => node.placeholderId.startsWith(edge.source));
 			if (realSource) {
-				helperEdges.push({ ...edge, source: realSource.id });
+				finalEdges.push({ ...edge, source: realSource.id });
 			}
 		}
 	});
 
 	placeholderEdges.forEach((edge) => {
-		const realSource = realNodes.find((node) => node.originalId === edge.source);
-		const realTarget = realNodes.find((node) => node.originalId === edge.target);
+		const realSource = realNodes.find((node) => node.placeholderId.startsWith(edge.source));
+		const realTarget = realNodes.find((node) => node.placeholderId.startsWith(edge.target));
 
 		if (realSource && realTarget) {
-			helperEdges.push({ ...edge, source: realSource.id, target: realTarget.id });
+			finalEdges.push({ ...edge, source: realSource.id, target: realTarget.id });
 		}
 	});
 
-	const styledEdges = helperEdges.map((edge) => {
+	// deduplicate edges in case they have the same source and target
+	const dedupedEdges: ZenEdge[] = [];
+	finalEdges.forEach((edge) => {
+		const duplicateEdges = dedupedEdges.filter(
+			(e) => e.source === edge.source && e.target === edge.target
+		);
+
+		if (duplicateEdges.length === 0) {
+			dedupedEdges.push(edge);
+		}
+	});
+
+	const styledEdges = finalEdges.map((edge) => {
 		const realNode = realNodes.find((n) => n.id === edge.target);
 		return {
 			...edge,
@@ -113,5 +123,5 @@ export function mergeRealAndPlacehodlerData({
 		};
 	});
 
-	return { nodes: helperNodes, edges: styledEdges };
+	return { nodes: finalNodes, edges: styledEdges };
 }

@@ -9,12 +9,11 @@ import { PlaceholderNode, ZenEdge } from "@/types/pipeline-runs";
 import { addEdge } from "./helper";
 
 export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>) {
-	const steps: PlaceholderNode[] = [];
-	const artifacts: PlaceholderNode[] = [];
+	const nodes: PlaceholderNode[] = [];
 	const edges: ZenEdge[] = [];
 
 	function addArtifact(id: string, type: "previewArtifact" | "previewStep", label: string) {
-		artifacts.push({
+		nodes.push({
 			id,
 			type,
 			data: {
@@ -28,7 +27,7 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		const step = stepConfig[stepName];
 
 		// Create a step node
-		steps.push({
+		nodes.push({
 			id: stepName,
 			type: "previewStep",
 			data: { label: stepName, status: "running" }
@@ -91,5 +90,5 @@ export function extractPlaceholderLayout(stepConfig: Record<string, StepOutput>)
 		diff.forEach((item) => edges.push(addEdge(item, stepName)));
 	});
 
-	return { steps, artifacts, edges };
+	return { nodes, edges };
 }

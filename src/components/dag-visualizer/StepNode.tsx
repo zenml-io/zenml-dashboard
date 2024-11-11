@@ -55,7 +55,7 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 								return "Execution failed";
 							}
 							if (!data.body?.start_time || !data.body.end_time) {
-								return null;
+								return "N/A";
 							}
 							return calculateTimeDifference(data.body.start_time, data.body.end_time);
 						})()}

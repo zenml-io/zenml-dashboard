@@ -45,11 +45,9 @@ export function useDag() {
 
 		const { nodes, edges } = mergeRealAndPlacehodlerData({
 			placeholderEdges: placeholderData.edges,
-			placeHolderArtifacts: placeholderData.artifacts,
-			placeHolderSteps: placeholderData.steps,
+			placeholderNodes: placeholderData.nodes,
 			realEdges: realNodes.edges,
-			realArtifacts: realNodes.nodes.artifactNodes,
-			realSteps: realNodes.nodes.steps,
+			realNodes: realNodes.nodes,
 			runStatus: pipelineRun.data?.body?.status ?? "running"
 		});
 
