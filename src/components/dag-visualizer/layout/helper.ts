@@ -115,7 +115,7 @@ export function mergeRealAndPlacehodlerData({
 		}
 	});
 
-	const styledEdges = finalEdges.map((edge) => {
+	const styledEdges = dedupedEdges.map((edge) => {
 		const realNode = realNodes.find((n) => n.id === edge.target);
 		return {
 			...edge,
