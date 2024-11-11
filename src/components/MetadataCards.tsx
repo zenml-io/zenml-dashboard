@@ -56,11 +56,7 @@ export function UncategorizedCard({ metadata, title }: Props & { title?: string 
 											if (isString(value) && regex.test(value)) {
 												return <Codesnippet className="py-1" highlightCode code={value} />;
 											} else {
-												return (
-													<div className="py-1">
-														{isString(value) ? value : JSON.stringify(value)}
-													</div>
-												);
+												return <div>{isString(value) ? value : JSON.stringify(value)}</div>;
 											}
 										})()}
 									</>
