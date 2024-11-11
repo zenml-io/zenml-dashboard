@@ -5,6 +5,7 @@ import { InlineAvatar } from "@/components/InlineAvatar";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
+import { isString } from "@/lib/type-guards";
 import { routes } from "@/router/routes";
 import { MetadataMap } from "@/types/common";
 import {
@@ -178,8 +179,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="Start Time"
 					value={
-						data.metadata?.start_time ? (
-							<DisplayDate dateString={data.metadata?.start_time} />
+						data.body?.start_time ? (
+							<DisplayDate dateString={data.body?.start_time} />
 						) : (
 							"Not available"
 						)
@@ -188,19 +189,12 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="End Time"
 					value={
-						data.metadata?.end_time ? (
-							<DisplayDate dateString={data.metadata?.end_time} />
-						) : (
-							"Not available"
-						)
+						data.body?.end_time ? <DisplayDate dateString={data.body?.end_time} /> : "Not available"
 					}
 				/>
 				<KeyValue
 					label="Duration"
-					value={calculateTimeDifference(
-						data.metadata?.start_time || "",
-						data.metadata?.end_time || ""
-					)}
+					value={calculateTimeDifference(data.body?.start_time || "", data.body?.end_time || "")}
 				/>
 				<KeyValue
 					label="Artifact metadata"
@@ -251,17 +245,17 @@ export function OrchestratorCard({ className }: { className?: string }) {
 				<KeyValue
 					label="Orchestrator URL"
 					value={
-						orchestrator_url ? (
+						orchestrator_url && isString(orchestrator_url) ? (
 							<div className="group/copybutton flex items-center gap-0.5">
 								<a
 									className="truncate underline transition-all duration-200 hover:decoration-transparent"
 									rel="noopener noreferrer"
 									target="_blank"
-									href={orchestrator_url.body.value}
+									href={orchestrator_url}
 								>
-									{orchestrator_url.body.value}
+									{orchestrator_url}
 								</a>
-								<CopyButton copyText={orchestrator_url.body.value} />
+								<CopyButton copyText={orchestrator_url} />
 							</div>
 						) : (
 							"Not available"
@@ -271,17 +265,17 @@ export function OrchestratorCard({ className }: { className?: string }) {
 				<KeyValue
 					label="Orchestrator Logs"
 					value={
-						orchestrator_logs && typeof orchestrator_logs.body.value === "string" ? (
+						orchestrator_logs && isString(orchestrator_logs) ? (
 							<div className="group/copybutton flex items-center gap-0.5">
 								<a
 									className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
 									rel="noopener noreferrer"
 									target="_blank"
-									href={orchestrator_logs.body.value}
+									href={orchestrator_logs}
 								>
-									{orchestrator_logs.body.value}
+									{orchestrator_logs}
 								</a>
-								<CopyButton copyText={orchestrator_logs.body.value} />
+								<CopyButton copyText={orchestrator_logs} />
 							</div>
 						) : (
 							"Not available"

@@ -1,13 +1,14 @@
 "use client";
 import ChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@zenml-io/react-component-library";
 import { routes } from "@/router/routes";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@zenml-io/react-component-library";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { StackComponentsDetailHeader } from "../component-detail/Header";
 import { StackComponentTabs } from "../component-detail/Tabs";
+import { RunsList } from "./runs-tab/RunsList";
 import { StackList } from "./stacks-tab/StackList";
 
 type Props = {
@@ -38,6 +39,7 @@ export function ComponentSheet({ children, onOpenChange, componentId }: PropsWit
 					<StackComponentsDetailHeader isPanel componentId={componentId} />
 					<StackComponentTabs
 						isPanel
+						runsTabContent={<RunsList componentId={componentId} />}
 						stacksTabContent={<StackList componentId={componentId} />}
 						componentId={componentId}
 					/>

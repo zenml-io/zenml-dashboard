@@ -3,6 +3,7 @@ export const routes = {
 	activateServer: "/activate-server",
 	activateUser: "/activate-user",
 	login: "/login",
+	upgrade: "/upgrade",
 	survey: "/survey",
 	onboarding: "/onboarding",
 	devices: {

@@ -1,6 +1,6 @@
 import { ArtifactVersion } from "@/types/artifact-versions";
 import { RealNode, ZenEdge, ZenNode } from "@/types/pipeline-runs";
-import { StepDict } from "./extract-layout";
+import { StepDict } from "@/types/steps";
 
 export function addManuallyAddedArtifacts(
 	nodes: ZenNode[],

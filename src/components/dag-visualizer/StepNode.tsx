@@ -1,4 +1,5 @@
 import Copy from "@/assets/icons/copy.svg?react";
+import { calculateTimeDifference } from "@/lib/dates";
 import { Step } from "@/types/steps";
 import { clsx } from "clsx";
 import { NodeProps, ReactFlowState, useStore } from "reactflow";
@@ -14,6 +15,7 @@ const selector = (state: ReactFlowState) => ({
 export function StepNode({ data, selected }: NodeProps<Step>) {
 	const { unselectAll } = useStore(selector);
 
+	const isFailed = data.body?.status === "failed";
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
 			// this is a hack to make sure the unselectNodesAndEdges is called after the step sheet is closed
@@ -27,17 +29,18 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 		<BaseNode>
 			<StepSheet onOpenChange={openChangeHandler} stepId={data.id}>
 				<button
+					data-failed={isFailed}
 					data-selected={!!selected}
 					className={clsx(
-						"group h-[50px] max-w-[300px] rounded-md border bg-theme-surface-primary transition-all duration-200 hover:shadow-md data-[selected=true]:shadow-md",
+						"group max-h-[80px] max-w-[300px] overflow-hidden rounded-md border bg-theme-surface-primary transition-all duration-200  hover:shadow-md  data-[selected=true]:shadow-md",
 						{
 							"border-theme-border-moderate hover:border-neutral-400 data-[selected=true]:border-theme-border-bold":
-								data.body?.status !== "failed",
-							"border-error-200": data.body?.status === "failed"
+								!isFailed,
+							"border-error-200": isFailed
 						}
 					)}
 				>
-					<div className="flex items-center gap-1 py-1 pl-1 pr-2">
+					<div className="flex flex-1 items-center gap-1 py-1 pl-1 pr-2">
 						<div
 							className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(data.body?.status)}`}
 						>
@@ -54,6 +57,20 @@ config = step.config`}
 							<Copy className="h-3 w-3 fill-theme-text-tertiary" />
 							<div className="sr-only">Copy code to load step</div>
 						</CopyNodeButton>
+					</div>
+					<div
+						data-failed={isFailed}
+						className="flex flex-1 justify-end border-t border-theme-border-moderate bg-theme-surface-tertiary px-2 py-0.5 text-text-xs data-[failed=true]:border-error-200 data-[failed=true]:bg-error-50 data-[failed=true]:text-theme-text-error"
+					>
+						{(() => {
+							if (isFailed) {
+								return "Execution failed";
+							}
+							if (!data.body?.start_time || !data.body.end_time) {
+								return "N/A";
+							}
+							return calculateTimeDifference(data.body.start_time, data.body.end_time);
+						})()}
 					</div>
 				</button>
 			</StepSheet>

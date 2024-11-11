@@ -1,20 +1,19 @@
 "use client";
 import Refresh from "@/assets/icons/refresh.svg?react";
-import { stackQueries } from "@/data/stacks";
+import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
 import { StackListQueryParams } from "@/types/stack";
-import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@zenml-io/react-component-library";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import Pagination from "../../../Pagination";
 import { SearchField } from "../../../SearchField";
-import { getStackColumnsPanel } from "./columns";
+import { runsColumns } from "./columns";
 
 type Props = {
 	componentId: string;
 };
 
-export function StackList({ componentId }: Props) {
+export function RunsList({ componentId }: Props) {
 	const [search, setSearch] = useState<string | undefined>(undefined);
 	const [page, setPage] = useState(1);
 
@@ -23,13 +22,13 @@ export function StackList({ componentId }: Props) {
 		page
 	};
 
-	const { refetch, data } = useQuery(
-		stackQueries.stackList({
+	const { data, refetch } = useAllPipelineRuns({
+		params: {
 			...inlineQueries,
-			component_id: componentId,
+			stack_component: componentId,
 			sort_by: "desc:updated"
-		})
-	);
+		}
+	});
 
 	return (
 		<section>
@@ -56,7 +55,7 @@ export function StackList({ componentId }: Props) {
 				<div className="flex flex-col items-center gap-5">
 					<div className="w-full">
 						{data ? (
-							<DataTable columns={getStackColumnsPanel()} data={data.items} />
+							<DataTable columns={runsColumns} data={data.items} />
 						) : (
 							<Skeleton className="h-[500px] w-full" />
 						)}

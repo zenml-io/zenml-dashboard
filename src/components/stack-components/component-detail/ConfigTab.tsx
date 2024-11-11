@@ -20,7 +20,7 @@ type Props = {
 };
 export function ComponentConfigTab({ componentId }: Props) {
 	return (
-		<section className="@5xl:grid-cols-2 grid grid-cols-1 gap-5">
+		<section className="grid grid-cols-1 gap-5 @5xl:grid-cols-2">
 			<div>
 				<BasicParams componentId={componentId} />
 			</div>
@@ -80,13 +80,13 @@ function BasicParams({ componentId }: Props) {
 									src={sanitizeUrl(component.data.body?.logo_url || "")}
 									alt="Flavor Icon of Component"
 								/>
-								<p className="truncate">{component.data.body?.flavor}</p>
+								<p className="truncate">{component.data.body?.flavor_name}</p>
 							</Tag>
 						}
 					/>
 					<KeyValue
 						label="Author"
-						value={!!user ? <InlineAvatar username={getUsername(user)} /> : "Not available"}
+						value={user ? <InlineAvatar username={getUsername(user)} /> : "Not available"}
 					/>
 					<KeyValue
 						label="Updated"

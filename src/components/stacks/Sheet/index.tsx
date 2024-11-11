@@ -134,7 +134,7 @@ function ComponentListItem({ component }: ComponentListItemProps) {
 				<img
 					width={32}
 					height={32}
-					alt={`${component.body?.flavor} logo`}
+					alt={`${component.body?.flavor_name} logo`}
 					src={sanitizeUrl(component.body?.logo_url || "")}
 				/>
 				<div>
