@@ -15,6 +15,7 @@ import { routes } from "./routes";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
+const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
 const ActivateServer = lazy(() => import("@/app/activate-server/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
@@ -80,6 +81,15 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.upgrade}
+						element={
+							<ProtectedRoute>
+								<Upgrade />
 							</ProtectedRoute>
 						}
 					/>
