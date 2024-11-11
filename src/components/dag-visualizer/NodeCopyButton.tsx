@@ -1,13 +1,18 @@
-import Copy from "@/assets/icons/copy.svg?react";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
+import { cn } from "@zenml-io/react-component-library/utilities";
 
-export function CopyNodeButton({ code, type }: { code: string; type: string }) {
+export function CopyNodeButton({
+	className,
+	code,
+	type,
+	...rest
+}: HTMLAttributes<HTMLDivElement> & { code: string; type: "artifact" | "step" }) {
 	const [copied, setCopied] = useState(false);
 	const [tooltipOpen, setTooltipOpen] = useState(false);
 
@@ -27,21 +32,17 @@ export function CopyNodeButton({ code, type }: { code: string; type: string }) {
 		<TooltipProvider>
 			<Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
 				<TooltipTrigger asChild>
-					<div className="relative flex items-center">
-						<div
-							className="hidden cursor-pointer transition-all group-hover:flex"
-							onClick={(e) => {
-								e.stopPropagation(); // Prevent the click event from bubbling up
-								copyToClipboard(code);
-							}}
-						>
-							<Copy
-								className={`${
-									type === "step" ? "fill-theme-text-tertiary" : "fill-primary-400"
-								} h-5 `}
-							/>
-						</div>
-					</div>
+					<div
+						{...rest}
+						className={cn(
+							"hidden cursor-pointer items-center justify-center transition-all group-hover:flex",
+							className
+						)}
+						onClick={(e) => {
+							e.stopPropagation(); // Prevent the click event from bubbling up
+							copyToClipboard(code);
+						}}
+					></div>
 				</TooltipTrigger>
 				<TooltipContent className="w-full max-w-md whitespace-normal transition-opacity">
 					{copied ? "Copied!" : `Copy code to load ${type}`}

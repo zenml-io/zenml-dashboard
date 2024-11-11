@@ -1,11 +1,11 @@
+import Copy from "@/assets/icons/copy.svg?react";
 import { Step } from "@/types/steps";
 import { clsx } from "clsx";
 import { NodeProps, ReactFlowState, useStore } from "reactflow";
-import { BaseNode } from "./BaseNode";
-import { StepSheet } from "../steps/step-sheet";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../ExecutionStatus";
+import { StepSheet } from "../steps/step-sheet";
+import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
-import { useParams } from "react-router-dom";
 
 const selector = (state: ReactFlowState) => ({
 	unselectAll: state.unselectNodesAndEdges
@@ -13,7 +13,6 @@ const selector = (state: ReactFlowState) => ({
 
 export function StepNode({ data, selected }: NodeProps<Step>) {
 	const { unselectAll } = useStore(selector);
-	const { runId } = useParams() as { runId: string };
 
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
@@ -27,11 +26,10 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 	return (
 		<BaseNode>
 			<StepSheet onOpenChange={openChangeHandler} stepId={data.id}>
-				{/* TODO check shadow in design system */}
 				<button
 					data-selected={!!selected}
 					className={clsx(
-						"group h-[50px] max-w-[300px] rounded-md  border bg-theme-surface-primary transition-all duration-200  hover:shadow-md  data-[selected=true]:shadow-md",
+						"group h-[50px] max-w-[300px] rounded-md border bg-theme-surface-primary transition-all duration-200 hover:shadow-md data-[selected=true]:shadow-md",
 						{
 							"border-theme-border-moderate hover:border-neutral-400 data-[selected=true]:border-theme-border-bold":
 								data.body?.status !== "failed",
@@ -47,11 +45,15 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 						</div>
 						<p className="truncate font-semibold">{data.name}</p>
 						<CopyNodeButton
+							className="h-4 w-4 shrink-0 rounded-sm hover:bg-theme-surface-secondary active:bg-neutral-300"
 							code={`from zenml.client import Client
-    run = Client().get_pipeline_run('${runId}') 
-    config = run.config`}
+step = Client().get_run_step(${data.id})
+config = step.config`}
 							type="step"
-						/>
+						>
+							<Copy className="h-3 w-3 fill-theme-text-tertiary" />
+							<div className="sr-only">Copy code to load step</div>
+						</CopyNodeButton>
 					</div>
 				</button>
 			</StepSheet>
