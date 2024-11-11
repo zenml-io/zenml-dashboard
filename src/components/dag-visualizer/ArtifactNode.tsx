@@ -1,9 +1,10 @@
+import Copy from "@/assets/icons/copy.svg?react";
 import { ArtifactVersion } from "@/types/artifact-versions";
-
 import { NodeProps, useStore } from "reactflow";
 import { ArtifactIcon } from "../ArtifactIcon";
 import { ArtifactSheet } from "../artifacts/artifact-node-sheet";
 import { BaseNode } from "./BaseNode";
+import { CopyNodeButton } from "./NodeCopyButton";
 
 export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { name: string }>) {
 	const { unselectNodesAndEdges } = useStore((state) => ({
@@ -42,11 +43,23 @@ export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { n
 						<p className="truncate text-text-sm font-semibold text-theme-text-brand group-data-[selected=true]:text-theme-text-negative">
 							{data.name}
 						</p>
+
 						<p className="truncate text-text-xs text-theme-text-secondary group-data-[selected=true]:text-white/70">
 							{/* As artifact_type doesn't correspond to the last part of the string */}
 							{getTypeFromArtifact(data.body?.data_type.attribute || "")}
 						</p>
 					</div>
+					<CopyNodeButton
+						className="h-4 w-4 shrink-0 rounded-sm hover:bg-primary-100 active:bg-primary-200"
+						code={`from zenml.client import Client
+							
+artifact = Client().get_artifact_version('${data.id}')
+loaded_artifact = artifact.load()`}
+						type="artifact"
+					>
+						<Copy className="h-3 w-3 fill-primary-400" />
+						<div className="sr-only">Copy code to load artifact</div>
+					</CopyNodeButton>
 				</button>
 			</ArtifactSheet>
 		</BaseNode>
