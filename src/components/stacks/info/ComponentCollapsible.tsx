@@ -1,30 +1,27 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
-import { PipelineRun } from "@/types//pipeline-runs";
+import { routes } from "@/router/routes";
 import { StackComponent } from "@/types/components";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
+import { Link } from "react-router-dom";
 import { NestedCollapsible } from "../../NestedCollapsible";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
-import { ComponentInfoDialog } from "./ComponentInfoDialog";
 
 type Props = {
 	component: StackComponent;
-	run: PipelineRun;
+	objectConfig: Record<string, any>;
 };
-export function ComponentCollapsible({ component, run }: Props) {
-	const keyName = `${component.body?.type}.${component.body?.flavor}`;
-	const settings =
-		(run.metadata?.config.settings as { [key: string]: any } | undefined)?.[keyName] ?? undefined;
+export function ComponentCollapsible({ component, objectConfig }: Props) {
+	const keyName = `${component.body?.type}.${component.body?.flavor_name}`;
+	const settings = objectConfig?.[keyName] ?? undefined;
 
 	if (!settings || Object.keys(settings).length === 0) {
 		return (
-			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
-				<button className="w-full">
-					<Box className="flex items-center justify-between gap-3 px-5 py-3 text-left">
-						<ComponentCollapsibleItem component={component} />
-					</Box>
-				</button>
-			</ComponentInfoDialog>
+			<Link to={routes.components.detail(component.id)}>
+				<Box className="flex w-full items-center justify-between gap-3 px-5 py-3 text-left">
+					<ComponentCollapsibleItem component={component} />
+				</Box>
+			</Link>
 		);
 	}
 
@@ -41,15 +38,14 @@ export function ComponentCollapsible({ component, run }: Props) {
 			}
 			data={settings}
 		>
-			<ComponentInfoDialog name={component.name} type={component.body?.type || "orchestrator"}>
-				<Button
-					intent="secondary"
-					emphasis="subtle"
-					className="mx-auto flex w-fit justify-center text-text-sm text-theme-text-secondary"
-				>
-					See Component Details
-				</Button>
-			</ComponentInfoDialog>
+			<Button
+				asChild
+				intent="secondary"
+				emphasis="subtle"
+				className="mx-auto flex w-fit justify-center text-text-sm text-theme-text-secondary"
+			>
+				<Link to={routes.components.detail(component.id)}>See Component Details</Link>
+			</Button>
 		</NestedCollapsible>
 	);
 }
@@ -61,7 +57,7 @@ export function ComponentCollapsibleItem({ component }: { component: StackCompon
 				<img
 					width={32}
 					height={32}
-					alt={`${component.body?.flavor} logo`}
+					alt={`${component.body?.flavor_name} logo`}
 					src={sanitizeUrl(component.body?.logo_url || "")}
 				/>
 				<div>

@@ -1,8 +1,8 @@
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { ComponentSheet } from "@/components/stack-components/component-sheet";
 import { ComponentBadge } from "@/components/stack-components/ComponentBadge";
-import { ComponentFallbackDialog } from "@/components/stack-components/ComponentFallbackDialog";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { getUsername } from "@/lib/user";
@@ -29,18 +29,19 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 						/>
 						<div>
 							<div className="flex items-center gap-1">
-								<ComponentFallbackDialog
-									name={name}
-									type={row.original.body?.type || "orchestrator"}
-								>
+								<ComponentSheet componentId={id}>
 									<button>
 										<h2 className="text-text-md font-semibold">{name}</h2>
 									</button>
-								</ComponentFallbackDialog>
+								</ComponentSheet>
 								<CopyButton copyText={name} />
 							</div>
 							<div className="flex items-center gap-1">
-								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
+								<ComponentSheet componentId={id}>
+									<button className="text-text-xs text-theme-text-secondary">
+										{id.split("-")[0]}
+									</button>
+								</ComponentSheet>
 								<CopyButton copyText={id} />
 							</div>
 						</div>
@@ -60,9 +61,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 		{
 			id: "flavor",
 			header: "Flavor",
-			accessorFn: (row) => row.body?.flavor,
+			accessorFn: (row) => row.body?.flavor_name,
 			cell: ({ row }) => {
-				const flavor = row.original.body?.flavor;
+				const flavor = row.original.body?.flavor_name;
 				return (
 					<Tag
 						rounded={false}

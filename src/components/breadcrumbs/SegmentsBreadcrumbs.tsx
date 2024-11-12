@@ -10,6 +10,9 @@ import { routes } from "@/router/routes";
 
 export const matchSegmentWithRequest = ({ segment, data }: { segment: string; data?: any }) => {
 	const routeMap: { [key: string]: { [key: string]: { id?: string | null; name?: string } } } = {
+		upgrade: {
+			upgrade: { name: "Upgrade" }
+		},
 		// Pipelines
 		pipelines: {
 			pipelines: { id: data?.body?.pipeline?.id, name: "Pipelines" }
@@ -27,6 +30,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 		},
 		components: {
 			components: { name: "Components" }
+		},
+		componentDetail: {
+			components: { name: "Components" },
+			component_detail: {
+				id: data?.id,
+				name: data?.name
+			}
 		},
 		secrets: {
 			secrets: { name: "Secrets" }
@@ -66,7 +76,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 	};
 
 	const routeMap = {
-		...generateRouteMap(["onboarding", "overview", "models", "artifacts"]),
+		...generateRouteMap(["onboarding", "overview", "models", "artifacts", "upgrade"]),
 		...generateRouteMap(
 			[
 				"general",
@@ -97,7 +107,8 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		//Secrets
 		secrets: routes.settings.secrets.overview,
 		//components
-		components: routes.components.overview
+		components: routes.components.overview,
+		upgrade: routes.upgrade
 	};
 
 	return routeMap[segment] || "#";
@@ -113,7 +124,8 @@ export const matchSegmentWithTab = (segment: string) => {
 		metadata: <MetadataIcon className={iconClasses} />,
 		runs: <RunIcon className={iconClasses} />,
 		templates: <TemplatesIcon className={iconClasses} />,
-		stack: <Stack className={iconClasses} />
+		stack: <Stack className={iconClasses} />,
+		stacks: <Stack className={iconClasses} />
 	};
 
 	return routeMap[segment] || <Info className="h-5 w-5 fill-theme-text-tertiary" />;

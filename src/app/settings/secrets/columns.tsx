@@ -18,7 +18,7 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		accessorFn: (row) => row.name,
 		cell: ({ getValue, row }) => {
 			const code = `from zenml.client import Client
-secret = Client().get_secret(${row.original.name})
+secret = Client().get_secret("${row.original.name}")
 `;
 
 			return (

@@ -3,6 +3,7 @@ import { default as Barchart, default as BarChart } from "@/assets/icons/bar-cha
 import { EmptyState } from "@/components/EmptyState";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { FIVEMEGABYTES } from "@/lib/constants";
+import { isNumber } from "@/lib/type-guards";
 import { MetadataMap } from "@/types/common";
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { useState } from "react";
@@ -33,7 +34,7 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 		return <Skeleton className="h-[300px] w-full" />;
 	}
 
-	const size = (data.metadata?.run_metadata as MetadataMap)?.storage_size?.body?.value;
+	const size = (data.metadata?.run_metadata as MetadataMap)?.storage_size;
 
 	if (data.metadata?.visualizations && data.metadata.visualizations.length < 1) {
 		return (
@@ -50,7 +51,7 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 
 	return (
 		<div>
-			{size < FIVEMEGABYTES || confirmation ? (
+			{(size && isNumber(size) && size < FIVEMEGABYTES) || confirmation ? (
 				<Visualization
 					artifactName={data.body?.artifact.name || "artifact"}
 					artifactVersionId={artifactVersionId}

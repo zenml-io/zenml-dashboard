@@ -7,7 +7,6 @@ import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/Ex
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, KeyValue, Value } from "@/components/KeyValue";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
-import { useComponentDetail } from "@/data/components/component-detail-query";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { routes } from "@/router/routes";
@@ -22,6 +21,8 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { useQuery } from "@tanstack/react-query";
+import { componentQueries } from "../../../data/components";
 
 type Props = {
 	artifactVersionId: string;
@@ -176,13 +177,11 @@ export function DataCard({ artifactVersionId }: Props) {
 		error: artifactVersionError
 	} = useArtifactVersion({ versionId: artifactVersionId });
 
-	const artifactStoreId = artifactVersionData?.metadata?.artifact_store_id;
-	const { data: storeData, isSuccess: isStoreSuccess } = useComponentDetail(
-		{
-			componentId: artifactStoreId!
-		},
-		{ enabled: !!artifactStoreId }
-	);
+	const artifactStoreId = artifactVersionData?.body?.artifact_store_id;
+	const { data: storeData, isSuccess: isStoreSuccess } = useQuery({
+		...componentQueries.componentDetail(artifactStoreId!),
+		enabled: !!artifactStoreId
+	});
 
 	if (isArtifactVersionError) {
 		return <ErrorFallback err={artifactVersionError} />;
@@ -202,7 +201,7 @@ export function DataCard({ artifactVersionId }: Props) {
 					/>
 				</Value>
 
-				{artifactVersionData.metadata?.artifact_store_id && (
+				{artifactVersionData.body?.artifact_store_id && (
 					<KeyValue
 						label="Artifact Store"
 						value={
@@ -255,8 +254,8 @@ export function CodeCard({ artifactVersionId }: Props) {
 	function returnConfigSchema(id: string) {
 		return `from zenml.client import Client
 
-artifact = Client().get_artifact_version('${id}')
-loaded_artifact = artifact.load()`;
+step = Client().get_run_step(${id})
+config = step.config`;
 	}
 
 	return (

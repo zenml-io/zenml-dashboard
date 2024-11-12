@@ -1,21 +1,6 @@
 import { Codesnippet } from "@/components/CodeSnippet";
-import { InfoBox as InfoBoxPrimitive } from "@/components/Infobox";
 import { Box } from "@zenml-io/react-component-library";
 import { useSearchParams } from "react-router-dom";
-
-export function InfoBox() {
-	return (
-		<InfoBoxPrimitive>
-			<div className="flex w-full flex-wrap items-center gap-x-2 gap-y-0.5 text-text-md">
-				<p className="font-semibold">This is a ZenML Pro feature. </p>
-				<p>
-					Upgrade to ZenML Pro to access the Model Control Plane and interact with your models in
-					the Dashboard.
-				</p>
-			</div>
-		</InfoBoxPrimitive>
-	);
-}
 
 export function CommandSection() {
 	const [searchParams] = useSearchParams();

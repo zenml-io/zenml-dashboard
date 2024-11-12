@@ -20,8 +20,9 @@ import { PropsWithChildren, useEffect } from "react";
 import { CopyButton } from "../../CopyButton";
 import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
-import { ComponentFallbackDialog } from "../../stack-components/ComponentFallbackDialog";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
+import { Link } from "react-router-dom";
+import { routes } from "../../../router/routes";
 
 type Props = {
 	stackId: string;
@@ -133,16 +134,13 @@ function ComponentListItem({ component }: ComponentListItemProps) {
 				<img
 					width={32}
 					height={32}
-					alt={`${component.body?.flavor} logo`}
+					alt={`${component.body?.flavor_name} logo`}
 					src={sanitizeUrl(component.body?.logo_url || "")}
 				/>
 				<div>
-					<ComponentFallbackDialog
-						type={component.body?.type || "orchestrator"}
-						name={component.name}
-					>
-						<button className="text-text-xl">{component.name}</button>
-					</ComponentFallbackDialog>
+					<Link to={routes.components.detail(component.id)} className="text-text-xl">
+						{component.name}
+					</Link>
 					<div className="group/copybutton flex items-center gap-0.5">
 						<p className="text-text-sm text-theme-text-secondary">{component.id.split("-")[0]}</p>
 						<CopyButton copyText={component.id} />

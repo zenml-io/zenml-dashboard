@@ -1,12 +1,13 @@
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { StackSheet } from "@/components/stacks/Sheet";
+import { getUsername } from "@/lib/user";
 import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
 import { StackActionsMenu } from "./ActionsDropdown";
-import { StackSheet } from "@/components/stacks/Sheet";
 
 export function getStackColumns(): ColumnDef<Stack>[] {
 	return [
@@ -53,7 +54,7 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author?: User }>();
 				if (!author) return null;
-				return <InlineAvatar username={author.name} />;
+				return <InlineAvatar username={getUsername(author)} />;
 			}
 		},
 		{

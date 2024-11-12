@@ -2,20 +2,25 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { StackInfo } from "@/components/stacks/info";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
-import { PipelineRun } from "@/types/pipeline-runs";
+import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { EmptyState } from "../../EmptyState";
 
-export function StackTab() {
+type Props = {
+	stepId: string;
+};
+export function StackTab({ stepId }: Props) {
 	const { runId } = useParams() as { runId: string };
 
-	const run = usePipelineRun({ runId: runId }, { throwOnError: true });
+	const run = usePipelineRun({ runId: runId });
+	const step = useStepDetail({ stepId: stepId });
 
-	if (run.isPending) return <Skeleton className="h-[250px] w-full" />;
-	if (run.isError) return <p>Something went wrong fetching the run</p>;
+	if (run.isPending || step.isPending) return <Skeleton className="h-[250px] w-full" />;
+	if (run.isError || step.isError) return <p>Something went wrong fetching the run</p>;
 
 	const stackId = run.data?.body?.stack?.id;
+	const config = (step.data.metadata?.config.settings as { [key: string]: any } | undefined) || {};
 
 	if (!stackId)
 		return (
@@ -29,14 +34,14 @@ export function StackTab() {
 			</EmptyState>
 		);
 
-	return <StackTabContent run={run.data} stackId={stackId} />;
+	return <StackTabContent objectConfig={config} stackId={stackId} />;
 }
 
 type StackTabContentProps = {
 	stackId: string;
-	run: PipelineRun;
+	objectConfig: Record<string, any>;
 };
-function StackTabContent({ stackId, run }: StackTabContentProps) {
+function StackTabContent({ stackId, objectConfig }: StackTabContentProps) {
 	const { data, isError, isPending } = useStack({ stackId: stackId });
 
 	if (isPending) return <Skeleton className="h-[250px] w-full" />;
@@ -45,5 +50,5 @@ function StackTabContent({ stackId, run }: StackTabContentProps) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	return <StackInfo stack={data} run={run} />;
+	return <StackInfo stack={data} objectConfig={objectConfig} />;
 }

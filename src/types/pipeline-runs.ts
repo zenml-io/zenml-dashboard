@@ -14,12 +14,14 @@ export type PipelineRunPage = components["schemas"]["Page_PipelineRunResponse_"]
 type ArtifactNodeDetails = ArtifactVersion & { name: string };
 export type ArtifactNode = {
 	id: string;
+	placeholderId: string;
 	type: "artifact";
 	data: ArtifactNodeDetails;
 };
 
 export type StepNode = {
 	id: string;
+	placeholderId: string;
 	type: "step";
 	data: Step;
 };

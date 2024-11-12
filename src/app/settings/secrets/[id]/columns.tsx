@@ -29,7 +29,7 @@ export function getSecretDetailColumn(
 			accessorKey: "key",
 			cell: ({ row }) => {
 				const code = `from zenml.client import Client
-secret = Client().get_secret(${name})
+secret = Client().get_secret("${name}")
 	  
 # 'secret.secret_values' will contain a dictionary with all key-value pairs within your secret.
 secret.secret_values["${row.original.key}"]

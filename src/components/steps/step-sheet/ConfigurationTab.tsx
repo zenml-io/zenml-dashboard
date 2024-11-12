@@ -6,7 +6,7 @@ import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-que
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { renderAnyToString } from "@/lib/strings";
-import { AnyDict, MetadataMap } from "@/types/common";
+import { AnyDict } from "@/types/common";
 import { BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
 import {
@@ -17,7 +17,7 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { useParams } from "react-router-dom";
 import { ErrorFallback } from "../../Error";
-import { UncategorizedCard } from "../../MetadataCards";
+import { NestedCollapsible } from "../../NestedCollapsible";
 
 type Props = {
 	stepId: string;
@@ -25,7 +25,6 @@ type Props = {
 
 export function StepConfigTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepDetail({ stepId });
-	const extraData = Object.values(data?.metadata?.config?.extra || {});
 
 	const { runId } = useParams() as { runId: string };
 
@@ -79,13 +78,15 @@ export function StepConfigTab({ stepId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			{data.metadata?.run_metadata && (
-				<UncategorizedCard title="Metadata" metadata={data.metadata?.run_metadata as MetadataMap} />
-			)}
 			<KeyValueCard data={data.metadata?.config?.parameters as AnyDict} title="Parameters" />
 			{dataImage ? <DockerImageCollapsible data={dataImage} /> : null}
 			<CodeSnippetCard id={data.id} />
-			{extraData.length > 0 ? <KeyValueCard data={extraData as AnyDict} title="Extra" /> : null}
+			<NestedCollapsible
+				isInitialOpen
+				title="Resources"
+				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
+			/>
+			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 		</div>
 	);
 }

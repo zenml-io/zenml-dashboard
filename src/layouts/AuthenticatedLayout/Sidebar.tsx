@@ -99,6 +99,7 @@ export function Sidebar() {
 									id="stacks-sidebar-link"
 									routePatterns={[
 										routes.components.overview,
+										routes.components.detail(":componentId"),
 										routes.stacks.overview,
 										routes.stacks.create.index,
 										routes.stacks.create.newInfra,

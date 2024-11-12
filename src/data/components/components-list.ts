@@ -1,10 +1,9 @@
 import { FetchError } from "@/lib/fetch-error";
+import { notFound } from "@/lib/not-found-error";
 import { objectToSearchParams } from "@/lib/url";
-
+import { StackComponentListParams, StackComponentPage } from "@/types/components";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
-import { notFound } from "@/lib/not-found-error";
-import { StackComponentListParams, StackComponentPage } from "@/types/components";
 
 export async function fetchComponents(
 	queryParams: StackComponentListParams

@@ -7,6 +7,6 @@ export type StepOutputInput = {
 	output_name: string;
 };
 
-export type ExternalArtifactConfig = components["schemas"]["ExternalArtifactConfiguration-Output"];
-export type ModelVersionLazyLoader = components["schemas"]["ModelVersionDataLazyLoader-Output"];
+export type ExternalArtifactConfig = components["schemas"]["ExternalArtifactConfiguration"];
+export type ModelVersionLazyLoader = components["schemas"]["ModelVersionDataLazyLoader"];
 export type ClientLazyLoader = components["schemas"]["ClientLazyLoader"];

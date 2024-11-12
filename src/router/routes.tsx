@@ -3,6 +3,7 @@ export const routes = {
 	activateServer: "/activate-server",
 	activateUser: "/activate-user",
 	login: "/login",
+	upgrade: "/upgrade",
 	survey: "/survey",
 	onboarding: "/onboarding",
 	devices: {
@@ -19,7 +20,8 @@ export const routes = {
 		namespace: (namespace: string) => `/pipelines/${namespace}`
 	},
 	components: {
-		overview: "/components"
+		overview: "/components",
+		detail: (componentId: string) => `/components/${componentId}`
 	},
 	stacks: {
 		overview: "/stacks",

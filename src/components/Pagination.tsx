@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ResponsePage } from "@/types/common";
 
 type Props = {
+	inMemoryHandler?: (page: number) => void;
 	// Maybe handle this with a generic?
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	searchParams: Record<string, any>;
@@ -17,12 +18,16 @@ type Props = {
 	paginate: Omit<ResponsePage<any>, "items">;
 };
 
-export default function Pagination({ paginate, searchParams }: Props) {
+export default function Pagination({ paginate, searchParams, inMemoryHandler }: Props) {
 	const navigate = useNavigate();
 
 	const { index, total_pages } = paginate;
 
 	function goToPage(page: number) {
+		if (!!inMemoryHandler) {
+			inMemoryHandler(page);
+			return;
+		}
 		const queryParams = new URLSearchParams(objectToSearchParams(searchParams));
 		queryParams.set("page", page.toString());
 

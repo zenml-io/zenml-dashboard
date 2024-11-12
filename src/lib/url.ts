@@ -32,3 +32,7 @@ export function sanitizeUrl(url = "about:blank"): string {
 }
 
 export const urlSchema = z.string().url();
+
+export function isUrl(probe: string) {
+	return urlSchema.safeParse(probe).success;
+}
