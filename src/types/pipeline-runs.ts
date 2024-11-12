@@ -15,7 +15,6 @@ type ArtifactNodeDetails = ArtifactVersion & { name: string };
 export type ArtifactNode = {
 	id: string;
 	placeholderId: string;
-	helperId?: string;
 	type: "artifact";
 	data: ArtifactNodeDetails;
 };
@@ -23,7 +22,6 @@ export type ArtifactNode = {
 export type StepNode = {
 	id: string;
 	placeholderId: string;
-	helperId?: string;
 	type: "step";
 	data: Step;
 };

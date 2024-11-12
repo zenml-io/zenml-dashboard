@@ -10,6 +10,7 @@ import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
 import { NestedCollapsible } from "./NestedCollapsible";
+import { isUrl } from "../lib/url";
 
 type Props = { metadata: MetadataMap };
 
@@ -18,7 +19,11 @@ export function MetadataCards({ metadata }: Props) {
 	return (
 		<>
 			{dictMetadata.map((metadataObj, idx) => (
-				<NestedCollapsible key={idx} data={metadataObj} title={Object.keys({ metadataObj })[0]} />
+				<NestedCollapsible
+					key={idx}
+					data={metadataObj as Record<string, unknown>}
+					title={Object.keys({ metadataObj })[0]}
+				/>
 			))}
 		</>
 	);
@@ -55,9 +60,21 @@ export function UncategorizedCard({ metadata, title }: Props & { title?: string 
 										{(() => {
 											if (isString(value) && regex.test(value)) {
 												return <Codesnippet className="py-1" highlightCode code={value} />;
+											}
+											if (isString(value) && isUrl(value)) {
+												return (
+													<a
+														className="underline transition-all duration-200 hover:decoration-transparent"
+														href={value}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														{value}
+													</a>
+												);
 											} else {
 												return (
-													<div className="py-1">
+													<div className="whitespace-normal">
 														{isString(value) ? value : JSON.stringify(value)}
 													</div>
 												);
