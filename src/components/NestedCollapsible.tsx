@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { renderAnyToString } from "@/lib/strings";
+import { isArray, isObject, isString } from "@/lib/type-guards";
+import { isUrl } from "@/lib/url";
 import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
 import {
 	Tooltip,
@@ -11,8 +11,6 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
-import { isUrl } from "@/lib/url";
-import { isBoolean, isString } from "@/lib/type-guards";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -32,15 +30,15 @@ export function NestedCollapsible({
 	children,
 	className
 }: PropsWithChildren<Props>) {
-	const objects: { [key: string]: any } = {};
-	const nonObjects: { [key: string]: any } = {};
-	const arrays: { [key: string]: any } = {};
+	const objects: { [key: string]: Record<string, unknown> } = {};
+	const nonObjects: { [key: string]: unknown } = {};
+	const arrays: { [key: string]: unknown[] } = {};
 	const regex = /^<class\s+'.*'>$/;
 
 	for (const [key, value] of Object.entries(data || {})) {
-		if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-			objects[key] = value;
-		} else if (Array.isArray(value)) {
+		if (isObject(value)) {
+			objects[key] = value as Record<string, unknown>;
+		} else if (isArray(value)) {
 			arrays[key] = value;
 		} else {
 			nonObjects[key] = value;
@@ -76,9 +74,7 @@ export function NestedCollapsible({
 								}
 								value={
 									<>
-										{isBoolean(value) ? (
-											<div className="py-1">{JSON.stringify(value)}</div>
-										) : isString(value) && regex.test(value) ? (
+										{isString(value) && regex.test(value) ? (
 											<Codesnippet className="py-1" highlightCode code={value} />
 										) : value === null ? (
 											<div>null</div>
@@ -114,13 +110,11 @@ export function NestedCollapsible({
 	);
 }
 
-function RenderArray({ title, value }: { title: string; value: any }) {
-	const simpleValues: any[] = value.filter(
-		(val: any) => (!Array.isArray(val) && typeof val !== "object") || val === null
+function RenderArray({ title, value }: { title: string; value: unknown[] }) {
+	const simpleValues: unknown[] = value.filter(
+		(val) => (!isArray(val) && !isObject(val)) || val === null
 	);
-	const nestedValues: any[] = value.filter(
-		(val: any) => Array.isArray(val) || typeof val === "object"
-	);
+	const nestedValues: unknown[] = value.filter((val) => isArray(val) || isObject);
 
 	return (
 		<>
@@ -138,16 +132,40 @@ function RenderArray({ title, value }: { title: string; value: any }) {
 										</Tooltip>
 									</TooltipProvider>
 								}
-								value={<div className="py-1">{renderAnyToString(value)}</div>}
+								value={
+									<div className="py-1">
+										{value === null ? (
+											<div>null</div>
+										) : isString(value) && isUrl(value) ? (
+											<a
+												className="underline transition-all duration-200 hover:decoration-transparent"
+												href={value}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{value}
+											</a>
+										) : (
+											<div className="whitespace-normal">
+												{isString(value) ? value : JSON.stringify(value)}
+											</div>
+										)}
+									</div>
+								}
 							/>
 						))}
 					</dl>
 				)}
 				{nestedValues.length > 0 && (
 					<ul className="space-y-4">
-						{nestedValues.map((val: any, index: number) => (
+						{nestedValues.map((val, index: number) => (
 							<li key={index}>
-								<NestedCollapsible intent="secondary" key={index} title={index} data={val} />
+								<NestedCollapsible
+									intent="secondary"
+									key={index}
+									title={index}
+									data={val as Record<string, Record<string, unknown> | unknown[]>}
+								/>
 							</li>
 						))}
 					</ul>
