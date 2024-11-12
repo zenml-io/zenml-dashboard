@@ -15,15 +15,11 @@ import { isUrl } from "../lib/url";
 type Props = { metadata: MetadataMap };
 
 export function MetadataCards({ metadata }: Props) {
-	const dictMetadata = Object.values(metadata || {}).filter((val) => isObject(val));
+	const dictMetadata = Object.entries(metadata || {}).filter(([_, val]) => isObject(val));
 	return (
 		<>
-			{dictMetadata.map((metadataObj, idx) => (
-				<NestedCollapsible
-					key={idx}
-					data={metadataObj as Record<string, unknown>}
-					title={Object.keys({ metadataObj })[0]}
-				/>
+			{dictMetadata.map(([key, metadataObj], idx) => (
+				<NestedCollapsible key={idx} data={metadataObj as Record<string, unknown>} title={key} />
 			))}
 		</>
 	);
