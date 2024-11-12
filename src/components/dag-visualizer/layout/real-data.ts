@@ -32,7 +32,7 @@ function extractNodes(stepConfig: StepDict) {
 					id: version.id,
 					placeholderId,
 					type: "artifact",
-					data: { ...version, name: version.body?.artifact.name || outputName }
+					data: { ...version, name: outputName }
 				});
 			});
 		});
