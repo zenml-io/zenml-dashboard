@@ -78,7 +78,10 @@ export function ProButtons() {
 export function ProImage({ className, ...rest }: ImgHTMLAttributes<HTMLImageElement>) {
 	return (
 		<img
-			className={cn("w-full shrink-0 rounded-md border border-theme-border-moderate", className)}
+			className={cn(
+				"hidden w-full shrink-0 rounded-md border border-theme-border-moderate 2xl:block",
+				className
+			)}
 			{...rest}
 		/>
 	);

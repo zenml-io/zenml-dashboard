@@ -59,7 +59,7 @@ export default function ModelsPage() {
 						<ProButtons />
 					</div>
 					<ProImage
-						className="flex-1 translate-x-[10%] translate-y-[20%] scale-110"
+						className="absolute translate-x-[30%] translate-y-[15%] scale-[40%]"
 						src={MCP}
 						alt="Screenshot of the ZenML Pro Artifact Control Plane"
 					/>
