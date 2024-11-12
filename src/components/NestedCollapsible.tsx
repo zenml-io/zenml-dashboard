@@ -11,10 +11,12 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
+import { isUrl } from "@/lib/url";
+import { isBoolean, isString } from "@/lib/type-guards";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
-	data?: { [key: string]: any };
+	data?: { [key: string]: unknown };
 	title: ReactNode;
 	contentClassName?: string;
 	className?: string;
@@ -74,14 +76,25 @@ export function NestedCollapsible({
 								}
 								value={
 									<>
-										{typeof value === "boolean" ? (
+										{isBoolean(value) ? (
 											<div className="py-1">{JSON.stringify(value)}</div>
-										) : regex.test(value) ? (
+										) : isString(value) && regex.test(value) ? (
 											<Codesnippet className="py-1" highlightCode code={value} />
 										) : value === null ? (
-											<div className="overflow-x-auto">null</div>
+											<div>null</div>
+										) : isString(value) && isUrl(value) ? (
+											<a
+												className="underline transition-all duration-200 hover:decoration-transparent"
+												href={value}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												{value}
+											</a>
 										) : (
-											<div className="overflow-x-auto py-1">{value}</div>
+											<div className="whitespace-normal">
+												{isString(value) ? value : JSON.stringify(value)}
+											</div>
 										)}
 									</>
 								}
