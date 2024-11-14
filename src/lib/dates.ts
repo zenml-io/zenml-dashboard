@@ -19,3 +19,19 @@ export function calculateTimeDifference(start_time?: string, end_time?: string) 
 	// Format the result
 	return `${minutes}min ${seconds}s`;
 }
+
+export function is6monthsOld(date: Date) {
+	const now = new Date();
+	const sixMonthsAgo = new Date();
+	sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+	return date < sixMonthsAgo;
+}
+
+export function is1yearOld(date: Date) {
+	const now = new Date();
+	const oneYearAgo = new Date();
+	oneYearAgo.setFullYear(now.getFullYear() - 1);
+
+	return date < oneYearAgo;
+}
