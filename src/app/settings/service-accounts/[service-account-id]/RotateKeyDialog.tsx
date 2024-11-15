@@ -1,7 +1,10 @@
 import Info from "@/assets/icons/info.svg?react";
 import KeyIcon from "@/assets/icons/key-icon.svg?react";
+import { InfoBox } from "@/components/Infobox";
 import { serviceAccountQueries, serviceAccountQueryKeys } from "@/data/service-accounts";
+import { useRotateApiKey } from "@/data/service-accounts/rotate-api-key";
 import { isFetchError } from "@/lib/fetch-error";
+import { RotateApi } from "@/types/service-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -24,9 +27,6 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { InfoBox } from "../../../../components/Infobox";
-import { useRotateApiKey } from "../../../../data/service-accounts/rotate-api-key";
-import { RotateApi } from "../../../../types/service-accounts";
 import { ApiKeySuccess } from "./Success";
 
 type RotateKeyProps = {
