@@ -1,7 +1,9 @@
 import Copy from "@/assets/icons/copy.svg?react";
+import { Codesnippet } from "@/components/CodeSnippet";
 import { InfoBox } from "@/components/Infobox";
 import { Tick } from "@/components/Tick";
-import { Button } from "@zenml-io/react-component-library/components/server";
+import { useServerInfo } from "@/data/server/info-query";
+import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 
 type Props = {
@@ -32,23 +34,16 @@ export function ApiKeySuccess({ value }: Props) {
 						Learn More
 					</a>
 				</div>
-				{/* TODO figure the value for oss out */}
-				{/* <p className="text-theme-text-secondary">
+				<p className="text-theme-text-secondary">
 					To login to the ZenML server using the generated key, you can run the following CLI
 					command and enter the API key when prompted:
 				</p>
-				<Codesnippet highlightCode wrap code={`zenml login --api-key ${backendUrl}`} />
-
+				<LoginCommand />
 				<p className="text-theme-text-secondary">
 					Alternatively, you can set the following environment variables to configure workloads
 					where CLI interaction is not possible:
 				</p>
-				<Codesnippet
-					highlightCode
-					wrap
-					code={`ZENML_STORE_URL: ${backendUrl}
-ZENML_STORE_API_KEY: ${value}`}
-				/> */}
+				<EnvVariableCommand value={value} />
 			</div>
 		</div>
 	);
@@ -98,5 +93,37 @@ function Hintbox() {
 			Important: This key is your authentication for API access and will not be shown again. Please
 			copy it and store it securely.
 		</InfoBox>
+	);
+}
+
+type CommandProps = { value: string };
+function EnvVariableCommand({ value }: CommandProps) {
+	const info = useServerInfo();
+
+	if (info.isPending) return <Skeleton className="h-[100px] w-full" />;
+	if (info.isError) return <p>Failed to fetch Server Info</p>;
+
+	return (
+		<Codesnippet
+			highlightCode
+			wrap
+			code={`ZENML_STORE_URL: ${info.data.server_url || window.location.origin}
+ZENML_STORE_API_KEY: ${value}`}
+		/>
+	);
+}
+
+function LoginCommand() {
+	const info = useServerInfo();
+
+	if (info.isPending) return <Skeleton className="h-9 w-full" />;
+	if (info.isError) return <p>Failed to fetch Server Info</p>;
+
+	return (
+		<Codesnippet
+			highlightCode
+			wrap
+			code={`zenml login --api-key ${info.data.server_url || window.location.origin}`}
+		/>
 	);
 }
