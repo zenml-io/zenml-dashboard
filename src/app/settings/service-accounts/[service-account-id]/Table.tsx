@@ -3,6 +3,7 @@ import { SearchField } from "@/components/SearchField";
 import { serviceAccountQueries } from "@/data/service-accounts";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { useServiceAccountOverviewSearchParams } from "../service";
 import { AddApiKeyDialog } from "./AddApiKeyDialog";
@@ -14,6 +15,8 @@ import { ApiKeysSelectorProvider, useApiKeySelectorContext } from "./SelectorCon
 export default function ServiceAccountDetailTable() {
 	const { serviceAccountId } = useParams() as { serviceAccountId: string };
 	const queryParams = useServiceAccountOverviewSearchParams();
+
+	const cols = useMemo(() => getServiceAccountDetailColumn(), []);
 
 	const { data: serviceAccountApis } = useQuery({
 		...serviceAccountQueries.serviceAccountApiKeys(serviceAccountId, {
@@ -34,7 +37,7 @@ export default function ServiceAccountDetailTable() {
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{serviceAccountApis ? (
-						<DataTable columns={getServiceAccountDetailColumn()} data={serviceAccountApis.items} />
+						<DataTable columns={cols} data={serviceAccountApis.items} />
 					) : (
 						<Skeleton className="h-[500px] w-full" />
 					)}

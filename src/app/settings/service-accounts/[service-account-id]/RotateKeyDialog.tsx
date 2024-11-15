@@ -52,7 +52,6 @@ type RotateFormType = z.infer<typeof rotateFormSchema>;
 
 export function RotateApiKeyDialog({ serviceAccountId, apiKeyId, open, setOpen }: RotateKeyProps) {
 	const [apikeyValue, setApikeyValue] = useState("");
-	const queryClient = useQueryClient();
 	const isSuccess = !!apikeyValue;
 
 	function renderDialogContent() {
@@ -72,9 +71,6 @@ export function RotateApiKeyDialog({ serviceAccountId, apiKeyId, open, setOpen }
 			onOpenChange={(b) => {
 				setOpen(b);
 				setApikeyValue("");
-				queryClient.invalidateQueries({
-					queryKey: [...serviceAccountQueryKeys.apiKeysKey(serviceAccountId)]
-				});
 			}}
 		>
 			<DialogContent className="mx-auto max-w-[800px] overflow-x-auto">
@@ -99,7 +95,7 @@ function RotateForm({
 	setApiKeyValue: Dispatch<SetStateAction<string>>;
 }) {
 	const { toast } = useToast();
-
+	const queryClient = useQueryClient();
 	const {
 		control,
 		watch,
@@ -141,6 +137,9 @@ function RotateForm({
 				rounded: true
 			});
 			setApiKeyValue(data.body?.key || "");
+			queryClient.invalidateQueries({
+				queryKey: [...serviceAccountQueryKeys.apiKeysKey(serviceAccountId)]
+			});
 		}
 	});
 
