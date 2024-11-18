@@ -40,7 +40,7 @@ function OverviewContent() {
 						<Codesnippet
 							codeClasses="truncate"
 							className="truncate"
-							code={`zenml connect --url=${window.location.origin}`}
+							code={`zenml login ${window.location.origin}`}
 						/>
 					</div>
 				</div>

@@ -27,7 +27,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 				</div>
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Login to your ZenML Server</p>
-					<Codesnippet code={`zenml connect --url ${window.location.origin}`} />
+					<Codesnippet code={`zenml login ${window.location.origin}`} />
 				</div>
 				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
 			</div>
