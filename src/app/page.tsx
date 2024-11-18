@@ -1,10 +1,12 @@
-import CloudSquares from "@/assets/illustrations/cloud-squares.svg";
-import { Badge, Box, Button } from "@zenml-io/react-component-library";
-import { Codesnippet } from "../components/CodeSnippet";
 import External from "@/assets/icons/link-external.svg?react";
-import { OverviewHeader } from "./Header";
-import { Link } from "react-router-dom";
+import CloudSquares from "@/assets/illustrations/cloud-squares.svg";
+import { useServerInfo } from "@/data/server/info-query";
+import { getLoginUrl } from "@/lib/login-command";
 import { routes } from "@/router/routes";
+import { Badge, Box, Button } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
+import { Codesnippet } from "../components/CodeSnippet";
+import { OverviewHeader } from "./Header";
 
 export default function IndexPage() {
 	return (
@@ -19,6 +21,7 @@ export default function IndexPage() {
 }
 
 function OverviewContent() {
+	const { data } = useServerInfo();
 	return (
 		<Box className="flex flex-col-reverse overflow-hidden lg:flex-row">
 			<div className="w-full px-7 py-5 lg:w-2/3">
@@ -40,7 +43,7 @@ function OverviewContent() {
 						<Codesnippet
 							codeClasses="truncate"
 							className="truncate"
-							code={`zenml login ${window.location.origin}`}
+							code={getLoginUrl(data?.deployment_type || "other")}
 						/>
 					</div>
 				</div>
