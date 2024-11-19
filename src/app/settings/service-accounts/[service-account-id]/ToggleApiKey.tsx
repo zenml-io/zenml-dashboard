@@ -3,7 +3,18 @@ import { useUpdateApiKey } from "@/data/service-accounts/update-api-key";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateServiceAccount } from "@/types/service-accounts";
 import { useQueryClient } from "@tanstack/react-query";
-import { Switch, useToast } from "@zenml-io/react-component-library";
+import {
+	AlertDialog,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	Button,
+	Switch,
+	useToast
+} from "@zenml-io/react-component-library";
+import { useState } from "react";
 
 interface ToggleActiveServiceAccountProps {
 	isActive: boolean;
@@ -18,6 +29,7 @@ export default function ToggleActiveApiKey({
 }: ToggleActiveServiceAccountProps) {
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
+	const [open, setOpen] = useState(false);
 
 	const { mutate } = useUpdateApiKey({
 		onError(error) {
@@ -38,7 +50,14 @@ export default function ToggleActiveApiKey({
 		}
 	});
 
-	function updateServiceAccount(newActiveStatus: boolean) {
+	function handleCheckChange(b: boolean) {
+		if (!b) setOpen(true);
+		else {
+			updateServiceAccount(b);
+		}
+	}
+
+	async function updateServiceAccount(newActiveStatus: boolean) {
 		const updateApiData: UpdateServiceAccount = {
 			active: newActiveStatus
 		};
@@ -50,11 +69,33 @@ export default function ToggleActiveApiKey({
 	}
 
 	return (
-		<Switch
-			checked={isActive}
-			onCheckedChange={(checked) => {
-				updateServiceAccount(checked);
-			}}
-		/>
+		<>
+			<AlertDialog open={open} onOpenChange={setOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Deactivate API Key</AlertDialogTitle>
+					</AlertDialogHeader>
+					<div className="p-5 text-text-md text-theme-text-secondary">
+						<p>Are you sure?</p>
+						<p>Your API Key will become inactive.</p>
+					</div>
+					<AlertDialogFooter className="gap-[10px]">
+						<AlertDialogCancel asChild>
+							<Button size="sm" intent="secondary">
+								Cancel
+							</Button>
+						</AlertDialogCancel>
+						<Button
+							onClick={() => updateServiceAccount(false).then((_) => setOpen(false))}
+							intent="primary"
+							type="button"
+						>
+							Deactivate
+						</Button>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+			<Switch checked={isActive} onCheckedChange={handleCheckChange} />
+		</>
 	);
 }
