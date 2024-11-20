@@ -75,7 +75,10 @@ export default function ToggleActiveServiceAccount({
 					</AlertDialogHeader>
 					<div className="p-5 text-text-md text-theme-text-secondary">
 						<p>Are you sure?</p>
-						<p>Your Service Account will become inactive.</p>
+						<p>
+							You won't be able to use any API keys of this service account to authenticate with the
+							server anymore.
+						</p>
 					</div>
 					<AlertDialogFooter className="gap-[10px]">
 						<AlertDialogCancel asChild>

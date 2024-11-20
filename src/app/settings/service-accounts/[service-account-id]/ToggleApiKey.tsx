@@ -77,7 +77,7 @@ export default function ToggleActiveApiKey({
 					</AlertDialogHeader>
 					<div className="p-5 text-text-md text-theme-text-secondary">
 						<p>Are you sure?</p>
-						<p>Your API Key will become inactive.</p>
+						<p>You won't be able to use this API Key to authenticate with the server anymore.</p>
 					</div>
 					<AlertDialogFooter className="gap-[10px]">
 						<AlertDialogCancel asChild>
