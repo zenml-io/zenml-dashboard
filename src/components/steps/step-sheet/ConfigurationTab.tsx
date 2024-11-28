@@ -86,6 +86,11 @@ export function StepConfigTab({ stepId }: Props) {
 				title="Resources"
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
 			/>
+			<NestedCollapsible
+				isInitialOpen
+				title="Substitutions"
+				data={data.metadata?.config.substitutions}
+			/>
 			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 		</div>
 	);

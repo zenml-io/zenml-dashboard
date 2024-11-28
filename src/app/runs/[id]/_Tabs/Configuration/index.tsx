@@ -44,6 +44,11 @@ export function ConfigurationTab() {
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
 			/>
+			<NestedCollapsible
+				isInitialOpen
+				title="Substitutions"
+				data={data.metadata?.config.substitutions}
+			/>
 			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 		</div>
 	);
