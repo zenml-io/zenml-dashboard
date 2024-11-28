@@ -165,14 +165,16 @@ function DownloadButton({
 		image: "png",
 		html: "html",
 		markdown: "md",
-		csv: "csv"
+		csv: "csv",
+		json: "json"
 	} as const;
 
 	const typeMap = {
 		image: "image/png",
 		html: "text/html",
 		markdown: "text/markdown",
-		csv: "text/csv"
+		csv: "text/csv",
+		json: "application/json"
 	} as const;
 
 	function prepareImagedownload() {

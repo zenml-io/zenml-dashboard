@@ -37,7 +37,11 @@ export function useDag() {
 	}, [pipelineDeployment.data?.metadata?.step_configurations]);
 
 	const realNodes = useMemo(() => {
-		return extractExistingNodes((pipelineRun.data?.metadata?.steps as StepDict) ?? {});
+		return extractExistingNodes(
+			(pipelineRun.data?.metadata?.steps as StepDict) ?? {},
+			(pipelineRun.data?.metadata?.steps_substitutions as Record<string, Record<string, string>>) ||
+				{}
+		);
 	}, [pipelineRun.data?.metadata?.steps]);
 
 	const onDagreLayout = useCallback(() => {

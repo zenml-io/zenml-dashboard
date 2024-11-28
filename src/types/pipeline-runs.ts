@@ -16,6 +16,7 @@ export type ArtifactNode = {
 	id: string;
 	placeholderId: string;
 	type: "artifact";
+	substitutions?: Record<string, string>;
 	data: ArtifactNodeDetails;
 };
 

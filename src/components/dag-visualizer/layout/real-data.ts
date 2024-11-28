@@ -3,13 +3,16 @@ import { RealNode, ZenEdge } from "@/types/pipeline-runs";
 import { StepDict } from "@/types/steps";
 import { addEdge } from "./helper";
 
-export function extractExistingNodes(stepConfig: StepDict) {
-	const nodes = extractNodes(stepConfig);
+export function extractExistingNodes(
+	stepConfig: StepDict,
+	substitutions: Record<string, Record<string, string>>
+) {
+	const nodes = extractNodes(stepConfig, substitutions);
 	const edges = extractEdges(stepConfig);
 	return { nodes, edges };
 }
 
-function extractNodes(stepConfig: StepDict) {
+function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record<string, string>>) {
 	const nodes: RealNode[] = [];
 
 	Object.keys(stepConfig).forEach((stepName) => {
@@ -32,6 +35,7 @@ function extractNodes(stepConfig: StepDict) {
 					id: version.id,
 					placeholderId,
 					type: "artifact",
+					substitutions: substitutions[stepName] || {},
 					data: { ...version, name: outputName }
 				});
 			});

@@ -304,22 +304,36 @@ export type paths = {
 	"/api/v1/api_token": {
 		/**
 		 * Api Token
-		 * @description Get a workload API token for the current user.
+		 * @description Generate an API token for the current user.
+		 *
+		 * Use this endpoint to generate an API token for the current user. Two types
+		 * of API tokens are supported:
+		 *
+		 * * Generic API token: This token is short-lived and can be used for
+		 * generic automation tasks.
+		 * * Workload API token: This token is scoped to a specific pipeline run, step
+		 * run or schedule and is used by pipeline workloads to authenticate with the
+		 * server. A pipeline run ID, step run ID or schedule ID must be provided and
+		 * the generated token will only be valid for the indicated pipeline run, step
+		 * run or schedule. No time limit is imposed on the validity of the token.
+		 * A workload API token can be used to authenticate and generate another
+		 * workload API token, but only for the same schedule, pipeline run ID or step
+		 * run ID, in that order.
 		 *
 		 * Args:
-		 *     pipeline_id: The ID of the pipeline to get the API token for.
-		 *     schedule_id: The ID of the schedule to get the API token for.
-		 *     expires_minutes: The number of minutes for which the API token should
-		 *         be valid. If not provided, the API token will be valid indefinitely.
+		 *     token_type: The type of API token to generate.
+		 *     schedule_id: The ID of the schedule to scope the workload API token to.
+		 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
+		 *         token to.
+		 *     step_run_id: The ID of the step run to scope the workload API token to.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
 		 *     The API token.
 		 *
 		 * Raises:
-		 *     HTTPException: If the user is not authenticated.
-		 *     AuthorizationException: If trying to scope the API token to a different
-		 *         pipeline/schedule than the token used to authorize this request.
+		 *     AuthorizationException: If not authorized to generate the API token.
+		 *     ValueError: If the request is invalid.
 		 */
 		get: operations["api_token_api_v1_api_token_get"];
 	};
@@ -655,6 +669,21 @@ export type paths = {
 		 */
 		patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
 	};
+	"/api/v1/logs/{logs_id}": {
+		/**
+		 * Get Logs
+		 * @description Returns the requested logs.
+		 *
+		 * Args:
+		 *     logs_id: ID of the logs.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     The requested logs.
+		 */
+		get: operations["get_logs_api_v1_logs__logs_id__get"];
+	};
 	"/api/v1/models": {
 		/**
 		 * List Models
@@ -830,6 +859,17 @@ export type paths = {
 		 *     The model version to artifact links according to query filters.
 		 */
 		get: operations["list_model_version_artifact_links_api_v1_model_version_artifacts_get"];
+		/**
+		 * Create Model Version Artifact Link
+		 * @description Create a new model version to artifact link.
+		 *
+		 * Args:
+		 *     model_version_artifact_link: The model version to artifact link to create.
+		 *
+		 * Returns:
+		 *     The created model version to artifact link.
+		 */
+		post: operations["create_model_version_artifact_link_api_v1_model_version_artifacts_post"];
 	};
 	"/api/v1/model_version_pipeline_runs": {
 		/**
@@ -846,6 +886,18 @@ export type paths = {
 		 *     The model version to pipeline run links according to query filters.
 		 */
 		get: operations["list_model_version_pipeline_run_links_api_v1_model_version_pipeline_runs_get"];
+		/**
+		 * Create Model Version Pipeline Run Link
+		 * @description Create a new model version to pipeline run link.
+		 *
+		 * Args:
+		 *     model_version_pipeline_run_link: The model version to pipeline run link to create.
+		 *
+		 * Returns:
+		 *     - If Model Version to Pipeline Run Link already exists - returns the existing link.
+		 *     - Otherwise, returns the newly created model version to pipeline run link.
+		 */
+		post: operations["create_model_version_pipeline_run_link_api_v1_model_version_pipeline_runs_post"];
 	};
 	"/api/v1/pipelines": {
 		/**
@@ -1306,6 +1358,16 @@ export type paths = {
 		 *     Information about the server.
 		 */
 		get: operations["server_info_api_v1_info_get"];
+	};
+	"/api/v1/load-info": {
+		/**
+		 * Server Load Info
+		 * @description Get information about the server load.
+		 *
+		 * Returns:
+		 *     Information about the server load.
+		 */
+		get: operations["server_load_info_api_v1_load_info_get"];
 	};
 	"/api/v1/onboarding_state": {
 		/**
@@ -2319,7 +2381,7 @@ export type paths = {
 		 * # noqa: DAR401
 		 *
 		 * Args:
-		 *     workspace: Workspace to create.
+		 *     workspace_request: Workspace to create.
 		 *
 		 * Returns:
 		 *     The created workspace.
@@ -2828,49 +2890,6 @@ export type paths = {
 		 */
 		post: operations["create_model_version_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions_post"];
 	};
-	"/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/artifacts": {
-		/**
-		 * Create Model Version Artifact Link
-		 * @description Create a new model version to artifact link.
-		 *
-		 * Args:
-		 *     workspace_name_or_id: Name or ID of the workspace.
-		 *     model_version_id: ID of the model version.
-		 *     model_version_artifact_link: The model version to artifact link to create.
-		 *     auth_context: Authentication context.
-		 *
-		 * Returns:
-		 *     The created model version to artifact link.
-		 *
-		 * Raises:
-		 *     IllegalOperationError: If the workspace or user specified in the
-		 *         model version does not match the current workspace or authenticated
-		 *         user.
-		 */
-		post: operations["create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post"];
-	};
-	"/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/runs": {
-		/**
-		 * Create Model Version Pipeline Run Link
-		 * @description Create a new model version to pipeline run link.
-		 *
-		 * Args:
-		 *     workspace_name_or_id: Name or ID of the workspace.
-		 *     model_version_id: ID of the model version.
-		 *     model_version_pipeline_run_link: The model version to pipeline run link to create.
-		 *     auth_context: Authentication context.
-		 *
-		 * Returns:
-		 *     - If Model Version to Pipeline Run Link already exists - returns the existing link.
-		 *     - Otherwise, returns the newly created model version to pipeline run link.
-		 *
-		 * Raises:
-		 *     IllegalOperationError: If the workspace or user specified in the
-		 *         model version does not match the current workspace or authenticated
-		 *         user.
-		 */
-		post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post"];
-	};
 	"/api/v1/workspaces/{workspace_name_or_id}/services": {
 		/**
 		 * Create Service
@@ -3016,6 +3035,12 @@ export type components = {
 			/** Whether the API key is active. */
 			active?: boolean | null;
 		};
+		/**
+		 * APITokenType
+		 * @description The API token type.
+		 * @enum {string}
+		 */
+		APITokenType: "generic" | "workload";
 		/**
 		 * ActionRequest
 		 * @description Model for creating a new action.
@@ -3167,6 +3192,7 @@ export type components = {
 		 *     int, ArtifactConfig(
 		 *         name="my_artifact",  # override the default artifact name
 		 *         version=42,  # set a custom version
+		 *         artifact_type=ArtifactType.MODEL,  # Specify the artifact type
 		 *         tags=["tag1", "tag2"],  # set custom tags
 		 *     )
 		 * ]:
@@ -3174,12 +3200,19 @@ export type components = {
 		 * ```
 		 *
 		 * Attributes:
-		 *     name: The name of the artifact.
+		 *     name: The name of the artifact:
+		 *         - static string e.g. "name"
+		 *         - dynamic string e.g. "name_{date}_{time}_{custom_placeholder}"
+		 *         If you use any placeholders besides `date` and `time`,
+		 *         you need to provide the values for them in the `substitutions`
+		 *         argument of the step decorator or the `substitutions` argument
+		 *         of `with_options` of the step.
 		 *     version: The version of the artifact.
 		 *     tags: The tags of the artifact.
 		 *     run_metadata: Metadata to add to the artifact.
-		 *     is_model_artifact: Whether the artifact is a model artifact.
-		 *     is_deployment_artifact: Whether the artifact is a deployment artifact.
+		 *     artifact_type: Optional type of the artifact. If not given, the type
+		 *         specified by the materializer that is used to save this artifact
+		 *         is used.
 		 */
 		ArtifactConfig: {
 			/** Name */
@@ -3192,16 +3225,7 @@ export type components = {
 			run_metadata?: {
 				[key: string]: unknown;
 			} | null;
-			/**
-			 * Is Model Artifact
-			 * @default false
-			 */
-			is_model_artifact?: boolean;
-			/**
-			 * Is Deployment Artifact
-			 * @default false
-			 */
-			is_deployment_artifact?: boolean;
+			artifact_type?: components["schemas"]["ArtifactType"] | null;
 		};
 		/**
 		 * ArtifactConfiguration
@@ -4588,7 +4612,9 @@ export type components = {
 		 * ethics: The ethical implications of the model.
 		 * tags: Tags associated with the model.
 		 * version: The version name, version number or stage is optional and points model context
-		 *     to a specific version/stage. If skipped new version will be created.
+		 *     to a specific version/stage. If skipped new version will be created. `version`
+		 *     also supports placeholders: standard `{date}` and `{time}` and any custom placeholders
+		 *     that are passed as substitutions in the pipeline or step decorators.
 		 * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
 		 *     if available in active stack.
 		 */
@@ -4787,21 +4813,6 @@ export type components = {
 		 */
 		ModelVersionArtifactRequest: {
 			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace: string;
-			/**
-			 * Model
-			 * Format: uuid
-			 */
-			model: string;
-			/**
 			 * Model Version
 			 * Format: uuid
 			 */
@@ -4811,16 +4822,6 @@ export type components = {
 			 * Format: uuid
 			 */
 			artifact_version: string;
-			/**
-			 * Is Model Artifact
-			 * @default false
-			 */
-			is_model_artifact?: boolean;
-			/**
-			 * Is Deployment Artifact
-			 * @default false
-			 */
-			is_deployment_artifact?: boolean;
 		};
 		/**
 		 * ModelVersionArtifactResponse
@@ -4860,26 +4861,11 @@ export type components = {
 			 */
 			updated: string;
 			/**
-			 * Model
-			 * Format: uuid
-			 */
-			model: string;
-			/**
 			 * Model Version
 			 * Format: uuid
 			 */
 			model_version: string;
 			artifact_version: components["schemas"]["ArtifactVersionResponse"];
-			/**
-			 * Is Model Artifact
-			 * @default false
-			 */
-			is_model_artifact?: boolean;
-			/**
-			 * Is Deployment Artifact
-			 * @default false
-			 */
-			is_deployment_artifact?: boolean;
 		};
 		/**
 		 * ModelVersionArtifactResponseResources
@@ -4913,21 +4899,6 @@ export type components = {
 		 * @description Request model for links between model versions and pipeline runs.
 		 */
 		ModelVersionPipelineRunRequest: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace: string;
-			/**
-			 * Model
-			 * Format: uuid
-			 */
-			model: string;
 			/**
 			 * Model Version
 			 * Format: uuid
@@ -4976,11 +4947,6 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/**
-			 * Model
-			 * Format: uuid
-			 */
-			model: string;
 			/**
 			 * Model Version
 			 * Format: uuid
@@ -5965,6 +5931,13 @@ export type components = {
 				[key: string]: unknown;
 			} | null;
 			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/**
+			 * Substitutions
+			 * @default {}
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			};
 			/** Name */
 			name: string;
 		};
@@ -6005,6 +5978,13 @@ export type components = {
 				[key: string]: unknown;
 			} | null;
 			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/**
+			 * Substitutions
+			 * @default {}
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			};
 			/** Name */
 			name: string;
 		};
@@ -6426,6 +6406,10 @@ export type components = {
 			 * @default false
 			 */
 			is_templatable?: boolean;
+			/** Substitutions used in the step runs of this pipeline run. */
+			steps_substitutions?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -7074,6 +7058,20 @@ export type components = {
 			| "hf_spaces"
 			| "sandbox"
 			| "cloud";
+		/**
+		 * ServerLoadInfo
+		 * @description Domain model for ZenML server load information.
+		 */
+		ServerLoadInfo: {
+			/** Number of threads that the server is currently using. */
+			threads: number;
+			/** Total number of database connections (active and idle) that the server currently has established. */
+			db_connections_total: number;
+			/** Number of database connections that the server is currently actively using to make queries or transactions. */
+			db_connections_active: number;
+			/** Number of overflow database connections that the server is currently actively using to make queries or transactions. */
+			db_connections_overflow: number;
+		};
 		/**
 		 * ServerModel
 		 * @description Domain model for ZenML servers.
@@ -8163,6 +8161,13 @@ export type components = {
 			model?: components["schemas"]["Model"] | null;
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
+			 * Substitutions
+			 * @default {}
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			};
+			/**
 			 * Outputs
 			 * @default {}
 			 */
@@ -8243,6 +8248,13 @@ export type components = {
 			model?: components["schemas"]["Model"] | null;
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
+			 * Substitutions
+			 * @default {}
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			};
+			/**
 			 * Outputs
 			 * @default {}
 			 */
@@ -8302,6 +8314,35 @@ export type components = {
 			 * @default 0
 			 */
 			backoff?: number;
+		};
+		/**
+		 * StepRunInputArtifactType
+		 * @description All possible types of a step run input artifact.
+		 * @enum {string}
+		 */
+		StepRunInputArtifactType: "step_output" | "manual" | "external" | "lazy";
+		/**
+		 * StepRunInputResponse
+		 * @description Response model for step run inputs.
+		 */
+		StepRunInputResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["ArtifactVersionResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["ArtifactVersionResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["ArtifactVersionResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			input_type: components["schemas"]["StepRunInputArtifactType"];
 		};
 		/**
 		 * StepRunRequest
@@ -8991,7 +9032,7 @@ export type components = {
 		 * @description All currently available visualization types.
 		 * @enum {string}
 		 */
-		VisualizationType: "csv" | "html" | "image" | "markdown";
+		VisualizationType: "csv" | "html" | "image" | "markdown" | "json";
 		/**
 		 * WorkspaceRequest
 		 * @description Request model for workspaces.
@@ -9721,11 +9762,19 @@ export type operations = {
 				artifact_store_id?: string | null;
 				workspace_id?: string | null;
 				user_id?: string | null;
+				model_version_id?: string | null;
 				only_unused?: boolean | null;
 				has_custom_name?: boolean | null;
 				user?: string | null;
 				model?: string | null;
 				pipeline_run?: string | null;
+			};
+		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
 			};
 		};
 		responses: {
@@ -10230,29 +10279,44 @@ export type operations = {
 	};
 	/**
 	 * Api Token
-	 * @description Get a workload API token for the current user.
+	 * @description Generate an API token for the current user.
+	 *
+	 * Use this endpoint to generate an API token for the current user. Two types
+	 * of API tokens are supported:
+	 *
+	 * * Generic API token: This token is short-lived and can be used for
+	 * generic automation tasks.
+	 * * Workload API token: This token is scoped to a specific pipeline run, step
+	 * run or schedule and is used by pipeline workloads to authenticate with the
+	 * server. A pipeline run ID, step run ID or schedule ID must be provided and
+	 * the generated token will only be valid for the indicated pipeline run, step
+	 * run or schedule. No time limit is imposed on the validity of the token.
+	 * A workload API token can be used to authenticate and generate another
+	 * workload API token, but only for the same schedule, pipeline run ID or step
+	 * run ID, in that order.
 	 *
 	 * Args:
-	 *     pipeline_id: The ID of the pipeline to get the API token for.
-	 *     schedule_id: The ID of the schedule to get the API token for.
-	 *     expires_minutes: The number of minutes for which the API token should
-	 *         be valid. If not provided, the API token will be valid indefinitely.
+	 *     token_type: The type of API token to generate.
+	 *     schedule_id: The ID of the schedule to scope the workload API token to.
+	 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
+	 *         token to.
+	 *     step_run_id: The ID of the step run to scope the workload API token to.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
 	 *     The API token.
 	 *
 	 * Raises:
-	 *     HTTPException: If the user is not authenticated.
-	 *     AuthorizationException: If trying to scope the API token to a different
-	 *         pipeline/schedule than the token used to authorize this request.
+	 *     AuthorizationException: If not authorized to generate the API token.
+	 *     ValueError: If the request is invalid.
 	 */
 	api_token_api_v1_api_token_get: {
 		parameters: {
 			query?: {
-				pipeline_id?: string | null;
+				token_type?: components["schemas"]["APITokenType"];
 				schedule_id?: string | null;
-				expires_minutes?: number | null;
+				pipeline_run_id?: string | null;
+				step_run_id?: string | null;
 			};
 		};
 		responses: {
@@ -11484,6 +11548,60 @@ export type operations = {
 		};
 	};
 	/**
+	 * Get Logs
+	 * @description Returns the requested logs.
+	 *
+	 * Args:
+	 *     logs_id: ID of the logs.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     The requested logs.
+	 */
+	get_logs_api_v1_logs__logs_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				logs_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["LogsResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * List Models
 	 * @description Get models according to query filters.
 	 *
@@ -11744,6 +11862,13 @@ export type operations = {
 				model_name_or_id: string;
 			};
 		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
@@ -11810,6 +11935,13 @@ export type operations = {
 				user_id?: string | null;
 				stage?: string | components["schemas"]["ModelStages"] | null;
 				user?: string | null;
+			};
+		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
 			};
 		};
 		responses: {
@@ -12172,10 +12304,6 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
-				model_id?: string | null;
 				model_version_id?: string | null;
 				artifact_version_id?: string | null;
 				artifact_name?: string | null;
@@ -12214,6 +12342,49 @@ export type operations = {
 		};
 	};
 	/**
+	 * Create Model Version Artifact Link
+	 * @description Create a new model version to artifact link.
+	 *
+	 * Args:
+	 *     model_version_artifact_link: The model version to artifact link to create.
+	 *
+	 * Returns:
+	 *     The created model version to artifact link.
+	 */
+	create_model_version_artifact_link_api_v1_model_version_artifacts_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ModelVersionArtifactRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ModelVersionArtifactResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * List Model Version Pipeline Run Links
 	 * @description Get model version to pipeline run links according to query filters.
 	 *
@@ -12237,10 +12408,6 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
-				model_id?: string | null;
 				model_version_id?: string | null;
 				pipeline_run_id?: string | null;
 				pipeline_run_name?: string | null;
@@ -12262,6 +12429,50 @@ export type operations = {
 			};
 			/** @description Not Found */
 			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Model Version Pipeline Run Link
+	 * @description Create a new model version to pipeline run link.
+	 *
+	 * Args:
+	 *     model_version_pipeline_run_link: The model version to pipeline run link to create.
+	 *
+	 * Returns:
+	 *     - If Model Version to Pipeline Run Link already exists - returns the existing link.
+	 *     - Otherwise, returns the newly created model version to pipeline run link.
+	 */
+	create_model_version_pipeline_run_link_api_v1_model_version_pipeline_runs_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ModelVersionPipelineRunRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ModelVersionPipelineRunResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
 				content: {
 					"application/json": components["schemas"]["ErrorModel"];
 				};
@@ -12547,6 +12758,13 @@ export type operations = {
 			};
 			path: {
 				pipeline_id: string | null;
+			};
+		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
 			};
 		};
 		responses: {
@@ -12969,6 +13187,13 @@ export type operations = {
 				templatable?: boolean | null;
 			};
 		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
@@ -13202,6 +13427,13 @@ export type operations = {
 			};
 			path: {
 				run_id: string;
+			};
+		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
 			};
 		};
 		responses: {
@@ -14220,6 +14452,29 @@ export type operations = {
 			};
 			/** @description Unprocessable Entity */
 			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Server Load Info
+	 * @description Get information about the server load.
+	 *
+	 * Returns:
+	 *     Information about the server load.
+	 */
+	server_load_info_api_v1_load_info_get: {
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ServerLoadInfo"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
 				content: {
 					"application/json": components["schemas"]["ErrorModel"];
 				};
@@ -16471,6 +16726,13 @@ export type operations = {
 				model?: string | null;
 			};
 		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
@@ -17912,7 +18174,7 @@ export type operations = {
 	 * # noqa: DAR401
 	 *
 	 * Args:
-	 *     workspace: Workspace to create.
+	 *     workspace_request: Workspace to create.
 	 *
 	 * Returns:
 	 *     The created workspace.
@@ -18871,6 +19133,13 @@ export type operations = {
 				workspace_name_or_id: string;
 			};
 		};
+		requestBody?: {
+			content: {
+				"application/json": {
+					[key: string]: unknown;
+				} | null;
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
@@ -19606,121 +19875,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["ModelVersionResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Create Model Version Artifact Link
-	 * @description Create a new model version to artifact link.
-	 *
-	 * Args:
-	 *     workspace_name_or_id: Name or ID of the workspace.
-	 *     model_version_id: ID of the model version.
-	 *     model_version_artifact_link: The model version to artifact link to create.
-	 *     auth_context: Authentication context.
-	 *
-	 * Returns:
-	 *     The created model version to artifact link.
-	 *
-	 * Raises:
-	 *     IllegalOperationError: If the workspace or user specified in the
-	 *         model version does not match the current workspace or authenticated
-	 *         user.
-	 */
-	create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post: {
-		parameters: {
-			path: {
-				workspace_name_or_id: string;
-				model_version_id: string;
-			};
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["ModelVersionArtifactRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["ModelVersionArtifactResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Create Model Version Pipeline Run Link
-	 * @description Create a new model version to pipeline run link.
-	 *
-	 * Args:
-	 *     workspace_name_or_id: Name or ID of the workspace.
-	 *     model_version_id: ID of the model version.
-	 *     model_version_pipeline_run_link: The model version to pipeline run link to create.
-	 *     auth_context: Authentication context.
-	 *
-	 * Returns:
-	 *     - If Model Version to Pipeline Run Link already exists - returns the existing link.
-	 *     - Otherwise, returns the newly created model version to pipeline run link.
-	 *
-	 * Raises:
-	 *     IllegalOperationError: If the workspace or user specified in the
-	 *         model version does not match the current workspace or authenticated
-	 *         user.
-	 */
-	create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post: {
-		parameters: {
-			path: {
-				workspace_name_or_id: string;
-				model_version_id: string;
-			};
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["ModelVersionPipelineRunRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["ModelVersionPipelineRunResponse"];
 				};
 			};
 			/** @description Unauthorized */

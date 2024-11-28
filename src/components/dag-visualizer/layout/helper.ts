@@ -48,9 +48,13 @@ export function mergeRealAndPlacehodlerData({
 	});
 
 	placeholderArtifacts.forEach((placeholderArtifact) => {
-		const existingRealArtifacts = realArtifacts.filter((realArtifact) =>
-			realArtifact.placeholderId.startsWith(placeholderArtifact.id)
-		);
+		const existingRealArtifacts = realArtifacts.filter((realArtifact) => {
+			const substitutedId = substitutePlaceholder(
+				placeholderArtifact.id,
+				realArtifact.substitutions || {}
+			);
+			return realArtifact.placeholderId.startsWith(substitutedId);
+		});
 		if (existingRealArtifacts.length === 0) {
 			finalNodes.push({
 				...placeholderArtifact,
@@ -124,4 +128,13 @@ export function mergeRealAndPlacehodlerData({
 	});
 
 	return { nodes: finalNodes, edges: styledEdges };
+}
+
+function substitutePlaceholder(initString: string, substitutuions: Record<string, string>) {
+	const regex = /\{([^}]+)\}/g;
+
+	return initString.replace(regex, (match, group) => {
+		const key = group.trim();
+		return substitutuions[key] || match;
+	});
 }
