@@ -12,6 +12,7 @@ import { HTMLVisualization } from "./HtmlVisualization";
 import { ImageVisualization } from "./ImageVisualization";
 import { InfoBox } from "../Infobox";
 import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
+import { JSONVisualization } from "./JsonVisualization";
 
 const CSVVisualization = lazy(() => import("./CsvVizualization"));
 const MarkdownVisualization = lazy(() => import("./MarkdownVisualization"));
@@ -126,6 +127,7 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 				{data.type === "html" && <HTMLVisualization content={data.value} />}
 				{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
 				{data.type === "csv" && <CSVVisualization content={data.value} />}
+				{data.type === "json" && <JSONVisualization content={data.value} />}
 			</div>
 		</div>
 	);
