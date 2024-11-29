@@ -34,6 +34,10 @@ const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/[id]/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
+const ServiceAccountsOverview = lazy(() => import("@/app/settings/service-accounts/page"));
+const ServiceAccountsDetail = lazy(
+	() => import("@/app/settings/service-accounts/[service-account-id]/page")
+);
 
 // Components
 const Components = lazy(() => import("@/app/components/page"));
@@ -206,6 +210,23 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<SecretDetailsPage />
+								</ProtectedRoute>
+							}
+						/>
+
+						<Route
+							path="service-accounts"
+							element={
+								<ProtectedRoute>
+									<ServiceAccountsOverview />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="service-accounts/:serviceAccountId"
+							element={
+								<ProtectedRoute>
+									<ServiceAccountsDetail />
 								</ProtectedRoute>
 							}
 						/>
