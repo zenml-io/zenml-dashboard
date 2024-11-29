@@ -7,10 +7,11 @@ import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
+import { useMemo } from "react";
 import { StackActionsMenu } from "./ActionsDropdown";
 
-export function getStackColumns(): ColumnDef<Stack>[] {
-	return [
+export function useStackColumns(): ColumnDef<Stack>[] {
+	const cols: ColumnDef<Stack>[] = [
 		{
 			id: "name",
 			header: "Stack",
@@ -67,4 +68,6 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 			}
 		}
 	];
+
+	return useMemo(() => cols, []);
 }
