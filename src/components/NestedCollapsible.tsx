@@ -114,7 +114,7 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 	const simpleValues: unknown[] = value.filter(
 		(val) => (!isArray(val) && !isObject(val)) || val === null
 	);
-	const nestedValues: unknown[] = value.filter((val) => isArray(val) || isObject);
+	const nestedValues: unknown[] = value.filter((val) => isArray(val) || isObject(val));
 
 	return (
 		<>
