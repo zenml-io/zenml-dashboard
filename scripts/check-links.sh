@@ -16,7 +16,7 @@ find_unique_urls() {
 }
 
 # Find unique URLs in the specified file patterns within the "src" directory
-find_unique_urls src legacy | sort -u > "$output_file"
+find_unique_urls src | sort -u > "$output_file"
 
 # Run the link checker script
 node scripts/check-links.js
