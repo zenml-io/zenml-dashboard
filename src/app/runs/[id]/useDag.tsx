@@ -39,7 +39,7 @@ export function useDag() {
 	const realNodes = useMemo(() => {
 		return extractExistingNodes(
 			(pipelineRun.data?.metadata?.steps as StepDict) ?? {},
-			(pipelineRun.data?.metadata?.steps_substitutions as Record<string, Record<string, string>>) ||
+			(pipelineRun.data?.metadata?.step_substitutions as Record<string, Record<string, string>>) ||
 				{}
 		);
 	}, [pipelineRun.data?.metadata?.steps]);

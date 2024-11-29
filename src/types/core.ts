@@ -4034,8 +4034,6 @@ export type components = {
 			labels?: {
 				[key: string]: unknown;
 			} | null;
-			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string | null;
 			/** The service connector linked to this stack component. */
 			connector?: string | null;
 		};
@@ -4104,8 +4102,6 @@ export type components = {
 			labels?: {
 				[key: string]: unknown;
 			} | null;
-			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string | null;
 			/**
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
@@ -4143,8 +4139,6 @@ export type components = {
 			labels?: {
 				[key: string]: unknown;
 			} | null;
-			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string | null;
 			/** The service connector linked to this stack component. */
 			connector?: string | null;
 		};
@@ -6407,7 +6401,7 @@ export type components = {
 			 */
 			is_templatable?: boolean;
 			/** Substitutions used in the step runs of this pipeline run. */
-			steps_substitutions?: {
+			step_substitutions?: {
 				[key: string]: unknown;
 			};
 		};
