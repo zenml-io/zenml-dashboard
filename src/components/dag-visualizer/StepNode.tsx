@@ -50,7 +50,7 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 						<CopyNodeButton
 							className="h-4 w-4 shrink-0 rounded-sm hover:bg-theme-surface-secondary active:bg-neutral-300"
 							code={`from zenml.client import Client
-step = Client().get_run_step(${data.id})
+step = Client().get_run_step("${data.id}")
 config = step.config`}
 							type="step"
 						>
