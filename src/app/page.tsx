@@ -1,7 +1,7 @@
 import External from "@/assets/icons/link-external.svg?react";
 import CloudSquares from "@/assets/illustrations/cloud-squares.svg";
 import { useServerInfo } from "@/data/server/info-query";
-import { getLoginUrl } from "@/lib/login-command";
+import { getLoginCommand } from "@/lib/login-command";
 import { routes } from "@/router/routes";
 import { Badge, Box, Button } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
@@ -43,7 +43,7 @@ function OverviewContent() {
 						<Codesnippet
 							codeClasses="truncate"
 							className="truncate"
-							code={getLoginUrl(data?.deployment_type || "other")}
+							code={getLoginCommand(data?.deployment_type || "other")}
 						/>
 					</div>
 				</div>

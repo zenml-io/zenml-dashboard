@@ -1,6 +1,6 @@
 import { DeploymentType } from "../types/server";
 
-export function getLoginUrl(deploymentType: DeploymentType) {
+export function getLoginCommand(deploymentType: DeploymentType) {
 	switch (deploymentType) {
 		case "local":
 			return "zenml login --local";

@@ -4,7 +4,7 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
-import { getLoginUrl } from "@/lib/login-command";
+import { getLoginCommand } from "@/lib/login-command";
 import { routes } from "@/router/routes";
 import { OnboardingStep } from "@/types/onboarding";
 import { Box, Button, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
@@ -29,7 +29,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 				</div>
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Login to your ZenML Server</p>
-					<Codesnippet code={getLoginUrl(data?.deployment_type || "other")} />
+					<Codesnippet code={getLoginCommand(data?.deployment_type || "other")} />
 				</div>
 				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
 			</div>
