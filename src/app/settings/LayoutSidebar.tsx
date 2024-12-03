@@ -49,6 +49,12 @@ export function ServerSettingsMenu() {
 				href: routes.settings.connectors.overview
 			},
 			{
+				name: "Service Accounts",
+				href: routes.settings.service_accounts.overview,
+				isActiveOverride: (pathname: string) =>
+					pathname.startsWith(routes.settings.service_accounts.overview)
+			},
+			{
 				name: "Notifications",
 				href: routes.settings.notifications
 			}

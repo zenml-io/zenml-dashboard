@@ -1,4 +1,3 @@
-"use client";
 import ChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
 import { routes } from "@/router/routes";

@@ -41,6 +41,13 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 		secrets: {
 			secrets: { name: "Secrets" }
 		},
+		service_accounts: {
+			service_accounts: { name: "Service Accounts" }
+		},
+		service_account_detail: {
+			service_accounts: { name: "Service Accounts" },
+			service_account_detail: { id: data?.name, name: data?.name }
+		},
 		secretsDetail: {
 			secrets: { id: "secrets", name: "Secrets" },
 			secretDetail: { id: data?.id, name: data?.name }
@@ -108,7 +115,9 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		secrets: routes.settings.secrets.overview,
 		//components
 		components: routes.components.overview,
-		upgrade: routes.upgrade
+		upgrade: routes.upgrade,
+		// Service Accounts
+		service_accounts: routes.settings.service_accounts.overview
 	};
 
 	return routeMap[segment] || "#";

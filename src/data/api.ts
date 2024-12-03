@@ -73,6 +73,17 @@ export const apiPaths = {
 		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
 		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`,
 		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`
+	},
+	serviceAccounts: {
+		all: "/service_accounts",
+		detail: (serviceAccountId: string) => `/service_accounts/${serviceAccountId}`,
+		apiKeys: {
+			all: (serviceAccountId: string) => `/service_accounts/${serviceAccountId}/api_keys`,
+			detail: (serviceAccountId: string, apiKeyId: string) =>
+				`/service_accounts/${serviceAccountId}/api_keys/${apiKeyId}`,
+			rotate: (serviceAccountId: string, apiKeyId: string) =>
+				`/service_accounts/${serviceAccountId}/api_keys/${apiKeyId}/rotate`
+		}
 	}
 };
 
