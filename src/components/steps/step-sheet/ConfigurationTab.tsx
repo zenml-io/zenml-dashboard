@@ -4,6 +4,7 @@ import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
+import { getStepSnippet } from "@/lib/code-snippets";
 import { AnyDict } from "@/types/common";
 import { BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
@@ -82,22 +83,21 @@ export function StepConfigTab({ stepId }: Props) {
 				title="Resources"
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
 			/>
+			<NestedCollapsible
+				isInitialOpen
+				title="Substitutions"
+				data={data.metadata?.config.substitutions}
+			/>
 			<NestedCollapsible isInitialOpen title="Extra" data={data.metadata?.config.extra} />
 		</div>
 	);
 }
 
 function CodeSnippetCard({ id }: { id: string }) {
-	function returnConfigSchema(id: string) {
-		return `from zenml.client import Client
-artifact = Client().get_pipeline_run('${id}')
-config = run.config()`;
-	}
-
 	return (
 		<CollapsibleCard initialOpen title="Code">
 			<h2 className="mb-2  text-text-md text-theme-text-secondary">Get config programmatically</h2>
-			<Codesnippet fullWidth highlightCode wrap code={returnConfigSchema(id)} />
+			<Codesnippet fullWidth highlightCode wrap code={getStepSnippet(id)} />
 		</CollapsibleCard>
 	);
 }

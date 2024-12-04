@@ -1,13 +1,14 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { Codesnippet } from "@/components/CodeSnippet";
+import { getRunSnippet } from "@/lib/code-snippets";
+import { PipelineRun } from "@/types/pipeline-runs";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
-import { PipelineRun } from "@/types/pipeline-runs";
 import { useState } from "react";
-import { Codesnippet } from "@/components/CodeSnippet";
 
 type Props = {
 	runId: PipelineRun["id"];
@@ -15,9 +16,7 @@ type Props = {
 
 export function CodeCollapsible({ runId }: Props) {
 	const [open, setOpen] = useState(true);
-	const runCode = `from zenml.client import Client
-run = Client().get_pipeline_run('${runId}')
-config = run.config`;
+	const runCode = getRunSnippet(runId);
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>

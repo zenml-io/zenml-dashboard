@@ -1,4 +1,5 @@
 import Copy from "@/assets/icons/copy.svg?react";
+import { getStepSnippet } from "@/lib/code-snippets";
 import { calculateTimeDifference } from "@/lib/dates";
 import { Step } from "@/types/steps";
 import { clsx } from "clsx";
@@ -49,9 +50,7 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 						<p className="truncate font-semibold">{data.name}</p>
 						<CopyNodeButton
 							className="h-4 w-4 shrink-0 rounded-sm hover:bg-theme-surface-secondary active:bg-neutral-300"
-							code={`from zenml.client import Client
-step = Client().get_run_step("${data.id}")
-config = step.config`}
+							code={getStepSnippet(data.id)}
 							type="step"
 						>
 							<Copy className="h-3 w-3 fill-theme-text-tertiary" />

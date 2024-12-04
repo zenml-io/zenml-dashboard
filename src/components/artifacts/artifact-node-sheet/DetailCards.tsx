@@ -7,9 +7,12 @@ import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/Ex
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, KeyValue, Value } from "@/components/KeyValue";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
+import { componentQueries } from "@/data/components";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
+import { getArtifactVersionSnippet } from "@/lib/code-snippets";
 import { routes } from "@/router/routes";
+import { useQuery } from "@tanstack/react-query";
 import {
 	Skeleton,
 	Tag,
@@ -21,8 +24,6 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
-import { useQuery } from "@tanstack/react-query";
-import { componentQueries } from "../../../data/components";
 
 type Props = {
 	artifactVersionId: string;
@@ -251,16 +252,14 @@ export function DataCard({ artifactVersionId }: Props) {
 }
 
 export function CodeCard({ artifactVersionId }: Props) {
-	function returnConfigSchema(id: string) {
-		return `from zenml.client import Client
-
-step = Client().get_run_step(${id})
-config = step.config`;
-	}
-
 	return (
 		<CollapsibleCard initialOpen title="Code">
-			<Codesnippet fullWidth highlightCode wrap code={returnConfigSchema(artifactVersionId)} />
+			<Codesnippet
+				fullWidth
+				highlightCode
+				wrap
+				code={getArtifactVersionSnippet(artifactVersionId)}
+			/>
 		</CollapsibleCard>
 	);
 }
