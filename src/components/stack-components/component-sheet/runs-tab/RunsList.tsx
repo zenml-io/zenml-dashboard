@@ -1,4 +1,3 @@
-"use client";
 import Refresh from "@/assets/icons/refresh.svg?react";
 import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
 import { StackListQueryParams } from "@/types/stack";

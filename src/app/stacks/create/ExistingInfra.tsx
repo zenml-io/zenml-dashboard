@@ -16,7 +16,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import { LocalOverlay } from "./LocalOverlay";
 import * as OptionsCard from "./OptionCard";
 
-const learnMoreLink = "https://docs.zenml.io/how-to/stack-deployment/deploy-a-cloud-stack";
+const learnMoreLink =
+	"https://docs.zenml.io/how-to/infrastructure-deployment/stack-deployment/deploy-a-cloud-stack";
 
 export function ExistingInfrastructure() {
 	const { isError, isPending, data } = useServerInfo();

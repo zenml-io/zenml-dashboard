@@ -7,9 +7,9 @@ import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { getStackColumns } from "./columns";
 import { useStacklistQueryParams } from "./service";
 import { StackListQueryParams } from "../../types/stack";
+import { useStackColumns } from "./columns";
 
 type Props = {
 	fixedQueryParams?: StackListQueryParams;
@@ -17,6 +17,7 @@ type Props = {
 
 export function StackList({ fixedQueryParams = {} }: Props) {
 	const queryParams = useStacklistQueryParams();
+	const columns = useStackColumns();
 	const { refetch, data } = useQuery({
 		...stackQueries.stackList({ ...queryParams, sort_by: "desc:updated", ...fixedQueryParams }),
 		throwOnError: true
@@ -43,7 +44,7 @@ export function StackList({ fixedQueryParams = {} }: Props) {
 				<div className="flex flex-col items-center gap-5">
 					<div className="w-full">
 						{data ? (
-							<DataTable columns={getStackColumns()} data={data.items} />
+							<DataTable columns={columns} data={data.items} />
 						) : (
 							<Skeleton className="h-[500px] w-full" />
 						)}

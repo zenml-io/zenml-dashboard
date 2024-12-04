@@ -2,6 +2,7 @@ import LockIcon from "@/assets/icons/Lock.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { getSecretSnippet } from "@/lib/code-snippets";
 import { getUsername } from "@/lib/user";
 import { routes } from "@/router/routes";
 import { SecretNamespace } from "@/types/secret";
@@ -17,9 +18,7 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		header: "Secret",
 		accessorFn: (row) => row.name,
 		cell: ({ getValue, row }) => {
-			const code = `from zenml.client import Client
-secret = Client().get_secret("${row.original.name}")
-`;
+			const code = getSecretSnippet(row.original.name);
 
 			return (
 				<div className="flex items-center space-x-2">

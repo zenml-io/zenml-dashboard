@@ -147,9 +147,11 @@ function ComponentListItem({ component }: ComponentListItemProps) {
 					</div>
 				</div>
 			</div>
-			<ComponentBadge type={component.body?.type || "orchestrator"}>
-				{snakeCaseToTitleCase(component.body?.type || "")}
-			</ComponentBadge>
+			<Link to={routes.components.overview}>
+				<ComponentBadge type={component.body?.type || "orchestrator"}>
+					{snakeCaseToTitleCase(component.body?.type || "")}
+				</ComponentBadge>
+			</Link>
 		</Box>
 	);
 }

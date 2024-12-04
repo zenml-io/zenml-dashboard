@@ -1,4 +1,3 @@
-"use client";
 import Refresh from "@/assets/icons/refresh.svg?react";
 import { stackQueries } from "@/data/stacks";
 import { StackListQueryParams } from "@/types/stack";

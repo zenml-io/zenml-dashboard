@@ -12,6 +12,7 @@ import { HTMLVisualization } from "./HtmlVisualization";
 import { ImageVisualization } from "./ImageVisualization";
 import { InfoBox } from "../Infobox";
 import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
+import { JSONVisualization } from "./JsonVisualization";
 
 const CSVVisualization = lazy(() => import("./CsvVizualization"));
 const MarkdownVisualization = lazy(() => import("./MarkdownVisualization"));
@@ -126,6 +127,7 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 				{data.type === "html" && <HTMLVisualization content={data.value} />}
 				{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
 				{data.type === "csv" && <CSVVisualization content={data.value} />}
+				{data.type === "json" && <JSONVisualization content={data.value} />}
 			</div>
 		</div>
 	);
@@ -165,14 +167,16 @@ function DownloadButton({
 		image: "png",
 		html: "html",
 		markdown: "md",
-		csv: "csv"
+		csv: "csv",
+		json: "json"
 	} as const;
 
 	const typeMap = {
 		image: "image/png",
 		html: "text/html",
 		markdown: "text/markdown",
-		csv: "text/csv"
+		csv: "text/csv",
+		json: "application/json"
 	} as const;
 
 	function prepareImagedownload() {
