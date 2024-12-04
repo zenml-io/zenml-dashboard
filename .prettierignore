@@ -28,5 +28,3 @@ dist-ssr
 
 pnpm-lock.yaml
 yarn.lock
-
-legacy
