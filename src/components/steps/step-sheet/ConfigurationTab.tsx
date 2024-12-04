@@ -95,8 +95,8 @@ export function StepConfigTab({ stepId }: Props) {
 function CodeSnippetCard({ id }: { id: string }) {
 	function returnConfigSchema(id: string) {
 		return `from zenml.client import Client
-artifact = Client().get_pipeline_run('${id}')
-config = run.config()`;
+step = Client().get_run_step("${id}")
+config = step.config`;
 	}
 
 	return (

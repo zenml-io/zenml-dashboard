@@ -52,9 +52,8 @@ export function ArtifactNode({ data, selected }: NodeProps<ArtifactVersion & { n
 					<CopyNodeButton
 						className="h-4 w-4 shrink-0 rounded-sm hover:bg-primary-100 active:bg-primary-200"
 						code={`from zenml.client import Client
-							
 artifact = Client().get_artifact_version("${data.id}")
-loaded_artifact = artifact.load()`}
+data = artifact.load()`}
 						type="artifact"
 					>
 						<Copy className="h-3 w-3 fill-primary-400" />
