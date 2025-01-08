@@ -1,34 +1,14 @@
-import { apiPaths, createApiPath } from "@/data/api";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { FetchError } from "../../lib/fetch-error";
-import { fetcher } from "../fetch";
+import { apiPaths } from "@/data/api";
 import { CreateUser, User } from "@/types/user";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { apiClient } from "../api-client";
 
 export async function createUser(body: CreateUser) {
-	const url = createApiPath(apiPaths.users.all);
-
-	const res = await fetcher(url, {
+	const data = await apiClient<User>(apiPaths.users.all, {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
 		body: JSON.stringify(body)
 	});
-
-	if (!res.ok) {
-		const errorData: string = await res
-			.json()
-			.then((data) => data.detail)
-			.catch(() => "Failed to create User");
-
-		throw new FetchError({
-			status: res.status,
-			statusText: res.statusText,
-			message: errorData
-		});
-	}
-
-	return res.json();
+	return data;
 }
 
 export function useCreateUserMutation(

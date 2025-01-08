@@ -1,36 +1,15 @@
-import { apiPaths, createApiPath } from "../api";
 import { User } from "@/types/user";
-import { FetchError } from "@/lib/fetch-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { notFound } from "@/lib/not-found-error";
-import { fetcher } from "../fetch";
+import { apiPaths } from "../api";
+import { apiClient } from "../api-client";
 
 export function getCurrentUserKey() {
 	return ["current-user"];
 }
 
 export async function fetchCurrentUser(): Promise<User> {
-	const url = createApiPath(apiPaths.currentUser);
-	// TODO possibly error handling can also be abstracted
-	const res = await fetcher(url, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json"
-		}
-	});
-
-	if (res.status === 404) {
-		notFound();
-	}
-
-	if (!res.ok) {
-		throw new FetchError({
-			message: "Error while fetching current user",
-			status: res.status,
-			statusText: res.statusText
-		});
-	}
-	return res.json();
+	const data = await apiClient<User>(apiPaths.currentUser);
+	return data;
 }
 
 export function useCurrentUser(options?: Omit<UseQueryOptions<User>, "queryKey" | "queryFn">) {

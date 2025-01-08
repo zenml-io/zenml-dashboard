@@ -1,8 +1,7 @@
-import { apiPaths, createApiPath } from "@/data/api";
-import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { FetchError } from "../../lib/fetch-error";
-import { fetcher } from "../fetch";
+import { apiPaths } from "@/data/api";
 import { UpdateUser, User } from "@/types/user";
+import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { apiClient } from "../api-client";
 
 type ActivateUserArgs = {
 	userId: string;
@@ -10,35 +9,11 @@ type ActivateUserArgs = {
 };
 
 export async function activateUser({ userId, body }: ActivateUserArgs) {
-	const url = createApiPath(apiPaths.users.activate(userId));
-
-	const res = await fetcher(url, {
+	const data = await apiClient<User>(apiPaths.users.activate(userId), {
 		method: "PUT",
-		headers: {
-			"Content-Type": "application/json"
-		},
 		body: JSON.stringify(body)
 	});
-
-	if (!res.ok) {
-		const errorData: string = await res
-			.json()
-			.then((data) => {
-				if (Array.isArray(data.detail)) {
-					return data.detail[1];
-				}
-				return data.detail;
-			})
-			.catch(() => "Failed to update activate user");
-
-		throw new FetchError({
-			status: res.status,
-			statusText: res.statusText,
-			message: errorData
-		});
-	}
-
-	return res.json();
+	return data;
 }
 
 export function useActivateUser(
