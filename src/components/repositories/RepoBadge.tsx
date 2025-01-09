@@ -24,7 +24,7 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 
 		if (data?.body?.source?.attribute === "GitHubCodeRepository") {
 			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
-			url = `https://www.github.com/${name}`;
+			url = `https://www.github.com/${name}` + (commit ? `/tree/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
 			url = `https://www.gitlab.com/${name}`;
@@ -50,7 +50,7 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 		<div className="group/copybutton mr-1">
 			<Tag
 				color="grey"
-				className="inline-flex items-center  font-semibold text-neutral-900"
+				className="inline-flex items-center font-semibold text-neutral-900"
 				rounded={false}
 				emphasis="subtle"
 			>
