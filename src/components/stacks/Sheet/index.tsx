@@ -164,7 +164,7 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 
 	return (
 		<section className="px-5 pt-5">
-			<CollapsibleCard title={<span className="text-text-lg">Set this stack</span>}>
+			<CollapsibleCard title={<span className="text-text-lg">Set this stack</span>} initialOpen>
 				<ul className="space-y-5">
 					<li className="space-y-2">
 						<div className="flex items-center gap-2">
