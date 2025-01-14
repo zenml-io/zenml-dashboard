@@ -183,6 +183,7 @@ export function DataCard({ artifactVersionId }: Props) {
 		...componentQueries.componentDetail(artifactStoreId!),
 		enabled: !!artifactStoreId
 	});
+	const artifactStoreHref: string = routes.components.detail(artifactStoreId || "");
 
 	if (isArtifactVersionError) {
 		return <ErrorFallback err={artifactVersionError} />;
@@ -208,14 +209,16 @@ export function DataCard({ artifactVersionId }: Props) {
 						value={
 							<>
 								{isStoreSuccess ? (
-									<Tag
-										emphasis="subtle"
-										rounded={false}
-										color="grey"
-										className="text-theme-text-primary"
-									>
-										{storeData?.name}
-									</Tag>
+									<Link target="_blank" to={artifactStoreHref}>
+										<Tag
+											emphasis="subtle"
+											rounded={false}
+											color="grey"
+											className="text-theme-text-primary"
+										>
+											{storeData?.name}
+										</Tag>
+									</Link>
 								) : (
 									<Skeleton className="h-6 w-12" />
 								)}
