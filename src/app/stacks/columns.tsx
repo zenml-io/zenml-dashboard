@@ -28,6 +28,7 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 								<StackSheet stackName={name} stackId={id}>
 									<h2 className="text-text-md font-semibold">{name}</h2>
 								</StackSheet>
+								<CopyButton copyText={name}></CopyButton>
 							</div>
 							<div className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
