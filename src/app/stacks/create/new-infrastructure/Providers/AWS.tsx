@@ -89,6 +89,19 @@ export function AWSComponents({
 					}}
 				/>
 			</div>
+			<div className="py-3 pl-9 pr-5">
+				<ComponentListItem
+					title={components?.imageBuilder?.name || "AWS Image Builder"}
+					subtitle={components?.imageBuilder?.id || "Build and manage container images"}
+					badge={<ComponentBadge type="image_builder">Image Builder</ComponentBadge>}
+					isLoading={isLoading}
+					isSuccess={isSuccess}
+					img={{
+						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/image_builder/aws.png",
+						alt: "AWS Image Builder logo"
+					}}
+				/>
+			</div>
 		</div>
 	);
 }

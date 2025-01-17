@@ -1,3 +1,4 @@
+import Search from "@/assets/icons/search.svg?react";
 import { sanitizeSearchValue } from "@/lib/search";
 import { objectToSearchParams } from "@/lib/url";
 import { Input } from "@zenml-io/react-component-library";
@@ -36,7 +37,7 @@ export const SearchField = forwardRef<
 	}, [debouncedSearch]);
 
 	function updateSearchQuery(value: string) {
-		if (!!inMemoryHandler) {
+		if (inMemoryHandler) {
 			inMemoryHandler(value);
 			return;
 		}
@@ -64,14 +65,20 @@ export const SearchField = forwardRef<
 		debouncedSearch(value);
 	}
 	return (
-		<Input
-			{...rest}
-			ref={ref}
-			value={searchQuery}
-			onChange={searchHandler}
-			placeholder="Search..."
-			inputSize="md"
-		/>
+		<div className="relative">
+			<Input
+				className="pl-[36px]"
+				{...rest}
+				ref={ref}
+				value={searchQuery}
+				onChange={searchHandler}
+				placeholder="Search..."
+				inputSize="md"
+			/>
+			<div className="absolute inset-y-0 left-0 flex items-center pl-1">
+				<Search className="size-4 fill-neutral-400" />
+			</div>
+		</div>
 	);
 });
 

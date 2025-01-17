@@ -11,7 +11,7 @@ type Props = {
 
 export function ApiKeySuccess({ value }: Props) {
 	return (
-		<div className="space-y-3 overflow-x-hidden px-7 py-5 text-text-md text-theme-text-primary ">
+		<div className="space-y-3 overflow-x-hidden px-7 py-5 text-text-md text-theme-text-primary">
 			<div className="space-y-0.5">
 				<p className="text-text-md font-semibold text-theme-text-primary">
 					Here is your new API Key
@@ -34,7 +34,7 @@ export function ApiKeySuccess({ value }: Props) {
 					</a>
 				</div>
 				<p className="text-theme-text-secondary">
-					To login to the ZenML server using the generated key, you can run the following CLI
+					To log in to the ZenML server using the generated key, you can run the following CLI
 					command and enter the API key when prompted:
 				</p>
 				<Codesnippet highlightCode wrap code={`zenml login --api-key ${window.location.origin}`} />
