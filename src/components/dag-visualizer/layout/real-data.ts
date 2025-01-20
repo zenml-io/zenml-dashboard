@@ -36,7 +36,7 @@ function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record
 					placeholderId,
 					type: "artifact",
 					substitutions: substitutions[stepName] || {},
-					data: { ...version, name: outputName }
+					data: { ...version, name: outputName, artifactType: "output" }
 				});
 			});
 		});
@@ -49,7 +49,7 @@ function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record
 				id: artifactVersion.id,
 				placeholderId,
 				type: "artifact",
-				data: { ...artifactVersion, name: inputName }
+				data: { ...artifactVersion, name: inputName, artifactType: "input" }
 			});
 		});
 	});

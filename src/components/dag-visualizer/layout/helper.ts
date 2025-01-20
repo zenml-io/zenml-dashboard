@@ -68,6 +68,18 @@ export function mergeRealAndPlacehodlerData({
 		const duplicateRealArtifacts = finalNodes.filter((node) => node.id === realArtifact.id);
 		if (duplicateRealArtifacts.length === 0) {
 			finalNodes.push(realArtifact);
+		} else {
+			if (realArtifact.data.artifactType === "output") {
+				for (const node of duplicateRealArtifacts) {
+					// remove node from finalNodes based on id
+					const index = finalNodes.findIndex((finalNode) => finalNode.id === node.id);
+					if (index !== -1) {
+						finalNodes.splice(index, 1);
+					}
+				}
+
+				finalNodes.push(realArtifact);
+			}
 		}
 	});
 

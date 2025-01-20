@@ -11,7 +11,7 @@ export type PipelineRunOvervieweParams = NonNullable<
 >;
 export type PipelineRunPage = components["schemas"]["Page_PipelineRunResponse_"];
 
-type ArtifactNodeDetails = ArtifactVersion & { name: string };
+type ArtifactNodeDetails = ArtifactVersion & { name: string; artifactType: "input" | "output" };
 export type ArtifactNode = {
 	id: string;
 	placeholderId: string;
