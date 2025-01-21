@@ -18,7 +18,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 			active={active}
 			hasDownstream={hasDownstreamStep}
 			completed={completed}
-			title="Install and Connect ZenML (5 min)"
+			title="Install and log in to ZenML (5 min)"
 		>
 			<div className="flex flex-col gap-5">
 				<div>
@@ -28,7 +28,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 					/>
 				</div>
 				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">Login to your ZenML Server</p>
+					<p className="mb-1 text-text-sm text-theme-text-secondary">Log in to your ZenML Server</p>
 					<Codesnippet code={getLoginCommand(data?.deployment_type || "other")} />
 				</div>
 				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
