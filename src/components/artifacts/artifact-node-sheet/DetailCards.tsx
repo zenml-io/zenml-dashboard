@@ -209,7 +209,7 @@ export function DataCard({ artifactVersionId }: Props) {
 						value={
 							<>
 								{isStoreSuccess ? (
-									<Link target="_blank" to={artifactStoreHref}>
+									<Link target="_blank" rel="noopener noreferrer" to={artifactStoreHref}>
 										<Tag
 											emphasis="subtle"
 											rounded={false}
