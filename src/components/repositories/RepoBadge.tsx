@@ -1,4 +1,5 @@
 import Github from "@/assets/icons/github.svg?react";
+import Gitlab from "@/assets/icons/gitlab.svg?react";
 import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
 import { transformToEllipsis } from "@/lib/strings";
 import { Skeleton, Tag } from "@zenml-io/react-component-library";
@@ -19,15 +20,22 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 	const repositoryMetadata = data?.metadata?.config;
 
 	const getRepositoryLink = () => {
+		let Icon: React.FunctionComponent<
+			React.SVGProps<SVGSVGElement> & {
+				title?: string;
+			}
+		> | null = null;
 		let name: string = data?.name as string;
-		let url: string | null = "";
+		let url: string | undefined = undefined;
 
 		if (data?.body?.source?.attribute === "GitHubCodeRepository") {
+			Icon = Github;
 			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
 			url = `https://www.github.com/${name}` + (commit ? `/tree/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
+			Icon = Gitlab;
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
-			url = `https://www.gitlab.com/${name}`;
+			url = `https://www.gitlab.com/${name}` + (commit ? `/tree/${commit}` : "");
 		}
 
 		return (
@@ -38,7 +46,7 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 				onClick={(e) => e.stopPropagation()}
 				href={url}
 			>
-				<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
+				{Icon && <Icon className="mr-1 h-5 w-5 fill-theme-text-brand" />}
 				{name}
 			</a>
 		);
