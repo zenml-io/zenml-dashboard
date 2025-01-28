@@ -1,9 +1,11 @@
 import { useCreateApiToken } from "@/data/auth/create-api-token";
+import { useServerInfo } from "@/data/server/info-query";
+import { isFetchError } from "@/lib/fetch-error";
+import { isNoAuthServer } from "@/lib/server";
 import { cn, useToast } from "@zenml-io/react-component-library";
-import { Button } from "@zenml-io/react-component-library/components/server";
+import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, useState } from "react";
 import { ApiTokenModal } from "./APITokenModal";
-import { isFetchError } from "@/lib/fetch-error";
 
 export const CreateTokenButton = forwardRef<
 	ElementRef<typeof Button>,
@@ -12,6 +14,7 @@ export const CreateTokenButton = forwardRef<
 	const { toast } = useToast();
 	const [token, setToken] = useState("");
 	const [open, setOpen] = useState(false);
+	const serverInfo = useServerInfo();
 
 	const { mutate, isPending } = useCreateApiToken({
 		onError: (e) => {
@@ -39,10 +42,13 @@ export const CreateTokenButton = forwardRef<
 		}
 	}
 
+	if (serverInfo.isPending) return <Skeleton className="h-7 w-10" />;
+	if (serverInfo.isError) return null;
+
 	return (
 		<>
 			<Button
-				disabled={isPending}
+				disabled={isPending || isNoAuthServer(serverInfo.data.auth_scheme || "other")}
 				ref={ref}
 				{...rest}
 				onClick={() => mutate({ params: { token_type: "generic" } })}
