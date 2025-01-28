@@ -298,6 +298,9 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The device authorization response.
+		 *
+		 * Raises:
+		 *     HTTPException: If the device authorization is not supported.
 		 */
 		post: operations["device_authorization_api_v1_device_authorization_post"];
 	};
@@ -310,7 +313,8 @@ export type paths = {
 		 * of API tokens are supported:
 		 *
 		 * * Generic API token: This token is short-lived and can be used for
-		 * generic automation tasks.
+		 * generic automation tasks. The expiration can be set by the user, but the
+		 * server will impose a maximum expiration time.
 		 * * Workload API token: This token is scoped to a specific pipeline run, step
 		 * run or schedule and is used by pipeline workloads to authenticate with the
 		 * server. A pipeline run ID, step run ID or schedule ID must be provided and
@@ -322,6 +326,10 @@ export type paths = {
 		 *
 		 * Args:
 		 *     token_type: The type of API token to generate.
+		 *     expires_in: The expiration time of the generic API token in seconds.
+		 *         If not set, the server will use the default expiration time for
+		 *         generic API tokens. The server also imposes a maximum expiration
+		 *         time.
 		 *     schedule_id: The ID of the schedule to scope the workload API token to.
 		 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 		 *         token to.
@@ -4986,11 +4994,6 @@ export type components = {
 			 */
 			stage?: string | null;
 			/**
-			 * Number
-			 * @description The number of the model version
-			 */
-			number?: number | null;
-			/**
 			 * Model
 			 * Format: uuid
 			 * @description The ID of the model containing version
@@ -5356,10 +5359,10 @@ export type components = {
 			expires_in?: number | null;
 			/** Refresh Token */
 			refresh_token?: string | null;
+			/** Csrf Token */
+			csrf_token?: string | null;
 			/** Scope */
 			scope?: string | null;
-			/** Cookie Name */
-			cookie_name?: string | null;
 			/** Device Id */
 			device_id?: string | null;
 			/** Device Metadata */
@@ -6227,6 +6230,8 @@ export type components = {
 		 * @description Class for all resource models associated with the pipeline entity.
 		 */
 		PipelineResponseResources: {
+			/** The user that created the latest run of this pipeline. */
+			latest_run_user?: components["schemas"]["UserResponse"] | null;
 			/** Tags associated with the pipeline. */
 			tags: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
@@ -6560,15 +6565,10 @@ export type components = {
 			 * Format: uuid
 			 */
 			workspace: string;
-			/**
-			 * The ID of the resource that this metadata belongs to.
-			 * Format: uuid
-			 */
-			resource_id: string;
-			/** The type of the resource that this metadata belongs to. */
-			resource_type: components["schemas"]["MetadataResourceTypes"];
+			/** The list of resources that this metadata belongs to. */
+			resources: components["schemas"]["RunMetadataResource"][];
 			/** The ID of the stack component that this metadata belongs to. */
-			stack_component_id: string | null;
+			stack_component_id?: string | null;
 			/** The metadata to be created. */
 			values: {
 				[key: string]: unknown;
@@ -6577,6 +6577,21 @@ export type components = {
 			types: {
 				[key: string]: unknown;
 			};
+			/** The ID of the step execution that published this metadata. */
+			publisher_step_id?: string | null;
+		};
+		/**
+		 * RunMetadataResource
+		 * @description Utility class to help identify resources to tag metadata to.
+		 */
+		RunMetadataResource: {
+			/**
+			 * The ID of the resource.
+			 * Format: uuid
+			 */
+			id: string;
+			/** The type of the resource. */
+			type: components["schemas"]["MetadataResourceTypes"];
 		};
 		/**
 		 * RunTemplateRequest
@@ -7131,6 +7146,18 @@ export type components = {
 			};
 			/** Timestamp of latest user activity traced on the server. */
 			last_user_activity?: string | null;
+			/** The base URL of the ZenML Pro dashboard to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_dashboard_url?: string | null;
+			/** The base URL of the ZenML Pro API to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_api_url?: string | null;
+			/** The ID of the ZenML Pro organization to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_organization_id?: string | null;
+			/** The name of the ZenML Pro organization to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_organization_name?: string | null;
+			/** The ID of the ZenML Pro tenant to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_tenant_id?: string | null;
+			/** The name of the ZenML Pro tenant to which the server is connected. Only set if the server is a ZenML Pro server. */
+			pro_tenant_name?: string | null;
 		};
 		/**
 		 * ServerSettingsResponse
@@ -9192,7 +9219,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				flavor?: string | null;
 				plugin_subtype?: string | null;
@@ -9475,7 +9507,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				has_custom_name?: boolean | null;
@@ -9743,7 +9780,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				artifact_id?: string | null;
 				name?: string | null;
@@ -9754,12 +9796,9 @@ export type operations = {
 				type?: string | null;
 				data_type?: string | null;
 				artifact_store_id?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				model_version_id?: string | null;
 				only_unused?: boolean | null;
 				has_custom_name?: boolean | null;
-				user?: string | null;
 				model?: string | null;
 				pipeline_run?: string | null;
 			};
@@ -10243,6 +10282,9 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The device authorization response.
+	 *
+	 * Raises:
+	 *     HTTPException: If the device authorization is not supported.
 	 */
 	device_authorization_api_v1_device_authorization_post: {
 		requestBody: {
@@ -10279,7 +10321,8 @@ export type operations = {
 	 * of API tokens are supported:
 	 *
 	 * * Generic API token: This token is short-lived and can be used for
-	 * generic automation tasks.
+	 * generic automation tasks. The expiration can be set by the user, but the
+	 * server will impose a maximum expiration time.
 	 * * Workload API token: This token is scoped to a specific pipeline run, step
 	 * run or schedule and is used by pipeline workloads to authenticate with the
 	 * server. A pipeline run ID, step run ID or schedule ID must be provided and
@@ -10291,6 +10334,10 @@ export type operations = {
 	 *
 	 * Args:
 	 *     token_type: The type of API token to generate.
+	 *     expires_in: The expiration time of the generic API token in seconds.
+	 *         If not set, the server will use the default expiration time for
+	 *         generic API tokens. The server also imposes a maximum expiration
+	 *         time.
 	 *     schedule_id: The ID of the schedule to scope the workload API token to.
 	 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 	 *         token to.
@@ -10308,6 +10355,7 @@ export type operations = {
 		parameters: {
 			query?: {
 				token_type?: components["schemas"]["APITokenType"];
+				expires_in?: number | null;
 				schedule_id?: string | null;
 				pipeline_run_id?: string | null;
 				step_run_id?: string | null;
@@ -10360,6 +10408,8 @@ export type operations = {
 				created?: string | null;
 				updated?: string | null;
 				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				expires?: string | null;
 				client_id?: string | null;
 				status?: components["schemas"]["OAuthDeviceStatus"] | string | null;
@@ -10636,10 +10686,13 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				name?: string | null;
-				workspace_id?: string | null;
+				scope_user?: string | null;
 				user_id?: string | null;
+				user?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
+				name?: string | null;
 			};
 		};
 		responses: {
@@ -10966,7 +11019,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				flavor?: string | null;
 				plugin_subtype?: string | null;
@@ -11253,12 +11311,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				type?: string | null;
 				integration?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -11619,12 +11680,14 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				tag?: string | null;
-				name?: string | null;
-				workspace_id?: string | null;
+				scope_user?: string | null;
 				user_id?: string | null;
 				user?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
 			};
 		};
 		responses: {
@@ -11843,14 +11906,16 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				number?: number | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				stage?: string | components["schemas"]["ModelStages"] | null;
-				user?: string | null;
 			};
 			path: {
 				model_name_or_id: string;
@@ -11921,14 +11986,16 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				number?: number | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				stage?: string | components["schemas"]["ModelStages"] | null;
-				user?: string | null;
 			};
 		};
 		requestBody?: {
@@ -12503,13 +12570,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				latest_run_status?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
-				user?: string | null;
 			};
 		};
 		responses: {
@@ -12724,12 +12793,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
@@ -12741,7 +12813,6 @@ export type operations = {
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
-				user?: string | null;
 				pipeline_name?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
@@ -12818,16 +12889,21 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
 				workspace_id?: string | null;
-				user_id?: string | null;
+				workspace?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;
+				container_registry_id?: string | null;
 				is_local?: boolean | null;
 				contains_code?: boolean | null;
 				zenml_version?: string | null;
 				python_version?: string | null;
 				checksum?: string | null;
+				stack_checksum?: string | null;
 			};
 		};
 		responses: {
@@ -12987,9 +13063,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
 				workspace_id?: string | null;
-				user_id?: string | null;
+				workspace?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;
 				build_id?: string | null;
@@ -13153,13 +13232,16 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
@@ -13171,7 +13253,6 @@ export type operations = {
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
-				user?: string | null;
 				pipeline_name?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
@@ -13404,7 +13485,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				code_hash?: string | null;
 				cache_key?: string | null;
@@ -13414,8 +13500,6 @@ export type operations = {
 				pipeline_run_id?: string | null;
 				deployment_id?: string | null;
 				original_step_run_id?: string | null;
-				user_id?: string | null;
-				workspace_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
 			};
@@ -13636,16 +13720,18 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				pipeline_id?: string | null;
 				build_id?: string | null;
 				stack_id?: string | null;
 				code_repository_id?: string | null;
-				user?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
 			};
@@ -13862,9 +13948,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
 				workspace_id?: string | null;
-				user_id?: string | null;
+				workspace?: string | null;
 				pipeline_id?: string | null;
 				orchestrator_id?: string | null;
 				active?: boolean | null;
@@ -14089,11 +14178,14 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				scope?: components["schemas"]["SecretScope"] | string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -15219,12 +15311,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				scope_type?: string | null;
 				name?: string | null;
 				connector_type?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				auth_method?: string | null;
 				resource_type?: string | null;
 				resource_id?: string | null;
@@ -15800,10 +15895,13 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				name?: string | null;
-				workspace_id?: string | null;
+				scope_user?: string | null;
 				user_id?: string | null;
+				user?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
+				name?: string | null;
 				type?: string | null;
 				flavor?: string | null;
 				config?: string | null;
@@ -16216,13 +16314,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				description?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				component_id?: string | null;
-				user?: string | null;
 				component?: string | null;
 			};
 		};
@@ -16438,16 +16538,18 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				scope_type?: string | null;
 				name?: string | null;
 				flavor?: string | null;
 				type?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				connector_id?: string | null;
 				stack_id?: string | null;
-				user?: string | null;
 			};
 		};
 		responses: {
@@ -16704,7 +16806,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				code_hash?: string | null;
 				cache_key?: string | null;
@@ -16714,8 +16821,6 @@ export type operations = {
 				pipeline_run_id?: string | null;
 				deployment_id?: string | null;
 				original_step_run_id?: string | null;
-				user_id?: string | null;
-				workspace_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
 			};
@@ -17365,7 +17470,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				event_source_id?: string | null;
 				action_id?: string | null;
@@ -18374,13 +18484,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				name?: string | null;
 				description?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				component_id?: string | null;
-				user?: string | null;
 				component?: string | null;
 			};
 			path: {
@@ -18491,16 +18603,18 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				scope_type?: string | null;
 				name?: string | null;
 				flavor?: string | null;
 				type?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				connector_id?: string | null;
 				stack_id?: string | null;
-				user?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18613,13 +18727,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				latest_run_status?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
-				user?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18732,16 +18848,21 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
 				workspace_id?: string | null;
-				user_id?: string | null;
+				workspace?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;
+				container_registry_id?: string | null;
 				is_local?: boolean | null;
 				contains_code?: boolean | null;
 				zenml_version?: string | null;
 				python_version?: string | null;
 				checksum?: string | null;
+				stack_checksum?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18855,9 +18976,12 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
 				workspace_id?: string | null;
-				user_id?: string | null;
+				workspace?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;
 				build_id?: string | null;
@@ -18974,16 +19098,18 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				pipeline_id?: string | null;
 				build_id?: string | null;
 				stack_id?: string | null;
 				code_repository_id?: string | null;
-				user?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
 			};
@@ -19096,13 +19222,16 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				tag?: string | null;
 				name?: string | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
@@ -19114,7 +19243,6 @@ export type operations = {
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
-				user?: string | null;
 				pipeline_name?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
@@ -19459,10 +19587,13 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
-				scope_workspace?: string | null;
-				name?: string | null;
-				workspace_id?: string | null;
+				scope_user?: string | null;
 				user_id?: string | null;
+				user?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
+				name?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -19624,12 +19755,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				scope_user?: string | null;
+				user_id?: string | null;
+				user?: string | null;
 				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				workspace?: string | null;
 				scope_type?: string | null;
 				name?: string | null;
 				connector_type?: string | null;
-				workspace_id?: string | null;
-				user_id?: string | null;
 				auth_method?: string | null;
 				resource_type?: string | null;
 				resource_id?: string | null;

@@ -31,6 +31,7 @@ const Settings = lazy(() => import("@/app/settings/page"));
 const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
+const APITokens = lazy(() => import("@/app/settings/api-tokens/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/[id]/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
@@ -179,6 +180,14 @@ export const router = createBrowserRouter(
 								</ProtectedRoute>
 							}
 							path="notifications"
+						/>
+						<Route
+							element={
+								<ProtectedRoute>
+									<APITokens />
+								</ProtectedRoute>
+							}
+							path="api-tokens"
 						/>
 						<Route
 							path="repositories"
