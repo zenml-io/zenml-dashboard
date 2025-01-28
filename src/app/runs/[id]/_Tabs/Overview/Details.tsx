@@ -119,7 +119,7 @@ export function Details() {
 							</TooltipProvider>
 						</div>
 					</Key>
-					<Value>
+					<Value className="h-auto">
 						{data.body?.code_reference ? (
 							<RepoBadge
 								repositoryId={data.body?.code_reference.body?.code_repository.id}
