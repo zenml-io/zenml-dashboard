@@ -35,6 +35,10 @@ export function ServerSettingsMenu() {
 				href: routes.settings.members
 			},
 			{
+				name: "API Tokens",
+				href: routes.settings.apiTokens
+			},
+			{
 				name: "Repositories",
 				href: routes.settings.repositories.overview
 			},

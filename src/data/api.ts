@@ -5,6 +5,7 @@ export const apiPaths = {
 	currentUser: "/current-user",
 	info: "/info",
 	settings: "/settings",
+	apiToken: "/api_token",
 	onboarding: "/onboarding_state",
 	pipelines: {
 		all: "/pipelines",
