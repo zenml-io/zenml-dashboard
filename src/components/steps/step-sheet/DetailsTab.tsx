@@ -100,36 +100,33 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								</Link>
 							}
 						/>
-						<KeyValue
-							label={
-								<div className="flex items-center space-x-0.5 truncate">
-									<span className="truncate">Repository/Commit</span>
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger className="cursor-default">
-												<Info className="h-3 w-3 fill-theme-text-secondary" />
-												<span className="sr-only">Info</span>
-											</TooltipTrigger>
-											<TooltipContent className="w-full max-w-md whitespace-normal">
-												Git hash of code repository. Only set if pipeline was run in a clean git
-												repository connected to your ZenML server.
-											</TooltipContent>
-										</Tooltip>
-									</TooltipProvider>
-								</div>
-							}
-							value={
-								pipelineRunData.body?.code_reference ? (
-									<RepoBadge
-										repositoryId={repository?.id}
-										commit={pipelineRunData.body.code_reference.body?.commit}
-									/>
-								) : (
-									"Not available"
-								)
-							}
-						/>
-
+						<Key>
+							<div className="flex items-center space-x-0.5 truncate">
+								<span className="truncate">Repository/Commit</span>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default">
+											<Info className="h-3 w-3 fill-theme-text-secondary" />
+											<span className="sr-only">Info</span>
+										</TooltipTrigger>
+										<TooltipContent className="w-full max-w-md whitespace-normal">
+											Git hash of code repository. Only set if pipeline was run in a clean git
+											repository connected to your ZenML server.
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+						</Key>
+						<Value className="h-auto">
+							{pipelineRunData.body?.code_reference ? (
+								<RepoBadge
+									repositoryId={repository?.id}
+									commit={pipelineRunData.body.code_reference.body?.commit}
+								/>
+							) : (
+								"Not available"
+							)}
+						</Value>
 						<Key className={pipelineRunData.metadata?.code_path ? "col-span-3" : ""}>
 							<div className="flex items-center space-x-0.5 truncate">
 								<span>Code Path</span>

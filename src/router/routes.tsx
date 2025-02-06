@@ -37,6 +37,7 @@ export const routes = {
 		detail: (id: string) => `/runs/${id}`
 	},
 	settings: {
+		apiTokens: "/settings/api-tokens",
 		general: "/settings/general",
 		members: `/settings/members`,
 		notifications: "/settings/notifications",
