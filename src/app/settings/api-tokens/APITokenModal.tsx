@@ -211,9 +211,9 @@ function ServiceAccountLink() {
 }
 
 function getCurlCommand(token: string, endpoint: string) {
-	return `curl -H "Authorization: Bearer ${token}" ${endpoint}`;
+	return `curl -H "Authorization: Bearer ${token}" "${encodeURI(endpoint)}"`;
 }
 
 function getWgetCommand(token: string, endpoint: string) {
-	return `wget --header="Authorization: Bearer ${token}" ${endpoint}`;
+	return `wget --header="Authorization: Bearer ${token}" "${encodeURI(endpoint)}"`;
 }
