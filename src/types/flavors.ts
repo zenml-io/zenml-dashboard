@@ -4,3 +4,5 @@ export type FlavorsPage = components["schemas"]["Page_FlavorResponse_"];
 export type FlavorListQueryParams = NonNullable<
 	operations["list_flavors_api_v1_flavors_get"]["parameters"]["query"]
 >;
+
+export type Flavor = components["schemas"]["FlavorResponse"];

@@ -43,6 +43,7 @@ const ServiceAccountsDetail = lazy(
 // Components
 const Components = lazy(() => import("@/app/components/page"));
 const ComponentDetail = lazy(() => import("@/app/components/[componentId]/page"));
+const ComponentCreate = lazy(() => import("@/app/components/create/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
@@ -263,6 +264,15 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<ComponentDetail />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.components.create}
+						element={
+							<ProtectedRoute>
+								<ComponentCreate />
 							</ProtectedRoute>
 						}
 					/>

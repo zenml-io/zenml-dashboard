@@ -1,20 +1,32 @@
-import { Box } from "@zenml-io/react-component-library";
-import { ReactNode } from "react";
+import { Box, cn } from "@zenml-io/react-component-library";
+import { HTMLAttributes, ReactNode } from "react";
 
 export function Wrapper({ children }: { children: ReactNode }) {
 	return <Box className="w-full">{children}</Box>;
 }
 
-export function Header({ children }: { children: ReactNode }) {
+type Props = HTMLAttributes<HTMLDivElement>;
+
+export function Header({ children, className, ...rest }: Props) {
 	return (
-		<div className="border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold">
+		<div
+			className={cn(
+				"border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold",
+				className
+			)}
+			{...rest}
+		>
 			{children}
 		</div>
 	);
 }
 
-export function Body({ children }: { children: ReactNode }) {
-	return <div className="p-5">{children}</div>;
+export function Body({ children, className, ...rest }: Props) {
+	return (
+		<div {...rest} className={cn("p-5", className)}>
+			{children}
+		</div>
+	);
 }
 
 export function Footer({ children }: { children: ReactNode }) {

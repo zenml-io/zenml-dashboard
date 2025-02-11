@@ -28,6 +28,10 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 			stacks: { name: "Stacks" },
 			create: { name: "New Stack" }
 		},
+		createComponent: {
+			components: { name: "Components" },
+			createComponent: { name: "New Component" }
+		},
 		components: {
 			components: { name: "Components" }
 		},

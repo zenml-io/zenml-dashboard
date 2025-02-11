@@ -2,11 +2,11 @@ import Lock from "@/assets/icons/Lock.svg?react";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useFormContext } from "react-hook-form";
-import { getisOptional } from "@/lib/service-connectors";
 import { useExistingInfraContext } from "../../ExistingInfraContext";
 import { serviceConnectorQueries } from "@/data/service-connectors";
-import { ServiceConnectorConfigSchema } from "@/types/service-connectors";
-import { DynamicField } from "@/components/form/DynamicField";
+import { JSONSchema } from "@/types/forms";
+import { DynamicField } from "@/components/form/form";
+import { getisOptional } from "@/lib/forms";
 
 export function ConnectorConfig() {
 	return (
@@ -44,8 +44,11 @@ function ConfigForm() {
 
 	if (!authMethod) return null;
 
-	const properties = (authMethod.config_schema as ServiceConnectorConfigSchema).properties;
-	const required = (authMethod.config_schema as ServiceConnectorConfigSchema).required;
+	const schema = authMethod.config_schema as JSONSchema;
+
+	const properties = schema.properties || {};
+	const required = schema.required || [];
+	const defs = schema.$defs;
 
 	// sort required properties first
 	const sortedProperties = Object.entries(properties).sort(([key1], [key2]) => {
@@ -58,6 +61,7 @@ function ConfigForm() {
 		<div className="space-y-5">
 			{sortedProperties.map(([key, value]) => (
 				<DynamicField
+					definitions={defs}
 					isOptional={getisOptional(key, required)}
 					key={key}
 					name={key}

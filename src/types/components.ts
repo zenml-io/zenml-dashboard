@@ -6,3 +6,5 @@ export type StackComponentPage = components["schemas"]["Page_ComponentResponse_"
 export type StackComponentListParams = NonNullable<
 	operations["list_stack_components_api_v1_components_get"]["parameters"]["query"]
 >;
+
+export type StackComponentRequest = components["schemas"]["ComponentRequest"];
