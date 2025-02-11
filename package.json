@@ -81,7 +81,7 @@
 		"vite": "^6.0.11",
 		"vite-plugin-bundle-prefetch": "^0.0.4",
 		"vite-plugin-svgr": "^4.3.0",
-		"vitest": "^3.0.4"
+		"vitest": "^3.0.5"
 	},
 	"pnpm": {
 		"overrides": {
