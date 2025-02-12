@@ -18,6 +18,7 @@ import { componentQueries } from "@/data/components";
 import { useCreateComponent } from "@/data/components/create-component";
 import { generateDefaultValues } from "../../form/helper";
 import { DynamicField } from "../../form/form";
+import { ConnectorSection } from "./connector-section";
 
 type Props = {
 	formId: string;
@@ -186,11 +187,11 @@ function ComponentConfigurationFormBody({
 
 						<div className="flex flex-col-reverse gap-5 xl:flex-row">
 							<div className="flex-1 space-y-5">
-								{/* {flavor.metadata?.connector_resource_type ? (
+								{flavor.metadata?.connector_resource_type ? (
 									<ConnectorSection
 										connectorResourceType={flavor.metadata.connector_resource_type}
 									/>
-								) : null} */}
+								) : null}
 								<p className="text-text-lg font-semibold">Attributes</p>
 								{sortedProperties.map(([key, value]) => (
 									<DynamicField
