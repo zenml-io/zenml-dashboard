@@ -92,64 +92,66 @@ export function ConnectorSelect({ connectorResourceType }: Props) {
 										<Input className="w-full" inputSize="sm" />
 									</CommandInput>
 								)}
-								<CommandList className="space-y-1 px-2 pb-2">
-									{connectors.length > 0 ? (
-										<>
-											<CommandEmpty>No results</CommandEmpty>
-											<CommandGroup className="max-h-[300px] overflow-y-auto">
-												{connectors.map((connector) => (
-													<CommandItem
-														key={connector.id}
-														value={`${connector.id}:${connector.name}`}
-														onSelect={(value) => {
-															const [id] = value.split(":");
-															form.setValue("connector", field.value === id ? "" : id);
-															setOpen(false);
-														}}
-													>
-														<ConnectorItem connector={connector} />
-														<Check
-															className={cn(
-																"fill-brand-500 ml-auto size-4 shrink-0",
-																field.value === connector.id ? "opacity-100" : "opacity-0"
-															)}
-														/>
-													</CommandItem>
-												))}
-											</CommandGroup>
-										</>
-									) : (
-										<div className="p-2 text-center text-theme-text-secondary">
-											No connectors found
-										</div>
-									)}
-									<CommandSeparator className="-mx-1" />
+								<CommandList className="space-y-1 p-2">
+									<div className="space-y-1">
+										{connectors.length > 0 ? (
+											<>
+												<CommandEmpty>No results</CommandEmpty>
+												<CommandGroup className="max-h-[300px] overflow-y-auto">
+													{connectors.map((connector) => (
+														<CommandItem
+															key={connector.id}
+															value={`${connector.id}:${connector.name}`}
+															onSelect={(value) => {
+																const [id] = value.split(":");
+																form.setValue("connector", field.value === id ? "" : id);
+																setOpen(false);
+															}}
+														>
+															<ConnectorItem connector={connector} />
+															<Check
+																className={cn(
+																	"fill-brand-500 ml-auto size-4 shrink-0",
+																	field.value === connector.id ? "opacity-100" : "opacity-0"
+																)}
+															/>
+														</CommandItem>
+													))}
+												</CommandGroup>
+											</>
+										) : (
+											<div className="p-2 text-center text-theme-text-secondary">
+												No connectors found
+											</div>
+										)}
+										<CommandSeparator className="-mx-1" />
 
-									<CommandGroup>
-										{connectorList.hasNextPage && (
+										<CommandGroup>
+											{connectorList.hasNextPage && (
+												<CommandItem
+													value="doNotFilter-fetch-more"
+													className="flex items-center font-semibold"
+													onSelect={() => {
+														connectorList.fetchNextPage();
+													}}
+												>
+													Load more
+												</CommandItem>
+											)}
 											<CommandItem
-												value="doNotFilter-fetch-more"
-												className="flex items-center font-semibold"
+												value="doNotFilter-create-new"
+												className="flex items-center gap-2 font-semibold"
 												onSelect={() => {
-													connectorList.fetchNextPage();
+													// Handle create new action
+													setOpen(false);
+													setCreateFallbackOpen(true);
 												}}
 											>
-												Load more
+												<Plus className="size-3 shrink-0 fill-neutral-400" />
+												Create new Service Connector
 											</CommandItem>
-										)}
-										<CommandItem
-											value="doNotFilter-create-new"
-											className="flex items-center gap-2 font-semibold"
-											onSelect={() => {
-												// Handle create new action
-												setOpen(false);
-												setCreateFallbackOpen(true);
-											}}
-										>
-											<Plus className="size-3 shrink-0 fill-neutral-400" />
-											Create new Service Connector
-										</CommandItem>
-									</CommandGroup>
+										</CommandGroup>
+									</div>
 								</CommandList>
 							</Command>
 						</PopoverContent>
