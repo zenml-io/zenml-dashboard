@@ -25,13 +25,15 @@ type Props = {
 	flavorId: string;
 	successHandler?: (id: string) => void;
 	FooterComponent: FunctionComponent<FooterProps>;
+	useMaxHeight?: boolean;
 };
 
 export function ComponentConfigurationForm({
 	flavorId,
 	formId,
 	successHandler,
-	FooterComponent
+	FooterComponent,
+	useMaxHeight = false
 }: Props) {
 	const flavor = useQuery(flavorQueries.flavorDetail(flavorId));
 	const user = useCurrentUser();
@@ -47,6 +49,7 @@ export function ComponentConfigurationForm({
 
 	return (
 		<ComponentConfigurationFormBody
+			useMaxHeight={useMaxHeight}
 			infoTile={
 				<InfoTile
 					name={flavor.data.name}
@@ -74,6 +77,7 @@ type FormProps = {
 	successHandler?: (id: string) => void;
 	infoTile: ReactNode;
 	FooterComponent: FunctionComponent<FooterProps>;
+	useMaxHeight: boolean;
 };
 
 function ComponentConfigurationFormBody({
@@ -84,7 +88,8 @@ function ComponentConfigurationFormBody({
 	workspaceId,
 	successHandler,
 	infoTile,
-	FooterComponent
+	FooterComponent,
+	useMaxHeight
 }: FormProps) {
 	const { toast } = useToast();
 	const componentKey = componentQueries.all;
@@ -168,7 +173,7 @@ function ComponentConfigurationFormBody({
 				}}
 				id={formId}
 			>
-				<ScrollArea viewportClassName="max-h-[70vh]">
+				<ScrollArea viewportClassName={useMaxHeight ? "max-h-[70vh]" : ""}>
 					<div className="space-y-4 p-8">
 						<div className="space-y-0.5">
 							<label className="text-text-lg font-semibold">Component Name</label>

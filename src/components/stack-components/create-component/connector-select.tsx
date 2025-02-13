@@ -1,4 +1,5 @@
 import Check from "@/assets/icons/check.svg?react";
+import Plus from "@/assets/icons/plus.svg?react";
 import { serviceConnectorQueries } from "@/data/service-connectors";
 import { ServiceConnector } from "@/types/service-connectors";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -9,9 +10,12 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-	CommandSeparator
+	CommandSeparator,
+	Popover,
+	PopoverContent,
+	PopoverTrigger
 } from "@zenml-io/react-component-library";
-import { Skeleton } from "@zenml-io/react-component-library/components/server";
+import { Input, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import clsx from "clsx";
 import { useState } from "react";
@@ -68,7 +72,11 @@ export function ConnectorSelect({ connectorResourceType }: Props) {
 									: "Select Connector"}
 							</button>
 						</PopoverTrigger>
-						<PopoverContent style={{ width: "var(--radix-popover-trigger-width)" }} align="start">
+						<PopoverContent
+							className="p-0"
+							style={{ width: "var(--radix-popover-trigger-width)" }}
+							align="start"
+						>
 							<Command
 								filter={(value, search) => {
 									if (
@@ -78,33 +86,45 @@ export function ConnectorSelect({ connectorResourceType }: Props) {
 										return 1;
 									return 0;
 								}}
-								className="space-y-1"
 							>
-								<CommandInput placeholder="Search connectors..." />
-								<CommandList className="space-y-1">
-									<CommandEmpty>No results</CommandEmpty>
-									<CommandGroup className="max-h-[300px] overflow-y-auto">
-										{connectors.map((connector) => (
-											<CommandItem
-												key={connector.id}
-												value={`${connector.id}:${connector.name}`}
-												onSelect={(value) => {
-													const [id] = value.split(":");
-													form.setValue("connector", field.value === id ? "" : id);
-													setOpen(false);
-												}}
-											>
-												<ConnectorItem connector={connector} />
-												<Check
-													className={cn(
-														"fill-brand-500 ml-auto size-4 shrink-0",
-														field.value === connector.id ? "opacity-100" : "opacity-0"
-													)}
-												/>
-											</CommandItem>
-										))}
-									</CommandGroup>
+								{connectors.length > 0 && (
+									<CommandInput placeholder="Search connectors...">
+										<Input className="w-full" inputSize="sm" />
+									</CommandInput>
+								)}
+								<CommandList className="space-y-1 px-2 pb-2">
+									{connectors.length > 0 ? (
+										<>
+											<CommandEmpty>No results</CommandEmpty>
+											<CommandGroup className="max-h-[300px] overflow-y-auto">
+												{connectors.map((connector) => (
+													<CommandItem
+														key={connector.id}
+														value={`${connector.id}:${connector.name}`}
+														onSelect={(value) => {
+															const [id] = value.split(":");
+															form.setValue("connector", field.value === id ? "" : id);
+															setOpen(false);
+														}}
+													>
+														<ConnectorItem connector={connector} />
+														<Check
+															className={cn(
+																"fill-brand-500 ml-auto size-4 shrink-0",
+																field.value === connector.id ? "opacity-100" : "opacity-0"
+															)}
+														/>
+													</CommandItem>
+												))}
+											</CommandGroup>
+										</>
+									) : (
+										<div className="p-2 text-center text-theme-text-secondary">
+											No connectors found
+										</div>
+									)}
 									<CommandSeparator className="-mx-1" />
+
 									<CommandGroup>
 										{connectorList.hasNextPage && (
 											<CommandItem
@@ -119,13 +139,14 @@ export function ConnectorSelect({ connectorResourceType }: Props) {
 										)}
 										<CommandItem
 											value="doNotFilter-create-new"
-											className="flex items-center font-semibold"
+											className="flex items-center gap-2 font-semibold"
 											onSelect={() => {
 												// Handle create new action
 												setOpen(false);
 												setCreateFallbackOpen(true);
 											}}
 										>
+											<Plus className="size-3 shrink-0 fill-neutral-400" />
 											Create new Service Connector
 										</CommandItem>
 									</CommandGroup>

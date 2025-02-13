@@ -39,6 +39,7 @@ export function ConfigurationStep({ name, id, backHandler, type, successHandler 
 				</div>
 			</DialogHeader>
 			<ComponentConfigurationForm
+				useMaxHeight
 				flavorId={id}
 				formId={formId}
 				successHandler={successHandler}

@@ -17,10 +17,7 @@ export function ConnectorSection({ connectorResourceType }: Props) {
 					You can select a Service Connector to connect ZenML to external resources
 				</p>
 			</div>
-			{/* <ConnectorSelect connectorResourceType={connectorResourceType} /> */}
-			{/* <div className="rounded-md border border-primary-400 bg-theme-surface-secondary px-2 py-1 text-center">
-				Select a connector
-			</div> */}
+			<ConnectorSelect connectorResourceType={connectorResourceType} />
 		</section>
 	);
 }
