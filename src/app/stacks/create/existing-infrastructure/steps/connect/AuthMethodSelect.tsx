@@ -19,12 +19,13 @@ import { JSONSchema } from "@/types/forms";
 import { StackDeploymentProvider } from "@/types/stack";
 import { useExistingInfraContext } from "../../ExistingInfraContext";
 import { newConnectorBaseSchema } from "./schema";
+import { generateDefaultValues } from "@/components/form/helper";
 
 export function AuthMethodSelect() {
 	const { data } = useExistingInfraContext();
 	const { setCurrentStep } = useWizardContext();
 	const { control, watch, resetField } = useFormContext();
-	const { setSchema } = useSchemaContext();
+	const { setSchema, setDefaultValues } = useSchemaContext();
 	const connectorTypes = useQuery({
 		...serviceConnectorQueries.serviceConnectorTypeDetail(data.connectorConfig?.type || "")
 	});
@@ -50,8 +51,9 @@ export function AuthMethodSelect() {
 		const configSchema = authMethod.config_schema as JSONSchema;
 
 		const schema = getZodSchemaFromConfig(configSchema);
-
+		const defaultValues = generateDefaultValues(configSchema);
 		setSchema(newConnectorBaseSchema.merge(schema));
+		setDefaultValues(defaultValues);
 		const fields = Object.keys(schema.shape);
 		fields.forEach((field) => resetField(field));
 	}

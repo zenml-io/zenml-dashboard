@@ -8,11 +8,17 @@ import { Button } from "@zenml-io/react-component-library";
 import { NewConnector } from "./NewConnectorForm";
 
 export function ConnectCloudStep() {
-	const { schema } = useSchemaContext();
+	const { schema, defaultValues } = useSchemaContext();
+
 	const form = useForm({
 		shouldUnregister: true,
 		mode: "onChange",
-		resolver: zodResolver(schema)
+		resolver: zodResolver(schema),
+		defaultValues: {
+			stackName: "",
+			authMethod: "",
+			...defaultValues
+		}
 	});
 	return (
 		<FormProvider {...form}>
