@@ -215,5 +215,5 @@ function getCurlCommand(token: string, endpoint: string) {
 }
 
 function getWgetCommand(token: string, endpoint: string) {
-	return `wget --header="Authorization: Bearer ${token}" "${encodeURI(endpoint)}"`;
+	return `wget -qO- --header="Authorization: Bearer ${token}" "${encodeURI(endpoint)}"`;
 }
