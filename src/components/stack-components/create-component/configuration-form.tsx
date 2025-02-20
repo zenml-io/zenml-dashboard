@@ -1,5 +1,10 @@
 "use client";
 
+import { componentQueries } from "@/data/components";
+import { useCreateComponent } from "@/data/components/create-component";
+import { flavorQueries } from "@/data/flavors";
+import { useCurrentUser } from "@/data/users/current-user-query";
+import { workspaceQueries } from "@/data/workspaces";
 import { getisOptional, getZodSchemaFromConfig } from "@/lib/forms";
 import { Flavor } from "@/types/flavors";
 import { JSONSchema } from "@/types/forms";
@@ -9,16 +14,11 @@ import { ScrollArea, useToast } from "@zenml-io/react-component-library/componen
 import { Input, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { FunctionComponent, ReactNode } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { DynamicField } from "../../form/form";
+import { generateDefaultValues } from "../../form/helper";
+import { ConnectorSection } from "./connector-section";
 import { InfoTile } from "./info-tile";
 import { componentBaseSchema } from "./schema";
-import { flavorQueries } from "@/data/flavors";
-import { useCurrentUser } from "@/data/users/current-user-query";
-import { workspaceQueries } from "@/data/workspaces";
-import { componentQueries } from "@/data/components";
-import { useCreateComponent } from "@/data/components/create-component";
-import { generateDefaultValues } from "../../form/helper";
-import { DynamicField } from "../../form/form";
-import { ConnectorSection } from "./connector-section";
 
 type Props = {
 	formId: string;
@@ -114,7 +114,6 @@ function ComponentConfigurationFormBody({
 	const defs = schema.$defs;
 
 	function submitHandler({ componentName, ...rest }: FieldValues) {
-		console.log(rest);
 		Object.keys(rest).forEach((key) => {
 			if (
 				rest[key] === "" ||
@@ -150,7 +149,6 @@ function ComponentConfigurationFormBody({
 	const zodConfig = componentBaseSchema.merge(getZodSchemaFromConfig(schema));
 
 	const defaultConfigValues = generateDefaultValues(schema);
-
 	const form = useForm({
 		resolver: zodResolver(zodConfig),
 		defaultValues: { componentName: "", connector: "", ...defaultConfigValues }
@@ -197,16 +195,20 @@ function ComponentConfigurationFormBody({
 										connectorResourceType={flavor.metadata.connector_resource_type}
 									/>
 								) : null}
-								<p className="text-text-lg font-semibold">Attributes</p>
-								{sortedProperties.map(([key, value]) => (
-									<DynamicField
-										definitions={defs}
-										isOptional={getisOptional(key, required)}
-										key={key}
-										name={key}
-										schema={value}
-									/>
-								))}
+								{sortedProperties.length > 0 ? (
+									<>
+										<p className="text-text-lg font-semibold">Attributes</p>
+										{sortedProperties.map(([key, value]) => (
+											<DynamicField
+												definitions={defs}
+												isOptional={getisOptional(key, required)}
+												key={key}
+												name={key}
+												schema={value}
+											/>
+										))}
+									</>
+								) : null}
 							</div>
 							<div className="w-full xl:w-1/3">{infoTile}</div>
 						</div>

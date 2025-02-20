@@ -8,6 +8,7 @@ export type JSONSchemaType =
 	| "null";
 
 export type JSONSchemaDefinition = {
+	prefixItems?: JSONSchemaDefinition[];
 	type?: JSONSchemaType | JSONSchemaType[];
 	title?: string;
 	description?: string;
@@ -21,6 +22,7 @@ export type JSONSchemaDefinition = {
 	minimum?: number;
 	exclusiveMinimum?: number;
 	maxLength?: number;
+	items?: JSONSchemaDefinition;
 	minLength?: number;
 	pattern?: string;
 	sensitive?: boolean;

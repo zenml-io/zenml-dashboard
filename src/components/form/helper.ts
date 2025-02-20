@@ -62,19 +62,23 @@ export function getNameFromSchema(schema: JSONSchemaDefinition, keyName: string)
 }
 
 export function generateDefaultValues(schema: JSONSchemaDefinition) {
-	const defaultValues = Object.entries(schema.properties || {}).reduce(
-		(acc, [key, prop]) => ({
-			...acc,
-			[key]: prop.default
-				? isBooleanField(prop)
-					? prop.default
-					: isObjectField(prop) || isArrayField(prop)
-						? JSON.stringify(prop.default)
-						: prop.default.toString()
-				: ""
-		}),
-		{}
-	);
+	return Object.entries(schema.properties || {}).reduce((acc, [key, prop]) => {
+		let value: string | boolean | object | unknown[] = "";
 
-	return defaultValues;
+		if (prop.default) {
+			if (isBooleanField(prop)) {
+				value = prop.default;
+			} else if (isObjectField(prop)) {
+				value = JSON.stringify(prop.default);
+			} else if (isArrayField(prop)) {
+				value = prop.default;
+			} else {
+				value = prop.default.toString();
+			}
+		} else if (isArrayField(prop)) {
+			value = [];
+		}
+
+		return { ...acc, [key]: value };
+	}, {});
 }

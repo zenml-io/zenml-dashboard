@@ -24,12 +24,22 @@ type Props = {
 	name: string;
 	isOptional: boolean;
 	schema: JSONSchemaDefinition;
+	isNested?: boolean;
 };
 
-export function DynamicField({ schema, name, isOptional, definitions }: Props) {
+export function DynamicField({ schema, name, isOptional, definitions, isNested }: Props) {
 	let resolvedSchema = resolveRef(schema, definitions);
 
-	const label = getNameFromSchema(resolvedSchema, name);
+	// If this is an array item, use the items schema
+	if (isNested && resolvedSchema.items) {
+		resolvedSchema = resolveRef(resolvedSchema.items, definitions);
+	}
+
+	if (isNested && resolvedSchema.prefixItems) {
+		resolvedSchema = resolveRef(resolvedSchema.prefixItems[0], definitions);
+	}
+
+	const label = isNested ? "" : getNameFromSchema(resolvedSchema, name);
 
 	if (resolvedSchema.anyOf) {
 		const nonNullOption = resolvedSchema.anyOf.find((option) => option.type !== null);
@@ -96,7 +106,7 @@ export function DynamicField({ schema, name, isOptional, definitions }: Props) {
 			/>
 		);
 	}
-	if (isObjectField(resolvedSchema)) {
+	if (isObjectField(resolvedSchema) || (isArrayField(resolvedSchema) && isNested)) {
 		return (
 			<ObjectFieldRenderer
 				name={name}
@@ -109,6 +119,7 @@ export function DynamicField({ schema, name, isOptional, definitions }: Props) {
 	if (isArrayField(resolvedSchema)) {
 		return (
 			<ArrayFieldRenderer
+				definitions={definitions}
 				name={name}
 				label={label}
 				schema={resolvedSchema}

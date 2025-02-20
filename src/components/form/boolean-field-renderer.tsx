@@ -8,9 +8,11 @@ export function BooleanFieldRenderer({ name, isOptional, label }: DynamicFieldPr
 	const errors = form.formState.errors[name];
 	return (
 		<div className="flex flex-wrap items-center gap-3">
-			<label htmlFor={name} className="text-text-sm">
-				<RendererHeadline label={label} isOptional={isOptional} />
-			</label>
+			{!!label && (
+				<label htmlFor={name} className="text-text-sm">
+					<RendererHeadline label={label} isOptional={isOptional} />
+				</label>
+			)}
 			<Controller
 				control={form.control}
 				name={name}

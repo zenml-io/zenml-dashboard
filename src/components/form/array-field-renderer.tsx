@@ -1,26 +1,38 @@
 import Plus from "@/assets/icons/plus.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
-import { Button, Input } from "@zenml-io/react-component-library/components/server";
-import { Controller, useFieldArray, useFormContext } from "react-hook-form";
-import { DynamicFieldProps } from "./helper";
+import { Button } from "@zenml-io/react-component-library/components/server";
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { JSONSchema } from "../../types/forms";
 import { RendererHeadline } from "./common";
+import { DynamicField } from "./form";
+import { DynamicFieldProps } from "./helper";
 
-export function ArrayFieldRenderer({ name, label, isOptional }: DynamicFieldProps) {
+export function ArrayFieldRenderer({
+	name,
+	label,
+	isOptional,
+	schema,
+	definitions
+}: DynamicFieldProps & { definitions: JSONSchema["$defs"] }) {
 	const form = useFormContext();
 	const { fields, append, remove } = useFieldArray({ name: name, control: form.control });
 
 	return (
 		<div className="space-y-3">
-			<label className="text-text-sm">
-				<RendererHeadline label={label} isOptional={isOptional} />
-			</label>
+			{!!label && (
+				<label className="text-text-sm">
+					<RendererHeadline label={label} isOptional={isOptional} />
+				</label>
+			)}
 			<ul className="space-y-5">
 				{fields.map((field, index) => (
 					<li className="flex w-full items-center gap-4 [&>div]:w-full" key={field.id}>
-						<Controller
+						<DynamicField
+							isNested
 							name={`${name}.${index}`}
-							// TODO this needs to be dynamic based on the type
-							render={({ field }) => <Input className="w-full flex-1" inputSize="md" {...field} />}
+							schema={schema}
+							isOptional={isOptional}
+							definitions={definitions}
 						/>
 						<Button
 							className="h-7 w-7"

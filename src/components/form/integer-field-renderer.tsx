@@ -10,9 +10,11 @@ export function IntegerFieldRenderer({ name, isOptional, label }: DynamicFieldPr
 
 	return (
 		<div className="space-y-0.5">
-			<label htmlFor={name} className="text-text-sm">
-				<RendererHeadline label={label} isOptional={isOptional} />
-			</label>
+			{!!label && (
+				<label htmlFor={name} className="text-text-sm">
+					<RendererHeadline label={label} isOptional={isOptional} />
+				</label>
+			)}
 			<Controller
 				control={form.control}
 				name={name}
