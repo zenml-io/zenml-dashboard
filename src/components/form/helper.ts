@@ -1,5 +1,6 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { JSONSchemaDefinition } from "@/types/forms";
+import { isArray, isObject } from "@/lib/type-guards";
 
 export function isTextField(schema: JSONSchemaDefinition) {
 	return schema.type === "string";
@@ -61,8 +62,11 @@ export function getNameFromSchema(schema: JSONSchemaDefinition, keyName: string)
 	return snakeCaseToTitleCase(keyName);
 }
 
-export function generateDefaultValues(schema: JSONSchemaDefinition) {
-	return Object.entries(schema.properties || {}).reduce((acc, [key, prop]) => {
+export function generateDefaultValues(
+	schema: JSONSchemaDefinition,
+	initialValues?: Record<string, any>
+) {
+	const defaultValues = Object.entries(schema.properties || {}).reduce((acc, [key, prop]) => {
 		let value: string | boolean | object | unknown[] = "";
 
 		if (prop.default) {
@@ -81,4 +85,16 @@ export function generateDefaultValues(schema: JSONSchemaDefinition) {
 
 		return { ...acc, [key]: value };
 	}, {});
+
+	if (initialValues) {
+		Object.entries(initialValues).forEach(([key, value]) => {
+			(defaultValues as Record<string, any>)[key] = isArray(value)
+				? value.map((i) => JSON.stringify(i))
+				: isObject(value)
+					? JSON.stringify(value)
+					: value;
+		});
+	}
+
+	return defaultValues;
 }

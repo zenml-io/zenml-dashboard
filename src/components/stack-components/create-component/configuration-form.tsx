@@ -1,5 +1,3 @@
-"use client";
-
 import { componentQueries } from "@/data/components";
 import { useCreateComponent } from "@/data/components/create-component";
 import { flavorQueries } from "@/data/flavors";
@@ -19,6 +17,8 @@ import { generateDefaultValues } from "../../form/helper";
 import { ConnectorSection } from "./connector-section";
 import { InfoTile } from "./info-tile";
 import { componentBaseSchema } from "./schema";
+import { StackComponent } from "@/types/components";
+import { useUpdateComponent } from "@/data/components/update-component";
 
 type Props = {
 	formId: string;
@@ -26,6 +26,8 @@ type Props = {
 	successHandler?: (id: string) => void;
 	FooterComponent: FunctionComponent<FooterProps>;
 	useMaxHeight?: boolean;
+	component?: StackComponent;
+	isCreate?: boolean;
 };
 
 export function ComponentConfigurationForm({
@@ -33,7 +35,9 @@ export function ComponentConfigurationForm({
 	formId,
 	successHandler,
 	FooterComponent,
-	useMaxHeight = false
+	useMaxHeight = false,
+	component,
+	isCreate = true
 }: Props) {
 	const flavor = useQuery(flavorQueries.flavorDetail(flavorId));
 	const user = useCurrentUser();
@@ -49,6 +53,8 @@ export function ComponentConfigurationForm({
 
 	return (
 		<ComponentConfigurationFormBody
+			isCreate={isCreate}
+			component={component}
 			useMaxHeight={useMaxHeight}
 			infoTile={
 				<InfoTile
@@ -78,6 +84,8 @@ type FormProps = {
 	infoTile: ReactNode;
 	FooterComponent: FunctionComponent<FooterProps>;
 	useMaxHeight: boolean;
+	component?: StackComponent;
+	isCreate: boolean;
 };
 
 function ComponentConfigurationFormBody({
@@ -89,12 +97,30 @@ function ComponentConfigurationFormBody({
 	successHandler,
 	infoTile,
 	FooterComponent,
-	useMaxHeight
+	useMaxHeight,
+	isCreate,
+	component
 }: FormProps) {
 	const { toast } = useToast();
 	const componentKey = componentQueries.all;
+
 	const queryClient = useQueryClient();
 	const createComponent = useCreateComponent({
+		onSuccess: ({ id }) => {
+			queryClient.invalidateQueries({ queryKey: componentKey });
+			successHandler?.(id);
+		},
+		onError: (e) => {
+			toast({
+				emphasis: "subtle",
+				status: "error",
+				rounded: true,
+				description: e.message
+			});
+		}
+	});
+
+	const updateComponent = useUpdateComponent({
 		onSuccess: ({ id }) => {
 			queryClient.invalidateQueries({ queryKey: componentKey });
 			successHandler?.(id);
@@ -132,26 +158,43 @@ function ComponentConfigurationFormBody({
 
 		const { connector, ...config } = rest;
 
-		createComponent.mutate({
-			workspaceId: workspaceId,
-			payload: {
-				name: componentName,
-				configuration: config,
-				flavor: flavor.name,
-				type: flavor.body.type,
-				user: userId,
-				connector: connector || null,
-				workspace: workspaceId
-			}
-		});
+		if (isCreate) {
+			createComponent.mutate({
+				workspaceId: workspaceId,
+				payload: {
+					name: componentName,
+					configuration: config,
+					flavor: flavor.name,
+					type: flavor.body.type,
+					user: userId,
+					connector: connector || null,
+					workspace: workspaceId
+				}
+			});
+		} else {
+			if (!component) return;
+			updateComponent.mutate({
+				componentId: component.id,
+				payload: {
+					name: componentName,
+					configuration: config,
+					connector: connector || null
+				}
+			});
+		}
 	}
 
 	const zodConfig = componentBaseSchema.merge(getZodSchemaFromConfig(schema));
 
-	const defaultConfigValues = generateDefaultValues(schema);
+	const defaultConfigValues = generateDefaultValues(schema, component?.metadata?.configuration);
+
 	const form = useForm({
 		resolver: zodResolver(zodConfig),
-		defaultValues: { componentName: "", connector: "", ...defaultConfigValues }
+		defaultValues: {
+			componentName: component?.name ?? "",
+			connector: component?.metadata?.connector?.id ?? "",
+			...defaultConfigValues
+		}
 	});
 
 	const { handleSubmit } = form;

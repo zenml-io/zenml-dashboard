@@ -8,3 +8,4 @@ export type StackComponentListParams = NonNullable<
 >;
 
 export type StackComponentRequest = components["schemas"]["ComponentRequest"];
+export type StackComponentUpdateRequest = components["schemas"]["ComponentUpdate"];

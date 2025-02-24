@@ -42,6 +42,14 @@ export const matchSegmentWithRequest = ({ segment, data }: { segment: string; da
 				name: data?.name
 			}
 		},
+		componentEdit: {
+			components: { name: "Components" },
+			component_detail: {
+				id: data?.id,
+				name: data?.name
+			},
+			component_edit: { name: "Edit", id: data?.id }
+		},
 		secrets: {
 			secrets: { name: "Secrets" }
 		},
@@ -119,6 +127,8 @@ export const matchSegmentWithURL = (segment: string, id: string) => {
 		secrets: routes.settings.secrets.overview,
 		//components
 		components: routes.components.overview,
+		component_detail: routes.components.detail(id),
+		component_edit: routes.components.edit(id),
 		upgrade: routes.upgrade,
 		// Service Accounts
 		service_accounts: routes.settings.service_accounts.overview
