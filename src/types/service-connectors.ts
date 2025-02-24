@@ -29,3 +29,5 @@ export type ServiceConnectorListQueryParams = NonNullable<
 >;
 
 export type ServiceConnector = components["schemas"]["ServiceConnectorResponse"];
+export type ResourceType = components["schemas"]["ResourceTypeModel"];
+export type ConnectorType = components["schemas"]["ServiceConnectorTypeModel"];
