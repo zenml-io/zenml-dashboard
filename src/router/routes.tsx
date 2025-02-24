@@ -21,7 +21,9 @@ export const routes = {
 	},
 	components: {
 		overview: "/components",
-		detail: (componentId: string) => `/components/${componentId}`
+		detail: (componentId: string) => `/components/${componentId}`,
+		edit: (componentId: string) => `/components/${componentId}/edit`,
+		create: "/components/create"
 	},
 	stacks: {
 		overview: "/stacks",

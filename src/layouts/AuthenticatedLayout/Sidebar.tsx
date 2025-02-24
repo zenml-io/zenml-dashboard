@@ -33,7 +33,7 @@ export function Sidebar() {
 	return (
 		<div>
 			<ZenMLSidebar
-				className={`sticky  ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
+				className={`sticky ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
 			>
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
 					<SidebarHeader
@@ -105,7 +105,8 @@ export function Sidebar() {
 										routes.stacks.create.newInfra,
 										routes.stacks.create.existingInfra,
 										routes.stacks.create.manual,
-										routes.stacks.create.terraform
+										routes.stacks.create.terraform,
+										routes.components.edit(":componentId")
 									]}
 									icon={<Stacks />}
 									label="Stacks"

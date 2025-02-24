@@ -48,13 +48,15 @@ export const apiPaths = {
 		detail: (stackId: string) => `/stacks/${stackId}`
 	},
 	flavors: {
-		all: "/flavors"
+		all: "/flavors",
+		detail: (id: string) => `/flavors/${id}`
 	},
 	serviceConnectors: {
 		fullStackResources: "/service_connectors/full_stack_resources",
 		types: {
 			detail: (connectorType: string) => `/service_connector_types/${connectorType}`
-		}
+		},
+		list: "/service_connectors"
 	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
@@ -73,7 +75,8 @@ export const apiPaths = {
 	workspaces: {
 		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
 		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`,
-		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`
+		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`,
+		components: (workspaceId: string) => `/workspaces/${workspaceId}/components`
 	},
 	serviceAccounts: {
 		all: "/service_accounts",

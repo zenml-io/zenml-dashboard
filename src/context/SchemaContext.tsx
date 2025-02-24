@@ -11,6 +11,8 @@ import { ZodSchema } from "zod";
 type SchemaContextType = {
 	schema: ZodSchema;
 	setSchema: Dispatch<SetStateAction<ZodSchema>>;
+	defaultValues: Record<string, any>;
+	setDefaultValues: Dispatch<SetStateAction<Record<string, any>>>;
 };
 
 const SchemaContext = createContext<SchemaContextType | null>(null);
@@ -20,7 +22,12 @@ type Props = {
 };
 export function SchemaProvider({ children, initialSchema }: PropsWithChildren<Props>) {
 	const [schema, setSchema] = useState<ZodSchema>(initialSchema);
-	return <SchemaContext.Provider value={{ schema, setSchema }}>{children}</SchemaContext.Provider>;
+	const [defaultValues, setDefaultValues] = useState<Record<string, any>>({});
+	return (
+		<SchemaContext.Provider value={{ schema, setSchema, defaultValues, setDefaultValues }}>
+			{children}
+		</SchemaContext.Provider>
+	);
 }
 
 export function useSchemaContext() {

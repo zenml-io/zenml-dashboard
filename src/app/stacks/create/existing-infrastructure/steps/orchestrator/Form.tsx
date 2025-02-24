@@ -114,6 +114,7 @@ export function OrchestratorForm() {
 												{Object.entries(orchestrator.required_configuration).map(([key, value]) => (
 													<div key={key}>
 														<Controller
+															defaultValue=""
 															name={key as any}
 															control={control}
 															render={({ field }) => (

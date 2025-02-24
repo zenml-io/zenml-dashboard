@@ -1,21 +1,6 @@
-import { StackComponentType } from "@/types/components";
 import { z } from "zod";
 import { stackNameSchema } from "../components/sharedSchema";
-
-export const types: StackComponentType[] = [
-	"orchestrator",
-	"artifact_store",
-	"container_registry",
-	"step_operator",
-	"model_deployer",
-	"feature_store",
-	"experiment_tracker",
-	"alerter",
-	"annotator",
-	"data_validator",
-	"image_builder",
-	"model_registry"
-] as const;
+import { stackComponentTypes } from "@/lib/constants";
 
 const componentSchema = z.object({
 	id: z.string().trim().min(1),
@@ -23,13 +8,13 @@ const componentSchema = z.object({
 	logoUrl: z.string().trim().min(1)
 });
 
-const typeSchema = types.reduce(
+const typeSchema = stackComponentTypes.reduce(
 	(schema, type) => {
 		schema[type] = componentSchema.nullable();
 		return schema;
 	},
 	{} as Record<
-		(typeof types)[number],
+		(typeof stackComponentTypes)[number],
 		z.ZodNullable<z.ZodObject<{ id: z.ZodString; name: z.ZodString; logoUrl: z.ZodString }>>
 	>
 );
