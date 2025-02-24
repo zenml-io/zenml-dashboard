@@ -147,7 +147,7 @@ describe("generateDefaultValues", () => {
 		const schema: JSONSchemaDefinition = {
 			properties: { test: { default: ["defaultValue"], type: "array" } }
 		};
-		expect(generateDefaultValues(schema)).toEqual({ test: JSON.stringify(["defaultValue"]) });
+		expect(generateDefaultValues(schema)).toEqual({ test: ["defaultValue"] });
 	});
 });
 
