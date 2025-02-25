@@ -64,7 +64,7 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 			},
 			{
 				id: "expires",
-				header: "Expires in",
+				header: () => <div className="whitespace-nowrap">Expires in</div>,
 				accessorFn: (row) => row.body?.expires_at,
 				cell: ({ row }) => {
 					const expires = row.original.body?.expires_at;

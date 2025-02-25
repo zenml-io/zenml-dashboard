@@ -13,7 +13,7 @@ export default function SettingsPage() {
 	return (
 		<div>
 			<PageHeader>
-				<h1 className="text-display-xs font-semibold">Settings</h1>
+				<h2 className="text-display-xs font-semibold">Settings</h2>
 			</PageHeader>
 			<div className="layout-container flex flex-col gap-7 pt-5 lg:flex-row">
 				<div className="flex shrink-0 flex-col gap-4 lg:w-[200px]">
@@ -41,7 +41,7 @@ export default function SettingsPage() {
 						<VersionDisplay />
 					</div>
 				</div>
-				<div className="w-full">
+				<div className="w-full overflow-x-hidden">
 					<Outlet />
 				</div>
 			</div>
