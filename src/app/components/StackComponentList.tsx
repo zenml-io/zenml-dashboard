@@ -1,13 +1,15 @@
+import Plus from "@/assets/icons/plus.svg?react";
 import Refresh from "@/assets/icons/refresh.svg?react";
-
+import Pagination from "@/components/Pagination";
+import { SearchField } from "@/components/SearchField";
 import { componentQueries } from "@/data/components";
+import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
+import { DataTable } from "@zenml-io/react-component-library";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
+import { Link } from "react-router-dom";
 import { getComponentList } from "./columns";
 import { useComponentlistQueryParams } from "./service";
-import { SearchField } from "../../components/SearchField";
-import { DataTable } from "@zenml-io/react-component-library";
-import Pagination from "../../components/Pagination";
 
 export function StackComponentList() {
 	const queryParams = useComponentlistQueryParams();
@@ -35,6 +37,12 @@ export function StackComponentList() {
 						<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 							<Refresh className="h-5 w-5 fill-theme-text-brand" />
 							Refresh
+						</Button>
+						<Button size="md" asChild>
+							<Link to={routes.components.create}>
+								<Plus className="h-5 w-5 shrink-0 fill-white" />
+								<span>New Component</span>
+							</Link>
 						</Button>
 					</div>
 				</div>

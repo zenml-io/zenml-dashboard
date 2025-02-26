@@ -9,6 +9,7 @@ import { getUsername } from "@/lib/user";
 import { StackComponent } from "@/types/components";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library/components/server";
+import { ComponentDropdown } from "./component-dropdown";
 
 export function getComponentList(): ColumnDef<StackComponent>[] {
 	return [
@@ -101,6 +102,13 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 					<DisplayDate dateString={row.original.body?.created || ""} />
 				</p>
 			)
+		},
+		{
+			id: "admin_actions",
+			header: "",
+			cell: ({ row }) => {
+				return <ComponentDropdown id={row.original.id} />;
+			}
 		}
 	];
 }

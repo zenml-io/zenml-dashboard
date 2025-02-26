@@ -1,5 +1,4 @@
 import { useWizardContext } from "@/context/WizardContext";
-import { getZodSchemaFromConfig } from "@/lib/service-connectors";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import {
@@ -15,16 +14,18 @@ import { Controller, useFormContext } from "react-hook-form";
 import { CloudProviderIcon } from "@/components/ProviderIcon";
 import { useSchemaContext } from "@/context/SchemaContext";
 import { serviceConnectorQueries } from "@/data/service-connectors";
-import { ServiceConnectorConfigSchema } from "@/types/service-connectors";
+import { getZodSchemaFromConfig } from "@/lib/forms";
+import { JSONSchema } from "@/types/forms";
 import { StackDeploymentProvider } from "@/types/stack";
 import { useExistingInfraContext } from "../../ExistingInfraContext";
 import { newConnectorBaseSchema } from "./schema";
+import { generateDefaultValues } from "@/components/form/helper";
 
 export function AuthMethodSelect() {
 	const { data } = useExistingInfraContext();
 	const { setCurrentStep } = useWizardContext();
 	const { control, watch, resetField } = useFormContext();
-	const { setSchema } = useSchemaContext();
+	const { setSchema, setDefaultValues } = useSchemaContext();
 	const connectorTypes = useQuery({
 		...serviceConnectorQueries.serviceConnectorTypeDetail(data.connectorConfig?.type || "")
 	});
@@ -46,11 +47,13 @@ export function AuthMethodSelect() {
 			(method) => method.auth_method === selectedAuthMethod
 		);
 		if (!authMethod) return;
-		const schema = getZodSchemaFromConfig(
-			(authMethod.config_schema as ServiceConnectorConfigSchema).properties,
-			(authMethod.config_schema as ServiceConnectorConfigSchema).required
-		);
+
+		const configSchema = authMethod.config_schema as JSONSchema;
+
+		const schema = getZodSchemaFromConfig(configSchema);
+		const defaultValues = generateDefaultValues(configSchema);
 		setSchema(newConnectorBaseSchema.merge(schema));
+		setDefaultValues(defaultValues);
 		const fields = Object.keys(schema.shape);
 		fields.forEach((field) => resetField(field));
 	}

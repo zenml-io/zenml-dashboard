@@ -1,4 +1,5 @@
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
+import ComponentDetailLayout from "@/app/components/[componentId]/layout";
 import { surveyLoader } from "@/app/survey/loader";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
@@ -43,6 +44,8 @@ const ServiceAccountsDetail = lazy(
 // Components
 const Components = lazy(() => import("@/app/components/page"));
 const ComponentDetail = lazy(() => import("@/app/components/[componentId]/page"));
+const ComponentCreate = lazy(() => import("@/app/components/create/page"));
+const ComponentEdit = lazy(() => import("@/app/components/[componentId]/edit/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
@@ -257,12 +260,32 @@ export const router = createBrowserRouter(
 							}
 						/>
 					</Route>
+					<Route element={<ComponentDetailLayout />}>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.components.detail(":componentId")}
+							element={
+								<ProtectedRoute>
+									<ComponentDetail />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.components.edit(":componentId")}
+							element={
+								<ProtectedRoute>
+									<ComponentEdit />
+								</ProtectedRoute>
+							}
+						/>
+					</Route>
 					<Route
 						errorElement={<PageBoundary />}
-						path={routes.components.detail(":componentId")}
+						path={routes.components.create}
 						element={
 							<ProtectedRoute>
-								<ComponentDetail />
+								<ComponentCreate />
 							</ProtectedRoute>
 						}
 					/>

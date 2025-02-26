@@ -1,6 +1,10 @@
+import { ComponentIcon } from "@/components/ComponentIcon";
+import { DisplayDate } from "@/components/DisplayDate";
+import { InlineAvatar } from "@/components/InlineAvatar";
 import { componentQueries } from "@/data/components";
 import { snakeCaseToLowerCase, snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
+import { StackComponentType } from "@/types/components";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button, Input, Spinner } from "@zenml-io/react-component-library/components/server";
@@ -8,18 +12,15 @@ import debounce from "lodash.debounce";
 import { useCallback, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { RadioItem, RadioItemLabel } from "../components/RadioItem";
-import { CreateComponentFallback } from "./CreateComponentModal";
-import { FormType, types } from "./schema";
-import { StackComponentType } from "@/types/components";
-import { ComponentIcon } from "@/components/ComponentIcon";
-import { DisplayDate } from "@/components/DisplayDate";
-import { InlineAvatar } from "@/components/InlineAvatar";
 import { ComponentTooltip } from "./ComponentsTooltip";
+import { CreateComponentDialog } from "./create-component-modal";
+import { FormType } from "./schema";
+import { stackComponentTypes } from "@/lib/constants";
 
 export function ComponentsSelection() {
 	return (
 		<>
-			{types.map((type) => (
+			{stackComponentTypes.map((type) => (
 				<TabsContent className="h-full space-y-5 p-5" key={type} value={type}>
 					<ComponentTabContent type={type} />
 				</TabsContent>
@@ -115,7 +116,7 @@ function ComponentList({ type, search }: Props & { search: string }) {
 					))
 				)}
 			</ul>
-			<CreateFallback type={type} />
+			<CreateComponentDialog type={type} />
 			{componentsList.hasNextPage && (
 				<Button
 					onClick={() => componentsList.fetchNextPage()}
@@ -158,6 +159,16 @@ function ComponentHeader({ type }: Props) {
 
 function ComponentTabContent({ type }: Props) {
 	const [search, setSearch] = useState("");
+	const { watch, setValue } = useFormContext<FormType>();
+
+	const component = watch(`components.${type}`);
+
+	useEffect(() => {
+		if (component && !component.id) {
+			setValue(`components.${type}`, null);
+		}
+	}, [component, setValue, type]);
+
 	return (
 		<>
 			<ComponentHeader type={type} />
@@ -192,15 +203,5 @@ function Search({ setSearch, search }: SearchProps) {
 			onChange={(e) => updateSearchQuery(e.target.value)}
 			placeholder="Search..."
 		/>
-	);
-}
-
-function CreateFallback({ type }: Props) {
-	return (
-		<CreateComponentFallback type={type}>
-			<button className="w-full rounded-md border border-dashed border-neutral-300 bg-theme-surface-tertiary py-5 text-theme-text-secondary">
-				New {snakeCaseToTitleCase(type)}
-			</button>
-		</CreateComponentFallback>
 	);
 }

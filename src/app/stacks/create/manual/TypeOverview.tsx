@@ -6,7 +6,8 @@ import { Button, Input } from "@zenml-io/react-component-library/components/serv
 import { useFormContext } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { TypeOverviewItem } from "./TypeOverviewItem";
-import { FormType, types } from "./schema";
+import { FormType } from "./schema";
+import { stackComponentTypes } from "@/lib/constants";
 
 export function TypeOverview() {
 	return (
@@ -40,7 +41,7 @@ function AddComponents() {
 			</div>
 			<TabsList>
 				<div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-					{types.map((type) => (
+					{stackComponentTypes.map((type) => (
 						<div className="relative" key={type}>
 							<TabsTrigger className="group/trigger w-full" value={type}>
 								<TypeOverviewItem type={type} />
