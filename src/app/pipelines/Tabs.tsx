@@ -5,7 +5,7 @@ import { Badge, Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { PipelinesBody } from "./PipelinesTab/PipelinesBody";
-import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
+import { PipelineDataTableContextProvider } from "./PipelinesTab/PipelineSelectorContext";
 import { RunsBody } from "./RunsTab/RunsBody";
 import { RunsSelectorProvider } from "./RunsTab/RunsSelectorContext";
 import { useSelectedTab } from "./service";
@@ -79,9 +79,9 @@ export function PipelineTabs() {
 				</TabsList>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="pipelines">
-					<PipelinesSelectorProvider>
+					<PipelineDataTableContextProvider>
 						<PipelinesBody />
-					</PipelinesSelectorProvider>
+					</PipelineDataTableContextProvider>
 				</TabsContent>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="runs">

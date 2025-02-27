@@ -6,12 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { PipelinesButtonGroup } from "./ButtonGroup";
 import { getPipelineColumns } from "./columns";
-import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
+import { usePipelineDataTableContext } from "./PipelineSelectorContext";
 import { usePipelineOverviewSearchParams } from "./service";
 
 export function PipelinesBody() {
 	const queryParams = usePipelineOverviewSearchParams();
-	const { selectedPipelines } = usePipelinesSelectorContext();
+	const { selectedRowIDs } = usePipelineDataTableContext();
 	const { data, refetch } = useQuery({
 		...pipelineQueries.pipelineList({ ...queryParams, sort_by: "desc:latest_run" }),
 		throwOnError: true
@@ -20,7 +20,7 @@ export function PipelinesBody() {
 	return (
 		<div className="flex flex-col gap-5">
 			<div className="flex items-center justify-between">
-				{selectedPipelines.length ? (
+				{selectedRowIDs.length ? (
 					<PipelinesButtonGroup />
 				) : (
 					<SearchField searchParams={queryParams} />
