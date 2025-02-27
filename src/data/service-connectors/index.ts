@@ -11,6 +11,11 @@ export const serviceConnectorQueries = {
 			queryKey: [...serviceConnectorQueries.connectorTypes, connectorType],
 			queryFn: async () => fetchServiceConnectorType(connectorType)
 		}),
+	serviceConnectorList: (params: ServiceConnectorListQueryParams = {}) =>
+		queryOptions({
+			queryKey: [...serviceConnectorQueries.connectors, params],
+			queryFn: () => fetchServiceConnectorList({ ...params })
+		}),
 	serviceConnectorListInfinite: (params: ServiceConnectorListQueryParams = {}) =>
 		infiniteQueryOptions({
 			queryKey: [...serviceConnectorQueries.connectors, params, "infinite"],
