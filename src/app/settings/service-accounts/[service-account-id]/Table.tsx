@@ -10,7 +10,10 @@ import { AddApiKeyDialog } from "./AddApiKeyDialog";
 import { ApiKeyButtonGroup } from "./ButtonGroup";
 import { getServiceAccountDetailColumn } from "./columns";
 import ApiKeyFallback from "./Fallback";
-import { ApiKeysSelectorProvider, useApiKeySelectorContext } from "./SelectorContext";
+import {
+	ApiKeyDataTableContextProvider,
+	useApiKeyDataTableContext
+} from "./ApiKeyDataTableContext";
 
 export default function ServiceAccountDetailTable() {
 	const { serviceAccountId } = useParams() as { serviceAccountId: string };
@@ -31,7 +34,7 @@ export default function ServiceAccountDetailTable() {
 	}
 
 	return (
-		<ApiKeysSelectorProvider>
+		<ApiKeyDataTableContextProvider>
 			<Header serviceAccountId={serviceAccountId} />
 
 			<div className="flex flex-col items-center gap-5">
@@ -50,17 +53,17 @@ export default function ServiceAccountDetailTable() {
 					<Skeleton className="h-[36px] w-[300px]" />
 				)}
 			</div>
-		</ApiKeysSelectorProvider>
+		</ApiKeyDataTableContextProvider>
 	);
 }
 
 function Header({ serviceAccountId }: { serviceAccountId: string }) {
 	const queryParams = useServiceAccountOverviewSearchParams();
-	const { selectedApiKeys } = useApiKeySelectorContext();
+	const { selectedRowCount } = useApiKeyDataTableContext();
 
 	return (
 		<div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-			{selectedApiKeys.length ? (
+			{selectedRowCount > 0 ? (
 				<ApiKeyButtonGroup serviceAccountId={serviceAccountId} />
 			) : (
 				<div className="flex items-center gap-2">
