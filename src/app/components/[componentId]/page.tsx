@@ -3,7 +3,7 @@ import { StackComponentsDetailHeader } from "../../../components/stack-component
 import { StackComponentTabs } from "@/components/stack-components/component-detail/Tabs";
 import { StackList } from "../../stacks/StackList";
 import { RunsBody } from "../../pipelines/RunsTab/RunsBody";
-import { RunsSelectorProvider } from "../../pipelines/RunsTab/RunsSelectorContext";
+import { RunsDataTableContextProvider } from "../../pipelines/RunsTab/RunsDataTableContext";
 
 export default function ComponentDetailPage() {
 	const { componentId } = useParams() as { componentId: string };
@@ -15,9 +15,9 @@ export default function ComponentDetailPage() {
 				isPanel={false}
 				stacksTabContent={<StackList fixedQueryParams={{ component_id: componentId }} />}
 				runsTabContent={
-					<RunsSelectorProvider>
+					<RunsDataTableContextProvider>
 						<RunsBody fixedQueryParams={{ stack_component: componentId }} />
-					</RunsSelectorProvider>
+					</RunsDataTableContextProvider>
 				}
 				componentId={componentId}
 			/>

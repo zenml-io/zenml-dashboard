@@ -6,7 +6,7 @@ import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { RunsButtonGroup } from "./ButtonGroup";
 import { runsColumns } from "./columns";
-import { useRunsSelectorContext } from "./RunsSelectorContext";
+import { useRunsDataTableContext } from "./RunsDataTableContext";
 import { useRunsOverviewSearchParams } from "./service";
 
 type Props = {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function RunsBody({ fixedQueryParams = {} }: Props) {
-	const { selectedRuns } = useRunsSelectorContext();
+	const { selectedRowIDs } = useRunsDataTableContext();
 	const queryParams = useRunsOverviewSearchParams();
 	const { data, refetch } = useAllPipelineRuns({
 		params: {
@@ -27,7 +27,7 @@ export function RunsBody({ fixedQueryParams = {} }: Props) {
 	return (
 		<div className="mt-5 flex flex-col gap-5">
 			<div className="flex items-center justify-between">
-				{selectedRuns.length ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
+				{selectedRowIDs.length ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">
 					<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 						<Refresh className="h-5 w-5 fill-theme-text-brand" />

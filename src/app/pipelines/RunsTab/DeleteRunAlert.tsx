@@ -2,14 +2,16 @@ import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { useRunsSelectorContext } from "./RunsSelectorContext";
+import { useRunsDataTableContext } from "./RunsDataTableContext";
+import { useBulkDeleteRuns } from "./bulk";
 
 export function DeleteRunAlert() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { bulkDeleteRuns, selectedRuns } = useRunsSelectorContext();
+	const { selectedRowIDs } = useRunsDataTableContext();
+	const { bulkDelete } = useBulkDeleteRuns();
 
 	async function handleDelete() {
-		await bulkDeleteRuns(selectedRuns);
+		await bulkDelete(selectedRowIDs);
 		setIsOpen(false);
 	}
 
@@ -27,7 +29,7 @@ export function DeleteRunAlert() {
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Run${selectedRuns.length >= 2 ? "s" : ""}`}
+				title={`Delete Run${selectedRowIDs.length >= 2 ? "s" : ""}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>

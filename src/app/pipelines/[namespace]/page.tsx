@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { PipelineRunsTable } from "./RunsTable";
 import { useEffect } from "react";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { RunsSelectorProvider } from "../RunsTab/RunsSelectorContext";
+import { RunsDataTableContextProvider } from "../RunsTab/RunsDataTableContext";
 
 export default function PipelineNamespacePage() {
 	const { namespace } = useParams() as { namespace: string };
@@ -19,10 +19,10 @@ export default function PipelineNamespacePage() {
 
 	return (
 		<div>
-			<RunsSelectorProvider>
+			<RunsDataTableContextProvider>
 				<Header namespace={namespace} />
 				<PipelineRunsTable />
-			</RunsSelectorProvider>
+			</RunsDataTableContextProvider>
 		</div>
 	);
 }

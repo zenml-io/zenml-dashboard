@@ -9,26 +9,38 @@ import { Stack } from "@/types/stack";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library";
 import {
+	Checkbox,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
-} from "@zenml-io/react-component-library/components/client";
+} from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { RunDropdown } from "./RunDropdown";
-import { RunSelector } from "./RunSelector";
 
 export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
 		id: "check",
-		header: "",
+		header: ({ table }) => (
+			<Checkbox
+				id="check-all"
+				checked={table.getIsAllRowsSelected()}
+				onCheckedChange={(state) =>
+					table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+				}
+			/>
+		),
 		meta: {
 			width: "1%"
 		},
-		accessorFn: (row) => ({ id: row.id }),
-		cell: ({ getValue }) => {
-			const { id } = getValue<{ id: string }>();
-			return <RunSelector id={id} />;
+		cell: ({ row }) => {
+			return (
+				<Checkbox
+					id={`check-${row.id}`}
+					checked={row.getIsSelected()}
+					onCheckedChange={row.getToggleSelectedHandler()}
+				/>
+			);
 		}
 	},
 	{

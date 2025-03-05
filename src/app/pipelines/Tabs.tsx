@@ -7,9 +7,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { PipelinesBody } from "./PipelinesTab/PipelinesBody";
 import { PipelineDataTableContextProvider } from "./PipelinesTab/PipelineSelectorContext";
 import { RunsBody } from "./RunsTab/RunsBody";
-import { RunsSelectorProvider } from "./RunsTab/RunsSelectorContext";
 import { useSelectedTab } from "./service";
 import { TemplateBody } from "./Templates/TemplateBody";
+import { RunsDataTableContextProvider } from "./RunsTab/RunsDataTableContext";
 
 const tabData = [
 	{
@@ -85,9 +85,9 @@ export function PipelineTabs() {
 				</TabsContent>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="runs">
-					<RunsSelectorProvider>
+					<RunsDataTableContextProvider>
 						<RunsBody />
-					</RunsSelectorProvider>
+					</RunsDataTableContextProvider>
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="templates">
 					<TemplateBody />
