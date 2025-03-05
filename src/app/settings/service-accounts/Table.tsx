@@ -10,9 +10,9 @@ import { ServiceAccountsButtonGroup } from "./ButtonGroup";
 import { getServiceAccountColumns } from "./columns";
 import ServiceAccountFallback from "./Fallback";
 import {
-	ServiceAccountsSelectorProvider,
-	useServiceAccountSelectorContext
-} from "./SelectorContext";
+	ServiceAccountDataTableContextProvider,
+	useServiceAccountDataTableContext
+} from "./ServiceAccountDataTableContext";
 import { useServiceAccountOverviewSearchParams } from "./service";
 import { AddServiceAccountDialog } from "./AddServiceAccount";
 
@@ -41,7 +41,7 @@ export default function ServiceAccountsTable() {
 		return <ServiceAccountFallback />;
 	}
 	return (
-		<ServiceAccountsSelectorProvider>
+		<ServiceAccountDataTableContextProvider>
 			<Header />
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
@@ -59,17 +59,17 @@ export default function ServiceAccountsTable() {
 					<Skeleton className="h-[36px] w-[300px]" />
 				)}
 			</div>
-		</ServiceAccountsSelectorProvider>
+		</ServiceAccountDataTableContextProvider>
 	);
 }
 
 function Header() {
 	const queryParams = useServiceAccountOverviewSearchParams();
-	const { selectedServiceAccounts } = useServiceAccountSelectorContext();
+	const { selectedRowCount } = useServiceAccountDataTableContext();
 
 	return (
 		<div className="flex flex-wrap items-center justify-between gap-2">
-			{selectedServiceAccounts.length ? (
+			{selectedRowCount ? (
 				<ServiceAccountsButtonGroup />
 			) : (
 				<div className="flex items-center gap-2">

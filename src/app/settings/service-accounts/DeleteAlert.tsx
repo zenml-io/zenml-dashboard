@@ -6,14 +6,16 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { useServiceAccountSelectorContext } from "./SelectorContext";
+import { useBulkDeleteServiceAccounts } from "./bulk";
+import { useServiceAccountDataTableContext } from "./ServiceAccountDataTableContext";
 
 export function DeleteServiceAccountAlert() {
 	const [isOpen, setIsOpen] = useState(false);
-	const { bulkDeleteServiceAccounts, selectedServiceAccounts } = useServiceAccountSelectorContext();
+	const { bulkDelete } = useBulkDeleteServiceAccounts();
+	const { selectedRowIDs } = useServiceAccountDataTableContext();
 
 	async function handleDelete() {
-		await bulkDeleteServiceAccounts(selectedServiceAccounts);
+		await bulkDelete(selectedRowIDs);
 		setIsOpen(false);
 	}
 
@@ -31,7 +33,7 @@ export function DeleteServiceAccountAlert() {
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Service Account${selectedServiceAccounts.length >= 2 ? "s" : ""}`}
+				title={`Delete Service Account${selectedRowIDs.length >= 2 ? "s" : ""}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>

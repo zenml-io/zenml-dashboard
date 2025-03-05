@@ -6,7 +6,7 @@ import {
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
-import { useBulkDeleteApiKeys } from "@/data/service-accounts/bulk-delete-api-keys";
+import { useBulkDeleteApiKeys } from "./bulk";
 
 type Props = {
 	serviceAccountId: string;
