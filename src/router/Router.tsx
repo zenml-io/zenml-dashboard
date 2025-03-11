@@ -13,6 +13,7 @@ import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
+import { loginLoader } from "@/app/login/login";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -367,7 +368,7 @@ export const router = createBrowserRouter(
 
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
-				<Route path={routes.login} element={<Login />} />
+				<Route path={routes.login} element={<Login />} loader={loginLoader} />
 				<Route path={routes.activateUser} element={<ActivateUser />} />
 				<Route path={routes.activateServer} element={<ActivateServer />} />
 				<Route
