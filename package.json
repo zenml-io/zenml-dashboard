@@ -38,7 +38,7 @@
 		"jwt-decode": "^4.0.0",
 		"lodash.debounce": "^4.0.8",
 		"papaparse": "^5.5.2",
-		"prismjs": "^1.29.0",
+		"prismjs": "^1.30.0",
 		"react": "^18.3.1",
 		"react-countdown": "^2.3.6",
 		"react-dom": "^18.3.1",
@@ -48,6 +48,7 @@
 		"react-markdown": "^9.0.3",
 		"react-router-dom": "^6.27.0",
 		"reactflow": "^11.11.4",
+		"reodotdev": "^1.0.0",
 		"unique-names-generator": "^4.7.1",
 		"zod": "^3.24.1"
 	},
