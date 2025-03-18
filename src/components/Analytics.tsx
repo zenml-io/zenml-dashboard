@@ -1,17 +1,41 @@
 import { fetcher } from "@/data/fetch";
 import { useServerInfo } from "@/data/server/info-query";
 import { useCurrentUser } from "@/data/users/current-user-query";
-
+import { loadReoScript } from "reodotdev";
 import { analyticsServerUrl } from "@/lib/analytics";
 import { routes } from "@/router/routes";
 import { PageEvent, PageEventContext, PageEventPage, PageEventProperties } from "@/types/analytics";
 import { useEffect } from "react";
 import { matchPath, useLocation } from "react-router-dom";
 
+const REO_KEY = import.meta.env.VITE_REO_KEY;
+
 export function Analytics() {
 	const { data } = useServerInfo();
 	const { data: userData } = useCurrentUser();
 	const location = useLocation();
+
+	useEffect(() => {
+		if (REO_KEY && data && data.analytics_enabled && userData) {
+			const reoPromise = loadReoScript({ clientID: REO_KEY });
+			reoPromise
+				.then(async (Reo) => {
+					Reo.init({ clientID: REO_KEY });
+					if (userData.metadata?.email) {
+						// wait 2 seconds to ensure the script is loaded
+						await new Promise((resolve) => setTimeout(resolve, 2000));
+						const identity = {
+							username: userData.metadata.email,
+							type: "email"
+						};
+						Reo.identify(identity);
+					}
+				})
+				.catch((error) => {
+					console.error("Error loading Reo", error);
+				});
+		}
+	}, [data, userData]);
 
 	useEffect(() => {
 		if (data && data.analytics_enabled && userData) {
