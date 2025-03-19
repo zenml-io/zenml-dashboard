@@ -36,13 +36,13 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 			Icon = Github;
 			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
 			url =
-				`${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "https://www.github.com").replace(/\/$/, "")}/${name}` +
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "github.com").replace(/\/$/, "")}/${name}` +
 				(commit ? `/tree/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
 			Icon = Gitlab;
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
 			url =
-				`${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "https://www.gitlab.com").replace(/\/$/, "")}/${name}` +
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "gitlab.com").replace(/\/$/, "")}/${name}` +
 				(commit ? `/tree/${commit}` : "");
 		}
 
