@@ -35,14 +35,16 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 		if (data?.body?.source?.attribute === "GitHubCodeRepository") {
 			Icon = Github;
 			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
+			const defaultHost = "github.com";
 			url =
-				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "github.com").replace(/\/$/, "")}/${name}` +
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
 				(commit ? `/tree/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
 			Icon = Gitlab;
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
+			const defaultHost = "gitlab.com";
 			url =
-				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : "gitlab.com").replace(/\/$/, "")}/${name}` +
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
 				(commit ? `/tree/${commit}` : "");
 		}
 
