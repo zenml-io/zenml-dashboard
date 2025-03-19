@@ -1,6 +1,7 @@
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { SelectFlavorList } from "@/components/stack-components/create-component/flavor-select";
 import * as Wizard from "@/components/wizard/Wizard";
+import { snakeCaseToTitleCase } from "@/lib/strings";
 import { StackComponentType } from "@/types/components";
 import { Flavor } from "@/types/flavors";
 import { Button } from "@zenml-io/react-component-library/components/server";
@@ -24,7 +25,7 @@ export function FlavorStep({ type, handleFlavorSelect, handleBack }: Props) {
 					<ArrowLeft className="size-5 shrink-0" />
 					<span className="sr-only">Go step back</span>
 				</Button>
-				<span>Select your Component Flavor</span>
+				<span>Select your {snakeCaseToTitleCase(type)} Flavor</span>{" "}
 			</Wizard.Header>
 			<Wizard.Body>
 				<SelectFlavorList type={type} setSelectedFlavor={handleFlavorSelect} />

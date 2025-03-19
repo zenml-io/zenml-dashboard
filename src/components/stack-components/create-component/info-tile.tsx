@@ -2,24 +2,32 @@ import FileText from "@/assets/icons/file-text.svg?react";
 import File from "@/assets/icons/file.svg?react";
 import TerminalSquare from "@/assets/icons/terminal-square.svg?react";
 import { sanitizeUrl } from "@/lib/url";
+import { StackComponentType } from "@/types/components";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
+import { ComponentIcon } from "../../ComponentIcon";
 
 type InfoTileProps = {
 	sdkDocsUrl?: string;
 	logoUrl?: string;
 	name: string;
+	type: StackComponentType;
 };
-export function InfoTile({ sdkDocsUrl, name, logoUrl }: InfoTileProps) {
+export function InfoTile({ sdkDocsUrl, name, logoUrl, type }: InfoTileProps) {
 	return (
 		<Box className="space-y-5 overflow-hidden pb-5">
 			<div className="flex h-[120px] w-full items-center justify-center bg-teal-25">
-				{!!logoUrl && (
+				{logoUrl ? (
 					<img
 						width={60}
 						height={60}
 						className="aspect-square object-contain"
 						src={sanitizeUrl(logoUrl)}
 						alt={`Logo of ${name}`}
+					/>
+				) : (
+					<ComponentIcon
+						className="aspect-square h-[60px] w-[60px] fill-primary-400 object-contain"
+						type={type}
 					/>
 				)}
 			</div>
