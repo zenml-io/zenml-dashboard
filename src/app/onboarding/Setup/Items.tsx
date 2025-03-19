@@ -31,7 +31,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Log in to your ZenML Server</p>
 					<Codesnippet code={getLoginCommand(data?.deployment_type || "other")} />
 				</div>
-				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
+				<HelpBox link="https://docs.zenml.io/user-guides/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
 			</div>
 		</ChecklistItem>
 	);
@@ -93,7 +93,7 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 							target="_blank"
 							rel="noopener noreferrer"
 							className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
-							href="https://docs.zenml.io/user-guide/starter-guide/create-an-ml-pipeline"
+							href="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline"
 						>
 							Browse our docs
 						</a>
@@ -116,7 +116,7 @@ export function CreateNewStack({ completed, active, hasDownstreamStep }: Onboard
 		>
 			<p className="mb-3">
 				A stack configures how a pipeline is executed{" "}
-				<LearnMoreLink href="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+				<LearnMoreLink href="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
 			</p>
 			<div className="space-y-5">
 				<div className="space-y-3">
@@ -128,7 +128,7 @@ export function CreateNewStack({ completed, active, hasDownstreamStep }: Onboard
 						</Link>
 					</Button>
 				</div>
-				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+				<HelpBox link="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
 			</div>
 		</ChecklistItem>
 	);
@@ -152,7 +152,7 @@ export function RunNewPipeline({ active, completed, hasDownstreamStep }: Onboard
 					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="python run.py" />
 				</div>
 				<div>
-					<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
+					<HelpBox link="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
 				</div>
 			</div>
 		</ChecklistItem>

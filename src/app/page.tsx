@@ -1,9 +1,8 @@
-import External from "@/assets/icons/link-external.svg?react";
 import CloudSquares from "@/assets/illustrations/cloud-squares.svg";
 import { useServerInfo } from "@/data/server/info-query";
 import { getLoginCommand } from "@/lib/login-command";
 import { routes } from "@/router/routes";
-import { Badge, Box, Button } from "@zenml-io/react-component-library";
+import { Box } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../components/CodeSnippet";
 import { OverviewHeader } from "./Header";
@@ -14,7 +13,6 @@ export default function IndexPage() {
 			<OverviewHeader />
 			<div className="layout-container space-y-5 py-5">
 				<OverviewContent />
-				<VsCodeBox />
 			</div>
 		</div>
 	);
@@ -55,31 +53,6 @@ function OverviewContent() {
 					className="h-full w-full"
 				/>
 			</div>
-		</Box>
-	);
-}
-
-function VsCodeBox() {
-	return (
-		<Box className="flex flex-col items-center justify-between gap-3 overflow-hidden px-7 py-5 md:flex-row md:flex-wrap">
-			<div className="space-y-1">
-				<div className="flex items-center space-x-1">
-					<Badge className="text-text-xs font-semibold" color="green">
-						NEW
-					</Badge>
-					<h2 className="text-text-xl font-semibold">VS Code Quickstart with ZenML</h2>
-				</div>
-				<p className="text-theme-text-secondary">
-					Get started quickly with ZenML using GitHub Codespaces! You can run our quickstart guide
-					in a pre-configured environment.
-				</p>
-			</div>
-
-			<Button size="sm" className="w-fit" emphasis="subtle" asChild>
-				<a target="_blank" rel="noopener noreferrer" href="https://github.com/zenml-io/zenml">
-					Visit our GitHub repo <External className="h-5 w-5 shrink-0" />
-				</a>
-			</Button>
 		</Box>
 	);
 }

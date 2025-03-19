@@ -5,6 +5,7 @@ import { StackComponentType } from "@/types/components";
 import { Flavor } from "@/types/flavors";
 import { flavorQueries } from "../../../data/flavors";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { ComponentIcon } from "../../ComponentIcon";
 
 type Props = {
 	type: StackComponentType;
@@ -24,6 +25,7 @@ export function SelectFlavorList({ type, setSelectedFlavor }: Props) {
 				page.items.map((flavor) => (
 					<li className="" key={flavor.id}>
 						<FlavorListItem
+							type={type}
 							onClick={() => setSelectedFlavor(flavor)}
 							id={flavor.id}
 							name={flavor.name}
@@ -40,10 +42,11 @@ type FlavorListItemItemProps = {
 	id: string;
 	name: string;
 	logoUrl?: string;
+	type: StackComponentType;
 	onClick?: () => void;
 };
 
-function FlavorListItem({ name, logoUrl, onClick }: FlavorListItemItemProps) {
+function FlavorListItem({ name, logoUrl, onClick, type }: FlavorListItemItemProps) {
 	return (
 		<Button
 			onClick={onClick}
@@ -51,13 +54,18 @@ function FlavorListItem({ name, logoUrl, onClick }: FlavorListItemItemProps) {
 			emphasis="subtle"
 			className="h-auto w-full gap-2 px-5 py-3"
 		>
-			{logoUrl && (
+			{logoUrl ? (
 				<img
 					alt={`Logo of ${name}`}
 					width={36}
 					height={36}
 					className="aspect-square object-contain"
 					src={sanitizeUrl(logoUrl)}
+				/>
+			) : (
+				<ComponentIcon
+					className="aspect-square h-[36px] w-[36px] fill-primary-400 object-contain"
+					type={type}
 				/>
 			)}
 			<span className="min-w-0 truncate">{snakeCaseToTitleCase(name)}</span>

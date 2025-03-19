@@ -58,6 +58,7 @@ export function ComponentConfigurationForm({
 			useMaxHeight={useMaxHeight}
 			infoTile={
 				<InfoTile
+					type={flavor.data.body?.type || "orchestrator"}
 					name={flavor.data.name}
 					sdkDocsUrl={flavor.data.metadata?.sdk_docs_url ?? undefined}
 					logoUrl={flavor.data.body?.logo_url ?? undefined}

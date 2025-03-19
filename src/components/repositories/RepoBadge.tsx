@@ -17,7 +17,11 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 		{ enabled: !!repositoryId }
 	);
 
-	const repositoryMetadata = data?.metadata?.config;
+	if (!repositoryId || !commit) return <p>Not available</p>;
+	if (isPending) return <Skeleton className="h-6" />;
+	if (isError) return null;
+
+	const repositoryMetadata = data.metadata?.config;
 
 	const getRepositoryLink = () => {
 		let Icon: React.FunctionComponent<
@@ -31,11 +35,17 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 		if (data?.body?.source?.attribute === "GitHubCodeRepository") {
 			Icon = Github;
 			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
-			url = `https://www.github.com/${name}` + (commit ? `/tree/${commit}` : "");
+			const defaultHost = "github.com";
+			url =
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
+				(commit ? `/tree/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
 			Icon = Gitlab;
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
-			url = `https://www.gitlab.com/${name}` + (commit ? `/tree/${commit}` : "");
+			const defaultHost = "gitlab.com";
+			url =
+				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
+				(commit ? `/tree/${commit}` : "");
 		}
 
 		return (
@@ -51,9 +61,7 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 			</a>
 		);
 	};
-	if (!repositoryId || !commit) return <p>Not available</p>;
-	if (isPending) return <Skeleton className="h-6" />;
-	if (isError) return null;
+
 	return (
 		<div className="group/copybutton mr-1">
 			<Tag
