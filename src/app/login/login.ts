@@ -1,10 +1,6 @@
 import { apiPaths, createApiPath } from "@/data/api";
-import { FetchError } from "@/lib/fetch-error";
-import { redirect } from "react-router-dom";
-import { setAuthState } from "@/lib/sessions";
-import { routes } from "@/router/routes";
-import { LoaderFunctionArgs } from "react-router-dom";
 import { fetcher } from "@/data/fetch";
+import { FetchError } from "@/lib/fetch-error";
 
 export async function loginPro() {
 	const url = createApiPath(apiPaths.login);
@@ -27,19 +23,4 @@ export async function loginPro() {
 	}
 
 	return res.json();
-}
-
-export async function loginLoader({ params }: LoaderFunctionArgs) {
-	try {
-		const redirectLink = params.redirect;
-		const data = await loginPro();
-		if (data.access_token) {
-			setAuthState("true");
-			return redirect(redirectLink || routes.home);
-		}
-		return null;
-	} catch (e) {
-		console.error(e);
-		return null;
-	}
 }

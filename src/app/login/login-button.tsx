@@ -1,19 +1,28 @@
 import { setAuthState } from "@/lib/sessions";
 import { routes } from "@/router/routes";
 import { useMutation } from "@tanstack/react-query";
-import { Button } from "@zenml-io/react-component-library";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Spinner } from "@zenml-io/react-component-library";
+import { useEffect, useState } from "react";
+import { useNavigate, useNavigation, useSearchParams } from "react-router-dom";
 import { loginPro } from "./login";
 
 export function LoginButton() {
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
+	const navigation = useNavigation();
 	const redirect = params.get("redirect");
 	const callbackUrl = `${window.location.origin}/login?${params.toString()}`;
+	const [firstTry, setFirstTry] = useState(true);
 
-	const { mutate: login } = useMutation({
+	const { mutate: login, isPending } = useMutation({
+		onSettled: () => {
+			setFirstTry(false);
+		},
 		mutationFn: loginPro,
-		onSuccess: (data) => {
+		onError: (error) => {
+			console.error(error);
+		},
+		onSuccess: async (data) => {
 			if (data.authorization_url) {
 				window.location.href = `${data.authorization_url}?redirect=${encodeURIComponent(callbackUrl)}`;
 				return;
@@ -25,6 +34,14 @@ export function LoginButton() {
 			}
 		}
 	});
+
+	useEffect(() => {
+		if (firstTry) {
+			login();
+		}
+	}, [firstTry, login]);
+
+	if (firstTry && (isPending || navigation.state === "loading")) return <Spinner />;
 
 	return (
 		<Button size="lg" className="w-fit" onClick={() => login()}>

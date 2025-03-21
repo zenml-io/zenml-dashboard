@@ -1,5 +1,4 @@
 import ComponentDetailLayout from "@/app/components/[componentId]/layout";
-import { loginLoader } from "@/app/login/login";
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
@@ -328,7 +327,7 @@ export const router = createBrowserRouter(
 
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
-				<Route path={routes.login} element={<Login />} loader={loginLoader} />
+				<Route path={routes.login} element={<Login />} />
 				<Route path={routes.activateUser} element={<ActivateUser />} />
 				<Route path={routes.activateServer} element={<ActivateServer />} />
 				<Route
