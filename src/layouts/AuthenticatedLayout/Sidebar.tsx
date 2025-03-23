@@ -24,7 +24,6 @@ import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 import { useServerInfo } from "../../data/server/info-query";
 import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
-import { WhatsNewButton } from "./WhatsNewButton";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -115,7 +114,6 @@ export function Sidebar() {
 							</li>
 						</SidebarList>
 						<div className="mt-auto">
-							<WhatsNewButton />
 							<SidebarLink
 								id="settings-sidebar-link"
 								icon={<Settings />}
@@ -126,9 +124,11 @@ export function Sidebar() {
 									routes.settings.connectors.overview,
 									routes.settings.repositories.overview,
 									routes.settings.secrets.overview,
+									routes.settings.apiTokens,
+									routes.settings.service_accounts.overview,
 									routes.settings.general
 								]}
-								to={routes.settings.general}
+								to={routes.settings.apiTokens}
 							/>
 						</div>
 					</SidebarBody>
