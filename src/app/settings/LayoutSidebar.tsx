@@ -27,14 +27,6 @@ export function ServerSettingsMenu() {
 	function getNavItems() {
 		return [
 			{
-				name: "General",
-				href: routes.settings.general
-			},
-			{
-				name: "Members",
-				href: routes.settings.members
-			},
-			{
 				name: "Repositories",
 				href: routes.settings.repositories.overview
 			},
@@ -53,10 +45,6 @@ export function ServerSettingsMenu() {
 				href: routes.settings.service_accounts.overview,
 				isActiveOverride: (pathname: string) =>
 					pathname.startsWith(routes.settings.service_accounts.overview)
-			},
-			{
-				name: "Notifications",
-				href: routes.settings.notifications
 			}
 		];
 	}
