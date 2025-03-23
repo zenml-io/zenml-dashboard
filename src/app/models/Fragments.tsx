@@ -23,15 +23,15 @@ export function CommandSection() {
 
 	function getCommand() {
 		if (modelName) return `zenml model list --name='contains:${modelName}'`;
-		return "zenml model list";
+		return "zenml model --help";
 	}
 
 	return (
-		<Box className="flex flex-wrap justify-between p-5">
+		<Box className="flex w-full flex-wrap justify-between p-5">
 			<div>
-				<p className="text-text-xl font-semibold">Staying Open Source? </p>
+				<p className="text-text-xl font-semibold">Keep using existing version?</p>
 				<p className="text-theme-text-secondary">
-					No problem! Use this CLI command to list your models
+					No problem! Use this CLI command to see all available model operations:
 				</p>
 			</div>
 			<Codesnippet code={getCommand()} />

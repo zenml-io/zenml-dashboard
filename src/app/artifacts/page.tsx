@@ -1,25 +1,15 @@
 import { PageHeader } from "@/components/PageHeader";
-import { Badge } from "@zenml-io/react-component-library";
-import { CommandSection, InfoBox } from "./Fragments";
-import { CTASection, artifactFeatures } from "@/contents/cloud-only";
-import ACP from "@/assets/images/acp.webp";
+import { UpgradeFallback } from "@/components/upgrade-fallback";
+import { CommandSection } from "./Fragments";
 
 export default function ModelsPage() {
 	return (
 		<div>
 			<PageHeader className="flex items-center gap-1">
 				<h1 className="text-display-xs font-semibold">Artifacts</h1>
-				<Badge color="purple" rounded size="sm">
-					<span className="font-semibold text-primary-500">Pro</span>
-				</Badge>
 			</PageHeader>
-			<div className="layout-container space-y-5 py-5">
-				<InfoBox />
-				<CTASection
-					feature="artifact"
-					image={{ src: ACP, alt: "Screenshot of the ZenML Pro Artifact Control plane" }}
-					features={artifactFeatures}
-				/>
+			<div className="layout-container flex flex-col items-center space-y-7 py-5">
+				<UpgradeFallback />
 				<CommandSection />
 			</div>
 		</div>

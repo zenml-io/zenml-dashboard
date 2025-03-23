@@ -1,7 +1,6 @@
 import { fetcher } from "@/data/fetch";
 import { useServerInfo } from "@/data/server/info-query";
 import { useCurrentUser } from "@/data/users/current-user-query";
-
 import { routes } from "@/router/routes";
 import { PageEvent, PageEventContext, PageEventPage, PageEventProperties } from "@/types/analytics";
 import { useEffect } from "react";
@@ -24,7 +23,7 @@ export function Analytics() {
 				}
 			);
 		}
-	}, [location.pathname, location.search, data?.analytics_enabled, userData?.id]);
+	}, [location.pathname, location.search, data?.analytics_enabled, userData?.id, data, userData]);
 
 	return null;
 }
@@ -33,7 +32,7 @@ function performPageEvent(
 	category: string,
 	name: string,
 	metadata: { userId: string; isDebug: boolean },
-	properties: Record<string, any>
+	properties: Record<string, unknown>
 ) {
 	const page: PageEventPage = {
 		path: removeUUIDSegmentsFromPath(location.pathname),

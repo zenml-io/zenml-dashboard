@@ -1,9 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
-import { Badge } from "@zenml-io/react-component-library";
-import { CommandSection, InfoBox } from "./Fragments";
-import { CTASection, modelFeatures } from "@/contents/cloud-only";
-import MCP from "@/assets/images/mcp.webp";
 import { useTourContext } from "@/components/tour/TourContext";
+import { UpgradeFallback } from "@/components/upgrade-fallback";
+import { CommandSection } from "./Fragments";
 import { useEffect } from "react";
 
 export default function ModelsPage() {
@@ -21,18 +19,10 @@ export default function ModelsPage() {
 	return (
 		<div>
 			<PageHeader className="flex items-center gap-1">
-				<h1 className="text-display-xs font-semibold">Models</h1>
-				<Badge color="purple" rounded size="sm">
-					<span className="font-semibold text-primary-500">Pro</span>
-				</Badge>
+				<h1 className="text-display-xs font-semibold">Artifacts</h1>
 			</PageHeader>
-			<div className="layout-container space-y-5 py-5">
-				<InfoBox />
-				<CTASection
-					feature="model"
-					image={{ src: MCP, alt: "Screenshot of the ZenML Pro Model Control plane" }}
-					features={modelFeatures}
-				/>
+			<div className="layout-container flex flex-col items-center space-y-7 py-5">
+				<UpgradeFallback />
 				<CommandSection />
 			</div>
 		</div>
