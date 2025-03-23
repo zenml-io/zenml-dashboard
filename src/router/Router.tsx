@@ -1,5 +1,4 @@
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
-import { surveyLoader } from "@/app/survey/loader";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { lazy } from "react";
@@ -24,16 +23,11 @@ const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page")
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 const RunNotFound = lazy(() => import("@/app/runs/[id]/not-found"));
 
-const MembersPage = lazy(() => import("@/app/settings/members/page"));
-const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
-// Settings
 const Settings = lazy(() => import("@/app/settings/page"));
-const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 const SecretDetailsPage = lazy(() => import("@/app/settings/secrets/[id]/page"));
-const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 const ServiceAccountsOverview = lazy(() => import("@/app/settings/service-accounts/page"));
 const ServiceAccountsDetail = lazy(
 	() => import("@/app/settings/service-accounts/[service-account-id]/page")
@@ -57,7 +51,6 @@ const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
-const Survey = lazy(() => import("@/app/survey/page"));
 const Onboarding = lazy(() => import("@/app/onboarding/page"));
 
 const NotFoundPage = lazy(() => import("@/app/404"));
@@ -165,22 +158,6 @@ export const router = createBrowserRouter(
 						}
 					>
 						<Route
-							element={
-								<ProtectedRoute>
-									<GeneralSettings />
-								</ProtectedRoute>
-							}
-							path="general"
-						/>
-						<Route
-							element={
-								<ProtectedRoute>
-									<Notifications />
-								</ProtectedRoute>
-							}
-							path="notifications"
-						/>
-						<Route
 							path="repositories"
 							element={
 								<ProtectedRoute>
@@ -227,23 +204,6 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<ServiceAccountsDetail />
-								</ProtectedRoute>
-							}
-						/>
-
-						<Route
-							path="members"
-							element={
-								<ProtectedRoute>
-									<MembersPage />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="profile"
-							element={
-								<ProtectedRoute>
-									<ProfileSettingsPage />
 								</ProtectedRoute>
 							}
 						/>
@@ -343,15 +303,6 @@ export const router = createBrowserRouter(
 					element={
 						<ProtectedRoute>
 							<DeviceVerification />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					loader={surveyLoader(queryClient)}
-					path={routes.survey}
-					element={
-						<ProtectedRoute>
-							<Survey />
 						</ProtectedRoute>
 					}
 				/>
