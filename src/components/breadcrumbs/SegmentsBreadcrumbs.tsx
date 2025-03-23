@@ -93,6 +93,7 @@ export const matchSegmentWithPages = (segment: string): any => {
 				"repositories",
 				"connectors",
 				"notifications",
+				"api-tokens",
 				"profile"
 			],
 			true
