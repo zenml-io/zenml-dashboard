@@ -68,18 +68,14 @@ export function Breadcrumbs() {
 								<div className="align-center ml-1 flex items-center">
 									<div>{matchSegmentWithTab(value?.name as string)}</div>
 									<span
-										className={`
-											${isLastOne ? "pointer-events-none text-theme-text-primary" : "text-theme-text-secondary"}
-											ml-1 flex items-center text-text-md font-semibold`}
+										className={` ${isLastOne ? "pointer-events-none text-theme-text-primary" : "text-theme-text-secondary"} ml-1 flex items-center text-text-md font-semibold`}
 									>
 										{formatIdToTitleCase(value?.name as string)}
 									</span>
 								</div>
 							) : (
 								<Link
-									className={`${isLastOne || segment === "settings" ? "pointer-events-none" : ""} 
-									${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"}
-									rounded-sm p-0.5 px-1 text-text-md hover:text-purple-900 hover:underline`}
+									className={`${isLastOne || segment === "settings" ? "pointer-events-none" : ""} ${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"} rounded-sm p-0.5 px-1 text-text-md hover:text-purple-900 hover:underline`}
 									to={matchSegmentWithURL(segment, value?.id as string)}
 								>
 									{typeof value?.name === "string" ? (

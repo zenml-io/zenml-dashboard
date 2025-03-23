@@ -24,7 +24,6 @@ import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 import { useServerInfo } from "../../data/server/info-query";
 import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
-import { WhatsNewButton } from "./WhatsNewButton";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -33,7 +32,7 @@ export function Sidebar() {
 	return (
 		<div>
 			<ZenMLSidebar
-				className={`sticky  ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
+				className={`sticky ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
 			>
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
 					<SidebarHeader
@@ -114,7 +113,6 @@ export function Sidebar() {
 							</li>
 						</SidebarList>
 						<div className="mt-auto">
-							<WhatsNewButton />
 							<SidebarLink
 								id="settings-sidebar-link"
 								icon={<Settings />}
@@ -127,7 +125,7 @@ export function Sidebar() {
 									routes.settings.secrets.overview,
 									routes.settings.general
 								]}
-								to={routes.settings.general}
+								to={routes.settings.repositories.overview}
 							/>
 						</div>
 					</SidebarBody>

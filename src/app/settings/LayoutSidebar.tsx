@@ -27,14 +27,6 @@ export function ServerSettingsMenu() {
 	function getNavItems() {
 		return [
 			{
-				name: "General",
-				href: routes.settings.general
-			},
-			{
-				name: "Members",
-				href: routes.settings.members
-			},
-			{
 				name: "Repositories",
 				href: routes.settings.repositories.overview
 			},
@@ -47,10 +39,6 @@ export function ServerSettingsMenu() {
 			{
 				name: "Connectors",
 				href: routes.settings.connectors.overview
-			},
-			{
-				name: "Notifications",
-				href: routes.settings.notifications
 			}
 		];
 	}
