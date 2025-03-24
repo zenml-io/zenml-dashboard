@@ -93,12 +93,14 @@ function UpgradeButton() {
 
 	const serverInfoData = serverInfo.data;
 
+	const proDashboardUrl = serverInfoData.pro_dashboard_url || "https://cloud.zenml.io";
+
 	return (
 		<Button asChild size="md">
 			<a
 				target="_blank"
 				rel="noopener noreferrer"
-				href={`${serverInfoData.pro_dashboard_url}/workspaces/${serverInfoData.id}/settings/updates`}
+				href={`${proDashboardUrl}/workspaces/${serverInfoData.id}/settings/updates`}
 			>
 				<Arrow width={24} height={24} className="shrink-0 rotate-[270deg] fill-white" />
 				Upgrade to 0.80.0
