@@ -17,8 +17,8 @@ export function OnboardingSetupList() {
 	const { getItem } = getOnboardingSetup(onboarding.data, isLocalServer);
 	const connectStep = getItem("device_verified");
 	const pipelineStep = getItem("pipeline_run");
-	const stackStep = getItem("stack_with_remote_orchestrator_created");
-	const remotePipelineStep = getItem("pipeline_run_with_remote_orchestrator");
+	const stackStep = getItem("stack_with_remote_artifact_store_created");
+	const remotePipelineStep = getItem("pipeline_run_with_remote_artifact_store");
 
 	return (
 		<ul className="space-y-5">

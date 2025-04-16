@@ -4,8 +4,8 @@ export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
 	return [
 		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
 		"pipeline_run",
-		"stack_with_remote_orchestrator_created",
-		"pipeline_run_with_remote_orchestrator"
+		"stack_with_remote_artifact_store_created",
+		"pipeline_run_with_remote_artifact_store"
 	];
 }
 
