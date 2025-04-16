@@ -8,8 +8,8 @@ describe("returns the correct items based on the deployment type", () => {
 		const items = getSetupItems(isLocal);
 		expect(items).toEqual([
 			"pipeline_run",
-			"stack_with_remote_orchestrator_created",
-			"pipeline_run_with_remote_orchestrator"
+			"stack_with_remote_artifact_store_created",
+			"pipeline_run_with_remote_artifact_store"
 		]);
 	});
 
@@ -19,8 +19,8 @@ describe("returns the correct items based on the deployment type", () => {
 		expect(items).toEqual([
 			"device_verified",
 			"pipeline_run",
-			"stack_with_remote_orchestrator_created",
-			"pipeline_run_with_remote_orchestrator"
+			"stack_with_remote_artifact_store_created",
+			"pipeline_run_with_remote_artifact_store"
 		]);
 	});
 });
@@ -73,7 +73,7 @@ describe("checks if the item has downstream items", () => {
 	});
 
 	test("only final step is there", () => {
-		const itemName: OnboardingChecklistItemName = "stack_with_remote_orchestrator_created";
+		const itemName: OnboardingChecklistItemName = "stack_with_remote_artifact_store_created";
 		const onboarding_state: OnboardingChecklistItemName[] = ["production_setup_completed"];
 		const hasDownStreamFinished = checkDownstreamStep(itemName, onboarding_state, false);
 		expect(hasDownStreamFinished).toBe(true);
