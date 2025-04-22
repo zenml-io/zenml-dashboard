@@ -19,17 +19,19 @@ export function ArtifactMetadataTab({ artifactVersionId }: Props) {
 		return <ErrorFallback err={error} />;
 	}
 
-	if (!data?.metadata) {
+	if (!data?.metadata?.run_metadata || Object.keys(data.metadata.run_metadata).length === 0) {
 		return (
 			<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
-					<h1 className="mb-2 text-display-xs font-semibold">
-						No Metadata Found for this Artifact
-					</h1>
+					<p className="mb-2 text-display-xs font-semibold">No metadata found</p>
+					<p className="text-text-lg text-theme-text-secondary">
+						There are no metadata available for this artifact.
+					</p>
 				</div>
 			</EmptyState>
 		);
 	}
+
 	return (
 		<div className="flex flex-col gap-5">
 			{data ? (
