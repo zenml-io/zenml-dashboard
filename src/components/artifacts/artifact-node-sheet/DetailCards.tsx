@@ -24,6 +24,7 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { ComponentIcon } from "@/components/ComponentIcon";
 
 type Props = {
 	artifactVersionId: string;
@@ -161,7 +162,7 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 								<Run className={`mr-1 h-4 w-4 fill-current`} />
 							)}
 
-							{producerRunId}
+							{producerRunId.split("-")[0]}
 						</Tag>
 					</Link>
 				}
@@ -179,11 +180,6 @@ export function DataCard({ artifactVersionId }: Props) {
 	} = useArtifactVersion({ versionId: artifactVersionId });
 
 	const artifactStoreId = artifactVersionData?.body?.artifact_store_id;
-	const { data: storeData, isSuccess: isStoreSuccess } = useQuery({
-		...componentQueries.componentDetail(artifactStoreId!),
-		enabled: !!artifactStoreId
-	});
-	const artifactStoreHref: string = routes.components.detail(artifactStoreId || "");
 
 	if (isArtifactVersionError) {
 		return <ErrorFallback err={artifactVersionError} />;
@@ -203,27 +199,10 @@ export function DataCard({ artifactVersionId }: Props) {
 					/>
 				</Value>
 
-				{artifactVersionData.body?.artifact_store_id && (
+				{artifactStoreId && (
 					<KeyValue
 						label="Artifact Store"
-						value={
-							<>
-								{isStoreSuccess ? (
-									<Link target="_blank" rel="noopener noreferrer" to={artifactStoreHref}>
-										<Tag
-											emphasis="subtle"
-											rounded={false}
-											color="grey"
-											className="text-theme-text-primary"
-										>
-											{storeData?.name}
-										</Tag>
-									</Link>
-								) : (
-									<Skeleton className="h-6 w-12" />
-								)}
-							</>
-						}
+						value={<ArtifactStore artifactStoreId={artifactStoreId} />}
 					/>
 				)}
 				<KeyValue
@@ -264,5 +243,47 @@ export function CodeCard({ artifactVersionId }: Props) {
 				code={getArtifactVersionSnippet(artifactVersionId)}
 			/>
 		</CollapsibleCard>
+	);
+}
+
+function ArtifactStore({ artifactStoreId }: { artifactStoreId: string }) {
+	const artifactStoreQuery = useQuery({
+		...componentQueries.componentDetail(artifactStoreId)
+	});
+
+	if (artifactStoreQuery.isPending) return <Skeleton className="h-6 w-12" />;
+	if (artifactStoreQuery.isError) return <p>Error loading artifact store</p>;
+
+	const artifactStore = artifactStoreQuery.data;
+	const artifactStoreHref: string = routes.components.detail(artifactStoreId);
+	const type = artifactStore.body?.type || "orchestrator";
+
+	const logoUrl = artifactStore.body?.logo_url;
+
+	return (
+		<Link to={artifactStoreHref}>
+			<Tag
+				emphasis="subtle"
+				rounded={false}
+				className="flex w-fit items-center gap-0.5 text-theme-text-primary"
+				color="grey"
+			>
+				{logoUrl ? (
+					<img
+						alt={artifactStore.name}
+						width={20}
+						height={20}
+						className="shrink-0 object-contain"
+						src={logoUrl}
+					/>
+				) : (
+					<ComponentIcon
+						className="aspect-square h-4 w-4 fill-primary-400 object-contain"
+						type={type}
+					/>
+				)}
+				{artifactStore.name}
+			</Tag>
+		</Link>
 	);
 }

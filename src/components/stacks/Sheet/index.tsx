@@ -23,6 +23,7 @@ import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
 import { Link } from "react-router-dom";
 import { routes } from "../../../router/routes";
+import { UpdateStackDialog } from "./update-stacks-dialog";
 
 type Props = {
 	stackId: string;
@@ -60,19 +61,24 @@ function StackHeadline({ stackId }: Props) {
 		);
 
 	return (
-		<div className="flex items-center space-x-2 border-b border-theme-border-moderate bg-theme-surface-primary p-5">
-			<Avatar type="square" size="lg">
-				<AvatarFallback size="lg">{stack.data.name[0]}</AvatarFallback>
-			</Avatar>
-			<div>
-				<div className="group/copybutton flex items-center gap-0.5">
-					<p className="mb-0.5 text-text-sm text-theme-text-secondary">{stack.data.id}</p>
-					<CopyButton copyText={stack.data.id} />
-				</div>
+		<div className="flex items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
+			<div className="flex items-center space-x-2">
+				<Avatar type="square" size="lg">
+					<AvatarFallback size="lg">{stack.data.name[0]}</AvatarFallback>
+				</Avatar>
+				<div>
+					<div className="group/copybutton flex items-center gap-0.5">
+						<p className="mb-0.5 text-text-sm text-theme-text-secondary">{stack.data.id}</p>
+						<CopyButton copyText={stack.data.id} />
+					</div>
 
-				<div className="flex items-center gap-1">
-					<h2 className="text-display-xs font-semibold">{stack.data.name}</h2>
+					<div className="flex items-center gap-1">
+						<h2 className="text-display-xs font-semibold">{stack.data.name}</h2>
+					</div>
 				</div>
+			</div>
+			<div className="flex items-center gap-2">
+				<UpdateStackDialog name={stack.data.name} />
 			</div>
 		</div>
 	);
