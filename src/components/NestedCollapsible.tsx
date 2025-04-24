@@ -11,6 +11,7 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
+import { NotAvailable } from "./not-available";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -57,7 +58,7 @@ export function NestedCollapsible({
 			title={title}
 		>
 			{Object.keys(data || {}).length === 0 ? (
-				<p>Not available</p>
+				<NotAvailable />
 			) : (
 				<div className="flex flex-col gap-3">
 					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
