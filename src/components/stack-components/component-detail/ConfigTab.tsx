@@ -14,6 +14,7 @@ import { KeyValue } from "../../KeyValue";
 import { DisplayDate } from "../../DisplayDate";
 import { InlineAvatar } from "../../InlineAvatar";
 import { NestedCollapsible } from "../../NestedCollapsible";
+import { ConnectorTag } from "@/components/service-connectors/connector-tag";
 
 type Props = {
 	componentId: string;
@@ -33,13 +34,16 @@ export function ComponentConfigTab({ componentId }: Props) {
 
 function BasicParams({ componentId }: Props) {
 	const [open, setOpen] = useState(true);
-	const component = useComponent(componentId);
-	if (component.isError) return null;
-	if (component.isPending) return <Skeleton className="h-[150px] w-full" />;
+	const componentQuery = useComponent(componentId);
+	if (componentQuery.isError) return null;
+	if (componentQuery.isPending) return <Skeleton className="h-[150px] w-full" />;
 
-	const user = component.data.body?.user;
-	const created = component.data.body?.created;
-	const updated = component.data.body?.updated;
+	const component = componentQuery.data;
+
+	const user = component.body?.user;
+	const created = component.body?.created;
+	const updated = component.body?.updated;
+	const connector = component.metadata?.connector;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -64,7 +68,7 @@ function BasicParams({ componentId }: Props) {
 							</div>
 						}
 					/> */}
-					<KeyValue label="Component Name" value={component.data.name} />
+					<KeyValue label="Component Name" value={component.name} />
 					<KeyValue
 						label="Flavor"
 						value={
@@ -77,16 +81,20 @@ function BasicParams({ componentId }: Props) {
 								<img
 									width={20}
 									height={20}
-									src={sanitizeUrl(component.data.body?.logo_url || "")}
+									src={sanitizeUrl(component.body?.logo_url || "")}
 									alt="Flavor Icon of Component"
 								/>
-								<p className="truncate">{component.data.body?.flavor_name}</p>
+								<p className="truncate">{component.body?.flavor_name}</p>
 							</Tag>
 						}
 					/>
 					<KeyValue
 						label="Author"
 						value={user ? <InlineAvatar username={getUsername(user)} /> : "Not available"}
+					/>
+					<KeyValue
+						label="Service Connector"
+						value={connector ? <ConnectorTag connectorName={connector.name} /> : "Not available"}
 					/>
 					<KeyValue
 						label="Updated"
