@@ -1,16 +1,15 @@
-import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Code from "@/assets/icons/code-browser.svg?react";
 import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
+import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import {
 	Badge,
 	BadgeProps,
-	SheetClose,
 	Skeleton,
 	Tabs,
 	TabsContent,
@@ -51,12 +50,7 @@ export function StepSheetContent({ stepId }: Props) {
 
 	return (
 		<div>
-			<div className="flex h-9 items-center border-b border-theme-border-moderate bg-theme-surface-primary px-4 py-3">
-				<SheetClose className="focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
-					<DoubleChevronRight className="h-5 w-5 fill-neutral-500" />
-					<span className="sr-only">Close</span>
-				</SheetClose>
-			</div>
+			<SheetHeader />
 			<div className="flex justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 				<div>
 					{data ? (
