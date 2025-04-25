@@ -1,20 +1,19 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { ConnectorTag } from "@/components/service-connectors/connector-tag";
+import { sanitizeUrl } from "@/lib/url";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
-import { sanitizeUrl } from "@/lib/url";
-import { getUsername } from "@/lib/user";
 import { Skeleton, Tag } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { useComponent } from "./hooks";
-import { KeyValue } from "../../KeyValue";
 import { DisplayDate } from "../../DisplayDate";
 import { InlineAvatar } from "../../InlineAvatar";
+import { KeyValue } from "../../KeyValue";
 import { NestedCollapsible } from "../../NestedCollapsible";
-import { ConnectorTag } from "@/components/service-connectors/connector-tag";
+import { useComponent } from "./hooks";
 
 type Props = {
 	componentId: string;
@@ -90,7 +89,7 @@ function BasicParams({ componentId }: Props) {
 					/>
 					<KeyValue
 						label="Author"
-						value={user ? <InlineAvatar username={getUsername(user)} /> : "Not available"}
+						value={user?.name ? <InlineAvatar username={user.name} /> : "Not available"}
 					/>
 					<KeyValue
 						label="Service Connector"

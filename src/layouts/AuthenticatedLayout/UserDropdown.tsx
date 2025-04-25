@@ -4,7 +4,6 @@ import { useServerInfo } from "@/data/server/info-query";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { isNoAuthServer } from "@/lib/server";
-import { getUsername } from "@/lib/user";
 import {
 	Avatar,
 	AvatarFallback,
@@ -36,7 +35,7 @@ export function UserDropdown() {
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Avatar size="lg">
-					<AvatarFallback size="lg">{getUsername(currentUser.data)[0]}</AvatarFallback>
+					<AvatarFallback size="lg">{currentUser.data.name[0]}</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" sideOffset={7}>

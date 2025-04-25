@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, Box, Skeleton } from "@zenml-io/react-component-library";
 import { UpdateProfileForm } from "./UpdateProfileForm";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { getUsername } from "@/lib/user";
 
 export default function ProfilePage() {
 	const { data: user } = useCurrentUser();
@@ -15,7 +14,7 @@ export default function ProfilePage() {
 				{user ? (
 					<Avatar size="xxl" className="ml-5 h-[140px] w-[140px]" type="rounded">
 						<AvatarFallback className="text-display-lg" size="xxl">
-							{getUsername(user)[0]}
+							{user.name[0]}
 						</AvatarFallback>
 					</Avatar>
 				) : (
