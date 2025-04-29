@@ -3,10 +3,8 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { getSecretSnippet } from "@/lib/code-snippets";
-import { getUsername } from "@/lib/user";
 import { routes } from "@/router/routes";
 import { SecretNamespace } from "@/types/secret";
-import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 import SecretsDropdown from "./SecretsDropdown";
@@ -54,14 +52,11 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 	{
 		id: "author",
 		header: "Author",
-		accessorFn: (row) => row.body?.user,
+		accessorFn: (row) => row.body?.user?.name,
 		cell: ({ getValue }) => {
-			const user = getValue<User>();
-			return (
-				<>
-					<InlineAvatar username={getUsername(user)} />
-				</>
-			);
+			const name = getValue<string>();
+			if (!name) return null;
+			return <InlineAvatar username={name} />;
 		}
 	},
 	{

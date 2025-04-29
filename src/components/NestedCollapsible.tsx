@@ -11,6 +11,7 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
+import { NotAvailable } from "./not-available";
 import { CopyMetadataButton } from "./copy-metadata-button";
 
 const regex = /^<class\s+'.*'>$/;
@@ -62,8 +63,8 @@ export function NestedCollapsible({
 			headerClassName="flex items-center gap-2"
 			headerChildren={hasNoData ? null : <CopyMetadataButton copyText={JSON.stringify(data)} />}
 		>
-			{hasNoData ? (
-				<p>Not available</p>
+			{Object.keys(data || {}).length === 0 ? (
+				<NotAvailable />
 			) : (
 				<div className="flex flex-col gap-3">
 					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">

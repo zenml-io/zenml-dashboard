@@ -1,10 +1,9 @@
+import { InlineAvatar } from "@/components/InlineAvatar";
 import { useCurrentUser } from "@/data/users/current-user-query";
+import { Skeleton } from "@zenml-io/react-component-library";
 import { Outlet } from "react-router-dom";
 import { DisplayServer, ProfileSettingsMenu, ServerSettingsMenu } from "./LayoutSidebar";
-import { InlineAvatar } from "@/components/InlineAvatar";
 import { VersionDisplay } from "./VersionDisplay";
-import { getUsername } from "@/lib/user";
-import { Skeleton } from "@zenml-io/react-component-library";
 
 export default function SettingsPage() {
 	const { data } = useCurrentUser();
@@ -20,7 +19,7 @@ export default function SettingsPage() {
 				{data ? (
 					<div className="flex flex-col gap-4">
 						<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Account</p>
-						<InlineAvatar username={getUsername(data)} />
+						<InlineAvatar username={data.name} />
 					</div>
 				) : (
 					<Skeleton className="h-[70px] w-full" />

@@ -137,12 +137,14 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		id: "author",
 		header: "Author",
 		accessorFn: (row) => ({
-			name: row.body?.user?.body?.full_name || row.body?.user?.name
+			name: row.body?.user?.name
 		}),
 		cell: ({ getValue }) => {
 			const { name } = getValue<{
-				name: string;
+				name?: string;
 			}>();
+
+			if (!name) return null;
 
 			return <InlineAvatar username={name} />;
 		}

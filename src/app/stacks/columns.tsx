@@ -2,9 +2,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { StackSheet } from "@/components/stacks/Sheet";
-import { getUsername } from "@/lib/user";
 import { Stack } from "@/types/stack";
-import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
@@ -52,11 +50,11 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.body?.user }),
+			accessorFn: (row) => ({ author: row.body?.user?.name }),
 			cell: ({ getValue }) => {
-				const { author } = getValue<{ author?: User }>();
+				const { author } = getValue<{ author?: string }>();
 				if (!author) return null;
-				return <InlineAvatar username={getUsername(author)} />;
+				return <InlineAvatar username={author} />;
 			}
 		},
 		{

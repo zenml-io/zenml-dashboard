@@ -1,6 +1,5 @@
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { getUsername } from "@/lib/user";
 import { User, UserBody } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
@@ -71,7 +70,7 @@ export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 						header: "",
 						accessorFn: (row) => ({
 							id: row.id,
-							name: getUsername(row)
+							name: row.name
 						}),
 						meta: {
 							width: "5%"

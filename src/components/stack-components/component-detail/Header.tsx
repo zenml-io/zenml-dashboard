@@ -1,17 +1,10 @@
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import Edit from "@/assets/icons/edit.svg?react";
+import { UpdateButtonContent } from "@/components/buttons/update-button-content";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { routes } from "@/router/routes";
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuTrigger
-} from "@zenml-io/react-component-library/components/client";
 import { Badge, Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useBreadcrumbsContext } from "../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { CopyButton } from "../../CopyButton";
 import { PageHeader } from "../../PageHeader";
@@ -24,6 +17,8 @@ export function StackComponentsDetailHeader({
 	componentId,
 	isPanel
 }: Props & { isPanel: boolean }) {
+	const path = useLocation().pathname;
+	const segment = path.split("/").at(-1) as "edit" | null;
 	return (
 		<PageHeader className="flex items-center justify-between space-y-1">
 			<div className="space-y-1">
@@ -34,8 +29,7 @@ export function StackComponentsDetailHeader({
 					<ComponentType componentId={componentId} />
 				</div>
 			</div>
-
-			<ComponentDetailDropdown componentId={componentId} />
+			{segment === "edit" ? null : <ComponentEditButton componentId={componentId} />}
 		</PageHeader>
 	);
 }
@@ -105,28 +99,38 @@ function ComponentType({ componentId }: Props) {
 	);
 }
 
-function ComponentDetailDropdown({ componentId }: Props) {
-	const navigate = useNavigate();
+// function ComponentDetailDropdown({ componentId }: Props) {
+// 	const navigate = useNavigate();
+// 	return (
+// 		<DropdownMenu>
+// 			<DropdownMenuTrigger asChild>
+// 				<Button
+// 					intent="secondary"
+// 					emphasis="minimal"
+// 					className="flex aspect-square items-center justify-center"
+// 				>
+// 					<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
+// 				</Button>
+// 			</DropdownMenuTrigger>
+// 			<DropdownMenuContent align="end" sideOffset={7}>
+// 				<DropdownMenuItem
+// 					onSelect={() => navigate(routes.components.edit(componentId))}
+// 					className="cursor-pointer space-x-2"
+// 				>
+// 					<Edit className="h-3 w-3 fill-neutral-400" />
+// 					<p>Edit</p>
+// 				</DropdownMenuItem>
+// 			</DropdownMenuContent>
+// 		</DropdownMenu>
+// 	);
+// }
+
+function ComponentEditButton({ componentId }: Props) {
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger asChild>
-				<Button
-					intent="secondary"
-					emphasis="minimal"
-					className="flex aspect-square items-center justify-center"
-				>
-					<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
-				</Button>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" sideOffset={7}>
-				<DropdownMenuItem
-					onSelect={() => navigate(routes.components.edit(componentId))}
-					className="cursor-pointer space-x-2"
-				>
-					<Edit className="h-3 w-3 fill-neutral-400" />
-					<p>Edit</p>
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<Button asChild type="button" size="sm" intent="primary" emphasis="subtle">
+			<Link to={routes.components.edit(componentId)}>
+				<UpdateButtonContent />
+			</Link>
+		</Button>
 	);
 }
