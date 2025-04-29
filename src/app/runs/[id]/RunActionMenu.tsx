@@ -1,6 +1,7 @@
 import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import {
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -19,9 +20,16 @@ export function RunActionsMenu() {
 			<DeleteRunAlert setOpen={setDeleteOpen} open={deleteOpen} />
 			<DropdownMenu modal={dropdownOpen} open={dropdownOpen} onOpenChange={setDropdownOpen}>
 				<DropdownMenu>
-					<DropdownMenuTrigger className="z-10">
-						<HorizontalDots className="h-5 w-5 shrink-0 fill-theme-text-secondary" />
-						<p className="sr-only">Run Actions</p>
+					<DropdownMenuTrigger asChild>
+						<Button
+							intent="secondary"
+							className="flex aspect-square items-center justify-center p-0"
+							emphasis="minimal"
+							size="md"
+						>
+							<HorizontalDots className="h-5 w-5 shrink-0 fill-theme-text-secondary" />
+							<p className="sr-only">Run Actions</p>
+						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent className="z-10" align="end" sideOffset={1}>
 						<DropdownMenuItem onClick={() => setDeleteOpen(true)} className="space-x-2">
