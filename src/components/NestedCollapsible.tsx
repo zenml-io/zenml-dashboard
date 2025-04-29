@@ -11,6 +11,10 @@ import { PropsWithChildren, ReactNode } from "react";
 import { Codesnippet } from "./CodeSnippet";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
+import { NotAvailable } from "./not-available";
+import { CopyMetadataButton } from "./copy-metadata-button";
+
+const regex = /^<class\s+'.*'>$/;
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -33,7 +37,6 @@ export function NestedCollapsible({
 	const objects: { [key: string]: Record<string, unknown> } = {};
 	const nonObjects: { [key: string]: unknown } = {};
 	const arrays: { [key: string]: unknown[] } = {};
-	const regex = /^<class\s+'.*'>$/;
 
 	for (const [key, value] of Object.entries(data || {})) {
 		if (isObject(value)) {
@@ -48,6 +51,8 @@ export function NestedCollapsible({
 	const values = Object.entries(nonObjects);
 	values.sort((a, b) => a[0].localeCompare(b[0]));
 
+	const hasNoData = Object.keys(data || {}).length === 0;
+
 	return (
 		<CollapsibleCard
 			contentClassName={contentClassName}
@@ -55,9 +60,11 @@ export function NestedCollapsible({
 			initialOpen={isInitialOpen}
 			intent={intent}
 			title={title}
+			headerClassName="flex items-center gap-2"
+			headerChildren={hasNoData ? null : <CopyMetadataButton copyText={JSON.stringify(data)} />}
 		>
 			{Object.keys(data || {}).length === 0 ? (
-				<p>Not available</p>
+				<NotAvailable />
 			) : (
 				<div className="flex flex-col gap-3">
 					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
@@ -72,28 +79,7 @@ export function NestedCollapsible({
 										</Tooltip>
 									</TooltipProvider>
 								}
-								value={
-									<>
-										{isString(value) && regex.test(value) ? (
-											<Codesnippet className="py-1" highlightCode code={value} />
-										) : value === null ? (
-											<div>null</div>
-										) : isString(value) && isUrl(value) ? (
-											<a
-												className="underline transition-all duration-200 hover:decoration-transparent"
-												href={value}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												{value}
-											</a>
-										) : (
-											<div className="whitespace-normal">
-												{isString(value) ? value : JSON.stringify(value)}
-											</div>
-										)}
-									</>
-								}
+								value={<RenderSimpleValue value={value} />}
 							/>
 						))}
 					</dl>
@@ -118,43 +104,21 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 
 	return (
 		<>
-			<CollapsibleCard intent="secondary" key={title} title={title}>
+			<CollapsibleCard
+				headerClassName="flex items-center gap-2"
+				headerChildren={<CopyMetadataButton copyText={JSON.stringify(value)} />}
+				intent="secondary"
+				key={title}
+				title={title}
+			>
 				{simpleValues.length > 0 && (
-					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 truncate md:grid-cols-3 md:gap-y-4">
-						{Object.entries(simpleValues).map(([key, value]) => (
-							<KeyValue
-								key={key}
-								label={
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
-											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
-										</Tooltip>
-									</TooltipProvider>
-								}
-								value={
-									<div className="py-1">
-										{value === null ? (
-											<div>null</div>
-										) : isString(value) && isUrl(value) ? (
-											<a
-												className="underline transition-all duration-200 hover:decoration-transparent"
-												href={value}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												{value}
-											</a>
-										) : (
-											<div className="whitespace-normal">
-												{isString(value) ? value : JSON.stringify(value)}
-											</div>
-										)}
-									</div>
-								}
-							/>
+					<ul className="space-y-2 md:space-y-4">
+						{simpleValues.map((val, index) => (
+							<li key={index}>
+								<RenderSimpleValue value={val} />
+							</li>
 						))}
-					</dl>
+					</ul>
 				)}
 				{nestedValues.length > 0 && (
 					<ul className="space-y-4">
@@ -173,4 +137,29 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 			</CollapsibleCard>
 		</>
 	);
+}
+
+function RenderSimpleValue({ value }: { value: unknown }) {
+	if (isString(value) && regex.test(value)) {
+		return <Codesnippet className="py-1" highlightCode code={value} />;
+	}
+
+	if (value === null) {
+		return <div>null</div>;
+	}
+
+	if (isString(value) && isUrl(value)) {
+		return (
+			<a
+				className="underline transition-all duration-200 hover:decoration-transparent"
+				href={value}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				{value}
+			</a>
+		);
+	}
+
+	return <div className="whitespace-normal">{isString(value) ? value : JSON.stringify(value)}</div>;
 }

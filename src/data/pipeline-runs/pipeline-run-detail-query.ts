@@ -1,19 +1,26 @@
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
-import { PipelineRun } from "@/types/pipeline-runs";
+import { PipelineRun, PipelineRunDetailQueryParams } from "@/types/pipeline-runs";
 import { notFound } from "@/lib/not-found-error";
 import { fetcher } from "../fetch";
+import { objectToSearchParams } from "@/lib/url";
+
 export type PipelineRunDetailOverview = {
 	runId: string;
+	queryParams?: PipelineRunDetailQueryParams;
 };
 
-export function getPipelineRunDetailQueryKey({ runId }: PipelineRunDetailOverview) {
-	return ["runs", runId];
+export function getPipelineRunDetailQueryKey({
+	runId,
+	queryParams = {}
+}: PipelineRunDetailOverview) {
+	return ["runs", runId, queryParams];
 }
 
-export async function fetchPipelineRun({ runId }: PipelineRunDetailOverview) {
-	const url = createApiPath(apiPaths.runs.detail(runId));
+export async function fetchPipelineRun({ runId, queryParams = {} }: PipelineRunDetailOverview) {
+	const queryString = objectToSearchParams(queryParams);
+	const url = createApiPath(apiPaths.runs.detail(runId)) + (queryString ? `?${queryString}` : "");
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {

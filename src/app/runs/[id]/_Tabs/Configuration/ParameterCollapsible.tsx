@@ -1,5 +1,6 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { NestedCollapsible } from "@/components/NestedCollapsible";
+import { NotAvailable } from "@/components/not-available";
 import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -37,7 +38,7 @@ export function PipelineParamsCollapsible({ deploymentId }: Props) {
 					Pipeline Parameters
 				</CollapsibleHeader>
 				<CollapsibleContent className="border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
-					Not available
+					<NotAvailable />
 				</CollapsibleContent>
 			</CollapsiblePanel>
 		);

@@ -5,7 +5,11 @@ import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
-	CollapsibleTrigger
+	CollapsibleTrigger,
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 
@@ -13,8 +17,16 @@ type Props = {
 	run: PipelineRun;
 };
 
+const PYTHON_PACKAGES_KEY = "python_packages";
+
 export function EnvironmentCollapsible({ run }: Props) {
 	const [open, setOpen] = useState(true);
+
+	const executionEnvironment = run.metadata?.orchestrator_environment;
+	const clientEnvironment = run.metadata?.client_environment;
+
+	const normalizedExecutionEnvironment = normalizePythonPackages(executionEnvironment ?? {});
+	const normalizedClientEnvironment = normalizePythonPackages(clientEnvironment ?? {});
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -32,16 +44,65 @@ export function EnvironmentCollapsible({ run }: Props) {
 				<NestedCollapsible
 					isInitialOpen
 					intent="secondary"
-					title="Client Environment"
-					data={run.metadata?.client_environment}
+					title={
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<span>Client Environment</span>
+								</TooltipTrigger>
+								<TooltipContent className="max-w-[200px] whitespace-normal xl:max-w-[300px]">
+									Environment where you start your pipeline run by calling the pipeline function.{" "}
+									<a
+										rel="noopener noreferrer"
+										className="link"
+										href="https://docs.zenml.io/user-guides/best-practices/configure-python-environments#client-environment-or-the-runner-environment"
+										target="_blank"
+									>
+										Learn more about client environments
+									</a>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					}
+					data={normalizedClientEnvironment}
 				/>
 				<NestedCollapsible
 					isInitialOpen
 					intent="secondary"
-					title="Orchestrator Environment"
-					data={run.metadata?.orchestrator_environment}
+					title={
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<span>Execution Environment</span>
+								</TooltipTrigger>
+								<TooltipContent className="max-w-[200px] whitespace-normal xl:max-w-[300px]">
+									Environment where your ZenML steps get executed.{" "}
+									<a
+										rel="noopener noreferrer"
+										className="link"
+										href="https://docs.zenml.io/user-guides/best-practices/configure-python-environments#execution-environments"
+										target="_blank"
+									>
+										Learn more about exectuion environments
+									</a>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					}
+					data={normalizedExecutionEnvironment}
 				/>
 			</CollapsibleContent>
 		</CollapsiblePanel>
 	);
+}
+
+function normalizePythonPackages(env: Record<string, unknown>) {
+	const pythonPackages = env[PYTHON_PACKAGES_KEY];
+	if (typeof pythonPackages === "string") {
+		return {
+			...env,
+			[PYTHON_PACKAGES_KEY]: pythonPackages.split("\n").map((pkg) => pkg.trim())
+		};
+	}
+	return env;
 }

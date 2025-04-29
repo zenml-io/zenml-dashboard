@@ -26,7 +26,7 @@ export function PreviewArtifactNode({
 									className="h-4 w-4 fill-primary-400"
 								/>
 							</div>
-							<p className="truncate">{data.label}</p>
+							<p className="truncate text-text-sm">{data.label}</p>
 						</div>
 					</TooltipTrigger>
 					<TooltipContent className="z-20 max-w-xs text-center">

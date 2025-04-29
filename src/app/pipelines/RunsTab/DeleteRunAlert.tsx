@@ -15,9 +15,9 @@ export function DeleteRunAlert() {
 
 	return (
 		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-			<AlertDialogTrigger>
+			<AlertDialogTrigger asChild>
 				<Button
-					className="rounded-sharp border-none bg-white"
+					className="rounded-sharp border-y-0 bg-white"
 					size="md"
 					emphasis="subtle"
 					intent="secondary"

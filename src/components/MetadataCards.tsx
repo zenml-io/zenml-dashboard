@@ -11,6 +11,7 @@ import { CollapsibleCard } from "./CollapsibleCard";
 import { KeyValue } from "./KeyValue";
 import { NestedCollapsible } from "./NestedCollapsible";
 import { isUrl } from "../lib/url";
+import { CopyMetadataButton } from "./copy-metadata-button";
 
 type Props = { metadata: MetadataMap };
 
@@ -35,9 +36,22 @@ export function UncategorizedCard({ metadata, title }: Props & { title?: string 
 	// sort nonDicts alphabetically by index 0
 	nonDicts.sort((a, b) => a[0].localeCompare(b[0]));
 
+	const nonDictsObject = nonDicts.reduce(
+		(acc, [key, value]) => {
+			acc[key] = value;
+			return acc;
+		},
+		{} as Record<string, unknown>
+	);
+
 	return (
 		<div>
-			<CollapsibleCard initialOpen title={title || "Uncategorized"}>
+			<CollapsibleCard
+				headerClassName="flex items-center gap-2"
+				headerChildren={<CopyMetadataButton copyText={JSON.stringify(nonDictsObject)} />}
+				initialOpen
+				title={title || "Uncategorized"}
+			>
 				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
 					{nonDicts.map(([name, value], idx) => {
 						return (

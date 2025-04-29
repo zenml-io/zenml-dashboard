@@ -1,12 +1,10 @@
 import BarChart from "@/assets/icons/bar-chart.svg?react";
-import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import CodeSquare from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import { VisualizationConfirmProvider } from "@/context/VisualizationConfirmationContext";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import {
 	Badge,
-	SheetClose,
 	Skeleton,
 	Tabs,
 	TabsContent,
@@ -15,6 +13,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { ErrorBoundary } from "react-error-boundary";
 import { ArtifactIcon } from "../../ArtifactIcon";
+import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { ArtifactDetailTab } from "./DetailsTab";
 import { ArtifactMetadataTab } from "./MetadataTab";
 import { VisualizationErrorFallback, VisualizationTab } from "./VisualizationTab";
@@ -31,12 +30,7 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 	return (
 		<div>
 			{/* Header */}
-			<div className="flex h-9 items-center border-b border-theme-border-moderate bg-theme-surface-primary px-4 py-3">
-				<SheetClose className="focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
-					<DoubleChevronRight className="h-5 w-5 fill-neutral-500" />
-					<span className="sr-only">Close</span>
-				</SheetClose>
-			</div>
+			<SheetHeader />
 			<div className="border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 				{data ? (
 					<p className="mb-0.5 text-text-sm text-theme-text-secondary">{artifactVersionId}</p>
