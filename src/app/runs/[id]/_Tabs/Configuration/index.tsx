@@ -11,7 +11,10 @@ import { PipelineParamsCollapsible } from "./ParameterCollapsible";
 
 export function ConfigurationTab() {
 	const { runId } = useParams() as { runId: string };
-	const { data, isError, isPending } = usePipelineRun({ runId: runId }, { throwOnError: true });
+	const { data, isError, isPending } = usePipelineRun(
+		{ runId: runId, queryParams: { include_python_packages: true } },
+		{ throwOnError: true }
+	);
 	const { data: buildData } = usePipelineBuild(
 		{
 			buildId: data?.body?.build?.id as string
