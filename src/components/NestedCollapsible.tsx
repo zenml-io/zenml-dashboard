@@ -141,7 +141,7 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 
 function RenderSimpleValue({ value }: { value: unknown }) {
 	if (isString(value) && regex.test(value)) {
-		return <Codesnippet highlightCode code={value} />;
+		return <Codesnippet className="py-1" highlightCode code={value} />;
 	}
 
 	if (value === null) {
