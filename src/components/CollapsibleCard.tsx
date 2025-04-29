@@ -16,6 +16,8 @@ type CollapsibleCardProps = {
 	className?: string;
 	contentClassName?: string;
 	intent?: CollapsibleHeaderProps["intent"];
+	headerClassName?: string;
+	headerChildren?: React.ReactNode;
 };
 
 export function CollapsibleCard({
@@ -24,12 +26,14 @@ export function CollapsibleCard({
 	initialOpen = false,
 	className,
 	contentClassName,
-	intent = "primary"
+	intent = "primary",
+	headerClassName,
+	headerChildren
 }: CollapsibleCardProps) {
 	const [open, setOpen] = useState(initialOpen);
 	return (
 		<CollapsiblePanel className={className} open={open} onOpenChange={setOpen}>
-			<CollapsibleHeader intent={intent}>
+			<CollapsibleHeader intent={intent} className={headerClassName}>
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<ChevronDown
 						className={` ${
@@ -38,6 +42,8 @@ export function CollapsibleCard({
 					/>
 					{title}
 				</CollapsibleTrigger>
+
+				{headerChildren}
 			</CollapsibleHeader>
 
 			<CollapsibleContent

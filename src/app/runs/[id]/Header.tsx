@@ -7,6 +7,7 @@ import { Skeleton } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { RunActionsMenu } from "./RunActionMenu";
+import { RunRefreshGroup } from "@/components/runs/refresh-group";
 
 export function RunsDetailHeader() {
 	const { runId } = useParams() as { runId: string };
@@ -42,7 +43,10 @@ export function RunsDetailHeader() {
 					</>
 				)}
 			</div>
-			<RunActionsMenu />
+			<div className="flex items-center gap-1">
+				<RunRefreshGroup runId={runId} />
+				<RunActionsMenu />
+			</div>
 		</PageHeader>
 	);
 }
