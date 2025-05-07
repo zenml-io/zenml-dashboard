@@ -1,6 +1,6 @@
 import Pipelines from "@/assets/icons/pipeline.svg?react";
-import Spinner from "@/assets/icons/spinner.svg?react";
 import Run from "@/assets/icons/terminal-square.svg?react";
+import { ComponentIcon } from "@/components/ComponentIcon";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ErrorFallback } from "@/components/Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
@@ -24,7 +24,6 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
-import { ComponentIcon } from "@/components/ComponentIcon";
 
 type Props = {
 	artifactVersionId: string;
@@ -151,17 +150,12 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 				value={
 					<Link to={routes.runs.detail(producerRunId)}>
 						<Tag
-							color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
-							className="inline-flex items-center gap-0.5"
-							rounded={false}
 							emphasis="subtle"
+							rounded={false}
+							className="inline-flex items-center gap-0.5"
+							color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
 						>
-							{pipelineRun.data.body?.status === "running" ? (
-								<Spinner className="mr-1 h-4 w-4 border-[2px]" />
-							) : (
-								<Run className={`mr-1 h-4 w-4 fill-current`} />
-							)}
-
+							<Run className={`mr-1 h-4 w-4 fill-current`} />
 							{producerRunId.split("-")[0]}
 						</Tag>
 					</Link>
