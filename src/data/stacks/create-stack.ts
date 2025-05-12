@@ -4,12 +4,11 @@ import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { Stack, StackRequest } from "@/types/stack";
 
 type CreateStackParams = {
-	workspaceId: string;
 	payload: StackRequest;
 };
 
-export async function createStack({ workspaceId, payload }: CreateStackParams): Promise<Stack> {
-	const url = createApiPath(apiPaths.workspaces.stacks(workspaceId));
+export async function createStack({ payload }: CreateStackParams): Promise<Stack> {
+	const url = createApiPath(apiPaths.stacks.all);
 
 	const res = await fetch(url, {
 		method: "POST",
@@ -44,8 +43,8 @@ export function useCreateStack(
 ) {
 	return useMutation<Stack, FetchError, CreateStackParams, unknown>({
 		...options,
-		mutationFn: async ({ workspaceId, payload }: CreateStackParams) => {
-			return createStack({ workspaceId, payload });
+		mutationFn: async ({ payload }: CreateStackParams) => {
+			return createStack({ payload });
 		}
 	});
 }

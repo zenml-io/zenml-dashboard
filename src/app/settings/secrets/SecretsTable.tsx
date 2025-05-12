@@ -1,13 +1,11 @@
 import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
 import { secretQueries } from "@/data/secrets";
-import { useCurrentUser } from "@/data/users/current-user-query";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { workspaceQueries } from "../../../data/workspaces";
-import { AddSecretDialog } from "./AddSecretDialog";
 import { secretsColumns } from "./columns";
 import { useSecretOverviewSearchParams } from "./service";
+import { AddSecretDialog } from "./AddSecretDialog";
 
 export default function SecretsTable() {
 	const queryParams = useSecretOverviewSearchParams();
@@ -15,29 +13,12 @@ export default function SecretsTable() {
 		...secretQueries.secretList({ ...queryParams, sort_by: "desc:created" }),
 		throwOnError: true
 	});
-	const { data: currentUser } = useCurrentUser();
-
-	const userId = currentUser?.id || "";
-
-	const {
-		data: workspaceData,
-		isLoading,
-		isError,
-		isSuccess
-	} = useQuery({ ...workspaceQueries.workspaceDetail("default") });
 
 	return (
 		<>
 			<div className="flex flex-wrap items-center justify-between gap-2">
 				<SearchField searchParams={queryParams} />
-
-				{isLoading ? (
-					<div>Loading...</div>
-				) : isError ? (
-					<div>Error loading workspace details.</div>
-				) : (
-					isSuccess && <AddSecretDialog id={userId} workspace={workspaceData} />
-				)}
+				<AddSecretDialog />
 			</div>
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">

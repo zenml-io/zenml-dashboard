@@ -69,14 +69,10 @@ export const apiPaths = {
 	},
 	secrets: {
 		all: "/secrets",
-		detail: (secretId: string) => `/secrets/${secretId}`,
-		add: (workspaceId: string) => `/workspaces/${workspaceId}/secrets`
+		detail: (secretId: string) => `/secrets/${secretId}`
 	},
-	workspaces: {
-		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
-		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`,
-		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`,
-		components: (workspaceId: string) => `/workspaces/${workspaceId}/components`
+	projects: {
+		detail: (projectId: string) => `/projects/${projectId}`
 	},
 	serviceAccounts: {
 		all: "/service_accounts",
