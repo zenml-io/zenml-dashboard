@@ -25,6 +25,7 @@ import { ErrorFallback } from "../../Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
 import { Key, KeyValue, Value } from "../../KeyValue";
 import { RepoBadge } from "../../repositories/RepoBadge";
+import { AuthRequired } from "../../runs/auth-required";
 
 type Props = {
 	stepId: string;
@@ -263,16 +264,19 @@ export function OrchestratorCard({ className }: { className?: string }) {
 					label="Orchestrator Logs"
 					value={
 						orchestrator_logs && isString(orchestrator_logs) ? (
-							<div className="group/copybutton flex items-center gap-0.5">
-								<a
-									className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
-									rel="noopener noreferrer"
-									target="_blank"
-									href={orchestrator_logs}
-								>
-									{orchestrator_logs}
-								</a>
-								<CopyButton copyText={orchestrator_logs} />
+							<div className="flex items-center gap-1">
+								<AuthRequired />
+								<div className="group/copybutton flex items-center gap-0.5">
+									<a
+										className="truncate text-theme-text-brand underline transition-all duration-200 hover:decoration-transparent"
+										rel="noopener noreferrer"
+										target="_blank"
+										href={orchestrator_logs}
+									>
+										{orchestrator_logs}
+									</a>
+									<CopyButton copyText={orchestrator_logs} />
+								</div>
 							</div>
 						) : (
 							"Not available"
