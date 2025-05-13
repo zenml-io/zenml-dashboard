@@ -3,17 +3,16 @@ import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
-import { StackComponentsLayout } from "../layouts/StackComponentsLayout";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
+import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
 
-const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
@@ -22,7 +21,6 @@ const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
-const RunNotFound = lazy(() => import("@/app/runs/[id]/not-found"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
@@ -79,7 +77,75 @@ export const router = createBrowserRouter([
 					{
 						path: routes.home,
 						errorElement: <PageBoundary />,
-						element: withProtectedRoute(<Home />)
+						element: <Navigate to={routes.projects.overview} />
+					},
+					// Non Project Scoped Tabs
+					{
+						element: <NonProjectScopedLayout />,
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.overview,
+								element: withProtectedRoute(<Stacks />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.components.overview,
+								element: withProtectedRoute(<Components />)
+							},
+							// Settings
+							{
+								errorElement: <PageBoundary />,
+								path: "settings",
+								element: withProtectedRoute(<Settings />),
+								children: [
+									{
+										element: withProtectedRoute(<GeneralSettings />),
+										path: "general"
+									},
+									{
+										element: withProtectedRoute(<Notifications />),
+										path: "notifications"
+									},
+									{
+										element: withProtectedRoute(<APITokens />),
+										path: "api-tokens"
+									},
+									{
+										element: withProtectedRoute(<Secrets />),
+										path: "secrets"
+									},
+									{
+										element: withProtectedRoute(<SecretDetailsPage />),
+										path: "secrets/:secretId"
+									},
+									{
+										element: withProtectedRoute(<ServiceAccountsOverview />),
+										path: "service-accounts"
+									},
+									{
+										element: withProtectedRoute(<ServiceAccountsDetail />),
+										path: "service-accounts/:serviceAccountId"
+									},
+									{
+										element: withProtectedRoute(<Connectors />),
+										path: "connectors"
+									},
+									{
+										element: withProtectedRoute(<Repositories />),
+										path: "repositories"
+									},
+									{
+										element: withProtectedRoute(<MembersPage />),
+										path: "members"
+									},
+									{
+										element: withProtectedRoute(<ProfileSettingsPage />),
+										path: "profile"
+									}
+								]
+							}
+						]
 					},
 					{
 						errorElement: <PageBoundary />,
@@ -141,23 +207,7 @@ export const router = createBrowserRouter([
 						path: routes.components.create,
 						element: withProtectedRoute(<ComponentCreate />)
 					},
-					// Stacks
-					{
-						errorElement: <PageBoundary />,
-						element: withProtectedRoute(<StackComponentsLayout />),
-						children: [
-							{
-								errorElement: <PageBoundary />,
-								path: routes.stacks.overview,
-								element: withProtectedRoute(<Stacks />)
-							},
-							{
-								errorElement: <PageBoundary />,
-								path: routes.components.overview,
-								element: withProtectedRoute(<Components />)
-							}
-						]
-					},
+
 					{
 						element: <CreateStacksLayout />,
 						children: [
@@ -185,59 +235,6 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.stacks.create.manual,
 								element: withProtectedRoute(<CreateStackManually />)
-							}
-						]
-					},
-
-					// Settings
-					{
-						errorElement: <PageBoundary />,
-						path: "settings",
-						element: withProtectedRoute(<Settings />),
-						children: [
-							{
-								element: withProtectedRoute(<GeneralSettings />),
-								path: "general"
-							},
-							{
-								element: withProtectedRoute(<Notifications />),
-								path: "notifications"
-							},
-							{
-								element: withProtectedRoute(<APITokens />),
-								path: "api-tokens"
-							},
-							{
-								element: withProtectedRoute(<Secrets />),
-								path: "secrets"
-							},
-							{
-								element: withProtectedRoute(<SecretDetailsPage />),
-								path: "secrets/:secretId"
-							},
-							{
-								element: withProtectedRoute(<ServiceAccountsOverview />),
-								path: "service-accounts"
-							},
-							{
-								element: withProtectedRoute(<ServiceAccountsDetail />),
-								path: "service-accounts/:serviceAccountId"
-							},
-							{
-								element: withProtectedRoute(<Connectors />),
-								path: "connectors"
-							},
-							{
-								element: withProtectedRoute(<Repositories />),
-								path: "repositories"
-							},
-							{
-								element: withProtectedRoute(<MembersPage />),
-								path: "members"
-							},
-							{
-								element: withProtectedRoute(<ProfileSettingsPage />),
-								path: "profile"
 							}
 						]
 					}

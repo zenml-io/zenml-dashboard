@@ -1,5 +1,9 @@
 import { StackComponentList } from "./StackComponentList";
 
 export default function ComponentsPage() {
-	return <StackComponentList />;
+	return (
+		<div className="pt-5">
+			<StackComponentList />
+		</div>
+	);
 }

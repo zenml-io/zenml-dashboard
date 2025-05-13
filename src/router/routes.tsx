@@ -38,6 +38,9 @@ export const routes = {
 	runs: {
 		detail: (id: string) => `/runs/${id}`
 	},
+	projects: {
+		overview: "/projects"
+	},
 	settings: {
 		apiTokens: "/settings/api-tokens",
 		general: "/settings/general",
