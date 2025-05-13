@@ -12,6 +12,7 @@ import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
 import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
+import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
 
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
@@ -147,6 +148,28 @@ export const router = createBrowserRouter([
 							}
 						]
 					},
+					// Project Scoped Tabs
+					{
+						element: <ProjectTabsLayout />,
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.overview,
+								element: withProtectedRoute(<Pipelines />)
+							},
+							// Models & Artifacts
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.models.overview,
+								element: withProtectedRoute(<Models />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.artifacts.overview,
+								element: withProtectedRoute(<Artifacts />)
+							}
+						]
+					},
 					{
 						errorElement: <PageBoundary />,
 						path: routes.upgrade,
@@ -158,27 +181,13 @@ export const router = createBrowserRouter([
 						element: withProtectedRoute(<Onboarding />)
 					},
 					// Pipelines
-					{
-						errorElement: <PageBoundary />,
-						path: routes.projects.pipelines.overview,
-						element: withProtectedRoute(<Pipelines />)
-					},
+
 					{
 						errorElement: <PageBoundary />,
 						path: routes.projects.pipelines.namespace(":namespace"),
 						element: withProtectedRoute(<PipelinesNamespace />)
 					},
-					// Models & Artifacts
-					{
-						errorElement: <PageBoundary />,
-						path: routes.projects.models.overview,
-						element: withProtectedRoute(<Models />)
-					},
-					{
-						errorElement: <PageBoundary />,
-						path: routes.projects.artifacts.overview,
-						element: withProtectedRoute(<Artifacts />)
-					},
+
 					// Runs
 					{
 						errorElement: <PageBoundary />,
