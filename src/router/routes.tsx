@@ -9,16 +9,7 @@ export const routes = {
 	devices: {
 		verify: "/devices/verify"
 	},
-	models: {
-		overview: "/models"
-	},
-	artifacts: {
-		overview: "/artifacts"
-	},
-	pipelines: {
-		overview: "/pipelines",
-		namespace: (namespace: string) => `/pipelines/${namespace}`
-	},
+
 	components: {
 		overview: "/components",
 		detail: (componentId: string) => `/components/${componentId}`,
@@ -35,11 +26,21 @@ export const routes = {
 			terraform: "/stacks/create/terraform"
 		}
 	},
-	runs: {
-		detail: (id: string) => `/runs/${id}`
-	},
 	projects: {
-		overview: "/projects"
+		overview: "/projects",
+		runs: {
+			detail: (id: string) => `/runs/${id}`
+		},
+		pipelines: {
+			overview: "projects/default/pipelines",
+			namespace: (namespace: string) => `projects/default/pipelines/${namespace}`
+		},
+		models: {
+			overview: "projects/default/models"
+		},
+		artifacts: {
+			overview: "projects/default/artifacts"
+		}
 	},
 	settings: {
 		apiTokens: "/settings/api-tokens",

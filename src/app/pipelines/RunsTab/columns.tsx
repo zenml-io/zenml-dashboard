@@ -50,7 +50,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">
-							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 								<span className="text-text-md font-semibold text-theme-text-primary">{name}</span>
 							</Link>
 							<TooltipProvider>
@@ -64,7 +64,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 
 							<CopyButton copyText={name} />
 						</div>
-						<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+						<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 							<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
 							<CopyButton copyText={id} />
 						</Link>
@@ -83,7 +83,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 				return null;
 			}
 			return (
-				<Link to={routes.pipelines.namespace(value)}>
+				<Link to={routes.projects.pipelines.namespace(value)}>
 					<Tag
 						color="purple"
 						className="inline-flex items-center gap-0.5 truncate"

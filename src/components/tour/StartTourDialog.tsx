@@ -51,7 +51,7 @@ export function StartTourDialog({ skipFunction }: Props) {
 						<Button
 							intent="primary"
 							onClick={() => {
-								navigate(routes.pipelines.overview);
+								navigate(routes.projects.pipelines.overview);
 								setTourState((prev) => ({ ...prev, run: true, stepIndex: 0, tourActive: true }));
 							}}
 							size="md"

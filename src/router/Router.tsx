@@ -160,29 +160,29 @@ export const router = createBrowserRouter([
 					// Pipelines
 					{
 						errorElement: <PageBoundary />,
-						path: routes.pipelines.overview,
+						path: routes.projects.pipelines.overview,
 						element: withProtectedRoute(<Pipelines />)
 					},
 					{
 						errorElement: <PageBoundary />,
-						path: routes.pipelines.namespace(":namespace"),
+						path: routes.projects.pipelines.namespace(":namespace"),
 						element: withProtectedRoute(<PipelinesNamespace />)
 					},
 					// Models & Artifacts
 					{
 						errorElement: <PageBoundary />,
-						path: routes.models.overview,
+						path: routes.projects.models.overview,
 						element: withProtectedRoute(<Models />)
 					},
 					{
 						errorElement: <PageBoundary />,
-						path: routes.artifacts.overview,
+						path: routes.projects.artifacts.overview,
 						element: withProtectedRoute(<Artifacts />)
 					},
 					// Runs
 					{
 						errorElement: <PageBoundary />,
-						path: routes.runs.detail(":runId"),
+						path: routes.projects.runs.detail(":runId"),
 						element: withProtectedRoute(<RunDetail />)
 					},
 					// Components

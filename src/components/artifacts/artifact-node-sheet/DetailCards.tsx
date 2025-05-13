@@ -129,7 +129,7 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 				label="Pipeline"
 				value={
 					<Link
-						to={routes.pipelines.namespace(
+						to={routes.projects.pipelines.namespace(
 							encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
 						)}
 					>
@@ -148,7 +148,7 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 			<KeyValue
 				label="Producer Run"
 				value={
-					<Link to={routes.runs.detail(producerRunId)}>
+					<Link to={routes.projects.runs.detail(producerRunId)}>
 						<Tag
 							emphasis="subtle"
 							rounded={false}
