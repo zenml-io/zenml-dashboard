@@ -1,16 +1,15 @@
-import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import ComponentDetailLayout from "@/app/components/[componentId]/layout";
-import { surveyLoader } from "@/app/survey/loader";
+import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { lazy } from "react";
-import { Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { StackComponentsLayout } from "../layouts/StackComponentsLayout";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
-import { ProtectedRoute } from "./ProtectedRoute";
+import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
 
@@ -66,329 +65,205 @@ const Onboarding = lazy(() => import("@/app/onboarding/page"));
 
 const NotFoundPage = lazy(() => import("@/app/404"));
 
-export const router = createBrowserRouter(
-	createRoutesFromElements(
-		<Route
-			loader={rootLoader(queryClient)}
-			errorElement={<RootBoundary />}
-			element={<RootLayout />}
-		>
-			{/* AuthenticatedLayout */}
-			<Route
-				loader={authenticatedLayoutLoader(queryClient)}
-				element={
-					<ProtectedRoute>
-						<AuthenticatedLayout />
-					</ProtectedRoute>
-				}
-			>
-				<Route errorElement={<RootBoundary />}>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.home}
-						element={
-							<ProtectedRoute>
-								<Home />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.upgrade}
-						element={
-							<ProtectedRoute>
-								<Upgrade />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.pipelines.overview}
-						element={
-							<ProtectedRoute>
-								<Pipelines />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.pipelines.namespace(":namespace")}
-						element={
-							<ProtectedRoute>
-								<PipelinesNamespace />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.models.overview}
-						element={
-							<ProtectedRoute>
-								<Models />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.artifacts.overview}
-						element={
-							<ProtectedRoute>
-								<Artifacts />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={
-							<PageBoundary>
-								<RunNotFound />
-							</PageBoundary>
-						}
-						path={routes.runs.detail(":runId")}
-						element={
-							<ProtectedRoute>
-								<RunDetail />
-							</ProtectedRoute>
-						}
-					/>
+export const router = createBrowserRouter([
+	{
+		loader: rootLoader(queryClient),
+		element: <RootLayout />,
+		errorElement: <RootBoundary />,
+		children: [
+			// Authenticated Layout
+			{
+				loader: authenticatedLayoutLoader(queryClient),
+				element: withProtectedRoute(<AuthenticatedLayout />),
+				children: [
+					{
+						path: routes.home,
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<Home />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.upgrade,
+						element: withProtectedRoute(<Upgrade />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.onboarding,
+						element: withProtectedRoute(<Onboarding />)
+					},
+					// Pipelines
+					{
+						errorElement: <PageBoundary />,
+						path: routes.pipelines.overview,
+						element: withProtectedRoute(<Pipelines />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.pipelines.namespace(":namespace"),
+						element: withProtectedRoute(<PipelinesNamespace />)
+					},
+					// Models & Artifacts
+					{
+						errorElement: <PageBoundary />,
+						path: routes.models.overview,
+						element: withProtectedRoute(<Models />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.artifacts.overview,
+						element: withProtectedRoute(<Artifacts />)
+					},
+					// Runs
+					{
+						errorElement: <PageBoundary />,
+						path: routes.runs.detail(":runId"),
+						element: withProtectedRoute(<RunDetail />)
+					},
+					// Components
+					{
+						errorElement: <PageBoundary />,
+						element: <ComponentDetailLayout />,
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.components.detail(":componentId"),
+								element: withProtectedRoute(<ComponentDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.components.edit(":componentId"),
+								element: withProtectedRoute(<ComponentEdit />)
+							}
+						]
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.components.create,
+						element: withProtectedRoute(<ComponentCreate />)
+					},
+					// Stacks
+					{
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<StackComponentsLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.overview,
+								element: withProtectedRoute(<Stacks />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.components.overview,
+								element: withProtectedRoute(<Components />)
+							}
+						]
+					},
+					{
+						element: <CreateStacksLayout />,
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.create.index,
+								element: withProtectedRoute(<CreateStack />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.create.newInfra,
+								element: withProtectedRoute(<CreateStackNewInfra />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.create.existingInfra,
+								element: withProtectedRoute(<CreateStackExistingInfra />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.create.terraform,
+								element: withProtectedRoute(<CreateTerraform />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.create.manual,
+								element: withProtectedRoute(<CreateStackManually />)
+							}
+						]
+					},
 
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.onboarding}
-						element={
-							<ProtectedRoute>
-								<Onboarding />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						path="/settings"
-						element={
-							<ProtectedRoute>
-								<Settings />
-							</ProtectedRoute>
-						}
-					>
-						<Route
-							element={
-								<ProtectedRoute>
-									<GeneralSettings />
-								</ProtectedRoute>
+					// Settings
+					{
+						errorElement: <PageBoundary />,
+						path: "settings",
+						element: withProtectedRoute(<Settings />),
+						children: [
+							{
+								element: withProtectedRoute(<GeneralSettings />),
+								path: "general"
+							},
+							{
+								element: withProtectedRoute(<Notifications />),
+								path: "notifications"
+							},
+							{
+								element: withProtectedRoute(<APITokens />),
+								path: "api-tokens"
+							},
+							{
+								element: withProtectedRoute(<Secrets />),
+								path: "secrets"
+							},
+							{
+								element: withProtectedRoute(<SecretDetailsPage />),
+								path: "secrets/:secretId"
+							},
+							{
+								element: withProtectedRoute(<ServiceAccountsOverview />),
+								path: "service-accounts"
+							},
+							{
+								element: withProtectedRoute(<ServiceAccountsDetail />),
+								path: "service-accounts/:serviceAccountId"
+							},
+							{
+								element: withProtectedRoute(<Connectors />),
+								path: "connectors"
+							},
+							{
+								element: withProtectedRoute(<Repositories />),
+								path: "repositories"
+							},
+							{
+								element: withProtectedRoute(<MembersPage />),
+								path: "members"
+							},
+							{
+								element: withProtectedRoute(<ProfileSettingsPage />),
+								path: "profile"
 							}
-							path="general"
-						/>
-						<Route
-							element={
-								<ProtectedRoute>
-									<Notifications />
-								</ProtectedRoute>
-							}
-							path="notifications"
-						/>
-						<Route
-							element={
-								<ProtectedRoute>
-									<APITokens />
-								</ProtectedRoute>
-							}
-							path="api-tokens"
-						/>
-						<Route
-							path="repositories"
-							element={
-								<ProtectedRoute>
-									<Repositories />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="connectors"
-							element={
-								<ProtectedRoute>
-									<Connectors />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="secrets"
-							element={
-								<ProtectedRoute>
-									<Secrets />
-								</ProtectedRoute>
-							}
-						/>
-
-						<Route
-							path="secrets/:secretId"
-							element={
-								<ProtectedRoute>
-									<SecretDetailsPage />
-								</ProtectedRoute>
-							}
-						/>
-
-						<Route
-							path="service-accounts"
-							element={
-								<ProtectedRoute>
-									<ServiceAccountsOverview />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="service-accounts/:serviceAccountId"
-							element={
-								<ProtectedRoute>
-									<ServiceAccountsDetail />
-								</ProtectedRoute>
-							}
-						/>
-
-						<Route
-							path="members"
-							element={
-								<ProtectedRoute>
-									<MembersPage />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							path="profile"
-							element={
-								<ProtectedRoute>
-									<ProfileSettingsPage />
-								</ProtectedRoute>
-							}
-						/>
-					</Route>
-					<Route element={<ComponentDetailLayout />}>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.components.detail(":componentId")}
-							element={
-								<ProtectedRoute>
-									<ComponentDetail />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.components.edit(":componentId")}
-							element={
-								<ProtectedRoute>
-									<ComponentEdit />
-								</ProtectedRoute>
-							}
-						/>
-					</Route>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.components.create}
-						element={
-							<ProtectedRoute>
-								<ComponentCreate />
-							</ProtectedRoute>
-						}
-					/>
-					<Route element={<StackComponentsLayout />}>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.overview}
-							element={
-								<ProtectedRoute>
-									<Stacks />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.components.overview}
-							element={
-								<ProtectedRoute>
-									<Components />
-								</ProtectedRoute>
-							}
-						/>
-					</Route>
-					<Route
-						element={
-							<ProtectedRoute>
-								<CreateStacksLayout />
-							</ProtectedRoute>
-						}
-					>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.create.index}
-							element={
-								<ProtectedRoute>
-									<CreateStack />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.create.newInfra}
-							element={
-								<ProtectedRoute>
-									<CreateStackNewInfra />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.create.existingInfra}
-							element={
-								<ProtectedRoute>
-									<CreateStackExistingInfra />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.create.terraform}
-							element={
-								<ProtectedRoute>
-									<CreateTerraform />
-								</ProtectedRoute>
-							}
-						/>
-						<Route
-							errorElement={<PageBoundary />}
-							path={routes.stacks.create.manual}
-							element={
-								<ProtectedRoute>
-									<CreateStackManually />
-								</ProtectedRoute>
-							}
-						/>
-					</Route>
-				</Route>
-			</Route>
-
-			{/* Gradient Layout */}
-			<Route element={<GradientLayout />}>
-				<Route path={routes.login} element={<Login />} />
-				<Route path={routes.activateUser} element={<ActivateUser />} />
-				<Route path={routes.activateServer} element={<ActivateServer />} />
-				<Route
-					path={routes.devices.verify}
-					element={
-						<ProtectedRoute>
-							<DeviceVerification />
-						</ProtectedRoute>
+						]
 					}
-				/>
-				<Route
-					loader={surveyLoader(queryClient)}
-					path={routes.survey}
-					element={
-						<ProtectedRoute>
-							<Survey />
-						</ProtectedRoute>
+				]
+			},
+			// Gradient Layout
+			{
+				element: <GradientLayout />,
+				children: [
+					{
+						path: routes.login,
+						element: <Login />
+					},
+					{ path: routes.activateUser, element: <ActivateUser /> },
+					{ path: routes.activateServer, element: <ActivateServer /> },
+					{
+						path: routes.devices.verify,
+						element: withProtectedRoute(<DeviceVerification />)
+					},
+					{
+						path: routes.survey,
+						element: withProtectedRoute(<Survey />)
 					}
-				/>
-			</Route>
-			<Route path="*" element={<NotFoundPage />} />
-		</Route>
-	)
-);
+				]
+			},
+			{ path: "*", element: <NotFoundPage /> }
+		]
+	}
+]);
