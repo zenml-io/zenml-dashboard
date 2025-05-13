@@ -1,13 +1,13 @@
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
-import { Workspace } from "@/types/workspaces";
+import { Project } from "@/types/projects";
 import { apiPaths, createApiPath } from "../api";
-export type StackDetailArgs = {
-	workspaceId: string;
+export type ProjectDetailArgs = {
+	projectId: string;
 };
 
-export async function fetchWorkspace({ workspaceId }: StackDetailArgs): Promise<Workspace> {
-	const url = createApiPath(apiPaths.workspaces.detail(workspaceId));
+export async function fetchProject({ projectId }: ProjectDetailArgs): Promise<Project> {
+	const url = createApiPath(apiPaths.projects.detail(projectId));
 	const res = await fetch(url, {
 		method: "GET",
 		credentials: "include",
@@ -27,7 +27,7 @@ export async function fetchWorkspace({ workspaceId }: StackDetailArgs): Promise<
 				}
 				return data.detail;
 			})
-			.catch(() => `Error while fetching workspace ${workspaceId}`);
+			.catch(() => `Error while fetching project ${projectId}`);
 		throw new FetchError({
 			status: res.status,
 			statusText: res.statusText,

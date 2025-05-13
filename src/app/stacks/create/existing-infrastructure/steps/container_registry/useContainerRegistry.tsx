@@ -68,7 +68,6 @@ export function useContainerRegistries() {
 		});
 		setData(updatedData);
 		mutate({
-			workspaceId: "default",
 			payload: {
 				name: updatedData.stackName || Math.random().toString(36).substring(7),
 				service_connectors: updatedData.connectorConfig ? [updatedData.connectorConfig] : [],

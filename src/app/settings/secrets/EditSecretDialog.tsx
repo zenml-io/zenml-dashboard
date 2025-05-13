@@ -119,7 +119,6 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 	const onSubmit = (data: SecretFormType) => {
 		const updatedSecretData: UpdateSecret = {
 			name: data.secretName,
-			scope: "workspace",
 			values: data.keysValues.reduce(
 				(acc, pair) => {
 					if (pair.key && pair.value) acc[pair.key] = pair.value;
