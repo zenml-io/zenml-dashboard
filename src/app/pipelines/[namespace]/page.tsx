@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { PipelineRunsTable } from "./RunsTable";
 import { useEffect } from "react";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { RunsSelectorProvider } from "../RunsTab/RunsSelectorContext";
+import { RunsSelectorProvider } from "../../runs/RunsSelectorContext";
 
 export default function PipelineNamespacePage() {
 	const { namespace } = useParams() as { namespace: string };

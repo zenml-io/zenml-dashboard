@@ -29,25 +29,25 @@ export const routes = {
 	projects: {
 		overview: "/projects",
 		runs: {
-			overview: "projects/default/runs",
-			detail: (id: string) => `projects/default/runs/${id}`
+			overview: "/projects/default/runs",
+			detail: (id: string) => `/projects/default/runs/${id}`
 		},
 		templates: {
-			overview: "projects/default/run-templates"
+			overview: "/projects/default/run-templates"
 		},
 		pipelines: {
-			overview: "projects/default/pipelines",
-			namespace: (namespace: string) => `projects/default/pipelines/${namespace}`
+			overview: "/projects/default/pipelines",
+			namespace: (namespace: string) => `/projects/default/pipelines/${namespace}`
 		},
 		models: {
-			overview: "projects/default/models"
+			overview: "/projects/default/models"
 		},
 		artifacts: {
-			overview: "projects/default/artifacts"
+			overview: "/projects/default/artifacts"
 		},
 		settings: {
-			repositories: { overview: "projects/default/settings/repositories" },
-			profile: "projects/default/settings/profile"
+			repositories: { overview: "/projects/default/settings/repositories" },
+			profile: "/projects/default/settings/profile"
 		}
 	},
 	settings: {

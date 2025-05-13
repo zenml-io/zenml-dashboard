@@ -13,6 +13,7 @@ import { queryClient } from "./queryclient";
 import { routes } from "./routes";
 import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
 import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
+import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
 
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
@@ -26,7 +27,7 @@ const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 // Settings
-const Settings = lazy(() => import("@/app/settings/page"));
+const Settings = lazy(() => import("@/layouts/settings/settings-layout/layout"));
 const Notifications = lazy(() => import("@/app/settings/notifications/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
@@ -38,6 +39,9 @@ const ServiceAccountsOverview = lazy(() => import("@/app/settings/service-accoun
 const ServiceAccountsDetail = lazy(
 	() => import("@/app/settings/service-accounts/[service-account-id]/page")
 );
+
+const Runs = lazy(() => import("@/app/runs/page"));
+const Templates = lazy(() => import("@/app/run-templates/page"));
 
 // Components
 const Components = lazy(() => import("@/app/components/page"));
@@ -132,10 +136,7 @@ export const router = createBrowserRouter([
 										element: withProtectedRoute(<Connectors />),
 										path: "connectors"
 									},
-									{
-										element: withProtectedRoute(<Repositories />),
-										path: "repositories"
-									},
+
 									{
 										element: withProtectedRoute(<MembersPage />),
 										path: "members"
@@ -157,6 +158,16 @@ export const router = createBrowserRouter([
 								path: routes.projects.pipelines.overview,
 								element: withProtectedRoute(<Pipelines />)
 							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.templates.overview,
+								element: withProtectedRoute(<Templates />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.runs.overview,
+								element: withProtectedRoute(<Runs />)
+							},
 							// Models & Artifacts
 							{
 								errorElement: <PageBoundary />,
@@ -167,6 +178,19 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.artifacts.overview,
 								element: withProtectedRoute(<Artifacts />)
+							},
+							{
+								element: <ProjectSettingsLayout />,
+								children: [
+									{
+										element: withProtectedRoute(<Repositories />),
+										path: routes.projects.settings.repositories.overview
+									},
+									{
+										element: withProtectedRoute(<ProfileSettingsPage />),
+										path: routes.projects.settings.profile
+									}
+								]
 							}
 						]
 					},

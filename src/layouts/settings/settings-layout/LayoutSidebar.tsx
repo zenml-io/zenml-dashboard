@@ -2,7 +2,7 @@ import { useServerSettings } from "@/data/server/get-server-settings";
 import { getGradientImage } from "@/lib/images";
 import { routes } from "@/router/routes";
 import { Avatar, AvatarFallback, AvatarImage, Skeleton } from "@zenml-io/react-component-library";
-import { SettingsMenu } from "./Menu";
+import { SettingsMenu } from "../Menu";
 
 export function DisplayServer() {
 	const { data, isError, isPending } = useServerSettings({
@@ -37,10 +37,6 @@ export function ServerSettingsMenu() {
 			{
 				name: "API Tokens",
 				href: routes.settings.apiTokens
-			},
-			{
-				name: "Repositories",
-				href: routes.settings.repositories.overview
 			},
 			{
 				name: "Secrets",

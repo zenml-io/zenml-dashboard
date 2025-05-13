@@ -17,8 +17,8 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { RunDropdown } from "../RunsTab/RunDropdown";
-import { RunSelector } from "../RunsTab/RunSelector";
+import { RunDropdown } from "../../runs/RunDropdown";
+import { RunSelector } from "../../runs/RunSelector";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [

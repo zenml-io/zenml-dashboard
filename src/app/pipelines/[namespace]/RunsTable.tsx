@@ -6,8 +6,8 @@ import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query
 import { SearchField } from "@/components/SearchField";
 import Pagination from "@/components/Pagination";
 import { getPipelineDetailColumns } from "./columns";
-import { useRunsSelectorContext } from "../RunsTab/RunsSelectorContext";
-import { RunsButtonGroup } from "../RunsTab/ButtonGroup";
+import { useRunsSelectorContext } from "../../runs/RunsSelectorContext";
+import { RunsButtonGroup } from "../../runs/ButtonGroup";
 
 export function PipelineRunsTable() {
 	const { namespace } = useParams() as { namespace: string };

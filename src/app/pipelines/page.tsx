@@ -1,7 +1,7 @@
-import { PageHeader } from "@/components/PageHeader";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { useEffect } from "react";
-import { PipelineTabs } from "./Tabs";
+import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
+import { PipelinesBody } from "./PipelinesTab/PipelinesBody";
 
 export default function PipelinesPage() {
 	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
@@ -11,11 +11,8 @@ export default function PipelinesPage() {
 	}, []);
 
 	return (
-		<div>
-			<PageHeader>
-				<h1 className="text-display-xs font-semibold">Pipelines</h1>
-			</PageHeader>
-			<PipelineTabs />
-		</div>
+		<PipelinesSelectorProvider>
+			<PipelinesBody />
+		</PipelinesSelectorProvider>
 	);
 }
