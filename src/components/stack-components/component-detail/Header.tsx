@@ -1,3 +1,5 @@
+import { componentBreadcrumb } from "@/components/breadcrumbs/library";
+import { BreadcrumbSegment } from "@/components/breadcrumbs/types";
 import { UpdateButtonContent } from "@/components/buttons/update-button-content";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
@@ -39,16 +41,29 @@ function ComponentId({ componentId, isPanel }: Props & { isPanel: boolean }) {
 	const path = useLocation().pathname;
 	const segment = path.split("/").at(-1) as "edit" | null;
 
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
+	const { setBreadcrumbs } = useBreadcrumbsContext();
 	useEffect(() => {
 		if (component.data && !isPanel) {
+			const breadcrumbs: BreadcrumbSegment[] = [
+				componentBreadcrumb,
+				{
+					label: component.data.name || "",
+					href: routes.components.detail(component.data.id)
+				}
+			];
 			if (segment === "edit") {
-				setCurrentBreadcrumbData({ segment: "componentEdit", data: component.data });
+				setBreadcrumbs([
+					...breadcrumbs,
+					{
+						label: "Edit",
+						href: routes.components.edit(component.data.id)
+					}
+				]);
 			} else {
-				setCurrentBreadcrumbData({ segment: "componentDetail", data: component.data });
+				setBreadcrumbs(breadcrumbs);
 			}
 		}
-	}, [component.data, isPanel, segment]);
+	}, [component.data, isPanel, segment, setBreadcrumbs, componentId]);
 
 	if (component.isError) return null;
 	if (component.isPending) return <Skeleton className="h-6 w-[200px]" />;

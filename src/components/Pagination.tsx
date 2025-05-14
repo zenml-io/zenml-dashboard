@@ -24,7 +24,7 @@ export default function Pagination({ paginate, searchParams, inMemoryHandler }: 
 	const { index, total_pages } = paginate;
 
 	function goToPage(page: number) {
-		if (!!inMemoryHandler) {
+		if (inMemoryHandler) {
 			inMemoryHandler(page);
 			return;
 		}
@@ -145,7 +145,7 @@ const PaginationButton = forwardRef<
 			{...rest}
 			ref={ref}
 			className={cn(
-				"group/button flex h-[36px] w-[36px] items-center justify-center rounded-sm border border-neutral-300 hover:bg-neutral-200 active:border-neutral-400 active:bg-neutral-300 disabled:pointer-events-none disabled:bg-theme-surface-primary ",
+				"group/button flex h-[36px] w-[36px] items-center justify-center rounded-sm border border-neutral-300 hover:bg-neutral-200 active:border-neutral-400 active:bg-neutral-300 disabled:pointer-events-none disabled:bg-theme-surface-primary",
 				className
 			)}
 		></button>

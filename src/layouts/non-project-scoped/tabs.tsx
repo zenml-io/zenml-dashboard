@@ -28,7 +28,7 @@ export function NonProjectTabs() {
 				navigate(routes.components.overview);
 				break;
 			case "settings":
-				navigate(routes.settings.members);
+				navigate(routes.settings.general);
 				break;
 		}
 	}

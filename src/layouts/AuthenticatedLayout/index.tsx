@@ -4,7 +4,7 @@ import { checkUserOnboarding } from "@/lib/user";
 import { routes } from "@/router/routes";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
-import { BreadcrumbsContextProvider } from "./BreadcrumbsContext";
+import { BreadcrumbContextProvider } from "./BreadcrumbsContext";
 import { LocalBanner } from "./LocalBanner";
 
 export function AuthenticatedLayout() {
@@ -20,7 +20,7 @@ export function AuthenticatedLayout() {
 
 	return (
 		<div className="relative flex min-h-screen w-full flex-col">
-			<BreadcrumbsContextProvider currentBreadcrumbData={null} setCurrentBreadcrumbData={null}>
+			<BreadcrumbContextProvider>
 				<div className="sticky top-0 z-10">
 					<LocalBanner />
 					<AuthenticatedHeader />
@@ -34,7 +34,7 @@ export function AuthenticatedLayout() {
 						</div>
 					</div>
 				</main>
-			</BreadcrumbsContextProvider>
+			</BreadcrumbContextProvider>
 		</div>
 	);
 }

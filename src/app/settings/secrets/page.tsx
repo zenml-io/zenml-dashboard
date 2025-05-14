@@ -1,13 +1,7 @@
 import { Box } from "@zenml-io/react-component-library";
 import SecretsTable from "./SecretsTable";
-import { useEffect } from "react";
-import { useBreadcrumbsContext } from "../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
 
 export default function SecretsPage() {
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
-	useEffect(() => {
-		setCurrentBreadcrumbData({ segment: "secrets", data: null });
-	}, []);
 	return (
 		<Box className="space-y-4 p-5">
 			<div className="space-y-2">

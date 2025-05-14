@@ -1,14 +1,10 @@
 import Container from "@/assets/icons/container.svg?react";
-import { useEffect } from "react";
 import { PageHeader } from "../../../components/PageHeader";
-import { useBreadcrumbsContext } from "../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { useComponentCreateBreadcrumbs } from "./breadcrumb";
 
 export function CreateComponentHeader() {
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
+	useComponentCreateBreadcrumbs();
 
-	useEffect(() => {
-		setCurrentBreadcrumbData({ segment: "createComponent", data: null });
-	}, []);
 	return (
 		<PageHeader>
 			<div className="flex items-center gap-1">
