@@ -38,14 +38,14 @@ export function RepoBadge({ repositoryId, commit }: Props) {
 			const defaultHost = "github.com";
 			url =
 				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
-				(commit ? `/tree/${commit}` : "");
+				(commit ? `/commit/${commit}` : "");
 		} else if (data?.body?.source?.attribute === "GitLabCodeRepository") {
 			Icon = Gitlab;
 			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
 			const defaultHost = "gitlab.com";
 			url =
 				`https://www.${(typeof repositoryMetadata?.host === "string" ? repositoryMetadata.host : defaultHost).replace(/\/$/, "")}/${name}` +
-				(commit ? `/tree/${commit}` : "");
+				(commit ? `/commit/${commit}` : "");
 		}
 
 		return (
