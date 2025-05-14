@@ -17,18 +17,18 @@ type TourContextType = {
 	setTourState: Dispatch<SetStateAction<TourState>>;
 };
 
-export const AuthContext = createContext<TourContextType | null>(null);
+export const TourContext = createContext<TourContextType | null>(null);
 
 export function TourProvider({ children }: { children: React.ReactNode }) {
 	const [tourState, setTourState] = useState<TourState>(initialTourState);
 
 	const value = useMemo(() => ({ tourState, setTourState }), [tourState, setTourState]);
 
-	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+	return <TourContext.Provider value={value}>{children}</TourContext.Provider>;
 }
 
 export function useTourContext() {
-	const context = useContext(AuthContext);
+	const context = useContext(TourContext);
 	if (context === null) {
 		throw new Error("useTourContext must be used within an TourProvider");
 	}

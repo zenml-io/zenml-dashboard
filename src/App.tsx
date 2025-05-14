@@ -17,7 +17,6 @@ export function App() {
 					<TourProvider>
 						<QueryClientProvider client={queryClient}>
 							<Toaster />
-
 							<RouterProvider router={router} />
 						</QueryClientProvider>
 					</TourProvider>

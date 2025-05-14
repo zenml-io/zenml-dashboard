@@ -1,5 +1,4 @@
 import { Analytics } from "@/components/Analytics";
-import { ProductTour } from "@/components/tour/Tour";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { checkUserOnboarding } from "@/lib/user";
 import { routes } from "@/router/routes";
@@ -10,8 +9,6 @@ import { LocalBanner } from "./LocalBanner";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
-
-	// if window is 1440px wide, set boolean to true
 
 	if (data && checkUserOnboarding(data)) {
 		return (
@@ -32,7 +29,7 @@ export function AuthenticatedLayout() {
 					<div className="flex flex-grow">
 						<div className="w-full overflow-y-hidden">
 							<Analytics />
-							<ProductTour />
+							{/* <ProductTour /> */}
 							<Outlet />
 						</div>
 					</div>
