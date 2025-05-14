@@ -40,6 +40,7 @@ const ServiceAccountsDetail = lazy(
 	() => import("@/app/settings/service-accounts/[service-account-id]/page")
 );
 
+const Projects = lazy(() => import("@/app/projects/page"));
 const Runs = lazy(() => import("@/app/runs/page"));
 const Templates = lazy(() => import("@/app/run-templates/page"));
 
@@ -88,6 +89,11 @@ export const router = createBrowserRouter([
 					{
 						element: <NonProjectScopedLayout />,
 						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.overview,
+								element: withProtectedRoute(<Projects />)
+							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.stacks.overview,
