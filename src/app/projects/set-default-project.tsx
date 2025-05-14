@@ -21,7 +21,7 @@ export function DefaultProjectHandler({ projectId }: Props) {
 			</>
 		);
 
-	const defaultProjectId = currentUserQuery.data?.body?.default_project_id;
+	const defaultProjectId = currentUserQuery.data.body?.default_project_id;
 	const isDefaultProject = defaultProjectId === projectId;
 	const userId = currentUserQuery.data.id;
 

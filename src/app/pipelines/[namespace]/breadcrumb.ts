@@ -11,7 +11,7 @@ export function usePipelineDetailBreadcrumbs(namespace?: string) {
 			setBreadcrumbs([
 				pipelineBreadcrumb,
 				{
-					label: namespace || "",
+					label: namespace,
 					href: routes.projects.pipelines.namespace(namespace)
 				}
 			]);
