@@ -17,8 +17,8 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { RunDropdown } from "../RunsTab/RunDropdown";
-import { RunSelector } from "../RunsTab/RunSelector";
+import { RunDropdown } from "../../runs/RunDropdown";
+import { RunSelector } from "../../runs/RunSelector";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
@@ -54,7 +54,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 						<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 						<div>
 							<div className="flex items-center gap-1">
-								<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+								<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 									<h2 className="text-text-md font-semibold">{name}</h2>
 								</Link>
 								<TooltipProvider>
@@ -67,7 +67,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 								</TooltipProvider>
 								<CopyButton copyText={name} />
 							</div>
-							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
 								<CopyButton copyText={id} />
 							</Link>

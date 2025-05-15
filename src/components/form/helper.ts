@@ -88,11 +88,17 @@ export function generateDefaultValues(
 
 	if (initialValues) {
 		Object.entries(initialValues).forEach(([key, value]) => {
-			(defaultValues as Record<string, any>)[key] = isArray(value)
-				? value.map((i) => JSON.stringify(i))
-				: isObject(value)
-					? JSON.stringify(value)
-					: value;
+			const schemaConfig = schema.properties?.[key];
+			if (schemaConfig && isBooleanField(schemaConfig)) {
+				(defaultValues as Record<string, any>)[key] =
+					value === "True" ? true : value === "False" ? false : Boolean(value);
+			} else {
+				(defaultValues as Record<string, any>)[key] = isArray(value)
+					? value.map((i) => JSON.stringify(i))
+					: isObject(value)
+						? JSON.stringify(value)
+						: value;
+			}
 		});
 	}
 

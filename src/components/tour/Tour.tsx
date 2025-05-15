@@ -92,7 +92,7 @@ const steps: Step[] = [
 		disableBeacon: true,
 		data: {
 			className: "w-[480px]",
-			next: routes.models.overview
+			next: routes.projects.models.overview
 		},
 		disableOverlayClose: true
 	},

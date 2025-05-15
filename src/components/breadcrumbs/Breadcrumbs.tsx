@@ -1,115 +1,141 @@
-import Divider from "@/assets/icons/slash-divider.svg?react";
-import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { formatIdToTitleCase, transformToEllipsis } from "@/lib/strings";
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger
-} from "@zenml-io/react-component-library";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
-import {
-	matchSegmentWithPages,
-	matchSegmentWithRequest,
-	matchSegmentWithTab,
-	matchSegmentWithURL
-} from "./SegmentsBreadcrumbs";
+"use client";
 
-type BreadcrumbData = { [key: string]: { id?: string; name?: string } };
+import Divider from "@/assets/icons/slash-divider.svg?react";
+import { Fragment, useEffect, useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { BreadcrumbSegment } from "./types";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { dashCaseToTitleCase } from "@/lib/strings";
+
+const nestedSegments = [
+	"pipelines",
+	"artifacts",
+	"components",
+	"stacks",
+	"model-versions",
+	"artifact-versions",
+	"run-templates",
+	"models",
+	"runs",
+	"artifacts",
+	"projects",
+	"secrets",
+	"service-accounts",
+	"connectors",
+	"roles"
+];
+
+function getCurrentSegment(remainingPath: string[], isSettingsPath: boolean): string {
+	return remainingPath.length === 0
+		? "Overview"
+		: isSettingsPath
+			? remainingPath[1]
+			: remainingPath[0];
+}
+
+function checkIfNestedSegment(
+	remainingPath: string[],
+	currentSegment: string,
+	isSettingsPath: boolean
+): boolean {
+	return (
+		(isSettingsPath ? remainingPath.length === 2 : remainingPath.length === 1) &&
+		nestedSegments.includes(currentSegment)
+	);
+}
 
 export function Breadcrumbs() {
-	const { currentBreadcrumbData: data } = useBreadcrumbsContext();
-	const [currentData, setCurrentData] = useState<BreadcrumbData | null>(null);
-	const [searchParams] = useSearchParams();
 	const { pathname } = useLocation();
+	const [currentBreadcrumbs, setCurrentBreadcrumbs] = useState<BreadcrumbSegment[]>([]);
+	const { breadcrumbs, setBreadcrumbs } = useBreadcrumbsContext();
+	const shouldShowEllipsis = currentBreadcrumbs.length > 2;
+
+	const handleMainPath = useCallback(
+		(isNestedSegment: boolean, isSettingsPath: boolean, currentSegment: string): void => {
+			if (isNestedSegment) {
+				const breadcrumb: BreadcrumbSegment[] = [];
+				if (isSettingsPath) {
+					breadcrumb.push({ label: "Settings", href: "", disabled: true });
+				}
+				breadcrumb.push({ label: dashCaseToTitleCase(currentSegment), href: "" });
+				setCurrentBreadcrumbs(breadcrumb);
+			} else if (breadcrumbs.length > 0) {
+				setCurrentBreadcrumbs(breadcrumbs);
+			}
+		},
+		[breadcrumbs]
+	);
+
+	const handleNonMainPath = useCallback((isSettingsPath: boolean, currentSegment: string): void => {
+		const breadcrumb: BreadcrumbSegment[] = [];
+		if (isSettingsPath) {
+			breadcrumb.push({ label: "Settings", href: "", disabled: true });
+		}
+		breadcrumb.push({ label: dashCaseToTitleCase(currentSegment), href: "" });
+		setCurrentBreadcrumbs(breadcrumb);
+	}, []);
 
 	useEffect(() => {
-		let matchedData: BreadcrumbData = {};
-		const pathSegments = pathname.split("/").filter((segment: string) => segment !== "");
-		const segmentsToCheck: string[] = [
-			"pipelines",
-			"runs",
-			"stacks",
-			"secrets",
-			"components",
-			"service-accounts"
-		];
-		const mainPaths = segmentsToCheck.some((segment) => pathSegments.includes(segment));
-		if (!mainPaths) {
-			const currentSegment =
-				pathSegments.length === 0
-					? "overview"
-					: pathSegments.includes("settings")
-						? pathSegments[1]
-						: pathSegments[0];
+		setBreadcrumbs([]);
+	}, [pathname, setBreadcrumbs]);
 
-			matchedData = matchSegmentWithPages(currentSegment);
-			setCurrentData(matchedData);
+	useEffect(() => {
+		const pathSegments = pathname.split("/").filter(Boolean);
+		console.log(pathSegments);
+		const isProjectRoute =
+			pathSegments[0] === "projects" && pathSegments.length > 1 && pathSegments[1] !== "create";
+		const remainingPath = pathSegments.slice(isProjectRoute ? 2 : 0);
+
+		const isMainPath = remainingPath.some((segment) => nestedSegments.includes(segment));
+		const isSettingsPath = remainingPath[0] === "settings";
+
+		const currentSegment = getCurrentSegment(remainingPath, isSettingsPath);
+		const isNestedSegment = checkIfNestedSegment(remainingPath, currentSegment, isSettingsPath);
+
+		if (isMainPath) {
+			handleMainPath(isNestedSegment, isSettingsPath, currentSegment);
 		} else {
-			if (data && data.segment) {
-				const tabParam = searchParams.get("tab");
-				matchedData = matchSegmentWithRequest(data) as BreadcrumbData;
-				const newMatchedData = {
-					...(pathSegments.includes("settings") && { settings: { name: "Settings" } }),
-					...matchedData,
-					...(tabParam && { tab: { id: tabParam, name: tabParam } })
-				};
-				setCurrentData(newMatchedData);
-			}
+			handleNonMainPath(isSettingsPath, currentSegment);
 		}
-	}, [data, searchParams, pathname]);
-
-	const totalEntries = currentData ? Object.entries(currentData).length : 0;
+	}, [breadcrumbs, pathname, handleMainPath, handleNonMainPath]);
 
 	return (
-		<div className="flex">
-			{currentData &&
-				Object.entries(currentData).map(([segment, value], index: number) => {
-					const isLastOne = index === totalEntries - 1;
+		<nav className="flex items-center gap-0.5">
+			{currentBreadcrumbs.map((breadcrumb, index) => {
+				const isLast = index === currentBreadcrumbs.length - 1;
+				// Render only the first and last breadcrumbs with an ellipsis in between
+				if (shouldShowEllipsis && index < currentBreadcrumbs.length - 2) {
+					return index === 0 ? (
+						<Fragment key="ellipsis">
+							<Divider className="h-4 w-4 flex-shrink-0 fill-neutral-200" />
+							<span className="mx-0.5">...</span>
+						</Fragment>
+					) : null;
+				}
 
-					return (
-						<div className="flex items-center" key={index}>
-							{index !== 0 && <Divider className="h-4 w-4 flex-shrink-0 fill-neutral-200" />}
-							{segment === "tab" ? (
-								<div className="align-center ml-1 flex items-center">
-									<div>{matchSegmentWithTab(value?.name as string)}</div>
-									<span
-										className={`
-											${isLastOne ? "pointer-events-none text-theme-text-primary" : "text-theme-text-secondary"}
-											ml-1 flex items-center text-text-md font-semibold`}
-									>
-										{formatIdToTitleCase(value?.name as string)}
-									</span>
-								</div>
-							) : (
-								<Link
-									className={`${isLastOne || segment === "settings" ? "pointer-events-none" : ""} 
-									${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"}
-									rounded-sm p-0.5 px-1 text-text-md hover:text-purple-900 hover:underline`}
-									to={matchSegmentWithURL(segment, value?.id as string)}
-								>
-									{typeof value?.name === "string" ? (
-										value?.name.length > 20 ? (
-											<TooltipProvider>
-												<Tooltip>
-													<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
-														{transformToEllipsis(value?.name, 20)}
-													</TooltipTrigger>
-													<TooltipContent>{value?.name}</TooltipContent>
-												</Tooltip>
-											</TooltipProvider>
-										) : (
-											value?.name
-										)
-									) : (
-										value?.name
-									)}
-								</Link>
-							)}
-						</div>
-					);
-				})}
-		</div>
+				return (
+					<Fragment key={index}>
+						{index === 0 && <Divider className="h-4 w-4 flex-shrink-0 fill-neutral-200" />}
+						{index > 0 && <Divider className="h-4 w-4 flex-shrink-0 fill-neutral-200" />}
+						{isLast ? (
+							<div className="min-w-0 max-w-[20ch] truncate rounded-sm p-0.5 px-1 text-text-md font-semibold text-theme-text-primary">
+								{breadcrumb.label}
+							</div>
+						) : breadcrumb.disabled ? (
+							<div className="min-w-0 max-w-[20ch] truncate rounded-sm p-0.5 px-1 text-text-md text-theme-text-secondary">
+								{breadcrumb.label}
+							</div>
+						) : (
+							<Link
+								to={breadcrumb.href}
+								className="min-w-0 max-w-[20ch] truncate rounded-sm p-0.5 px-1 text-text-md text-theme-text-secondary hover:text-theme-text-brand hover:underline"
+							>
+								{breadcrumb.label}
+							</Link>
+						)}
+					</Fragment>
+				);
+			})}
+		</nav>
 	);
 }

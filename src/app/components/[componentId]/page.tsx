@@ -1,7 +1,7 @@
 import { StackComponentTabs } from "@/components/stack-components/component-detail/Tabs";
 import { useParams } from "react-router-dom";
-import { RunsBody } from "../../pipelines/RunsTab/RunsBody";
-import { RunsSelectorProvider } from "../../pipelines/RunsTab/RunsSelectorContext";
+import { RunsBody } from "../../runs/RunsBody";
+import { RunsSelectorProvider } from "../../runs/RunsSelectorContext";
 import { StackList } from "../../stacks/StackList";
 
 export default function ComponentDetailPage() {

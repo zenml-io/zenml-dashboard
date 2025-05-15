@@ -1,32 +1,29 @@
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+"use client";
 
-type BreadcrumbsContextProps = {
-	currentBreadcrumbData: any;
-	setCurrentBreadcrumbData: any;
+import { Breadcrumbs } from "@/components/breadcrumbs/types";
+import { createContext, useContext, useState } from "react";
+
+type BreadcrumbContextType = {
+	breadcrumbs: Breadcrumbs;
+	setBreadcrumbs: (breadcrumbs: Breadcrumbs) => void;
 };
 
-const BreadcrumbsContext = createContext<BreadcrumbsContextProps | null>(null);
+export const BreadcrumbContext = createContext<BreadcrumbContextType | null>(null);
 
-export function BreadcrumbsContextProvider({
-	children
-}: PropsWithChildren<BreadcrumbsContextProps>) {
-	const [currentBreadcrumbData, setCurrentBreadcrumbData] = useState<any>(null);
+export function BreadcrumbContextProvider({ children }: { children: React.ReactNode }) {
+	const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumbs>([]);
 
 	return (
-		<BreadcrumbsContext.Provider
-			value={{
-				currentBreadcrumbData,
-				setCurrentBreadcrumbData
-			}}
-		>
+		<BreadcrumbContext.Provider value={{ breadcrumbs, setBreadcrumbs }}>
 			{children}
-		</BreadcrumbsContext.Provider>
+		</BreadcrumbContext.Provider>
 	);
 }
 
 export function useBreadcrumbsContext() {
-	const context = useContext(BreadcrumbsContext);
-	if (!context)
-		throw new Error("useBreadcrumbsContext must be used within a BreadcrumbsContextProvider");
+	const context = useContext(BreadcrumbContext);
+	if (context === null) {
+		throw new Error("useBreadcrumbContext must be used within a BreadcrumbContextProvider");
+	}
 	return context;
 }

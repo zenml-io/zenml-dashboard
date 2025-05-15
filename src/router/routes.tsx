@@ -9,16 +9,7 @@ export const routes = {
 	devices: {
 		verify: "/devices/verify"
 	},
-	models: {
-		overview: "/models"
-	},
-	artifacts: {
-		overview: "/artifacts"
-	},
-	pipelines: {
-		overview: "/pipelines",
-		namespace: (namespace: string) => `/pipelines/${namespace}`
-	},
+
 	components: {
 		overview: "/components",
 		detail: (componentId: string) => `/components/${componentId}`,
@@ -35,15 +26,35 @@ export const routes = {
 			terraform: "/stacks/create/terraform"
 		}
 	},
-	runs: {
-		detail: (id: string) => `/runs/${id}`
+	projects: {
+		overview: "/projects",
+		runs: {
+			overview: "/projects/default/runs",
+			detail: (id: string) => `/projects/default/runs/${id}`
+		},
+		templates: {
+			overview: "/projects/default/run-templates"
+		},
+		pipelines: {
+			overview: "/projects/default/pipelines",
+			namespace: (namespace: string) => `/projects/default/pipelines/${namespace}`
+		},
+		models: {
+			overview: "/projects/default/models"
+		},
+		artifacts: {
+			overview: "/projects/default/artifacts"
+		},
+		settings: {
+			repositories: { overview: "/projects/default/settings/repositories" },
+			profile: "/projects/default/settings/profile"
+		}
 	},
 	settings: {
 		apiTokens: "/settings/api-tokens",
 		general: "/settings/general",
 		members: `/settings/members`,
 		notifications: "/settings/notifications",
-		repositories: { overview: "/settings/repositories" },
 		profile: `/settings/profile`,
 		secrets: { overview: "/settings/secrets", detail: (id: string) => `/settings/secrets/${id}` },
 		connectors: { overview: "/settings/connectors" },

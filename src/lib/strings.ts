@@ -58,3 +58,10 @@ export function snakeCaseToDashCase(input: string): string {
 export function capitalize(string: string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function dashCaseToTitleCase(input: string): string {
+	return input
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ");
+}

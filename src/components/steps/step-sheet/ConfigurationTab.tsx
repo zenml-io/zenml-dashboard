@@ -33,6 +33,8 @@ export function StepConfigTab({ stepId }: Props) {
 		{ enabled: !!pipeline_run?.body?.build?.id }
 	);
 
+	const stepName = data?.name;
+
 	const findIndexImage = () => {
 		const dockerImages = buildData?.metadata?.images;
 
@@ -40,17 +42,26 @@ export function StepConfigTab({ stepId }: Props) {
 			return null;
 		}
 
-		if (Object.keys(dockerImages).length === 1 && Object.keys(dockerImages)[0] !== "orchestrator") {
-			return Object.keys(dockerImages)[0];
-		}
+		if (stepName) {
+			// First check if a step operator image exists for this step
+			for (const key in dockerImages) {
+				if (key.startsWith(`${stepName}.`)) {
+					return key;
+				}
+			}
 
-		for (const key in dockerImages) {
-			if (key !== "orchestrator" && key.split(".")[1] !== "orchestrator") {
-				return key;
+			// Check if an image for this step exists
+			if (dockerImages[stepName]) {
+				return stepName;
 			}
 		}
 
-		return "orchestrator";
+		// Default to orchestrator if no step-specific image is found
+		if (dockerImages["orchestrator"]) {
+			return "orchestrator";
+		}
+
+		return null;
 	};
 
 	const indexImage = findIndexImage();
@@ -96,7 +107,7 @@ export function StepConfigTab({ stepId }: Props) {
 function CodeSnippetCard({ id }: { id: string }) {
 	return (
 		<CollapsibleCard initialOpen title="Code">
-			<h2 className="mb-2  text-text-md text-theme-text-secondary">Get config programmatically</h2>
+			<h2 className="mb-2 text-text-md text-theme-text-secondary">Get config programmatically</h2>
 			<Codesnippet fullWidth highlightCode wrap code={getStepSnippet(id)} />
 		</CollapsibleCard>
 	);

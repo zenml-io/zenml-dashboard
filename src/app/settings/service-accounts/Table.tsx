@@ -1,11 +1,11 @@
 import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
 import { serviceAccountQueries } from "@/data/service-accounts";
-import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@zenml-io/react-component-library/components/client";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
+import { AddServiceAccountDialog } from "./AddServiceAccount";
 import { ServiceAccountsButtonGroup } from "./ButtonGroup";
 import { getServiceAccountColumns } from "./columns";
 import ServiceAccountFallback from "./Fallback";
@@ -14,18 +14,9 @@ import {
 	useServiceAccountSelectorContext
 } from "./SelectorContext";
 import { useServiceAccountOverviewSearchParams } from "./service";
-import { AddServiceAccountDialog } from "./AddServiceAccount";
 
 export default function ServiceAccountsTable() {
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const queryParams = useServiceAccountOverviewSearchParams();
-
-	useEffect(() => {
-		setCurrentBreadcrumbData({
-			segment: "service_accounts",
-			data: null
-		});
-	}, []);
 
 	const cols = useMemo(() => getServiceAccountColumns(), []);
 

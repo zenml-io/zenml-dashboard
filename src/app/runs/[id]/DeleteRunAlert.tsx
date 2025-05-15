@@ -28,7 +28,7 @@ export function DeleteRunAlert({ open, setOpen }: Props) {
 				rounded: true
 			});
 			setOpen(false);
-			navigate(routes.pipelines.overview);
+			navigate(routes.projects.pipelines.overview);
 		},
 		onError: (e) => {
 			toast({

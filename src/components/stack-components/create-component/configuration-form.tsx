@@ -167,9 +167,13 @@ function ComponentConfigurationFormBody({
 			});
 		} else {
 			if (!component) return;
+			const isConnectorChanged = component.metadata?.connector?.id !== connector;
+			const connectorResource = component.metadata?.connector_resource_id;
 			updateComponent.mutate({
 				componentId: component.id,
 				payload: {
+					// if the connector is unchanged, keep the connector resource
+					...(!isConnectorChanged && { connector_resource_id: connectorResource }),
 					name: componentName,
 					configuration: config,
 					connector: connector || null

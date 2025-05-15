@@ -84,7 +84,7 @@ export function Details() {
 					<Value>
 						{data.body?.pipeline ? (
 							<Link
-								to={routes.pipelines.namespace(
+								to={routes.projects.pipelines.namespace(
 									encodeURIComponent(data.body?.pipeline?.name as string)
 								)}
 							>

@@ -1,11 +1,9 @@
-import { Box } from "@zenml-io/react-component-library/components/server";
-import { useQuery } from "@tanstack/react-query";
-import { Badge, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useEffect } from "react";
-import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { useParams } from "react-router-dom";
 import { serviceAccountQueries } from "@/data/service-accounts";
+import { useQuery } from "@tanstack/react-query";
+import { Badge, Box, Skeleton } from "@zenml-io/react-component-library/components/server";
+import { useParams } from "react-router-dom";
 import ServiceAccountDetailTable from "./Table";
+import { useServiceAccountDetailBreadcrumbs } from "./breadcrumb";
 
 export default function ServiceAccountDetail() {
 	return (
@@ -20,22 +18,13 @@ export default function ServiceAccountDetail() {
 }
 
 export function APIKeyHeader() {
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const { serviceAccountId } = useParams() as { serviceAccountId: string };
 	const serviceAccount = useQuery({
 		...serviceAccountQueries.serviceAccountDetail(serviceAccountId),
 		throwOnError: true
 	});
 
-	useEffect(() => {
-		if (serviceAccount.data) {
-			setCurrentBreadcrumbData({
-				segment: "service_account_detail",
-				data: serviceAccount.data
-			});
-		}
-	}, [serviceAccount.data, setCurrentBreadcrumbData]);
-
+	useServiceAccountDetailBreadcrumbs(serviceAccount.data);
 	if (serviceAccount.isPending) return <Skeleton className="h-9 w-full" />;
 	if (serviceAccount.isError) return null;
 
@@ -54,7 +43,7 @@ export function APIKeyHeader() {
 					{serviceAccountData.body?.active ? "active" : "inactive"}
 				</Badge>
 			</div>
-			<p className="text-text-md text-theme-text-secondary ">
+			<p className="text-text-md text-theme-text-secondary">
 				{serviceAccountData.metadata?.description}
 			</p>
 		</div>
