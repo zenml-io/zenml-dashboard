@@ -59,24 +59,11 @@ export function useDag() {
 
 		setNodes([...layouted.nodes]);
 		setEdges([...layouted.edges]);
-
-		window.requestAnimationFrame(() => {
-			fitView();
-		});
-	}, [fitView, setNodes, setEdges, placeholderData, realNodes, pipelineRun.data]);
+	}, [setNodes, setEdges, placeholderData, realNodes, pipelineRun.data]);
 
 	useEffect(() => {
 		fitView(); // Keep an eye on performance here
 	}, [width, height, fitView]);
-
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			fitView({ duration: 200 });
-		}, 100);
-		return () => {
-			clearTimeout(timeout);
-		};
-	}, [pipelineDeployment.data, pipelineRun.data, fitView]);
 
 	useLayoutEffect(() => {
 		onDagreLayout();

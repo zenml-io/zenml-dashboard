@@ -76,13 +76,11 @@ function ButtonContent({ isValid, isPending, disabled }: ButtonContentProps) {
 	if (isPending)
 		return (
 			<>
-				{isPending && (
-					<div
-						role="alert"
-						aria-busy="true"
-						className="full h-5 w-5 animate-spin rounded-rounded border-2 border-neutral-300 border-b-theme-text-brand"
-					></div>
-				)}
+				<div
+					role="alert"
+					aria-busy="true"
+					className="full h-5 w-5 animate-spin rounded-rounded border-2 border-neutral-300 border-b-theme-text-brand"
+				></div>
 				Validating Credentials...
 			</>
 		);

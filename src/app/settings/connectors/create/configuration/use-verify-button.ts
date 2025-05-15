@@ -81,7 +81,7 @@ export function useVerifyButton({ mandatoryFields }: Args) {
 
 			clearErrors("skipValidation");
 		},
-		onError: (e) => {
+		onError: () => {
 			setValue("isValid", false);
 		}
 	});
