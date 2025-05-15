@@ -4,6 +4,8 @@ type WizardContextType = {
 	currentStep: number;
 	setCurrentStep: Dispatch<SetStateAction<number>>;
 	maxSteps: number;
+	goToNextStep: () => void;
+	goToPreviousStep: () => void;
 };
 
 export const WizardContext = createContext<WizardContextType | null>(null);
@@ -18,8 +20,19 @@ export function WizardProvider({
 	maxSteps: number;
 }) {
 	const [currentStep, setCurrentStep] = useState(initialStep);
+
+	function goToNextStep() {
+		setCurrentStep((prev) => prev + 1);
+	}
+
+	function goToPreviousStep() {
+		setCurrentStep((prev) => prev - 1);
+	}
+
 	return (
-		<WizardContext.Provider value={{ currentStep, setCurrentStep, maxSteps }}>
+		<WizardContext.Provider
+			value={{ currentStep, setCurrentStep, maxSteps, goToNextStep, goToPreviousStep }}
+		>
 			{children}
 		</WizardContext.Provider>
 	);

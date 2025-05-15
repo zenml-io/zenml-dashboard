@@ -68,7 +68,6 @@ export function generateDefaultValues(
 ) {
 	const defaultValues = Object.entries(schema.properties || {}).reduce((acc, [key, prop]) => {
 		let value: string | boolean | object | unknown[] = "";
-
 		if (prop.default) {
 			if (isBooleanField(prop)) {
 				value = prop.default;
@@ -101,6 +100,5 @@ export function generateDefaultValues(
 			}
 		});
 	}
-
 	return defaultValues;
 }

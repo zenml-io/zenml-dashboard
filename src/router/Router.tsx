@@ -14,6 +14,7 @@ import { routes } from "./routes";
 import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
 import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
 import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
+import ConnectorDetailLayout from "@/layouts/connectors-detail/layout";
 
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
@@ -29,7 +30,13 @@ const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 // Settings
 const Settings = lazy(() => import("@/layouts/settings/settings-layout/layout"));
 const Notifications = lazy(() => import("@/app/settings/notifications/page"));
+
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
+const ConnectorConfig = lazy(() => import("@/app/settings/connectors/[id]/configuration/page"));
+const ConnectorComponents = lazy(() => import("@/app/settings/connectors/[id]/components/page"));
+const ConnectorResources = lazy(() => import("@/app/settings/connectors/[id]/resources/page"));
+const ConnectorCreate = lazy(() => import("@/app/settings/connectors/create/page"));
+
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const APITokens = lazy(() => import("@/app/settings/api-tokens/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
@@ -84,6 +91,12 @@ export const router = createBrowserRouter([
 						path: routes.home,
 						errorElement: <PageBoundary />,
 						element: <Navigate to={routes.projects.overview} />
+					},
+					// Create Connector
+					{
+						errorElement: <PageBoundary />,
+						path: routes.settings.connectors.create,
+						element: withProtectedRoute(<ConnectorCreate />)
 					},
 					// Non Project Scoped Tabs
 					{
@@ -141,6 +154,27 @@ export const router = createBrowserRouter([
 									{
 										element: withProtectedRoute(<Connectors />),
 										path: "connectors"
+									},
+									// Connectors Detail
+									{
+										element: <ConnectorDetailLayout />,
+										children: [
+											{
+												element: withProtectedRoute(<ConnectorConfig />),
+												path: routes.settings.connectors.detail.configuration(":connectorId"),
+												errorElement: <PageBoundary />
+											},
+											{
+												element: withProtectedRoute(<ConnectorComponents />),
+												path: routes.settings.connectors.detail.components(":connectorId"),
+												errorElement: <PageBoundary />
+											},
+											{
+												element: withProtectedRoute(<ConnectorResources />),
+												path: routes.settings.connectors.detail.resources(":connectorId"),
+												errorElement: <PageBoundary />
+											}
+										]
 									},
 
 									{

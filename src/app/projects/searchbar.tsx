@@ -1,5 +1,3 @@
-"use client";
-
 import Plus from "@/assets/icons/plus.svg?react";
 import { Button, buttonVariants } from "@zenml-io/react-component-library/components/server";
 import {

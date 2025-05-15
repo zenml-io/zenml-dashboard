@@ -1,0 +1,30 @@
+<svg width="182" height="104" viewBox="0 0 182 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+        d="M35 12C35 7.58172 38.5817 4 43 4H147C151.418 4 155 7.58172 155 12V96C155 100.418 151.418 104 147 104H43C38.5817 104 35 100.418 35 96V12Z"
+        fill="#F1EBFE" />
+    <path d="M1 56H181" stroke="#7A3EF4" stroke-linecap="round" />
+    <path d="M16 61H166" stroke="#7A3EF4" stroke-linecap="round" />
+    <g clip-path="url(#clip0_8218_459)">
+        <path
+            d="M31 8C31 3.58172 34.5817 0 39 0H143C147.418 0 151 3.58172 151 8V92C151 96.4183 147.418 100 143 100H39C34.5817 100 31 96.4183 31 92V8Z"
+            fill="white" />
+        <mask id="path-6-inside-1_8218_459" fill="white">
+            <path d="M31 0H151V12H31V0Z" />
+        </mask>
+        <path d="M31 0H151V12H31V0Z" fill="#FBF9FF" />
+        <path d="M151 11H31V13H151V11Z" fill="#7A3EF4" mask="url(#path-6-inside-1_8218_459)" />
+        <circle cx="41" cy="6" r="2" fill="#AF8BF8" />
+        <circle cx="47" cy="6" r="2" fill="#AF8BF8" />
+        <circle cx="53" cy="6" r="2" fill="#AF8BF8" />
+    </g>
+    <path
+        d="M31.5 8C31.5 3.85786 34.8579 0.5 39 0.5H143C147.142 0.5 150.5 3.85786 150.5 8V92C150.5 96.1421 147.142 99.5 143 99.5H39C34.8579 99.5 31.5 96.1421 31.5 92V8Z"
+        stroke="#7A3EF4" />
+    <defs>
+        <clipPath id="clip0_8218_459">
+            <path
+                d="M31 8C31 3.58172 34.5817 0 39 0H143C147.418 0 151 3.58172 151 8V92C151 96.4183 147.418 100 143 100H39C34.5817 100 31 96.4183 31 92V8Z"
+                fill="white" />
+        </clipPath>
+    </defs>
+</svg>

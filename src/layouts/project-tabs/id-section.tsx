@@ -1,4 +1,3 @@
-"use client";
 import Box from "@/assets/icons/container.svg?react";
 import SlashDivider from "@/assets/icons/slash-divider.svg?react";
 import { CopyButton } from "@/components/CopyButton";

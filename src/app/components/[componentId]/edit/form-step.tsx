@@ -1,5 +1,3 @@
-"use client";
-
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import * as Wizard from "@/components/wizard/Wizard";
