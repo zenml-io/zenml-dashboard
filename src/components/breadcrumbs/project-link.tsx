@@ -1,4 +1,3 @@
-"use client";
 import Divider from "@/assets/icons/slash-divider.svg?react";
 import { routes } from "@/router/routes";
 import {

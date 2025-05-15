@@ -1,5 +1,3 @@
-"use client";
-
 import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import Settings from "@/assets/icons/settings.svg?react";
 import {

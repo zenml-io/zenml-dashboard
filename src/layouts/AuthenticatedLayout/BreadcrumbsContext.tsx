@@ -1,5 +1,3 @@
-"use client";
-
 import { Breadcrumbs } from "@/components/breadcrumbs/types";
 import { createContext, useContext, useState } from "react";
 

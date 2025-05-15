@@ -1,5 +1,3 @@
-"use client";
-
 import Divider from "@/assets/icons/slash-divider.svg?react";
 import { Fragment, useEffect, useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";

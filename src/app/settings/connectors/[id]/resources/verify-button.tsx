@@ -1,5 +1,3 @@
-"use client";
-
 import TickCircle from "@/assets/icons/tick-circle.svg?react";
 import { serviceConnectorQueries } from "@/data/service-connectors";
 import { useVerifyExistingConnector } from "@/data/service-connectors/verify-existing-connectors";

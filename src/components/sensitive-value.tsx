@@ -1,4 +1,3 @@
-"use client";
 import EyeOff from "@/assets/icons/eye-off.svg?react";
 import Eye from "@/assets/icons/eye.svg?react";
 import {

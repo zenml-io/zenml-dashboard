@@ -1,5 +1,3 @@
-"use client";
-
 import { Dialog, DialogContent } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library";
 import { Spinner } from "@zenml-io/react-component-library/components/server";

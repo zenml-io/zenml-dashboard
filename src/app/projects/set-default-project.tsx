@@ -1,5 +1,3 @@
-"use client";
-
 import Pin from "@/assets/icons/pin-01.svg?react";
 import { getCurrentUserKey, useCurrentUser } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
