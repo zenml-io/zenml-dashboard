@@ -35,6 +35,7 @@ const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const ConnectorConfig = lazy(() => import("@/app/settings/connectors/[id]/configuration/page"));
 const ConnectorComponents = lazy(() => import("@/app/settings/connectors/[id]/components/page"));
 const ConnectorResources = lazy(() => import("@/app/settings/connectors/[id]/resources/page"));
+const ConnectorCreate = lazy(() => import("@/app/settings/connectors/create/page"));
 
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const APITokens = lazy(() => import("@/app/settings/api-tokens/page"));
@@ -90,6 +91,12 @@ export const router = createBrowserRouter([
 						path: routes.home,
 						errorElement: <PageBoundary />,
 						element: <Navigate to={routes.projects.overview} />
+					},
+					// Create Connector
+					{
+						errorElement: <PageBoundary />,
+						path: routes.settings.connectors.create,
+						element: withProtectedRoute(<ConnectorCreate />)
 					},
 					// Non Project Scoped Tabs
 					{

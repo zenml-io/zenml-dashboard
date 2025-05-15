@@ -54,6 +54,7 @@
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
+		"@hookform/devtools": "^4.4.0",
 		"@playwright/test": "^1.51.1",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",

@@ -8,7 +8,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { PropsWithChildren, ReactNode } from "react";
+import { Fragment, PropsWithChildren, ReactNode } from "react";
 import { NotAvailable } from "./not-available";
 import { SensitiveValue } from "./sensitive-value";
 import { CollapsibleCardWithCopy } from "./CollapsibleCard";
@@ -76,7 +76,7 @@ export function NestedCollapsible({
 							const keyName = prop?.title || key;
 							const isSecret = prop?.sensitive || prop?.format === "password" || false;
 							return (
-								<>
+								<Fragment key={key}>
 									<dt className="col-span-1 flex items-start text-theme-text-secondary">
 										<TooltipProvider>
 											<Tooltip>
@@ -94,7 +94,7 @@ export function NestedCollapsible({
 											<RenderSimpleValue value={value} />
 										)}
 									</dd>
-								</>
+								</Fragment>
 							);
 						})}
 					</dl>

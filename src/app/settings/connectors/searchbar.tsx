@@ -4,6 +4,7 @@ import { ServiceConnectorListQueryParams } from "@/types/service-connectors";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@zenml-io/react-component-library";
 import Refresh from "@/assets/icons/refresh.svg?react";
+import { NewConnectorButton } from "./new-connector-button";
 
 type Props = {
 	queryParams: ServiceConnectorListQueryParams;
@@ -16,7 +17,7 @@ export function SearchBar({ queryParams }: Props) {
 				<SearchField searchParams={queryParams} />
 				<div className="flex items-center gap-2">
 					<ServiceConnectorRefreshButton queryParams={queryParams} />
-					{/* <NewConnectorButton /> */}
+					<NewConnectorButton />
 				</div>
 			</div>
 		</>

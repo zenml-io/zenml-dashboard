@@ -59,6 +59,7 @@ export const routes = {
 		secrets: { overview: "/settings/secrets", detail: (id: string) => `/settings/secrets/${id}` },
 		connectors: {
 			overview: "/settings/connectors",
+			create: "/settings/connectors/create",
 			detail: {
 				configuration: (id: string) => `/settings/connectors/${id}/configuration`,
 				components: (id: string) => `/settings/connectors/${id}/components`,

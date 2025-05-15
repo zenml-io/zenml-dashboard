@@ -3,6 +3,10 @@ import { components, operations } from "./core";
 
 export type ServiceConnectorType = components["schemas"]["ServiceConnectorTypeModel"];
 
+export type ServiceConnectorTypeListQueryParams = NonNullable<
+	operations["list_service_connector_types_api_v1_service_connector_types_get"]["parameters"]["query"]
+>;
+
 export type ServiceConnectorInfo = components["schemas"]["ServiceConnectorInfo"];
 
 export type ServiceConnectorResourceInfo = components["schemas"]["ServiceConnectorResourcesInfo"];
@@ -35,3 +39,7 @@ export type ResourceType = components["schemas"]["ResourceTypeModel"];
 
 export type ResourcesModel = components["schemas"]["ServiceConnectorResourcesModel"];
 export type TypedResourceModel = components["schemas"]["ServiceConnectorTypedResourcesModel"];
+
+export type AuthMethod = components["schemas"]["AuthenticationMethodModel"];
+
+export type ServiceConnectorRequest = components["schemas"]["ServiceConnectorRequest"];

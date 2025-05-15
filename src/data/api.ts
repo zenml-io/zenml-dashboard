@@ -52,8 +52,10 @@ export const apiPaths = {
 		detail: (id: string) => `/flavors/${id}`
 	},
 	serviceConnectors: {
+		verify: "/service_connectors/verify",
 		fullStackResources: "/service_connectors/full_stack_resources",
 		types: {
+			all: "/service_connector_types",
 			detail: (connectorType: string) => `/service_connector_types/${connectorType}`
 		},
 		detail: (connectorId: string) => `/service_connectors/${connectorId}`,
