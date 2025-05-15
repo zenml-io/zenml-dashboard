@@ -57,7 +57,14 @@ export const routes = {
 		notifications: "/settings/notifications",
 		profile: `/settings/profile`,
 		secrets: { overview: "/settings/secrets", detail: (id: string) => `/settings/secrets/${id}` },
-		connectors: { overview: "/settings/connectors" },
+		connectors: {
+			overview: "/settings/connectors",
+			detail: {
+				configuration: (id: string) => `/settings/connectors/${id}/configuration`,
+				components: (id: string) => `/settings/connectors/${id}/components`,
+				resources: (id: string) => `/settings/connectors/${id}/resources`
+			}
+		},
 		service_accounts: {
 			overview: "/settings/service-accounts",
 			detail: (id: string) => `/settings/service-accounts/${id}`

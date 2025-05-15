@@ -7,7 +7,8 @@ export function ServiceConnectorListContent() {
 	const params = useConnectorListParams();
 
 	const queryParams: ServiceConnectorListQueryParams = {
-		...params
+		...params,
+		sort_by: "desc:updated"
 	};
 	return (
 		<>

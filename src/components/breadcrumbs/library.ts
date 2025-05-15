@@ -35,6 +35,14 @@ export const SecretsBreadcrumb: BreadcrumbSegment[] = [
 	}
 ];
 
+export const connectorBreadcrumb: BreadcrumbSegment[] = [
+	ServerSettingsBreadcrumb,
+	{
+		label: "Connectors",
+		href: routes.settings.connectors.overview
+	}
+];
+
 export const serviceAccountBreadcrumb: BreadcrumbSegment[] = [
 	ServerSettingsBreadcrumb,
 	{

@@ -32,3 +32,6 @@ export type ServiceConnector = components["schemas"]["ServiceConnectorResponse"]
 
 export type ConnectorType = components["schemas"]["ServiceConnectorTypeModel"];
 export type ResourceType = components["schemas"]["ResourceTypeModel"];
+
+export type ResourcesModel = components["schemas"]["ServiceConnectorResourcesModel"];
+export type TypedResourceModel = components["schemas"]["ServiceConnectorTypedResourcesModel"];

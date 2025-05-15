@@ -11,6 +11,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ConnectorDropdown } from "./connector-dropdown";
+import { routes } from "@/router/routes";
 
 export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] {
 	return useMemo<ColumnDef<ServiceConnector>[]>(
@@ -31,13 +32,18 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 							)}
 							<div>
 								<div className="flex items-center gap-1">
-									<Link to="#" className="block max-w-[200px] truncate text-text-md font-semibold">
+									<Link
+										to={routes.settings.connectors.detail.configuration(id)}
+										className="block max-w-[200px] truncate text-text-md font-semibold"
+									>
 										{name}
 									</Link>
 									<CopyButton copyText={name} />
 								</div>
 								<div className="flex items-center gap-1">
-									<Link to="#">{id.split("-")[0]}</Link>
+									<Link to={routes.settings.connectors.detail.configuration(id)}>
+										{id.split("-")[0]}
+									</Link>
 									<CopyButton copyText={id} />
 								</div>
 							</div>

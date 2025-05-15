@@ -10,13 +10,20 @@ import { Button, Skeleton } from "@zenml-io/react-component-library/components/s
 import { Link } from "react-router-dom";
 import { getComponentList } from "./columns";
 import { useComponentlistQueryParams } from "./service";
+import { StackComponentListParams } from "@/types/components";
 
-export function StackComponentList() {
+type Props = {
+	fixedQueryParams?: StackComponentListParams;
+	displayCreateComponent?: boolean;
+};
+
+export function StackComponentList({ fixedQueryParams, displayCreateComponent = true }: Props) {
 	const queryParams = useComponentlistQueryParams();
 
 	const componentList = useQuery({
 		...componentQueries.componentList({
 			...queryParams,
+			...fixedQueryParams,
 			sort_by: "desc:updated"
 		}),
 		throwOnError: true
@@ -38,12 +45,14 @@ export function StackComponentList() {
 							<Refresh className="h-5 w-5 fill-theme-text-brand" />
 							Refresh
 						</Button>
-						<Button size="md" asChild>
-							<Link to={routes.components.create}>
-								<Plus className="h-5 w-5 shrink-0 fill-white" />
-								<span>New Component</span>
-							</Link>
-						</Button>
+						{displayCreateComponent && (
+							<Button size="md" asChild>
+								<Link to={routes.components.create}>
+									<Plus className="h-5 w-5 shrink-0 fill-white" />
+									<span>New Component</span>
+								</Link>
+							</Button>
+						)}
 					</div>
 				</div>
 
