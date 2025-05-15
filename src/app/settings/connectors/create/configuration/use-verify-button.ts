@@ -18,6 +18,7 @@ export function useVerifyButton({ mandatoryFields }: Args) {
 
 	useEffect(() => {
 		const subscription = watch((values, { name }) => {
+			if (!name) return;
 			if (name === "isValid" || name === "skipValidation") {
 				return;
 			}

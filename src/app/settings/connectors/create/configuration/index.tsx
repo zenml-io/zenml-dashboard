@@ -4,10 +4,9 @@ import { useWizardContext } from "@/context/WizardContext";
 import { serviceConnectorQueries } from "@/data/service-connectors";
 import { useCreateServiceConnector } from "@/data/service-connectors/create-service-connector";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@zenml-io/react-component-library/components/client";
+import { useToast } from "@zenml-io/react-component-library";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -94,7 +93,6 @@ export function ConnectorConfigurationStep() {
 	return (
 		<Wizard.Wrapper>
 			<FormProvider {...form}>
-				<DevTool control={form.control} />
 				<Wizard.Header>Configure your Service Connector</Wizard.Header>
 				<form onSubmit={form.handleSubmit(handleCreateConnector)}>
 					<Wizard.Body>
