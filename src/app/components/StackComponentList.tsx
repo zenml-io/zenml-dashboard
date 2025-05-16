@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { getComponentList } from "./columns";
 import { useComponentlistQueryParams } from "./service";
 import { StackComponentListParams } from "@/types/components";
+import { useComponentSelectorContext } from "./selector-context";
+import { ComponentButtonGroup } from "./button-group";
 
 type Props = {
 	fixedQueryParams?: StackComponentListParams;
@@ -19,6 +21,7 @@ type Props = {
 
 export function StackComponentList({ fixedQueryParams, displayCreateComponent = true }: Props) {
 	const queryParams = useComponentlistQueryParams();
+	const { rowSelection, setRowSelection, selectedRowCount } = useComponentSelectorContext();
 
 	const componentList = useQuery({
 		...componentQueries.componentList({
@@ -37,7 +40,11 @@ export function StackComponentList({ fixedQueryParams, displayCreateComponent = 
 			<div className="flex flex-col gap-5">
 				<div className="flex flex-wrap items-center justify-between gap-y-4">
 					<div className="flex items-center gap-2">
-						<SearchField searchParams={queryParams} />
+						{selectedRowCount >= 1 ? (
+							<ComponentButtonGroup />
+						) : (
+							<SearchField searchParams={queryParams} />
+						)}
 					</div>
 
 					<div className="flex items-center justify-between gap-2">
@@ -59,7 +66,13 @@ export function StackComponentList({ fixedQueryParams, displayCreateComponent = 
 				<div className="flex flex-col items-center gap-5">
 					<div className="w-full">
 						{data ? (
-							<DataTable columns={columns} data={data.items} />
+							<DataTable
+								getRowId={(row) => row.id}
+								rowSelection={rowSelection}
+								onRowSelectionChange={setRowSelection}
+								columns={columns}
+								data={data.items}
+							/>
 						) : (
 							<Skeleton className="h-[500px] w-full" />
 						)}

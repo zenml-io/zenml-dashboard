@@ -9,9 +9,33 @@ import { StackComponent } from "@/types/components";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library/components/server";
 import { ComponentDropdown } from "./component-dropdown";
+import { Checkbox } from "@zenml-io/react-component-library/components/client";
 
 export function getComponentList(): ColumnDef<StackComponent>[] {
 	return [
+		{
+			id: "select",
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
+			cell: ({ row }) => {
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
+			}
+		},
 		{
 			id: "name",
 			header: "Component",
