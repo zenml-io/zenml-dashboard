@@ -5,16 +5,23 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@zenml-io/react-component-library";
 import Refresh from "@/assets/icons/refresh.svg?react";
 import { NewConnectorButton } from "./new-connector-button";
+import { useConnectorSelectorContext } from "./selector-context";
+import { ConnectorButtonGroup } from "./button-group";
 
 type Props = {
 	queryParams: ServiceConnectorListQueryParams;
 };
 
 export function SearchBar({ queryParams }: Props) {
+	const { selectedRowCount } = useConnectorSelectorContext();
 	return (
 		<>
 			<div className="flex flex-wrap items-center justify-between gap-2">
-				<SearchField searchParams={queryParams} />
+				{selectedRowCount > 0 ? (
+					<ConnectorButtonGroup />
+				) : (
+					<SearchField searchParams={queryParams} />
+				)}
 				<div className="flex items-center gap-2">
 					<ServiceConnectorRefreshButton queryParams={queryParams} />
 					<NewConnectorButton />

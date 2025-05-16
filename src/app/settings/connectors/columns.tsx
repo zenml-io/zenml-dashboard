@@ -12,10 +12,37 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ConnectorDropdown } from "./connector-dropdown";
 import { routes } from "@/router/routes";
+import { Checkbox } from "@zenml-io/react-component-library";
 
 export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] {
 	return useMemo<ColumnDef<ServiceConnector>[]>(
 		() => [
+			{
+				id: "select",
+				meta: {
+					width: "5%"
+				},
+				header: ({ table }) => {
+					return (
+						<Checkbox
+							id="check-all"
+							checked={table.getIsAllRowsSelected()}
+							onCheckedChange={(state) =>
+								table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+							}
+						/>
+					);
+				},
+				cell: ({ row }) => {
+					return (
+						<Checkbox
+							id={`check-${row.id}`}
+							checked={row.getIsSelected()}
+							onCheckedChange={row.getToggleSelectedHandler()}
+						/>
+					);
+				}
+			},
 			{
 				id: "name",
 				header: "Service Connector",
