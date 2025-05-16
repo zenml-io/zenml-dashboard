@@ -3,21 +3,36 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { is1yearOld, is6monthsOld } from "@/lib/dates";
 import { ApiKey } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
-import { ApiKeySelector } from "./Selector";
 import ApiKeyDropdown from "./Dropdown";
 import ToggleActiveApiKey from "./ToggleApiKey";
+import { Checkbox } from "@zenml-io/react-component-library/components/client";
 
 export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 	return [
 		{
-			id: "check",
-			header: "",
+			id: "select",
 			meta: {
-				width: "1%"
+				width: "5%"
 			},
-			accessorFn: (row) => String(row.body?.service_account.id),
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
 			cell: ({ row }) => {
-				return <ApiKeySelector id={row.original.id} />;
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{

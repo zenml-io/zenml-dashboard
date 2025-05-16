@@ -21,6 +21,9 @@ import { RunDropdown } from "./RunDropdown";
 export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
 		id: "select",
+		meta: {
+			width: "5%"
+		},
 		header: ({ table }) => {
 			return (
 				<Checkbox
