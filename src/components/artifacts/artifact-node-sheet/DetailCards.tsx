@@ -5,7 +5,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ErrorFallback } from "@/components/Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { KeyValue } from "@/components/KeyValue";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { componentQueries } from "@/data/components";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
@@ -24,6 +24,7 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { DownloadArtifactButton } from "../download-artifact-button";
 
 type Props = {
 	artifactVersionId: string;
@@ -184,14 +185,15 @@ export function DataCard({ artifactVersionId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Data">
 			<dl className="grid w-full grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<Key className="col-span-3">URI</Key>
-				<Value className="col-span-3 h-auto">
-					<Codesnippet
-						fullWidth
-						codeClasses="truncate"
-						code={artifactVersionData.body?.uri || ""}
-					/>
-				</Value>
+				<dt className="col-span-3 flex items-center justify-between text-theme-text-secondary">
+					Uri
+					<DownloadArtifactButton artifactVersionId={artifactVersionId} />
+				</dt>
+				<dd className="col-span-3 w-full truncate text-neutral-700">
+					<div className="pb-2">
+						<Codesnippet fullWidth code={artifactVersionData.body!.uri} />
+					</div>
+				</dd>
 
 				{artifactStoreId && (
 					<KeyValue

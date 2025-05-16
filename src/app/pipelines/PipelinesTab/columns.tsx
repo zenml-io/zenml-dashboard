@@ -25,6 +25,9 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 	return [
 		{
 			id: "select",
+			meta: {
+				width: "1%"
+			},
 			header: ({ table }) => {
 				return (
 					<Checkbox

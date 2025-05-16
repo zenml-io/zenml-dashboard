@@ -22,7 +22,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
 		id: "select",
 		meta: {
-			width: "5%"
+			width: "1%"
 		},
 		header: ({ table }) => {
 			return (

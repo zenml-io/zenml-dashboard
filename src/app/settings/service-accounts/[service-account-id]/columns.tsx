@@ -12,7 +12,7 @@ export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 		{
 			id: "select",
 			meta: {
-				width: "5%"
+				width: "1%"
 			},
 			header: ({ table }) => {
 				return (

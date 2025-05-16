@@ -20,7 +20,7 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 			{
 				id: "select",
 				meta: {
-					width: "5%"
+					width: "1%"
 				},
 				header: ({ table }) => {
 					return (

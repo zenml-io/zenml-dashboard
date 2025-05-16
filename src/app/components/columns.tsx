@@ -15,6 +15,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 	return [
 		{
 			id: "select",
+			meta: {
+				width: "1%"
+			},
 			header: ({ table }) => {
 				return (
 					<Checkbox
