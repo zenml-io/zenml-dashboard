@@ -3,24 +3,27 @@ import { getServerSettingsKey } from "@/data/server/get-server-settings";
 import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
 import { isFetchError } from "@/lib/fetch-error";
 import { ServerSettings } from "@/types/server";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Switch, useToast } from "@zenml-io/react-component-library";
-import { useEffect, useId } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { NotificationFormSchema, NotificationFormType } from "./form-schema";
+import { useId } from "react";
 
 type Props = {
 	settings: ServerSettings;
 };
+
 export function NotificationsForm({ settings }: Props) {
 	const announcementsId = useId();
 	const updatesId = useId();
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 
-	const { mutate } = useUpdateServerSettings({
+	// Get current values directly from the settings prop
+	const announcements = settings.body?.display_announcements ?? false;
+	const updates = settings.body?.display_updates ?? false;
+
+	const { mutate, isPending } = useUpdateServerSettings({
 		onError: (error) => {
+			// If there's an error, refetch to get the current state
 			queryClient.invalidateQueries({ queryKey: getServerSettingsKey() });
 			if (isFetchError(error)) {
 				toast({
@@ -33,6 +36,7 @@ export function NotificationsForm({ settings }: Props) {
 			}
 		},
 		onSuccess: () => {
+			// Refresh data to get the latest state
 			queryClient.invalidateQueries({ queryKey: getServerSettingsKey() });
 			toast({
 				status: "success",
@@ -43,76 +47,52 @@ export function NotificationsForm({ settings }: Props) {
 		}
 	});
 
-	const { control, handleSubmit, watch } = useForm<NotificationFormType>({
-		resolver: zodResolver(NotificationFormSchema),
-		defaultValues: {
-			announcements: settings.body?.display_announcements ?? undefined,
-			updates: settings.body?.display_updates ?? undefined
-		}
-	});
-
-	function updateSettings({ announcements, updates }: NotificationFormType) {
+	// Handler functions for each toggle
+	const handleAnnouncementsChange = (checked: boolean) => {
+		// Directly submit the new value to the backend
 		mutate({
-			display_announcements: announcements,
-			display_updates: updates
+			display_announcements: checked
 		});
-	}
+	};
 
-	useEffect(() => {
-		const subscription = watch(() => handleSubmit(updateSettings)());
-		return () => subscription.unsubscribe();
-	}, [handleSubmit, watch]);
+	const handleUpdatesChange = (checked: boolean) => {
+		// Directly submit the new value to the backend
+		mutate({
+			display_updates: checked
+		});
+	};
 
 	return (
-		<form id="create-user-form" className="space-y-5">
-			<div className="space-y-5">
-				<div className="flex items-center gap-5">
-					<Controller
-						control={control}
-						name="announcements"
-						render={({ field: { value, onChange, ref } }) => (
-							<Switch
-								ref={ref}
-								checked={value}
-								onCheckedChange={(val) => {
-									onChange(!!val);
-								}}
-								id={announcementsId}
-							/>
-						)}
-					/>
-
-					<label htmlFor={announcementsId} className="text-text-md">
-						<p className="font-semibold">Announcements</p>
-						<p className="text-theme-text-secondary">
-							Enable Announcements for important ZenML updates, surveys, and feedback opportunities.
-						</p>
-					</label>
-				</div>
-				<hr />
-				<div className="flex items-center gap-5">
-					<Controller
-						control={control}
-						name="updates"
-						render={({ field: { value, onChange, ref } }) => (
-							<Switch
-								ref={ref}
-								checked={value}
-								onCheckedChange={(val) => {
-									onChange(!!val);
-								}}
-								id={updatesId}
-							/>
-						)}
-					/>
-					<label htmlFor={updatesId} className="text-text-md">
-						<p className="font-semibold">Updates</p>
-						<p className="text-theme-text-secondary">
-							Activate Updates to receive the latest ZenML news and feature releases.
-						</p>
-					</label>
-				</div>
+		<div className="space-y-5">
+			<div className="flex items-center gap-5">
+				<Switch
+					checked={announcements}
+					onCheckedChange={handleAnnouncementsChange}
+					id={announcementsId}
+					disabled={isPending}
+				/>
+				<label htmlFor={announcementsId} className="text-text-md">
+					<p className="font-semibold">Announcements</p>
+					<p className="text-theme-text-secondary">
+						Enable Announcements for important ZenML updates, surveys, and feedback opportunities.
+					</p>
+				</label>
 			</div>
-		</form>
+			<hr />
+			<div className="flex items-center gap-5">
+				<Switch
+					checked={updates}
+					onCheckedChange={handleUpdatesChange}
+					id={updatesId}
+					disabled={isPending}
+				/>
+				<label htmlFor={updatesId} className="text-text-md">
+					<p className="font-semibold">Updates</p>
+					<p className="text-theme-text-secondary">
+						Activate Updates to receive the latest ZenML news and feature releases.
+					</p>
+				</label>
+			</div>
+		</div>
 	);
 }
