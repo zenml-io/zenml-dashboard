@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { RunsSelectorProvider } from "../../runs/RunsSelectorContext";
+import { RunsSelectorContextProvider } from "../../runs/RunsSelectorContext";
 import { usePipelineDetailBreadcrumbs } from "./breadcrumb";
 import { Header } from "./Header";
 import { PipelineRunsTable } from "./RunsTable";
@@ -10,10 +10,10 @@ export default function PipelineNamespacePage() {
 
 	return (
 		<div>
-			<RunsSelectorProvider>
+			<RunsSelectorContextProvider>
 				<Header namespace={namespace} />
 				<PipelineRunsTable />
-			</RunsSelectorProvider>
+			</RunsSelectorContextProvider>
 		</div>
 	);
 }
