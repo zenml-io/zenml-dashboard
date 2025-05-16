@@ -11,6 +11,7 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+	Checkbox,
 	Tag,
 	Tooltip,
 	TooltipContent,
@@ -19,18 +20,30 @@ import {
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineDropdown } from "./PipelineDropdown";
-import { PipelinesSelector } from "./PipelinesSelector";
 
 export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 	return [
 		{
-			id: "check",
-			header: "",
-			meta: {
-				width: "1%"
+			id: "select",
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
 			},
 			cell: ({ row }) => {
-				return <PipelinesSelector id={row.original.id} />;
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{

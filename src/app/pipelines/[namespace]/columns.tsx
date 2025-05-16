@@ -10,6 +10,7 @@ import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+	Checkbox,
 	Tag,
 	Tooltip,
 	TooltipContent,
@@ -18,20 +19,30 @@ import {
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { RunDropdown } from "../../runs/RunDropdown";
-import { RunSelector } from "../../runs/RunSelector";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
 		{
-			id: "check",
-			header: "",
-			meta: {
-				width: "1%"
+			id: "select",
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
 			},
-			accessorFn: (row) => ({ id: row.id }),
-			cell: ({ getValue }) => {
-				const { id } = getValue<{ id: string }>();
-				return <RunSelector id={id} />;
+			cell: ({ row }) => {
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{
