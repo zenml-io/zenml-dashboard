@@ -9,14 +9,12 @@ import { AddServiceAccountDialog } from "./AddServiceAccount";
 import { ServiceAccountsButtonGroup } from "./ButtonGroup";
 import { getServiceAccountColumns } from "./columns";
 import ServiceAccountFallback from "./Fallback";
-import {
-	ServiceAccountsSelectorProvider,
-	useServiceAccountSelectorContext
-} from "./SelectorContext";
+import { useServiceAccountSelectorContext } from "./SelectorContext";
 import { useServiceAccountOverviewSearchParams } from "./service";
 
-export default function ServiceAccountsTable() {
+export function ServiceAccountsTable() {
 	const queryParams = useServiceAccountOverviewSearchParams();
+	const { rowSelection, setRowSelection } = useServiceAccountSelectorContext();
 
 	const cols = useMemo(() => getServiceAccountColumns(), []);
 
@@ -32,12 +30,18 @@ export default function ServiceAccountsTable() {
 		return <ServiceAccountFallback />;
 	}
 	return (
-		<ServiceAccountsSelectorProvider>
+		<>
 			<Header />
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{serviceAccounts ? (
-						<DataTable columns={cols} data={serviceAccounts.items} />
+						<DataTable
+							getRowId={(row) => row.id}
+							rowSelection={rowSelection}
+							onRowSelectionChange={setRowSelection}
+							columns={cols}
+							data={serviceAccounts.items}
+						/>
 					) : (
 						<Skeleton className="h-[500px] w-full" />
 					)}
@@ -50,17 +54,17 @@ export default function ServiceAccountsTable() {
 					<Skeleton className="h-[36px] w-[300px]" />
 				)}
 			</div>
-		</ServiceAccountsSelectorProvider>
+		</>
 	);
 }
 
 function Header() {
 	const queryParams = useServiceAccountOverviewSearchParams();
-	const { selectedServiceAccounts } = useServiceAccountSelectorContext();
+	const { selectedRowCount } = useServiceAccountSelectorContext();
 
 	return (
 		<div className="flex flex-wrap items-center justify-between gap-2">
-			{selectedServiceAccounts.length ? (
+			{selectedRowCount ? (
 				<ServiceAccountsButtonGroup />
 			) : (
 				<div className="flex items-center gap-2">
