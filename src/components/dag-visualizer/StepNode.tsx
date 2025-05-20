@@ -8,12 +8,14 @@ import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../Execu
 import { StepSheet } from "../steps/step-sheet";
 import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
+import { getIsStatusUnknown } from "./layout/status";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 
 const selector = (state: ReactFlowState) => ({
 	unselectAll: state.unselectNodesAndEdges
 });
 
-export function StepNode({ data, selected }: NodeProps<Step>) {
+export function StepNode({ data, selected }: NodeProps<Step & { runStatus: ExecutionStatus }>) {
 	const { unselectAll } = useStore(selector);
 
 	const isFailed = data.body?.status === "failed";
@@ -26,6 +28,8 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 		}
 	}
 
+	const isStatusUnknown = getIsStatusUnknown(data.body?.status ?? "running", data.runStatus);
+
 	return (
 		<BaseNode>
 			<StepSheet onOpenChange={openChangeHandler} stepId={data.id}>
@@ -33,7 +37,7 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 					data-failed={isFailed}
 					data-selected={!!selected}
 					className={clsx(
-						"group max-h-[80px] max-w-[300px] overflow-hidden rounded-md border bg-theme-surface-primary transition-all duration-200  hover:shadow-md  data-[selected=true]:shadow-md",
+						"group max-h-[80px] max-w-[300px] overflow-hidden rounded-md border bg-theme-surface-primary transition-all duration-200 hover:shadow-md data-[selected=true]:shadow-md",
 						{
 							"border-theme-border-moderate hover:border-neutral-400 data-[selected=true]:border-theme-border-bold":
 								!isFailed,
@@ -43,9 +47,14 @@ export function StepNode({ data, selected }: NodeProps<Step>) {
 				>
 					<div className="flex flex-1 items-center gap-1 py-1 pl-1 pr-2">
 						<div
-							className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(data.body?.status)}`}
+							className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(
+								isStatusUnknown ? "unknown" : data.body?.status
+							)}`}
 						>
-							<ExecutionStatusIcon status={data.body?.status} className="h-4 w-4" />
+							<ExecutionStatusIcon
+								status={isStatusUnknown ? "unknown" : data.body?.status}
+								className="h-4 w-4 shrink-0"
+							/>
 						</div>
 						<p className="truncate font-semibold">{data.name}</p>
 						<CopyNodeButton

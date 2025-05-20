@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
-import { useRunsSelectorContext } from "./RunsSelectorContext";
+import { useRunBulkDelete } from "./RunsSelectorContext";
 
 type Props = {
 	id: string;
@@ -21,10 +21,10 @@ export function RunDropdown({ id }: Props) {
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 
-	const { bulkDeleteRuns } = useRunsSelectorContext();
+	const { bulkDelete } = useRunBulkDelete();
 
 	async function handleDelete() {
-		await bulkDeleteRuns([id]);
+		await bulkDelete([id]);
 		handleDialogItemOpenChange(false);
 	}
 

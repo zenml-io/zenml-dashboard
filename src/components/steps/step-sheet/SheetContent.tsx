@@ -6,38 +6,19 @@ import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { useStepDetail } from "@/data/steps/step-detail-query";
-import { ExecutionStatus } from "@/types/pipeline-runs";
-import {
-	Badge,
-	BadgeProps,
-	Skeleton,
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger
-} from "@zenml-io/react-component-library";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
-import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
 import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
 import { OrchestratorCard, StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
 import { StepMetadataTab } from "./MetadataTab";
 import { StackTab } from "./StacksTab";
+import { SheetHeadline } from "./sheet-headline";
 
 type Props = {
 	stepId: string;
 };
-
-function getBadgeColor(status?: ExecutionStatus): BadgeProps["color"] {
-	if (!status) return "light-grey";
-	switch (status) {
-		case "completed":
-			return "green";
-		default:
-			return "light-grey";
-	}
-}
 
 export function StepSheetContent({ stepId }: Props) {
 	const { runId } = useParams() as { runId: string };
@@ -45,33 +26,11 @@ export function StepSheetContent({ stepId }: Props) {
 		stepId: stepId
 	});
 
-	const status = data?.body?.status;
-	const enable_cache = data?.metadata?.config?.enable_cache;
-
 	return (
 		<div>
 			<SheetHeader />
 			<div className="flex justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
-				<div>
-					{data ? (
-						<div className="flex items-center gap-1">
-							<div className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(status)}`}>
-								<ExecutionStatusIcon status={status} className="h-4 w-4" />
-							</div>
-							<h2 className="text-display-xs font-semibold">{data.name}</h2>
-							<Badge size="sm" color={getBadgeColor(status)}>
-								{status || "None"}
-							</Badge>
-							{typeof enable_cache === "boolean" && (
-								<Badge size="sm" color={enable_cache ? "green" : "grey"}>
-									{enable_cache ? "Enable cache" : "Disabled cache"}
-								</Badge>
-							)}
-						</div>
-					) : (
-						<Skeleton className="h-6 w-7" />
-					)}
-				</div>
+				<SheetHeadline stepId={stepId} />
 			</div>
 			<div className="p-5">
 				<Tabs defaultValue="overview">

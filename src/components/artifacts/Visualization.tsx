@@ -1,21 +1,21 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
 import {
 	getArtifactVisualizationQueryKey,
 	useArtifactVisualization
 } from "@/data/artifact-versions/artifact-visualization-query";
-import { ArtifactVisualization } from "@/types/artifact-versions";
+import { ArtifactVisualizationQueryParams, LoadedVisualization } from "@/types/artifact-versions";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, ButtonProps, Spinner } from "@zenml-io/react-component-library";
-import { Dispatch, SetStateAction, lazy, useState } from "react";
+import { Button, Spinner } from "@zenml-io/react-component-library";
+import { useState } from "react";
 import { EmptyState } from "../EmptyState";
+import { InfoBox } from "../Infobox";
 import { HTMLVisualization } from "./HtmlVisualization";
 import { ImageVisualization } from "./ImageVisualization";
-import { InfoBox } from "../Infobox";
-import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
 import { JSONVisualization } from "./JsonVisualization";
-
-const CSVVisualization = lazy(() => import("./CsvVizualization"));
-const MarkdownVisualization = lazy(() => import("./MarkdownVisualization"));
+import { DownloadButton } from "./visualization-download-button";
+import MarkdownVisualization from "./MarkdownVisualization";
+import CSVVisualization from "./CsvVizualization";
 
 export type Props = {
 	content: string;
@@ -24,17 +24,25 @@ export type Props = {
 type VisualizationProps = {
 	artifactVersionId: string;
 	artifactName: string;
+	visualizationIndex?: number;
 };
 
-export function Visualization({ artifactVersionId, artifactName }: VisualizationProps) {
+export function Visualization({
+	artifactVersionId,
+	artifactName,
+	visualizationIndex = 0
+}: VisualizationProps) {
 	const [isCancelled, setIsCancelled] = useState(false);
-	const { isVisualizationConfirmed, setVisualizationConfirmed } =
-		useArtifactLoadConfirmationContext();
+	const params: ArtifactVisualizationQueryParams = {
+		index: visualizationIndex
+	};
+
+	const { isVisualizationConfirmed, confirmVisualization } = useArtifactLoadConfirmationContext();
 
 	const queryClient = useQueryClient();
 
 	const { data, isError, error, isPending } = useArtifactVisualization(
-		{ versionId: artifactVersionId },
+		{ versionId: artifactVersionId, params },
 		{ retry: false, enabled: !isCancelled }
 	);
 
@@ -107,11 +115,13 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 		);
 	}
 
-	if (!isVisualizationConfirmed) {
+	if (!isVisualizationConfirmed(visualizationIndex)) {
 		return (
 			<ConfirmDisplay
+				artifactVersionId={artifactVersionId}
+				visualizationIndex={visualizationIndex}
 				artifactName={artifactName}
-				setConfirmed={setVisualizationConfirmed}
+				confirmVisualization={() => confirmVisualization(visualizationIndex)}
 				{...data}
 			/>
 		);
@@ -119,27 +129,25 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 
 	return (
 		<div>
-			<div className="flex justify-end">
-				<DownloadButton artifactName={artifactName} {...data} />
-			</div>
-			<div>
-				{data.type === "image" && <ImageVisualization content={data.value} />}
-				{data.type === "html" && <HTMLVisualization content={data.value} />}
-				{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
-				{data.type === "csv" && <CSVVisualization content={data.value} />}
-				{data.type === "json" && <JSONVisualization content={data.value} />}
-			</div>
+			{data.type === "image" && <ImageVisualization content={data.value} />}
+			{data.type === "html" && <HTMLVisualization content={data.value} />}
+			{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
+			{data.type === "csv" && <CSVVisualization content={data.value} />}
+			{data.type === "json" && <JSONVisualization content={data.value} />}
 		</div>
 	);
 }
 
 function ConfirmDisplay({
 	artifactName,
-	setConfirmed,
-	...rest
-}: ArtifactVisualization & {
+	confirmVisualization,
+	artifactVersionId,
+	visualizationIndex
+}: LoadedVisualization & {
 	artifactName: string;
-	setConfirmed: Dispatch<SetStateAction<boolean>>;
+	confirmVisualization: () => void;
+	artifactVersionId: string;
+	visualizationIndex: number;
 }) {
 	return (
 		<div className="flex flex-col items-center justify-center gap-8">
@@ -148,65 +156,15 @@ function ConfirmDisplay({
 				from untrusted sources can pose risks. If unsure, avoid loading.
 			</InfoBox>
 			<div className="flex justify-center gap-4">
-				<Button size="md" onClick={() => setConfirmed(true)}>
+				<Button size="md" onClick={() => confirmVisualization()}>
 					Load Preview
 				</Button>
-				<DownloadButton {...rest} buttonIntent="secondary" artifactName={artifactName} />
+				<DownloadButton
+					artifactVersionId={artifactVersionId}
+					visualizationIndex={visualizationIndex}
+					artifactName={artifactName}
+				/>
 			</div>
 		</div>
-	);
-}
-
-function DownloadButton({
-	type,
-	value,
-	artifactName,
-	buttonIntent = "primary"
-}: ArtifactVisualization & { artifactName: string; buttonIntent?: ButtonProps["intent"] }) {
-	const fileTypeMap = {
-		image: "png",
-		html: "html",
-		markdown: "md",
-		csv: "csv",
-		json: "json"
-	} as const;
-
-	const typeMap = {
-		image: "image/png",
-		html: "text/html",
-		markdown: "text/markdown",
-		csv: "text/csv",
-		json: "application/json"
-	} as const;
-
-	function prepareImagedownload() {
-		const byteArray = atob(value);
-		const byteNumbers = new Array(byteArray.length);
-		for (let i = 0; i < byteArray.length; i++) {
-			byteNumbers[i] = byteArray.charCodeAt(i);
-		}
-		const byteArrayUint8 = new Uint8Array(byteNumbers);
-		return byteArrayUint8;
-	}
-
-	function handleDownload() {
-		try {
-			const blob = new Blob([type === "image" ? prepareImagedownload() : value], {
-				type: typeMap[type]
-			});
-			const url = window.URL.createObjectURL(blob);
-			const a = document.createElement("a");
-			a.href = url;
-			a.download = `${artifactName}.` + fileTypeMap[type];
-			a.click();
-		} catch (e) {
-			console.error(e);
-		}
-	}
-
-	return (
-		<Button intent={buttonIntent} size="md" className="mb-4" onClick={handleDownload}>
-			Download
-		</Button>
 	);
 }

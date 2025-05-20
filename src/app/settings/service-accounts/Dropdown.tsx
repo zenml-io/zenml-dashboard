@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
-import { useServiceAccountSelectorContext } from "./SelectorContext";
+import { useServiceAccountBulkDelete } from "./SelectorContext";
 
 export default function ServiceAccountsDropdown({
 	serviceAccountId
@@ -18,7 +18,7 @@ export default function ServiceAccountsDropdown({
 }) {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
 	const [hasOpenDialog, setHasOpenDialog] = useState(false);
-	const { bulkDeleteServiceAccounts } = useServiceAccountSelectorContext();
+	const { bulkDelete } = useServiceAccountBulkDelete();
 
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
@@ -28,7 +28,7 @@ export default function ServiceAccountsDropdown({
 	}
 
 	async function handleDelete() {
-		await bulkDeleteServiceAccounts([serviceAccountId]);
+		await bulkDelete([serviceAccountId]);
 		handleDialogItemOpenChange(false);
 	}
 

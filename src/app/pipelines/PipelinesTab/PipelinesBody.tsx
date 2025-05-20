@@ -6,12 +6,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { PipelinesButtonGroup } from "./ButtonGroup";
 import { getPipelineColumns } from "./columns";
-import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
+import { usePipelineSelectorContext } from "./PipelineSelectorContext";
 import { usePipelineOverviewSearchParams } from "./service";
 
 export function PipelinesBody() {
 	const queryParams = usePipelineOverviewSearchParams();
-	const { selectedPipelines } = usePipelinesSelectorContext();
+	const { selectedRowCount, rowSelection, setRowSelection } = usePipelineSelectorContext();
 	const { data, refetch } = useQuery({
 		...pipelineQueries.pipelineList({ ...queryParams, sort_by: "desc:latest_run" }),
 		throwOnError: true
@@ -20,11 +20,7 @@ export function PipelinesBody() {
 	return (
 		<div className="flex flex-col gap-5 pt-5">
 			<div className="flex items-center justify-between">
-				{selectedPipelines.length ? (
-					<PipelinesButtonGroup />
-				) : (
-					<SearchField searchParams={queryParams} />
-				)}
+				{selectedRowCount ? <PipelinesButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">
 					<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 						<Refresh className="h-5 w-5 fill-theme-text-brand" />
@@ -35,7 +31,13 @@ export function PipelinesBody() {
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{data ? (
-						<DataTable columns={getPipelineColumns()} data={data.items} />
+						<DataTable
+							rowSelection={rowSelection}
+							onRowSelectionChange={setRowSelection}
+							getRowId={(row) => row.id}
+							columns={getPipelineColumns()}
+							data={data.items}
+						/>
 					) : (
 						<Skeleton className="h-[500px] w-full" />
 					)}

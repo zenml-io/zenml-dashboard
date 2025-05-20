@@ -10,6 +10,8 @@ export function ResumeBanners() {
 		parseTerraform().success
 	);
 
+	if (!hasResumeableStack && !hasResumeableTerraform) return null;
+
 	return (
 		<div className="space-y-5">
 			{hasResumeableStack && <ResumeStackBanner setHasResumeableStack={setResumeableStack} />}

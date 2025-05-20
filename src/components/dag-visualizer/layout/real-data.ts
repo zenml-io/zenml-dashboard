@@ -1,18 +1,23 @@
 import { ArtifactVersion } from "@/types/artifact-versions";
-import { RealNode, ZenEdge } from "@/types/pipeline-runs";
+import { ExecutionStatus, RealNode, ZenEdge } from "@/types/pipeline-runs";
 import { StepDict } from "@/types/steps";
 import { addEdge } from "./helper";
 
 export function extractExistingNodes(
 	stepConfig: StepDict,
-	substitutions: Record<string, Record<string, string>>
+	substitutions: Record<string, Record<string, string>>,
+	runStatus: ExecutionStatus
 ) {
-	const nodes = extractNodes(stepConfig, substitutions);
+	const nodes = extractNodes(stepConfig, substitutions, runStatus);
 	const edges = extractEdges(stepConfig);
 	return { nodes, edges };
 }
 
-function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record<string, string>>) {
+function extractNodes(
+	stepConfig: StepDict,
+	substitutions: Record<string, Record<string, string>>,
+	runStatus: ExecutionStatus
+) {
 	const nodes: RealNode[] = [];
 
 	Object.keys(stepConfig).forEach((stepName) => {
@@ -23,7 +28,7 @@ function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record
 			id: step.id,
 			placeholderId: stepName,
 			type: "step",
-			data: step
+			data: { ...step, runStatus }
 		});
 
 		// Create artifact nodes for each unique output
@@ -36,7 +41,7 @@ function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record
 					placeholderId,
 					type: "artifact",
 					substitutions: substitutions[stepName] || {},
-					data: { ...version, name: outputName, artifactType: "output" }
+					data: { ...version, name: outputName, artifactType: "output", runStatus }
 				});
 			});
 		});
@@ -49,7 +54,7 @@ function extractNodes(stepConfig: StepDict, substitutions: Record<string, Record
 				id: artifactVersion.id,
 				placeholderId,
 				type: "artifact",
-				data: { ...artifactVersion, name: inputName, artifactType: "input" }
+				data: { ...artifactVersion, name: inputName, artifactType: "input", runStatus }
 			});
 		});
 	});

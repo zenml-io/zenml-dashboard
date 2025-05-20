@@ -1,10 +1,10 @@
-import { PipelinesSelectorProvider } from "./PipelinesTab/PipelineSelectorContext";
+import { PipelineSelectorContextProvider } from "./PipelinesTab/PipelineSelectorContext";
 import { PipelinesBody } from "./PipelinesTab/PipelinesBody";
 
 export default function PipelinesPage() {
 	return (
-		<PipelinesSelectorProvider>
+		<PipelineSelectorContextProvider>
 			<PipelinesBody />
-		</PipelinesSelectorProvider>
+		</PipelineSelectorContextProvider>
 	);
 }

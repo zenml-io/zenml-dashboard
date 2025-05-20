@@ -17,10 +17,12 @@ import {
 } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import ChangeLogButton from "./changelog-button";
+import { useServerSettings } from "@/data/server/get-server-settings";
 
 export function UserDropdown() {
 	const currentUser = useCurrentUser();
 	const serverInfo = useServerInfo();
+	const serverSettings = useServerSettings();
 	const { removeAuthState } = useAuthContext();
 	const navigate = useNavigate();
 	const mutation = useLogoutMutation({
@@ -30,9 +32,12 @@ export function UserDropdown() {
 		}
 	});
 
-	if (currentUser.isError || serverInfo.isError) return null;
+	if (currentUser.isError || serverInfo.isError || serverSettings.isError) return null;
 
-	if (currentUser.isPending || serverInfo.isPending) return <Skeleton />;
+	if (currentUser.isPending || serverInfo.isPending || serverSettings.isPending)
+		return <Skeleton />;
+
+	const displayUpdates = !!serverSettings.data.body?.display_updates;
 
 	return (
 		<DropdownMenu>
@@ -42,7 +47,7 @@ export function UserDropdown() {
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" sideOffset={7}>
-				<ChangeLogButton />
+				{displayUpdates && <ChangeLogButton />}
 				<DropdownMenuItem asChild icon={<File />}>
 					<a
 						className="cursor-pointer"

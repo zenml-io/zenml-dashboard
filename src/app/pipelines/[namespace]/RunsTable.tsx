@@ -13,7 +13,7 @@ export function PipelineRunsTable() {
 	const { namespace } = useParams() as { namespace: string };
 	const params = usePipelineRunParams();
 	const cols = getPipelineDetailColumns();
-	const { selectedRuns } = useRunsSelectorContext();
+	const { selectedRowCount } = useRunsSelectorContext();
 
 	const { data, refetch } = useAllPipelineRuns(
 		{
@@ -29,7 +29,7 @@ export function PipelineRunsTable() {
 	return (
 		<div className="flex flex-col gap-5 p-5">
 			<div className="flex items-center justify-between">
-				{selectedRuns.length ? <RunsButtonGroup /> : <SearchField searchParams={params} />}
+				{selectedRowCount ? <RunsButtonGroup /> : <SearchField searchParams={params} />}
 				<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 					<Refresh className="h-5 w-5 fill-theme-text-brand" />
 					Refresh

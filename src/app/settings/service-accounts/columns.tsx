@@ -5,19 +5,34 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 import ToggleActiveServiceAccount from "./ToggleServiceAccount";
 import ServiceAccountsDropdown from "./Dropdown";
-import { ServiceAccountsSelector } from "./Selector";
+import { Checkbox } from "@zenml-io/react-component-library";
 
 export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 	return [
 		{
-			id: "check",
-			header: "",
+			id: "select",
 			meta: {
 				width: "1%"
 			},
-			accessorFn: (row) => row.id,
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
 			cell: ({ row }) => {
-				return <ServiceAccountsSelector id={row.original.id} />;
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{

@@ -40,7 +40,8 @@ export function useDag() {
 		return extractExistingNodes(
 			(pipelineRun.data?.metadata?.steps as StepDict) ?? {},
 			(pipelineRun.data?.metadata?.step_substitutions as Record<string, Record<string, string>>) ||
-				{}
+				{},
+			pipelineRun.data?.body?.status ?? "running"
 		);
 	}, [pipelineRun.data?.metadata?.steps]);
 

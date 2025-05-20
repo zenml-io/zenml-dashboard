@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function RunsBody({ fixedQueryParams = {} }: Props) {
-	const { selectedRuns } = useRunsSelectorContext();
+	const { selectedRowCount, rowSelection, setRowSelection } = useRunsSelectorContext();
 	const queryParams = useRunsOverviewSearchParams();
 	const { data, refetch } = useAllPipelineRuns({
 		params: {
@@ -27,7 +27,7 @@ export function RunsBody({ fixedQueryParams = {} }: Props) {
 	return (
 		<div className="flex flex-col gap-5 pt-5">
 			<div className="flex items-center justify-between">
-				{selectedRuns.length ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
+				{selectedRowCount ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">
 					<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
 						<Refresh className="h-5 w-5 fill-theme-text-brand" />
@@ -38,7 +38,13 @@ export function RunsBody({ fixedQueryParams = {} }: Props) {
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{data ? (
-						<DataTable columns={runsColumns} data={data.items} />
+						<DataTable
+							rowSelection={rowSelection}
+							onRowSelectionChange={setRowSelection}
+							columns={runsColumns}
+							getRowId={(row) => row.id}
+							data={data.items}
+						/>
 					) : (
 						<Skeleton className="h-[500px] w-full" />
 					)}

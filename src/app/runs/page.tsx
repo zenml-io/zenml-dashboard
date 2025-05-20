@@ -1,10 +1,10 @@
 import { RunsBody } from "./RunsBody";
-import { RunsSelectorProvider } from "./RunsSelectorContext";
+import { RunsSelectorContextProvider } from "./RunsSelectorContext";
 
 export default function RunsPage() {
 	return (
-		<RunsSelectorProvider>
+		<RunsSelectorContextProvider>
 			<RunsBody />
-		</RunsSelectorProvider>
+		</RunsSelectorContextProvider>
 	);
 }
