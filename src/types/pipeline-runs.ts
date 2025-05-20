@@ -21,14 +21,14 @@ export type ArtifactNode = {
 	placeholderId: string;
 	type: "artifact";
 	substitutions?: Record<string, string>;
-	data: ArtifactNodeDetails;
+	data: ArtifactNodeDetails & { runStatus: ExecutionStatus };
 };
 
 export type StepNode = {
 	id: string;
 	placeholderId: string;
 	type: "step";
-	data: Step;
+	data: Step & { runStatus: ExecutionStatus };
 };
 
 export type PlaceholderNode = {
