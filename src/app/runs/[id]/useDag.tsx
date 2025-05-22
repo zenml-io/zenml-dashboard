@@ -3,14 +3,14 @@ import { computeNodes } from "@/components/dag-visualizer/layout/compute";
 import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useNodesState, useEdgesState, useReactFlow, useStore } from "reactflow";
+import { useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow";
 
 export function useDag() {
 	const { runId } = useParams() as { runId: string };
 	const previousRunStatus = useRef<ExecutionStatus | null>(null);
-	const allQueryKeys = ["runs", runId];
+	const allQueryKeys = useMemo(() => ["runs", runId], [runId]);
 	const queryClient = useQueryClient();
 	const dagQuery = usePipelineRunDag(
 		{ runId },
