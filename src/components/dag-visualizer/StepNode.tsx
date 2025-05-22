@@ -1,7 +1,6 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import { getStepSnippet } from "@/lib/code-snippets";
-import { calculateTimeDifference } from "@/lib/dates";
-import { Step } from "@/types/steps";
+import { StepNodePayload } from "@/types/dag-visualizer";
 import { clsx } from "clsx";
 import { NodeProps, ReactFlowState, useStore } from "reactflow";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../ExecutionStatus";
@@ -9,30 +8,28 @@ import { StepSheet } from "../steps/step-sheet";
 import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
 import { getIsStatusUnknown } from "./layout/status";
-import { ExecutionStatus } from "@/types/pipeline-runs";
+import { secondsToTimeString } from "@/lib/dates";
 
 const selector = (state: ReactFlowState) => ({
 	unselectAll: state.unselectNodesAndEdges
 });
 
-export function StepNode({ data, selected }: NodeProps<Step & { runStatus: ExecutionStatus }>) {
+export function StepNode({ data, selected }: NodeProps<StepNodePayload>) {
 	const { unselectAll } = useStore(selector);
 
-	const isFailed = data.body?.status === "failed";
+	const isFailed = data.status === "failed";
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
-			// this is a hack to make sure the unselectNodesAndEdges is called after the step sheet is closed
 			setTimeout(() => {
 				unselectAll();
 			}, 100);
 		}
 	}
-
-	const isStatusUnknown = getIsStatusUnknown(data.body?.status ?? "running", data.runStatus);
+	const isStatusUnknown = getIsStatusUnknown(data.status, data.runStatus);
 
 	return (
 		<BaseNode>
-			<StepSheet onOpenChange={openChangeHandler} stepId={data.id}>
+			<StepSheet onOpenChange={openChangeHandler} stepId={data.step_id}>
 				<button
 					data-failed={isFailed}
 					data-selected={!!selected}
@@ -48,24 +45,25 @@ export function StepNode({ data, selected }: NodeProps<Step & { runStatus: Execu
 					<div className="flex flex-1 items-center gap-1 py-1 pl-1 pr-2">
 						<div
 							className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(
-								isStatusUnknown ? "unknown" : data.body?.status
+								isStatusUnknown ? "unknown" : data.status
 							)}`}
 						>
 							<ExecutionStatusIcon
-								status={isStatusUnknown ? "unknown" : data.body?.status}
+								status={isStatusUnknown ? "unknown" : data.status}
 								className="h-4 w-4 shrink-0"
 							/>
 						</div>
-						<p className="truncate font-semibold">{data.name}</p>
+						<p className="truncate font-semibold">{data.step_name}</p>
 						<CopyNodeButton
 							className="h-4 w-4 shrink-0 rounded-sm hover:bg-theme-surface-secondary active:bg-neutral-300"
-							code={getStepSnippet(data.id)}
+							code={getStepSnippet(data.step_id)}
 							type="step"
 						>
 							<Copy className="h-3 w-3 fill-theme-text-tertiary" />
 							<div className="sr-only">Copy code to load step</div>
 						</CopyNodeButton>
 					</div>
+
 					<div
 						data-failed={isFailed}
 						className="flex flex-1 justify-end border-t border-theme-border-moderate bg-theme-surface-tertiary px-2 py-0.5 text-text-xs data-[failed=true]:border-error-200 data-[failed=true]:bg-error-50 data-[failed=true]:text-theme-text-error"
@@ -74,10 +72,10 @@ export function StepNode({ data, selected }: NodeProps<Step & { runStatus: Execu
 							if (isFailed) {
 								return "Execution failed";
 							}
-							if (!data.body?.start_time || !data.body.end_time) {
+							if (data.duration === undefined || data.duration === null) {
 								return "N/A";
 							}
-							return calculateTimeDifference(data.body.start_time, data.body.end_time);
+							return secondsToTimeString(data.duration);
 						})()}
 					</div>
 				</button>

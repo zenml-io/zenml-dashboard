@@ -1,4 +1,5 @@
-import { ExecutionStatus } from "@/types/pipeline-runs";
+import Minus from "@/assets/icons/minus.svg?react";
+import { PreviewNodePayload } from "@/types/dag-visualizer";
 import {
 	Tooltip,
 	TooltipContent,
@@ -6,15 +7,12 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { NodeProps } from "reactflow";
-import Minus from "@/assets/icons/minus.svg?react";
 import { ExecutionStatusIcon } from "../ExecutionStatus";
 import { BaseNode } from "./BaseNode";
 
-export function PreviewArtifactNode({
-	data
-}: NodeProps<{ label: string; status: ExecutionStatus }>) {
-	const isFailed = data.status === "failed";
-	const isCompleted = data.status === "completed";
+export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
+	const isFailed = data.runStatus === "failed";
+	const isCompleted = data.runStatus === "completed";
 	return (
 		<BaseNode>
 			<TooltipProvider>
@@ -31,7 +29,7 @@ export function PreviewArtifactNode({
 									/>
 								)}
 							</div>
-							<p className="truncate text-text-sm">{data.label}</p>
+							<p className="truncate text-text-sm">{data.node_name}</p>
 						</div>
 					</TooltipTrigger>
 					<TooltipContent className="z-20 max-w-xs text-center">

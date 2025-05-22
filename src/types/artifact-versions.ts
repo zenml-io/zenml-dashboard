@@ -8,3 +8,5 @@ export type ArtifactVisualization = components["schemas"]["ArtifactVisualization
 export type ArtifactVisualizationQueryParams = NonNullable<
 	operations["get_artifact_visualization_api_v1_artifact_versions__artifact_version_id__visualize_get"]["parameters"]["query"]
 >;
+
+export type ArtifactType = components["schemas"]["ArtifactType"];

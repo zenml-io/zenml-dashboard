@@ -110,9 +110,9 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 			{
 				id: "user",
 				header: "Author",
-				accessorFn: (row) => row.body?.user?.name,
+				accessorFn: (row) => row.resources?.user?.name,
 				cell: ({ row }) => {
-					const user = row.original.body?.user;
+					const user = row.original.resources?.user;
 					if (!user) return null;
 					return <InlineAvatar className="max-w-[200px] truncate" username={getUsername(user)} />;
 				}

@@ -52,7 +52,7 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 	{
 		id: "author",
 		header: "Author",
-		accessorFn: (row) => row.body?.user?.name,
+		accessorFn: (row) => row.resources?.user?.name,
 		cell: ({ getValue }) => {
 			const name = getValue<string>();
 			if (!name) return null;
@@ -75,7 +75,7 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		accessorFn: (row) => String(row.id),
 		cell: ({ row, getValue }) => {
 			const secretId = getValue() as string;
-			return row.original.body?.user?.body?.is_admin ? (
+			return row.original.resources?.user?.body?.is_admin ? (
 				<SecretsDropdown secretId={secretId} />
 			) : (
 				<p className="text-sm text-theme-text-secondary">No Actions</p>

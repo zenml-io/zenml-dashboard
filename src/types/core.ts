@@ -1108,6 +1108,7 @@ export type paths = {
 		 * @description Gets a list of deployments.
 		 *
 		 * Args:
+		 *     request: The request object.
 		 *     deployment_filter_model: Filter model used for pagination, sorting,
 		 *         filtering.
 		 *     project_name_or_id: Optional name or ID of the project to filter by.
@@ -1123,6 +1124,7 @@ export type paths = {
 		 * @description Creates a deployment.
 		 *
 		 * Args:
+		 *     request: The request object.
 		 *     deployment: Deployment to create.
 		 *     project_name_or_id: Optional name or ID of the project.
 		 *
@@ -1137,6 +1139,7 @@ export type paths = {
 		 * @description Gets a specific deployment using its unique id.
 		 *
 		 * Args:
+		 *     request: The request object.
 		 *     deployment_id: ID of the deployment to get.
 		 *     hydrate: Flag deciding whether to hydrate the output model(s)
 		 *         by including metadata fields in the response.
@@ -1182,6 +1185,8 @@ export type paths = {
 		 *     project_name_or_id: Optional name or ID of the project.
 		 *     hydrate: Flag deciding whether to hydrate the output model(s)
 		 *         by including metadata fields in the response.
+		 *     include_full_metadata: Flag deciding whether to include the
+		 *         full metadata in the response.
 		 *
 		 * Returns:
 		 *     The pipeline runs according to query filters.
@@ -1214,6 +1219,8 @@ export type paths = {
 		 *         the status of the pipeline run using its orchestrator.
 		 *     include_python_packages: Flag deciding whether to include the
 		 *         Python packages in the response.
+		 *     include_full_metadata: Flag deciding whether to include the
+		 *         full metadata in the response.
 		 *
 		 * Returns:
 		 *     The pipeline run.
@@ -1283,6 +1290,19 @@ export type paths = {
 		 *     The status of the pipeline run.
 		 */
 		get: operations["get_run_status_api_v1_runs__run_id__status_get"];
+	};
+	"/api/v1/runs/{run_id}/dag": {
+		/**
+		 * Get Run Dag
+		 * @description Get the DAG of a specific pipeline run.
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run for which to get the DAG.
+		 *
+		 * Returns:
+		 *     The DAG of the pipeline run.
+		 */
+		get: operations["get_run_dag_api_v1_runs__run_id__dag_get"];
 	};
 	"/api/v1/runs/{run_id}/refresh": {
 		/**
@@ -2879,6 +2899,7 @@ export type paths = {
 		 * @description Gets a list of deployments.
 		 *
 		 * Args:
+		 *     request: The request object.
 		 *     deployment_filter_model: Filter model used for pagination, sorting,
 		 *         filtering.
 		 *     project_name_or_id: Optional name or ID of the project to filter by.
@@ -2895,6 +2916,7 @@ export type paths = {
 		 * @description Creates a deployment.
 		 *
 		 * Args:
+		 *     request: The request object.
 		 *     deployment: Deployment to create.
 		 *     project_name_or_id: Optional name or ID of the project.
 		 *
@@ -2992,6 +3014,8 @@ export type paths = {
 		 *     project_name_or_id: Optional name or ID of the project.
 		 *     hydrate: Flag deciding whether to hydrate the output model(s)
 		 *         by including metadata fields in the response.
+		 *     include_full_metadata: Flag deciding whether to include the
+		 *         full metadata in the response.
 		 *
 		 * Returns:
 		 *     The pipeline runs according to query filters.
@@ -3477,8 +3501,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The flavor of the action. */
 			flavor: string;
 			/** The subtype of the action. */
@@ -3489,8 +3518,6 @@ export type components = {
 		 * @description Response metadata for actions.
 		 */
 		ActionResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * The description of the action.
 			 * @default
@@ -3508,6 +3535,8 @@ export type components = {
 		 * @description Class for all resource models associated with the action entity.
 		 */
 		ActionResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The service account that is used to execute the action. */
 			service_account: components["schemas"]["UserResponse"];
 			[key: string]: unknown;
@@ -3662,22 +3691,19 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** Tags associated with the model */
-			tags: components["schemas"]["TagResponse"][];
-			/** Latest Version Name */
-			latest_version_name?: string | null;
-			/** Latest Version Id */
-			latest_version_id?: string | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 		};
 		/**
 		 * ArtifactResponseMetadata
 		 * @description Response metadata for artifacts.
 		 */
 		ArtifactResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * Whether the name is custom (True) or auto-generated (False).
 			 * @default false
@@ -3689,6 +3715,14 @@ export type components = {
 		 * @description Class for all resource models associated with the Artifact Entity.
 		 */
 		ArtifactResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** Tags associated with the artifact. */
+			tags: components["schemas"]["TagResponse"][];
+			/** Latest Version Name */
+			latest_version_name?: string | null;
+			/** Latest Version Id */
+			latest_version_id?: string | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -3808,8 +3842,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** Artifact to which this version belongs. */
 			artifact: components["schemas"]["ArtifactResponse"];
 			/** Version of the artifact. */
@@ -3822,10 +3861,6 @@ export type components = {
 			materializer: components["schemas"]["Source"];
 			/** Data type of the artifact. */
 			data_type: components["schemas"]["Source"];
-			/** Tags associated with the model */
-			tags: components["schemas"]["TagResponse"][];
-			/** The ID of the pipeline run that generated this artifact version. */
-			producer_pipeline_run_id?: string | null;
 			/** The save type of the artifact version. */
 			save_type: components["schemas"]["ArtifactSaveType"];
 			/** ID of the artifact store in which this artifact is stored. */
@@ -3836,10 +3871,6 @@ export type components = {
 		 * @description Response metadata for artifact versions.
 		 */
 		ArtifactVersionResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
-			/** ID of the step run that produced this artifact. */
-			producer_step_run_id?: string | null;
 			/** Visualizations of the artifact. */
 			visualizations?: components["schemas"]["ArtifactVisualizationResponse"][] | null;
 			/**
@@ -3855,6 +3886,14 @@ export type components = {
 		 * @description Class for all resource models associated with the artifact version entity.
 		 */
 		ArtifactVersionResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** Tags associated with the artifact version. */
+			tags: components["schemas"]["TagResponse"][];
+			/** ID of the step run that produced this artifact. */
+			producer_step_run_id?: string | null;
+			/** The ID of the pipeline run that generated this artifact version. */
+			producer_pipeline_run_id?: string | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -4253,8 +4292,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** @description The code repository source. */
 			source: components["schemas"]["Source"];
 			/**
@@ -4268,8 +4312,6 @@ export type components = {
 		 * @description Response metadata for code repositories.
 		 */
 		CodeRepositoryResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * Config
 			 * @description Configuration for the code repository.
@@ -4288,6 +4330,8 @@ export type components = {
 		 * @description Class for all resource models associated with the code repository entity.
 		 */
 		CodeRepositoryResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -4424,8 +4468,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/** The type of the stack component. */
 			type: components["schemas"]["StackComponentType"];
 			/** The flavor of the stack component. */
@@ -4461,6 +4505,8 @@ export type components = {
 		 * @description Response resources for stack components.
 		 */
 		ComponentResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The flavor of this stack component. */
 			flavor: components["schemas"]["FlavorResponse"];
 			[key: string]: unknown;
@@ -4503,6 +4549,29 @@ export type components = {
 			 * @description The service connector for the deployed stack.
 			 */
 			service_connector?: components["schemas"]["ServiceConnectorResponse"] | null;
+		};
+		/**
+		 * Edge
+		 * @description Edge in the pipeline run DAG.
+		 */
+		Edge: {
+			/**
+			 * Source
+			 * Format: uuid
+			 */
+			source: string;
+			/**
+			 * Target
+			 * Format: uuid
+			 */
+			target: string;
+			/**
+			 * Metadata
+			 * @default {}
+			 */
+			metadata?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * ErrorModel
@@ -4579,8 +4648,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The flavor of event source. */
 			flavor: string;
 			/** The plugin subtype of the event source. */
@@ -4593,8 +4667,6 @@ export type components = {
 		 * @description Response metadata for event sources.
 		 */
 		EventSourceResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * The description of the event source.
 			 * @default
@@ -4610,6 +4682,8 @@ export type components = {
 		 * @description Class for all resource models associated with the code repository entity.
 		 */
 		EventSourceResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The triggers configured with this event source. */
 			triggers: components["schemas"]["Page_TriggerResponse_"];
 			[key: string]: unknown;
@@ -4722,8 +4796,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/** The type of the Flavor. */
 			type: components["schemas"]["StackComponentType"];
 			/** The name of the integration that the Flavor belongs to. */
@@ -4763,6 +4837,8 @@ export type components = {
 		 * @description Response resources for stack component flavors.
 		 */
 		FlavorResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -4895,7 +4971,10 @@ export type components = {
 			 * @description When this is set, step_run_id should be set to None.
 			 */
 			pipeline_run_id?: string | null;
-			/** The artifact store ID to associate the logs with. */
+			/**
+			 * The artifact store ID to associate the logs with.
+			 * Format: uuid
+			 */
 			artifact_store_id: string;
 		};
 		/**
@@ -5063,22 +5142,19 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** Tags associated with the model */
-			tags: components["schemas"]["TagResponse"][];
-			/** Latest Version Name */
-			latest_version_name?: string | null;
-			/** Latest Version Id */
-			latest_version_id?: string | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 		};
 		/**
 		 * ModelResponseMetadata
 		 * @description Response metadata for models.
 		 */
 		ModelResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The license model created under */
 			license?: string | null;
 			/** The description of the model */
@@ -5104,6 +5180,14 @@ export type components = {
 		 * @description Class for all resource models associated with the model entity.
 		 */
 		ModelResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** Tags associated with the model */
+			tags: components["schemas"]["TagResponse"][];
+			/** Latest Version Name */
+			latest_version_name?: string | null;
+			/** Latest Version Id */
+			latest_version_id?: string | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -5372,8 +5456,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/**
 			 * Stage
 			 * @description The stage of the model version
@@ -5386,51 +5475,12 @@ export type components = {
 			number: number;
 			/** @description The model containing version */
 			model: components["schemas"]["ModelResponse"];
-			/**
-			 * Model Artifact Ids
-			 * @description Model artifacts linked to the model version
-			 * @default {}
-			 */
-			model_artifact_ids?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * Data Artifact Ids
-			 * @description Data artifacts linked to the model version
-			 * @default {}
-			 */
-			data_artifact_ids?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * Deployment Artifact Ids
-			 * @description Deployment artifacts linked to the model version
-			 * @default {}
-			 */
-			deployment_artifact_ids?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * Pipeline Run Ids
-			 * @description Pipeline runs linked to the model version
-			 * @default {}
-			 */
-			pipeline_run_ids?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * Tags associated with the model version
-			 * @default []
-			 */
-			tags?: components["schemas"]["TagResponse"][];
 		};
 		/**
 		 * ModelVersionResponseMetadata
 		 * @description Response metadata for model versions.
 		 */
 		ModelVersionResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * Description
 			 * @description The description of the model version
@@ -5450,8 +5500,15 @@ export type components = {
 		 * @description Class for all resource models associated with the model version entity.
 		 */
 		ModelVersionResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** @description Services linked to the model version */
 			services: components["schemas"]["Page_ServiceResponse_"];
+			/**
+			 * Tags associated with the model version
+			 * @default []
+			 */
+			tags?: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -5490,6 +5547,30 @@ export type components = {
 			 * @description Tags to be removed from the model version
 			 */
 			remove_tags?: string[] | null;
+		};
+		/**
+		 * Node
+		 * @description Node in the pipeline run DAG.
+		 */
+		Node: {
+			/**
+			 * Node Id
+			 * Format: uuid
+			 */
+			node_id?: string;
+			/** Type */
+			type: string;
+			/** Id */
+			id?: string | null;
+			/** Name */
+			name: string;
+			/**
+			 * Metadata
+			 * @default {}
+			 */
+			metadata?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * OAuthDeviceAuthorizationResponse
@@ -5546,8 +5627,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/**
 			 * Client Id
 			 * Format: uuid
@@ -5628,6 +5709,8 @@ export type components = {
 		 * @description Class for all resource models associated with the OAuthDevice entity.
 		 */
 		OAuthDeviceResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -5887,19 +5970,6 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["PipelineBuildResponse"][];
-		};
-		/** Page[PipelineDeploymentResponse] */
-		Page_PipelineDeploymentResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["PipelineDeploymentResponse"][];
 		};
 		/** Page[PipelineResponse] */
 		Page_PipelineResponse_: {
@@ -6171,16 +6241,19 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 		};
 		/**
 		 * PipelineBuildResponseMetadata
 		 * @description Response metadata for pipeline builds.
 		 */
 		PipelineBuildResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The pipeline that was used for this build. */
 			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The stack that was used for this build. */
@@ -6212,6 +6285,8 @@ export type components = {
 		 * @description Class for all resource models associated with the pipeline build entity.
 		 */
 		PipelineBuildResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -6408,16 +6483,19 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 		};
 		/**
 		 * PipelineDeploymentResponseMetadata
 		 * @description Response metadata for pipeline deployments.
 		 */
 		PipelineDeploymentResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The run name template for runs created using this deployment. */
 			run_name_template: string;
 			/** The pipeline configuration for this deployment. */
@@ -6467,8 +6545,8 @@ export type components = {
 		 * @description Class for all resource models associated with the pipeline deployment entity.
 		 */
 		PipelineDeploymentResponseResources: {
-			/** The triggers configured with this event source. */
-			triggers: components["schemas"]["Page_TriggerResponse_"];
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -6529,20 +6607,19 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** The ID of the latest run of the pipeline. */
-			latest_run_id?: string | null;
-			/** The status of the latest run of the pipeline. */
-			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 		};
 		/**
 		 * PipelineResponseMetadata
 		 * @description Response metadata for pipelines.
 		 */
 		PipelineResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The description of the pipeline. */
 			description?: string | null;
 		};
@@ -6551,11 +6628,33 @@ export type components = {
 		 * @description Class for all resource models associated with the pipeline entity.
 		 */
 		PipelineResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The user that created the latest run of this pipeline. */
 			latest_run_user?: components["schemas"]["UserResponse"] | null;
+			/** The ID of the latest run of the pipeline. */
+			latest_run_id?: string | null;
+			/** The status of the latest run of the pipeline. */
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 			/** Tags associated with the pipeline. */
 			tags: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
+		};
+		/**
+		 * PipelineRunDAG
+		 * @description Pipeline run DAG.
+		 */
+		PipelineRunDAG: {
+			/**
+			 * Id
+			 * Format: uuid
+			 */
+			id: string;
+			status: components["schemas"]["ExecutionStatus"];
+			/** Nodes */
+			nodes: components["schemas"]["Node"][];
+			/** Edges */
+			edges: components["schemas"]["Edge"][];
 		};
 		/**
 		 * PipelineRunRequest
@@ -6639,8 +6738,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The stack that was used for this run. */
@@ -6665,20 +6769,11 @@ export type components = {
 		 * @description Response metadata for pipeline runs.
 		 */
 		PipelineRunResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * Metadata associated with this pipeline run.
 			 * @default {}
 			 */
 			run_metadata?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * The steps of this run.
-			 * @default {}
-			 */
-			steps?: {
 				[key: string]: unknown;
 			};
 			/** The pipeline configuration used for this pipeline run. */
@@ -6716,16 +6811,14 @@ export type components = {
 			 * @default false
 			 */
 			is_templatable?: boolean;
-			/** Substitutions used in the step runs of this pipeline run. */
-			step_substitutions?: {
-				[key: string]: unknown;
-			};
 		};
 		/**
 		 * PipelineRunResponseResources
 		 * @description Class for all resource models associated with the pipeline run entity.
 		 */
 		PipelineRunResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** Tags associated with the pipeline run. */
 			tags: components["schemas"]["TagResponse"][];
@@ -7075,8 +7168,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** If a run can be started from the template. */
 			runnable: boolean;
 			/**
@@ -7084,18 +7182,12 @@ export type components = {
 			 * @default false
 			 */
 			hidden?: boolean;
-			/** The ID of the latest run of the run template. */
-			latest_run_id?: string | null;
-			/** The status of the latest run of the run template. */
-			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 		};
 		/**
 		 * RunTemplateResponseMetadata
 		 * @description Response metadata for run templates.
 		 */
 		RunTemplateResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The description of the run template. */
 			description?: string | null;
 			/** The spec of the pipeline. */
@@ -7114,6 +7206,8 @@ export type components = {
 		 * @description All resource models associated with the run template.
 		 */
 		RunTemplateResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The deployment that is the source of the template. */
 			source_deployment?: components["schemas"]["PipelineDeploymentResponse"] | null;
 			/** The pipeline associated with the template. */
@@ -7124,6 +7218,10 @@ export type components = {
 			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
 			/** Tags associated with the run template. */
 			tags: components["schemas"]["TagResponse"][];
+			/** The ID of the latest run of the run template. */
+			latest_run_id?: string | null;
+			/** The status of the latest run of the run template. */
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -7265,8 +7363,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** Active */
 			active: boolean;
 			/** Cron Expression */
@@ -7290,8 +7393,6 @@ export type components = {
 		 * @description Response metadata for schedules.
 		 */
 		ScheduleResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** Orchestrator Id */
 			orchestrator_id: string | null;
 			/** Pipeline Id */
@@ -7309,6 +7410,8 @@ export type components = {
 		 * @description Class for all resource models associated with the schedule entity.
 		 */
 		ScheduleResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -7377,8 +7480,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/**
 			 * Whether the secret is private. A private secret is only accessible to the user who created it.
 			 * @default false
@@ -7399,6 +7502,8 @@ export type components = {
 		 * @description Response resources for secrets.
 		 */
 		SecretResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -7861,8 +7966,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/**
 			 * The service connector instance description.
 			 * @default
@@ -7913,6 +8018,8 @@ export type components = {
 		 * @description Class for all resource models associated with the service connector entity.
 		 */
 		ServiceConnectorResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -8133,8 +8240,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The type of the service. */
 			service_type: components["schemas"]["ServiceType"];
 			/** The service labels. */
@@ -8149,8 +8261,6 @@ export type components = {
 		 * @description Response metadata for services.
 		 */
 		ServiceResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The class of the service. */
 			service_source: string | null;
 			/** The admin state of the service. */
@@ -8177,6 +8287,8 @@ export type components = {
 		 * @description Class for all resource models associated with the service entity.
 		 */
 		ServiceResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The pipeline run associated with the service. */
 			pipeline_run?: components["schemas"]["PipelineRunResponse"] | null;
 			/** The model version associated with the service. */
@@ -8463,8 +8575,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 		};
 		/**
 		 * StackResponseMetadata
@@ -8492,6 +8604,8 @@ export type components = {
 		 * @description Response resources for stacks.
 		 */
 		StackResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -8521,6 +8635,7 @@ export type components = {
 		"Step-Input": {
 			spec: components["schemas"]["StepSpec-Input"];
 			config: components["schemas"]["StepConfiguration-Input"];
+			step_config_overrides: components["schemas"]["StepConfiguration-Input"];
 		};
 		/**
 		 * Step
@@ -8529,6 +8644,7 @@ export type components = {
 		"Step-Output": {
 			spec: components["schemas"]["StepSpec-Output"];
 			config: components["schemas"]["StepConfiguration-Output"];
+			step_config_overrides: components["schemas"]["StepConfiguration-Output"];
 		};
 		/**
 		 * StepConfiguration
@@ -8843,32 +8959,34 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The status of the step. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The start time of the step run. */
 			start_time?: string | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
-			/** The input artifact versions of the step run. */
-			inputs?: {
-				[key: string]: unknown;
-			};
-			/** The output artifact versions of the step run. */
-			outputs?: {
-				[key: string]: unknown;
-			};
 			/** The ID of the model version that was configured by this step run explicitly. */
 			model_version_id?: string | null;
+			/**
+			 * The substitutions of the step run.
+			 * @default {}
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * StepRunResponseMetadata
 		 * @description Response metadata for step runs.
 		 */
 		StepRunResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/** The configuration of the step. */
 			config: components["schemas"]["StepConfiguration-Output"];
 			/** The spec of the step. */
@@ -8910,7 +9028,17 @@ export type components = {
 		 * @description Class for all resource models associated with the step run entity.
 		 */
 		StepRunResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
+			/** The input artifact versions of the step run. */
+			inputs?: {
+				[key: string]: unknown;
+			};
+			/** The output artifact versions of the step run. */
+			outputs?: {
+				[key: string]: unknown;
+			};
 			[key: string]: unknown;
 		};
 		/**
@@ -9128,8 +9256,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
 			/** @description The color variant assigned to the tag. */
 			color?: components["schemas"]["ColorVariants"];
 			/**
@@ -9137,6 +9265,12 @@ export type components = {
 			 * @description The flag signifying whether the tag is an exclusive tag.
 			 */
 			exclusive: boolean;
+		};
+		/**
+		 * TagResponseMetadata
+		 * @description Response metadata for tags.
+		 */
+		TagResponseMetadata: {
 			/**
 			 * Tagged Count
 			 * @description The count of resources tagged with this tag.
@@ -9144,15 +9278,12 @@ export type components = {
 			tagged_count: number;
 		};
 		/**
-		 * TagResponseMetadata
-		 * @description Response metadata for tags.
-		 */
-		TagResponseMetadata: Record<string, never>;
-		/**
 		 * TagResponseResources
 		 * @description Class for all resource models associated with the tag entity.
 		 */
 		TagResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -9311,8 +9442,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The flavor of the action that is executed by this trigger. */
 			action_flavor: string;
 			/** The subtype of the action that is executed by this trigger. */
@@ -9329,8 +9465,6 @@ export type components = {
 		 * @description Response metadata for triggers.
 		 */
 		TriggerResponseMetadata: {
-			/** The project of this resource. */
-			project: components["schemas"]["ProjectResponse"];
 			/**
 			 * The description of the trigger.
 			 * @default
@@ -9348,6 +9482,8 @@ export type components = {
 		 * @description Class for all resource models associated with the trigger entity.
 		 */
 		TriggerResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The action that is executed by this trigger. */
 			action: components["schemas"]["ActionResponse"];
 			/** The event source that activates this trigger. Not set if the trigger is activated by a schedule. */
@@ -13786,6 +13922,7 @@ export type operations = {
 	 * @description Gets a list of deployments.
 	 *
 	 * Args:
+	 *     request: The request object.
 	 *     deployment_filter_model: Filter model used for pagination, sorting,
 	 *         filtering.
 	 *     project_name_or_id: Optional name or ID of the project to filter by.
@@ -13821,7 +13958,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["Page_PipelineDeploymentResponse_"];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -13855,6 +13992,7 @@ export type operations = {
 	 * @description Creates a deployment.
 	 *
 	 * Args:
+	 *     request: The request object.
 	 *     deployment: Deployment to create.
 	 *     project_name_or_id: Optional name or ID of the project.
 	 *
@@ -13876,7 +14014,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["PipelineDeploymentResponse"];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -13910,6 +14048,7 @@ export type operations = {
 	 * @description Gets a specific deployment using its unique id.
 	 *
 	 * Args:
+	 *     request: The request object.
 	 *     deployment_id: ID of the deployment to get.
 	 *     hydrate: Flag deciding whether to hydrate the output model(s)
 	 *         by including metadata fields in the response.
@@ -13930,7 +14069,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["PipelineDeploymentResponse"];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -14072,6 +14211,8 @@ export type operations = {
 	 *     project_name_or_id: Optional name or ID of the project.
 	 *     hydrate: Flag deciding whether to hydrate the output model(s)
 	 *         by including metadata fields in the response.
+	 *     include_full_metadata: Flag deciding whether to include the
+	 *         full metadata in the response.
 	 *
 	 * Returns:
 	 *     The pipeline runs according to query filters.
@@ -14081,6 +14222,7 @@ export type operations = {
 			query?: {
 				project_name_or_id?: string | null;
 				hydrate?: boolean;
+				include_full_metadata?: boolean;
 				sort_by?: string;
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
@@ -14218,6 +14360,8 @@ export type operations = {
 	 *         the status of the pipeline run using its orchestrator.
 	 *     include_python_packages: Flag deciding whether to include the
 	 *         Python packages in the response.
+	 *     include_full_metadata: Flag deciding whether to include the
+	 *         full metadata in the response.
 	 *
 	 * Returns:
 	 *     The pipeline run.
@@ -14231,6 +14375,7 @@ export type operations = {
 				hydrate?: boolean;
 				refresh_status?: boolean;
 				include_python_packages?: boolean;
+				include_full_metadata?: boolean;
 			};
 			path: {
 				run_id: string;
@@ -14517,6 +14662,55 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["ExecutionStatus"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Run Dag
+	 * @description Get the DAG of a specific pipeline run.
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run for which to get the DAG.
+	 *
+	 * Returns:
+	 *     The DAG of the pipeline run.
+	 */
+	get_run_dag_api_v1_runs__run_id__dag_get: {
+		parameters: {
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["PipelineRunDAG"];
 				};
 			};
 			/** @description Unauthorized */
@@ -20484,6 +20678,7 @@ export type operations = {
 	 * @description Gets a list of deployments.
 	 *
 	 * Args:
+	 *     request: The request object.
 	 *     deployment_filter_model: Filter model used for pagination, sorting,
 	 *         filtering.
 	 *     project_name_or_id: Optional name or ID of the project to filter by.
@@ -20521,7 +20716,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["Page_PipelineDeploymentResponse_"];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -20550,6 +20745,7 @@ export type operations = {
 	 * @description Creates a deployment.
 	 *
 	 * Args:
+	 *     request: The request object.
 	 *     deployment: Deployment to create.
 	 *     project_name_or_id: Optional name or ID of the project.
 	 *
@@ -20571,7 +20767,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["PipelineDeploymentResponse"];
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -20891,6 +21087,8 @@ export type operations = {
 	 *     project_name_or_id: Optional name or ID of the project.
 	 *     hydrate: Flag deciding whether to hydrate the output model(s)
 	 *         by including metadata fields in the response.
+	 *     include_full_metadata: Flag deciding whether to include the
+	 *         full metadata in the response.
 	 *
 	 * Returns:
 	 *     The pipeline runs according to query filters.
@@ -20899,6 +21097,7 @@ export type operations = {
 		parameters: {
 			query?: {
 				hydrate?: boolean;
+				include_full_metadata?: boolean;
 				sort_by?: string;
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;

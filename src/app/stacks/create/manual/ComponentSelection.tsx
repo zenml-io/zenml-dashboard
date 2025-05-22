@@ -102,7 +102,9 @@ function ComponentList({ type, search }: Props & { search: string }) {
 											</div>
 										</div>
 										<div className="flex items-center gap-2 text-text-sm">
-											{comp.body?.user?.name && <InlineAvatar username={comp.body.user.name} />}
+											{comp.resources?.user?.name && (
+												<InlineAvatar username={comp.resources.user.name} />
+											)}
 											{comp.body?.updated && (
 												<div className="whitespace-nowrap text-theme-text-secondary">
 													<DisplayDate short dateString={comp.body.updated} />

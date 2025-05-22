@@ -151,7 +151,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		id: "author",
 		header: "Author",
 		accessorFn: (row) => ({
-			name: row.body?.user?.name
+			name: row.resources?.user?.name
 		}),
 		cell: ({ getValue }) => {
 			const { name } = getValue<{

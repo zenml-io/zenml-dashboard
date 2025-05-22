@@ -11,6 +11,10 @@ import { Spinner } from "@zenml-io/react-component-library/components/server";
 import ReactFlow, { NodeTypes } from "reactflow";
 import { useDag } from "./useDag";
 
+const customEdge = {
+	smart: SmoothStepSmart
+};
+
 const customNodes: NodeTypes = {
 	step: StepNode,
 	artifact: ArtifactNode,
@@ -18,14 +22,10 @@ const customNodes: NodeTypes = {
 	previewArtifact: PreviewArtifactNode
 };
 
-const customEdge = {
-	smart: SmoothStepSmart
-};
-
 export function DAG() {
-	const { pipelineDeployment, pipelineRun, nodes, edges, onEdgesChange, onNodesChange } = useDag();
+	const { dagQuery, nodes, edges, onNodesChange, onEdgesChange } = useDag();
 
-	if (pipelineRun.isError || pipelineDeployment.isError) {
+	if (dagQuery.isError) {
 		return (
 			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<p className="text-center">There was an error loading the DAG visualization.</p>
@@ -33,7 +33,7 @@ export function DAG() {
 		);
 	}
 
-	if (pipelineRun.isPending || pipelineDeployment.isPending) {
+	if (dagQuery.isPending)
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />
@@ -42,7 +42,6 @@ export function DAG() {
 				</div>
 			</div>
 		);
-	}
 
 	return (
 		<ReactFlow
@@ -62,8 +61,7 @@ export function DAG() {
 		>
 			<DagControls
 				refetch={() => {
-					pipelineRun.refetch();
-					pipelineDeployment.refetch();
+					dagQuery.refetch();
 				}}
 			/>
 		</ReactFlow>
