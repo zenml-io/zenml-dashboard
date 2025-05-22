@@ -127,7 +127,7 @@ function ResourceName({ connector }: { connector: ServiceConnector }) {
 }
 
 function Author({ connector }: { connector: ServiceConnector }) {
-	const user = connector.body?.user;
+	const user = connector.resources?.user;
 
 	return (
 		<KeyValue label="Author" value={!user ? null : <InlineAvatar username={getUsername(user)} />} />

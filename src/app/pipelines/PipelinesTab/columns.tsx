@@ -56,7 +56,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 				return (
 					<div className="group/copybutton flex items-center gap-2">
 						<PipelineIcon
-							className={`h-5 w-5 ${getExecutionStatusColor(row.original.body?.latest_run_status)}`}
+							className={`h-5 w-5 ${getExecutionStatusColor(row.original.resources?.latest_run_status)}`}
 						/>
 						<div>
 							<div className="flex items-center gap-1">
@@ -71,10 +71,10 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
-											<ExecutionStatusIcon status={row.original.body?.latest_run_status} />
+											<ExecutionStatusIcon status={row.original.resources?.latest_run_status} />
 										</TooltipTrigger>
 										<TooltipContent className="z-20 capitalize">
-											{row.original.body?.latest_run_status}
+											{row.original.resources?.latest_run_status}
 										</TooltipContent>
 									</Tooltip>
 								</TooltipProvider>
@@ -99,8 +99,8 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			id: "latest-run",
 			header: "Latest Run",
 			accessorFn: (row) => ({
-				status: row.body?.latest_run_status,
-				runId: row.body?.latest_run_id
+				status: row.resources?.latest_run_status,
+				runId: row.resources?.latest_run_id
 			}),
 			cell: ({ getValue }) => {
 				const { runId, status } = getValue<{
