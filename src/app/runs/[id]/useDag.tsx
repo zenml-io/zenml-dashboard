@@ -10,7 +10,7 @@ import { useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow"
 export function useDag() {
 	const { runId } = useParams() as { runId: string };
 	const previousRunStatus = useRef<ExecutionStatus | null>(null);
-	const allQueryKeys = useMemo(() => ["runs", runId], [runId]);
+	const runQueryKey = useMemo(() => ["runs", runId], [runId]);
 	const queryClient = useQueryClient();
 	const dagQuery = usePipelineRunDag(
 		{ runId },
@@ -24,12 +24,12 @@ export function useDag() {
 			const currentStatus = dagQuery.data.status;
 			if (previousRunStatus.current !== null && previousRunStatus.current !== currentStatus) {
 				queryClient.invalidateQueries({
-					queryKey: [...allQueryKeys, runId]
+					queryKey: runQueryKey
 				});
 			}
 			previousRunStatus.current = currentStatus;
 		}
-	}, [dagQuery.data, queryClient, runId, allQueryKeys]);
+	}, [dagQuery.data, queryClient, runId, runQueryKey]);
 
 	// reactflow specific
 	const { fitView } = useReactFlow();
