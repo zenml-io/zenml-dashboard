@@ -27,7 +27,8 @@ export const apiPaths = {
 	},
 	runs: {
 		all: "/runs",
-		detail: (id: string) => `/runs/${id}`
+		detail: (id: string) => `/runs/${id}`,
+		dag: (id: string) => `/runs/${id}/dag`
 	},
 	pipeline_builds: {
 		all: "/pipeline_builds",

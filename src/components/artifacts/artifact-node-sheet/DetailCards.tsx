@@ -33,9 +33,9 @@ type Props = {
 export function DetailsCard({ artifactVersionId }: Props) {
 	const artifactVersion = useArtifactVersion({ versionId: artifactVersionId });
 
-	const producerRunId = artifactVersion.data?.body?.producer_pipeline_run_id;
+	const producerRunId = artifactVersion.data?.resources?.producer_pipeline_run_id;
 
-	const producerId = artifactVersion.data?.metadata?.producer_step_run_id;
+	const producerId = artifactVersion.data?.resources?.producer_step_run_id;
 
 	if (artifactVersion.isPending) return <Skeleton className="h-[500px] w-full" />;
 	if (artifactVersion.isError) return <ErrorFallback err={artifactVersion.error} />;
@@ -66,7 +66,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={artifactVersion.data.body?.user?.name || ""} />
+							<InlineAvatar username={artifactVersion.data.resources?.user?.name || ""} />
 						</div>
 					}
 				/>

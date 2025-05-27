@@ -39,7 +39,7 @@ function BasicParams({ componentId }: Props) {
 
 	const component = componentQuery.data;
 
-	const user = component.body?.user;
+	const user = component.resources?.user;
 	const created = component.body?.created;
 	const updated = component.body?.updated;
 	const connector = component.metadata?.connector;

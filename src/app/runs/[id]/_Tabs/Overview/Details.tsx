@@ -156,7 +156,7 @@ export function Details() {
 					<Key>Author</Key>
 					<Value>
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data.body?.user?.name || ""} />
+							<InlineAvatar username={data.resources?.user?.name || ""} />
 						</div>
 					</Value>
 					<Key>Start Time</Key>

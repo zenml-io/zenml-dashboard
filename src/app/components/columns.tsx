@@ -112,9 +112,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => row.body?.user?.name,
+			accessorFn: (row) => row.resources?.user?.name,
 			cell: ({ row }) => {
-				const author = row.original.body?.user?.name;
+				const author = row.original.resources?.user?.name;
 				if (!author) return null;
 				return <InlineAvatar username={author} />;
 			}

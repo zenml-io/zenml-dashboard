@@ -164,7 +164,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data.body?.user?.name as string} />
+							<InlineAvatar username={data.resources?.user?.name as string} />
 						</div>
 					}
 				/>
