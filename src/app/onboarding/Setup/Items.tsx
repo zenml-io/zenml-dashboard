@@ -1,14 +1,19 @@
 import Help from "@/assets/icons/help.svg?react";
-import Plus from "@/assets/icons/plus.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
 import { getLoginCommand } from "@/lib/login-command";
-import { routes } from "@/router/routes";
 import { OnboardingStep } from "@/types/onboarding";
-import { Box, Button, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { StackDeploymentProvider } from "@/types/stack";
+import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
+import { Dispatch, SetStateAction } from "react";
+import { PipelineSnippet } from "./pipeline-snippet";
+import { DisabledOption, ProviderOnboardingStep } from "./provider-step";
+import { SetProject } from "./set-project";
+import { RunScript } from "./run-script";
+import { InfoBox } from "@/components/Infobox";
+import { SCRIPT_CONFIG } from "./constant";
 
 export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
@@ -24,7 +29,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
 					<Codesnippet
-						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}"`}
+						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}" scikit-learn scikit-image "numpy<2.0.0"`}
 					/>
 				</div>
 				<div>
@@ -46,31 +51,10 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 			title="Run a pipeline (2 min)"
 		>
 			<div className="flex flex-col gap-5">
+				<SetProject projectName="default" />
+				<PipelineSnippet />
 				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Download the quickstart example to your local machine
-					</p>
-					<Codesnippet code="git clone --depth 1 https://github.com/zenml-io/zenml.git && cd zenml/examples/quickstart" />
-				</div>
-				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Initialize ZenML in the current directory
-					</p>
-					<Codesnippet code="zenml init" />
-				</div>
-				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Install the remaining requirements apart from ZenML
-					</p>
-					<Codesnippet code="pip install -r requirements.txt" />
-				</div>
-				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Run the training pipeline.
-						<br />
-						Once it is running, your dashboard will show all the details of the associated run,
-						models, and artifacts.
-					</p>
+					<p className="mb-1 text-text-sm text-theme-text-secondary">Run the training pipeline.</p>
 					<Codesnippet code="python run.py" />
 				</div>
 				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
@@ -104,37 +88,59 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 	);
 }
 
-export function CreateNewStack({ completed, active, hasDownstreamStep }: OnboardingStep) {
-	const link =
-		routes.stacks.create.index + "?" + new URLSearchParams({ origin: "onboarding" }).toString();
+export function ConnectRemoteStorage({
+	completed,
+	active,
+	hasDownstreamStep,
+	provider,
+	setProvider
+}: OnboardingStep & {
+	provider: StackDeploymentProvider | null;
+	setProvider: Dispatch<SetStateAction<StackDeploymentProvider | null>>;
+}) {
 	return (
 		<ChecklistItem
 			hasDownstream={hasDownstreamStep}
 			completed={completed}
-			title="Connect to a remote stack (5 min)"
+			title="Connect remote storage (5 min)"
 			active={active}
 		>
-			<p className="mb-3">
-				A stack configures how a pipeline is executed{" "}
-				<LearnMoreLink href="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
-			</p>
 			<div className="space-y-5">
-				<div className="space-y-3">
-					<p>Connect your Cloud to deploy your ZenML pipelines in a remote stack.</p>
-					<Button className="w-fit" size="md" asChild>
-						<Link className="flex" to={link}>
-							<Plus className="h-5 w-5 shrink-0 fill-white" />
-							Register a remote stack
-						</Link>
-					</Button>
-				</div>
-				<HelpBox link="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
+				<InfoBox>
+					ZenML stacks provides the cloud infrastructure needed to run your ML pipelines at scale,
+					giving you access to more compute resources than your local machine.{" "}
+					<a
+						rel="noopener noreferrer"
+						target="_blank"
+						className="link text-theme-text-brand"
+						href="https://docs.zenml.io/stacks"
+					>
+						Learn more
+					</a>
+				</InfoBox>
+				<ProviderOnboardingStep selectedProvider={provider} setSelectedProvider={setProvider} />
+
+				{provider ? (
+					<RunScript provider={provider} />
+				) : (
+					<DisabledOption number={2}>Run the script</DisabledOption>
+				)}
+				<HelpBox link="https://docs.zenml.io/stacks" />
 			</div>
 		</ChecklistItem>
 	);
 }
 
-export function RunNewPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
+export function RunNewPipeline({
+	active,
+	completed,
+	hasDownstreamStep,
+	provider
+}: OnboardingStep & {
+	provider: StackDeploymentProvider | null;
+}) {
+	const stackName = provider ? SCRIPT_CONFIG[provider].stackName : "<REMOTE_STACK_NAME>";
+	const integrationName = provider ? SCRIPT_CONFIG[provider].integration : "<INTEGRATION_NAME>";
 	return (
 		<ChecklistItem
 			hasDownstream={hasDownstreamStep}
@@ -144,30 +150,29 @@ export function RunNewPipeline({ active, completed, hasDownstreamStep }: Onboard
 		>
 			<div className="space-y-5">
 				<div className="space-y-1">
+					<p className="text-text-sm text-theme-text-secondary">Install the stack integrations</p>
+					<Codesnippet
+						wrap
+						codeClasses="whitespace-pre-wrap"
+						code={`zenml integration install ${integrationName}`}
+					/>
+				</div>
+				<div className="space-y-1">
 					<p className="text-text-sm text-theme-text-secondary">Set the new stack</p>
-					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="zenml stack set REMOTE_STACK" />
+					<Codesnippet
+						wrap
+						codeClasses="whitespace-pre-wrap"
+						code={`zenml stack set ${stackName}`}
+					/>
 				</div>
 				<div className="space-y-1">
 					<p className="text-text-sm text-theme-text-secondary">Run the pipeline</p>
 					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="python run.py" />
 				</div>
 				<div>
-					<HelpBox link="https://docs.zenml.io/user-guides/production-guide/understand-stacks" />
+					<HelpBox link="https://docs.zenml.io/stacks" />
 				</div>
 			</div>
 		</ChecklistItem>
-	);
-}
-
-function LearnMoreLink({ href }: { href: string }) {
-	return (
-		<a
-			href={href}
-			rel="noopener noreferrer"
-			target="_blank"
-			className="link text-text-sm font-semibold text-theme-text-brand"
-		>
-			Learn more
-		</a>
 	);
 }

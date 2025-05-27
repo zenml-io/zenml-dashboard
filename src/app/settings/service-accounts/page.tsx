@@ -1,11 +1,14 @@
 import { Box } from "@zenml-io/react-component-library/components/server";
-import ServiceAccountsTable from "./Table";
+import { ServiceAccountsTable } from "./Table";
+import { ServiceAccountSelectorContextProvider } from "./SelectorContext";
 
 export default function ServiceAccountPage() {
 	return (
 		<Box className="space-y-4 p-5">
 			<Header />
-			<ServiceAccountsTable />
+			<ServiceAccountSelectorContextProvider>
+				<ServiceAccountsTable />
+			</ServiceAccountSelectorContextProvider>
 		</Box>
 	);
 }

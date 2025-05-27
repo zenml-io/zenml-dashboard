@@ -11,6 +11,7 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+	Checkbox,
 	Tag,
 	Tooltip,
 	TooltipContent,
@@ -19,18 +20,33 @@ import {
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineDropdown } from "./PipelineDropdown";
-import { PipelinesSelector } from "./PipelinesSelector";
 
 export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 	return [
 		{
-			id: "check",
-			header: "",
+			id: "select",
 			meta: {
 				width: "1%"
 			},
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
 			cell: ({ row }) => {
-				return <PipelinesSelector id={row.original.id} />;
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{
@@ -40,12 +56,12 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 				return (
 					<div className="group/copybutton flex items-center gap-2">
 						<PipelineIcon
-							className={`h-5 w-5 ${getExecutionStatusColor(row.original.body?.latest_run_status)}`}
+							className={`h-5 w-5 ${getExecutionStatusColor(row.original.resources?.latest_run_status)}`}
 						/>
 						<div>
 							<div className="flex items-center gap-1">
 								<Link
-									to={routes.pipelines.namespace(encodeURIComponent(row.original.name))}
+									to={routes.projects.pipelines.namespace(encodeURIComponent(row.original.name))}
 									className="flex items-center gap-1"
 								>
 									<span className="text-text-md font-semibold text-theme-text-primary">
@@ -55,10 +71,10 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
-											<ExecutionStatusIcon status={row.original.body?.latest_run_status} />
+											<ExecutionStatusIcon status={row.original.resources?.latest_run_status} />
 										</TooltipTrigger>
 										<TooltipContent className="z-20 capitalize">
-											{row.original.body?.latest_run_status}
+											{row.original.resources?.latest_run_status}
 										</TooltipContent>
 									</Tooltip>
 								</TooltipProvider>
@@ -66,7 +82,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 								<CopyButton copyText={row.original.name} />
 							</div>
 							<Link
-								to={routes.pipelines.namespace(encodeURIComponent(row.original.name))}
+								to={routes.projects.pipelines.namespace(encodeURIComponent(row.original.name))}
 								className="flex items-center gap-1"
 							>
 								<p className="text-text-xs text-theme-text-secondary">
@@ -83,8 +99,8 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			id: "latest-run",
 			header: "Latest Run",
 			accessorFn: (row) => ({
-				status: row.body?.latest_run_status,
-				runId: row.body?.latest_run_id
+				status: row.resources?.latest_run_status,
+				runId: row.resources?.latest_run_id
 			}),
 			cell: ({ getValue }) => {
 				const { runId, status } = getValue<{
@@ -95,7 +111,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 				if (!runId || !status) return <div>No run</div>;
 
 				return (
-					<Link to={routes.runs.detail(runId)}>
+					<Link to={routes.projects.runs.detail(runId)}>
 						<Tag
 							emphasis="subtle"
 							rounded={false}

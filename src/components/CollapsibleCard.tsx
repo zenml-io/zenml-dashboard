@@ -1,13 +1,14 @@
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import {
 	CollapsibleContent,
-	CollapsibleTrigger,
-	CollapsiblePanel,
 	CollapsibleHeader,
-	CollapsibleHeaderProps
+	CollapsibleHeaderProps,
+	CollapsiblePanel,
+	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { cn } from "@zenml-io/react-component-library/utilities";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
+import { CopyMetadataButton } from "./copy-metadata-button";
 
 type CollapsibleCardProps = {
 	initialOpen?: boolean;
@@ -55,5 +56,36 @@ export function CollapsibleCard({
 				{children}
 			</CollapsibleContent>
 		</CollapsiblePanel>
+	);
+}
+
+type Props = Omit<CollapsibleCardProps, "headerChildren"> & {
+	copyText: string;
+	displayCopyButton?: boolean;
+};
+
+export function CollapsibleCardWithCopy({
+	copyText,
+	displayCopyButton = true,
+	headerClassName,
+	className,
+	...props
+}: Props) {
+	return (
+		<CollapsibleCard
+			{...props}
+			className={cn("group", className)}
+			headerClassName={cn(
+				"flex flex-col lg:flex-row items-start lg:items-center gap-2",
+				headerClassName
+			)}
+			headerChildren={
+				displayCopyButton ? (
+					<div className="opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100">
+						<CopyMetadataButton copyText={copyText} />
+					</div>
+				) : null
+			}
+		></CollapsibleCard>
 	);
 }

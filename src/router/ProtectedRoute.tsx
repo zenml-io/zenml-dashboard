@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useServerInfo } from "../data/server/info-query";
@@ -6,7 +6,11 @@ import { routes } from "./routes";
 import { setAuthState } from "@/lib/sessions";
 import { isNoAuthServer } from "@/lib/server";
 
-export function ProtectedRoute({ children }: PropsWithChildren) {
+export function withProtectedRoute(comp: ReactNode) {
+	return <ProtectedRoute>{comp}</ProtectedRoute>;
+}
+
+function ProtectedRoute({ children }: PropsWithChildren) {
 	const { getAuthState, removeAuthState } = useAuthContext();
 	const serverInfo = useServerInfo();
 	const isLoggedIn = getAuthState();

@@ -50,7 +50,7 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.body?.user?.name }),
+			accessorFn: (row) => ({ author: row.resources?.user?.name }),
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author?: string }>();
 				if (!author) return null;

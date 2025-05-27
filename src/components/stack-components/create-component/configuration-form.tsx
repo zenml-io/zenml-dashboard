@@ -2,7 +2,6 @@ import { componentQueries } from "@/data/components";
 import { useCreateComponent } from "@/data/components/create-component";
 import { flavorQueries } from "@/data/flavors";
 import { useCurrentUser } from "@/data/users/current-user-query";
-import { workspaceQueries } from "@/data/workspaces";
 import { getisOptional, getZodSchemaFromConfig } from "@/lib/forms";
 import { Flavor } from "@/types/flavors";
 import { JSONSchema } from "@/types/forms";
@@ -41,15 +40,14 @@ export function ComponentConfigurationForm({
 }: Props) {
 	const flavor = useQuery(flavorQueries.flavorDetail(flavorId));
 	const user = useCurrentUser();
-	const workspace = useQuery(workspaceQueries.workspaceDetail("default"));
-	if (flavor.isPending || user.isPending || workspace.isPending)
+
+	if (flavor.isPending || user.isPending)
 		return (
 			<div className="px-8 py-5">
 				<Skeleton className="h-[250px] w-full" />
 			</div>
 		);
-	if (flavor.isError || user.isError || workspace.isError)
-		return <p className="px-8 py-5">Failed to fetch flavor</p>;
+	if (flavor.isError || user.isError) return <p className="px-8 py-5">Failed to fetch flavor</p>;
 
 	return (
 		<ComponentConfigurationFormBody
@@ -66,7 +64,6 @@ export function ComponentConfigurationForm({
 			}
 			FooterComponent={FooterComponent}
 			successHandler={successHandler}
-			workspaceId={workspace.data.id}
 			flavor={flavor.data}
 			userId={user.data.id}
 			formId={formId}
@@ -80,7 +77,6 @@ type FormProps = {
 	formId: string;
 	flavor: Flavor;
 	userId: string;
-	workspaceId: string;
 	successHandler?: (id: string) => void;
 	infoTile: ReactNode;
 	FooterComponent: FunctionComponent<FooterProps>;
@@ -94,7 +90,6 @@ function ComponentConfigurationFormBody({
 	schema,
 	flavor,
 	userId,
-	workspaceId,
 	successHandler,
 	infoTile,
 	FooterComponent,
@@ -161,22 +156,24 @@ function ComponentConfigurationFormBody({
 
 		if (isCreate) {
 			createComponent.mutate({
-				workspaceId: workspaceId,
 				payload: {
 					name: componentName,
 					configuration: config,
 					flavor: flavor.name,
 					type: flavor.body.type,
 					user: userId,
-					connector: connector || null,
-					workspace: workspaceId
+					connector: connector || null
 				}
 			});
 		} else {
 			if (!component) return;
+			const isConnectorChanged = component.metadata?.connector?.id !== connector;
+			const connectorResource = component.metadata?.connector_resource_id;
 			updateComponent.mutate({
 				componentId: component.id,
 				payload: {
+					// if the connector is unchanged, keep the connector resource
+					...(!isConnectorChanged && { connector_resource_id: connectorResource }),
 					name: componentName,
 					configuration: config,
 					connector: connector || null

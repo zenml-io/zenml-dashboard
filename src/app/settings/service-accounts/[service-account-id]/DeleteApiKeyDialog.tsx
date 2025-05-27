@@ -5,15 +5,15 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { useApiKeySelectorContext } from "./SelectorContext";
+import { useApiKeyBulkDelete, useApiKeySelectorContext } from "./SelectorContext";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 
 export function DeleteApiKey({ serviceAccountId }: { serviceAccountId: string }) {
 	const [isOpen, setIsOpen] = useState(false);
-	const { bulkDeleteApiKeys, selectedApiKeys } = useApiKeySelectorContext();
-
+	const { bulkDelete } = useApiKeyBulkDelete(serviceAccountId);
+	const { selectedRowIDs, selectedRowCount } = useApiKeySelectorContext();
 	async function handleDelete() {
-		await bulkDeleteApiKeys(selectedApiKeys, serviceAccountId);
+		await bulkDelete(selectedRowIDs);
 		setIsOpen(false);
 	}
 
@@ -31,7 +31,7 @@ export function DeleteApiKey({ serviceAccountId }: { serviceAccountId: string })
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Api Key${selectedApiKeys.length >= 2 ? "s" : ""}`}
+				title={`Delete Api Key${selectedRowCount >= 2 ? "s" : ""}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>

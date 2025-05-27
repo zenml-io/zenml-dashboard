@@ -1,6 +1,7 @@
 import Info from "@/assets/icons/info.svg?react";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
+import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
@@ -22,10 +23,10 @@ import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
 import { DisplayDate } from "../../DisplayDate";
 import { ErrorFallback } from "../../Error";
-import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
 import { Key, KeyValue, Value } from "../../KeyValue";
 import { RepoBadge } from "../../repositories/RepoBadge";
 import { AuthRequired } from "../../runs/auth-required";
+import { StepStatusTooltip } from "./step-status-tooltip";
 
 type Props = {
 	stepId: string;
@@ -41,10 +42,13 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
-	const enable_cache = data.metadata?.config?.enable_cache;
-
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
+
+	const isStatusUnknown = getIsStatusUnknown(
+		data.body?.status ?? "running",
+		pipelineRunData?.body?.status ?? "running"
+	);
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
@@ -61,21 +65,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="Status"
 					value={
-						<div className="flex items-center gap-1">
-							<Tag
-								color={getExecutionStatusTagColor(data.body?.status)}
-								rounded
-								emphasis="subtle"
-								className="flex w-fit items-center gap-1 capitalize"
-							>
-								<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
-								{data.body?.status}
-							</Tag>
-							{typeof enable_cache === "boolean" && (
-								<Badge size="sm" color={enable_cache ? "green" : "grey"}>
-									{enable_cache ? "Enable cache" : "Disabled cache"}
-								</Badge>
-							)}
+						<div className="flex items-center gap-0.5 overflow-x-auto">
+							<StepStatusTooltip
+								stepStatus={data.body?.status ?? "running"}
+								isStatusUnknown={isStatusUnknown}
+							/>
 						</div>
 					}
 				></KeyValue>
@@ -85,7 +79,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							label="Pipeline"
 							value={
 								<Link
-									to={routes.pipelines.namespace(
+									to={routes.projects.pipelines.namespace(
 										encodeURIComponent(pipelineRunData.body?.pipeline?.name as string)
 									)}
 								>
@@ -170,7 +164,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data.body?.user?.name as string} />
+							<InlineAvatar username={data.resources?.user?.name as string} />
 						</div>
 					}
 				/>

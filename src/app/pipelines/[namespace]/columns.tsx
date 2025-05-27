@@ -10,6 +10,7 @@ import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+	Checkbox,
 	Tag,
 	Tooltip,
 	TooltipContent,
@@ -17,21 +18,34 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { RunDropdown } from "../RunsTab/RunDropdown";
-import { RunSelector } from "../RunsTab/RunSelector";
+import { RunDropdown } from "../../runs/RunDropdown";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
 		{
-			id: "check",
-			header: "",
+			id: "select",
 			meta: {
 				width: "1%"
 			},
-			accessorFn: (row) => ({ id: row.id }),
-			cell: ({ getValue }) => {
-				const { id } = getValue<{ id: string }>();
-				return <RunSelector id={id} />;
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
+			cell: ({ row }) => {
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{
@@ -54,7 +68,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 						<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 						<div>
 							<div className="flex items-center gap-1">
-								<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+								<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 									<h2 className="text-text-md font-semibold">{name}</h2>
 								</Link>
 								<TooltipProvider>
@@ -67,7 +81,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 								</TooltipProvider>
 								<CopyButton copyText={name} />
 							</div>
-							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
+							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
 								<CopyButton copyText={id} />
 							</Link>
@@ -138,7 +152,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.body?.user }),
+			accessorFn: (row) => ({ author: row.resources?.user }),
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author: User }>();
 				return <InlineAvatar username={author.name} />;

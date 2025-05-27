@@ -3,9 +3,12 @@ import { useOnboarding } from "@/data/server/onboarding-state";
 import { getOnboardingSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { ConnectZenMLStep, CreateNewStack, RunFirstPipeline, RunNewPipeline } from "./Items";
+import { ConnectRemoteStorage, ConnectZenMLStep, RunFirstPipeline, RunNewPipeline } from "./Items";
+import { useState } from "react";
+import { StackDeploymentProvider } from "@/types/stack";
 
 export function OnboardingSetupList() {
+	const [provider, setProvider] = useState<StackDeploymentProvider | null>(null);
 	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 
@@ -39,7 +42,9 @@ export function OnboardingSetupList() {
 				/>
 			</li>
 			<li>
-				<CreateNewStack
+				<ConnectRemoteStorage
+					provider={provider}
+					setProvider={setProvider}
 					active={stackStep.isActive}
 					completed={stackStep.isCompleted}
 					hasDownstreamStep={stackStep.hasDownStreamStep}
@@ -47,6 +52,7 @@ export function OnboardingSetupList() {
 			</li>
 			<li>
 				<RunNewPipeline
+					provider={provider}
 					active={remotePipelineStep.isActive}
 					completed={remotePipelineStep.isCompleted}
 					hasDownstreamStep={remotePipelineStep.hasDownStreamStep}

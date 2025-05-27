@@ -5,15 +5,11 @@ import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
 
 type CreateComponentParams = {
-	workspaceId: string;
 	payload: StackComponentRequest;
 };
 
-export async function createComponent({
-	payload,
-	workspaceId
-}: CreateComponentParams): Promise<StackComponent> {
-	const url = createApiPath(apiPaths.workspaces.components(workspaceId));
+export async function createComponent({ payload }: CreateComponentParams): Promise<StackComponent> {
+	const url = createApiPath(apiPaths.components.all);
 	const res = await fetcher(url, {
 		headers: {
 			"Content-Type": "application/json"
@@ -46,8 +42,8 @@ export function useCreateComponent(
 ) {
 	return useMutation({
 		...options,
-		mutationFn: async ({ workspaceId, payload }: CreateComponentParams) => {
-			return createComponent({ workspaceId, payload });
+		mutationFn: async ({ payload }: CreateComponentParams) => {
+			return createComponent({ payload });
 		}
 	});
 }

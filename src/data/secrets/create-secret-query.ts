@@ -5,7 +5,7 @@ import { fetcher } from "../fetch";
 import { Secret, CreateSecret } from "@/types/secret";
 
 export async function createSecret(body: CreateSecret) {
-	const url = createApiPath(apiPaths.secrets.add(body.workspace));
+	const url = createApiPath(apiPaths.secrets.all);
 
 	const res = await fetcher(url, {
 		method: "POST",

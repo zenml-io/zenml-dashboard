@@ -11,7 +11,7 @@ overrides:
   cross-spawn: ^7.0.5
   micromatch: ^4.0.8
   nanoid: ^3.3.8
-  undici: ^5.28.5
+  undici: ^5.29.0
 
 importers:
 
@@ -39,8 +39,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(reactflow@11.11.4(@types/react@18.3.11)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.8.3)
       '@zenml-io/react-component-library':
-        specifier: ^0.22.0
-        version: 0.22.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.1
+        version: 0.23.1(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       awesome-debounce-promise:
         specifier: ^2.1.0
         version: 2.1.0
@@ -50,6 +50,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      featureos-widget:
+        specifier: ^0.0.32
+        version: 0.0.32
       immer:
         specifier: ^10.1.1
         version: 10.1.1
@@ -1642,8 +1645,8 @@ packages:
   '@vitest/utils@3.1.1':
     resolution: {integrity: sha512-1XIjflyaU2k3HMArJ50bwSh3wKWPD6Q47wz/NUSmRV0zNywPc4w79ARjg/i/aNINHwA+mIALhUVqD9/aUvZNgg==}
 
-  '@zenml-io/react-component-library@0.22.0':
-    resolution: {integrity: sha512-9bz6rjSYvN50ddi/LPslN9HfPHrEJmmNi9w3KheLqZB2WWqGNXFbmeXuLvLrfqII9lBgctUqUgyLXMutVtDFfw==}
+  '@zenml-io/react-component-library@0.23.1':
+    resolution: {integrity: sha512-y5DGJ6e7TCQCIdMqf+vTzZuVeNm6dzckTKZ8zuVKifUTOTUWpieqlz6MhMcjhH09JwcB+JyHA9zTVDopAioiHQ==}
     peerDependencies:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -2155,6 +2158,9 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  featureos-widget@0.0.32:
+    resolution: {integrity: sha512-ERgreSJB6U5/Z892xAhDVIKKKQ2H6fiXhJjTKh+aomBfX+6QOHwGADiL/Pamz9GBVnRmZ5ioCLufTx6kbO6HbQ==}
 
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
@@ -3261,8 +3267,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  undici@5.28.5:
-    resolution: {integrity: sha512-zICwjrDrcrUE0pyyJc1I2QzBkLM8FINsgOrt6WjA+BgajVq9Nxu2PbFFXUrAggLfDXlZGZBVZYw7WNV5KiBiBA==}
+  undici@5.29.0:
+    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
     engines: {node: '>=14.0'}
 
   unified@11.0.4:
@@ -4970,7 +4976,7 @@ snapshots:
       loupe: 3.1.3
       tinyrainbow: 2.0.0
 
-  '@zenml-io/react-component-library@0.22.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@zenml-io/react-component-library@0.23.1(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/react-alert-dialog': 1.1.6(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-avatar': 1.1.3(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -5502,6 +5508,8 @@ snapshots:
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
+
+  featureos-widget@0.0.32: {}
 
   file-entry-cache@6.0.1:
     dependencies:
@@ -6111,7 +6119,7 @@ snapshots:
       fast-glob: 3.3.2
       js-yaml: 4.1.0
       supports-color: 9.4.0
-      undici: 5.28.5
+      undici: 5.29.0
       yargs-parser: 21.1.1
 
   optionator@0.9.3:
@@ -6688,7 +6696,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@5.28.5:
+  undici@5.29.0:
     dependencies:
       '@fastify/busboy': 2.1.1
 
