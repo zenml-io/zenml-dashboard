@@ -35,7 +35,7 @@ export function getStackColumnsPanel(): ColumnDef<Stack>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.body?.user }),
+			accessorFn: (row) => ({ author: row.resources?.user }),
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author?: User }>();
 				if (!author) return null;

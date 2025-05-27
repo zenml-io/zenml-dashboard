@@ -10,6 +10,7 @@ import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import {
+	Checkbox,
 	Tag,
 	Tooltip,
 	TooltipContent,
@@ -18,20 +19,33 @@ import {
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { RunDropdown } from "../../runs/RunDropdown";
-import { RunSelector } from "../../runs/RunSelector";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
 		{
-			id: "check",
-			header: "",
+			id: "select",
 			meta: {
 				width: "1%"
 			},
-			accessorFn: (row) => ({ id: row.id }),
-			cell: ({ getValue }) => {
-				const { id } = getValue<{ id: string }>();
-				return <RunSelector id={id} />;
+			header: ({ table }) => {
+				return (
+					<Checkbox
+						id="check-all"
+						checked={table.getIsAllRowsSelected()}
+						onCheckedChange={(state) =>
+							table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
+						}
+					/>
+				);
+			},
+			cell: ({ row }) => {
+				return (
+					<Checkbox
+						id={`check-${row.id}`}
+						checked={row.getIsSelected()}
+						onCheckedChange={row.getToggleSelectedHandler()}
+					/>
+				);
 			}
 		},
 		{
@@ -138,7 +152,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.body?.user }),
+			accessorFn: (row) => ({ author: row.resources?.user }),
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author: User }>();
 				return <InlineAvatar username={author.name} />;

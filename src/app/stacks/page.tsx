@@ -16,7 +16,7 @@ export default function StacksPage() {
 	}, [tourActive]);
 
 	return (
-		<div className="space-y-5">
+		<div className="space-y-5 py-5">
 			<ResumeBanners />
 			<StackList />
 		</div>

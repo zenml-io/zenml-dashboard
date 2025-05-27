@@ -65,3 +65,8 @@ export function dashCaseToTitleCase(input: string): string {
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ");
 }
+
+export function truncateText(text: string, maxLength: number) {
+	if (text.length <= maxLength) return text;
+	return text.slice(0, maxLength) + "...";
+}

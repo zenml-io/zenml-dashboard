@@ -4,6 +4,7 @@ import { Badge, Box, Skeleton } from "@zenml-io/react-component-library/componen
 import { useParams } from "react-router-dom";
 import ServiceAccountDetailTable from "./Table";
 import { useServiceAccountDetailBreadcrumbs } from "./breadcrumb";
+import { ApiKeySelectorContextProvider } from "./SelectorContext";
 
 export default function ServiceAccountDetail() {
 	return (
@@ -12,7 +13,9 @@ export default function ServiceAccountDetail() {
 				<APIKeyHeader />
 				<h1 className="my-5 text-text-lg font-semibold">API Keys</h1>
 			</div>
-			<ServiceAccountDetailTable />
+			<ApiKeySelectorContextProvider>
+				<ServiceAccountDetailTable />
+			</ApiKeySelectorContextProvider>
 		</Box>
 	);
 }

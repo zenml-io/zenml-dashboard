@@ -12,7 +12,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
 import { RotateApiKeyDialog } from "./RotateKeyDialog";
-import { useApiKeySelectorContext } from "./SelectorContext";
+import { useApiKeyBulkDelete } from "./SelectorContext";
 
 export default function ApiKeyDropdown({
 	serviceAccountId,
@@ -26,7 +26,7 @@ export default function ApiKeyDropdown({
 	const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
-	const { bulkDeleteApiKeys } = useApiKeySelectorContext();
+	const { bulkDelete } = useApiKeyBulkDelete(serviceAccountId);
 
 	function handleDialogItemSelect() {
 		focusRef.current = dropdownTriggerRef.current;
@@ -40,7 +40,7 @@ export default function ApiKeyDropdown({
 	}
 
 	async function handleDelete() {
-		await bulkDeleteApiKeys([apiKeyId], serviceAccountId);
+		await bulkDelete([apiKeyId]);
 		handleDeleteDialogOpenChange(false);
 	}
 

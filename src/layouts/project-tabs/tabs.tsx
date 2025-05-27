@@ -1,5 +1,3 @@
-"use client";
-
 import { useRouteSegment } from "@/hooks/use-route-segment";
 import { routes } from "@/router/routes";
 import {

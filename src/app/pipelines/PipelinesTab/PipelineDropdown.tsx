@@ -9,7 +9,7 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
 import { ElementRef, useRef, useState } from "react";
-import { usePipelinesSelectorContext } from "./PipelineSelectorContext";
+import { usePipelineBulkDelete } from "./PipelineSelectorContext";
 
 type Props = {
 	id: string;
@@ -20,10 +20,10 @@ export function PipelineDropdown({ id }: Props) {
 	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
 	const focusRef = useRef<HTMLElement | null>(null);
 
-	const { bulkDeletePipelines } = usePipelinesSelectorContext();
+	const { bulkDelete } = usePipelineBulkDelete();
 
 	async function handleDelete() {
-		await bulkDeletePipelines([id]);
+		await bulkDelete([id]);
 		handleDialogItemOpenChange(false);
 	}
 

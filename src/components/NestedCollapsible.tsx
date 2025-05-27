@@ -1,38 +1,40 @@
 import { isArray, isObject, isString } from "@/lib/type-guards";
 import { isUrl } from "@/lib/url";
-import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
+import { JSONSchemaDefinition } from "@/types/forms";
 import {
+	CollapsibleHeaderProps,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { PropsWithChildren, ReactNode } from "react";
-import { Codesnippet } from "./CodeSnippet";
-import { CollapsibleCard } from "./CollapsibleCard";
-import { KeyValue } from "./KeyValue";
+import { Fragment, PropsWithChildren, ReactNode } from "react";
 import { NotAvailable } from "./not-available";
-import { CopyMetadataButton } from "./copy-metadata-button";
-
-const regex = /^<class\s+'.*'>$/;
+import { SensitiveValue } from "./sensitive-value";
+import { CollapsibleCardWithCopy } from "./CollapsibleCard";
+import { Codesnippet } from "./CodeSnippet";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
-	data?: { [key: string]: unknown };
+	data?: Record<string, unknown>;
 	title: ReactNode;
+	isInitialOpen?: boolean;
 	contentClassName?: string;
 	className?: string;
-	isInitialOpen?: boolean;
+	schema?: JSONSchemaDefinition;
 };
+
+const regex = /^<class\s+'.*'>$/;
 
 export function NestedCollapsible({
 	title,
+	schema,
 	data,
 	intent = "primary",
-	isInitialOpen = false,
 	contentClassName,
+	className,
 	children,
-	className
+	isInitialOpen = false
 }: PropsWithChildren<Props>) {
 	const objects: { [key: string]: Record<string, unknown> } = {};
 	const nonObjects: { [key: string]: unknown } = {};
@@ -48,52 +50,95 @@ export function NestedCollapsible({
 		}
 	}
 
+	// sort keys of nonObjects alphabetically
 	const values = Object.entries(nonObjects);
 	values.sort((a, b) => a[0].localeCompare(b[0]));
 
 	const hasNoData = Object.keys(data || {}).length === 0;
 
 	return (
-		<CollapsibleCard
+		<CollapsibleCardWithCopy
 			contentClassName={contentClassName}
-			className={className}
 			initialOpen={isInitialOpen}
 			intent={intent}
 			title={title}
-			headerClassName="flex items-center gap-2"
-			headerChildren={hasNoData ? null : <CopyMetadataButton copyText={JSON.stringify(data)} />}
+			className={className}
+			copyText={JSON.stringify(data)}
+			displayCopyButton={!hasNoData}
 		>
-			{Object.keys(data || {}).length === 0 ? (
+			{hasNoData ? (
 				<NotAvailable />
 			) : (
 				<div className="flex flex-col gap-3">
 					<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-						{values.map(([key, value]) => (
-							<KeyValue
-								key={key}
-								label={
-									<TooltipProvider>
-										<Tooltip>
-											<TooltipTrigger className="cursor-default truncate">{key}</TooltipTrigger>
-											<TooltipContent className="max-w-[480px]">{key}</TooltipContent>
-										</Tooltip>
-									</TooltipProvider>
-								}
-								value={<RenderSimpleValue value={value} />}
-							/>
-						))}
+						{values.map(([key, value]) => {
+							const prop = schema?.properties?.[key];
+							const keyName = prop?.title || key;
+							const isSecret = prop?.sensitive || prop?.format === "password" || false;
+							return (
+								<Fragment key={key}>
+									<dt className="col-span-1 flex items-start text-theme-text-secondary">
+										<TooltipProvider>
+											<Tooltip>
+												<TooltipTrigger className="cursor-default truncate">
+													{keyName}
+												</TooltipTrigger>
+												<TooltipContent className="max-w-[480px]">{keyName}</TooltipContent>
+											</Tooltip>
+										</TooltipProvider>
+									</dt>
+									<dd className="col-span-2 w-full truncate text-neutral-700">
+										{isSecret && isString(value) ? (
+											<SensitiveValue value={value} />
+										) : (
+											<RenderSimpleValue value={value} />
+										)}
+									</dd>
+								</Fragment>
+							);
+						})}
 					</dl>
 					{Object.entries(arrays).map(([key, value]) => (
-						<RenderArray key={key} title={key} value={value} />
+						<RenderArray key={key} title={key} value={value as unknown[]} />
 					))}
 					{Object.entries(objects).map(([key, value]) => (
-						<NestedCollapsible intent="secondary" title={key} data={value} key={key} />
+						<NestedCollapsible
+							intent="secondary"
+							title={key}
+							data={value as Record<string, unknown>}
+							key={key}
+						/>
 					))}
 				</div>
 			)}
 			{children}
-		</CollapsibleCard>
+		</CollapsibleCardWithCopy>
 	);
+}
+
+function RenderSimpleValue({ value }: { value: unknown }) {
+	if (isString(value) && regex.test(value)) {
+		return <Codesnippet highlightCode code={value} />;
+	}
+
+	if (value === null) {
+		return <div>null</div>;
+	}
+
+	if (isString(value) && isUrl(value)) {
+		return (
+			<a
+				className="underline transition-all duration-200 hover:decoration-transparent"
+				href={value}
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				{value}
+			</a>
+		);
+	}
+
+	return <div className="whitespace-normal">{isString(value) ? value : JSON.stringify(value)}</div>;
 }
 
 function RenderArray({ title, value }: { title: string; value: unknown[] }) {
@@ -104,9 +149,8 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 
 	return (
 		<>
-			<CollapsibleCard
-				headerClassName="flex items-center gap-2"
-				headerChildren={<CopyMetadataButton copyText={JSON.stringify(value)} />}
+			<CollapsibleCardWithCopy
+				copyText={JSON.stringify(value)}
 				intent="secondary"
 				key={title}
 				title={title}
@@ -134,32 +178,7 @@ function RenderArray({ title, value }: { title: string; value: unknown[] }) {
 						))}
 					</ul>
 				)}
-			</CollapsibleCard>
+			</CollapsibleCardWithCopy>
 		</>
 	);
-}
-
-function RenderSimpleValue({ value }: { value: unknown }) {
-	if (isString(value) && regex.test(value)) {
-		return <Codesnippet className="py-1" highlightCode code={value} />;
-	}
-
-	if (value === null) {
-		return <div>null</div>;
-	}
-
-	if (isString(value) && isUrl(value)) {
-		return (
-			<a
-				className="underline transition-all duration-200 hover:decoration-transparent"
-				href={value}
-				target="_blank"
-				rel="noopener noreferrer"
-			>
-				{value}
-			</a>
-		);
-	}
-
-	return <div className="whitespace-normal">{isString(value) ? value : JSON.stringify(value)}</div>;
 }

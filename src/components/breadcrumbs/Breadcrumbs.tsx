@@ -1,5 +1,3 @@
-"use client";
-
 import Divider from "@/assets/icons/slash-divider.svg?react";
 import { Fragment, useEffect, useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -81,7 +79,6 @@ export function Breadcrumbs() {
 
 	useEffect(() => {
 		const pathSegments = pathname.split("/").filter(Boolean);
-		console.log(pathSegments);
 		const isProjectRoute =
 			pathSegments[0] === "projects" && pathSegments.length > 1 && pathSegments[1] !== "create";
 		const remainingPath = pathSegments.slice(isProjectRoute ? 2 : 0);

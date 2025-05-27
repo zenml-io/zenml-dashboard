@@ -46,7 +46,9 @@ export function ServerSettingsMenu() {
 			},
 			{
 				name: "Connectors",
-				href: routes.settings.connectors.overview
+				href: routes.settings.connectors.overview,
+				isActiveOverride: (pathname: string) =>
+					pathname.startsWith(routes.settings.connectors.overview)
 			},
 			{
 				name: "Service Accounts",
