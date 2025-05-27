@@ -48,7 +48,6 @@ export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyNam
 
 			const updatedSecretData: UpdateSecret = {
 				name: secretDetail.name,
-				scope: "workspace",
 				values: updatedValues
 			};
 

@@ -13,7 +13,9 @@ export const apiPaths = {
 	},
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`,
-		visualize: (versionId: string) => `/artifact_versions/${versionId}/visualize`
+		visualize: (versionId: string) => `/artifact_versions/${versionId}/visualize`,
+		downloadToken: (versionId: string) => `/artifact_versions/${versionId}/download-token`,
+		data: (versionId: string) => `/artifact_versions/${versionId}/data`
 	},
 	components: {
 		all: "/components",
@@ -25,7 +27,8 @@ export const apiPaths = {
 	},
 	runs: {
 		all: "/runs",
-		detail: (id: string) => `/runs/${id}`
+		detail: (id: string) => `/runs/${id}`,
+		dag: (id: string) => `/runs/${id}/dag`
 	},
 	pipeline_builds: {
 		all: "/pipeline_builds",
@@ -52,11 +55,15 @@ export const apiPaths = {
 		detail: (id: string) => `/flavors/${id}`
 	},
 	serviceConnectors: {
+		verify: "/service_connectors/verify",
 		fullStackResources: "/service_connectors/full_stack_resources",
 		types: {
+			all: "/service_connector_types",
 			detail: (connectorType: string) => `/service_connector_types/${connectorType}`
 		},
-		list: "/service_connectors"
+		detail: (connectorId: string) => `/service_connectors/${connectorId}`,
+		list: "/service_connectors",
+		verifyExisting: (connectorId: string) => `/service_connectors/${connectorId}/verify`
 	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
@@ -69,14 +76,11 @@ export const apiPaths = {
 	},
 	secrets: {
 		all: "/secrets",
-		detail: (secretId: string) => `/secrets/${secretId}`,
-		add: (workspaceId: string) => `/workspaces/${workspaceId}/secrets`
+		detail: (secretId: string) => `/secrets/${secretId}`
 	},
-	workspaces: {
-		detail: (workspaceName: string) => `/workspaces/${workspaceName}`,
-		fullStack: (workspaceId: string) => `/workspaces/${workspaceId}/full-stack`,
-		stacks: (workspaceId: string) => `/workspaces/${workspaceId}/stacks`,
-		components: (workspaceId: string) => `/workspaces/${workspaceId}/components`
+	projects: {
+		statistics: (projectId: string) => `/projects/${projectId}/statistics`,
+		detail: (projectId: string) => `/projects/${projectId}`
 	},
 	serviceAccounts: {
 		all: "/service_accounts",

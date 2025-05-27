@@ -1,24 +1,16 @@
 import { secretQueries } from "@/data/secrets";
 import { useQuery } from "@tanstack/react-query";
 import { Box } from "@zenml-io/react-component-library";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CopyButton } from "../../../../components/CopyButton";
-import { useBreadcrumbsContext } from "../../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
 import SecretDetailTable from "./SecretDetailTable";
+import { useSecretDetailBreadcrumbs } from "./breadcrumbs";
 
 export default function SecretDetailsPage() {
 	const { secretId } = useParams() as { secretId: string };
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const { data: secretDetail } = useQuery({ ...secretQueries.secretDetail(secretId || "") });
 
-	useEffect(() => {
-		secretDetail &&
-			setCurrentBreadcrumbData({
-				segment: "secretsDetail",
-				data: { name: secretDetail.name, id: secretDetail.id }
-			});
-	}, [secretDetail]);
+	useSecretDetailBreadcrumbs(secretDetail);
 
 	return (
 		<>

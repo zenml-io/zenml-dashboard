@@ -1,6 +1,4 @@
 import MCP from "@/assets/images/mcp.webp";
-import { PageHeader } from "@/components/PageHeader";
-import { ProBadge } from "@/components/pro/ProBadge";
 import {
 	ProButtons,
 	ProFeatureList,
@@ -27,10 +25,6 @@ export default function ModelsPage() {
 
 	return (
 		<div>
-			<PageHeader className="flex items-center gap-1">
-				<h1 className="text-display-xs font-semibold">Models</h1>
-				<ProBadge />
-			</PageHeader>
 			<div className="layout-container space-y-5 py-5">
 				<ProWrapper className="relative overflow-y-hidden">
 					<div className="w-full max-w-none space-y-5 lg:max-w-[900px]">

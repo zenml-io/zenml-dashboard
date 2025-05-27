@@ -8,6 +8,7 @@ import { Button, Input, Skeleton, useToast } from "@zenml-io/react-component-lib
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { GeneralFormType, generalFormSchema } from "./GeneralFormSchema";
+import { getServerInfoKey } from "@/data/server/info-query";
 
 export function GeneralForm() {
 	const serverNameId = useId();
@@ -29,7 +30,8 @@ export function GeneralForm() {
 			}
 		},
 		onSuccess: async () => {
-			await queryclient.invalidateQueries({ queryKey: getServerSettingsKey() });
+			queryclient.invalidateQueries({ queryKey: getServerSettingsKey() });
+			queryclient.invalidateQueries({ queryKey: getServerInfoKey() });
 			toast({
 				status: "success",
 				emphasis: "subtle",

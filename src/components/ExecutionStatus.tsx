@@ -1,12 +1,13 @@
 import { ExecutionStatus } from "@/types/pipeline-runs";
-import { TagProps, cn } from "@zenml-io/react-component-library";
+import { BadgeProps, TagProps, cn } from "@zenml-io/react-component-library";
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import Running from "@/assets/icons/running.svg?react";
 import Cached from "@/assets/icons/cached.svg?react";
 import Initializing from "@/assets/icons/dots-circle.svg?react";
+import QuestionMark from "@/assets/icons/help.svg?react";
 
-export function getExecutionStatusColor(status?: ExecutionStatus | null) {
+export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | null) {
 	if (!status) return null;
 	switch (status) {
 		case "completed":
@@ -19,10 +20,12 @@ export function getExecutionStatusColor(status?: ExecutionStatus | null) {
 			return "fill-neutral-400";
 		case "running":
 			return "fill-warning-500";
+		case "unknown":
+			return "fill-blue-500";
 	}
 }
 
-export function getExecutionStatusBackgroundColor(status?: ExecutionStatus) {
+export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "unknown") {
 	if (!status) return null;
 	switch (status) {
 		case "completed":
@@ -35,10 +38,14 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus) {
 			return "bg-theme-surface-tertiary";
 		case "running":
 			return "bg-warning-50";
+		case "unknown":
+			return "bg-blue-50";
 	}
 }
 
-export function getExecutionStatusTagColor(status?: ExecutionStatus): TagProps["color"] {
+export function getExecutionStatusTagColor(
+	status?: ExecutionStatus | "unknown"
+): TagProps["color"] {
 	if (!status) return "grey";
 	switch (status) {
 		case "completed":
@@ -49,6 +56,8 @@ export function getExecutionStatusTagColor(status?: ExecutionStatus): TagProps["
 			return "purple";
 		case "cached":
 			return "grey";
+		case "unknown":
+			return "blue";
 		case "running":
 			return "yellow";
 	}
@@ -58,7 +67,7 @@ export function ExecutionStatusIcon({
 	status,
 	className
 }: {
-	status?: ExecutionStatus | null;
+	status?: ExecutionStatus | "unknown" | null;
 	className?: string;
 }) {
 	if (!status) return null;
@@ -72,6 +81,8 @@ export function ExecutionStatusIcon({
 			return <Initializing className={classNames} />;
 		case "cached":
 			return <Cached className={classNames} />;
+		case "unknown":
+			return <QuestionMark className={classNames} />;
 		case "running":
 			return (
 				<Running
@@ -81,6 +92,20 @@ export function ExecutionStatusIcon({
 					)}
 				/>
 			);
+	}
+}
+
+export function getBadgeColor(status?: ExecutionStatus | "unknown"): BadgeProps["color"] {
+	if (!status) return "grey";
+	switch (status) {
+		case "completed":
+			return "green";
+		case "cached":
+			return "grey";
+		case "unknown":
+			return "blue";
+		default:
+			return "grey";
 	}
 }
 

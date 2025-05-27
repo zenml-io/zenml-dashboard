@@ -1,15 +1,20 @@
-import { ZenEdge, ZenNode } from "@/types/pipeline-runs";
+import {
+	IntermediateArtifactNode,
+	IntermediatePreviewNode,
+	IntermediateStepNode,
+	Edge
+} from "@/types/dag-visualizer";
 import Dagre from "@dagrejs/dagre";
-import { Edge, Node } from "reactflow";
+import { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
 
 const nodeWidth = 300;
 const artifactHeight = 50;
 const stepHeight = 70;
 
-export function getLayoutedNodes(
-	nodes?: ZenNode[],
-	edges?: ZenEdge[]
-): { nodes: Node[]; edges: Edge[] } {
+export function getLayoutedItems(
+	nodes: (IntermediateStepNode | IntermediateArtifactNode | IntermediatePreviewNode)[],
+	edges: Edge[]
+): { nodes: ReactFlowNode[]; edges: ReactFlowEdge[] } {
 	const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 	g.setGraph({ rankdir: "TB", ranksep: 50, nodesep: 10 });
 	if (!nodes || !edges) return { nodes: [], edges: [] };
@@ -32,11 +37,25 @@ export function getLayoutedNodes(
 			const { x, y } = g.node(node.id);
 			return { ...node, position: { x, y } };
 		}),
-		edges: edges.map((edge) => {
-			return {
-				...edge,
-				type: nodes.length > 30 ? "smoothstep" : "smart"
-			};
-		})
+		edges: deduplicateEdges(edges, nodes.length)
 	};
+}
+
+function deduplicateEdges(edges: Edge[], nodesCount: number): ReactFlowEdge[] {
+	const edgeMap = new Map<string, ReactFlowEdge>();
+	const edgeType = nodesCount > 30 ? "smoothstep" : "smart";
+
+	for (const edge of edges) {
+		const id = `${edge.source}-${edge.target}`;
+		if (!edgeMap.has(id)) {
+			edgeMap.set(id, {
+				id,
+				source: edge.source,
+				target: edge.target,
+				type: edgeType
+			});
+		}
+	}
+
+	return Array.from(edgeMap.values());
 }

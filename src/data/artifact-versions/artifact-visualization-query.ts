@@ -1,22 +1,27 @@
 import { FetchError } from "@/lib/fetch-error";
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
-import { ArtifactVisualization as VisualizationType } from "@/types/artifact-versions";
+import { LoadedVisualization, ArtifactVisualizationQueryParams } from "@/types/artifact-versions";
 import { fetcher } from "../fetch";
+import { objectToSearchParams } from "@/lib/url";
 
 type ArtifactVisualization = {
 	versionId: string;
+	params?: ArtifactVisualizationQueryParams;
 };
 
-export function getArtifactVisualizationQueryKey({ versionId }: ArtifactVisualization) {
-	return ["artifact_versions", versionId, "visualize"];
+export function getArtifactVisualizationQueryKey({ versionId, params }: ArtifactVisualization) {
+	return ["artifact_versions", versionId, "visualize", params];
 }
 
 export async function fetchArtifactVisualization(
-	{ versionId }: ArtifactVisualization,
+	{ versionId, params = {} }: ArtifactVisualization,
 	signal?: AbortSignal
 ) {
-	const url = createApiPath(apiPaths.artifactVersions.visualize(versionId));
+	const queryParams = objectToSearchParams(params).toString();
+	const url = createApiPath(
+		apiPaths.artifactVersions.visualize(versionId) + (queryParams ? `?${queryParams}` : "")
+	);
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {
@@ -49,9 +54,9 @@ export async function fetchArtifactVisualization(
 
 export function useArtifactVisualization(
 	params: ArtifactVisualization,
-	options?: Omit<UseQueryOptions<VisualizationType, FetchError>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<LoadedVisualization, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<VisualizationType, FetchError>({
+	return useQuery<LoadedVisualization, FetchError>({
 		queryKey: getArtifactVisualizationQueryKey(params),
 		queryFn: ({ signal }) => fetchArtifactVisualization(params, signal),
 		...options

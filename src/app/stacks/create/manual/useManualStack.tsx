@@ -1,18 +1,16 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { stackQueries } from "@/data/stacks";
 import { useCreateStack } from "@/data/stacks/create-stack";
-import { workspaceQueries } from "@/data/workspaces";
 import { routes } from "@/router/routes";
 import { StackRequest } from "@/types/stack";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FormType, formSchema } from "./schema";
 
 export function useManualStack() {
-	const workspace = useQuery({ ...workspaceQueries.workspaceDetail("default") });
 	const { toast } = useToast();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -49,7 +47,7 @@ export function useManualStack() {
 			components: components
 		};
 
-		createStack.mutate({ workspaceId: workspace.data?.id || "", payload });
+		createStack.mutate({ payload });
 	}
 
 	const form = useForm<FormType>({

@@ -3,7 +3,6 @@ import Plus from "@/assets/icons/plus.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
-import { Workspace } from "@/types/workspaces";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -21,22 +20,30 @@ import {
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { secretFormSchema, SecretFormType } from "./form-schema";
-
-export function AddSecretDialog({ id, workspace }: { id: string; workspace: Workspace }) {
+import { useCurrentUser } from "@/data/users/current-user-query";
+import { Skeleton } from "@zenml-io/react-component-library";
+export function AddSecretDialog() {
 	const [open, setOpen] = useState(false);
+	const userQuery = useCurrentUser();
+
+	if (userQuery.isPending) return <Skeleton className="h-7 w-full" />;
+	if (userQuery.isError) return <div>Error loading user</div>;
+
+	const userId = userQuery.data.id;
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button className="shrink-0" intent="primary">
-					Add secret
+				<Button size="md" className="shrink-0" intent="primary">
+					<Plus className="h-5 w-5 shrink-0 fill-white" />
+					<span>New Secret</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="mx-auto w-[90vw] max-w-[744px]">
 				<DialogHeader>
 					<DialogTitle>Register New Secret</DialogTitle>
 				</DialogHeader>
-				<AddSecret userId={id} setOpen={setOpen} workspaceId={workspace.id} />
+				<AddSecret userId={userId} setOpen={setOpen} />
 			</DialogContent>
 		</Dialog>
 	);
@@ -44,12 +51,10 @@ export function AddSecretDialog({ id, workspace }: { id: string; workspace: Work
 
 export function AddSecret({
 	userId,
-	setOpen,
-	workspaceId
+	setOpen
 }: {
 	userId: string;
 	setOpen: (open: boolean) => void;
-	workspaceId: string;
 }) {
 	const {
 		handleSubmit,
@@ -94,9 +99,7 @@ export function AddSecret({
 	const postSecret = (data: SecretFormType) => {
 		mutate({
 			user: userId,
-			workspace: workspaceId,
 			name: data.secretName,
-			scope: "workspace",
 			values: data.keysValues.reduce(
 				(acc, pair) => {
 					if (pair.key && pair.value) acc[pair.key] = pair.value;
@@ -128,9 +131,9 @@ export function AddSecret({
 					</div>
 					<div className="mt-10">
 						<div>
-							<h1 className="font-inter text-lg text-left font-semibold ">Keys</h1>
+							<h1 className="font-inter text-lg text-left font-semibold">Keys</h1>
 						</div>
-						<div className="mt-5 flex flex-row ">
+						<div className="mt-5 flex flex-row">
 							<div className="flex-grow">
 								<label className="font-inter text-sm text-left font-medium">Key</label>
 							</div>
@@ -141,8 +144,8 @@ export function AddSecret({
 					</div>
 
 					{fields.map((field, index) => (
-						<div key={field.id} className="flex flex-row items-center space-x-1 ">
-							<div className="relative flex-grow ">
+						<div key={field.id} className="flex flex-row items-center space-x-1">
+							<div className="relative flex-grow">
 								<Controller
 									name={`keysValues.${index}.key`}
 									control={control}

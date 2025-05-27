@@ -1,28 +1,19 @@
 import { useParams } from "react-router-dom";
+import { RunsSelectorContextProvider } from "../../runs/RunsSelectorContext";
+import { usePipelineDetailBreadcrumbs } from "./breadcrumb";
 import { Header } from "./Header";
 import { PipelineRunsTable } from "./RunsTable";
-import { useEffect } from "react";
-import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { RunsSelectorProvider } from "../RunsTab/RunsSelectorContext";
 
 export default function PipelineNamespacePage() {
 	const { namespace } = useParams() as { namespace: string };
-	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
-
-	useEffect(() => {
-		namespace &&
-			setCurrentBreadcrumbData({
-				segment: "pipeline_detail",
-				data: { name: namespace }
-			});
-	}, [namespace]);
+	usePipelineDetailBreadcrumbs(namespace);
 
 	return (
 		<div>
-			<RunsSelectorProvider>
+			<RunsSelectorContextProvider>
 				<Header namespace={namespace} />
 				<PipelineRunsTable />
-			</RunsSelectorProvider>
+			</RunsSelectorContextProvider>
 		</div>
 	);
 }

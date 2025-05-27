@@ -117,9 +117,9 @@ export const matchSegmentWithPages = (segment: string): any => {
 export const matchSegmentWithURL = (segment: string, id: string) => {
 	const routeMap: { [key: string]: string } = {
 		// Pipelines
-		pipelines: routes.pipelines.overview + "?tab=pipelines",
-		pipeline_detail: routes.pipelines.namespace(id),
-		runs: routes.runs.detail(id),
+		pipelines: routes.projects.pipelines.overview + "?tab=pipelines",
+		pipeline_detail: routes.projects.pipelines.namespace(id),
+		runs: routes.projects.runs.detail(id),
 		//Stacks
 		stacks: routes.stacks.overview,
 		createStack: routes.stacks.create.index,
