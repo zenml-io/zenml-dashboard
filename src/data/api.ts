@@ -13,7 +13,9 @@ export const apiPaths = {
 	},
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`,
-		visualize: (versionId: string) => `/artifact_versions/${versionId}/visualize`
+		visualize: (versionId: string) => `/artifact_versions/${versionId}/visualize`,
+		downloadToken: (versionId: string) => `/artifact_versions/${versionId}/download-token`,
+		data: (versionId: string) => `/artifact_versions/${versionId}/data`
 	},
 	components: {
 		all: "/components",
@@ -25,7 +27,8 @@ export const apiPaths = {
 	},
 	runs: {
 		all: "/runs",
-		detail: (id: string) => `/runs/${id}`
+		detail: (id: string) => `/runs/${id}`,
+		dag: (id: string) => `/runs/${id}/dag`
 	},
 	pipeline_builds: {
 		all: "/pipeline_builds",

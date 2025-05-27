@@ -10,11 +10,12 @@ import { AddApiKeyDialog } from "./AddApiKeyDialog";
 import { ApiKeyButtonGroup } from "./ButtonGroup";
 import { getServiceAccountDetailColumn } from "./columns";
 import ApiKeyFallback from "./Fallback";
-import { ApiKeysSelectorProvider, useApiKeySelectorContext } from "./SelectorContext";
+import { useApiKeySelectorContext } from "./SelectorContext";
 
 export default function ServiceAccountDetailTable() {
 	const { serviceAccountId } = useParams() as { serviceAccountId: string };
 	const queryParams = useServiceAccountOverviewSearchParams();
+	const { rowSelection, setRowSelection } = useApiKeySelectorContext();
 
 	const cols = useMemo(() => getServiceAccountDetailColumn(), []);
 
@@ -31,13 +32,19 @@ export default function ServiceAccountDetailTable() {
 	}
 
 	return (
-		<ApiKeysSelectorProvider>
+		<>
 			<Header serviceAccountId={serviceAccountId} />
 
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
 					{serviceAccountApis ? (
-						<DataTable columns={cols} data={serviceAccountApis.items} />
+						<DataTable
+							getRowId={(row) => row.id}
+							rowSelection={rowSelection}
+							onRowSelectionChange={setRowSelection}
+							columns={cols}
+							data={serviceAccountApis.items}
+						/>
 					) : (
 						<Skeleton className="h-[500px] w-full" />
 					)}
@@ -50,17 +57,17 @@ export default function ServiceAccountDetailTable() {
 					<Skeleton className="h-[36px] w-[300px]" />
 				)}
 			</div>
-		</ApiKeysSelectorProvider>
+		</>
 	);
 }
 
 function Header({ serviceAccountId }: { serviceAccountId: string }) {
 	const queryParams = useServiceAccountOverviewSearchParams();
-	const { selectedApiKeys } = useApiKeySelectorContext();
+	const { selectedRowCount } = useApiKeySelectorContext();
 
 	return (
 		<div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-			{selectedApiKeys.length ? (
+			{selectedRowCount ? (
 				<ApiKeyButtonGroup serviceAccountId={serviceAccountId} />
 			) : (
 				<div className="flex items-center gap-2">

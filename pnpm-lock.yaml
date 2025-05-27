@@ -39,8 +39,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(reactflow@11.11.4(@types/react@18.3.11)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.8.3)
       '@zenml-io/react-component-library':
-        specifier: ^0.22.0
-        version: 0.22.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.1
+        version: 0.23.1(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       awesome-debounce-promise:
         specifier: ^2.1.0
         version: 2.1.0
@@ -1645,8 +1645,8 @@ packages:
   '@vitest/utils@3.1.1':
     resolution: {integrity: sha512-1XIjflyaU2k3HMArJ50bwSh3wKWPD6Q47wz/NUSmRV0zNywPc4w79ARjg/i/aNINHwA+mIALhUVqD9/aUvZNgg==}
 
-  '@zenml-io/react-component-library@0.22.0':
-    resolution: {integrity: sha512-9bz6rjSYvN50ddi/LPslN9HfPHrEJmmNi9w3KheLqZB2WWqGNXFbmeXuLvLrfqII9lBgctUqUgyLXMutVtDFfw==}
+  '@zenml-io/react-component-library@0.23.1':
+    resolution: {integrity: sha512-y5DGJ6e7TCQCIdMqf+vTzZuVeNm6dzckTKZ8zuVKifUTOTUWpieqlz6MhMcjhH09JwcB+JyHA9zTVDopAioiHQ==}
     peerDependencies:
       '@types/react': ^18.0.0
       '@types/react-dom': ^18.0.0
@@ -4976,7 +4976,7 @@ snapshots:
       loupe: 3.1.3
       tinyrainbow: 2.0.0
 
-  '@zenml-io/react-component-library@0.22.0(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@zenml-io/react-component-library@0.23.1(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@radix-ui/react-alert-dialog': 1.1.6(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-avatar': 1.1.3(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

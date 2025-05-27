@@ -5,7 +5,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ErrorFallback } from "@/components/Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { KeyValue } from "@/components/KeyValue";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { componentQueries } from "@/data/components";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
@@ -24,6 +24,7 @@ import {
 import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { DownloadArtifactButton } from "../download-artifact-button";
 
 type Props = {
 	artifactVersionId: string;
@@ -32,9 +33,9 @@ type Props = {
 export function DetailsCard({ artifactVersionId }: Props) {
 	const artifactVersion = useArtifactVersion({ versionId: artifactVersionId });
 
-	const producerRunId = artifactVersion.data?.body?.producer_pipeline_run_id;
+	const producerRunId = artifactVersion.data?.resources?.producer_pipeline_run_id;
 
-	const producerId = artifactVersion.data?.metadata?.producer_step_run_id;
+	const producerId = artifactVersion.data?.resources?.producer_step_run_id;
 
 	if (artifactVersion.isPending) return <Skeleton className="h-[500px] w-full" />;
 	if (artifactVersion.isError) return <ErrorFallback err={artifactVersion.error} />;
@@ -65,7 +66,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={artifactVersion.data.body?.user?.name || ""} />
+							<InlineAvatar username={artifactVersion.data.resources?.user?.name || ""} />
 						</div>
 					}
 				/>
@@ -184,14 +185,15 @@ export function DataCard({ artifactVersionId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Data">
 			<dl className="grid w-full grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<Key className="col-span-3">URI</Key>
-				<Value className="col-span-3 h-auto">
-					<Codesnippet
-						fullWidth
-						codeClasses="truncate"
-						code={artifactVersionData.body?.uri || ""}
-					/>
-				</Value>
+				<dt className="col-span-3 flex items-center justify-between text-theme-text-secondary">
+					Uri
+					<DownloadArtifactButton artifactVersionId={artifactVersionId} />
+				</dt>
+				<dd className="col-span-3 w-full truncate text-neutral-700">
+					<div className="pb-2">
+						<Codesnippet fullWidth code={artifactVersionData.body!.uri} />
+					</div>
+				</dd>
 
 				{artifactStoreId && (
 					<KeyValue

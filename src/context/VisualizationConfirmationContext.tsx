@@ -1,24 +1,51 @@
-import {
-	Dispatch,
-	PropsWithChildren,
-	SetStateAction,
-	createContext,
-	useContext,
-	useState
-} from "react";
+import { PropsWithChildren, createContext, useContext, useState } from "react";
 
-type VisualizationConfirmContextProps = {
-	isVisualizationConfirmed: boolean;
-	setVisualizationConfirmed: Dispatch<SetStateAction<boolean>>;
+export type VisualizationConfirmContextProps = {
+	confirmedVisualizations: Set<number>;
+	isVisualizationConfirmed: (index: number) => boolean;
+	confirmVisualization: (index: number) => void;
+	// resetVisualization: (index: number) => void;
+	// resetAllVisualizations: () => void;
 };
 
-const VisualizationConfirmContext = createContext<VisualizationConfirmContextProps | null>(null);
+export const VisualizationConfirmContext = createContext<VisualizationConfirmContextProps | null>(
+	null
+);
 
 export function VisualizationConfirmProvider({ children }: PropsWithChildren) {
-	const [isConfirmed, setIsConfirmed] = useState(false);
+	const [confirmedVisualizations, setConfirmedVisualizations] = useState<Set<number>>(new Set());
+
+	const isVisualizationConfirmed = (index: number): boolean => {
+		return confirmedVisualizations.has(index);
+	};
+
+	const confirmVisualization = (index: number): void => {
+		setConfirmedVisualizations((prev) => {
+			const next = new Set(prev);
+			next.add(index);
+			return next;
+		});
+	};
+
+	// const resetVisualization = (index: number): void => {
+	// 	setConfirmedVisualizations((prev) => {
+	// 		const newMap = new Map(prev);
+	// 		newMap.delete(index);
+	// 		return newMap;
+	// 	});
+	// };
+
+	// const resetAllVisualizations = (): void => {
+	// 	setConfirmedVisualizations(new Map());
+	// };
+
 	return (
 		<VisualizationConfirmContext.Provider
-			value={{ isVisualizationConfirmed: isConfirmed, setVisualizationConfirmed: setIsConfirmed }}
+			value={{
+				confirmedVisualizations,
+				isVisualizationConfirmed,
+				confirmVisualization
+			}}
 		>
 			{children}
 		</VisualizationConfirmContext.Provider>

@@ -1,73 +1,63 @@
-import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
-import { mergeRealAndPlacehodlerData } from "@/components/dag-visualizer/layout/helper";
-import { extractPlaceholderLayout } from "@/components/dag-visualizer/layout/placeholder";
-import { extractExistingNodes } from "@/components/dag-visualizer/layout/real-data";
-import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { StepOutput } from "@/types/pipeline-deployments";
-import { StepDict } from "@/types/steps";
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useLayoutEffect, useMemo } from "react";
+import { getLayoutedItems } from "@/components/dag-visualizer/layout";
+import { computeNodes } from "@/components/dag-visualizer/layout/compute";
+import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
+import { ExecutionStatus } from "@/types/pipeline-runs";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useEdgesState, useNodesState, useReactFlow, useStore } from "reactflow";
 
 export function useDag() {
 	const { runId } = useParams() as { runId: string };
-	const pipelineRun = usePipelineRun(
-		{ runId: runId },
+	const previousRunStatus = useRef<ExecutionStatus | null>(null);
+	const allQueryKeys = useMemo(() => ["runs", runId], [runId]);
+	const queryClient = useQueryClient();
+	const dagQuery = usePipelineRunDag(
+		{ runId },
 		{
-			refetchInterval: (e) => (e.state.data?.body?.status === "running" ? 3000 : false)
+			refetchInterval: (e) => (e.state.data?.status === "running" ? 3000 : false)
 		}
 	);
-	const pipelineDeployment = useQuery({
-		...pipelineDeploymentQueries.detail(pipelineRun.data?.body?.deployment_id || ""),
-		enabled: !!pipelineRun.data?.body?.deployment_id
-	});
 
+	useEffect(() => {
+		if (dagQuery.data) {
+			const currentStatus = dagQuery.data.status;
+			if (previousRunStatus.current !== null && previousRunStatus.current !== currentStatus) {
+				queryClient.invalidateQueries({
+					queryKey: [...allQueryKeys, runId]
+				});
+			}
+			previousRunStatus.current = currentStatus;
+		}
+	}, [dagQuery.data, queryClient, runId, allQueryKeys]);
+
+	// reactflow specific
 	const { fitView } = useReactFlow();
 	const { width, height } = useStore((state) => ({ width: state.width, height: state.height }));
 
 	const [nodes, setNodes, onNodesChange] = useNodesState([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-	const placeholderData = useMemo(() => {
-		return extractPlaceholderLayout(
-			(pipelineDeployment.data?.metadata?.step_configurations as Record<string, StepOutput>) ?? {}
+	// calculationLogic
+
+	const calcDagLayout = useCallback(() => {
+		if (!dagQuery.data) return;
+		const nodes = computeNodes(dagQuery.data.nodes, dagQuery.data.status);
+		const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedItems(
+			nodes,
+			dagQuery.data.edges
 		);
-	}, [pipelineDeployment.data?.metadata?.step_configurations]);
-
-	const realNodes = useMemo(() => {
-		return extractExistingNodes(
-			(pipelineRun.data?.metadata?.steps as StepDict) ?? {},
-			(pipelineRun.data?.metadata?.step_substitutions as Record<string, Record<string, string>>) ||
-				{}
-		);
-	}, [pipelineRun.data?.metadata?.steps]);
-
-	const onDagreLayout = useCallback(() => {
-		// replayed layouted with nodes from readNodes, in case the id is the same
-
-		const { nodes, edges } = mergeRealAndPlacehodlerData({
-			placeholderEdges: placeholderData.edges,
-			placeholderNodes: placeholderData.nodes,
-			realEdges: realNodes.edges,
-			realNodes: realNodes.nodes,
-			runStatus: pipelineRun.data?.body?.status ?? "running"
-		});
-
-		const layouted = getLayoutedNodes(nodes, edges);
-
-		setNodes([...layouted.nodes]);
-		setEdges([...layouted.edges]);
-	}, [setNodes, setEdges, placeholderData, realNodes, pipelineRun.data]);
+		setNodes(layoutedNodes);
+		setEdges(layoutedEdges);
+	}, [dagQuery.data, setNodes, setEdges]);
 
 	useEffect(() => {
 		fitView(); // Keep an eye on performance here
 	}, [width, height, fitView]);
 
 	useLayoutEffect(() => {
-		onDagreLayout();
-	}, [onDagreLayout]);
+		calcDagLayout();
+	}, [calcDagLayout]);
 
-	return { pipelineRun, pipelineDeployment, nodes, edges, onNodesChange, onEdgesChange };
+	return { dagQuery, nodes, edges, onNodesChange, onEdgesChange };
 }

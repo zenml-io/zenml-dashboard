@@ -10,7 +10,7 @@ export function ProjectSettingsLayout() {
 	const { data } = useCurrentUser();
 
 	return (
-		<div className="layout-container flex flex-col gap-7 pt-5 lg:flex-row">
+		<div className="layout-container flex flex-col gap-7 py-5 lg:flex-row">
 			<div className="flex shrink-0 flex-col gap-4 lg:w-[200px]">
 				<div className="flex flex-col gap-4">
 					<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Project</p>
