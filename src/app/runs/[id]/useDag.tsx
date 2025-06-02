@@ -15,7 +15,8 @@ export function useDag() {
 	const dagQuery = usePipelineRunDag(
 		{ runId },
 		{
-			refetchInterval: (e) => (e.state.data?.status === "running" ? 3000 : false)
+			refetchInterval: (e) =>
+				e.state.data?.status === "running" || e.state.data?.status === "initializing" ? 3000 : false
 		}
 	);
 
