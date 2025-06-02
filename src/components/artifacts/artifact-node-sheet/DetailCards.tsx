@@ -149,17 +149,21 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 			<KeyValue
 				label="Producer Run"
 				value={
-					<Link to={routes.projects.runs.detail(producerRunId)}>
-						<Tag
-							emphasis="subtle"
-							rounded={false}
-							className="inline-flex items-center gap-0.5"
-							color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
-						>
-							<Run className={`mr-1 h-4 w-4 fill-current`} />
-							{producerRunId.split("-")[0]}
-						</Tag>
-					</Link>
+					producerRunId ? (
+						<Link to={routes.projects.runs.detail(producerRunId)}>
+							<Tag
+								emphasis="subtle"
+								rounded={false}
+								className="inline-flex items-center gap-0.5"
+								color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
+							>
+								<Run className={`mr-1 h-4 w-4 fill-current`} />
+								{producerRunId.split("-")[0]}
+							</Tag>
+						</Link>
+					) : (
+						"Not available"
+					)
 				}
 			/>
 		</>
