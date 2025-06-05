@@ -5,13 +5,16 @@ import {
 	Edge
 } from "@/types/dag-visualizer";
 import { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
-import ELK, { ElkExtendedEdge } from "elkjs/lib/elk.bundled.js";
+import ELK, { ElkExtendedEdge } from "elkjs/lib/elk-api";
+import worker from "elkjs/lib/elk-worker?url";
 
 const nodeWidth = 300;
 const artifactHeight = 50;
 const stepHeight = 70;
 
-const elk = new ELK();
+const elk = new ELK({
+	workerUrl: worker
+});
 export async function getLayoutedItems(
 	nodes: (IntermediateStepNode | IntermediateArtifactNode | IntermediatePreviewNode)[],
 	edges: Edge[]
