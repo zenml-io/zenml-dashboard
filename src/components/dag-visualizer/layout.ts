@@ -6,7 +6,7 @@ import {
 } from "@/types/dag-visualizer";
 import { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
 import ELK, { ElkExtendedEdge } from "elkjs/lib/elk-api";
-import worker from "elkjs/lib/elk-worker?url";
+import worker from "elkjs/lib/elk-worker.min?url";
 
 const nodeWidth = 300;
 const artifactHeight = 50;
