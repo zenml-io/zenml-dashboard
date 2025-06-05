@@ -32,6 +32,7 @@ function splitChunks(id: string) {
 	if (id.includes("reactflow")) return "@reactflow";
 	if (id.includes("radix")) return "@radix";
 	if (id.includes("tanstack")) return "@tanstack";
+	if (id.includes("elkjs")) return "elkjs";
 	if (id.includes("react-router-dom") || id.includes("@remix-run") || id.includes("react-router")) {
 		return "@react-router";
 	}

@@ -43,12 +43,12 @@ export function useDag() {
 	const calcDagLayout = useCallback(() => {
 		if (!dagQuery.data) return;
 		const nodes = computeNodes(dagQuery.data.nodes, dagQuery.data.status);
-		const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedItems(
-			nodes,
-			dagQuery.data.edges
+		getLayoutedItems(nodes, dagQuery.data.edges).then(
+			({ nodes: layoutedNodes, edges: layoutedEdges }) => {
+				setNodes(layoutedNodes);
+				setEdges(layoutedEdges);
+			}
 		);
-		setNodes(layoutedNodes);
-		setEdges(layoutedEdges);
 	}, [dagQuery.data, setNodes, setEdges]);
 
 	useEffect(() => {
