@@ -21,6 +21,22 @@ export async function getLayoutedItems(
 ): Promise<{ nodes: ReactFlowNode[]; edges: ReactFlowEdge[] }> {
 	if (!nodes || !edges || nodes.length < 1) return { nodes: [], edges: [] };
 
+	const normalizedNodes = nodes
+		.map((node) => ({
+			id: node.id,
+			width: nodeWidth,
+			height: node.type === "step" || node.type === "previewStep" ? stepHeight : artifactHeight
+		}))
+		.sort((a, b) => a.id.localeCompare(b.id));
+
+	const normalizedEdges = edges
+		.map((edge) => ({
+			id: getEdgeId(edge),
+			sources: [edge.source],
+			targets: [edge.target]
+		}))
+		.sort((a, b) => a.id.localeCompare(b.id));
+
 	// Build ELK graph structure
 	const elkGraph = {
 		id: "root",
@@ -41,16 +57,8 @@ export async function getLayoutedItems(
 			"elk.edgeRouting": "ORTHOGONAL",
 			"elk.separateConnectedComponents": "false"
 		},
-		children: nodes.map((node) => ({
-			id: node.id,
-			width: nodeWidth,
-			height: node.type === "step" ? stepHeight : artifactHeight
-		})),
-		edges: edges.map((edge) => ({
-			id: `${edge.source}-${edge.target}`,
-			sources: [edge.source],
-			targets: [edge.target]
-		}))
+		children: normalizedNodes,
+		edges: normalizedEdges
 	};
 
 	// Compute layout
@@ -127,4 +135,8 @@ function getElkEdge(elkEdges: ElkExtendedEdge[]): ReactFlowEdge[] {
 
 		return flowEdge;
 	});
+}
+
+function getEdgeId(edge: Edge) {
+	return `${edge.source}-${edge.target}`;
 }
