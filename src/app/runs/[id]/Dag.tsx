@@ -1,10 +1,9 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
 import { DagControls } from "@/components/dag-visualizer/Controls";
+import { ElkEdge } from "@/components/dag-visualizer/elk-edge";
 import { PreviewArtifactNode } from "@/components/dag-visualizer/PreviewArtifact";
 import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
-import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { EmptyState } from "@/components/EmptyState";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
@@ -12,7 +11,7 @@ import ReactFlow, { NodeTypes } from "reactflow";
 import { useDag } from "./useDag";
 
 const customEdge = {
-	smart: SmoothStepSmart
+	elk: ElkEdge
 };
 
 const customNodes: NodeTypes = {
