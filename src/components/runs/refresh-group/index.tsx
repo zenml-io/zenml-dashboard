@@ -16,7 +16,7 @@ export function RunRefreshGroup({ runId }: Props) {
 				className="rounded-r-sharp"
 				intent="primary"
 				emphasis="subtle"
-				size="md"
+				size="sm"
 				onClick={() => refetch()}
 			>
 				<Refresh className="h-5 w-5 fill-theme-text-brand" />

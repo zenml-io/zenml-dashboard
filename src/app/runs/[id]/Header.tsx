@@ -2,6 +2,7 @@ import RunIcon from "@/assets/icons/terminal.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { PageHeader } from "@/components/PageHeader";
 import { RunRefreshGroup } from "@/components/runs/refresh-group";
+import { StopRunButton } from "@/components/runs/refresh-group/stop-button";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
@@ -36,6 +37,7 @@ export function RunsDetailHeader() {
 			</div>
 			<div className="flex items-center gap-1">
 				<RunRefreshGroup runId={runId} />
+				<StopRunButton />
 				<RunActionsMenu />
 			</div>
 		</PageHeader>
