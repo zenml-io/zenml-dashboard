@@ -21,9 +21,7 @@ export function DisabledTokenButton({ size }: Props) {
 							Create new token
 						</div>
 					</TooltipTrigger>
-					<TooltipContent>
-						Api Tokens are not available in the current deployment mode.
-					</TooltipContent>
+					<TooltipContent>API-Tokens are not available for local deployments</TooltipContent>
 				</Tooltip>
 			</TooltipProvider>
 		</div>
