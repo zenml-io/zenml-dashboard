@@ -25,7 +25,7 @@ export function RunActionsMenu() {
 							intent="secondary"
 							className="flex aspect-square items-center justify-center p-0"
 							emphasis="minimal"
-							size="md"
+							size="sm"
 						>
 							<HorizontalDots className="h-5 w-5 shrink-0 fill-theme-text-secondary" />
 							<p className="sr-only">Run Actions</p>

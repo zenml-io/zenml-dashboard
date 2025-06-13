@@ -13,6 +13,7 @@ import { BaseNode } from "./BaseNode";
 export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 	const isFailed = data.runStatus === "failed";
 	const isCompleted = data.runStatus === "completed";
+	const isStopped = data.runStatus === "stopped";
 	return (
 		<BaseNode>
 			<TooltipProvider>
@@ -24,7 +25,7 @@ export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 									<Minus className="h-4 w-4 shrink-0 fill-primary-400" />
 								) : (
 									<ExecutionStatusIcon
-										status={isCompleted ? "completed" : "running"}
+										status={isCompleted ? "completed" : isStopped ? "stopped" : "running"}
 										className="h-4 w-4 fill-primary-400"
 									/>
 								)}
@@ -35,6 +36,8 @@ export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 					<TooltipContent className="z-20 max-w-xs text-center">
 						{isFailed ? (
 							<>This artifact was not generated because of an upstream error</>
+						) : isStopped ? (
+							<>This artifact was not created because the run was stopped</>
 						) : (
 							<>
 								This artifact is not generated yet. It will not be created if the are upstream

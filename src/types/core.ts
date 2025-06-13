@@ -1311,11 +1311,20 @@ export type paths = {
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run to refresh.
-		 *
-		 * Raises:
-		 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 		 */
 		get: operations["refresh_run_status_api_v1_runs__run_id__refresh_get"];
+	};
+	"/api/v1/runs/{run_id}/stop": {
+		/**
+		 * Stop Run
+		 * @description Stops a specific pipeline run.
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run to stop.
+		 *     graceful: If True, allows for graceful shutdown where possible.
+		 *         If False, forces immediate termination. Default is True.
+		 */
+		post: operations["stop_run_api_v1_runs__run_id__stop_post"];
 	};
 	"/api/v1/runs/{run_id}/logs": {
 		/**
@@ -2357,6 +2366,7 @@ export type paths = {
 		 *     step_id: ID of the step for which to get the logs.
 		 *     offset: The offset from which to start reading.
 		 *     length: The amount of bytes that should be read.
+		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 		 *
 		 * Returns:
 		 *     The logs of the step.
@@ -4555,15 +4565,9 @@ export type components = {
 		 * @description Edge in the pipeline run DAG.
 		 */
 		Edge: {
-			/**
-			 * Source
-			 * Format: uuid
-			 */
+			/** Source */
 			source: string;
-			/**
-			 * Target
-			 * Format: uuid
-			 */
+			/** Target */
 			target: string;
 			/**
 			 * Metadata
@@ -4706,10 +4710,17 @@ export type components = {
 		};
 		/**
 		 * ExecutionStatus
-		 * @description Enum that represents the current status of a step or pipeline run.
+		 * @description Enum that represents the execution status of a step or pipeline run.
 		 * @enum {string}
 		 */
-		ExecutionStatus: "initializing" | "failed" | "completed" | "running" | "cached";
+		ExecutionStatus:
+			| "initializing"
+			| "failed"
+			| "completed"
+			| "running"
+			| "cached"
+			| "stopped"
+			| "stopping";
 		/**
 		 * ExternalArtifactConfiguration
 		 * @description External artifact configuration.
@@ -5553,11 +5564,8 @@ export type components = {
 		 * @description Node in the pipeline run DAG.
 		 */
 		Node: {
-			/**
-			 * Node Id
-			 * Format: uuid
-			 */
-			node_id?: string;
+			/** Node Id */
+			node_id: string;
 			/** Type */
 			type: string;
 			/** Id */
@@ -14745,12 +14753,60 @@ export type operations = {
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run to refresh.
-	 *
-	 * Raises:
-	 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 	 */
 	refresh_run_status_api_v1_runs__run_id__refresh_get: {
 		parameters: {
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Stop Run
+	 * @description Stops a specific pipeline run.
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run to stop.
+	 *     graceful: If True, allows for graceful shutdown where possible.
+	 *         If False, forces immediate termination. Default is True.
+	 */
+	stop_run_api_v1_runs__run_id__stop_post: {
+		parameters: {
+			query?: {
+				graceful?: boolean;
+			};
 			path: {
 				run_id: string;
 			};
@@ -18767,6 +18823,7 @@ export type operations = {
 	 *     step_id: ID of the step for which to get the logs.
 	 *     offset: The offset from which to start reading.
 	 *     length: The amount of bytes that should be read.
+	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 	 *
 	 * Returns:
 	 *     The logs of the step.
@@ -18779,6 +18836,7 @@ export type operations = {
 			query?: {
 				offset?: number;
 				length?: number;
+				strip_timestamp?: boolean;
 			};
 			path: {
 				step_id: string;

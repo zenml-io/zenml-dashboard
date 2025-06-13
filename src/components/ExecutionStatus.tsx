@@ -6,6 +6,7 @@ import Running from "@/assets/icons/running.svg?react";
 import Cached from "@/assets/icons/cached.svg?react";
 import Initializing from "@/assets/icons/dots-circle.svg?react";
 import QuestionMark from "@/assets/icons/help.svg?react";
+import Stopped from "@/assets/icons/stopped.svg?react";
 
 export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | null) {
 	if (!status) return null;
@@ -17,6 +18,8 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 		case "initializing":
 			return "fill-primary-400";
 		case "cached":
+		case "stopped":
+		case "stopping":
 			return "fill-neutral-400";
 		case "running":
 			return "fill-warning-500";
@@ -35,6 +38,8 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "un
 		case "initializing":
 			return "bg-primary-50";
 		case "cached":
+		case "stopped":
+		case "stopping":
 			return "bg-theme-surface-tertiary";
 		case "running":
 			return "bg-warning-50";
@@ -55,6 +60,8 @@ export function getExecutionStatusTagColor(
 		case "initializing":
 			return "purple";
 		case "cached":
+		case "stopped":
+		case "stopping":
 			return "grey";
 		case "unknown":
 			return "blue";
@@ -78,11 +85,14 @@ export function ExecutionStatusIcon({
 		case "failed":
 			return <AlertCircle className={classNames} />;
 		case "initializing":
+		case "stopping":
 			return <Initializing className={classNames} />;
 		case "cached":
 			return <Cached className={classNames} />;
 		case "unknown":
 			return <QuestionMark className={classNames} />;
+		case "stopped":
+			return <Stopped className={classNames} />;
 		case "running":
 			return (
 				<Running

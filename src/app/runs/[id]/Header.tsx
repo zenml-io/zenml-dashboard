@@ -7,6 +7,7 @@ import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { useRunDetailBreadcrumbs } from "./breadcrumbs";
 import { RunActionsMenu } from "./RunActionMenu";
+import { RunStopGroup } from "@/components/runs/stop-group";
 
 export function RunsDetailHeader() {
 	const { runId } = useParams() as { runId: string };
@@ -36,6 +37,7 @@ export function RunsDetailHeader() {
 			</div>
 			<div className="flex items-center gap-1">
 				<RunRefreshGroup runId={runId} />
+				<RunStopGroup runId={runId} />
 				<RunActionsMenu />
 			</div>
 		</PageHeader>
