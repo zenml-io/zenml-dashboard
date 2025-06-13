@@ -19,7 +19,7 @@ export function RunRefreshGroup({ runId }: Props) {
 				size="sm"
 				onClick={() => refetch()}
 			>
-				<Refresh className="h-5 w-5 fill-theme-text-brand" />
+				<Refresh className="size-4 shrink-0 fill-theme-text-brand" />
 				Refresh
 			</Button>
 			<RunRefreshDropdown runId={runId} />
