@@ -1,36 +1,22 @@
+import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
+import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
+import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useStepLogs } from "@/data/steps/step-logs-query";
+import { parseLogString } from "@/lib/logs";
+import { useMemo } from "react";
 import { ErrorFallback } from "../../Error";
-import { CollapsibleCard } from "@/components/CollapsibleCard";
-import { Codesnippet } from "@/components/CodeSnippet";
-import { KeyValue } from "@/components/KeyValue";
-import Logs from "@/assets/icons/logs.svg?react";
-import { Spinner } from "@zenml-io/react-component-library";
 
 type Props = {
 	stepId: string;
-	stepDetail: any;
 };
 
-const LoadingLogs = () => (
-	<section className="flex h-[calc(100vh_-_270px)] items-center justify-center">
-		<div className="flex flex-col items-center justify-center">
-			<div className="relative mb-2 flex items-center justify-center">
-				<Spinner className="h-[120px] w-[120px]" />
-				<LogsIcon />
-			</div>
-			<h2 className="my-3 text-center text-display-xs font-semibold">Loading the Logs</h2>
-			<p className="text-center text-text-lg text-theme-text-secondary">
-				It can take up to a few minutes. <br /> Please wait while we fetch logs from the artifact
-				store.
-			</p>
-		</div>
-	</section>
-);
-
-export function StepLogsTab({ stepId, stepDetail }: Props) {
-	const enableLogs = stepDetail?.metadata?.config?.enable_step_logs;
-
+export function StepLogsTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepLogs({ stepId });
+
+	const parsedLogs = useMemo(() => {
+		if (!data) return [];
+		return parseLogString(data);
+	}, [data]);
 
 	if (isError) {
 		return <ErrorFallback err={error} />;
@@ -40,23 +26,18 @@ export function StepLogsTab({ stepId, stepDetail }: Props) {
 		return <LoadingLogs />;
 	}
 
-	return (
-		<CollapsibleCard initialOpen title="Logs">
-			{typeof enableLogs === "boolean" && enableLogs === false ? (
-				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-					<KeyValue label="Enable logs" value="Disabled" />
-				</dl>
-			) : (
-				<Codesnippet codeClasses="whitespace-pre-line" fullWidth wrap code={data || ""} />
-			)}
-		</CollapsibleCard>
-	);
-}
+	if (parsedLogs.length === 0) {
+		return (
+			<EmptyStateLogs
+				title="This step has no logs"
+				subtitle="It looks like there are no logs associated with this step"
+			/>
+		);
+	}
 
-export function LogsIcon() {
 	return (
-		<div className="absolute rounded-rounded bg-primary-25 p-3">
-			<Logs className="h-7 w-7 fill-primary-400" />
+		<div className="space-y-5">
+			<EnhancedLogsViewer logs={parsedLogs} />
 		</div>
 	);
 }
