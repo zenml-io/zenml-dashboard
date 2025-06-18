@@ -40,7 +40,7 @@ export function LogLine({
 	highlightedMessage
 }: LogLineProps) {
 	const { timestamp, level, message, originalEntry } = entry;
-	const formattedTimestamp = formatTimestamp(timestamp);
+	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
 	const levelColorClass = getLogLevelColor(level);
 
 	const highlightSearchTerm = (text: string) => {

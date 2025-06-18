@@ -1,6 +1,6 @@
 import { LogEntry } from "@/types/logs";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { formatLogsAsString, getLogLevelStats, parseLogString } from "./logs";
+import { getLogLevelStats, parseLogString } from "./logs";
 
 describe("parseLogString", () => {
 	beforeEach(() => {
@@ -32,13 +32,13 @@ describe("parseLogString", () => {
 		expect(entries[0]).toMatchObject({
 			level: "INFO",
 			message: "Starting pipeline execution",
-			timestamp: "2025-04-25 12:18:16 UTC",
+			timestamp: "2025-04-25T12:18:16Z",
 			originalEntry: "[2025-04-25 12:18:16 UTC] Starting pipeline execution"
 		});
 		expect(entries[1]).toMatchObject({
 			level: "INFO",
 			message: "Pipeline completed successfully",
-			timestamp: "2025-04-25 12:18:17 UTC",
+			timestamp: "2025-04-25T12:18:17Z",
 			originalEntry: "[2025-04-25 12:18:17 UTC] Pipeline completed successfully"
 		});
 	});
@@ -181,9 +181,9 @@ CRIT: Critical message`;
 
 		expect(entries).toHaveLength(3);
 		// Should have unique timestamps based on fallback logic
-		expect(entries[0].timestamp).toBe(1698400800000); // Base timestamp
-		expect(entries[1].timestamp).toBe(1698400801000); // Base + 1 second
-		expect(entries[2].timestamp).toBe(1698400802000); // Base + 2 seconds
+		expect(entries[0].timestamp).toBe(null); // Base timestamp
+		expect(entries[1].timestamp).toBe(null); // Base + 1 second
+		expect(entries[2].timestamp).toBe(null); // Base + 2 seconds
 	});
 
 	it("should generate unique IDs for log entries", () => {
@@ -194,54 +194,6 @@ CRIT: Critical message`;
 		expect(entries[0].id).toBeDefined();
 		expect(entries[1].id).toBeDefined();
 		expect(entries[0].id).not.toBe(entries[1].id);
-	});
-});
-
-describe("formatLogsAsString", () => {
-	it("should format log entries back to string", () => {
-		const logs: LogEntry[] = [
-			{
-				id: "log-1",
-				timestamp: "2023-10-27T10:00:00.000Z",
-				level: "INFO",
-				message: "First log",
-				originalEntry: "INFO: First log"
-			},
-			{
-				id: "log-2",
-				timestamp: 1698408001000,
-				level: "ERROR",
-				message: "Second log",
-				originalEntry: "ERROR: Second log"
-			}
-		];
-
-		const formatted = formatLogsAsString(logs);
-		const lines = formatted.split("\n");
-
-		expect(lines).toHaveLength(2);
-		expect(lines[0]).toBe("[2023-10-27T10:00:00.000Z] INFO: First log");
-		expect(lines[1]).toBe("[2023-10-27T12:00:01.000Z] ERROR: Second log");
-	});
-
-	it("should handle empty log array", () => {
-		const formatted = formatLogsAsString([]);
-		expect(formatted).toBe("");
-	});
-
-	it("should convert number timestamps to ISO format", () => {
-		const logs: LogEntry[] = [
-			{
-				id: "log-1",
-				timestamp: 1698408000000,
-				level: "INFO",
-				message: "Test log",
-				originalEntry: "INFO: Test log"
-			}
-		];
-
-		const formatted = formatLogsAsString(logs);
-		expect(formatted).toBe("[2023-10-27T12:00:00.000Z] INFO: Test log");
 	});
 });
 

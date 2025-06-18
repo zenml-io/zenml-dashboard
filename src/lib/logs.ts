@@ -49,7 +49,7 @@ function parseLogLine(line: string, fallbackIndex: number): LogEntry | null {
 		/^\[(\w+)\]\s*(.*)$/
 	];
 
-	let timestamp: string | number = Date.now();
+	let timestamp: LogEntry["timestamp"] = null;
 	let level: LogLevel = "INFO";
 	let message = line;
 
@@ -81,11 +81,6 @@ function parseLogLine(line: string, fallbackIndex: number): LogEntry | null {
 			}
 			break;
 		}
-	}
-
-	// If no timestamp was extracted, use current time with offset
-	if (timestamp === Date.now()) {
-		timestamp = Date.now() + fallbackIndex * 1000; // Add seconds to make unique
 	}
 
 	// Don't create entries for empty messages
@@ -153,19 +148,6 @@ function normalizeLogLevel(levelStr: string): LogLevel {
 			}
 			return "INFO";
 	}
-}
-
-/**
- * Formats log entries back to a string format
- * Useful for copy/download functionality
- */
-export function formatLogsAsString(logs: LogEntry[]): string {
-	return logs
-		.map((log) => {
-			const timestamp = new Date(log.timestamp).toISOString();
-			return `[${timestamp}] ${log.level}: ${log.message}`;
-		})
-		.join("\n");
 }
 
 /**
