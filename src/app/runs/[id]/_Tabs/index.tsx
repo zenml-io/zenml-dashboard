@@ -19,6 +19,8 @@ import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
 import { StackTab } from "./Stack";
 import { LogTab } from "./LogTab/logs";
+import { ErrorBoundary } from "react-error-boundary";
+import { LogsTabBoundary } from "./LogTab/boundary";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -84,7 +86,9 @@ export function RunsDetailTabs() {
 					<StackTab />
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-					<LogTab />
+					<ErrorBoundary fallbackRender={LogsTabBoundary}>
+						<LogTab />
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 					<ConfigurationTab />

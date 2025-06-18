@@ -59,7 +59,7 @@ function parseLogLine(line: string, fallbackIndex: number): LogEntry | null {
 		if (match) {
 			// Special handling for ZenML format: [timestamp UTC] message
 			if (pattern.source.includes("UTC")) {
-				timestamp = match[1] + " UTC";
+				timestamp = match[1].replace(" ", "T") + "Z";
 				level = "INFO"; // Default level for ZenML logs
 				message = match[2] || "";
 				break;
