@@ -93,7 +93,13 @@ function BasicParams({ componentId }: Props) {
 					/>
 					<KeyValue
 						label="Service Connector"
-						value={connector ? <ConnectorTag connectorName={connector.name} /> : "Not available"}
+						value={
+							connector ? (
+								<ConnectorTag connectorName={connector.name} connectorId={connector.id} />
+							) : (
+								"Not available"
+							)
+						}
 					/>
 					<KeyValue
 						label="Updated"

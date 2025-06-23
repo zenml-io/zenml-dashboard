@@ -6,6 +6,7 @@ import { cn, useToast } from "@zenml-io/react-component-library";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { ComponentPropsWithoutRef, ElementRef, forwardRef, useState } from "react";
 import { ApiTokenModal } from "./APITokenModal";
+import { DisabledTokenButton } from "./DisabledTokenButton";
 
 export const CreateTokenButton = forwardRef<
 	ElementRef<typeof Button>,
@@ -45,10 +46,14 @@ export const CreateTokenButton = forwardRef<
 	if (serverInfo.isPending) return <Skeleton className="h-7 w-10" />;
 	if (serverInfo.isError) return null;
 
+	if (isNoAuthServer(serverInfo.data.auth_scheme || "other")) {
+		return <DisabledTokenButton size={rest.size} />;
+	}
+
 	return (
 		<>
 			<Button
-				disabled={isPending || isNoAuthServer(serverInfo.data.auth_scheme || "other")}
+				disabled={isPending}
 				ref={ref}
 				{...rest}
 				onClick={() => mutate({ params: { token_type: "generic" } })}
