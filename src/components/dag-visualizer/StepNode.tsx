@@ -1,27 +1,24 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import { getStepSnippet } from "@/lib/code-snippets";
+import { secondsToTimeString } from "@/lib/dates";
 import { StepNodePayload } from "@/types/dag-visualizer";
 import { clsx } from "clsx";
-import { NodeProps, ReactFlowState, useStore } from "reactflow";
+import { NodeProps, useStoreApi } from "reactflow";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../ExecutionStatus";
 import { StepSheet } from "../steps/step-sheet";
 import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
 import { getIsStatusUnknown } from "./layout/status";
-import { secondsToTimeString } from "@/lib/dates";
-
-const selector = (state: ReactFlowState) => ({
-	unselectAll: state.unselectNodesAndEdges
-});
 
 export function StepNode({ data, selected }: NodeProps<StepNodePayload>) {
-	const { unselectAll } = useStore(selector);
+	const store = useStoreApi();
+	const { addSelectedNodes } = store.getState();
 
 	const isFailed = data.status === "failed";
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
 			setTimeout(() => {
-				unselectAll();
+				addSelectedNodes([]);
 			}, 100);
 		}
 	}
