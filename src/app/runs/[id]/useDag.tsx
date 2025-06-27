@@ -112,8 +112,8 @@ function shouldFitView(nodes: Node[]) {
 		const maxX = Math.max(...xPositions);
 		const xSpread = maxX - minX;
 
-		return nodeLength <= 40 && xSpread <= 2000;
+		return xSpread <= 2000;
 	}
 
-	return nodeLength <= 40;
+	return true;
 }
