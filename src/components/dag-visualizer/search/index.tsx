@@ -2,14 +2,14 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import Search from "@/assets/icons/search.svg?react";
 import X from "@/assets/icons/close.svg?react";
 import { Box, Button } from "@zenml-io/react-component-library/components/server";
-import { useNodeSearch } from "./use-node-search";
+import { useNodeSearch, useNodeSearchShortcut } from "./use-node-search";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { DebouncedInput } from "@/components/debounced-input";
 
 export function NodeSearch() {
 	const [isWidgetOpen, setIsWidgetOpen] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
-
+	useNodeSearchShortcut(setIsWidgetOpen);
 	const { search, setSearch, currentIndex, filteredNodes, zoomNext, zoomPrevious } =
 		useNodeSearch();
 

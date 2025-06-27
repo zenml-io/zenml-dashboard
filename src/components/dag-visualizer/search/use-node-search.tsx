@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { Node, useReactFlow } from "reactflow";
 
 export function useNodeSearch() {
@@ -82,4 +82,22 @@ export function useNodeSearch() {
 		zoomNext,
 		zoomPrevious
 	};
+}
+
+export function useNodeSearchShortcut(setIsOpen: Dispatch<SetStateAction<boolean>>) {
+	useEffect(() => {
+		const handleKeydown = (e: KeyboardEvent) => {
+			const isMac = navigator.userAgent.toUpperCase().indexOf("MAC") !== -1;
+			const key = isMac ? "meta" : "ctrl";
+			if (key && e.key.toLowerCase() === "k") {
+				e.preventDefault();
+				setIsOpen((prev) => !prev);
+			}
+		};
+
+		document.addEventListener("keydown", handleKeydown);
+		return () => {
+			document.removeEventListener("keydown", handleKeydown);
+		};
+	});
 }
