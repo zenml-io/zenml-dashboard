@@ -15,7 +15,11 @@ export function NodeSearch() {
 
 	useEffect(() => {
 		if (isWidgetOpen && inputRef.current) {
-			inputRef.current.focus();
+			const timeoutId = setTimeout(() => {
+				inputRef.current?.focus();
+			}, 200);
+
+			return () => clearTimeout(timeoutId);
 		}
 	}, [isWidgetOpen]);
 
@@ -41,6 +45,7 @@ export function NodeSearch() {
 				<>
 					<form onSubmit={handleFormSubmit} className="relative">
 						<DebouncedInput
+							ref={inputRef}
 							className="h-5 w-[150px] rounded-sm p-1 pr-5 text-text-xs"
 							placeholder="Search"
 							value={search}
