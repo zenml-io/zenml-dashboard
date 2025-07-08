@@ -32,7 +32,7 @@ export function LogTab() {
 			/>
 		);
 
-	return <LogTabContent sources={sources ?? []} runId={runId} />;
+	return <LogTabContent sources={sources} runId={runId} />;
 }
 
 function LogTabContent({ sources, runId }: { sources: string[]; runId: string }) {

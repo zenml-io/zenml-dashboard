@@ -26,7 +26,7 @@ export function objectToSearchParams(object: Record<string, unknown>): URLSearch
 			value.forEach((item) => {
 				if (item !== null && item !== undefined) {
 					// Stringify objects within arrays
-					if (typeof item === "object" && item !== null) {
+					if (typeof item === "object") {
 						searchParams.append(key, JSON.stringify(item));
 					} else {
 						searchParams.append(key, String(item));
