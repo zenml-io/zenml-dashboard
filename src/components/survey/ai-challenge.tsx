@@ -4,6 +4,14 @@ import Message from "@/assets/icons/message-chat-square.svg?react";
 import Overlap from "@/assets/icons/overlap.svg?react";
 import Robot from "@/assets/icons/robot.svg?react";
 import Transformer from "@/assets/icons/transform.svg?react";
+import File from "@/assets/icons/file-text.svg?react";
+import Dataflow2 from "@/assets/icons/dataflow-2.svg?react";
+import Dataflow from "@/assets/icons/dataflow-03.svg?react";
+import BarchartCheck from "@/assets/icons/bar-chart-square-check.svg?react";
+import Layout from "@/assets/icons/layout.svg?react";
+import Model from "@/assets/icons/model_artifacts.svg?react";
+import CreditCard from "@/assets/icons/credit-card.svg?react";
+import SlashCircle from "@/assets/icons/slash-circle.svg?react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import { clsx } from "clsx";
@@ -58,33 +66,41 @@ const types = [
 const challenges = [
 	{
 		name: "Prompt versioning and management",
+		icon: <File className={classNames} />,
 		key: "prompt_versioning_and_management"
 	},
 	{
 		name: "Ochestrating LLM workflows / agents",
+		icon: <Dataflow2 className={classNames} />,
 		key: "orchestrating_llm_workflows_agents"
 	},
 	{
+		icon: <BarchartCheck className={classNames} />,
 		name: "Evaluating LLM outputs systematically",
 		key: "evaluating_llm_outputs_systematically"
 	},
 	{
+		icon: <Layout className={classNames} />,
 		name: "Agent reliability and debugging",
 		key: "agent_reliability_and_debugging"
 	},
 	{
+		icon: <Model className={classNames} />,
 		name: "Deploying agents",
 		key: "deploying_agents"
 	},
 	{
+		icon: <CreditCard className={classNames} />,
 		name: "Cost monitoring across providers",
 		key: "cost_monitoring_across_providers"
 	},
 	{
+		icon: <Dataflow className={classNames} />,
 		name: "Combining traditional ML with LLMs",
 		key: "combining_traditional_ml_with_llms"
 	},
 	{
+		icon: <SlashCircle className={classNames} />,
 		name: "None of these are priorities yet",
 		key: "none_of_these_are_priorities_yet"
 	}
@@ -174,7 +190,7 @@ export function AiChallengesForm({ submitHandler }: AiChallengesFormProps) {
 								name="biggestChallenge"
 								render={({ field: { onChange, value } }) => (
 									<>
-										{challenges.map(({ name, key }, i) => (
+										{challenges.map(({ name, key, icon }, i) => (
 											<label
 												key={i}
 												className={clsx(
@@ -199,7 +215,7 @@ export function AiChallengesForm({ submitHandler }: AiChallengesFormProps) {
 													className="h-3 w-3"
 												/>
 												<div className="flex w-full items-center gap-2 py-3 pr-3 hover:cursor-pointer">
-													{/* {icon} */}
+													{icon}
 													<div className="font-semibold text-theme-text-primary">{name}</div>
 												</div>
 											</label>
