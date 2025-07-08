@@ -14,8 +14,7 @@ export function LocalBanner() {
 				<ZenMLIcon className="h-5 w-5 shrink-0" />
 				<p className="font-semibold">You are running a local version of ZenML.</p>
 				<p className="truncate">
-					Please consider deploying it yourself or signing up for ZenML Pro for easy deployment,
-					enhanced features, and support.
+					Discover simplified deployment, enhanced features, and advanced support with ZenML Pro.
 				</p>
 			</div>
 			<Button
@@ -24,8 +23,8 @@ export function LocalBanner() {
 				className="whitespace-nowrap bg-theme-surface-primary"
 				size="md"
 			>
-				<a href="https://cloud.zenml.io/signup" rel="noopener noreferrer" target="_blank">
-					Try ZenML Pro
+				<a href="https://zenml.io/book-your-demo" rel="noopener noreferrer" target="_blank">
+					Book a demo
 				</a>
 			</Button>
 		</aside>
