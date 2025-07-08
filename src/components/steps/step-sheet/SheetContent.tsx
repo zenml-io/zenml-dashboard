@@ -5,7 +5,6 @@ import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
-import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { StepCodeTab } from "./CodeTab";
@@ -22,9 +21,6 @@ type Props = {
 
 export function StepSheetContent({ stepId }: Props) {
 	const { runId } = useParams() as { runId: string };
-	const { data } = useStepDetail({
-		stepId: stepId
-	});
 
 	return (
 		<div>
@@ -72,7 +68,7 @@ export function StepSheetContent({ stepId }: Props) {
 						<StepCodeTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-						<StepLogsTab stepId={stepId} stepDetail={data} />
+						<StepLogsTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
 						<StepConfigTab stepId={stepId} />

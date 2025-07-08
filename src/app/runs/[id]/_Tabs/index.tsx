@@ -1,6 +1,7 @@
 import MetadataIcon from "@/assets/icons/code-square.svg?react";
 import Collapse from "@/assets/icons/collapse.svg?react";
 import Info from "@/assets/icons/info.svg?react";
+import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import {
@@ -17,6 +18,9 @@ import { MetadataTab } from "./Metadata";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
 import { StackTab } from "./Stack";
+import { LogTab } from "./LogTab/logs";
+import { ErrorBoundary } from "react-error-boundary";
+import { LogsTabBoundary } from "./LogTab/boundary";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -58,6 +62,10 @@ export function RunsDetailTabs() {
 						<Stack className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 						<span>Stack</span>
 					</TabsTrigger>
+					<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
+						<Logs className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<span>Logs</span>
+					</TabsTrigger>
 					<TabsTrigger
 						className="flex items-center gap-2 truncate text-text-md"
 						value="configuration"
@@ -76,6 +84,11 @@ export function RunsDetailTabs() {
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="stack">
 					<StackTab />
+				</TabsContent>
+				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
+					<ErrorBoundary fallbackRender={LogsTabBoundary}>
+						<LogTab />
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 					<ConfigurationTab />
