@@ -14,7 +14,15 @@ export function LocalBanner() {
 				<ZenMLIcon className="h-5 w-5 shrink-0" />
 				<p className="font-semibold">You are running a local version of ZenML.</p>
 				<p className="truncate">
-					Discover simplified deployment, enhanced features, and advanced support with ZenML Pro.
+					<a
+						target="_blank"
+						href="https://docs.zenml.io/deploying-zenml/deploying-zenml"
+						rel="noopener noreferrer"
+						className="link"
+					>
+						Deploy remotely
+					</a>{" "}
+					for full features or explore ZenML Pro's enhanced deployment and support.
 				</p>
 			</div>
 			<Button
