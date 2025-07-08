@@ -1,7 +1,7 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { InfrastructureForm } from "@/components/survey/Infrastructure";
+import { AiChallengesForm } from "@/components/survey/ai-challenge";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
-import { InfrastructureFormType } from "@/components/survey/form-schemas";
+import { AiChallengesFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { UserMetadata } from "@/types/user";
@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useSurveyUserContext } from "./SurveyUserContext";
 
-export function InfrastructureStep() {
+export function AiChallengesStep() {
 	const { user } = useSurveyUserContext();
 	const { setSurveyStep } = useSurveyContext();
 	const { toast } = useToast();
@@ -32,14 +32,14 @@ export function InfrastructureStep() {
 		}
 	});
 
-	function handleInfrastructureSubmit({ other, providers, otherVal }: InfrastructureFormType) {
-		const providerArr = other ? [...providers, otherVal] : providers;
+	function handleAiChallengesSubmit({ biggestChallenge, aiTypes }: AiChallengesFormType) {
 		const updateMetadata: UserMetadata = {
-			infra_providers: providerArr as string[],
+			ai_types_working_with: aiTypes,
+			biggest_ai_challenges: biggestChallenge,
 			finished_onboarding_survey: true
 		};
 		mutate({ ...user, user_metadata: { ...user.user_metadata, ...updateMetadata } });
 	}
 
-	return <InfrastructureForm submitHandler={handleInfrastructureSubmit} />;
+	return <AiChallengesForm submitHandler={handleAiChallengesSubmit} />;
 }

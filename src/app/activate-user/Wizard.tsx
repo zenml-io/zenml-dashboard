@@ -7,10 +7,9 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { AccountDetailsStep } from "./AccountDetailsStep";
 import { ActivationProvider } from "./ActivationContext";
-import { InfraStep } from "./InfrastructureStep";
+import { AiChallengesStep } from "./ai-challenge-step";
 import { SetPasswordStep } from "./PasswordStep";
-import { PrimaryUseStep } from "./PrimaryUseStep";
-import { UsageReasonStep } from "./UsageReasonStep";
+import { PrimaryRoleStep } from "./primary-role-step";
 
 export function ActivateWizard() {
 	const { surveyStep } = useSurveyContext();
@@ -31,14 +30,13 @@ export function ActivateWizard() {
 	return (
 		<>
 			<ActivationProvider initialUser={{ activation_token: token }}>
-				<StepDisplay stepAmount={6} />
+				<StepDisplay stepAmount={5} />
 				{surveyStep === 1 && <AccountDetailsStep />}
 				{surveyStep === 2 && <SetPasswordStep />}
-				{surveyStep === 3 && <PrimaryUseStep />}
-				{surveyStep === 4 && <UsageReasonStep />}
-				{surveyStep === 5 && <InfraStep setUsername={setUsername} userId={id} />}
-				{surveyStep === 6 && <SlackStep />}
-				{surveyStep === 7 && (
+				{surveyStep === 3 && <PrimaryRoleStep />}
+				{surveyStep === 4 && <AiChallengesStep setUsername={setUsername} userId={id} />}
+				{surveyStep === 5 && <SlackStep />}
+				{surveyStep === 6 && (
 					<SuccessStep subHeader="Your created your ZenML account" username={username} />
 				)}
 			</ActivationProvider>
