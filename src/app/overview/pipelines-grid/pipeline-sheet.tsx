@@ -1,4 +1,3 @@
-"use client";
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import CodeSquare from "@/assets/icons/code-square.svg?react";
 import CopyIcon from "@/assets/icons/copy.svg?react";
