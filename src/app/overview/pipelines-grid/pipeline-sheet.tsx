@@ -20,6 +20,7 @@ import {
 	Skeleton
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren } from "react";
+import Markdown from "react-markdown";
 
 type Props = {
 	pipelineContent: string | undefined;
@@ -159,8 +160,8 @@ function PipelineSummary({ pipelineName }: { pipelineName: string }) {
 
 	if (summary.isError) return null;
 	return (
-		<div className="rounded-md border border-primary-50 bg-primary-25 px-5 py-3 text-text-sm">
+		<Markdown className="prose max-w-none rounded-md border border-primary-50 bg-primary-25 px-5 py-3 text-text-sm prose-pre:bg-primary-50">
 			{summary.data}
-		</div>
+		</Markdown>
 	);
 }
