@@ -52,11 +52,7 @@ export function GithubPipelineSheet({
 									</code>{" "}
 									file that defines your workflow using our Python SDK:
 								</p>
-								<Codesnippet
-									className="w-full max-w-full"
-									code={pipelineContent || ""}
-									highlightCode
-								/>
+								<Codesnippet className="w-full max-w-full" code={pipelineContent} highlightCode />
 							</div>
 							<div>
 								<p className="mb-1 text-text-sm text-theme-text-secondary">Run the pipeline.</p>
