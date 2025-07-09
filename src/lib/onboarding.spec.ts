@@ -6,22 +6,13 @@ describe("returns the correct items based on the deployment type", () => {
 	test("doesnt return connect step for local deployment", () => {
 		const isLocal = true;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual([
-			"pipeline_run",
-			"stack_with_remote_artifact_store_created",
-			"pipeline_run_with_remote_artifact_store"
-		]);
+		expect(items).toEqual(["pipeline_run"]);
 	});
 
 	test("includes the connect step for non-local deployments", () => {
 		const isLocal = false;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual([
-			"device_verified",
-			"pipeline_run",
-			"stack_with_remote_artifact_store_created",
-			"pipeline_run_with_remote_artifact_store"
-		]);
+		expect(items).toEqual(["device_verified", "pipeline_run"]);
 	});
 });
 
@@ -73,7 +64,7 @@ describe("checks if the item has downstream items", () => {
 	});
 
 	test("only final step is there", () => {
-		const itemName: OnboardingChecklistItemName = "stack_with_remote_artifact_store_created";
+		const itemName: OnboardingChecklistItemName = "pipeline_run";
 		const onboarding_state: OnboardingChecklistItemName[] = ["production_setup_completed"];
 		const hasDownStreamFinished = checkDownstreamStep(itemName, onboarding_state, false);
 		expect(hasDownStreamFinished).toBe(true);
@@ -84,11 +75,11 @@ describe("checks if the correct length is returned", () => {
 	test("returns correct value for local starter setup", () => {
 		const isLocal = true;
 		const items = getOnboardingLength(isLocal);
-		expect(items).toBe(3);
+		expect(items).toBe(1);
 	});
 	test("returns correct value for non-local starter setup", () => {
 		const isLocal = false;
 		const items = getOnboardingLength(isLocal);
-		expect(items).toBe(4);
+		expect(items).toBe(2);
 	});
 });

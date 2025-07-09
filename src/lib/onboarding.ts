@@ -1,12 +1,7 @@
 import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
 
 export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
-	return [
-		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
-		"pipeline_run",
-		"stack_with_remote_artifact_store_created",
-		"pipeline_run_with_remote_artifact_store"
-	];
+	return [...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]), "pipeline_run"];
 }
 
 const finalStep: OnboardingChecklistItemName = "production_setup_completed";

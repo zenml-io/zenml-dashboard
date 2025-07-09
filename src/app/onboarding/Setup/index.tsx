@@ -3,12 +3,9 @@ import { useOnboarding } from "@/data/server/onboarding-state";
 import { getOnboardingSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { ConnectRemoteStorage, ConnectZenMLStep, RunFirstPipeline, RunNewPipeline } from "./Items";
-import { useState } from "react";
-import { StackDeploymentProvider } from "@/types/stack";
+import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 
 export function OnboardingSetupList() {
-	const [provider, setProvider] = useState<StackDeploymentProvider | null>(null);
 	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 
@@ -20,8 +17,6 @@ export function OnboardingSetupList() {
 	const { getItem } = getOnboardingSetup(onboarding.data, isLocalServer);
 	const connectStep = getItem("device_verified");
 	const pipelineStep = getItem("pipeline_run");
-	const stackStep = getItem("stack_with_remote_artifact_store_created");
-	const remotePipelineStep = getItem("pipeline_run_with_remote_artifact_store");
 
 	return (
 		<ul className="space-y-5">
@@ -39,23 +34,6 @@ export function OnboardingSetupList() {
 					active={pipelineStep.isActive}
 					completed={pipelineStep.isCompleted}
 					hasDownstreamStep={pipelineStep.hasDownStreamStep}
-				/>
-			</li>
-			<li>
-				<ConnectRemoteStorage
-					provider={provider}
-					setProvider={setProvider}
-					active={stackStep.isActive}
-					completed={stackStep.isCompleted}
-					hasDownstreamStep={stackStep.hasDownStreamStep}
-				/>
-			</li>
-			<li>
-				<RunNewPipeline
-					provider={provider}
-					active={remotePipelineStep.isActive}
-					completed={remotePipelineStep.isCompleted}
-					hasDownstreamStep={remotePipelineStep.hasDownStreamStep}
 				/>
 			</li>
 		</ul>
