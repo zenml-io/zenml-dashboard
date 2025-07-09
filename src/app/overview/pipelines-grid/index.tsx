@@ -31,7 +31,9 @@ export function PipelinesGridCollapsible() {
 
 	if (githubPipelines.isError) return null;
 
-	const pipelines = parsePipelines(githubPipelines.data).sort((a, b) => a.localeCompare(b));
+	const pipelines = parsePipelines(githubPipelines.data)
+		.filter((pipeline) => pipeline !== "welcome" && pipeline !== "completion")
+		.sort((a, b) => a.localeCompare(b));
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -80,7 +82,7 @@ function PipelinesGrid({ pipelines }: Props) {
 
 	if (piplinesQuery.isPending) {
 		return (
-			<ul className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-6">
+			<ul className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-5">
 				{Array.from({ length: pipelines.length }).map((_, index) => (
 					<li key={index}>
 						<Skeleton className="h-[130px] w-full" />
@@ -95,7 +97,7 @@ function PipelinesGrid({ pipelines }: Props) {
 	const apiPipelines = piplinesQuery.data.items;
 
 	return (
-		<ul className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-6">
+		<ul className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-5">
 			{pipelines.map((pipeline) => (
 				<li key={pipeline}>
 					<PipelineItem

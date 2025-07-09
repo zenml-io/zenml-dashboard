@@ -7,6 +7,7 @@ import {
 } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { GithubPipelineSheet } from "./pipeline-sheet";
+import { snakeCaseToTitleCase } from "@/lib/strings";
 
 type Props = {
 	pipelineName: string;
@@ -37,7 +38,7 @@ export function PipelineItem({ pipelineName, isDone }: Props) {
 		>
 			<Box className="space-y-5 p-5 text-start">
 				{isDone ? <Tick /> : <ProgressOutstanding />}
-				<p className="text-text-lg font-semibold">{pipelineName}</p>
+				<p className="text-text-lg font-semibold">{snakeCaseToTitleCase(pipelineName)}</p>
 			</Box>
 		</GithubPipelineSheet>
 	);

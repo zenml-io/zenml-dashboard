@@ -7,6 +7,7 @@ import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { FallbackIcon } from "@/components/fallback/icon";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { Tick } from "@/components/Tick";
+import { useGithubPipelineSummary } from "@/data/github/pipeline-summary";
 import { useCopy } from "@/lib/copy";
 import {
 	Box,
@@ -15,7 +16,8 @@ import {
 	ProgressOutstanding,
 	Sheet,
 	SheetContent,
-	SheetTrigger
+	SheetTrigger,
+	Skeleton
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren } from "react";
 
@@ -43,6 +45,7 @@ export function GithubPipelineSheet({
 				<div className="p-5">
 					{pipelineContent ? (
 						<Box className="space-y-5 p-5">
+							<PipelineSummary pipelineName={name} />
 							<div className="space-y-1">
 								<p className="text-text-sm text-theme-text-secondary">
 									Create a{" "}
@@ -144,5 +147,20 @@ function SecondaryHeader({ isDone, name, pipelineContent }: SecondaryHeaderProps
 				</div>
 			)}
 		</section>
+	);
+}
+
+function PipelineSummary({ pipelineName }: { pipelineName: string }) {
+	const summary = useGithubPipelineSummary(pipelineName);
+
+	if (summary.isPending) {
+		return <Skeleton className="h-[60px] w-full" />;
+	}
+
+	if (summary.isError) return null;
+	return (
+		<div className="rounded-md border border-primary-50 bg-primary-25 px-5 py-3 text-text-sm">
+			{summary.data}
+		</div>
 	);
 }
