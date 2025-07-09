@@ -15,7 +15,13 @@ type Props = {
 
 export function PipelineItem({ pipelineName, isDone }: Props) {
 	const [open, setOpen] = useState(false);
-	const content = useGithubPipelineContent(pipelineName);
+	const content = useGithubPipelineContent(pipelineName, {
+		refetchOnWindowFocus: false,
+		refetchOnMount: false,
+		refetchOnReconnect: false,
+		refetchInterval: false,
+		refetchIntervalInBackground: false
+	});
 
 	if (content.isPending) {
 		return <Skeleton className="h-[130px] w-full" />;

@@ -1,10 +1,14 @@
 "use client";
+import CheckCircle from "@/assets/icons/check-circle.svg?react";
+import CodeSquare from "@/assets/icons/code-square.svg?react";
+import CopyIcon from "@/assets/icons/copy.svg?react";
+import Download from "@/assets/icons/download-01.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { HelpBox } from "@/components/fallback-pages/Helpbox";
+import { FallbackIcon } from "@/components/fallback/icon";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { Tick } from "@/components/Tick";
-import CopyIcon from "@/assets/icons/copy.svg?react";
-import CheckCircle from "@/assets/icons/check-circle.svg?react";
-import Download from "@/assets/icons/download-01.svg?react";
+import { useCopy } from "@/lib/copy";
 import {
 	Box,
 	Button,
@@ -15,8 +19,6 @@ import {
 	SheetTrigger
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren } from "react";
-import { useCopy } from "@/lib/copy";
-import { HelpBox } from "@/components/fallback-pages/Helpbox";
 
 type Props = {
 	pipelineContent: string | undefined;
@@ -40,30 +42,58 @@ export function GithubPipelineSheet({
 				<SheetHeader />
 				<SecondaryHeader pipelineContent={pipelineContent} isDone={false} name={name} />
 				<div className="p-5">
-					<Box className="space-y-5 p-5">
-						<div className="space-y-1">
-							<p className="text-text-sm text-theme-text-secondary">
-								Create a{" "}
-								<code className="rounded-sm bg-primary-25 px-[4px] py-[2px] text-theme-text-brand">
-									{name}.py
-								</code>{" "}
-								file that defines your workflow using our Python SDK:
-							</p>
-							<Codesnippet
-								className="w-full max-w-full"
-								code={pipelineContent || ""}
-								highlightCode
-							/>
-						</div>
-						<div>
-							<p className="mb-1 text-text-sm text-theme-text-secondary">Run the pipeline.</p>
-							<Codesnippet code={`python ${name}.py`} />
-						</div>
-						<HelpBox link="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline" />
-					</Box>
+					{pipelineContent ? (
+						<Box className="space-y-5 p-5">
+							<div className="space-y-1">
+								<p className="text-text-sm text-theme-text-secondary">
+									Create a{" "}
+									<code className="rounded-sm bg-primary-25 px-[4px] py-[2px] text-theme-text-brand">
+										{name}.py
+									</code>{" "}
+									file that defines your workflow using our Python SDK:
+								</p>
+								<Codesnippet
+									className="w-full max-w-full"
+									code={pipelineContent || ""}
+									highlightCode
+								/>
+							</div>
+							<div>
+								<p className="mb-1 text-text-sm text-theme-text-secondary">Run the pipeline.</p>
+								<Codesnippet code={`python ${name}.py`} />
+							</div>
+							<HelpBox link="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline" />
+						</Box>
+					) : (
+						<NoPipelineContentFallback />
+					)}
 				</div>
 			</SheetContent>
 		</Sheet>
+	);
+}
+
+function NoPipelineContentFallback() {
+	return (
+		<div className="flex flex-col items-center justify-center space-y-5 text-center">
+			<FallbackIcon icon={<CodeSquare className="h-[36px] w-[36px] fill-primary-400" />} />
+
+			<div className="space-y-2">
+				<p className="text-display-xs font-semibold">We couldn't fetch the pipeline data</p>
+				<p className="text-theme-text-secondary">
+					Please try again later or check the code in our GitHub Repo.
+				</p>
+			</div>
+			<Button size="md" asChild className="mx-auto w-fit">
+				<a
+					href="https://github.com/zenml-io/vscode-tutorial-extension/tree/develop/pipelines"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Open in Github
+				</a>
+			</Button>
+		</div>
 	);
 }
 

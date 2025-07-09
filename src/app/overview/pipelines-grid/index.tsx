@@ -6,6 +6,7 @@ import {
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
+import Download from "@/assets/icons/download-01.svg?react";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { parsePipelines } from "./parse-pipelines";
@@ -46,7 +47,10 @@ export function PipelinesGridCollapsible() {
 						</div>
 						<PipelineProgress githubPipelines={pipelines} />
 					</CollapsibleTrigger>
-					<Button size="md">Install the VsCode Extension</Button>
+					<Button className="flex items-center gap-2" size="md">
+						<Download className="h-4 w-4 shrink-0 fill-white" />
+						Install the VsCode Extension
+					</Button>
 					<CollapsibleTrigger>
 						<ChevronDown
 							className={` ${
