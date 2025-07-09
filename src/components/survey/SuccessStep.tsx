@@ -37,7 +37,7 @@ export function SuccessStep({ username, subHeader, displayBody = true }: Props) 
 					</p>
 				)}
 				<Button className="inline-flex" size="md" intent="primary" asChild>
-					<Link to={isUrl.success ? isUrl.data : routes.home}>
+					<Link to={isUrl.success ? isUrl.data : routes.projects.overview}>
 						<span>Go to Dashboard</span>
 						<ArrowRight className="h-5 w-5 fill-white" />
 					</Link>

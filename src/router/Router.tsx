@@ -16,6 +16,7 @@ import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
 import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
 import ConnectorDetailLayout from "@/layouts/connectors-detail/layout";
 
+const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
@@ -87,11 +88,6 @@ export const router = createBrowserRouter([
 				loader: authenticatedLayoutLoader(queryClient),
 				element: withProtectedRoute(<AuthenticatedLayout />),
 				children: [
-					{
-						path: routes.home,
-						errorElement: <PageBoundary />,
-						element: <Navigate to={routes.projects.overview} />
-					},
 					// Create Connector
 					{
 						errorElement: <PageBoundary />,
@@ -102,6 +98,11 @@ export const router = createBrowserRouter([
 					{
 						element: <NonProjectScopedLayout />,
 						children: [
+							{
+								path: routes.home,
+								errorElement: <PageBoundary />,
+								element: withProtectedRoute(<Overview />)
+							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.overview,
