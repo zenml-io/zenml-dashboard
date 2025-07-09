@@ -65,7 +65,7 @@ describe("checks if the item has downstream items", () => {
 
 	test("only final step is there", () => {
 		const itemName: OnboardingChecklistItemName = "pipeline_run";
-		const onboarding_state: OnboardingChecklistItemName[] = ["production_setup_completed"];
+		const onboarding_state: OnboardingChecklistItemName[] = ["oss_onboarding_completed"];
 		const hasDownStreamFinished = checkDownstreamStep(itemName, onboarding_state, false);
 		expect(hasDownStreamFinished).toBe(true);
 	});
