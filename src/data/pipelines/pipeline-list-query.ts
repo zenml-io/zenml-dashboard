@@ -1,7 +1,7 @@
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
 import { objectToSearchParams } from "@/lib/url";
-import { PipelineListParams } from "@/types/pipelines";
+import { PipelineList, PipelineListParams } from "@/types/pipelines";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
 
@@ -9,7 +9,7 @@ export type PipelineOverview = {
 	params: PipelineListParams;
 };
 
-export async function fetchAllPipelines({ params }: PipelineOverview) {
+export async function fetchAllPipelines({ params }: PipelineOverview): Promise<PipelineList> {
 	const url = createApiPath(apiPaths.pipelines.all + "?" + objectToSearchParams(params));
 	const res = await fetcher(url, {
 		method: "GET",
@@ -21,10 +21,19 @@ export async function fetchAllPipelines({ params }: PipelineOverview) {
 	if (res.status === 404) notFound();
 
 	if (!res.ok) {
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => "Error while fetching pipelines");
 		throw new FetchError({
-			message: "Error while fetching pipelines",
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();

@@ -4,6 +4,7 @@ import { SupportResources } from "./support-resources";
 import { Templates } from "./templates";
 import { NextSteps } from "./next-steps";
 import { Welcome } from "./welcome";
+import { PipelinesGridCollapsible } from "./pipelines-grid";
 
 export default function OverviewPage() {
 	const [queryParams] = useSearchParams();
@@ -14,6 +15,7 @@ export default function OverviewPage() {
 		<div className="layout-container space-y-8 py-5">
 			{displayBanner && <SuccessBanner />}
 			<Welcome />
+			<PipelinesGridCollapsible />
 			<NextSteps />
 			<Templates />
 			<SupportResources />
