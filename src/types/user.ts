@@ -13,10 +13,9 @@ export type ListUserParams = NonNullable<
 export type UpdateUser = components["schemas"]["UserUpdate"];
 
 export type UserMetadata = {
-	infra_providers?: string[];
-	primary_use?: string;
+	primary_role?: string;
 	overview_tour_done?: boolean;
-	usage_reason?: string;
-	comparing_tools?: string[];
+	ai_types_working_with?: string[];
+	biggest_ai_challenges?: string[];
 	finished_onboarding_survey?: boolean;
 };

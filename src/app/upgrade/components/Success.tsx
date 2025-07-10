@@ -51,7 +51,7 @@ export function SubmitSuccess() {
 					</p>
 				</div>
 				<Button size="md" className="mx-auto">
-					<Link to={routes.home}>Go to Dashboard</Link>
+					<Link to={routes.projects.overview}>Go to Dashboard</Link>
 				</Button>
 			</div>
 		</section>

@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@zenml-io/react-component-library/components/server";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { useWizardContext } from "@/context/WizardContext";

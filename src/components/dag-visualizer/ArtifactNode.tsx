@@ -1,22 +1,21 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import { getArtifactVersionSnippet } from "@/lib/code-snippets";
 import { ArtifactNodePayload } from "@/types/dag-visualizer";
-import { NodeProps, useStore } from "reactflow";
+import { NodeProps, useStoreApi } from "reactflow";
 import { ArtifactIcon } from "../ArtifactIcon";
 import { ArtifactSheet } from "../artifacts/artifact-node-sheet";
 import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
 
 export function ArtifactNode({ data, selected }: NodeProps<ArtifactNodePayload>) {
-	const { unselectNodesAndEdges } = useStore((state) => ({
-		unselectNodesAndEdges: state.unselectNodesAndEdges
-	}));
+	const store = useStoreApi();
+	const { addSelectedNodes } = store.getState();
 
 	function openChangeHandler(isOpen: boolean) {
 		if (!isOpen) {
 			// this is a hack to make sure the unselectNodesAndEdges is called after the artifact sheet is closed
 			setTimeout(() => {
-				unselectNodesAndEdges();
+				addSelectedNodes([]);
 			}, 100);
 		}
 	}

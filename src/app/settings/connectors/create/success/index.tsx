@@ -1,5 +1,3 @@
-"use client";
-
 import * as Wizard from "@/components/wizard/Wizard";
 import { routes } from "@/router/routes";
 import { Button } from "@zenml-io/react-component-library/components/server";

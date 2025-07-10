@@ -17,28 +17,48 @@ export const accountDetailsFormSchema = z
 
 export type AccountDetailForm = z.infer<typeof accountDetailsFormSchema>;
 
-// Primary Use
-export const primaryUseFormSchema = z.object({
-	primaryUse: z.string().min(1)
-});
-
-export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
-
-// Infrastructure
-export const InfrastructureFormSchema = z
+// Primary Role
+export const primaryRoleFormSchema = z
 	.object({
-		providers: z.string().array(),
-		other: z.boolean(),
+		primaryRole: z.string().min(1),
 		otherVal: z.string().optional()
 	})
 	.refine((data) => {
-		if (data.other) {
+		if (data.primaryRole === "other") {
 			return data.otherVal !== "";
 		}
-		return data.providers.length > 0;
+		return true;
 	});
 
-export type InfrastructureFormType = z.infer<typeof InfrastructureFormSchema>;
+export type PrimaryRoleFormType = z.infer<typeof primaryRoleFormSchema>;
+
+// Types of AI
+export const aiChallengesFormSchema = z
+	.object({
+		aiTypes: z
+			.enum([
+				"traditional_ml",
+				"deep_learning",
+				"computer_vision",
+				"llm_and_foundation_models",
+				"ai_agents_and_workflows",
+				"hybrid_applications"
+			])
+			.array()
+			.min(1),
+		biggestChallenge: z.string().array().optional()
+	})
+	.refine((data) => {
+		const hasLlmOrAgents = data.aiTypes.some(
+			(type) => type === "llm_and_foundation_models" || type === "ai_agents_and_workflows"
+		);
+		if (hasLlmOrAgents) {
+			return data.biggestChallenge?.length ?? 0 > 0;
+		}
+		return true;
+	});
+
+export type AiChallengesFormType = z.infer<typeof aiChallengesFormSchema>;
 
 // Server Name
 export const ServerNameFormSchema = z.object({
@@ -67,29 +87,3 @@ export function getSetPasswordStepSchema(withUsername: boolean = false) {
 
 const setPasswordStepSchema = getSetPasswordStepSchema();
 export type SetPasswordStepType = z.infer<typeof setPasswordStepSchema>;
-
-// Usage Reason
-
-export const UsageReasonFormSchema = z
-	.object({
-		usageReason: z.union([
-			z.enum([
-				"exploring",
-				"planning_poc",
-				"comparing_tools",
-				"implementing_production_environment"
-			]),
-			z.literal("")
-		]),
-		comparison_tools: z.string().array().optional(),
-		otherTool: z.boolean().optional(),
-		otherToolVal: z.string().optional()
-	})
-	.refine((data) => {
-		if (data.usageReason.length === 0) return false;
-		if (data.otherTool) return data.otherToolVal !== "";
-		if (data.usageReason === "comparing_tools") return data.comparison_tools?.length ?? 0 > 0;
-
-		return true;
-	});
-export type UsageReasonFormType = z.infer<typeof UsageReasonFormSchema>;

@@ -44,7 +44,7 @@ export function LoginForm() {
 		},
 		onSuccess: async () => {
 			setAuthState("true");
-			navigate(redirect || routes.home);
+			navigate(redirect || routes.projects.overview);
 		}
 	});
 
