@@ -3,7 +3,7 @@ import { inputVariants } from "@zenml-io/react-component-library/components/serv
 import { DynamicFieldProps } from "./helper";
 import { RendererHeadline } from "./common";
 
-export function ObjectFieldRenderer({ name, label, isOptional }: DynamicFieldProps) {
+export function ObjectFieldRenderer({ name, label, isOptional, schema }: DynamicFieldProps) {
 	const form = useFormContext();
 	const errors = form.formState.errors[name];
 
@@ -11,7 +11,12 @@ export function ObjectFieldRenderer({ name, label, isOptional }: DynamicFieldPro
 		<div className="space-y-0.5">
 			{!!label && (
 				<label htmlFor={name} className="text-text-sm">
-					<RendererHeadline label={label} isOptional={isOptional} />
+					<RendererHeadline
+						label={label}
+						isOptional={isOptional}
+						schema={schema}
+						fieldName={name}
+					/>
 				</label>
 			)}
 			<Controller

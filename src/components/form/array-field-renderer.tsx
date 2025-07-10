@@ -21,7 +21,12 @@ export function ArrayFieldRenderer({
 		<div className="space-y-3">
 			{!!label && (
 				<label className="text-text-sm">
-					<RendererHeadline label={label} isOptional={isOptional} />
+					<RendererHeadline
+						label={label}
+						isOptional={isOptional}
+						schema={schema}
+						fieldName={name}
+					/>
 				</label>
 			)}
 			<ul className="space-y-5">
