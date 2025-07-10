@@ -36,7 +36,7 @@ export function RunRefreshDropdown({ runId }: Props) {
 					icon={<Icon width={24} height={24} className="size-5 shrink-0" />}
 					onSelect={(e) => {
 						e.preventDefault();
-						fetchOrchestratorPipelineRun({ runId });
+						fetchOrchestratorPipelineRun({ runId, queries: { include_steps: false } });
 					}}
 					disabled={isPending}
 				>
@@ -44,6 +44,22 @@ export function RunRefreshDropdown({ runId }: Props) {
 						<p>Deep Refresh</p>
 						<p className="text-text-xs text-theme-text-secondary">
 							Queries the orchestrator directly. Takes longer but ensures most up-to-date data
+						</p>
+					</div>
+				</DropdownMenuItem>
+				<DropdownMenuItem
+					className="hover:cursor-pointer"
+					icon={<Icon width={24} height={24} className="size-5 shrink-0" />}
+					onSelect={(e) => {
+						e.preventDefault();
+						fetchOrchestratorPipelineRun({ runId, queries: { include_steps: true } });
+					}}
+					disabled={isPending}
+				>
+					<div className="space-y-0.25">
+						<p>Step Refresh</p>
+						<p className="text-text-xs text-theme-text-secondary">
+							Include steps in the refresh. Takes longer but ensures most up-to-date data
 						</p>
 					</div>
 				</DropdownMenuItem>
