@@ -9,6 +9,7 @@ import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { Tick } from "@/components/Tick";
 import { useGithubPipelineSummary } from "@/data/github/pipeline-summary";
 import { useCopy } from "@/lib/copy";
+import { snakeCaseToTitleCase } from "@/lib/strings";
 import {
 	Box,
 	Button,
@@ -114,7 +115,9 @@ function SecondaryHeader({ isDone, name, pipelineContent }: SecondaryHeaderProps
 		<section className="flex items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 			<div className="flex items-center gap-3">
 				{isDone ? <Tick /> : <ProgressOutstanding />}
-				<DialogTitle className="text-display-xs font-semibold">{name}</DialogTitle>
+				<DialogTitle className="text-display-xs font-semibold">
+					{snakeCaseToTitleCase(name)}
+				</DialogTitle>
 			</div>
 			{pipelineContent && (
 				<div className="flex items-center">
