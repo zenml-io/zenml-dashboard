@@ -23,10 +23,10 @@ export function RunRefreshDropdown({ runId }: Props) {
 				<Button
 					intent="primary"
 					emphasis="subtle"
-					size="md"
+					size="sm"
 					className="flex aspect-square items-center justify-center rounded-l-sharp border-l-0 p-0"
 				>
-					<ChevronDown width={24} height={24} className="size-5 shrink-0" />
+					<ChevronDown width={20} height={20} className="size-4 shrink-0" />
 					<span className="sr-only">Open run refresh menu</span>
 				</Button>
 			</DropdownMenuTrigger>
