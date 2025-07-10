@@ -49,9 +49,11 @@ export function PipelinesGridCollapsible() {
 						</div>
 						<PipelineProgress githubPipelines={pipelines} />
 					</CollapsibleTrigger>
-					<Button className="flex items-center gap-2" size="md">
-						<Download className="h-4 w-4 shrink-0 fill-white" />
-						Install the VsCode Extension
+					<Button className="flex items-center gap-2" asChild size="md">
+						<a href="vscode:extension/zenml-io.zenml-codespace-tutorial">
+							<Download className="h-4 w-4 shrink-0 fill-white" />
+							Install the VsCode Extension
+						</a>
 					</Button>
 					<CollapsibleTrigger>
 						<ChevronDown
