@@ -13,6 +13,7 @@ import { BaseNode } from "./BaseNode";
 export function PreviewStepNode({ data }: NodeProps<PreviewNodePayload>) {
 	const isFailed = data.runStatus === "failed";
 	const isCompleted = data.runStatus === "completed";
+	const isStopped = data.runStatus === "stopped";
 	return (
 		<BaseNode>
 			<TooltipProvider>
@@ -24,7 +25,7 @@ export function PreviewStepNode({ data }: NodeProps<PreviewNodePayload>) {
 									<Minus className="h-4 w-4 shrink-0 fill-blue-500" />
 								) : (
 									<ExecutionStatusIcon
-										status={isCompleted ? "completed" : "running"}
+										status={isCompleted ? "completed" : isStopped ? "stopped" : "running"}
 										className="h-4 w-4 fill-theme-text-warning"
 									/>
 								)}
@@ -35,6 +36,8 @@ export function PreviewStepNode({ data }: NodeProps<PreviewNodePayload>) {
 					<TooltipContent className="z-20 max-w-xs text-center">
 						{isFailed ? (
 							<>This step will never start because of an upstream error</>
+						) : isStopped ? (
+							<>This step was not executed because the run was stopped</>
 						) : (
 							<>
 								This is a future step with pending execution.

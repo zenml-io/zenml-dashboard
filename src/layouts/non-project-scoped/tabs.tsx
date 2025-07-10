@@ -10,11 +10,11 @@ import {
 import { useNavigate } from "react-router-dom";
 
 // settings is in brackets because of the file structure
-type TabValues = "projects" | "stacks" | "components" | "settings";
+type TabValues = "projects" | "stacks" | "components" | "settings" | "overview";
 
 export function NonProjectTabs() {
 	const navigate = useNavigate();
-	const segment = (useRouteSegment(0) as TabValues) || "projects";
+	const segment = (useRouteSegment(0) as TabValues) || "overview";
 
 	function changeVal(val: string) {
 		switch (val) {
@@ -30,6 +30,9 @@ export function NonProjectTabs() {
 			case "settings":
 				navigate(routes.settings.general);
 				break;
+			case "overview":
+				navigate(routes.home);
+				break;
 		}
 	}
 
@@ -37,6 +40,9 @@ export function NonProjectTabs() {
 		<Tabs onValueChange={changeVal} value={segment}>
 			<ScrollArea>
 				<TabsList className="flex-nowrap border-none">
+					<TabsTrigger value="overview">
+						<span>Overview</span>
+					</TabsTrigger>
 					<TabsTrigger value="projects">
 						<span>Projects</span>
 					</TabsTrigger>

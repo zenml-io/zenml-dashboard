@@ -17,7 +17,7 @@ export default function Page404() {
 					</p>
 					<div className="mt-5 flex justify-center">
 						<Button size="md" asChild>
-							<Link className="w-min self-center whitespace-nowrap" to={routes.home}>
+							<Link className="w-min self-center whitespace-nowrap" to={routes.projects.overview}>
 								<span className="px-0.5">Go to Home</span>
 							</Link>
 						</Button>

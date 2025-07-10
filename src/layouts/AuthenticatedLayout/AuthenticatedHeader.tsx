@@ -10,8 +10,7 @@ export function AuthenticatedHeader() {
 		<header className="h-9 border-b border-theme-border-moderate bg-theme-surface-primary">
 			<div className="flex h-full items-center justify-between">
 				<Link
-					aria-label="Go to organizations page"
-					to={routes.home}
+					to={routes.projects.overview}
 					className="flex h-full w-9 flex-shrink-0 items-center justify-center border-r border-theme-border-moderate"
 				>
 					<ZenMLIcon className="h-6 w-6 fill-theme-text-brand" />

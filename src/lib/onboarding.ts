@@ -1,15 +1,10 @@
 import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
 
 export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
-	return [
-		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
-		"pipeline_run",
-		"stack_with_remote_artifact_store_created",
-		"pipeline_run_with_remote_artifact_store"
-	];
+	return [...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]), "pipeline_run"];
 }
 
-const finalStep: OnboardingChecklistItemName = "production_setup_completed";
+const finalStep: OnboardingChecklistItemName = "oss_onboarding_completed";
 
 export function getOnboardingSetup(data: OnboardingResponse, isLocal: boolean) {
 	const itemsDone = getProgress(data, isLocal);
