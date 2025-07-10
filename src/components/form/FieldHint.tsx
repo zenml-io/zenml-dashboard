@@ -4,6 +4,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
+import Info from "@/assets/icons/info.svg?react";
 import { JSONSchemaDefinition } from "@/types/forms";
 
 type Props = {
@@ -81,25 +82,22 @@ export function FieldHint({ schema, fieldName }: Props) {
 	return (
 		<TooltipProvider>
 			<Tooltip>
-				<TooltipTrigger asChild>
-					<button
-						type="button"
-						className="ml-1 inline-flex items-center justify-center"
-						aria-label={`Help for ${fieldName}`}
-					>
-						<div className="rounded-full text-xs inline-flex h-4 w-4 cursor-help items-center justify-center border border-theme-text-tertiary font-medium text-theme-text-tertiary transition-colors hover:border-theme-text-secondary hover:text-theme-text-secondary">
-							i
-						</div>
-					</button>
+				<TooltipTrigger>
+					<Info className="size-4 shrink-0 fill-theme-text-secondary" />
 				</TooltipTrigger>
-				<TooltipContent className="max-w-[400px] bg-theme-surface-primary p-3 text-text-sm text-theme-text-primary">
-					<div className="space-y-1">
-						<p>{description}</p>
-						{!schema.description && (
-							<p className="text-text-xs text-theme-text-tertiary">
-								Auto-generated hint based on field type
-							</p>
-						)}
+				<TooltipContent className="max-w-[400px] bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary">
+					<div className="space-y-4">
+						<p className="w-fit rounded-sm bg-primary-25 px-1 py-0.5 font-mono text-primary-400">
+							{fieldName}
+						</p>
+						<div className="space-y-1">
+							<p>{description}</p>
+							{!schema.description && (
+								<p className="text-text-xs text-theme-text-tertiary">
+									Auto-generated hint based on field type
+								</p>
+							)}
+						</div>
 					</div>
 				</TooltipContent>
 			</Tooltip>

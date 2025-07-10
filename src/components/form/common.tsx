@@ -10,14 +10,16 @@ type Props = {
 
 export function RendererHeadline({ label, isOptional, schema, fieldName }: Props) {
 	return (
-		<span className="flex items-center">
-			{label}
-			{!isOptional && (
-				<span className="text-theme-text-error" aria-label="required">
-					*
-				</span>
-			)}
+		<div className="flex items-center gap-1">
+			<p>
+				{label}
+				{!isOptional && (
+					<span className="text-theme-text-error" aria-label="required">
+						*
+					</span>
+				)}
+			</p>
 			{schema && fieldName && <FieldHint schema={schema} fieldName={fieldName} />}
-		</span>
+		</div>
 	);
 }
