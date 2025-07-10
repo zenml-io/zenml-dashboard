@@ -16,7 +16,7 @@ export function useGithubPipelines(
 	options?: Omit<UseQueryOptions<GithubDirectory>, "queryKey" | "queryFn">
 ) {
 	return useQuery<GithubDirectory>({
-		queryKey: ["github", "repos", "zenml-io", "vscode-tutorial-extension", "pipelines"],
+		queryKey: ["github", "vscode-tutorial-extension", "pipelines"],
 		queryFn: async () => fetchGithubPipeliens(),
 		...options
 	});

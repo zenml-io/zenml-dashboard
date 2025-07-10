@@ -15,15 +15,7 @@ export function useGithubPipelineContent(
 	options?: Omit<UseQueryOptions<string>, "queryKey" | "queryFn">
 ) {
 	return useQuery<string>({
-		queryKey: [
-			"content",
-			"github",
-			"repos",
-			"zenml-io",
-			"vscode-tutorial-extension",
-			"pipelines",
-			pipelineName
-		],
+		queryKey: ["github", "vscode-tutorial-extension", "pipeline-content", pipelineName],
 		queryFn: async () => fetchPipelineContent(pipelineName),
 		...options
 	});
