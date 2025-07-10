@@ -1237,9 +1237,6 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The pipeline run.
-		 *
-		 * Raises:
-		 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 		 */
 		get: operations["get_run_api_v1_runs__run_id__get"];
 		/**
@@ -1324,8 +1321,10 @@ export type paths = {
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run to refresh.
+		 *     include_steps: Flag deciding whether we should also refresh
+		 *         the status of individual steps.
 		 */
-		get: operations["refresh_run_status_api_v1_runs__run_id__refresh_get"];
+		post: operations["refresh_run_status_api_v1_runs__run_id__refresh_post"];
 	};
 	"/api/v1/runs/{run_id}/stop": {
 		/**
@@ -14410,9 +14409,6 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The pipeline run.
-	 *
-	 * Raises:
-	 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 	 */
 	get_run_api_v1_runs__run_id__get: {
 		parameters: {
@@ -14791,9 +14787,14 @@ export type operations = {
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run to refresh.
+	 *     include_steps: Flag deciding whether we should also refresh
+	 *         the status of individual steps.
 	 */
-	refresh_run_status_api_v1_runs__run_id__refresh_get: {
+	refresh_run_status_api_v1_runs__run_id__refresh_post: {
 		parameters: {
+			query?: {
+				include_steps?: boolean;
+			};
 			path: {
 				run_id: string;
 			};
