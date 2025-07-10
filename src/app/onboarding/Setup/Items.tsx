@@ -5,15 +5,9 @@ import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
 import { getLoginCommand } from "@/lib/login-command";
 import { OnboardingStep } from "@/types/onboarding";
-import { StackDeploymentProvider } from "@/types/stack";
 import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
-import { Dispatch, SetStateAction } from "react";
 import { PipelineSnippet } from "./pipeline-snippet";
-import { DisabledOption, ProviderOnboardingStep } from "./provider-step";
 import { SetProject } from "./set-project";
-import { RunScript } from "./run-script";
-import { InfoBox } from "@/components/Infobox";
-import { SCRIPT_CONFIG } from "./constant";
 
 export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
@@ -29,7 +23,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
 					<Codesnippet
-						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}" scikit-learn scikit-image "numpy<2.0.0"`}
+						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}"`}
 					/>
 				</div>
 				<div>
@@ -83,95 +77,6 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 						</a>
 					</div>
 				</Box>
-			</div>
-		</ChecklistItem>
-	);
-}
-
-export function ConnectRemoteStorage({
-	completed,
-	active,
-	hasDownstreamStep,
-	provider,
-	setProvider
-}: OnboardingStep & {
-	provider: StackDeploymentProvider | null;
-	setProvider: Dispatch<SetStateAction<StackDeploymentProvider | null>>;
-}) {
-	return (
-		<ChecklistItem
-			hasDownstream={hasDownstreamStep}
-			completed={completed}
-			title="Connect remote storage (5 min)"
-			active={active}
-		>
-			<div className="space-y-5">
-				<InfoBox>
-					ZenML stacks provides the cloud infrastructure needed to run your ML pipelines at scale,
-					giving you access to more compute resources than your local machine.{" "}
-					<a
-						rel="noopener noreferrer"
-						target="_blank"
-						className="link text-theme-text-brand"
-						href="https://docs.zenml.io/stacks"
-					>
-						Learn more
-					</a>
-				</InfoBox>
-				<ProviderOnboardingStep selectedProvider={provider} setSelectedProvider={setProvider} />
-
-				{provider ? (
-					<RunScript provider={provider} />
-				) : (
-					<DisabledOption number={2}>Run the script</DisabledOption>
-				)}
-				<HelpBox link="https://docs.zenml.io/stacks" />
-			</div>
-		</ChecklistItem>
-	);
-}
-
-export function RunNewPipeline({
-	active,
-	completed,
-	hasDownstreamStep,
-	provider
-}: OnboardingStep & {
-	provider: StackDeploymentProvider | null;
-}) {
-	const stackName = provider ? SCRIPT_CONFIG[provider].stackName : "<REMOTE_STACK_NAME>";
-	const integrationName = provider ? SCRIPT_CONFIG[provider].integration : "<INTEGRATION_NAME>";
-	return (
-		<ChecklistItem
-			hasDownstream={hasDownstreamStep}
-			completed={completed}
-			title="Run a pipeline in a remote stack (3 min)"
-			active={active}
-		>
-			<div className="space-y-5">
-				<div className="space-y-1">
-					<p className="text-text-sm text-theme-text-secondary">Install the stack integrations</p>
-					<Codesnippet
-						wrap
-						codeClasses="whitespace-pre-wrap"
-						code={`zenml integration install ${integrationName}`}
-					/>
-				</div>
-				<div className="space-y-1">
-					<p className="text-text-sm text-theme-text-secondary">Set the new stack</p>
-					<Codesnippet
-						wrap
-						codeClasses="whitespace-pre-wrap"
-						code={`zenml stack set ${stackName}`}
-					/>
-				</div>
-				<div className="space-y-1">
-					<p className="text-text-sm text-theme-text-secondary">Run the pipeline</p>
-					<Codesnippet wrap codeClasses="whitespace-pre-wrap" code="python run.py" />
-				</div>
-				<div>
-					<HelpBox link="https://docs.zenml.io/stacks" />
-				</div>
 			</div>
 		</ChecklistItem>
 	);

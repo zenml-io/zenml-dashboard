@@ -1,5 +1,3 @@
-"use client";
-
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";

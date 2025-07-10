@@ -1,6 +1,6 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { InfrastructureForm } from "@/components/survey/Infrastructure";
-import { InfrastructureFormType } from "@/components/survey/form-schemas";
+import { AiChallengesForm } from "@/components/survey/ai-challenge";
+import { AiChallengesFormType } from "@/components/survey/form-schemas";
 import { useActivateUser } from "@/data/users/activate-user-mutation";
 import { useToast } from "@zenml-io/react-component-library";
 import { useActivationContext } from "./ActivationContext";
@@ -15,7 +15,7 @@ type Props = {
 	setUsername: Dispatch<SetStateAction<string>>;
 };
 
-export function InfraStep({ userId, setUsername }: Props) {
+export function AiChallengesStep({ userId, setUsername }: Props) {
 	const { newUser } = useActivationContext();
 	const { setAuthState } = useAuthContext();
 	const { setSurveyStep } = useSurveyContext();
@@ -44,10 +44,10 @@ export function InfraStep({ userId, setUsername }: Props) {
 		}
 	});
 
-	function handleInfraFormSubmit({ other, providers, otherVal }: InfrastructureFormType) {
-		const providerArr = other ? [...providers, otherVal] : providers;
+	function handleAiChallengesSubmit({ aiTypes, biggestChallenge }: AiChallengesFormType) {
 		const updateMetadata: UserMetadata = {
-			infra_providers: providerArr as string[],
+			ai_types_working_with: aiTypes,
+			biggest_ai_challenges: biggestChallenge,
 			finished_onboarding_survey: true
 		};
 		mutate({
@@ -56,5 +56,5 @@ export function InfraStep({ userId, setUsername }: Props) {
 		});
 	}
 
-	return <InfrastructureForm submitHandler={handleInfraFormSubmit} />;
+	return <AiChallengesForm submitHandler={handleAiChallengesSubmit} />;
 }

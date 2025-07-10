@@ -2,13 +2,14 @@ import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
 import { getOnboardingSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
+import { routes } from "@/router/routes";
+import { OnboardingResponse } from "@/types/onboarding";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { ConnectRemoteStorage, ConnectZenMLStep, RunFirstPipeline, RunNewPipeline } from "./Items";
-import { useState } from "react";
-import { StackDeploymentProvider } from "@/types/stack";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 
 export function OnboardingSetupList() {
-	const [provider, setProvider] = useState<StackDeploymentProvider | null>(null);
 	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 
@@ -17,11 +18,27 @@ export function OnboardingSetupList() {
 	if (onboarding.isError || serverInfo.isError) return null;
 
 	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
-	const { getItem } = getOnboardingSetup(onboarding.data, isLocalServer);
+
+	return <OnboardingSetupListContent onboarding={onboarding.data} isLocalServer={isLocalServer} />;
+}
+
+type Props = {
+	onboarding: OnboardingResponse;
+	isLocalServer: boolean;
+};
+
+function OnboardingSetupListContent({ onboarding, isLocalServer }: Props) {
+	const navigate = useNavigate();
+	const { getItem, isFinished } = getOnboardingSetup(onboarding, isLocalServer);
 	const connectStep = getItem("device_verified");
 	const pipelineStep = getItem("pipeline_run");
-	const stackStep = getItem("stack_with_remote_artifact_store_created");
-	const remotePipelineStep = getItem("pipeline_run_with_remote_artifact_store");
+	const isInitialFinished = useRef(isFinished);
+
+	useEffect(() => {
+		if (isFinished === true && isInitialFinished.current === false) {
+			navigate(routes.home + "?success=true");
+		}
+	}, [isFinished, navigate]);
 
 	return (
 		<ul className="space-y-5">
@@ -39,23 +56,6 @@ export function OnboardingSetupList() {
 					active={pipelineStep.isActive}
 					completed={pipelineStep.isCompleted}
 					hasDownstreamStep={pipelineStep.hasDownStreamStep}
-				/>
-			</li>
-			<li>
-				<ConnectRemoteStorage
-					provider={provider}
-					setProvider={setProvider}
-					active={stackStep.isActive}
-					completed={stackStep.isCompleted}
-					hasDownstreamStep={stackStep.hasDownStreamStep}
-				/>
-			</li>
-			<li>
-				<RunNewPipeline
-					provider={provider}
-					active={remotePipelineStep.isActive}
-					completed={remotePipelineStep.isCompleted}
-					hasDownstreamStep={remotePipelineStep.hasDownStreamStep}
 				/>
 			</li>
 		</ul>

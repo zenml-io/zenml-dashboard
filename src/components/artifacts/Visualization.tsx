@@ -65,19 +65,20 @@ export function Visualization({
 		if (error.status === 501) {
 			return (
 				<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
-					<p>
+					<p className="text-center text-text-lg text-theme-text-secondary">
 						This artifact cannot be visualized because it cannot be loaded from the artifact store.
 						This might happen if your ZenML server does not have the artifact stores dependencies
 						installed or if the server is not authenticated to access it. For more information, see
-						our
+						our{" "}
+						<a
+							className="link"
+							rel="noopener noreferrer"
+							target="_blank"
+							href="https://docs.zenml.io/stack-components/artifact-stores/custom"
+						>
+							docs
+						</a>
 					</p>
-					<a
-						rel="noopener noreferrer"
-						target="_blank"
-						href="https://docs.zenml.io/stack-components/artifact-stores/custom"
-					>
-						docs
-					</a>
 				</EmptyState>
 			);
 		}

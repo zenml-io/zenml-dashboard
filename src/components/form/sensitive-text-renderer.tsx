@@ -1,9 +1,9 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { RendererHeadline } from "./common";
 import { DynamicFieldProps } from "./helper";
-import { Input } from "@zenml-io/react-component-library";
+import { Input } from "@zenml-io/react-component-library/components/server";
 
-export function SensitiveTextRenderer({ name, label, isOptional }: DynamicFieldProps) {
+export function SensitiveTextRenderer({ name, label, isOptional, schema }: DynamicFieldProps) {
 	const form = useFormContext();
 	const errors = form.formState.errors[name];
 
@@ -11,7 +11,12 @@ export function SensitiveTextRenderer({ name, label, isOptional }: DynamicFieldP
 		<div className="space-y-0.5">
 			{!!label && (
 				<label htmlFor={name} className="text-text-sm">
-					<RendererHeadline label={label} isOptional={isOptional} />
+					<RendererHeadline
+						label={label}
+						isOptional={isOptional}
+						schema={schema}
+						fieldName={name}
+					/>
 				</label>
 			)}
 			<Controller

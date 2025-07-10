@@ -1237,9 +1237,6 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The pipeline run.
-		 *
-		 * Raises:
-		 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 		 */
 		get: operations["get_run_api_v1_runs__run_id__get"];
 		/**
@@ -14412,9 +14409,6 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The pipeline run.
-	 *
-	 * Raises:
-	 *     RuntimeError: If the stack or the orchestrator of the run is deleted.
 	 */
 	get_run_api_v1_runs__run_id__get: {
 		parameters: {
