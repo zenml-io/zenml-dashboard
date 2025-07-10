@@ -15,7 +15,7 @@ export default function RunDetailPage() {
 		<div>
 			<RunsDetailHeader />
 			<div
-				className={`flex ${isLocal ? "h-[calc(100vh_-_4rem_-_4rem_-_4rem_-_2px)]" : "h-[calc(100vh_-_4rem_-_4rem_-_2px)]"}  w-full`}
+				className={`flex ${isLocal ? "h-[calc(100vh_-_4rem_-_4rem_-_4rem_-_2px)]" : "h-[calc(100vh_-_4rem_-_4rem_-_2px)]"} w-full`}
 			>
 				<div
 					className={`relative bg-white/40 transition-all duration-500 ${
@@ -49,7 +49,7 @@ function ExpandPanelButton({ isPanelOpen, setIsPanelOpen }: ExpandPanelProps) {
 	return (
 		<Button
 			intent="secondary"
-			className={`absolute right-4 top-4 h-7 w-7 items-center justify-center border border-neutral-300 bg-transparent p-0.5  ${
+			className={`absolute right-4 top-4 h-7 w-7 items-center justify-center border border-neutral-300 bg-theme-surface-primary p-0.5 ${
 				isPanelOpen ? "hidden" : "flex"
 			}`}
 			onClick={() => setIsPanelOpen(true)}
