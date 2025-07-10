@@ -1,5 +1,4 @@
 import { FetchError } from "@/lib/fetch-error";
-import { notFound } from "@/lib/not-found-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
@@ -21,13 +20,20 @@ export async function fetchRunLogs({ runId }: PipelineRunDetailOverview): Promis
 		}
 	});
 
-	if (res.status === 404) notFound();
-
 	if (!res.ok) {
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => `Error while fetching logs for run ${runId}`);
 		throw new FetchError({
-			message: `Error while fetching logs for run ${runId}`,
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();

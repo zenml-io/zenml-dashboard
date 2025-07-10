@@ -19,7 +19,9 @@ export function ErrorFallback({ err, isAlertCircle = false }: Props) {
 			}
 		>
 			<div className="text-center">
-				<p className="text-text-lg text-theme-text-secondary">{err.message}</p>
+				<p className="max-w-full whitespace-pre-wrap break-words text-text-lg text-theme-text-secondary">
+					{err.message}
+				</p>
 			</div>
 		</EmptyState>
 	);
