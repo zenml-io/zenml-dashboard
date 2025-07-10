@@ -1,5 +1,5 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { useGithubPipelines } from "@/data/github/pipelines";
+import { GithubPipelineOrderEntry, useGithubPipelines } from "@/data/github/pipelines";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -9,7 +9,6 @@ import {
 import Download from "@/assets/icons/download-01.svg?react";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { parsePipelines } from "./parse-pipelines";
 import { PipelineItem } from "./pipeline-item";
 import { PipelineProgress } from "./progressbar";
 import { useQuery } from "@tanstack/react-query";
@@ -31,9 +30,8 @@ export function PipelinesGridCollapsible() {
 
 	if (githubPipelines.isError) return null;
 
-	const pipelines = parsePipelines(githubPipelines.data)
-		.filter((pipeline) => pipeline !== "welcome" && pipeline !== "completion")
-		.sort((a, b) => a.localeCompare(b));
+	const pipelines = githubPipelines.data.pipelineOrder.sort((a, b) => a.index - b.index);
+	const pipelinesKeys = pipelines.map((p) => p.directory);
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -47,7 +45,7 @@ export function PipelinesGridCollapsible() {
 								tutorials with our VSCode Extension.
 							</p>
 						</div>
-						<PipelineProgress githubPipelines={pipelines} />
+						<PipelineProgress githubPipelines={pipelinesKeys} />
 					</CollapsibleTrigger>
 					<Button className="flex items-center gap-2" asChild size="md">
 						<a href="vscode:extension/zenml-io.zenml-codespace-tutorial">
@@ -72,13 +70,14 @@ export function PipelinesGridCollapsible() {
 }
 
 type Props = {
-	pipelines: string[];
+	pipelines: GithubPipelineOrderEntry[];
 };
 
 function PipelinesGrid({ pipelines }: Props) {
+	const pipelineKeys = pipelines.map((p) => p.directory);
 	const piplinesQuery = useQuery({
 		...pipelineQueries.pipelineList({
-			name: `oneof:${JSON.stringify(pipelines)}`
+			name: `oneof:${JSON.stringify(pipelineKeys)}`
 		})
 	});
 
@@ -101,10 +100,11 @@ function PipelinesGrid({ pipelines }: Props) {
 	return (
 		<ul className="grid grid-cols-1 gap-3 md:grid-cols-3 xl:grid-cols-5">
 			{pipelines.map((pipeline) => (
-				<li key={pipeline}>
+				<li key={pipeline.index}>
 					<PipelineItem
-						isDone={apiPipelines.some((p) => p.name === pipeline)}
-						pipelineName={pipeline}
+						isDone={apiPipelines.some((p) => p.name === pipeline.directory)}
+						pipelineName={pipeline.directory}
+						displayName={pipeline.name}
 					/>
 				</li>
 			))}

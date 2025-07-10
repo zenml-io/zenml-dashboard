@@ -9,7 +9,6 @@ import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { Tick } from "@/components/Tick";
 import { useGithubPipelineSummary } from "@/data/github/pipeline-summary";
 import { useCopy } from "@/lib/copy";
-import { snakeCaseToTitleCase } from "@/lib/strings";
 import {
 	Box,
 	Button,
@@ -29,6 +28,7 @@ type Props = {
 	onOpenChange: (isOpen: boolean) => void;
 	isDone: boolean;
 	name: string;
+	displayName: string;
 };
 
 export function GithubPipelineSheet({
@@ -36,14 +36,20 @@ export function GithubPipelineSheet({
 	onOpenChange,
 	pipelineContent,
 	open,
-	name
+	name,
+	displayName
 }: PropsWithChildren<Props>) {
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
 			<SheetTrigger className="w-full">{children}</SheetTrigger>
 			<SheetContent aria-describedby={undefined} className="w-[1000px] overflow-y-auto">
 				<SheetHeader />
-				<SecondaryHeader pipelineContent={pipelineContent} isDone={false} name={name} />
+				<SecondaryHeader
+					displayName={displayName}
+					pipelineContent={pipelineContent}
+					isDone={false}
+					name={name}
+				/>
 				<div className="p-5">
 					{pipelineContent ? (
 						<Box className="space-y-5 p-5">
@@ -97,8 +103,8 @@ function NoPipelineContentFallback() {
 	);
 }
 
-type SecondaryHeaderProps = Pick<Props, "isDone" | "name" | "pipelineContent">;
-function SecondaryHeader({ isDone, name, pipelineContent }: SecondaryHeaderProps) {
+type SecondaryHeaderProps = Pick<Props, "isDone" | "name" | "pipelineContent" | "displayName">;
+function SecondaryHeader({ isDone, name, pipelineContent, displayName }: SecondaryHeaderProps) {
 	const { copied, copyToClipboard } = useCopy();
 
 	function handleDownload() {
@@ -115,9 +121,7 @@ function SecondaryHeader({ isDone, name, pipelineContent }: SecondaryHeaderProps
 		<section className="flex items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 			<div className="flex items-center gap-3">
 				{isDone ? <Tick /> : <ProgressOutstanding />}
-				<DialogTitle className="text-display-xs font-semibold">
-					{snakeCaseToTitleCase(name)}
-				</DialogTitle>
+				<DialogTitle className="text-display-xs font-semibold">{displayName}</DialogTitle>
 			</div>
 			{pipelineContent && (
 				<div className="flex items-center">
