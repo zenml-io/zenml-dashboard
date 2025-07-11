@@ -37,7 +37,7 @@ export function PipelineItem({ displayName, pipelineName, isDone }: Props) {
 			open={open}
 			onOpenChange={setOpen}
 		>
-			<Box className="space-y-5 p-5 text-start">
+			<Box className="space-y-5 p-5 text-start transition-shadow duration-200 hover:shadow-sm">
 				{isDone ? <Tick /> : <ProgressOutstanding />}
 				<p className="text-text-lg font-semibold">{displayName}</p>
 			</Box>
