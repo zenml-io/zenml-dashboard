@@ -3,14 +3,19 @@ import { DynamicFieldProps } from "./helper";
 import { Switch } from "@zenml-io/react-component-library/components/client";
 import { RendererHeadline } from "./common";
 
-export function BooleanFieldRenderer({ name, isOptional, label }: DynamicFieldProps) {
+export function BooleanFieldRenderer({ name, isOptional, label, schema }: DynamicFieldProps) {
 	const form = useFormContext();
 	const errors = form.formState.errors[name];
 	return (
 		<div className="flex flex-wrap items-center gap-3">
 			{!!label && (
 				<label htmlFor={name} className="text-text-sm">
-					<RendererHeadline label={label} isOptional={isOptional} />
+					<RendererHeadline
+						label={label}
+						isOptional={isOptional}
+						schema={schema}
+						fieldName={name}
+					/>
 				</label>
 			)}
 			<Controller

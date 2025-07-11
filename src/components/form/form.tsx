@@ -58,7 +58,7 @@ export function DynamicField({ schema, name, isOptional, definitions, isNested }
 			<EnumFieldRenderer
 				name={name}
 				label={label}
-				schema={schema}
+				schema={resolvedSchema}
 				isOptional={isOptional}
 				enumValues={getEnumValues(resolvedSchema)}
 			/>

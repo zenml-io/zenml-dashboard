@@ -30,23 +30,20 @@ export async function fetchArtifactVisualization(
 		signal
 	});
 
-	if (res.status === 404) {
-		const data: string[] = await res
-			.json()
-			.then((data) => data.detail)
-			.catch(() => ["", "Failed to fetch artifact visualization"]);
-		throw new FetchError({
-			message: data[1] || "Failed to fetch artifact visualization",
-			status: res.status,
-			statusText: res.statusText
-		});
-	}
-
 	if (!res.ok) {
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => `Error while fetching artifact visualization for ${versionId}`);
 		throw new FetchError({
-			message: `Error while fetching artifact visualization for version ${versionId}`,
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();

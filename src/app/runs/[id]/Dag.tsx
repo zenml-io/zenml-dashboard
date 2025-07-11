@@ -7,6 +7,7 @@ import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { EmptyState } from "@/components/EmptyState";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
+import { useMemo } from "react";
 import ReactFlow, { NodeTypes } from "reactflow";
 import { useDag } from "./useDag";
 
@@ -22,7 +23,21 @@ const customNodes: NodeTypes = {
 };
 
 export function DAG() {
-	const { dagQuery, nodes, edges, onNodesChange, onEdgesChange } = useDag();
+	const {
+		dagQuery,
+		nodes,
+		edges,
+		onNodesChange,
+		onEdgesChange,
+		initialRender,
+		topMostNode,
+		shouldFitView
+	} = useDag();
+
+	// Memoize refetch function to prevent DagControls re-render
+	const handleRefetch = useMemo(() => {
+		return () => dagQuery.refetch();
+	}, [dagQuery]);
 
 	if (dagQuery.isError) {
 		return (
@@ -32,7 +47,7 @@ export function DAG() {
 		);
 	}
 
-	if (dagQuery.isPending)
+	if (dagQuery.isPending || initialRender)
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />
@@ -53,16 +68,23 @@ export function DAG() {
 			nodes={nodes}
 			edges={edges}
 			edgesFocusable={false}
+			onlyRenderVisibleElements
 			multiSelectionKeyCode={null}
 			onNodesChange={onNodesChange}
 			onEdgesChange={onEdgesChange}
 			fitView
+			fitViewOptions={
+				shouldFitView
+					? undefined
+					: topMostNode
+						? {
+								nodes: [topMostNode],
+								maxZoom: 1.2
+							}
+						: undefined
+			}
 		>
-			<DagControls
-				refetch={() => {
-					dagQuery.refetch();
-				}}
-			/>
+			<DagControls refetch={handleRefetch} />
 		</ReactFlow>
 	);
 }

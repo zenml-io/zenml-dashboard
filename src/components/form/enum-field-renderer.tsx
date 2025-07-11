@@ -14,6 +14,7 @@ export function EnumFieldRenderer({
 	name,
 	label,
 	isOptional,
+	schema,
 	enumValues
 }: DynamicFieldProps & { enumValues: string[] }) {
 	const form = useFormContext();
@@ -24,7 +25,12 @@ export function EnumFieldRenderer({
 		<div className="space-y-0.5">
 			{!!label && (
 				<label htmlFor={name} className="text-text-sm">
-					<RendererHeadline label={label} isOptional={isOptional} />
+					<RendererHeadline
+						label={label}
+						isOptional={isOptional}
+						schema={schema}
+						fieldName={name}
+					/>
 				</label>
 			)}
 			<Controller
