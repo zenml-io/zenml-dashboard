@@ -23,7 +23,7 @@ export function FieldHint({ schema, fieldName }: Props) {
 				<TooltipTrigger>
 					<Info className="size-4 shrink-0 fill-theme-text-secondary" />
 				</TooltipTrigger>
-				<TooltipContent className="max-w-[400px] bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary">
+				<TooltipContent className="z-20 max-w-[400px] bg-theme-surface-primary p-5 text-text-sm text-theme-text-primary">
 					<div className="space-y-4">
 						<p className="w-fit rounded-sm bg-primary-25 px-1 py-0.5 font-mono text-primary-400">
 							{fieldName}

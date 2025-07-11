@@ -7,14 +7,14 @@ import {
 } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { GithubPipelineSheet } from "./pipeline-sheet";
-import { snakeCaseToTitleCase } from "@/lib/strings";
 
 type Props = {
+	displayName: string;
 	pipelineName: string;
 	isDone: boolean;
 };
 
-export function PipelineItem({ pipelineName, isDone }: Props) {
+export function PipelineItem({ displayName, pipelineName, isDone }: Props) {
 	const [open, setOpen] = useState(false);
 	const content = useGithubPipelineContent(pipelineName, {
 		refetchOnWindowFocus: false,
@@ -30,15 +30,16 @@ export function PipelineItem({ pipelineName, isDone }: Props) {
 
 	return (
 		<GithubPipelineSheet
+			displayName={displayName}
 			isDone={isDone}
 			name={pipelineName}
 			pipelineContent={content.data}
 			open={open}
 			onOpenChange={setOpen}
 		>
-			<Box className="space-y-5 p-5 text-start">
+			<Box className="space-y-5 p-5 text-start transition-shadow duration-200 hover:shadow-sm">
 				{isDone ? <Tick /> : <ProgressOutstanding />}
-				<p className="text-text-lg font-semibold">{snakeCaseToTitleCase(pipelineName)}</p>
+				<p className="text-text-lg font-semibold">{displayName}</p>
 			</Box>
 		</GithubPipelineSheet>
 	);
