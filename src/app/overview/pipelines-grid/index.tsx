@@ -108,7 +108,7 @@ function PipelinesGrid({ pipelines }: Props) {
 	);
 }
 
-const extensionId = "zenml-io.zenml-codespace-tutorial";
+const extensionId = "zenml-io.zenml-tutorial";
 
 function ExtensionButtons() {
 	return (
