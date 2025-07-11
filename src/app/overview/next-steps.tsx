@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export function NextSteps() {
 	return (
 		<section className="space-y-5">
-			<h2 className="text-text-xl font-semibold">Your next steps with ZenML Pro</h2>
+			<h2 className="text-text-xl font-semibold">Your next steps with ZenML</h2>
 			<ul className="grid grid-cols-1 gap-3 md:grid-cols-3">
 				<LinkItem
 					href={routes.stacks.create.index}
