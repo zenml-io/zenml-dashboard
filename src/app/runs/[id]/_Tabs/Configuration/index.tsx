@@ -49,6 +49,11 @@ export function ConfigurationTab() {
 			/>
 			<NestedCollapsible
 				isInitialOpen
+				title="Retry"
+				data={data?.metadata?.config.retry ?? undefined}
+			/>
+			<NestedCollapsible
+				isInitialOpen
 				title="Substitutions"
 				data={data.metadata?.config.substitutions}
 			/>
