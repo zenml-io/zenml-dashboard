@@ -1,18 +1,19 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { GithubPipelineOrderEntry, useGithubPipelines } from "@/data/github/pipelines";
+import { pipelineQueries } from "@/data/pipelines";
+import { useQuery } from "@tanstack/react-query";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
-import Download from "@/assets/icons/download-01.svg?react";
-import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
+import { Box, Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { PipelineItem } from "./pipeline-item";
 import { PipelineProgress } from "./progressbar";
-import { useQuery } from "@tanstack/react-query";
-import { pipelineQueries } from "@/data/pipelines";
+import Cursor from "@/assets/images/cursor.webp";
+import VsCode from "@/assets/images/vs-code.webp";
 
 export function PipelinesGridCollapsible() {
 	const githubPipelines = useGithubPipelines({
@@ -47,12 +48,7 @@ export function PipelinesGridCollapsible() {
 						</div>
 						<PipelineProgress githubPipelines={pipelinesKeys} />
 					</CollapsibleTrigger>
-					<Button className="flex items-center gap-2" asChild size="md">
-						<a href="vscode:extension/zenml-io.zenml-codespace-tutorial">
-							<Download className="h-4 w-4 shrink-0 fill-white" />
-							Install the VsCode Extension
-						</a>
-					</Button>
+					<ExtensionButtons />
 					<CollapsibleTrigger>
 						<ChevronDown
 							className={` ${
@@ -109,5 +105,40 @@ function PipelinesGrid({ pipelines }: Props) {
 				</li>
 			))}
 		</ul>
+	);
+}
+
+const extensionId = "zenml-io.zenml-codespace-tutorial";
+
+function ExtensionButtons() {
+	return (
+		<Box className="flex items-center justify-between gap-5 p-3">
+			<div>
+				<p className="text-text-lg font-semibold">Install the extension</p>
+				<p className="text-text-md text-theme-text-secondary">Available for VsCode or Cursor</p>
+			</div>
+			<div className="flex items-center gap-3">
+				<Button
+					intent="secondary"
+					emphasis="minimal"
+					className="aspect-square size-8 shrink-0 overflow-hidden border border-theme-border-moderate bg-theme-surface-primary p-0"
+					asChild
+				>
+					<a href={`vscode:extension/${extensionId}`}>
+						<img src={VsCode} alt="VsCode" className="h-full w-full" />
+					</a>
+				</Button>
+				<Button
+					intent="secondary"
+					emphasis="minimal"
+					className="aspect-square size-8 shrink-0 overflow-hidden bg-theme-surface-primary p-0"
+					asChild
+				>
+					<a href={`cursor:extension/${extensionId}`}>
+						<img src={Cursor} alt="Cursor" className="h-full w-full" />
+					</a>
+				</Button>
+			</div>
+		</Box>
 	);
 }
