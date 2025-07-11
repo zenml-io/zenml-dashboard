@@ -50,7 +50,7 @@ export function ConfigurationTab() {
 			<NestedCollapsible
 				isInitialOpen
 				title="Retry"
-				data={data?.metadata?.config.retry ?? undefined}
+				data={data.metadata?.config.retry ?? undefined}
 			/>
 			<NestedCollapsible
 				isInitialOpen
