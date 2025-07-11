@@ -74,7 +74,8 @@ function PipelinesGrid({ pipelines }: Props) {
 	const piplinesQuery = useQuery({
 		...pipelineQueries.pipelineList({
 			name: `oneof:${JSON.stringify(pipelineKeys)}`
-		})
+		}),
+		refetchInterval: 30000
 	});
 
 	if (piplinesQuery.isPending) {
