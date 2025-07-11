@@ -1,20 +1,21 @@
+import BarchartCheck from "@/assets/icons/bar-chart-square-check.svg?react";
 import Barchart from "@/assets/icons/bar-chart.svg?react";
+import CreditCard from "@/assets/icons/credit-card.svg?react";
+import Dataflow from "@/assets/icons/dataflow-03.svg?react";
+import Dataflow2 from "@/assets/icons/dataflow-2.svg?react";
 import Eye from "@/assets/icons/eye.svg?react";
+import File from "@/assets/icons/file-text.svg?react";
+import Layout from "@/assets/icons/layout.svg?react";
 import Message from "@/assets/icons/message-chat-square.svg?react";
+import Model from "@/assets/icons/model_artifacts.svg?react";
 import Overlap from "@/assets/icons/overlap.svg?react";
 import Robot from "@/assets/icons/robot.svg?react";
-import Transformer from "@/assets/icons/transform.svg?react";
-import File from "@/assets/icons/file-text.svg?react";
-import Dataflow2 from "@/assets/icons/dataflow-2.svg?react";
-import Dataflow from "@/assets/icons/dataflow-03.svg?react";
-import BarchartCheck from "@/assets/icons/bar-chart-square-check.svg?react";
-import Layout from "@/assets/icons/layout.svg?react";
-import Model from "@/assets/icons/model_artifacts.svg?react";
-import CreditCard from "@/assets/icons/credit-card.svg?react";
 import SlashCircle from "@/assets/icons/slash-circle.svg?react";
+import Transformer from "@/assets/icons/transform.svg?react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox } from "@zenml-io/react-component-library";
 import { clsx } from "clsx";
+import { useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { aiChallengesFormSchema, AiChallengesFormType } from "./form-schemas";
 
@@ -107,6 +108,7 @@ const challenges = [
 ] as const;
 
 export function AiChallengesForm({ submitHandler }: AiChallengesFormProps) {
+	const biggestChallengeRef = useRef<HTMLDivElement>(null);
 	const {
 		watch,
 		handleSubmit,
@@ -122,6 +124,12 @@ export function AiChallengesForm({ submitHandler }: AiChallengesFormProps) {
 	const llmOrAgent =
 		typeWatch.includes("llm_and_foundation_models") ||
 		typeWatch.includes("ai_agents_and_workflows");
+
+	useEffect(() => {
+		if (llmOrAgent) {
+			biggestChallengeRef.current?.scrollIntoView({ behavior: "smooth" });
+		}
+	}, [llmOrAgent]);
 
 	return (
 		<div className="flex flex-col justify-center gap-5 pb-5">
@@ -180,7 +188,7 @@ export function AiChallengesForm({ submitHandler }: AiChallengesFormProps) {
 					/>
 				</div>
 				{llmOrAgent && (
-					<div id="biggest-challenge" className="w-full space-y-5">
+					<div ref={biggestChallengeRef} id="biggest-challenge" className="w-full space-y-5">
 						<h2 className="text-center text-display-xs font-semibold">
 							What's your biggest challenge right now?
 						</h2>
