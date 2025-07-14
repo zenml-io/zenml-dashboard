@@ -37,7 +37,8 @@ export function GithubPipelineSheet({
 	pipelineContent,
 	open,
 	name,
-	displayName
+	displayName,
+	isDone
 }: PropsWithChildren<Props>) {
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
@@ -47,7 +48,7 @@ export function GithubPipelineSheet({
 				<SecondaryHeader
 					displayName={displayName}
 					pipelineContent={pipelineContent}
-					isDone={false}
+					isDone={isDone}
 					name={name}
 				/>
 				<div className="p-5">
