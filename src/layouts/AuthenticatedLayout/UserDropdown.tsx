@@ -9,6 +9,7 @@ import { isNoAuthServer } from "@/lib/server";
 import {
 	Avatar,
 	AvatarFallback,
+	AvatarImage,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -18,6 +19,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ChangeLogButton from "./changelog-button";
 import { useServerSettings } from "@/data/server/get-server-settings";
+import { sanitizeUrl } from "@/lib/url";
 
 export function UserDropdown() {
 	const currentUser = useCurrentUser();
@@ -43,6 +45,7 @@ export function UserDropdown() {
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Avatar size="lg">
+					<AvatarImage src={sanitizeUrl(currentUser.data.body?.avatar_url ?? undefined)} />
 					<AvatarFallback size="lg">{currentUser.data.name[0]}</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
