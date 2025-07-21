@@ -55,6 +55,14 @@ export function EnhancedLogsViewer({
 		setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 	};
 
+	const handleFirstPage = () => {
+		setCurrentPage(1);
+	};
+
+	const handleLastPage = () => {
+		setCurrentPage(totalPages);
+	};
+
 	const handleCopyAllLogs = () => {
 		const logText = getOriginalLogText(logsToDisplay);
 
@@ -188,23 +196,49 @@ export function EnhancedLogsViewer({
 								{logsToDisplay.length} logs
 							</div>
 							<div className="flex items-center space-x-2">
-								<button
+								<Button
+									className="bg-theme-surface-primary"
+									size="md"
+									intent="secondary"
+									emphasis="subtle"
+									onClick={handleFirstPage}
+									disabled={currentPage === 1}
+								>
+									First
+								</Button>
+								<Button
+									className="bg-theme-surface-primary"
+									size="md"
+									intent="secondary"
+									emphasis="subtle"
 									onClick={handlePreviousPage}
 									disabled={currentPage === 1}
-									className="text-sm rounded-md border border-theme-border-moderate bg-theme-surface-primary px-3 py-1 font-medium text-theme-text-secondary hover:bg-theme-surface-tertiary disabled:cursor-not-allowed disabled:opacity-50"
 								>
 									Previous
-								</button>
+								</Button>
 								<span className="text-sm text-theme-text-secondary">
 									Page {currentPage} of {totalPages}
 								</span>
-								<button
+								<Button
+									className="bg-theme-surface-primary"
+									size="md"
+									intent="secondary"
+									emphasis="subtle"
 									onClick={handleNextPage}
 									disabled={currentPage === totalPages}
-									className="text-sm rounded-md border border-theme-border-moderate bg-theme-surface-primary px-3 py-1 font-medium text-theme-text-secondary hover:bg-theme-surface-tertiary disabled:cursor-not-allowed disabled:opacity-50"
 								>
 									Next
-								</button>
+								</Button>
+								<Button
+									className="bg-theme-surface-primary"
+									size="md"
+									intent="secondary"
+									emphasis="subtle"
+									onClick={handleLastPage}
+									disabled={currentPage === totalPages}
+								>
+									Last
+								</Button>
 							</div>
 						</div>
 					</div>
