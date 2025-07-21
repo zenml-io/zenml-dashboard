@@ -156,7 +156,11 @@ export function Details() {
 					<Key>Author</Key>
 					<Value>
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data.resources?.user?.name || ""} />
+							<InlineAvatar
+								avatarUrl={data.resources?.user?.body?.avatar_url ?? undefined}
+								username={data.resources?.user?.name ?? "Unknown"}
+								isServiceAccount={!!data.resources?.user?.body?.is_service_account}
+							/>
 						</div>
 					</Value>
 					<Key>Start Time</Key>

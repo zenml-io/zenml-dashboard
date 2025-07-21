@@ -102,8 +102,12 @@ function ComponentList({ type, search }: Props & { search: string }) {
 											</div>
 										</div>
 										<div className="flex items-center gap-2 text-text-sm">
-											{comp.resources?.user?.name && (
-												<InlineAvatar username={comp.resources.user.name} />
+											{comp.resources?.user && (
+												<InlineAvatar
+													avatarUrl={comp.resources.user.body?.avatar_url ?? undefined}
+													username={comp.resources.user.name}
+													isServiceAccount={!!comp.resources.user.body?.is_service_account}
+												/>
 											)}
 											{comp.body?.updated && (
 												<div className="whitespace-nowrap text-theme-text-secondary">

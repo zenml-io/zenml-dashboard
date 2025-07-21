@@ -1,11 +1,10 @@
 import { CopyButton } from "@/components/CopyButton";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { ExpiryDate } from "@/components/service-connectors/expiry";
 import { ConnectorTypeTooltip } from "@/components/service-connectors/connector-type-tooltip";
+import { ExpiryDate } from "@/components/service-connectors/expiry";
 import { ResourceNameTooltip } from "@/components/service-connectors/resource-name-tooltip";
 import { ResourceTypeTooltip } from "@/components/service-connectors/resource-type-tooltip";
 import { extractResourceTypes } from "@/lib/service-connectors";
-import { getUsername } from "@/lib/user";
 import { ServiceConnector } from "@/types/service-connectors";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -79,7 +78,14 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 				cell: ({ row }) => {
 					const user = row.original.resources?.user;
 					if (!user) return null;
-					return <InlineAvatar className="max-w-[200px] truncate" username={getUsername(user)} />;
+					return (
+						<InlineAvatar
+							className="max-w-[200px] truncate"
+							avatarUrl={user.body?.avatar_url ?? undefined}
+							username={user.name}
+							isServiceAccount={!!user.body?.is_service_account}
+						/>
+					);
 				}
 			},
 			{
