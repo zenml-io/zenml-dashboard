@@ -1,11 +1,11 @@
-import LockIcon from "@/assets/icons/Lock.svg?react";
+import { ServiceAccountAvatar } from "@/components/avatars/service-account-avatar";
 import { routes } from "@/router/routes";
 import { ServiceAccount } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
-import ToggleActiveServiceAccount from "./ToggleServiceAccount";
-import ServiceAccountsDropdown from "./Dropdown";
 import { Checkbox } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
+import ServiceAccountsDropdown from "./Dropdown";
+import ToggleActiveServiceAccount from "./ToggleServiceAccount";
 
 export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 	return [
@@ -42,7 +42,12 @@ export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center space-x-2">
-						<LockIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
+						<ServiceAccountAvatar
+							className="rounded-sm"
+							size="sm"
+							serviceAccountName={row.original.name}
+							serviceAccountAvatar={row.original.body?.avatar_url ?? undefined}
+						/>
 						<div className="group/copybutton flex flex-col">
 							<div className="flex flex-row items-center space-x-1">
 								<div className="flex items-center space-x-1">
