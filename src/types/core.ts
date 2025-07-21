@@ -1783,6 +1783,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The created API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		post: operations["create_api_key_api_v1_service_accounts__service_account_id__api_keys_post"];
 	};
@@ -1814,6 +1818,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		put: operations["update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put"];
 		/**
@@ -1840,6 +1848,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		put: operations["rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put"];
 	};
@@ -4936,8 +4948,11 @@ export type components = {
 		LogsRequest: {
 			/** The uri of the logs file */
 			uri: string;
-			/** The source of the logs file */
-			source: string;
+			/**
+			 * The source of the logs file
+			 * @default
+			 */
+			source?: string;
 			/**
 			 * The artifact store ID to associate the logs with.
 			 * Format: uuid
@@ -7452,6 +7467,8 @@ export type components = {
 		ScheduleUpdate: {
 			/** Name */
 			name?: string | null;
+			/** Cron Expression */
+			cron_expression?: string | null;
 		};
 		/**
 		 * SecretRequest
@@ -7788,6 +7805,8 @@ export type components = {
 			description?: string | null;
 			/** Whether the service account is active or not. */
 			active: boolean;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceAccountResponse
@@ -7833,6 +7852,8 @@ export type components = {
 			 * @default false
 			 */
 			active?: boolean;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceAccountResponseMetadata
@@ -7844,6 +7865,8 @@ export type components = {
 			 * @default
 			 */
 			description?: string;
+			/** The external user ID associated with the account. */
+			external_user_id?: string | null;
 		};
 		/**
 		 * ServiceAccountResponseResources
@@ -7863,6 +7886,10 @@ export type components = {
 			description?: string | null;
 			/** Whether the service account is active or not. */
 			active?: boolean | null;
+			/** The external user ID associated with the account. */
+			external_user_id?: string | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceConnectorInfo
@@ -9555,6 +9582,8 @@ export type components = {
 			user_metadata?: {
 				[key: string]: unknown;
 			} | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 			/** The unique username for the account. */
 			name: string;
 			/**
@@ -9636,6 +9665,8 @@ export type components = {
 			is_admin: boolean;
 			/** The default project ID for the user. */
 			default_project_id?: string | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * UserResponseMetadata
@@ -9686,6 +9717,8 @@ export type components = {
 			user_metadata?: {
 				[key: string]: unknown;
 			} | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 			/** The unique username for the account. */
 			name?: string | null;
 			/** The full name for the account owner. Only relevant for user accounts. */
@@ -16266,6 +16299,7 @@ export type operations = {
 				name?: string | null;
 				description?: string | null;
 				active?: boolean | string | null;
+				external_user_id?: string | null;
 			};
 		};
 		responses: {
@@ -16551,6 +16585,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The created API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	create_api_key_api_v1_service_accounts__service_account_id__api_keys_post: {
 		parameters: {
@@ -16653,6 +16691,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put: {
 		parameters: {
@@ -16748,6 +16790,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put: {
 		parameters: {
