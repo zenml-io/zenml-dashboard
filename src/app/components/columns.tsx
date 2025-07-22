@@ -7,9 +7,9 @@ import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { StackComponent } from "@/types/components";
 import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "@zenml-io/react-component-library/components/client";
 import { Tag } from "@zenml-io/react-component-library/components/server";
 import { ComponentDropdown } from "./component-dropdown";
-import { Checkbox } from "@zenml-io/react-component-library/components/client";
 
 export function getComponentList(): ColumnDef<StackComponent>[] {
 	return [
@@ -114,9 +114,15 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 			header: "Author",
 			accessorFn: (row) => row.resources?.user?.name,
 			cell: ({ row }) => {
-				const author = row.original.resources?.user?.name;
+				const author = row.original.resources?.user;
 				if (!author) return null;
-				return <InlineAvatar username={author} />;
+				return (
+					<InlineAvatar
+						avatarUrl={author.body?.avatar_url ?? undefined}
+						username={author.name}
+						isServiceAccount={!!author.body?.is_service_account}
+					/>
+				);
 			}
 		},
 		{

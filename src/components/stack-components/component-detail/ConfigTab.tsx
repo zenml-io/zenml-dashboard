@@ -89,7 +89,17 @@ function BasicParams({ componentId }: Props) {
 					/>
 					<KeyValue
 						label="Author"
-						value={user?.name ? <InlineAvatar username={user.name} /> : "Not available"}
+						value={
+							user ? (
+								<InlineAvatar
+									avatarUrl={user.body?.avatar_url ?? undefined}
+									username={user.name}
+									isServiceAccount={!!user.body?.is_service_account}
+								/>
+							) : (
+								"Not available"
+							)
+						}
 					/>
 					<KeyValue
 						label="Service Connector"

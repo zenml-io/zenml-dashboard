@@ -53,10 +53,16 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		id: "author",
 		header: "Author",
 		accessorFn: (row) => row.resources?.user?.name,
-		cell: ({ getValue }) => {
-			const name = getValue<string>();
-			if (!name) return null;
-			return <InlineAvatar username={name} />;
+		cell: ({ row }) => {
+			const user = row.original.resources?.user;
+			if (!user) return null;
+			return (
+				<InlineAvatar
+					avatarUrl={user.body?.avatar_url ?? undefined}
+					username={user.name}
+					isServiceAccount={!!user.body?.is_service_account}
+				/>
+			);
 		}
 	},
 	{

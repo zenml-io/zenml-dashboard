@@ -7,7 +7,6 @@ import { ResourceNameTooltip } from "@/components/service-connectors/resource-na
 import { ResourceTypesList } from "@/components/service-connectors/resource-tyes-list";
 import { serviceConnectorQueries } from "@/data/service-connectors";
 import { extractAuthMethod, extractResourceTypes } from "@/lib/service-connectors";
-import { getUsername } from "@/lib/user";
 import { ServiceConnector } from "@/types/service-connectors";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -130,7 +129,18 @@ function Author({ connector }: { connector: ServiceConnector }) {
 	const user = connector.resources?.user;
 
 	return (
-		<KeyValue label="Author" value={!user ? null : <InlineAvatar username={getUsername(user)} />} />
+		<KeyValue
+			label="Author"
+			value={
+				!user ? null : (
+					<InlineAvatar
+						avatarUrl={user.body?.avatar_url ?? undefined}
+						username={user.name}
+						isServiceAccount={!!user.body?.is_service_account}
+					/>
+				)
+			}
+		/>
 	);
 }
 

@@ -1,14 +1,10 @@
+import { AdminBadge } from "@/components/admin-badge";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { User, UserBody } from "@/types/user";
+import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
 import MembersDropdown from "./MemberDropdown";
-
-type NameColumn = {
-	name: User["name"];
-	is_admin: UserBody["is_admin"];
-};
 
 type Props = {
 	isAdmin?: boolean;
@@ -18,22 +14,17 @@ export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 	return [
 		{
 			id: "name",
-			accessorFn: (row): NameColumn => ({
-				name: row.name,
-				is_admin: !!row.body?.is_admin
-			}),
-			cell: ({ getValue }) => {
-				const { name, is_admin } = getValue<NameColumn>();
+			accessorFn: (row) => row.name,
+			cell: ({ row }) => {
+				const user = row.original;
 				return (
-					<div className="flex">
-						<InlineAvatar username={name} />
-						{is_admin && (
-							<div>
-								<Badge className="ml-2 capitalize" size="xs" color={"purple"}>
-									Admin
-								</Badge>
-							</div>
-						)}
+					<div className="flex items-center gap-1">
+						<InlineAvatar
+							avatarUrl={user.body?.avatar_url ?? undefined}
+							username={user.name}
+							isServiceAccount={!!user.body?.is_service_account}
+						/>
+						{user.body?.is_admin && <AdminBadge />}
 					</div>
 				);
 			},
