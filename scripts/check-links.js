@@ -3,7 +3,7 @@ import { exit } from "process";
 
 const allowedStatuses = [401, 403, 405];
 
-const ignoreList = [];
+const ignoreList = ["https://zenml.io/logo.png"];
 
 const headers = new Headers({
 	"User-Agent": "ZenMLURLBot/1.0 (+http://zenml.io/bot)"
