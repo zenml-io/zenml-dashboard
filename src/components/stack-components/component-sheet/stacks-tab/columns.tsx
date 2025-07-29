@@ -39,7 +39,13 @@ export function getStackColumnsPanel(): ColumnDef<Stack>[] {
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author?: User }>();
 				if (!author) return null;
-				return <InlineAvatar username={author.name || "default"} />;
+				return (
+					<InlineAvatar
+						avatarUrl={author.body?.avatar_url ?? undefined}
+						username={author.name}
+						isServiceAccount={!!author.body?.is_service_account}
+					/>
+				);
 			}
 		},
 		{

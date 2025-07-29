@@ -2,8 +2,12 @@ import ComponentDetailLayout from "@/app/components/[componentId]/layout";
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
+import ConnectorDetailLayout from "@/layouts/connectors-detail/layout";
+import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
+import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
+import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
 import { lazy } from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
@@ -11,11 +15,8 @@ import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
-import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
-import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
-import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
-import ConnectorDetailLayout from "@/layouts/connectors-detail/layout";
 
+const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
@@ -87,11 +88,6 @@ export const router = createBrowserRouter([
 				loader: authenticatedLayoutLoader(queryClient),
 				element: withProtectedRoute(<AuthenticatedLayout />),
 				children: [
-					{
-						path: routes.home,
-						errorElement: <PageBoundary />,
-						element: <Navigate to={routes.projects.overview} />
-					},
 					// Create Connector
 					{
 						errorElement: <PageBoundary />,
@@ -102,6 +98,11 @@ export const router = createBrowserRouter([
 					{
 						element: <NonProjectScopedLayout />,
 						children: [
+							{
+								path: routes.home,
+								errorElement: <PageBoundary />,
+								element: withProtectedRoute(<Overview />)
+							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.overview,

@@ -38,9 +38,9 @@ export function ProjectsSearchBar() {
 								target="_blank"
 								className="block w-fit"
 								rel="noopener noreferrer"
-								href="https://cloud.zenml.io/signup"
+								href="https://zenml.io/book-your-demo"
 							>
-								Try ZenML Pro
+								Book a demo
 							</a>
 						</Button>
 					</TooltipContent>

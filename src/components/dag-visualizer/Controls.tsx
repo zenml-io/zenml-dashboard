@@ -4,6 +4,7 @@ import Plus from "@/assets/icons/plus.svg?react";
 import Refresh from "@/assets/icons/refresh.svg?react";
 import { Button } from "@zenml-io/react-component-library/components";
 import { useReactFlow } from "reactflow";
+import { NodeSearch } from "./search";
 
 type Props = {
 	refetch: () => void;
@@ -13,7 +14,8 @@ export function DagControls({ refetch }: Props) {
 
 	return (
 		<div aria-label="Dag Controls" className="absolute left-4 top-4 z-10 flex flex-col gap-1">
-			<div className="divide-y divide-neutral-300 overflow-hidden rounded-md border border-neutral-300">
+			<NodeSearch />
+			<div className="w-fit divide-y divide-neutral-300 overflow-hidden rounded-md border border-neutral-300 bg-theme-surface-primary">
 				<div>
 					<Button
 						onClick={() => zoomIn()}
@@ -21,7 +23,7 @@ export function DagControls({ refetch }: Props) {
 						className="rounded-sharp border-none p-0.5"
 						intent="secondary"
 					>
-						<Plus className="h-5 w-5 bg-theme-surface-primary fill-theme-text-primary" />
+						<Plus className="h-5 w-5 fill-theme-text-primary" />
 					</Button>
 				</div>
 				<div>

@@ -12,3 +12,11 @@ export type PipelineRunDetailQueryParams = NonNullable<
 	operations["get_run_api_v1_runs__run_id__get"]["parameters"]["query"]
 >;
 export type PipelineRunPage = components["schemas"]["Page_PipelineRunResponse_"];
+
+export type RunRefreshQueryParams = NonNullable<
+	operations["refresh_run_status_api_v1_runs__run_id__refresh_post"]["parameters"]["query"]
+>;
+
+export type PipelineRunStopParams = NonNullable<
+	operations["stop_run_api_v1_runs__run_id__stop_post"]["parameters"]["query"]
+>;

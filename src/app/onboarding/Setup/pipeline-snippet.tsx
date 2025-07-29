@@ -15,43 +15,25 @@ export function PipelineSnippet() {
 	);
 }
 
-const snippet = `from zenml import step, pipeline, log_metadata
-import numpy as np
-from typing import Annotated, Tuple
-from sklearn.linear_model import LinearRegression
+const snippet = `from zenml import pipeline, step
+from zenml.logger import get_logger
+
+logger = get_logger(__name__)
 
 
 @step
-def load_data() -> Tuple[
-    Annotated[np.ndarray, "training_data"],
-    Annotated[np.ndarray, "training_labels"]
-]:
-    data = np.random.rand(100, 2)
-    labels = np.random.rand(100)
-    return data, labels
-
-
-@step
-def train_model(
-    data: np.ndarray,
-    labels: np.ndarray,
-) -> Annotated[LinearRegression, "trained_model"]:
-    model = LinearRegression().fit(data, labels)
-    print(f"Model coefficients: {model.coef_}, intercept: {model.intercept_}")
-    log_metadata(
-        metadata={
-            "coefficients": model.coef_.tolist(),
-            "intercept": float(model.intercept_),
-        }
-    )
-    return model
+def say_hello() -> str:
+    logger.info("Executing say_hello step")
+    return "Hello World!"
 
 
 @pipeline
-def basic_pipeline():
-    train_model(*load_data())
+def hello_pipeline():
+    say_hello()
 
 
 if __name__ == "__main__":
-    basic_pipeline()
+    run = hello_pipeline()
+    out = run.steps["say_hello"].outputs["output"][0].load()
+    logger.info(f"▶︎ Step returned: {out}")
 `;

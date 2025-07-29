@@ -19,7 +19,11 @@ export default function SettingsPage() {
 				{data ? (
 					<div className="flex flex-col gap-4">
 						<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Account</p>
-						<InlineAvatar username={data.name} />
+						<InlineAvatar
+							avatarUrl={data.body?.avatar_url ?? undefined}
+							username={data.name}
+							isServiceAccount={!!data.body?.is_service_account}
+						/>
 					</div>
 				) : (
 					<Skeleton className="h-[70px] w-full" />

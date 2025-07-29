@@ -5,14 +5,13 @@ import { ExpiryDate } from "@/components/service-connectors/expiry";
 import { ResourceNameTooltip } from "@/components/service-connectors/resource-name-tooltip";
 import { ResourceTypeTooltip } from "@/components/service-connectors/resource-type-tooltip";
 import { extractResourceTypes } from "@/lib/service-connectors";
-import { getUsername } from "@/lib/user";
+import { routes } from "@/router/routes";
 import { ServiceConnector } from "@/types/service-connectors";
 import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ConnectorDropdown } from "./connector-dropdown";
-import { routes } from "@/router/routes";
-import { Checkbox } from "@zenml-io/react-component-library";
 
 export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] {
 	return useMemo<ColumnDef<ServiceConnector>[]>(
@@ -114,7 +113,14 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 				cell: ({ row }) => {
 					const user = row.original.resources?.user;
 					if (!user) return null;
-					return <InlineAvatar className="max-w-[200px] truncate" username={getUsername(user)} />;
+					return (
+						<InlineAvatar
+							className="max-w-[200px] truncate"
+							avatarUrl={user.body?.avatar_url ?? undefined}
+							username={user.name}
+							isServiceAccount={!!user.body?.is_service_account}
+						/>
+					);
 				}
 			},
 			{

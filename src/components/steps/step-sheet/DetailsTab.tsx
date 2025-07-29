@@ -160,14 +160,22 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						</div>
 					}
 				/>
-				<KeyValue
-					label="Author"
-					value={
-						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data.resources?.user?.name as string} />
-						</div>
-					}
-				/>
+				{data.resources?.user ? (
+					<KeyValue
+						label="Author"
+						value={
+							<div className="inline-flex items-center gap-1">
+								<InlineAvatar
+									avatarUrl={data.resources.user.body?.avatar_url ?? undefined}
+									username={data.resources.user.name}
+									isServiceAccount={!!data.resources.user.body?.is_service_account}
+								/>
+							</div>
+						}
+					/>
+				) : (
+					"Not available"
+				)}
 				<KeyValue
 					label="Start Time"
 					value={

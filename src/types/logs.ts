@@ -1,3 +1,5 @@
+import { operations } from "./core";
+
 export type LogLevel = "INFO" | "ERROR" | "WARN" | "DEBUG" | "CRITICAL";
 
 export interface LogEntry {
@@ -9,3 +11,7 @@ export interface LogEntry {
 	// Optional: For structured logs, you might want to include an object for additional data
 	details?: Record<string, any>;
 }
+
+export type RunLogsQueryParams = NonNullable<
+	operations["run_logs_api_v1_runs__run_id__logs_get"]["parameters"]["query"]
+>;

@@ -1,19 +1,22 @@
 import { FetchError } from "@/lib/fetch-error";
-import { notFound } from "@/lib/not-found-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
+import { RunLogsQueryParams } from "@/types/logs";
+import { objectToSearchParams } from "@/lib/url";
 
 export type PipelineRunDetailOverview = {
 	runId: string;
+	queries: RunLogsQueryParams;
 };
 
-export function getRunLogsQueryKey({ runId }: PipelineRunDetailOverview) {
-	return ["runs", runId, "logs"];
+export function getRunLogsQueryKey({ runId, queries }: PipelineRunDetailOverview) {
+	return ["runs", runId, "logs", queries];
 }
 
-export async function fetchRunLogs({ runId }: PipelineRunDetailOverview): Promise<string> {
-	const url = createApiPath(apiPaths.runs.logs(runId));
+export async function fetchRunLogs({ runId, queries }: PipelineRunDetailOverview): Promise<string> {
+	const queryString = objectToSearchParams(queries).toString();
+	const url = createApiPath(apiPaths.runs.logs(runId)) + (queryString ? `?${queryString}` : "");
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {
@@ -21,13 +24,20 @@ export async function fetchRunLogs({ runId }: PipelineRunDetailOverview): Promis
 		}
 	});
 
-	if (res.status === 404) notFound();
-
 	if (!res.ok) {
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => `Error while fetching logs for run ${runId}`);
 		throw new FetchError({
-			message: `Error while fetching logs for run ${runId}`,
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();

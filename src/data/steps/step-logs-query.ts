@@ -21,13 +21,19 @@ export async function fetchStepLogs({ stepId }: StepLogs) {
 	});
 
 	if (!res.ok) {
-		const errorData = await res.json().catch(() => ({}));
+		const errorData: string = await res
+			.json()
+			.then((data) => {
+				if (Array.isArray(data.detail)) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
+			.catch(() => `Error while fetching logs for step ${stepId}`);
 		throw new FetchError({
-			message:
-				(errorData.detail[1].includes("File") && errorData.detail[1]) ||
-				`The logs for step ${stepId} cannot be fetched or this pipeline run ran locally and logs were not tracked`,
 			status: res.status,
-			statusText: res.statusText
+			statusText: res.statusText,
+			message: errorData
 		});
 	}
 	return res.json();

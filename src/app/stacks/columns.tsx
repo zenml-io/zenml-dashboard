@@ -50,11 +50,17 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 		{
 			id: "author",
 			header: "Author",
-			accessorFn: (row) => ({ author: row.resources?.user?.name }),
-			cell: ({ getValue }) => {
-				const { author } = getValue<{ author?: string }>();
+			accessorFn: (row) => row.resources?.user?.name,
+			cell: ({ row }) => {
+				const author = row.original.resources?.user;
 				if (!author) return null;
-				return <InlineAvatar username={author} />;
+				return (
+					<InlineAvatar
+						avatarUrl={author.body?.avatar_url ?? undefined}
+						username={author.name}
+						isServiceAccount={!!author.body?.is_service_account}
+					/>
+				);
 			}
 		},
 		{
