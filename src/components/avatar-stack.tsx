@@ -1,5 +1,10 @@
+import { sanitizeUrl } from "@/lib/url";
 import { User } from "@/types/user";
-import { Avatar, AvatarFallback } from "@zenml-io/react-component-library/components/client";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage
+} from "@zenml-io/react-component-library/components/client";
 import { cn } from "@zenml-io/react-component-library/utilities";
 
 type Props = {
@@ -24,6 +29,7 @@ export function AvatarStack({ users, totalUsers, max = 4, className }: Props) {
 					className="border-[4px] border-theme-surface-primary bg-theme-surface-primary"
 					type="rounded"
 				>
+					<AvatarImage src={sanitizeUrl(user.body?.avatar_url ?? undefined)} />
 					<AvatarFallback size="lg">{user.name[0]}</AvatarFallback>
 				</Avatar>
 			))}

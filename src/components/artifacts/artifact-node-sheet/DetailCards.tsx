@@ -62,14 +62,20 @@ export function DetailsCard({ artifactVersionId }: Props) {
 					}
 				/>
 				<KeyValue label="Type" value={artifactVersion.data.body?.type} />
-				<KeyValue
-					label="Author"
-					value={
-						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={artifactVersion.data.resources?.user?.name || ""} />
-						</div>
-					}
-				/>
+				{artifactVersion.data.resources?.user && (
+					<KeyValue
+						label="Author"
+						value={
+							<div className="inline-flex items-center gap-1">
+								<InlineAvatar
+									avatarUrl={artifactVersion.data.resources.user.body?.avatar_url ?? undefined}
+									username={artifactVersion.data.resources.user.name}
+									isServiceAccount={!!artifactVersion.data.resources.user.body?.is_service_account}
+								/>
+							</div>
+						}
+					/>
+				)}
 				<KeyValue
 					label="Updated"
 					value={<DisplayDate dateString={artifactVersion.data.body?.updated || ""} />}

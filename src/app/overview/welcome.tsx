@@ -1,6 +1,12 @@
 import { useCurrentUser } from "@/data/users/current-user-query";
+import { sanitizeUrl } from "@/lib/url";
 import { getUsername } from "@/lib/user";
-import { Avatar, AvatarFallback, Skeleton } from "@zenml-io/react-component-library/components";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Skeleton
+} from "@zenml-io/react-component-library/components";
 
 export function Welcome() {
 	const userQuery = useCurrentUser();
@@ -23,6 +29,7 @@ export function Welcome() {
 	return (
 		<div className="flex items-center gap-3">
 			<Avatar size="xl">
+				<AvatarImage src={sanitizeUrl(userQuery.data?.body?.avatar_url ?? undefined)} />
 				<AvatarFallback size="xl">{name?.charAt(0) || "U"}</AvatarFallback>
 			</Avatar>
 			<span className="text-display-xs font-semibold">Welcome back{name ? `, ${name}` : ""}</span>

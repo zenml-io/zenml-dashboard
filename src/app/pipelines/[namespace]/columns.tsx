@@ -155,7 +155,13 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			accessorFn: (row) => ({ author: row.resources?.user }),
 			cell: ({ getValue }) => {
 				const { author } = getValue<{ author: User }>();
-				return <InlineAvatar username={author.name} />;
+				return (
+					<InlineAvatar
+						avatarUrl={author.body?.avatar_url ?? undefined}
+						username={author.name}
+						isServiceAccount={!!author.body?.is_service_account}
+					/>
+				);
 			}
 		},
 		{

@@ -1,17 +1,27 @@
-import { Avatar, AvatarFallback, cn } from "@zenml-io/react-component-library";
+import { cn } from "@zenml-io/react-component-library";
+import { HTMLAttributes } from "react";
+import { UserOrServiceAccountAvatar } from "./avatars/user-or-service-account";
+import { BotBadge } from "./bot-badge";
 
-type Props = {
+type CustomProps = {
 	username: string;
-	className?: string;
+	isServiceAccount: boolean;
+	avatarUrl: string | undefined;
 };
 
-export function InlineAvatar({ username, className }: Props) {
+type Props = HTMLAttributes<HTMLDivElement> & CustomProps;
+
+export function InlineAvatar({ username, isServiceAccount, avatarUrl, className, ...rest }: Props) {
 	return (
-		<div className={cn("inline-flex items-center gap-1", className)}>
-			<Avatar size="sm">
-				<AvatarFallback size="sm">{username[0]}</AvatarFallback>
-			</Avatar>
-			<p className="text-text-sm font-semibold text-theme-text-primary">{username}</p>
+		<div className={cn("inline-flex items-center gap-1 whitespace-nowrap", className)} {...rest}>
+			<UserOrServiceAccountAvatar
+				size="sm"
+				name={username}
+				isServiceAccount={isServiceAccount}
+				avatarUrl={avatarUrl}
+			/>
+			<p className="truncate text-text-sm font-semibold text-theme-text-primary">{username}</p>
+			{isServiceAccount && <BotBadge />}
 		</div>
 	);
 }

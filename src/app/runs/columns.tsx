@@ -153,14 +153,17 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		accessorFn: (row) => ({
 			name: row.resources?.user?.name
 		}),
-		cell: ({ getValue }) => {
-			const { name } = getValue<{
-				name?: string;
-			}>();
+		cell: ({ row }) => {
+			const author = row.original.resources?.user;
+			if (!author) return null;
 
-			if (!name) return null;
-
-			return <InlineAvatar username={name} />;
+			return (
+				<InlineAvatar
+					avatarUrl={author.body?.avatar_url ?? undefined}
+					username={author.name}
+					isServiceAccount={!!author.body?.is_service_account}
+				/>
+			);
 		}
 	},
 	{

@@ -1743,6 +1743,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated service account.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		put: operations["update_service_account_api_v1_service_accounts__service_account_name_or_id__put"];
 		/**
@@ -1751,6 +1755,10 @@ export type paths = {
 		 *
 		 * Args:
 		 *     service_account_name_or_id: Name or ID of the service account.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		delete: operations["delete_service_account_api_v1_service_accounts__service_account_name_or_id__delete"];
 	};
@@ -1783,6 +1791,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The created API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		post: operations["create_api_key_api_v1_service_accounts__service_account_id__api_keys_post"];
 	};
@@ -1814,6 +1826,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		put: operations["update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put"];
 		/**
@@ -1840,6 +1856,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated API key.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If the service account was created via external
+		 *         authentication.
 		 */
 		put: operations["rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put"];
 	};
@@ -4722,6 +4742,16 @@ export type components = {
 			is_active?: boolean | null;
 		};
 		/**
+		 * ExceptionInfo
+		 * @description Exception information.
+		 */
+		ExceptionInfo: {
+			/** The traceback of the exception. */
+			traceback: string;
+			/** The line number of the step code that raised the exception. */
+			step_code_line?: number | null;
+		};
+		/**
 		 * ExecutionStatus
 		 * @description Enum that represents the execution status of a step or pipeline run.
 		 * @enum {string}
@@ -4936,8 +4966,11 @@ export type components = {
 		LogsRequest: {
 			/** The uri of the logs file */
 			uri: string;
-			/** The source of the logs file */
-			source: string;
+			/**
+			 * The source of the logs file
+			 * @default
+			 */
+			source?: string;
 			/**
 			 * The artifact store ID to associate the logs with.
 			 * Format: uuid
@@ -7452,6 +7485,8 @@ export type components = {
 		ScheduleUpdate: {
 			/** Name */
 			name?: string | null;
+			/** Cron Expression */
+			cron_expression?: string | null;
 		};
 		/**
 		 * SecretRequest
@@ -7782,12 +7817,19 @@ export type components = {
 		 * @description Request model for service accounts.
 		 */
 		ServiceAccountRequest: {
-			/** The unique name for the service account. */
+			/** The unique username for the service account. */
 			name: string;
+			/**
+			 * The display name of the service account.
+			 * @default
+			 */
+			full_name?: string;
 			/** A description of the service account. */
 			description?: string | null;
 			/** Whether the service account is active or not. */
 			active: boolean;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceAccountResponse
@@ -7829,10 +7871,17 @@ export type components = {
 			 */
 			updated: string;
 			/**
+			 * The display name of the service account.
+			 * @default
+			 */
+			full_name?: string;
+			/**
 			 * Whether the account is active.
 			 * @default false
 			 */
 			active?: boolean;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceAccountResponseMetadata
@@ -7844,6 +7893,8 @@ export type components = {
 			 * @default
 			 */
 			description?: string;
+			/** The external user ID associated with the account. */
+			external_user_id?: string | null;
 		};
 		/**
 		 * ServiceAccountResponseResources
@@ -7859,10 +7910,14 @@ export type components = {
 		ServiceAccountUpdate: {
 			/** The unique name for the service account. */
 			name?: string | null;
+			/** The display name of the service account. */
+			full_name?: string | null;
 			/** A description of the service account. */
 			description?: string | null;
 			/** Whether the service account is active or not. */
 			active?: boolean | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * ServiceConnectorInfo
@@ -8938,6 +8993,8 @@ export type components = {
 			};
 			/** Logs associated with this step run. */
 			logs?: components["schemas"]["LogsRequest"] | null;
+			/** The exception information of the step run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 		};
 		/**
 		 * StepRunResponse
@@ -9022,6 +9079,8 @@ export type components = {
 			docstring?: string | null;
 			/** The source code of the step function or class. */
 			source_code?: string | null;
+			/** The exception information of the step run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** Logs associated with this step run. */
 			logs?: components["schemas"]["LogsResponse"] | null;
 			/**
@@ -9087,6 +9146,8 @@ export type components = {
 			status?: components["schemas"]["ExecutionStatus"] | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
+			/** The exception information of the step run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 		};
 		/**
 		 * StepSpec
@@ -9555,10 +9616,12 @@ export type components = {
 			user_metadata?: {
 				[key: string]: unknown;
 			} | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 			/** The unique username for the account. */
 			name: string;
 			/**
-			 * The full name for the account owner. Only relevant for user accounts.
+			 * The display name for the account.
 			 * @default
 			 */
 			full_name?: string;
@@ -9621,7 +9684,7 @@ export type components = {
 			/** The activation token for the user. Only relevant for user accounts. */
 			activation_token?: string | null;
 			/**
-			 * The full name for the account owner. Only relevant for user accounts.
+			 * The display name for the account.
 			 * @default
 			 */
 			full_name?: string;
@@ -9636,6 +9699,8 @@ export type components = {
 			is_admin: boolean;
 			/** The default project ID for the user. */
 			default_project_id?: string | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 		};
 		/**
 		 * UserResponseMetadata
@@ -9686,9 +9751,11 @@ export type components = {
 			user_metadata?: {
 				[key: string]: unknown;
 			} | null;
+			/** The avatar URL for the account. */
+			avatar_url?: string | null;
 			/** The unique username for the account. */
 			name?: string | null;
-			/** The full name for the account owner. Only relevant for user accounts. */
+			/** The display name for the account. */
 			full_name?: string | null;
 			/** Whether the account is an administrator. */
 			is_admin?: boolean | null;
@@ -16266,6 +16333,7 @@ export type operations = {
 				name?: string | null;
 				description?: string | null;
 				active?: boolean | string | null;
+				external_user_id?: string | null;
 			};
 		};
 		responses: {
@@ -16396,6 +16464,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated service account.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	update_service_account_api_v1_service_accounts__service_account_name_or_id__put: {
 		parameters: {
@@ -16441,6 +16513,10 @@ export type operations = {
 	 *
 	 * Args:
 	 *     service_account_name_or_id: Name or ID of the service account.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	delete_service_account_api_v1_service_accounts__service_account_name_or_id__delete: {
 		parameters: {
@@ -16551,6 +16627,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The created API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	create_api_key_api_v1_service_accounts__service_account_id__api_keys_post: {
 		parameters: {
@@ -16653,6 +16733,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put: {
 		parameters: {
@@ -16748,6 +16832,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated API key.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If the service account was created via external
+	 *         authentication.
 	 */
 	rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put: {
 		parameters: {
