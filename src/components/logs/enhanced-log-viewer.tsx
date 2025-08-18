@@ -10,7 +10,7 @@ import { EmptyStateLogs } from "./empty-state-logs";
 
 interface EnhancedLogsViewerProps {
 	logs: LogEntryType[];
-	itemsPerPage?: number; // Optional prop for items per page
+	itemsPerPage?: number;
 }
 
 const DEFAULT_ITEMS_PER_PAGE = 100;
@@ -129,7 +129,7 @@ export function EnhancedLogsViewer({
 					{/* Table-style header with fixed structure */}
 					<div className="flex w-full min-w-[600px] space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary">
 						{/* Type column header - match LogLine badge area */}
-						<div className="flex w-8 flex-shrink-0 items-center">
+						<div className="flex w-12 flex-shrink-0 items-center">
 							<span className="text-text-sm font-semibold">Type</span>
 						</div>
 
@@ -249,5 +249,5 @@ export function EnhancedLogsViewer({
 }
 
 function getOriginalLogText(logs: LogEntryType[]) {
-	return logs.map((log) => log.originalEntry).join("\n");
+	return logs.map((log) => log.message).join("\n");
 }

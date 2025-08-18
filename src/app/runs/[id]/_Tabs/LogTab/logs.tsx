@@ -4,9 +4,8 @@ import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
-import { parseLogString } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
 
@@ -61,11 +60,6 @@ type LogTabContentProps = {
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
 
-	const parsedLogs = useMemo(() => {
-		if (!runLogs.data) return [];
-		return parseLogString(runLogs.data);
-	}, [runLogs.data]);
-
 	if (runLogs.isPending) return <LoadingLogs />;
 
 	if (runLogs.isError) {
@@ -84,7 +78,7 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={parsedLogs} />
+			<EnhancedLogsViewer logs={logs} />
 		</div>
 	);
 }

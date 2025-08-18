@@ -1,5 +1,5 @@
 import React from "react";
-import { LogEntry, LogLevel } from "@/types/logs";
+import { LogEntry, LoggingLevel } from "@/types/logs";
 import { CopyButton } from "../CopyButton";
 
 interface LogLineProps {
@@ -10,17 +10,25 @@ interface LogLineProps {
 	highlightedMessage?: React.ReactNode;
 }
 
-const getLogLevelColor = (level: LogLevel): string => {
+const LOG_LEVEL_NAMES = {
+	10: "DEBUG",
+	20: "INFO",
+	30: "WARNING",
+	40: "ERROR",
+	50: "CRITICAL"
+} as const;
+
+const getLogLevelColor = (level: LoggingLevel | undefined): string => {
 	switch (level) {
-		case "INFO":
+		case 20:
 			return "bg-blue-500";
-		case "ERROR":
+		case 40:
 			return "bg-error-500";
-		case "WARN":
+		case 30:
 			return "bg-warning-500";
-		case "DEBUG":
+		case 10:
 			return "bg-neutral-400";
-		case "CRITICAL":
+		case 50:
 			return "bg-error-700";
 		default:
 			return "bg-neutral-400";
@@ -39,9 +47,10 @@ export function LogLine({
 	textWrapEnabled,
 	highlightedMessage
 }: LogLineProps) {
-	const { timestamp, level, message, originalEntry } = entry;
+	const { timestamp, level, message } = entry;
 	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
-	const levelColorClass = getLogLevelColor(level);
+
+	const levelColorClass = getLogLevelColor(level ?? undefined);
 
 	const highlightSearchTerm = (text: string) => {
 		if (!searchTerm) return text;
@@ -70,9 +79,11 @@ export function LogLine({
 	return (
 		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm transition-colors hover:bg-theme-surface-secondary">
 			{/* Compact log level badge */}
-			<div className="flex max-h-6 w-8 flex-shrink-0 items-center">
+			<div className="flex max-h-6 w-12 flex-shrink-0 items-center">
 				<div className={`h-4 w-[2px] rounded-sm ${levelColorClass} mr-2`}></div>
-				<span className="text-xs font-medium text-theme-text-tertiary">{level}</span>
+				<span className="text-xs font-medium text-theme-text-tertiary">
+					{level ? LOG_LEVEL_NAMES[level] : "UNKNOWN"}
+				</span>
 			</div>
 
 			{/* Timestamp */}
@@ -89,7 +100,7 @@ export function LogLine({
 
 			{/* Compact copy button - appears on hover, doesn't change height */}
 			<div className="flex flex-shrink-0 items-center">
-				<CopyButton copyText={originalEntry} copyTitle="Copy log line" />
+				<CopyButton copyText={message} copyTitle="Copy log line" />
 			</div>
 		</div>
 	);
