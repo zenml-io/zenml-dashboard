@@ -1170,24 +1170,6 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
 	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
-		/**
-		 * Deployment Logs
-		 * @description Get deployment logs.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *
-		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
-		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
-	};
 	"/api/v1/runs": {
 		/**
 		 * List Runs
@@ -1346,11 +1328,15 @@ export type paths = {
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
+		 *     offset: The entry index from which to start reading (0-based) from filtered results.
+		 *             Returns up to MAX_LOG_ENTRIES entries starting from this index.
+		 *     count: The number of log entries to return.
+		 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
+		 *     search: Optional search string. Only returns messages containing this string.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     A list of up to MAX_LOG_ENTRIES structured LogEntry objects for
+		 *     the specified source, starting from the given offset index in the filtered results.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
@@ -2397,12 +2383,13 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
+		 *     offset: The entry index from which to start reading (0-based) from filtered results.
+		 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
+		 *     level: Optional log level filter. Returns messages at this level and above.
+		 *     search: Optional search string. Only returns messages containing this string.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     A list of LogEntry objects for the step.
 		 *
 		 * Raises:
 		 *     HTTPException: If no logs are available for this step.
@@ -4953,6 +4940,68 @@ export type components = {
 			/** Value */
 			value: string;
 		};
+		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
 		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
@@ -14256,64 +14305,6 @@ export type operations = {
 		};
 	};
 	/**
-	 * Deployment Logs
-	 * @description Get deployment logs.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *
-	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
-	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
-		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": string;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
 	 * List Runs
 	 * @description Get pipeline runs according to query filters.
 	 *
@@ -14957,11 +14948,15 @@ export type operations = {
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
+	 *     offset: The entry index from which to start reading (0-based) from filtered results.
+	 *             Returns up to MAX_LOG_ENTRIES entries starting from this index.
+	 *     count: The number of log entries to return.
+	 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
+	 *     search: Optional search string. Only returns messages containing this string.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     A list of up to MAX_LOG_ENTRIES structured LogEntry objects for
+	 *     the specified source, starting from the given offset index in the filtered results.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -14971,7 +14966,9 @@ export type operations = {
 			query: {
 				source: string;
 				offset?: number;
-				length?: number;
+				count?: number;
+				level?: components["schemas"]["LoggingLevels"];
+				search?: string | null;
 			};
 			path: {
 				run_id: string;
@@ -14981,7 +14978,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
 				};
 			};
 			/** @description Unauthorized */
@@ -18949,12 +18946,13 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
+	 *     offset: The entry index from which to start reading (0-based) from filtered results.
+	 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
+	 *     level: Optional log level filter. Returns messages at this level and above.
+	 *     search: Optional search string. Only returns messages containing this string.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     A list of LogEntry objects for the step.
 	 *
 	 * Raises:
 	 *     HTTPException: If no logs are available for this step.
@@ -18963,8 +18961,9 @@ export type operations = {
 		parameters: {
 			query?: {
 				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
+				count?: number;
+				level?: components["schemas"]["LoggingLevels"];
+				search?: string | null;
 			};
 			path: {
 				step_id: string;
@@ -18974,7 +18973,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
 				};
 			};
 			/** @description Unauthorized */
