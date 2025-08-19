@@ -20,14 +20,14 @@ const LOG_LEVEL_NAMES = {
 
 const getLogLevelColor = (level: LoggingLevel | undefined): string => {
 	switch (level) {
-		case 20:
-			return "bg-blue-500";
-		case 40:
-			return "bg-error-500";
-		case 30:
-			return "bg-warning-500";
 		case 10:
 			return "bg-neutral-400";
+		case 20:
+			return "bg-blue-500";
+		case 30:
+			return "bg-warning-500";
+		case 40:
+			return "bg-error-500";
 		case 50:
 			return "bg-error-700";
 		default:
