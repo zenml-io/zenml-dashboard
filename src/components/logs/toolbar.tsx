@@ -2,12 +2,14 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import Download from "@/assets/icons/download-01.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { SearchField } from "../SearchField";
+import { LogLevelSelect } from "./loglevel-select";
+import { useLogViewerContext } from "./logviewer-context";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
 	onDownload: () => void;
 	// Search-related props from useLogSearch hook
-	searchQuery?: string;
+	searchQuery: string;
 	currentMatchIndex?: number;
 	totalMatches?: number;
 	onPreviousMatch?: () => void;
@@ -18,12 +20,13 @@ export function LogToolbar({
 	onSearchChange,
 
 	onDownload,
-	searchQuery = "",
+	searchQuery,
 	currentMatchIndex = 0,
 	totalMatches = 0,
 	onPreviousMatch,
 	onNextMatch
 }: LogToolbarProps) {
+	const { logLevel, setLogLevel } = useLogViewerContext();
 	return (
 		<>
 			{/* Main Toolbar */}
@@ -33,6 +36,7 @@ export function LogToolbar({
 					<div className="flex items-center gap-2">
 						<SearchField
 							searchParams={{}}
+							value={searchQuery}
 							inMemoryHandler={onSearchChange}
 							placeholder="Search logs..."
 						/>
@@ -63,6 +67,10 @@ export function LogToolbar({
 								</Button>
 							</div>
 						)}
+						<LogLevelSelect
+							value={logLevel.toString()}
+							onValueChange={(value) => setLogLevel(Number(value))}
+						/>
 					</div>
 
 					{/* Right side - Action Buttons */}

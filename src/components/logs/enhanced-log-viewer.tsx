@@ -3,10 +3,11 @@ import Expand from "@/assets/icons/expand-full.svg?react";
 import { LogEntry as LogEntryType, LogPage } from "@/types/logs"; // Assuming types are in src/types/logs.ts
 import { Button } from "@zenml-io/react-component-library/components/server";
 import React, { useState } from "react";
+import { EmptyStateLogs } from "./empty-state-logs";
 import LogLine from "./log-line"; // Import the LogLine component
+import { useLogViewerContext } from "./logviewer-context";
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
-import { EmptyStateLogs } from "./empty-state-logs";
 
 interface EnhancedLogsViewerProps {
 	logPage: LogPage;
@@ -21,7 +22,7 @@ export function EnhancedLogsViewer({
 }: EnhancedLogsViewerProps) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
-	const [searchQuery, setSearchQuery] = useState("");
+	const { searchQuery, setSearchQuery } = useLogViewerContext();
 	const [caseSensitive] = useState(false);
 
 	const logs = logPage.items;

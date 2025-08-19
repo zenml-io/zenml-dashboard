@@ -8,6 +8,7 @@ import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
+import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logviewer-context";
 
 export function LogTab() {
 	const { runId } = useParams() as { runId: string };
@@ -48,7 +49,9 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 					/>
 				</div>
 			)}
-			<LogDisplay selectedSource={selectedSource} runId={runId} />
+			<LogViewerProvider>
+				<LogDisplay selectedSource={selectedSource} runId={runId} />
+			</LogViewerProvider>
 		</section>
 	);
 }
@@ -58,7 +61,11 @@ type LogTabContentProps = {
 	runId: string;
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
-	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
+	const { logLevel, searchQuery } = useLogViewerContext();
+	const runLogs = useRunLogs({
+		runId,
+		queries: { source: selectedSource, level: logLevel, search: searchQuery }
+	});
 
 	if (runLogs.isPending) return <LoadingLogs />;
 
