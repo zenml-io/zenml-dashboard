@@ -1328,8 +1328,7 @@ export type paths = {
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The entry index from which to start reading (0-based) from filtered results.
-		 *             Returns up to MAX_LOG_ENTRIES entries starting from this index.
+		 *     page: The page number to return.
 		 *     count: The number of log entries to return.
 		 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
 		 *     search: Optional search string. Only returns messages containing this string.
@@ -2383,7 +2382,7 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The entry index from which to start reading (0-based) from filtered results.
+		 *     page: The page number to return.
 		 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
 		 *     level: Optional log level filter. Returns messages at this level and above.
 		 *     search: Optional search string. Only returns messages containing this string.
@@ -4995,6 +4994,22 @@ export type components = {
 			 * @description The unique identifier of the log entry
 			 */
 			id?: string;
+		};
+		/**
+		 * LogPage
+		 * @description A page of log entries.
+		 */
+		LogPage: {
+			/** Items */
+			items: components["schemas"]["LogEntry"][];
+			/** Total */
+			total: number;
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
 		};
 		/**
 		 * LoggingLevels
@@ -14948,8 +14963,7 @@ export type operations = {
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The entry index from which to start reading (0-based) from filtered results.
-	 *             Returns up to MAX_LOG_ENTRIES entries starting from this index.
+	 *     page: The page number to return.
 	 *     count: The number of log entries to return.
 	 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
 	 *     search: Optional search string. Only returns messages containing this string.
@@ -14965,9 +14979,9 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
+				page?: number;
 				count?: number;
-				level?: components["schemas"]["LoggingLevels"];
+				level?: number;
 				search?: string | null;
 			};
 			path: {
@@ -14978,7 +14992,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["LogEntry"][];
+					"application/json": components["schemas"]["LogPage"];
 				};
 			};
 			/** @description Unauthorized */
@@ -18946,7 +18960,7 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The entry index from which to start reading (0-based) from filtered results.
+	 *     page: The page number to return.
 	 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
 	 *     level: Optional log level filter. Returns messages at this level and above.
 	 *     search: Optional search string. Only returns messages containing this string.
@@ -18960,9 +18974,9 @@ export type operations = {
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
 			query?: {
-				offset?: number;
+				page?: number;
 				count?: number;
-				level?: components["schemas"]["LoggingLevels"];
+				level?: number;
 				search?: string | null;
 			};
 			path: {
@@ -18973,7 +18987,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["LogEntry"][];
+					"application/json": components["schemas"]["LogPage"];
 				};
 			};
 			/** @description Unauthorized */

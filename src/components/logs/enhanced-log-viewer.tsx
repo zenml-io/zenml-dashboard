@@ -1,6 +1,6 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
-import { LogEntry as LogEntryType } from "@/types/logs"; // Assuming types are in src/types/logs.ts
+import { LogEntry as LogEntryType, LogPage } from "@/types/logs"; // Assuming types are in src/types/logs.ts
 import { Button } from "@zenml-io/react-component-library/components/server";
 import React, { useState } from "react";
 import LogLine from "./log-line"; // Import the LogLine component
@@ -9,20 +9,22 @@ import { useLogSearch } from "./use-log-search";
 import { EmptyStateLogs } from "./empty-state-logs";
 
 interface EnhancedLogsViewerProps {
-	logs: LogEntryType[];
+	logPage: LogPage;
 	itemsPerPage?: number;
 }
 
 const DEFAULT_ITEMS_PER_PAGE = 100;
 
 export function EnhancedLogsViewer({
-	logs,
+	logPage,
 	itemsPerPage = DEFAULT_ITEMS_PER_PAGE
 }: EnhancedLogsViewerProps) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [caseSensitive] = useState(false);
+
+	const logs = logPage.items;
 
 	// Initialize search functionality on filtered logs
 	const { currentMatchIndex, totalMatches, goToNextMatch, goToPreviousMatch, highlightText } =
@@ -36,10 +38,8 @@ export function EnhancedLogsViewer({
 		setCurrentPage(1);
 	}, [searchQuery]);
 
-	const totalPages = Math.ceil(logsToDisplay.length / itemsPerPage);
+	const totalPages = logPage.total_pages;
 	const startIndex = (currentPage - 1) * itemsPerPage;
-	const endIndex = startIndex + itemsPerPage;
-	const currentLogs = logsToDisplay.slice(startIndex, endIndex);
 
 	const handlePreviousPage = () => {
 		setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -83,7 +83,7 @@ export function EnhancedLogsViewer({
 	};
 
 	// Empty state - no logs at all
-	if (!logs) {
+	if (logs.length === 0) {
 		return (
 			<div className="flex h-full flex-col space-y-5">
 				<LogToolbar
@@ -162,7 +162,7 @@ export function EnhancedLogsViewer({
 					<div className={textWrapEnabled ? "min-w-full" : "flex w-full min-w-full"}>
 						{/* Logs content */}
 						<div className="flex-1 bg-theme-surface-primary">
-							{currentLogs.map((entry, index) => {
+							{logsToDisplay.map((entry, index) => {
 								// Calculate the actual log index in the filtered logs array
 								const actualLogIndex = startIndex + index;
 

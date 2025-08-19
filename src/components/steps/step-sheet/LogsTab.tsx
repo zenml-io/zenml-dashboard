@@ -1,4 +1,3 @@
-import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useStepLogs } from "@/data/steps/step-logs-query";
@@ -19,18 +18,9 @@ export function StepLogsTab({ stepId }: Props) {
 		return <LoadingLogs />;
 	}
 
-	if (data.length === 0) {
-		return (
-			<EmptyStateLogs
-				title="This step has no logs"
-				subtitle="It looks like there are no logs associated with this step"
-			/>
-		);
-	}
-
 	return (
 		<div className="space-y-5">
-			<EnhancedLogsViewer logs={data} />
+			<EnhancedLogsViewer logPage={data} />
 		</div>
 	);
 }

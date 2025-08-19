@@ -2,7 +2,7 @@ import { FetchError } from "@/lib/fetch-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
-import { LogEntry, RunLogsQueryParams } from "@/types/logs";
+import { LogPage, RunLogsQueryParams } from "@/types/logs";
 import { objectToSearchParams } from "@/lib/url";
 
 export type PipelineRunDetailOverview = {
@@ -17,7 +17,7 @@ export function getRunLogsQueryKey({ runId, queries }: PipelineRunDetailOverview
 export async function fetchRunLogs({
 	runId,
 	queries
-}: PipelineRunDetailOverview): Promise<LogEntry[]> {
+}: PipelineRunDetailOverview): Promise<LogPage> {
 	const queryString = objectToSearchParams(queries).toString();
 	const url = createApiPath(apiPaths.runs.logs(runId)) + (queryString ? `?${queryString}` : "");
 	const res = await fetcher(url, {
@@ -48,9 +48,9 @@ export async function fetchRunLogs({
 
 export function useRunLogs(
 	params: PipelineRunDetailOverview,
-	options?: Omit<UseQueryOptions<LogEntry[], FetchError>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<LogPage, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<LogEntry[], FetchError>({
+	return useQuery<LogPage, FetchError>({
 		queryKey: getRunLogsQueryKey(params),
 		queryFn: () => fetchRunLogs(params),
 		...options

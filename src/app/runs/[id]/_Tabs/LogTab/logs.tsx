@@ -58,7 +58,7 @@ type LogTabContentProps = {
 	runId: string;
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
-	const runLogs = useRunLogs({ runId, queries: { source: selectedSource, search: "def" } });
+	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
 
 	if (runLogs.isPending) return <LoadingLogs />;
 
@@ -66,19 +66,9 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 		return <ErrorFallback err={runLogs.error} />;
 	}
 
-	const logs = runLogs.data;
-	if (logs.length === 0) {
-		return (
-			<EmptyStateLogs
-				title="This pipeline run has no logs"
-				subtitle="It looks like there are no logs associated with this pipeline run"
-			/>
-		);
-	}
-
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={logs} />
+			<EnhancedLogsViewer logPage={runLogs.data} />
 		</div>
 	);
 }
