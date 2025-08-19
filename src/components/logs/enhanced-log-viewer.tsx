@@ -57,14 +57,6 @@ export function EnhancedLogsViewer({
 		setCurrentPage(totalPages);
 	};
 
-	const handleCopyAllLogs = () => {
-		const logText = getOriginalLogText(logsToDisplay);
-
-		navigator.clipboard.writeText(logText).catch((err) => {
-			console.error("Failed to copy logs:", err);
-		});
-	};
-
 	const handleDownloadLogs = () => {
 		const logText = getOriginalLogText(logsToDisplay);
 		const blob = new Blob([logText], { type: "text/plain" });
@@ -88,7 +80,6 @@ export function EnhancedLogsViewer({
 			<div className="flex h-full flex-col space-y-5">
 				<LogToolbar
 					onSearchChange={setSearchQuery}
-					onCopyAll={handleCopyAllLogs}
 					onDownload={handleDownloadLogs}
 					searchQuery={searchQuery}
 					currentMatchIndex={currentMatchIndex}
@@ -108,7 +99,6 @@ export function EnhancedLogsViewer({
 		<div className="flex h-full flex-col space-y-5">
 			<LogToolbar
 				onSearchChange={setSearchQuery}
-				onCopyAll={handleCopyAllLogs}
 				onDownload={handleDownloadLogs}
 				searchQuery={searchQuery}
 				currentMatchIndex={currentMatchIndex}
