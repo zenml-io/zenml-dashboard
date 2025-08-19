@@ -21,21 +21,15 @@ export function EnhancedLogsViewer({
 }: EnhancedLogsViewerProps) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [caseSensitive] = useState(false);
 
 	// Initialize search functionality on filtered logs
-	const {
-		searchQuery,
-		setSearchQuery,
-		filteredLogs: searchAndFilteredLogs,
-		currentMatchIndex,
-		totalMatches,
-		goToNextMatch,
-		goToPreviousMatch,
-		highlightText
-	} = useLogSearch(logs);
+	const { currentMatchIndex, totalMatches, goToNextMatch, goToPreviousMatch, highlightText } =
+		useLogSearch(logs, searchQuery, caseSensitive);
 
 	// Use search + filtered logs for pagination
-	const logsToDisplay = searchAndFilteredLogs;
+	const logsToDisplay = logs;
 
 	// Reset to first page when search or filters change
 	React.useEffect(() => {
