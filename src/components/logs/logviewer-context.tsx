@@ -5,6 +5,8 @@ type LogViewerContextType = {
 	setSearchQuery: Dispatch<SetStateAction<string>>;
 	logLevel: number;
 	setLogLevel: Dispatch<SetStateAction<number>>;
+	currentPage: number;
+	setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
 export const LogViewerContext = createContext<LogViewerContextType | null>(null);
@@ -12,8 +14,11 @@ export const LogViewerContext = createContext<LogViewerContextType | null>(null)
 export function LogViewerProvider({ children }: { children: React.ReactNode }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [logLevel, setLogLevel] = useState(20);
+	const [currentPage, setCurrentPage] = useState(1);
 	return (
-		<LogViewerContext.Provider value={{ searchQuery, setSearchQuery, logLevel, setLogLevel }}>
+		<LogViewerContext.Provider
+			value={{ searchQuery, setSearchQuery, logLevel, setLogLevel, currentPage, setCurrentPage }}
+		>
 			{children}
 		</LogViewerContext.Provider>
 	);

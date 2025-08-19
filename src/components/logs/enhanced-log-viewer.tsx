@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { EmptyStateLogs } from "./empty-state-logs";
 import LogLine from "./log-line"; // Import the LogLine component
 import { useLogViewerContext } from "./logviewer-context";
+import { LogviewerPagination } from "./pagination";
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
 
@@ -14,18 +15,18 @@ interface EnhancedLogsViewerProps {
 	itemsPerPage?: number;
 }
 
-const DEFAULT_ITEMS_PER_PAGE = 100;
-
-export function EnhancedLogsViewer({
-	logPage,
-	itemsPerPage = DEFAULT_ITEMS_PER_PAGE
-}: EnhancedLogsViewerProps) {
-	const [currentPage, setCurrentPage] = useState(1);
+export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
+	const { currentPage, setCurrentPage } = useLogViewerContext();
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const { searchQuery, setSearchQuery } = useLogViewerContext();
 	const [caseSensitive] = useState(false);
 
 	const logs = logPage.items;
+	const totalPages = logPage.total_pages;
+	const itemsPerPage = logPage.max_size;
+
+	// Calculate start index for proper log indexing across pages
+	const startIndex = (currentPage - 1) * itemsPerPage;
 
 	// Initialize search functionality on filtered logs
 	const { currentMatchIndex, totalMatches, goToNextMatch, goToPreviousMatch, highlightText } =
@@ -38,25 +39,6 @@ export function EnhancedLogsViewer({
 	React.useEffect(() => {
 		setCurrentPage(1);
 	}, [searchQuery]);
-
-	const totalPages = logPage.total_pages;
-	const startIndex = (currentPage - 1) * itemsPerPage;
-
-	const handlePreviousPage = () => {
-		setCurrentPage((prev) => Math.max(prev - 1, 1));
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-	};
-
-	const handleFirstPage = () => {
-		setCurrentPage(1);
-	};
-
-	const handleLastPage = () => {
-		setCurrentPage(totalPages);
-	};
 
 	const handleDownloadLogs = () => {
 		const logText = getOriginalLogText(logsToDisplay);
@@ -172,62 +154,7 @@ export function EnhancedLogsViewer({
 				</div>
 
 				{/* Pagination - only show when there are multiple pages */}
-				{totalPages > 1 && (
-					<div className="border-t border-theme-border-minimal bg-theme-surface-secondary px-4 py-3">
-						<div className="flex items-center justify-between">
-							<div className="text-sm text-theme-text-secondary">
-								Showing {startIndex + 1} to{" "}
-								{Math.min(startIndex + itemsPerPage, logsToDisplay.length)} of{" "}
-								{logsToDisplay.length} logs
-							</div>
-							<div className="flex items-center space-x-2">
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleFirstPage}
-									disabled={currentPage === 1}
-								>
-									First
-								</Button>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handlePreviousPage}
-									disabled={currentPage === 1}
-								>
-									Previous
-								</Button>
-								<span className="text-sm text-theme-text-secondary">
-									Page {currentPage} of {totalPages}
-								</span>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleNextPage}
-									disabled={currentPage === totalPages}
-								>
-									Next
-								</Button>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleLastPage}
-									disabled={currentPage === totalPages}
-								>
-									Last
-								</Button>
-							</div>
-						</div>
-					</div>
-				)}
+				{totalPages > 1 && <LogviewerPagination logPage={logPage} />}
 			</div>
 		</div>
 	);

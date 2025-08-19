@@ -61,10 +61,10 @@ type LogTabContentProps = {
 	runId: string;
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
-	const { logLevel, searchQuery } = useLogViewerContext();
+	const { logLevel, searchQuery, currentPage } = useLogViewerContext();
 	const runLogs = useRunLogs({
 		runId,
-		queries: { source: selectedSource, level: logLevel, search: searchQuery }
+		queries: { source: selectedSource, level: logLevel, search: searchQuery, page: currentPage }
 	});
 
 	if (runLogs.isPending) return <LoadingLogs />;
