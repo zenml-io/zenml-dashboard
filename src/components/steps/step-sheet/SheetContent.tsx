@@ -14,6 +14,7 @@ import { StepLogsTab } from "./LogsTab";
 import { StepMetadataTab } from "./MetadataTab";
 import { StackTab } from "./StacksTab";
 import { SheetHeadline } from "./sheet-headline";
+import { LogViewerProvider } from "@/components/logs/logviewer-context";
 
 type Props = {
 	stepId: string;
@@ -68,7 +69,9 @@ export function StepSheetContent({ stepId }: Props) {
 						<StepCodeTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-						<StepLogsTab stepId={stepId} />
+						<LogViewerProvider>
+							<StepLogsTab stepId={stepId} />
+						</LogViewerProvider>
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
 						<StepConfigTab stepId={stepId} />
