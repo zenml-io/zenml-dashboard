@@ -30,6 +30,7 @@ export const apiPaths = {
 		detail: (id: string) => `/runs/${id}`,
 		dag: (id: string) => `/runs/${id}/dag`,
 		logs: (runId: string) => `/runs/${runId}/logs`,
+		logsDownload: (runId: string) => `/runs/${runId}/logs/download`,
 		refresh: (runId: string) => `/runs/${runId}/refresh`,
 		stop: (runId: string) => `/runs/${runId}/stop`
 	},
@@ -70,7 +71,8 @@ export const apiPaths = {
 	},
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
-		logs: (stepId: string) => `/steps/${stepId}/logs`
+		logs: (stepId: string) => `/steps/${stepId}/logs`,
+		logsDownload: (stepId: string) => `/steps/${stepId}/logs/download`
 	},
 	users: {
 		all: "/users",

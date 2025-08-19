@@ -3,6 +3,7 @@ import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useStepLogs } from "@/data/steps/step-logs-query";
 import { ErrorFallback } from "../../Error";
 import { useLogViewerContext } from "@/components/logs/logviewer-context";
+import { apiPaths, createApiPath } from "@/data/api";
 
 type Props = {
 	stepId: string;
@@ -23,9 +24,11 @@ export function StepLogsTab({ stepId }: Props) {
 		return <LoadingLogs />;
 	}
 
+	const downloadUrl = createApiPath(apiPaths.steps.logsDownload(stepId));
+
 	return (
 		<div className="space-y-5">
-			<EnhancedLogsViewer logPage={data} />
+			<EnhancedLogsViewer downloadLink={downloadUrl} logPage={data} />
 		</div>
 	);
 }

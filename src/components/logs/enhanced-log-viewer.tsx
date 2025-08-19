@@ -1,6 +1,6 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
-import { LogEntry as LogEntryType, LogPage } from "@/types/logs"; // Assuming types are in src/types/logs.ts
+import { LogPage } from "@/types/logs"; // Assuming types are in src/types/logs.ts
 import { Button } from "@zenml-io/react-component-library/components/server";
 import React, { useState } from "react";
 import { EmptyStateLogs } from "./empty-state-logs";
@@ -13,9 +13,10 @@ import { useLogSearch } from "./use-log-search";
 interface EnhancedLogsViewerProps {
 	logPage: LogPage;
 	itemsPerPage?: number;
+	downloadLink?: string;
 }
 
-export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
+export function EnhancedLogsViewer({ logPage, downloadLink }: EnhancedLogsViewerProps) {
 	const { currentPage, setCurrentPage } = useLogViewerContext();
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const { searchQuery, setSearchQuery } = useLogViewerContext();
@@ -40,19 +41,6 @@ export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
 		setCurrentPage(1);
 	}, [searchQuery]);
 
-	const handleDownloadLogs = () => {
-		const logText = getOriginalLogText(logsToDisplay);
-		const blob = new Blob([logText], { type: "text/plain" });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement("a");
-		a.href = url;
-		a.download = `logs-${new Date().toISOString().split("T")[0]}.txt`;
-		document.body.appendChild(a);
-		a.click();
-		document.body.removeChild(a);
-		URL.revokeObjectURL(url);
-	};
-
 	const handleToggleTextWrap = () => {
 		setTextWrapEnabled((prev) => !prev);
 	};
@@ -62,8 +50,8 @@ export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
 		return (
 			<div className="flex h-full flex-col space-y-5">
 				<LogToolbar
+					downloadLink={downloadLink}
 					onSearchChange={setSearchQuery}
-					onDownload={handleDownloadLogs}
 					searchQuery={searchQuery}
 					currentMatchIndex={currentMatchIndex}
 					totalMatches={totalMatches}
@@ -81,8 +69,8 @@ export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
 	return (
 		<div className="flex h-full flex-col space-y-5">
 			<LogToolbar
+				downloadLink={downloadLink}
 				onSearchChange={setSearchQuery}
-				onDownload={handleDownloadLogs}
 				searchQuery={searchQuery}
 				currentMatchIndex={currentMatchIndex}
 				totalMatches={totalMatches}
@@ -158,8 +146,4 @@ export function EnhancedLogsViewer({ logPage }: EnhancedLogsViewerProps) {
 			</div>
 		</div>
 	);
-}
-
-function getOriginalLogText(logs: LogEntryType[]) {
-	return logs.map((log) => log.message).join("\n");
 }

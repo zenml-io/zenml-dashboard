@@ -1342,6 +1342,37 @@ export type paths = {
 		 */
 		get: operations["run_logs_api_v1_runs__run_id__logs_get"];
 	};
+	"/api/v1/runs/{run_id}/logs/download": {
+		/**
+		 * Download Run Logs
+		 * @description Download all pipeline run logs for a specific source as a formatted string.
+		 *
+		 * Available fields for the format string:
+		 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+		 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+		 *     - {message}: The actual log message content
+		 *     - {name}: Logger name (e.g., "zenml.pipeline")
+		 *     - {module}: Module name (e.g., "zenml.pipelines")
+		 *     - {filename}: Source filename (e.g., "pipeline.py")
+		 *     - {lineno}: Line number where log was generated
+		 *     - {chunk_index}: Chunk index for large messages (usually 0)
+		 *     - {total_chunks}: Total chunks for large messages (usually 1)
+		 *     - {id}: Unique log entry ID (UUID)
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run.
+		 *     source: Required source to get logs for.
+		 *     format_string: Format string for each log entry using Python string formatting.
+		 *         If None or empty string, returns raw jsonified log entries without formatting.
+		 *
+		 * Returns:
+		 *     A string containing all log entries, either raw or formatted.
+		 *
+		 * Raises:
+		 *     KeyError: If no logs are found for the specified source.
+		 */
+		get: operations["download_run_logs_api_v1_runs__run_id__logs_download_get"];
+	};
 	"/api/v1/run-metadata": {
 		/**
 		 * Create Run Metadata
@@ -2394,6 +2425,36 @@ export type paths = {
 		 *     HTTPException: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
+	};
+	"/api/v1/steps/{step_id}/logs/download": {
+		/**
+		 * Download Step Logs
+		 * @description Download all logs of a specific step as a formatted string.
+		 *
+		 * Available fields for the format string:
+		 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+		 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+		 *     - {message}: The actual log message content
+		 *     - {name}: Logger name (e.g., "zenml.pipeline")
+		 *     - {module}: Module name (e.g., "zenml.pipelines")
+		 *     - {filename}: Source filename (e.g., "pipeline.py")
+		 *     - {lineno}: Line number where log was generated
+		 *     - {chunk_index}: Chunk index for large messages (usually 0)
+		 *     - {total_chunks}: Total chunks for large messages (usually 1)
+		 *     - {id}: Unique log entry ID (UUID)
+		 *
+		 * Args:
+		 *     step_id: ID of the step.
+		 *     format_string: Format string for each log entry using Python string formatting.
+		 *         If None or empty string, returns raw jsonified log entries without formatting.
+		 *
+		 * Returns:
+		 *     A string containing all log entries, either raw or formatted.
+		 *
+		 * Raises:
+		 *     HTTPException: If no logs are available for this step.
+		 */
+		get: operations["download_step_logs_api_v1_steps__step_id__logs_download_get"];
 	};
 	"/api/v1/tags": {
 		/**
@@ -15022,6 +15083,77 @@ export type operations = {
 		};
 	};
 	/**
+	 * Download Run Logs
+	 * @description Download all pipeline run logs for a specific source as a formatted string.
+	 *
+	 * Available fields for the format string:
+	 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+	 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+	 *     - {message}: The actual log message content
+	 *     - {name}: Logger name (e.g., "zenml.pipeline")
+	 *     - {module}: Module name (e.g., "zenml.pipelines")
+	 *     - {filename}: Source filename (e.g., "pipeline.py")
+	 *     - {lineno}: Line number where log was generated
+	 *     - {chunk_index}: Chunk index for large messages (usually 0)
+	 *     - {total_chunks}: Total chunks for large messages (usually 1)
+	 *     - {id}: Unique log entry ID (UUID)
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run.
+	 *     source: Required source to get logs for.
+	 *     format_string: Format string for each log entry using Python string formatting.
+	 *         If None or empty string, returns raw jsonified log entries without formatting.
+	 *
+	 * Returns:
+	 *     A string containing all log entries, either raw or formatted.
+	 *
+	 * Raises:
+	 *     KeyError: If no logs are found for the specified source.
+	 */
+	download_run_logs_api_v1_runs__run_id__logs_download_get: {
+		parameters: {
+			query: {
+				source: string;
+				format_string?: string | null;
+			};
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * Create Run Metadata
 	 * @description Creates run metadata.
 	 *
@@ -18988,6 +19120,75 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["LogPage"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Download Step Logs
+	 * @description Download all logs of a specific step as a formatted string.
+	 *
+	 * Available fields for the format string:
+	 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+	 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+	 *     - {message}: The actual log message content
+	 *     - {name}: Logger name (e.g., "zenml.pipeline")
+	 *     - {module}: Module name (e.g., "zenml.pipelines")
+	 *     - {filename}: Source filename (e.g., "pipeline.py")
+	 *     - {lineno}: Line number where log was generated
+	 *     - {chunk_index}: Chunk index for large messages (usually 0)
+	 *     - {total_chunks}: Total chunks for large messages (usually 1)
+	 *     - {id}: Unique log entry ID (UUID)
+	 *
+	 * Args:
+	 *     step_id: ID of the step.
+	 *     format_string: Format string for each log entry using Python string formatting.
+	 *         If None or empty string, returns raw jsonified log entries without formatting.
+	 *
+	 * Returns:
+	 *     A string containing all log entries, either raw or formatted.
+	 *
+	 * Raises:
+	 *     HTTPException: If no logs are available for this step.
+	 */
+	download_step_logs_api_v1_steps__step_id__logs_download_get: {
+		parameters: {
+			query?: {
+				format_string?: string | null;
+			};
+			path: {
+				step_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */

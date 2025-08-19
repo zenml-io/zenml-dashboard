@@ -2,13 +2,14 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
+import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logviewer-context";
+import { apiPaths, createApiPath } from "@/data/api";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
-import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logviewer-context";
 
 export function LogTab() {
 	const { runId } = useParams() as { runId: string };
@@ -73,9 +74,12 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 		return <ErrorFallback err={runLogs.error} />;
 	}
 
+	const downloadUrl =
+		createApiPath(apiPaths.runs.logsDownload(runId)) + "?source=" + selectedSource;
+
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer logPage={runLogs.data} />
+			<EnhancedLogsViewer downloadLink={downloadUrl} logPage={runLogs.data} />
 		</div>
 	);
 }

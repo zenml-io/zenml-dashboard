@@ -7,7 +7,8 @@ import { useLogViewerContext } from "./logviewer-context";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
-	onDownload: () => void;
+	downloadLink?: string;
+
 	// Search-related props from useLogSearch hook
 	searchQuery: string;
 	currentMatchIndex?: number;
@@ -18,8 +19,7 @@ interface LogToolbarProps {
 
 export function LogToolbar({
 	onSearchChange,
-
-	onDownload,
+	downloadLink,
 	searchQuery,
 	currentMatchIndex = 0,
 	totalMatches = 0,
@@ -74,17 +74,21 @@ export function LogToolbar({
 					</div>
 
 					{/* Right side - Action Buttons */}
-					<Button
-						size="md"
-						emphasis="subtle"
-						intent="secondary"
-						onClick={onDownload}
-						title="Download logs as file"
-						className="bg-theme-surface-primary"
-					>
-						<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
-						Download
-					</Button>
+					{downloadLink && (
+						<Button
+							asChild
+							size="md"
+							emphasis="subtle"
+							intent="secondary"
+							title="Download logs as file"
+							className="bg-theme-surface-primary"
+						>
+							<a href={downloadLink}>
+								<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
+								Download
+							</a>
+						</Button>
+					)}
 				</div>
 			</div>
 		</>
