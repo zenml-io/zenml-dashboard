@@ -67,7 +67,12 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 	const runLogs = useRunLogs(
 		{
 			runId,
-			queries: { source: selectedSource, level: logLevel, search: searchQuery, page: currentPage }
+			queries: {
+				source: selectedSource,
+				level: logLevel,
+				search: searchQuery,
+				page: currentPage
+			}
 		},
 		{ placeholderData: keepPreviousData }
 	);

@@ -84,7 +84,7 @@ export function LogToolbar({
 						>
 							<a href={downloadLink}>
 								<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
-								Download
+								Download All
 							</a>
 						</Button>
 					)}

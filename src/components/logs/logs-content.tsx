@@ -14,7 +14,6 @@ type Props = {
 	textWrapEnabled: boolean;
 	highlightText: (text: string, logIndex: number) => React.ReactNode;
 	handleToggleTextWrap: () => void;
-	startIndex: number;
 };
 
 export function LogsContent({
@@ -22,8 +21,7 @@ export function LogsContent({
 	searchQuery,
 	textWrapEnabled,
 	highlightText,
-	handleToggleTextWrap,
-	startIndex
+	handleToggleTextWrap
 }: Props) {
 	const totalPages = logPage.total_pages;
 	const logs = logPage.items;
@@ -74,8 +72,8 @@ export function LogsContent({
 					{/* Logs content */}
 					<div className="flex-1 bg-theme-surface-primary">
 						{logs.map((entry, index) => {
-							// Calculate the actual log index in the filtered logs array
-							const actualLogIndex = startIndex + index;
+							// Use the page-relative index for highlighting (matches what useLogSearch expects)
+							const pageRelativeIndex = index;
 
 							return (
 								<LogLine
@@ -83,7 +81,7 @@ export function LogsContent({
 									entry={entry}
 									searchTerm={searchQuery}
 									textWrapEnabled={textWrapEnabled}
-									highlightedMessage={highlightText(entry.message, actualLogIndex)}
+									highlightedMessage={highlightText(entry.message, pageRelativeIndex)}
 								/>
 							);
 						})}

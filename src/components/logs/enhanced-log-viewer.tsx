@@ -15,17 +15,12 @@ interface EnhancedLogsViewerProps {
 }
 
 export function EnhancedLogsViewer({ logPage, downloadLink, isLoading }: EnhancedLogsViewerProps) {
-	const { currentPage, setCurrentPage } = useLogViewerContext();
+	const { setCurrentPage, logLevel } = useLogViewerContext();
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const { searchQuery, setSearchQuery } = useLogViewerContext();
 	const [caseSensitive] = useState(false);
 
 	const logs = logPage.items;
-
-	const itemsPerPage = logPage.max_size;
-
-	// Calculate start index for proper log indexing across pages
-	const startIndex = (currentPage - 1) * itemsPerPage;
 
 	// Initialize search functionality on filtered logs
 	const { currentMatchIndex, totalMatches, goToNextMatch, goToPreviousMatch, highlightText } =
@@ -34,7 +29,7 @@ export function EnhancedLogsViewer({ logPage, downloadLink, isLoading }: Enhance
 	// Reset to first page when search or filters change
 	React.useEffect(() => {
 		setCurrentPage(1);
-	}, [searchQuery]);
+	}, [searchQuery, logLevel]);
 
 	const handleToggleTextWrap = () => {
 		setTextWrapEnabled((prev) => !prev);
@@ -59,7 +54,6 @@ export function EnhancedLogsViewer({ logPage, downloadLink, isLoading }: Enhance
 				searchQuery={searchQuery}
 				textWrapEnabled={textWrapEnabled}
 				highlightText={highlightText}
-				startIndex={startIndex}
 				handleToggleTextWrap={handleToggleTextWrap}
 			/>
 		</div>
@@ -73,7 +67,6 @@ type LogsViewerBodyProps = {
 	searchQuery: string;
 	textWrapEnabled: boolean;
 	highlightText: (text: string, logIndex: number) => React.ReactNode;
-	startIndex: number;
 	handleToggleTextWrap: () => void;
 };
 
@@ -84,7 +77,6 @@ function LogsViewerBody({
 	searchQuery,
 	textWrapEnabled,
 	highlightText,
-	startIndex,
 	handleToggleTextWrap
 }: LogsViewerBodyProps) {
 	if (isLoading) {
@@ -106,7 +98,6 @@ function LogsViewerBody({
 			searchQuery={searchQuery}
 			textWrapEnabled={textWrapEnabled}
 			highlightText={highlightText}
-			startIndex={startIndex}
 		/>
 	);
 }
