@@ -6,6 +6,7 @@ import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logvie
 import { apiPaths, createApiPath } from "@/data/api";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
+import { keepPreviousData } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -63,10 +64,13 @@ type LogTabContentProps = {
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 	const { logLevel, searchQuery, currentPage } = useLogViewerContext();
-	const runLogs = useRunLogs({
-		runId,
-		queries: { source: selectedSource, level: logLevel, search: searchQuery, page: currentPage }
-	});
+	const runLogs = useRunLogs(
+		{
+			runId,
+			queries: { source: selectedSource, level: logLevel, search: searchQuery, page: currentPage }
+		},
+		{ placeholderData: keepPreviousData }
+	);
 
 	if (runLogs.isPending) return <LoadingLogs />;
 
@@ -79,7 +83,11 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer downloadLink={downloadUrl} logPage={runLogs.data} />
+			<EnhancedLogsViewer
+				downloadLink={downloadUrl}
+				logPage={runLogs.data}
+				isLoading={runLogs.isFetching && runLogs.isPlaceholderData}
+			/>
 		</div>
 	);
 }

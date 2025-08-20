@@ -8,8 +8,7 @@ import { useLogViewerContext } from "./logviewer-context";
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
 	downloadLink?: string;
-
-	// Search-related props from useLogSearch hook
+	isLoading: boolean;
 	searchQuery: string;
 	currentMatchIndex?: number;
 	totalMatches?: number;
@@ -24,7 +23,8 @@ export function LogToolbar({
 	currentMatchIndex = 0,
 	totalMatches = 0,
 	onPreviousMatch,
-	onNextMatch
+	onNextMatch,
+	isLoading
 }: LogToolbarProps) {
 	const { logLevel, setLogLevel } = useLogViewerContext();
 	return (
@@ -40,11 +40,10 @@ export function LogToolbar({
 							inMemoryHandler={onSearchChange}
 							placeholder="Search logs..."
 						/>
-
 						{/* Search controls */}
-						{searchQuery && (
+						{searchQuery && !isLoading && (
 							<div className="flex items-center gap-1">
-								<span className="text-sm text-theme-text-secondary">
+								<span className="whitespace-nowrap text-text-sm text-theme-text-secondary">
 									{totalMatches > 0 ? `${currentMatchIndex + 1} of ${totalMatches}` : "No matches"}
 								</span>
 								<Button

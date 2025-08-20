@@ -11,10 +11,14 @@ type LogViewerContextType = {
 
 export const LogViewerContext = createContext<LogViewerContextType | null>(null);
 
+export const DEFAULT_LOG_LEVEL = 20;
+export const DEFAULT_PAGE = 1;
+export const DEFAULT_SEARCH_QUERY = "";
+
 export function LogViewerProvider({ children }: { children: React.ReactNode }) {
-	const [searchQuery, setSearchQuery] = useState("");
-	const [logLevel, setLogLevel] = useState(20);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [searchQuery, setSearchQuery] = useState(DEFAULT_SEARCH_QUERY);
+	const [logLevel, setLogLevel] = useState(DEFAULT_LOG_LEVEL);
+	const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 	return (
 		<LogViewerContext.Provider
 			value={{ searchQuery, setSearchQuery, logLevel, setLogLevel, currentPage, setCurrentPage }}
