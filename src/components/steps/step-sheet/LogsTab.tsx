@@ -1,10 +1,10 @@
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useLogViewerContext } from "@/components/logs/logviewer-context";
-import { apiPaths, createApiPath } from "@/data/api";
 import { useStepLogs } from "@/data/steps/step-logs-query";
 import { keepPreviousData } from "@tanstack/react-query";
 import { ErrorFallback } from "../../Error";
+import { useDownloadStepLogs } from "./use-download-logs";
 
 type Props = {
 	stepId: string;
@@ -12,6 +12,7 @@ type Props = {
 
 export function StepLogsTab({ stepId }: Props) {
 	const { logLevel, searchQuery, currentPage } = useLogViewerContext();
+	const { handleDownload } = useDownloadStepLogs(stepId);
 	const { data, isPending, isError, error, isFetching, isPlaceholderData } = useStepLogs(
 		{
 			stepId,
@@ -28,12 +29,10 @@ export function StepLogsTab({ stepId }: Props) {
 		return <LoadingLogs />;
 	}
 
-	const downloadUrl = createApiPath(apiPaths.steps.logsDownload(stepId));
-
 	return (
 		<div className="space-y-5">
 			<EnhancedLogsViewer
-				downloadLink={downloadUrl}
+				handleDownload={handleDownload}
 				logPage={data}
 				isLoading={isFetching && isPlaceholderData}
 			/>

@@ -3,7 +3,6 @@ import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logviewer-context";
-import { apiPaths, createApiPath } from "@/data/api";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
 import { keepPreviousData } from "@tanstack/react-query";
@@ -11,6 +10,7 @@ import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
+import { useDownloadRunLogs } from "./use-download-logs";
 
 export function LogTab() {
 	const { runId } = useParams() as { runId: string };
@@ -64,6 +64,7 @@ type LogTabContentProps = {
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 	const { logLevel, searchQuery, currentPage } = useLogViewerContext();
+	const { handleDownload } = useDownloadRunLogs(runId, selectedSource);
 	const runLogs = useRunLogs(
 		{
 			runId,
@@ -83,13 +84,10 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 		return <ErrorFallback err={runLogs.error} />;
 	}
 
-	const downloadUrl =
-		createApiPath(apiPaths.runs.logsDownload(runId)) + "?source=" + selectedSource;
-
 	return (
 		<div className="h-full w-full">
 			<EnhancedLogsViewer
-				downloadLink={downloadUrl}
+				handleDownload={handleDownload}
 				logPage={runLogs.data}
 				isLoading={runLogs.isFetching && runLogs.isPlaceholderData}
 			/>

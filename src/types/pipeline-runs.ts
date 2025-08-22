@@ -20,3 +20,7 @@ export type RunRefreshQueryParams = NonNullable<
 export type PipelineRunStopParams = NonNullable<
 	operations["stop_run_api_v1_runs__run_id__stop_post"]["parameters"]["query"]
 >;
+
+export type RunLogsDownloadTokenQueryParams = NonNullable<
+	operations["get_run_logs_download_token_api_v1_runs__run_id__logs_download_token_get"]["parameters"]["query"]
+>;

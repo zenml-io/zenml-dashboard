@@ -10,11 +10,15 @@ import { useLogSearch } from "./use-log-search";
 interface EnhancedLogsViewerProps {
 	logPage: LogPage;
 	itemsPerPage?: number;
-	downloadLink?: string;
+	handleDownload: () => void;
 	isLoading: boolean;
 }
 
-export function EnhancedLogsViewer({ logPage, downloadLink, isLoading }: EnhancedLogsViewerProps) {
+export function EnhancedLogsViewer({
+	logPage,
+	handleDownload,
+	isLoading
+}: EnhancedLogsViewerProps) {
 	const { setCurrentPage, logLevel } = useLogViewerContext();
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const { searchQuery, setSearchQuery } = useLogViewerContext();
@@ -39,7 +43,7 @@ export function EnhancedLogsViewer({ logPage, downloadLink, isLoading }: Enhance
 		<div className="flex h-full flex-col space-y-5">
 			<LogToolbar
 				isLoading={isLoading}
-				downloadLink={downloadLink}
+				handleDownload={handleDownload}
 				onSearchChange={setSearchQuery}
 				searchQuery={searchQuery}
 				currentMatchIndex={currentMatchIndex}

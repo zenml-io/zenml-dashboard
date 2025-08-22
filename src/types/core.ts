@@ -1342,6 +1342,23 @@ export type paths = {
 		 */
 		get: operations["run_logs_api_v1_runs__run_id__logs_get"];
 	};
+	"/api/v1/runs/{run_id}/logs/download-token": {
+		/**
+		 * Get Run Logs Download Token
+		 * @description Get a download token for the pipeline run logs.
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run.
+		 *     source: Required source to get logs for.
+		 *
+		 * Returns:
+		 *     The download token for the run logs.
+		 *
+		 * Raises:
+		 *     KeyError: If no logs are found for the specified source.
+		 */
+		get: operations["get_run_logs_download_token_api_v1_runs__run_id__logs_download_token_get"];
+	};
 	"/api/v1/runs/{run_id}/logs/download": {
 		/**
 		 * Download Run Logs
@@ -1362,6 +1379,7 @@ export type paths = {
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
+		 *     token: The token to authenticate the run logs download.
 		 *     format_string: Format string for each log entry using Python string formatting.
 		 *         If None or empty string, returns raw jsonified log entries without formatting.
 		 *
@@ -2426,6 +2444,19 @@ export type paths = {
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
 	};
+	"/api/v1/steps/{step_id}/logs/download-token": {
+		/**
+		 * Get Step Logs Download Token
+		 * @description Get a download token for the step logs.
+		 *
+		 * Args:
+		 *     step_id: ID of the step for which to get the logs.
+		 *
+		 * Returns:
+		 *     The download token for the step logs.
+		 */
+		get: operations["get_step_logs_download_token_api_v1_steps__step_id__logs_download_token_get"];
+	};
 	"/api/v1/steps/{step_id}/logs/download": {
 		/**
 		 * Download Step Logs
@@ -2445,6 +2476,7 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step.
+		 *     token: The token to authenticate the step logs download.
 		 *     format_string: Format string for each log entry using Python string formatting.
 		 *         If None or empty string, returns raw jsonified log entries without formatting.
 		 *
@@ -5057,22 +5089,6 @@ export type components = {
 			id?: string;
 		};
 		/**
-		 * LogPage
-		 * @description A page of log entries.
-		 */
-		LogPage: {
-			/** Items */
-			items: components["schemas"]["LogEntry"][];
-			/** Total */
-			total: number;
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-		};
-		/**
 		 * LoggingLevels
 		 * @description Enum for logging levels.
 		 * @enum {integer}
@@ -6077,6 +6093,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["FlavorResponse"][];
+		};
+		/** Page[LogEntry] */
+		Page_LogEntry_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["LogEntry"][];
 		};
 		/** Page[ModelResponse] */
 		Page_ModelResponse_: {
@@ -15053,7 +15082,63 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["LogPage"];
+					"application/json": components["schemas"]["Page_LogEntry_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Run Logs Download Token
+	 * @description Get a download token for the pipeline run logs.
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run.
+	 *     source: Required source to get logs for.
+	 *
+	 * Returns:
+	 *     The download token for the run logs.
+	 *
+	 * Raises:
+	 *     KeyError: If no logs are found for the specified source.
+	 */
+	get_run_logs_download_token_api_v1_runs__run_id__logs_download_token_get: {
+		parameters: {
+			query: {
+				source: string;
+			};
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": string;
 				};
 			};
 			/** @description Unauthorized */
@@ -15101,6 +15186,7 @@ export type operations = {
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
+	 *     token: The token to authenticate the run logs download.
 	 *     format_string: Format string for each log entry using Python string formatting.
 	 *         If None or empty string, returns raw jsonified log entries without formatting.
 	 *
@@ -15114,6 +15200,7 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
+				token: string;
 				format_string?: string | null;
 			};
 			path: {
@@ -19119,7 +19206,56 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["LogPage"];
+					"application/json": components["schemas"]["Page_LogEntry_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Step Logs Download Token
+	 * @description Get a download token for the step logs.
+	 *
+	 * Args:
+	 *     step_id: ID of the step for which to get the logs.
+	 *
+	 * Returns:
+	 *     The download token for the step logs.
+	 */
+	get_step_logs_download_token_api_v1_steps__step_id__logs_download_token_get: {
+		parameters: {
+			path: {
+				step_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": string;
 				};
 			};
 			/** @description Unauthorized */
@@ -19166,6 +19302,7 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step.
+	 *     token: The token to authenticate the step logs download.
 	 *     format_string: Format string for each log entry using Python string formatting.
 	 *         If None or empty string, returns raw jsonified log entries without formatting.
 	 *
@@ -19177,7 +19314,8 @@ export type operations = {
 	 */
 	download_step_logs_api_v1_steps__step_id__logs_download_get: {
 		parameters: {
-			query?: {
+			query: {
+				token: string;
 				format_string?: string | null;
 			};
 			path: {
