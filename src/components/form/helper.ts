@@ -76,7 +76,11 @@ export function generateDefaultValues(
 			} else if (isArrayField(prop)) {
 				value = prop.default;
 			} else {
-				value = prop.default.toString();
+				if (isArray(prop.default)) {
+					value = prop.default;
+				} else {
+					value = prop.default.toString();
+				}
 			}
 		} else if (isArrayField(prop)) {
 			value = [];
