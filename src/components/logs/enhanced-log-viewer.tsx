@@ -151,7 +151,7 @@ export function EnhancedLogsViewer({
 								emphasis="subtle"
 								intent="secondary"
 								className="ml-2 h-5 w-5 rounded-sm bg-theme-surface-primary p-0.25"
-								title={textWrapEnabled ? "Collapse text" : "Expand text"}
+								title={textWrapEnabled ? "Unwrap text" : "Wrap text"}
 							>
 								{textWrapEnabled ? (
 									<Collapse className="h-4 w-4 shrink-0 text-theme-text-tertiary hover:text-theme-text-secondary" />
