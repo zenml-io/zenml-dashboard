@@ -2,17 +2,22 @@ import { FetchError } from "@/lib/fetch-error";
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { fetcher } from "../fetch";
+import { LogPage } from "@/types/logs";
+import { StepLogsQueries } from "@/types/steps";
+import { objectToSearchParams } from "@/lib/url";
 
 type StepLogs = {
 	stepId: string;
+	queries: StepLogsQueries;
 };
 
-export function getStepLogsQueryKey({ stepId }: StepLogs) {
-	return ["logs", stepId];
+export function getStepLogsQueryKey({ stepId, queries }: StepLogs) {
+	return ["logs", stepId, queries];
 }
 
-export async function fetchStepLogs({ stepId }: StepLogs) {
-	const url = createApiPath(apiPaths.steps.logs(stepId));
+export async function fetchStepLogs({ stepId, queries }: StepLogs) {
+	const queryString = objectToSearchParams(queries).toString();
+	const url = createApiPath(apiPaths.steps.logs(stepId)) + (queryString ? `?${queryString}` : "");
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {
@@ -41,9 +46,9 @@ export async function fetchStepLogs({ stepId }: StepLogs) {
 
 export function useStepLogs(
 	params: StepLogs,
-	options?: Omit<UseQueryOptions<string, FetchError>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<LogPage, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<string, FetchError>({
+	return useQuery<LogPage, FetchError>({
 		queryKey: getStepLogsQueryKey(params),
 		queryFn: () => fetchStepLogs(params),
 		...options

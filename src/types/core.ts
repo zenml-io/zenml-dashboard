@@ -1170,24 +1170,6 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
 	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
-		/**
-		 * Deployment Logs
-		 * @description Get deployment logs.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *
-		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
-		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
-	};
 	"/api/v1/runs": {
 		/**
 		 * List Runs
@@ -1346,16 +1328,68 @@ export type paths = {
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
+		 *     page: The page number to return.
+		 *     count: The number of log entries to return.
+		 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
+		 *     search: Optional search string. Only returns messages containing this string.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     A list of up to MAX_LOG_ENTRIES structured LogEntry objects for
+		 *     the specified source, starting from the given offset index in the filtered results.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
 		 */
 		get: operations["run_logs_api_v1_runs__run_id__logs_get"];
+	};
+	"/api/v1/runs/{run_id}/logs/download-token": {
+		/**
+		 * Get Run Logs Download Token
+		 * @description Get a download token for the pipeline run logs.
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run.
+		 *     source: Required source to get logs for.
+		 *
+		 * Returns:
+		 *     The download token for the run logs.
+		 *
+		 * Raises:
+		 *     KeyError: If no logs are found for the specified source.
+		 */
+		get: operations["get_run_logs_download_token_api_v1_runs__run_id__logs_download_token_get"];
+	};
+	"/api/v1/runs/{run_id}/logs/download": {
+		/**
+		 * Download Run Logs
+		 * @description Download all pipeline run logs for a specific source as a formatted string.
+		 *
+		 * Available fields for the format string:
+		 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+		 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+		 *     - {message}: The actual log message content
+		 *     - {name}: Logger name (e.g., "zenml.pipeline")
+		 *     - {module}: Module name (e.g., "zenml.pipelines")
+		 *     - {filename}: Source filename (e.g., "pipeline.py")
+		 *     - {lineno}: Line number where log was generated
+		 *     - {chunk_index}: Chunk index for large messages (usually 0)
+		 *     - {total_chunks}: Total chunks for large messages (usually 1)
+		 *     - {id}: Unique log entry ID (UUID)
+		 *
+		 * Args:
+		 *     run_id: ID of the pipeline run.
+		 *     source: Required source to get logs for.
+		 *     token: The token to authenticate the run logs download.
+		 *     format_string: Format string for each log entry using Python string formatting.
+		 *         If None or empty string, returns raw jsonified log entries without formatting.
+		 *
+		 * Returns:
+		 *     A string containing all log entries, either raw or formatted.
+		 *
+		 * Raises:
+		 *     KeyError: If no logs are found for the specified source.
+		 */
+		get: operations["download_run_logs_api_v1_runs__run_id__logs_download_get"];
 	};
 	"/api/v1/run-metadata": {
 		/**
@@ -2397,17 +2431,62 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
+		 *     page: The page number to return.
+		 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
+		 *     level: Optional log level filter. Returns messages at this level and above.
+		 *     search: Optional search string. Only returns messages containing this string.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     A list of LogEntry objects for the step.
 		 *
 		 * Raises:
 		 *     HTTPException: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
+	};
+	"/api/v1/steps/{step_id}/logs/download-token": {
+		/**
+		 * Get Step Logs Download Token
+		 * @description Get a download token for the step logs.
+		 *
+		 * Args:
+		 *     step_id: ID of the step for which to get the logs.
+		 *
+		 * Returns:
+		 *     The download token for the step logs.
+		 */
+		get: operations["get_step_logs_download_token_api_v1_steps__step_id__logs_download_token_get"];
+	};
+	"/api/v1/steps/{step_id}/logs/download": {
+		/**
+		 * Download Step Logs
+		 * @description Download all logs of a specific step as a formatted string.
+		 *
+		 * Available fields for the format string:
+		 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+		 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+		 *     - {message}: The actual log message content
+		 *     - {name}: Logger name (e.g., "zenml.pipeline")
+		 *     - {module}: Module name (e.g., "zenml.pipelines")
+		 *     - {filename}: Source filename (e.g., "pipeline.py")
+		 *     - {lineno}: Line number where log was generated
+		 *     - {chunk_index}: Chunk index for large messages (usually 0)
+		 *     - {total_chunks}: Total chunks for large messages (usually 1)
+		 *     - {id}: Unique log entry ID (UUID)
+		 *
+		 * Args:
+		 *     step_id: ID of the step.
+		 *     token: The token to authenticate the step logs download.
+		 *     format_string: Format string for each log entry using Python string formatting.
+		 *         If None or empty string, returns raw jsonified log entries without formatting.
+		 *
+		 * Returns:
+		 *     A string containing all log entries, either raw or formatted.
+		 *
+		 * Raises:
+		 *     HTTPException: If no logs are available for this step.
+		 */
+		get: operations["download_step_logs_api_v1_steps__step_id__logs_download_get"];
 	};
 	"/api/v1/tags": {
 		/**
@@ -4954,6 +5033,68 @@ export type components = {
 			value: string;
 		};
 		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
+		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
 		 * @enum {string}
@@ -5952,6 +6093,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["FlavorResponse"][];
+		};
+		/** Page[LogEntry] */
+		Page_LogEntry_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["LogEntry"][];
 		};
 		/** Page[ModelResponse] */
 		Page_ModelResponse_: {
@@ -14256,64 +14410,6 @@ export type operations = {
 		};
 	};
 	/**
-	 * Deployment Logs
-	 * @description Get deployment logs.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *
-	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
-	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
-		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": string;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
 	 * List Runs
 	 * @description Get pipeline runs according to query filters.
 	 *
@@ -14957,11 +15053,14 @@ export type operations = {
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
+	 *     page: The page number to return.
+	 *     count: The number of log entries to return.
+	 *     level: Optional log level filter (e.g., "INFO"). Returns messages at this level and above.
+	 *     search: Optional search string. Only returns messages containing this string.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     A list of up to MAX_LOG_ENTRIES structured LogEntry objects for
+	 *     the specified source, starting from the given offset index in the filtered results.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -14970,8 +15069,66 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
-				length?: number;
+				page?: number;
+				count?: number;
+				level?: number;
+				search?: string | null;
+			};
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_LogEntry_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Run Logs Download Token
+	 * @description Get a download token for the pipeline run logs.
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run.
+	 *     source: Required source to get logs for.
+	 *
+	 * Returns:
+	 *     The download token for the run logs.
+	 *
+	 * Raises:
+	 *     KeyError: If no logs are found for the specified source.
+	 */
+	get_run_logs_download_token_api_v1_runs__run_id__logs_download_token_get: {
+		parameters: {
+			query: {
+				source: string;
 			};
 			path: {
 				run_id: string;
@@ -14982,6 +15139,79 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": string;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Download Run Logs
+	 * @description Download all pipeline run logs for a specific source as a formatted string.
+	 *
+	 * Available fields for the format string:
+	 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+	 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+	 *     - {message}: The actual log message content
+	 *     - {name}: Logger name (e.g., "zenml.pipeline")
+	 *     - {module}: Module name (e.g., "zenml.pipelines")
+	 *     - {filename}: Source filename (e.g., "pipeline.py")
+	 *     - {lineno}: Line number where log was generated
+	 *     - {chunk_index}: Chunk index for large messages (usually 0)
+	 *     - {total_chunks}: Total chunks for large messages (usually 1)
+	 *     - {id}: Unique log entry ID (UUID)
+	 *
+	 * Args:
+	 *     run_id: ID of the pipeline run.
+	 *     source: Required source to get logs for.
+	 *     token: The token to authenticate the run logs download.
+	 *     format_string: Format string for each log entry using Python string formatting.
+	 *         If None or empty string, returns raw jsonified log entries without formatting.
+	 *
+	 * Returns:
+	 *     A string containing all log entries, either raw or formatted.
+	 *
+	 * Raises:
+	 *     KeyError: If no logs are found for the specified source.
+	 */
+	download_run_logs_api_v1_runs__run_id__logs_download_get: {
+		parameters: {
+			query: {
+				source: string;
+				token: string;
+				format_string?: string | null;
+			};
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -18949,12 +19179,13 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
+	 *     page: The page number to return.
+	 *     count: The number of log entries to return (max MAX_LOG_ENTRIES).
+	 *     level: Optional log level filter. Returns messages at this level and above.
+	 *     search: Optional search string. Only returns messages containing this string.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     A list of LogEntry objects for the step.
 	 *
 	 * Raises:
 	 *     HTTPException: If no logs are available for this step.
@@ -18962,9 +19193,10 @@ export type operations = {
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
 			query?: {
-				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
+				page?: number;
+				count?: number;
+				level?: number;
+				search?: string | null;
 			};
 			path: {
 				step_id: string;
@@ -18974,7 +19206,127 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
+					"application/json": components["schemas"]["Page_LogEntry_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Step Logs Download Token
+	 * @description Get a download token for the step logs.
+	 *
+	 * Args:
+	 *     step_id: ID of the step for which to get the logs.
+	 *
+	 * Returns:
+	 *     The download token for the step logs.
+	 */
+	get_step_logs_download_token_api_v1_steps__step_id__logs_download_token_get: {
+		parameters: {
+			path: {
+				step_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
 					"application/json": string;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Download Step Logs
+	 * @description Download all logs of a specific step as a formatted string.
+	 *
+	 * Available fields for the format string:
+	 *     - {timestamp}: ISO format timestamp (e.g., "2024-01-15T10:30:45.123456")
+	 *     - {level}: Log level name (e.g., "INFO", "ERROR", "DEBUG")
+	 *     - {message}: The actual log message content
+	 *     - {name}: Logger name (e.g., "zenml.pipeline")
+	 *     - {module}: Module name (e.g., "zenml.pipelines")
+	 *     - {filename}: Source filename (e.g., "pipeline.py")
+	 *     - {lineno}: Line number where log was generated
+	 *     - {chunk_index}: Chunk index for large messages (usually 0)
+	 *     - {total_chunks}: Total chunks for large messages (usually 1)
+	 *     - {id}: Unique log entry ID (UUID)
+	 *
+	 * Args:
+	 *     step_id: ID of the step.
+	 *     token: The token to authenticate the step logs download.
+	 *     format_string: Format string for each log entry using Python string formatting.
+	 *         If None or empty string, returns raw jsonified log entries without formatting.
+	 *
+	 * Returns:
+	 *     A string containing all log entries, either raw or formatted.
+	 *
+	 * Raises:
+	 *     HTTPException: If no logs are available for this step.
+	 */
+	download_step_logs_api_v1_steps__step_id__logs_download_get: {
+		parameters: {
+			query: {
+				token: string;
+				format_string?: string | null;
+			};
+			path: {
+				step_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */

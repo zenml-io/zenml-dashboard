@@ -2,13 +2,15 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
+import { LogViewerProvider, useLogViewerContext } from "@/components/logs/logviewer-context";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
-import { parseLogString } from "@/lib/logs";
+import { keepPreviousData } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
+import { useDownloadRunLogs } from "./use-download-logs";
 
 export function LogTab() {
 	const { runId } = useParams() as { runId: string };
@@ -49,7 +51,9 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 					/>
 				</div>
 			)}
-			<LogDisplay selectedSource={selectedSource} runId={runId} />
+			<LogViewerProvider>
+				<LogDisplay selectedSource={selectedSource} runId={runId} />
+			</LogViewerProvider>
 		</section>
 	);
 }
@@ -59,12 +63,20 @@ type LogTabContentProps = {
 	runId: string;
 };
 function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
-	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
-
-	const parsedLogs = useMemo(() => {
-		if (!runLogs.data) return [];
-		return parseLogString(runLogs.data);
-	}, [runLogs.data]);
+	const { logLevel, searchQuery, currentPage } = useLogViewerContext();
+	const { handleDownload } = useDownloadRunLogs(runId, selectedSource);
+	const runLogs = useRunLogs(
+		{
+			runId,
+			queries: {
+				source: selectedSource,
+				level: logLevel,
+				search: searchQuery,
+				page: currentPage
+			}
+		},
+		{ placeholderData: keepPreviousData }
+	);
 
 	if (runLogs.isPending) return <LoadingLogs />;
 
@@ -72,19 +84,13 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 		return <ErrorFallback err={runLogs.error} />;
 	}
 
-	const logs = runLogs.data;
-	if (logs.length === 0) {
-		return (
-			<EmptyStateLogs
-				title="This pipeline run has no logs"
-				subtitle="It looks like there are no logs associated with this pipeline run"
-			/>
-		);
-	}
-
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={parsedLogs} />
+			<EnhancedLogsViewer
+				handleDownload={handleDownload}
+				logPage={runLogs.data}
+				isLoading={runLogs.isFetching && runLogs.isPlaceholderData}
+			/>
 		</div>
 	);
 }

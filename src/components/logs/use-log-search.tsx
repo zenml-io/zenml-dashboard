@@ -10,36 +10,31 @@ export interface SearchMatch {
 }
 
 export interface UseLogSearchReturn {
-	searchQuery: string;
-	setSearchQuery: (query: string) => void;
-	caseSensitive: boolean;
-	setCaseSensitive: (caseSensitive: boolean) => void;
-	filteredLogs: LogEntry[];
 	matches: SearchMatch[];
 	currentMatchIndex: number;
 	totalMatches: number;
 	goToNextMatch: () => void;
 	goToPreviousMatch: () => void;
-	clearSearch: () => void;
 	highlightText: (text: string, logIndex: number) => React.ReactNode;
 }
 
-export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
-	const [searchQuery, setSearchQuery] = useState("");
-	const [caseSensitive, setCaseSensitive] = useState(false);
+export function useLogSearch(
+	logs: LogEntry[],
+	searchQuery: string,
+	caseSensitive: boolean
+): UseLogSearchReturn {
 	const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
-	// Filter logs and find matches
-	const { filteredLogs, matches } = useMemo(() => {
+	// Find matches in logs (logs are already filtered by backend)
+	const matches = useMemo(() => {
 		if (!searchQuery.trim()) {
-			return { filteredLogs: logs, matches: [] };
+			return [];
 		}
 
 		const query = caseSensitive ? searchQuery : searchQuery.toLowerCase();
-		const filtered: LogEntry[] = [];
 		const allMatches: SearchMatch[] = [];
 
-		logs.forEach((log) => {
+		logs.forEach((log, logIndex) => {
 			const searchText = caseSensitive ? log.message : log.message.toLowerCase();
 			const matchIndices: number[] = [];
 
@@ -53,28 +48,24 @@ export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
 				startIndex = foundIndex + 1;
 			}
 
-			// If matches found, add log to filtered results and record matches
-			if (matchIndices.length > 0) {
-				filtered.push(log);
-
-				matchIndices.forEach((matchStart, matchIndex) => {
-					allMatches.push({
-						logIndex: filtered.length - 1, // Index in filtered array
-						matchIndex,
-						startIndex: matchStart,
-						endIndex: matchStart + query.length
-					});
+			// Record matches with original log index
+			matchIndices.forEach((matchStart, matchIndex) => {
+				allMatches.push({
+					logIndex, // Index in original logs array
+					matchIndex,
+					startIndex: matchStart,
+					endIndex: matchStart + query.length
 				});
-			}
+			});
 		});
 
-		return { filteredLogs: filtered, matches: allMatches };
+		return allMatches;
 	}, [logs, searchQuery, caseSensitive]);
 
 	// Reset current match index when search changes
 	useMemo(() => {
 		setCurrentMatchIndex(0);
-	}, []);
+	}, [searchQuery, caseSensitive]);
 
 	const totalMatches = matches.length;
 
@@ -89,11 +80,6 @@ export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
 			setCurrentMatchIndex((prev) => (prev - 1 + totalMatches) % totalMatches);
 		}
 	}, [totalMatches]);
-
-	const clearSearch = useCallback(() => {
-		setSearchQuery("");
-		setCurrentMatchIndex(0);
-	}, []);
 
 	// Function to highlight search terms in text
 	const highlightText = useCallback(
@@ -149,17 +135,11 @@ export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
 	);
 
 	return {
-		searchQuery,
-		setSearchQuery,
-		caseSensitive,
-		setCaseSensitive,
-		filteredLogs,
 		matches,
 		currentMatchIndex,
 		totalMatches,
 		goToNextMatch,
 		goToPreviousMatch,
-		clearSearch,
 		highlightText
 	};
 }

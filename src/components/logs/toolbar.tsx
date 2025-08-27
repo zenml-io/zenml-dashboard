@@ -1,16 +1,15 @@
-import Copy from "@/assets/icons/copy.svg?react";
-import Download from "@/assets/icons/download-01.svg?react";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import Download from "@/assets/icons/download-01.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { SearchField } from "../SearchField";
+import { LogLevelSelect } from "./loglevel-select";
+import { useLogViewerContext } from "./logviewer-context";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
-
-	onCopyAll: () => void;
-	onDownload: () => void;
-	// Search-related props from useLogSearch hook
-	searchQuery?: string;
+	handleDownload: () => void;
+	isLoading: boolean;
+	searchQuery: string;
 	currentMatchIndex?: number;
 	totalMatches?: number;
 	onPreviousMatch?: () => void;
@@ -19,14 +18,15 @@ interface LogToolbarProps {
 
 export function LogToolbar({
 	onSearchChange,
-	onCopyAll,
-	onDownload,
-	searchQuery = "",
+	handleDownload,
+	searchQuery,
 	currentMatchIndex = 0,
 	totalMatches = 0,
 	onPreviousMatch,
-	onNextMatch
+	onNextMatch,
+	isLoading
 }: LogToolbarProps) {
+	const { logLevel, setLogLevel } = useLogViewerContext();
 	return (
 		<>
 			{/* Main Toolbar */}
@@ -36,14 +36,14 @@ export function LogToolbar({
 					<div className="flex items-center gap-2">
 						<SearchField
 							searchParams={{}}
+							value={searchQuery}
 							inMemoryHandler={onSearchChange}
 							placeholder="Search logs..."
 						/>
-
 						{/* Search controls */}
-						{searchQuery && (
+						{searchQuery && !isLoading && (
 							<div className="flex items-center gap-1">
-								<span className="text-sm text-theme-text-secondary">
+								<span className="whitespace-nowrap text-text-sm text-theme-text-secondary">
 									{totalMatches > 0 ? `${currentMatchIndex + 1} of ${totalMatches}` : "No matches"}
 								</span>
 								<Button
@@ -66,34 +66,26 @@ export function LogToolbar({
 								</Button>
 							</div>
 						)}
+						<LogLevelSelect
+							value={logLevel.toString()}
+							onValueChange={(value) => setLogLevel(Number(value))}
+						/>
 					</div>
 
 					{/* Right side - Action Buttons */}
-					<div className="flex items-center gap-2">
+					{handleDownload && (
 						<Button
+							onClick={handleDownload}
 							size="md"
 							emphasis="subtle"
 							intent="secondary"
-							onClick={onCopyAll}
-							title="Copy all displayed logs"
-							className="bg-theme-surface-primary"
-						>
-							<Copy className="mr-1 h-4 w-4 fill-theme-text-secondary" />
-							Copy All
-						</Button>
-
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onDownload}
 							title="Download logs as file"
 							className="bg-theme-surface-primary"
 						>
 							<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
-							Download
+							Download All
 						</Button>
-					</div>
+					)}
 				</div>
 			</div>
 		</>
