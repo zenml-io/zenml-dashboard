@@ -224,6 +224,7 @@ export function PipelineTimeline() {
 
 			// Normalize timestamps to start from 0
 			allStepsWithTiming.forEach((step) => {
+				if (!step) return;
 				if (!step.isPreview && step.startTime > 0) {
 					step.startTime = step.startTime - earliestStart;
 					step.endTime = step.endTime - earliestStart;
