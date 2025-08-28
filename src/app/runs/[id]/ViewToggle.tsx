@@ -1,5 +1,5 @@
 import Dataflow from "@/assets/icons/dataflow.svg?react";
-import BarChart from "@/assets/icons/bar-chart.svg?react";
+import Clock from "@/assets/icons/clock.svg?react";
 import { Tabs, TabsList, TabsTrigger } from "@zenml-io/react-component-library/components/client";
 import { ViewType } from "./PipelineVisualizationContainer";
 
@@ -18,7 +18,7 @@ export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
 						<span className="text-text-sm">DAG</span>
 					</TabsTrigger>
 					<TabsTrigger value="timeline" className="flex items-center gap-2">
-						<BarChart className="h-4 w-4" />
+						<Clock className="h-4 w-4" />
 						<span className="text-text-sm">Timeline</span>
 					</TabsTrigger>
 				</TabsList>

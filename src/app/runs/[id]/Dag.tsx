@@ -47,7 +47,12 @@ export function DAG() {
 		);
 	}
 
-	if (dagQuery.isPending || initialRender)
+	if (
+		dagQuery.isPending ||
+		dagQuery.isLoading ||
+		(!dagQuery.data && !dagQuery.isError) ||
+		initialRender
+	)
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />

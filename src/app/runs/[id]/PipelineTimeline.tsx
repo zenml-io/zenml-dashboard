@@ -12,6 +12,12 @@ import { SearchField } from "@/components/SearchField";
 import { secondsToTimeString } from "@/lib/dates";
 import { StepNodePayload } from "@/types/dag-visualizer";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library/components/client";
 import { useMemo, useState } from "react";
 import { useDag } from "./useDag";
 
@@ -19,6 +25,9 @@ interface ArtifactInfo {
 	id: string;
 	name: string;
 	type: string;
+	version?: string;
+	dataType?: string;
+	createdAt?: string;
 }
 
 interface TimelineStep {
@@ -28,6 +37,8 @@ interface TimelineStep {
 	duration?: number;
 	startTime?: number;
 	endTime?: number;
+	actualStartTime?: string; // ISO timestamp
+	actualEndTime?: string; // ISO timestamp
 	inputArtifacts: ArtifactInfo[];
 	outputArtifacts: ArtifactInfo[];
 	isPreview?: boolean;
@@ -39,52 +50,57 @@ export function PipelineTimeline() {
 	const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
 
 	const timelineData = useMemo(() => {
-		if (!dagQuery.data || !nodes.length) return null;
+		// Use raw DAG data instead of waiting for computed ReactFlow nodes
+		if (!dagQuery.data || !dagQuery.data.nodes) return null;
 
-		const stepNodes = nodes.filter((node) => node.type === "step") as Array<{
-			id: string;
-			data: StepNodePayload;
-		}>;
-		const previewStepNodes = nodes.filter((node) => node.type === "previewStep") as Array<{
-			id: string;
-			data: { node_name: string; runStatus: string };
-		}>;
-		const artifactNodes = nodes.filter((node) => node.type === "artifact") as Array<{
-			id: string;
-			data: { artifact_id: string; artifact_name: string; type: string };
-		}>;
+		const rawNodes = dagQuery.data.nodes;
+		const rawEdges = dagQuery.data.edges || [];
+
+		// Filter raw nodes by type
+		const stepNodes = rawNodes.filter((node) => node.type === "step" && node.id); // Real steps have id
+		const previewStepNodes = rawNodes.filter((node) => node.type === "step" && !node.id); // Preview steps don't have id
+		const artifactNodes = rawNodes.filter((node) => node.type === "artifact");
 
 		if (!stepNodes.length && !previewStepNodes.length) return null;
 
-		// Build artifact lookup
+		// Build artifact lookup using raw nodes
 		const artifactLookup = new Map<string, ArtifactInfo>();
 		artifactNodes.forEach((node) => {
-			artifactLookup.set(node.id, {
-				id: node.data.artifact_id,
-				name: node.data.artifact_name,
-				type: node.data.type
-			});
+			if (node.node_id) {
+				const metadata = node.metadata as any;
+				artifactLookup.set(node.node_id, {
+					id: node.id!, // artifact ID
+					name: node.name,
+					type: metadata?.type || "unknown",
+					version: metadata?.version,
+					dataType: metadata?.data_type,
+					createdAt: metadata?.created_at
+				});
+			}
 		});
 
-		// Process regular steps
+		// Process regular steps using raw nodes
 		const regularSteps: TimelineStep[] = stepNodes.map((node) => {
 			// Find input artifacts (edges FROM artifacts TO this step)
-			const inputArtifacts: ArtifactInfo[] = edges
-				.filter((edge) => edge.target === node.id)
+			const inputArtifacts: ArtifactInfo[] = rawEdges
+				.filter((edge) => edge.target === node.node_id)
 				.map((edge) => artifactLookup.get(edge.source))
 				.filter(Boolean) as ArtifactInfo[];
 
 			// Find output artifacts (edges FROM this step TO artifacts)
-			const outputArtifacts: ArtifactInfo[] = edges
-				.filter((edge) => edge.source === node.id)
+			const outputArtifacts: ArtifactInfo[] = rawEdges
+				.filter((edge) => edge.source === node.node_id)
 				.map((edge) => artifactLookup.get(edge.target))
 				.filter(Boolean) as ArtifactInfo[];
 
+			const metadata = node.metadata as any;
 			return {
-				id: node.data.step_id,
-				name: node.data.step_name,
-				status: node.data.status,
-				duration: node.data.duration,
+				id: node.id!,
+				name: node.name,
+				status: metadata?.status || "completed",
+				duration: metadata?.duration,
+				actualStartTime: metadata?.start_time,
+				actualEndTime: metadata?.end_time,
 				inputArtifacts,
 				outputArtifacts,
 				isPreview: false
@@ -99,15 +115,15 @@ export function PipelineTimeline() {
 
 			// Determine preview step status based on run status
 			let status: StepNodePayload["status"] = "initializing";
-			if (node.data.runStatus === "failed") {
+			if (dagQuery.data?.status === "failed") {
 				status = "failed";
-			} else if (node.data.runStatus === "stopped") {
+			} else if (dagQuery.data?.status === "stopped") {
 				status = "stopped";
 			}
 
 			return {
-				id: node.id, // Use node.id since preview steps don't have step_id
-				name: node.data.node_name,
+				id: node.node_id!, // Use node_id for preview steps
+				name: node.name,
 				status,
 				duration: undefined, // No duration for preview steps
 				inputArtifacts,
@@ -152,7 +168,7 @@ export function PipelineTimeline() {
 			totalSteps: steps.length,
 			filteredCount: filteredStepsWithTiming.length
 		};
-	}, [dagQuery.data, nodes, searchTerm]);
+	}, [dagQuery.data, searchTerm]);
 
 	if (dagQuery.isError) {
 		return (
@@ -162,7 +178,7 @@ export function PipelineTimeline() {
 		);
 	}
 
-	if (dagQuery.isPending || !timelineData) {
+	if (dagQuery.isPending || dagQuery.isLoading || (!dagQuery.data && !dagQuery.isError)) {
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />
@@ -170,6 +186,15 @@ export function PipelineTimeline() {
 					<p className="mb-5 text-display-xs">Loading Timeline Visualization</p>
 				</div>
 			</div>
+		);
+	}
+
+	// If we have data but no timelineData, there might be no steps
+	if (dagQuery.data && !timelineData) {
+		return (
+			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+				<p className="text-center">No steps found in this pipeline run.</p>
+			</EmptyState>
 		);
 	}
 
@@ -279,46 +304,87 @@ function TimelineRow({
 				</button>
 
 				{/* Step Info */}
-				<button
-					onClick={handleStepClick}
-					disabled={step.isPreview}
-					className={`rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors focus:outline-none ${
-						step.isPreview
-							? "cursor-default"
-							: "hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary"
-					}`}
-				>
-					<div className="min-w-0 flex-1">
-						<div className="flex items-center gap-2">
-							<div className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(step.status)}`}>
-								<ExecutionStatusIcon status={step.status} className="h-3 w-3 shrink-0" />
+				<TooltipProvider>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<button
+								onClick={handleStepClick}
+								disabled={step.isPreview}
+								className={`rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors focus:outline-none ${
+									step.isPreview
+										? "cursor-default"
+										: "hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary"
+								}`}
+							>
+								<div className="min-w-0 flex-1">
+									<div className="flex items-center gap-2">
+										<div
+											className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(step.status)}`}
+										>
+											<ExecutionStatusIcon status={step.status} className="h-3 w-3 shrink-0" />
+										</div>
+										<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
+									</div>
+									<p className="text-text-sm text-theme-text-tertiary">
+										{step.isPreview ? (
+											<span>
+												{step.status === "failed"
+													? "Will not execute due to upstream error"
+													: step.status === "stopped"
+														? "Not executed - run was stopped"
+														: "Pending execution"}
+											</span>
+										) : (
+											<span>
+												Duration:{" "}
+												{step.status === "running"
+													? "Running..."
+													: step.duration === 0
+														? "Cached"
+														: step.duration
+															? secondsToTimeString(step.duration)
+															: "N/A"}
+											</span>
+										)}
+									</p>
+								</div>
+							</button>
+						</TooltipTrigger>
+						<TooltipContent className="z-20 max-w-xs">
+							<div className="space-y-1">
+								<div className="font-medium">{step.name}</div>
+								{!step.isPreview && (
+									<>
+										<div className="text-text-sm">
+											{step.inputArtifacts.length} input
+											{step.inputArtifacts.length !== 1 ? "s" : ""}, {step.outputArtifacts.length}{" "}
+											output{step.outputArtifacts.length !== 1 ? "s" : ""}
+										</div>
+										{(step.actualStartTime || step.actualEndTime) && (
+											<div className="text-text-xs text-theme-text-secondary">
+												{step.actualStartTime && (
+													<div>Started: {new Date(step.actualStartTime).toLocaleString()}</div>
+												)}
+												{step.actualEndTime && (
+													<div>Ended: {new Date(step.actualEndTime).toLocaleString()}</div>
+												)}
+											</div>
+										)}
+									</>
+								)}
+								{step.isPreview && (
+									<div className="text-text-sm text-theme-text-secondary">
+										{step.status === "failed"
+											? "Will not execute due to upstream error"
+											: step.status === "stopped"
+												? "Not executed - run was stopped"
+												: "Pending execution"}
+									</div>
+								)}
 							</div>
-							<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
-						</div>
-						<p className="text-text-sm text-theme-text-tertiary">
-							{step.isPreview ? (
-								<span>
-									{step.status === "failed"
-										? "Will not execute due to upstream error"
-										: step.status === "stopped"
-											? "Not executed - run was stopped"
-											: "Pending execution"}
-								</span>
-							) : (
-								<span>
-									Duration:{" "}
-									{step.status === "running"
-										? "Running..."
-										: step.duration === 0
-											? "Cached"
-											: step.duration
-												? secondsToTimeString(step.duration)
-												: "N/A"}
-								</span>
-							)}
-						</p>
-					</div>
-				</button>
+						</TooltipContent>
+					</Tooltip>
+				</TooltipProvider>
 
 				{/* Timeline Bar */}
 				<div className="relative h-6 w-1/2 overflow-hidden rounded-sm bg-neutral-100">
@@ -351,17 +417,41 @@ function TimelineRow({
 							</h4>
 							<div className="flex flex-wrap gap-2">
 								{step.inputArtifacts.map((artifact) => (
-									<button
-										key={artifact.id}
-										onClick={(e) => handleArtifactClick(e, artifact.id)}
-										className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
-									>
-										<ArtifactIcon
-											className="h-3 w-3 fill-theme-text-secondary"
-											artifactType={artifact.type}
-										/>
-										<span className="text-text-sm text-theme-text-primary">{artifact.name}</span>
-									</button>
+									<TooltipProvider key={artifact.id}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<button
+													onClick={(e) => handleArtifactClick(e, artifact.id)}
+													className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
+												>
+													<ArtifactIcon
+														className="h-3 w-3 fill-theme-text-secondary"
+														artifactType={artifact.type}
+													/>
+													<span className="text-text-sm text-theme-text-primary">
+														{artifact.name}
+													</span>
+												</button>
+											</TooltipTrigger>
+											<TooltipContent className="z-20 max-w-xs">
+												<div className="space-y-1">
+													<div className="font-medium">{artifact.name}</div>
+													<div className="text-text-sm">Type: {artifact.type}</div>
+													{artifact.dataType && (
+														<div className="text-text-sm">Data Type: {artifact.dataType}</div>
+													)}
+													{artifact.version && (
+														<div className="text-text-sm">Version: {artifact.version}</div>
+													)}
+													{artifact.createdAt && (
+														<div className="text-text-xs text-theme-text-secondary">
+															Created: {new Date(artifact.createdAt).toLocaleString()}
+														</div>
+													)}
+												</div>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
 								))}
 							</div>
 						</div>
@@ -375,17 +465,41 @@ function TimelineRow({
 							</h4>
 							<div className="flex flex-wrap gap-2">
 								{step.outputArtifacts.map((artifact) => (
-									<button
-										key={artifact.id}
-										onClick={(e) => handleArtifactClick(e, artifact.id)}
-										className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
-									>
-										<ArtifactIcon
-											className="h-3 w-3 fill-theme-text-secondary"
-											artifactType={artifact.type}
-										/>
-										<span className="text-text-sm text-theme-text-primary">{artifact.name}</span>
-									</button>
+									<TooltipProvider key={artifact.id}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<button
+													onClick={(e) => handleArtifactClick(e, artifact.id)}
+													className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
+												>
+													<ArtifactIcon
+														className="h-3 w-3 fill-theme-text-secondary"
+														artifactType={artifact.type}
+													/>
+													<span className="text-text-sm text-theme-text-primary">
+														{artifact.name}
+													</span>
+												</button>
+											</TooltipTrigger>
+											<TooltipContent className="z-20 max-w-xs">
+												<div className="space-y-1">
+													<div className="font-medium">{artifact.name}</div>
+													<div className="text-text-sm">Type: {artifact.type}</div>
+													{artifact.dataType && (
+														<div className="text-text-sm">Data Type: {artifact.dataType}</div>
+													)}
+													{artifact.version && (
+														<div className="text-text-sm">Version: {artifact.version}</div>
+													)}
+													{artifact.createdAt && (
+														<div className="text-text-xs text-theme-text-secondary">
+															Created: {new Date(artifact.createdAt).toLocaleString()}
+														</div>
+													)}
+												</div>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
 								))}
 							</div>
 						</div>
