@@ -95,6 +95,13 @@ export const apiPaths = {
 			rotate: (serviceAccountId: string, apiKeyId: string) =>
 				`/service_accounts/${serviceAccountId}/api_keys/${apiKeyId}/rotate`
 		}
+	},
+	pipelineEndpoints: {
+		all: "/pipeline_endpoints",
+		detail: (endpointId: string) => `/pipeline_endpoints/${endpointId}`,
+		execute: (endpointId: string) => `/pipeline_endpoints/${endpointId}/execute`,
+		chat: (endpointId: string) => `/pipeline_endpoints/${endpointId}/chat`,
+		logs: (endpointId: string) => `/pipeline_endpoints/${endpointId}/logs`
 	}
 };
 

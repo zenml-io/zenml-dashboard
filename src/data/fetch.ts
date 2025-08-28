@@ -1,6 +1,6 @@
 function updateConfig(init?: RequestInit): RequestInit {
 	return {
-		credentials: "include",
+		credentials: "same-origin",
 		...init,
 		headers: {
 			...init?.headers,

@@ -45,6 +45,11 @@ export const routes = {
 		artifacts: {
 			overview: "/projects/default/artifacts"
 		},
+		pipelineEndpoints: {
+			overview: "/projects/default/pipeline-endpoints",
+			detail: (endpointId: string) => `/projects/default/pipeline-endpoints/${endpointId}`,
+			chat: (endpointId: string) => `/projects/default/pipeline-endpoints/${endpointId}/chat`
+		},
 		settings: {
 			repositories: { overview: "/projects/default/settings/repositories" },
 			profile: "/projects/default/settings/profile"

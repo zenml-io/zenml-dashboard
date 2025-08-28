@@ -72,6 +72,11 @@ const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
+// Pipeline Endpoints
+const PipelineEndpoints = lazy(() => import("@/app/pipeline-endpoints/page"));
+const PipelineEndpointDetail = lazy(() => import("@/app/pipeline-endpoints/[endpointId]/page"));
+const PipelineEndpointChat = lazy(() => import("@/app/pipeline-endpoints/[endpointId]/chat/page"));
+
 const Survey = lazy(() => import("@/app/survey/page"));
 const Onboarding = lazy(() => import("@/app/onboarding/page"));
 
@@ -220,6 +225,12 @@ export const router = createBrowserRouter([
 								path: routes.projects.artifacts.overview,
 								element: withProtectedRoute(<Artifacts />)
 							},
+							// Pipeline Endpoints
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelineEndpoints.overview,
+								element: withProtectedRoute(<PipelineEndpoints />)
+							},
 							{
 								element: <ProjectSettingsLayout />,
 								children: [
@@ -258,6 +269,17 @@ export const router = createBrowserRouter([
 						errorElement: <PageBoundary />,
 						path: routes.projects.runs.detail(":runId"),
 						element: withProtectedRoute(<RunDetail />)
+					},
+					// Pipeline Endpoints Detail
+					{
+						errorElement: <PageBoundary />,
+						path: routes.projects.pipelineEndpoints.detail(":endpointId"),
+						element: withProtectedRoute(<PipelineEndpointDetail />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.projects.pipelineEndpoints.chat(":endpointId"),
+						element: withProtectedRoute(<PipelineEndpointChat />)
 					},
 					// Components
 					{
