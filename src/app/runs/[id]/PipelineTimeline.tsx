@@ -285,7 +285,7 @@ export function PipelineTimeline() {
 				<div className="mb-4">
 					<h3 className="text-text-lg font-semibold text-theme-text-primary">Pipeline Timeline</h3>
 					<p className="text-text-sm text-theme-text-secondary">
-						Total Duration: {secondsToTimeString(timelineData.totalDuration)}
+						Total Duration: {secondsToTimeString(timelineData.totalDuration / 1000)}
 						{searchTerm && timelineData.filteredCount < timelineData.totalSteps && (
 							<span className="ml-2">
 								• Showing {timelineData.filteredCount} of {timelineData.totalSteps} steps
