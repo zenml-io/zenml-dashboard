@@ -13,8 +13,15 @@ interface PipelineVisualizationContainerProps {
 }
 
 export function PipelineVisualizationContainer({
-	isPanelOpen = true
-}: PipelineVisualizationContainerProps) {
+-interface PipelineVisualizationContainerProps {
+-  isPanelOpen?: boolean;
+-}
+-
+-export function PipelineVisualizationContainer({
+-  isPanelOpen = true
+export function PipelineVisualizationContainer() {
+   // …rest of component logic…
+ }
 	const { nodes, dagQuery } = useDag();
 
 	const [view, setView] = useState<ViewType>("dag");
