@@ -56,10 +56,15 @@ export function PipelineTimeline() {
 		const rawNodes = dagQuery.data.nodes;
 		const rawEdges = dagQuery.data.edges || [];
 
-		// Filter raw nodes by type
-		const stepNodes = rawNodes.filter((node) => node.type === "step" && node.id); // Real steps have id
-		const previewStepNodes = rawNodes.filter((node) => node.type === "step" && !node.id); // Preview steps don't have id
-		const artifactNodes = rawNodes.filter((node) => node.type === "artifact");
+		// Helper functions to match DAG computation logic
+		const isStepNode = (node: any) => node.type === "step";
+		const isPreviewNode = (node: any) => !node.id;
+		const isArtifactNode = (node: any) => node.type === "artifact";
+
+		// Filter raw nodes by type using explicit helper functions
+		const stepNodes = rawNodes.filter(isStepNode).filter((node) => !isPreviewNode(node)); // Real steps
+		const previewStepNodes = rawNodes.filter(isStepNode).filter(isPreviewNode); // Preview steps
+		const artifactNodes = rawNodes.filter(isArtifactNode);
 
 		if (!stepNodes.length && !previewStepNodes.length) return null;
 
@@ -139,23 +144,100 @@ export function PipelineTimeline() {
 			? steps.filter((step) => step.name.toLowerCase().includes(searchTerm.toLowerCase()))
 			: steps;
 
-		// Calculate timeline positioning for all steps first to maintain proportions
-		let currentStart = 0;
+		// Calculate timeline positioning using actual timestamps for parallel execution
 		const allStepsWithTiming = steps.map((step) => {
-			const startTime = currentStart;
-			const duration = step.duration || 0;
-			const endTime = startTime + duration;
-			currentStart = endTime; // Sequential for now - could be parallel in reality
+			if (step.isPreview) {
+				// Preview steps don't have timestamps
+				return {
+					...step,
+					startTime: 0,
+					endTime: 0
+				};
+			}
 
-			return {
-				...step,
-				startTime,
-				endTime
-			};
+			// Use actual timestamps if available, otherwise fall back to relative positioning
+			if (step.actualStartTime && step.actualEndTime) {
+				try {
+					const startTimestamp = new Date(step.actualStartTime).getTime();
+					const endTimestamp = new Date(step.actualEndTime).getTime();
+
+					// Validate that timestamps are valid numbers
+					if (isNaN(startTimestamp) || isNaN(endTimestamp)) {
+						throw new Error("Invalid timestamp");
+					}
+
+					return {
+						...step,
+						startTime: startTimestamp,
+						endTime: endTimestamp
+					};
+				} catch (error) {
+					console.warn(`Failed to parse timestamps for step ${step.name}:`, error);
+					// Fall through to next condition or fallback
+				}
+			}
+
+			if (step.actualStartTime && step.duration) {
+				try {
+					// If we only have start time and duration
+					const startTimestamp = new Date(step.actualStartTime).getTime();
+
+					if (isNaN(startTimestamp)) {
+						throw new Error("Invalid start timestamp");
+					}
+
+					const endTimestamp = startTimestamp + (step.duration ?? 0) * 1000; // Convert seconds to ms
+					return {
+						...step,
+						startTime: startTimestamp,
+						endTime: endTimestamp
+					};
+				} catch (error) {
+					console.warn(`Failed to parse start timestamp for step ${step.name}:`, error);
+					// Fall through to fallback
+				}
+			} else {
+				// Fallback: no timestamps available, use 0 (will need special handling)
+				return {
+					...step,
+					startTime: 0,
+					endTime: step.duration ? step.duration * 1000 : 0
+				};
+			}
 		});
 
-		const totalDuration =
-			allStepsWithTiming.length > 0 ? Math.max(...allStepsWithTiming.map((s) => s.endTime)) : 0;
+		// Find the earliest start time and latest end time for the timeline bounds
+		const stepsWithTimestamps = allStepsWithTiming.filter((s) => !s.isPreview && s.startTime > 0);
+		if (stepsWithTimestamps.length === 0) {
+			// No real timestamps, fall back to sequential layout
+			let sequentialTime = 0;
+			allStepsWithTiming.forEach((step) => {
+				if (!step.isPreview) {
+					step.startTime = sequentialTime;
+					step.endTime = sequentialTime + (step.duration || 0);
+					sequentialTime = step.endTime;
+				}
+			});
+		} else {
+			// Calculate relative positions based on actual timeline bounds
+			const earliestStart = Math.min(...stepsWithTimestamps.map((s) => s.startTime));
+			const latestEnd = Math.max(...stepsWithTimestamps.map((s) => s.endTime));
+
+			// Normalize timestamps to start from 0
+			allStepsWithTiming.forEach((step) => {
+				if (!step.isPreview && step.startTime > 0) {
+					step.startTime = step.startTime - earliestStart;
+					step.endTime = step.endTime - earliestStart;
+				}
+			});
+		}
+
+		// Calculate total duration with proper error handling
+		const nonPreviewSteps = allStepsWithTiming.filter((s) => !s.isPreview);
+		const endTimes = nonPreviewSteps
+			.map((s) => s.endTime)
+			.filter((time) => typeof time === "number" && !isNaN(time));
+		const totalDuration = endTimes.length > 0 ? Math.max(...endTimes) : 0;
 
 		// Filter the steps with timing but keep original proportions
 		const filteredStepsWithTiming = allStepsWithTiming.filter((step) =>
@@ -205,6 +287,11 @@ export function PipelineTimeline() {
 					<h3 className="text-text-lg font-semibold text-theme-text-primary">Pipeline Timeline</h3>
 					<p className="text-text-sm text-theme-text-secondary">
 						Total Duration: {secondsToTimeString(timelineData.totalDuration)}
+						{searchTerm && timelineData.filteredCount < timelineData.totalSteps && (
+							<span className="ml-2">
+								• Showing {timelineData.filteredCount} of {timelineData.totalSteps} steps
+							</span>
+						)}
 					</p>
 				</div>
 
@@ -216,27 +303,40 @@ export function PipelineTimeline() {
 			</div>
 
 			<div className="p-2">
-				<div className="overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary">
-					{timelineData.steps.map((step, index) => (
-						<TimelineRow
-							key={step.id}
-							step={step}
-							totalDuration={timelineData.totalDuration}
-							index={index}
-							isLast={index === timelineData.steps.length - 1}
-							isExpanded={expandedSteps.has(step.id)}
-							onToggleExpand={() => {
-								const newExpanded = new Set(expandedSteps);
-								if (expandedSteps.has(step.id)) {
-									newExpanded.delete(step.id);
-								} else {
-									newExpanded.add(step.id);
-								}
-								setExpandedSteps(newExpanded);
-							}}
-						/>
-					))}
-				</div>
+				{searchTerm && timelineData.steps.length === 0 ? (
+					<div className="py-16 flex flex-col items-center justify-center">
+						<EmptyState icon={<AlertCircle className="h-12 w-12 fill-neutral-300" />}>
+							<p className="text-center text-theme-text-secondary">
+								No steps found matching "{searchTerm}"
+							</p>
+							<p className="mt-2 text-center text-text-sm text-theme-text-tertiary">
+								Try adjusting your search term or clear the search to see all steps
+							</p>
+						</EmptyState>
+					</div>
+				) : (
+					<div className="overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary">
+						{timelineData.steps.map((step, index) => (
+							<TimelineRow
+								key={step.id}
+								step={step}
+								totalDuration={timelineData.totalDuration}
+								index={index}
+								isLast={index === timelineData.steps.length - 1}
+								isExpanded={expandedSteps.has(step.id)}
+								onToggleExpand={() => {
+									const newExpanded = new Set(expandedSteps);
+									if (expandedSteps.has(step.id)) {
+										newExpanded.delete(step.id);
+									} else {
+										newExpanded.add(step.id);
+									}
+									setExpandedSteps(newExpanded);
+								}}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	);
@@ -260,8 +360,13 @@ function TimelineRow({
 	onToggleExpand
 }: TimelineRowProps) {
 	const { openStepSheet, openArtifactSheet } = useSheetContext();
-	const startPercentage = totalDuration > 0 ? (step.startTime! / totalDuration) * 100 : 0;
-	const widthPercentage = totalDuration > 0 ? ((step.duration || 0) / totalDuration) * 100 : 0;
+	// Safe calculation with proper null checks and edge case handling
+	const safeStartTime = step.startTime ?? 0;
+	const safeDuration = step.duration ?? 0;
+	const safeTotalDuration = totalDuration > 0 ? totalDuration : 1; // Prevent division by zero
+
+	const startPercentage = (safeStartTime / safeTotalDuration) * 100;
+	const widthPercentage = (safeDuration / safeTotalDuration) * 100;
 
 	const hasArtifacts = step.inputArtifacts.length > 0 || step.outputArtifacts.length > 0;
 
