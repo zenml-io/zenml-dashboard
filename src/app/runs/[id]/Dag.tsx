@@ -2,10 +2,8 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
 import { DagControls } from "@/components/dag-visualizer/Controls";
 import { ElkEdge } from "@/components/dag-visualizer/elk-edge";
-import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { PreviewArtifactNode } from "@/components/dag-visualizer/PreviewArtifact";
 import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
-import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { EmptyState } from "@/components/EmptyState";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
@@ -60,36 +58,33 @@ export function DAG() {
 		);
 
 	return (
-		<SheetProvider>
-			<ReactFlow
-				minZoom={-2}
-				connectOnClick={false}
-				nodesDraggable={false}
-				nodesConnectable={false}
-				edgeTypes={customEdge}
-				nodeTypes={customNodes}
-				nodes={nodes}
-				edges={edges}
-				edgesFocusable={false}
-				onlyRenderVisibleElements
-				multiSelectionKeyCode={null}
-				onNodesChange={onNodesChange}
-				onEdgesChange={onEdgesChange}
-				fitView
-				fitViewOptions={
-					shouldFitView
-						? undefined
-						: topMostNode
-							? {
-									nodes: [topMostNode],
-									maxZoom: 1.2
-								}
-							: undefined
-				}
-			>
-				<DagControls refetch={handleRefetch} />
-			</ReactFlow>
-			<GlobalSheets />
-		</SheetProvider>
+		<ReactFlow
+			minZoom={-2}
+			connectOnClick={false}
+			nodesDraggable={false}
+			nodesConnectable={false}
+			edgeTypes={customEdge}
+			nodeTypes={customNodes}
+			nodes={nodes}
+			edges={edges}
+			edgesFocusable={false}
+			onlyRenderVisibleElements
+			multiSelectionKeyCode={null}
+			onNodesChange={onNodesChange}
+			onEdgesChange={onEdgesChange}
+			fitView
+			fitViewOptions={
+				shouldFitView
+					? undefined
+					: topMostNode
+						? {
+								nodes: [topMostNode],
+								maxZoom: 1.2
+							}
+						: undefined
+			}
+		>
+			<DagControls refetch={handleRefetch} />
+		</ReactFlow>
 	);
 }

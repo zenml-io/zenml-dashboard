@@ -3,7 +3,7 @@ import { useServerInfo } from "@/data/server/info-query";
 import { checkIsLocalServer } from "@/lib/server";
 import { Button, ScrollArea } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction, useState } from "react";
-import { DAG } from "./Dag";
+import { PipelineVisualizationContainer } from "./PipelineVisualizationContainer";
 import { RunsDetailHeader } from "./Header";
 import { RunsDetailTabs, TabsHeader } from "./_Tabs";
 
@@ -22,7 +22,7 @@ export default function RunDetailPage() {
 						isPanelOpen ? "w-1/2" : "w-full"
 					}`}
 				>
-					<DAG />
+					<PipelineVisualizationContainer />
 					<ExpandPanelButton isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
 				</div>
 				<div
