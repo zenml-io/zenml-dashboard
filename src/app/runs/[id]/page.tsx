@@ -22,7 +22,7 @@ export default function RunDetailPage() {
 						isPanelOpen ? "w-1/2" : "w-full"
 					}`}
 				>
-					<PipelineVisualizationContainer />
+					<PipelineVisualizationContainer isPanelOpen={isPanelOpen} />
 					<ExpandPanelButton isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
 				</div>
 				<div
@@ -49,7 +49,7 @@ function ExpandPanelButton({ isPanelOpen, setIsPanelOpen }: ExpandPanelProps) {
 	return (
 		<Button
 			intent="secondary"
-			className={`absolute right-4 top-4 h-7 w-7 items-center justify-center border border-neutral-300 bg-theme-surface-primary p-0.5 ${
+			className={`absolute right-4 top-4 z-20 h-7 w-7 items-center justify-center border border-neutral-300 bg-theme-surface-primary p-0.5 ${
 				isPanelOpen ? "hidden" : "flex"
 			}`}
 			onClick={() => setIsPanelOpen(true)}

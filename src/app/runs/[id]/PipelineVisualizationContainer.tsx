@@ -7,7 +7,13 @@ import { ViewToggle } from "./ViewToggle";
 
 export type ViewType = "dag" | "timeline";
 
-export function PipelineVisualizationContainer() {
+interface PipelineVisualizationContainerProps {
+	isPanelOpen?: boolean;
+}
+
+export function PipelineVisualizationContainer({
+	isPanelOpen = true
+}: PipelineVisualizationContainerProps) {
 	const [view, setView] = useState<ViewType>("dag");
 
 	return (
