@@ -24,7 +24,9 @@ export function PipelineVisualizationContainer({
 		// Only proceed when DAG query is successful and raw data is available
 		if (dagQuery.isSuccess && dagQuery.data && dagQuery.data.nodes) {
 			// Count steps from raw DAG data (before ReactFlow processing)
-			const rawStepNodes = dagQuery.data.nodes.filter((node) => node.type === "step");
+			const rawStepNodes = dagQuery.data.nodes.filter(
+				(node: { type: string }) => node.type === "step"
+			);
 			const stepCount = rawStepNodes.length;
 
 			// Only auto-switch to timeline if we're still on the default "dag" view

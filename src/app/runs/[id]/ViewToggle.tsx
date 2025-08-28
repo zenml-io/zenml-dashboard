@@ -13,11 +13,19 @@ export function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
 		<div className="absolute right-12 top-4 z-30">
 			<Tabs value={currentView} onValueChange={(value) => onViewChange(value as ViewType)}>
 				<TabsList className="border border-theme-border-moderate bg-theme-surface-primary">
-					<TabsTrigger value="dag" className="flex items-center gap-2">
+					<TabsTrigger
+						value="dag"
+						className="flex items-center gap-2"
+						aria-label="Switch to DAG view"
+					>
 						<Dataflow className="h-4 w-4" />
 						<span className="text-text-sm">DAG</span>
 					</TabsTrigger>
-					<TabsTrigger value="timeline" className="flex items-center gap-2">
+					<TabsTrigger
+						value="timeline"
+						className="flex items-center gap-2"
+						aria-label="Switch to Timeline view"
+					>
 						<Clock className="h-4 w-4" />
 						<span className="text-text-sm">Timeline</span>
 					</TabsTrigger>
