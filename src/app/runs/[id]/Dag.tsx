@@ -50,7 +50,7 @@ export function DAG() {
 	if (
 		dagQuery.isPending ||
 		dagQuery.isLoading ||
-		(!dagQuery.data && !dagQuery.isError) ||
+		(!dagQuery.data && !('isError' in dagQuery && dagQuery.isError)) ||
 		initialRender
 	)
 		return (
