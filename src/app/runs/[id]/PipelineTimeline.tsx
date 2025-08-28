@@ -44,6 +44,30 @@ interface TimelineStep {
 	isPreview?: boolean;
 }
 
+interface DagNodeMetadata {
+	status?: string;
+	duration?: number;
+	start_time?: string;
+	end_time?: string;
+	type?: string;
+	version?: string;
+	data_type?: string;
+	created_at?: string;
+}
+
+interface DagNode {
+	id?: string;
+	node_id?: string;
+	name: string;
+	type: "step" | "artifact";
+	metadata?: DagNodeMetadata;
+}
+
+interface DagEdge {
+	source: string;
+	target: string;
+}
+
 export function PipelineTimeline() {
 	const { dagQuery, nodes, edges } = useDag();
 	const [searchTerm, setSearchTerm] = useState("");
@@ -53,13 +77,13 @@ export function PipelineTimeline() {
 		// Use raw DAG data instead of waiting for computed ReactFlow nodes
 		if (!dagQuery.data || !dagQuery.data.nodes) return null;
 
-		const rawNodes = dagQuery.data.nodes;
-		const rawEdges = dagQuery.data.edges || [];
+		const rawNodes = dagQuery.data.nodes as DagNode[];
+		const rawEdges = (dagQuery.data.edges as DagEdge[]) || [];
 
 		// Helper functions to match DAG computation logic
-		const isStepNode = (node: any) => node.type === "step";
-		const isPreviewNode = (node: any) => !node.id;
-		const isArtifactNode = (node: any) => node.type === "artifact";
+		const isStepNode = (node: DagNode): boolean => node.type === "step";
+		const isPreviewNode = (node: DagNode): boolean => !node.id;
+		const isArtifactNode = (node: DagNode): boolean => node.type === "artifact";
 
 		// Filter raw nodes by type using explicit helper functions
 		const stepNodes = rawNodes.filter(isStepNode).filter((node) => !isPreviewNode(node)); // Real steps
@@ -72,7 +96,7 @@ export function PipelineTimeline() {
 		const artifactLookup = new Map<string, ArtifactInfo>();
 		artifactNodes.forEach((node) => {
 			if (node.node_id) {
-				const metadata = node.metadata as any;
+				const metadata = node.metadata;
 				artifactLookup.set(node.node_id, {
 					id: node.id!, // artifact ID
 					name: node.name,
@@ -98,11 +122,11 @@ export function PipelineTimeline() {
 				.map((edge) => artifactLookup.get(edge.target))
 				.filter(Boolean) as ArtifactInfo[];
 
-			const metadata = node.metadata as any;
+			const metadata = node.metadata;
 			return {
 				id: node.id!,
 				name: node.name,
-				status: metadata?.status || "completed",
+				status: (metadata?.status as StepNodePayload["status"]) || "completed",
 				duration: metadata?.duration,
 				actualStartTime: metadata?.start_time,
 				actualEndTime: metadata?.end_time,
@@ -577,7 +601,7 @@ function TimelineRow({
 												>
 													<ArtifactIcon
 														className="h-3 w-3 fill-theme-text-secondary"
-														artifactType={artifact.type as any}
+														artifactType={artifact.type}
 													/>
 													<span className="text-text-sm text-theme-text-primary">
 														{artifact.name}
@@ -625,7 +649,7 @@ function TimelineRow({
 												>
 													<ArtifactIcon
 														className="h-3 w-3 fill-theme-text-secondary"
-														artifactType={artifact.type as any}
+														artifactType={artifact.type}
 													/>
 													<span className="text-text-sm text-theme-text-primary">
 														{artifact.name}

@@ -1,6 +1,6 @@
 import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DAG } from "./Dag";
 import { PipelineTimeline } from "./PipelineTimeline";
 import { useDag } from "./useDag";
@@ -12,17 +12,8 @@ interface PipelineVisualizationContainerProps {
 	isPanelOpen?: boolean;
 }
 
-export function PipelineVisualizationContainer({
--interface PipelineVisualizationContainerProps {
--  isPanelOpen?: boolean;
--}
--
--export function PipelineVisualizationContainer({
--  isPanelOpen = true
-export function PipelineVisualizationContainer() {
-   // …rest of component logic…
- }
-	const { nodes, dagQuery } = useDag();
+export function PipelineVisualizationContainer(_props: PipelineVisualizationContainerProps) {
+	const { dagQuery } = useDag();
 
 	const [view, setView] = useState<ViewType>("dag");
 
