@@ -210,6 +210,7 @@ export function PipelineTimeline() {
 			// No real timestamps, fall back to sequential layout
 			let sequentialTime = 0;
 			allStepsWithTiming.forEach((step) => {
+				if (!step) return;
 				if (!step.isPreview) {
 					step.startTime = sequentialTime;
 					step.endTime = sequentialTime + (step.duration || 0);
