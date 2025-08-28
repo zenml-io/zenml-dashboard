@@ -1,4 +1,7 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import ChevronRight from "@/assets/icons/chevron-right.svg?react";
+import { ArtifactIcon } from "@/components/ArtifactIcon";
 import { EmptyState } from "@/components/EmptyState";
 import {
 	ExecutionStatusIcon,
@@ -12,6 +15,12 @@ import { Spinner } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
 import { useDag } from "./useDag";
 
+interface ArtifactInfo {
+	id: string;
+	name: string;
+	type: string;
+}
+
 interface TimelineStep {
 	id: string;
 	name: string;
@@ -19,11 +28,14 @@ interface TimelineStep {
 	duration?: number;
 	startTime?: number;
 	endTime?: number;
+	inputArtifacts: ArtifactInfo[];
+	outputArtifacts: ArtifactInfo[];
 }
 
 export function PipelineTimeline() {
-	const { dagQuery, nodes } = useDag();
+	const { dagQuery, nodes, edges } = useDag();
 	const [searchTerm, setSearchTerm] = useState("");
+	const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
 
 	const timelineData = useMemo(() => {
 		if (!dagQuery.data || !nodes.length) return null;
@@ -32,15 +44,45 @@ export function PipelineTimeline() {
 			id: string;
 			data: StepNodePayload;
 		}>;
+		const artifactNodes = nodes.filter((node) => node.type === "artifact") as Array<{
+			id: string;
+			data: { artifact_id: string; artifact_name: string; type: string };
+		}>;
 
 		if (!stepNodes.length) return null;
 
-		const steps: TimelineStep[] = stepNodes.map((node) => ({
-			id: node.data.step_id,
-			name: node.data.step_name,
-			status: node.data.status,
-			duration: node.data.duration
-		}));
+		// Build artifact lookup
+		const artifactLookup = new Map<string, ArtifactInfo>();
+		artifactNodes.forEach((node) => {
+			artifactLookup.set(node.id, {
+				id: node.data.artifact_id,
+				name: node.data.artifact_name,
+				type: node.data.type
+			});
+		});
+
+		const steps: TimelineStep[] = stepNodes.map((node) => {
+			// Find input artifacts (edges FROM artifacts TO this step)
+			const inputArtifacts: ArtifactInfo[] = edges
+				.filter((edge) => edge.target === node.id)
+				.map((edge) => artifactLookup.get(edge.source))
+				.filter(Boolean) as ArtifactInfo[];
+
+			// Find output artifacts (edges FROM this step TO artifacts)
+			const outputArtifacts: ArtifactInfo[] = edges
+				.filter((edge) => edge.source === node.id)
+				.map((edge) => artifactLookup.get(edge.target))
+				.filter(Boolean) as ArtifactInfo[];
+
+			return {
+				id: node.data.step_id,
+				name: node.data.step_name,
+				status: node.data.status,
+				duration: node.data.duration,
+				inputArtifacts,
+				outputArtifacts
+			};
+		});
 
 		// Filter steps based on search term
 		const filteredSteps = searchTerm
@@ -123,6 +165,16 @@ export function PipelineTimeline() {
 							totalDuration={timelineData.totalDuration}
 							index={index}
 							isLast={index === timelineData.steps.length - 1}
+							isExpanded={expandedSteps.has(step.id)}
+							onToggleExpand={() => {
+								const newExpanded = new Set(expandedSteps);
+								if (expandedSteps.has(step.id)) {
+									newExpanded.delete(step.id);
+								} else {
+									newExpanded.add(step.id);
+								}
+								setExpandedSteps(newExpanded);
+							}}
 						/>
 					))}
 				</div>
@@ -136,58 +188,148 @@ interface TimelineRowProps {
 	totalDuration: number;
 	index: number;
 	isLast: boolean;
+	isExpanded: boolean;
+	onToggleExpand: () => void;
 }
 
-function TimelineRow({ step, totalDuration, index, isLast }: TimelineRowProps) {
-	const { openStepSheet } = useSheetContext();
-
-	function handleClick() {
-		openStepSheet(step.id);
-	}
+function TimelineRow({
+	step,
+	totalDuration,
+	index,
+	isLast,
+	isExpanded,
+	onToggleExpand
+}: TimelineRowProps) {
+	const { openStepSheet, openArtifactSheet } = useSheetContext();
 	const startPercentage = totalDuration > 0 ? (step.startTime! / totalDuration) * 100 : 0;
 	const widthPercentage = totalDuration > 0 ? ((step.duration || 0) / totalDuration) * 100 : 0;
 
+	const hasArtifacts = step.inputArtifacts.length > 0 || step.outputArtifacts.length > 0;
+
+	function handleStepClick() {
+		openStepSheet(step.id);
+	}
+
+	function handleArtifactClick(e: React.MouseEvent, artifactId: string) {
+		e.stopPropagation();
+		openArtifactSheet(artifactId);
+	}
+
 	return (
-		<button
-			onClick={handleClick}
-			className={`flex w-full items-center gap-3 bg-theme-surface-primary p-2 text-left transition-colors hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary focus:outline-none ${
-				!isLast ? "border-b border-theme-border-moderate" : ""
-			}`}
+		<div
+			className={`bg-theme-surface-primary ${!isLast ? "border-b border-theme-border-moderate" : ""}`}
 		>
-			{/* Step Info */}
-			<div className="flex min-w-0 flex-1 items-center gap-2">
-				<div className="min-w-0 flex-1">
-					<div className="flex items-center gap-2">
-						<div className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(step.status)}`}>
-							<ExecutionStatusIcon status={step.status} className="h-3 w-3 shrink-0" />
+			{/* Main Row */}
+			<div className="flex w-full items-center gap-3 p-2">
+				{/* Expand Button */}
+				<button
+					onClick={onToggleExpand}
+					disabled={!hasArtifacts}
+					className={`shrink-0 p-1 transition-colors ${
+						hasArtifacts
+							? "text-theme-text-secondary hover:text-theme-text-primary"
+							: "cursor-default text-transparent"
+					}`}
+				>
+					{hasArtifacts &&
+						(isExpanded ? (
+							<ChevronDown className="h-4 w-4" />
+						) : (
+							<ChevronRight className="h-4 w-4" />
+						))}
+				</button>
+
+				{/* Step Info */}
+				<button
+					onClick={handleStepClick}
+					className="rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary focus:outline-none"
+				>
+					<div className="min-w-0 flex-1">
+						<div className="flex items-center gap-2">
+							<div className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(step.status)}`}>
+								<ExecutionStatusIcon status={step.status} className="h-3 w-3 shrink-0" />
+							</div>
+							<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
 						</div>
-						<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
+						<p className="text-text-sm text-theme-text-tertiary">
+							Duration:{" "}
+							{step.status === "running"
+								? "Running..."
+								: step.duration === 0
+									? "Cached"
+									: step.duration
+										? secondsToTimeString(step.duration)
+										: "N/A"}
+						</p>
 					</div>
-					<p className="text-text-sm text-theme-text-tertiary">
-						Duration:{" "}
-						{step.status === "running"
-							? "Running..."
-							: step.duration === 0
-								? "Cached"
-								: step.duration
-									? secondsToTimeString(step.duration)
-									: "N/A"}
-					</p>
+				</button>
+
+				{/* Timeline Bar */}
+				<div className="relative h-6 w-1/2 overflow-hidden rounded-sm bg-neutral-100">
+					{step.duration !== undefined && step.duration !== null && (
+						<div
+							className={`absolute top-0 h-full rounded-sm transition-all duration-300 ${getExecutionStatusBackgroundColor(step.status)}`}
+							style={{
+								left: `${startPercentage}%`,
+								width: step.duration === 0 ? "1px" : `${Math.max(widthPercentage, 2)}%`
+							}}
+						/>
+					)}
 				</div>
 			</div>
 
-			{/* Timeline Bar */}
-			<div className="relative h-6 w-1/2 overflow-hidden rounded-sm bg-neutral-100">
-				{step.duration !== undefined && step.duration !== null && (
-					<div
-						className={`absolute top-0 h-full rounded-sm transition-all duration-300 ${getExecutionStatusBackgroundColor(step.status)}`}
-						style={{
-							left: `${startPercentage}%`,
-							width: step.duration === 0 ? "1px" : `${Math.max(widthPercentage, 2)}%` // Show thin line for 0 duration
-						}}
-					/>
-				)}
-			</div>
-		</button>
+			{/* Expanded Artifacts */}
+			{isExpanded && hasArtifacts && (
+				<div className="border-theme-border-subtle border-t bg-theme-surface-secondary px-8 py-3">
+					{/* Input Artifacts */}
+					{step.inputArtifacts.length > 0 && (
+						<div className="mb-3">
+							<h4 className="mb-2 text-text-sm font-medium text-theme-text-secondary">
+								Input Artifacts ({step.inputArtifacts.length})
+							</h4>
+							<div className="flex flex-wrap gap-2">
+								{step.inputArtifacts.map((artifact) => (
+									<button
+										key={artifact.id}
+										onClick={(e) => handleArtifactClick(e, artifact.id)}
+										className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
+									>
+										<ArtifactIcon
+											className="h-3 w-3 fill-theme-text-secondary"
+											artifactType={artifact.type}
+										/>
+										<span className="text-text-sm text-theme-text-primary">{artifact.name}</span>
+									</button>
+								))}
+							</div>
+						</div>
+					)}
+
+					{/* Output Artifacts */}
+					{step.outputArtifacts.length > 0 && (
+						<div>
+							<h4 className="mb-2 text-text-sm font-medium text-theme-text-secondary">
+								Output Artifacts ({step.outputArtifacts.length})
+							</h4>
+							<div className="flex flex-wrap gap-2">
+								{step.outputArtifacts.map((artifact) => (
+									<button
+										key={artifact.id}
+										onClick={(e) => handleArtifactClick(e, artifact.id)}
+										className="rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors hover:bg-theme-surface-secondary"
+									>
+										<ArtifactIcon
+											className="h-3 w-3 fill-theme-text-secondary"
+											artifactType={artifact.type}
+										/>
+										<span className="text-text-sm text-theme-text-primary">{artifact.name}</span>
+									</button>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
+			)}
+		</div>
 	);
 }
