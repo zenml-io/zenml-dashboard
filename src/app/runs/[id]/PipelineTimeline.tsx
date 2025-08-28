@@ -30,6 +30,7 @@ interface TimelineStep {
 	endTime?: number;
 	inputArtifacts: ArtifactInfo[];
 	outputArtifacts: ArtifactInfo[];
+	isPreview?: boolean;
 }
 
 export function PipelineTimeline() {
@@ -44,12 +45,16 @@ export function PipelineTimeline() {
 			id: string;
 			data: StepNodePayload;
 		}>;
+		const previewStepNodes = nodes.filter((node) => node.type === "previewStep") as Array<{
+			id: string;
+			data: { node_name: string; runStatus: string };
+		}>;
 		const artifactNodes = nodes.filter((node) => node.type === "artifact") as Array<{
 			id: string;
 			data: { artifact_id: string; artifact_name: string; type: string };
 		}>;
 
-		if (!stepNodes.length) return null;
+		if (!stepNodes.length && !previewStepNodes.length) return null;
 
 		// Build artifact lookup
 		const artifactLookup = new Map<string, ArtifactInfo>();
@@ -61,7 +66,8 @@ export function PipelineTimeline() {
 			});
 		});
 
-		const steps: TimelineStep[] = stepNodes.map((node) => {
+		// Process regular steps
+		const regularSteps: TimelineStep[] = stepNodes.map((node) => {
 			// Find input artifacts (edges FROM artifacts TO this step)
 			const inputArtifacts: ArtifactInfo[] = edges
 				.filter((edge) => edge.target === node.id)
@@ -80,9 +86,37 @@ export function PipelineTimeline() {
 				status: node.data.status,
 				duration: node.data.duration,
 				inputArtifacts,
-				outputArtifacts
+				outputArtifacts,
+				isPreview: false
 			};
 		});
+
+		// Process preview steps (future/not-started steps)
+		const previewSteps: TimelineStep[] = previewStepNodes.map((node) => {
+			// Preview steps typically don't have artifacts in the current run
+			const inputArtifacts: ArtifactInfo[] = [];
+			const outputArtifacts: ArtifactInfo[] = [];
+
+			// Determine preview step status based on run status
+			let status: StepNodePayload["status"] = "initializing";
+			if (node.data.runStatus === "failed") {
+				status = "failed";
+			} else if (node.data.runStatus === "stopped") {
+				status = "stopped";
+			}
+
+			return {
+				id: node.id, // Use node.id since preview steps don't have step_id
+				name: node.data.node_name,
+				status,
+				duration: undefined, // No duration for preview steps
+				inputArtifacts,
+				outputArtifacts,
+				isPreview: true
+			};
+		});
+
+		const steps = [...regularSteps, ...previewSteps];
 
 		// Filter steps based on search term
 		const filteredSteps = searchTerm
@@ -207,7 +241,10 @@ function TimelineRow({
 	const hasArtifacts = step.inputArtifacts.length > 0 || step.outputArtifacts.length > 0;
 
 	function handleStepClick() {
-		openStepSheet(step.id);
+		if (!step.isPreview) {
+			openStepSheet(step.id);
+		}
+		// Preview steps don't open step sheets since they haven't executed
 	}
 
 	function handleArtifactClick(e: React.MouseEvent, artifactId: string) {
@@ -217,7 +254,9 @@ function TimelineRow({
 
 	return (
 		<div
-			className={`bg-theme-surface-primary ${!isLast ? "border-b border-theme-border-moderate" : ""}`}
+			className={`bg-theme-surface-primary ${!isLast ? "border-b border-theme-border-moderate" : ""} ${
+				step.isPreview ? "opacity-50" : ""
+			}`}
 		>
 			{/* Main Row */}
 			<div className="flex w-full items-center gap-3 p-2">
@@ -242,7 +281,12 @@ function TimelineRow({
 				{/* Step Info */}
 				<button
 					onClick={handleStepClick}
-					className="rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary focus:outline-none"
+					disabled={step.isPreview}
+					className={`rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors focus:outline-none ${
+						step.isPreview
+							? "cursor-default"
+							: "hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary"
+					}`}
 				>
 					<div className="min-w-0 flex-1">
 						<div className="flex items-center gap-2">
@@ -252,28 +296,46 @@ function TimelineRow({
 							<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
 						</div>
 						<p className="text-text-sm text-theme-text-tertiary">
-							Duration:{" "}
-							{step.status === "running"
-								? "Running..."
-								: step.duration === 0
-									? "Cached"
-									: step.duration
-										? secondsToTimeString(step.duration)
-										: "N/A"}
+							{step.isPreview ? (
+								<span>
+									{step.status === "failed"
+										? "Will not execute due to upstream error"
+										: step.status === "stopped"
+											? "Not executed - run was stopped"
+											: "Pending execution"}
+								</span>
+							) : (
+								<span>
+									Duration:{" "}
+									{step.status === "running"
+										? "Running..."
+										: step.duration === 0
+											? "Cached"
+											: step.duration
+												? secondsToTimeString(step.duration)
+												: "N/A"}
+								</span>
+							)}
 						</p>
 					</div>
 				</button>
 
 				{/* Timeline Bar */}
 				<div className="relative h-6 w-1/2 overflow-hidden rounded-sm bg-neutral-100">
-					{step.duration !== undefined && step.duration !== null && (
-						<div
-							className={`absolute top-0 h-full rounded-sm transition-all duration-300 ${getExecutionStatusBackgroundColor(step.status)}`}
-							style={{
-								left: `${startPercentage}%`,
-								width: step.duration === 0 ? "1px" : `${Math.max(widthPercentage, 2)}%`
-							}}
-						/>
+					{step.isPreview ? (
+						// Preview steps show as a dashed placeholder
+						<div className="absolute top-0 h-full w-full border-2 border-dashed border-theme-border-moderate opacity-50" />
+					) : (
+						step.duration !== undefined &&
+						step.duration !== null && (
+							<div
+								className={`absolute top-0 h-full rounded-sm transition-all duration-300 ${getExecutionStatusBackgroundColor(step.status)}`}
+								style={{
+									left: `${startPercentage}%`,
+									width: step.duration === 0 ? "1px" : `${Math.max(widthPercentage, 2)}%`
+								}}
+							/>
+						)
 					)}
 				</div>
 			</div>
