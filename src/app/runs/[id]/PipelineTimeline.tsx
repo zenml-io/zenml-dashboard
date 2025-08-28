@@ -304,7 +304,11 @@ export function PipelineTimeline() {
 
 			<div className="p-2">
 				{searchTerm && timelineData.steps.length === 0 ? (
-					<div className="py-16 flex flex-col items-center justify-center">
+					<div
+						className="py-16 flex flex-col items-center justify-center"
+						role="status"
+						aria-live="polite"
+					>
 						<EmptyState icon={<AlertCircle className="h-12 w-12 fill-neutral-300" />}>
 							<p className="text-center text-theme-text-secondary">
 								No steps found matching "{searchTerm}"
@@ -315,7 +319,11 @@ export function PipelineTimeline() {
 						</EmptyState>
 					</div>
 				) : (
-					<div className="overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary">
+					<ol
+						className="overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary"
+						role="list"
+						aria-label="Pipeline steps timeline"
+					>
 						{timelineData.steps.map((step, index) => (
 							<TimelineRow
 								key={step.id}
@@ -335,7 +343,7 @@ export function PipelineTimeline() {
 								}}
 							/>
 						))}
-					</div>
+					</ol>
 				)}
 			</div>
 		</div>
@@ -382,19 +390,46 @@ function TimelineRow({
 		openArtifactSheet(artifactId);
 	}
 
+	function handleExpandKeyDown(e: React.KeyboardEvent) {
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			if (hasArtifacts) {
+				onToggleExpand();
+			}
+		}
+	}
+
+	function handleStepKeyDown(e: React.KeyboardEvent) {
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			if (!step.isPreview) {
+				openStepSheet(step.id);
+			}
+		}
+	}
+
 	return (
-		<div
+		<li
 			className={`bg-theme-surface-primary ${!isLast ? "border-b border-theme-border-moderate" : ""} ${
 				step.isPreview ? "opacity-50" : ""
 			}`}
+			role="listitem"
+			aria-labelledby={`step-${step.id}-name`}
 		>
 			{/* Main Row */}
 			<div className="flex w-full items-center gap-3 p-2">
 				{/* Expand Button */}
 				<button
 					onClick={onToggleExpand}
+					onKeyDown={handleExpandKeyDown}
 					disabled={!hasArtifacts}
-					className={`shrink-0 p-1 transition-colors ${
+					aria-label={
+						hasArtifacts
+							? `${isExpanded ? "Collapse" : "Expand"} artifacts for ${step.name}`
+							: "No artifacts available"
+					}
+					aria-expanded={hasArtifacts ? isExpanded : undefined}
+					className={`focus:ring-theme-border-primary shrink-0 p-1 transition-colors focus:outline-none focus:ring-2 ${
 						hasArtifacts
 							? "text-theme-text-secondary hover:text-theme-text-primary"
 							: "cursor-default text-transparent"
@@ -402,9 +437,9 @@ function TimelineRow({
 				>
 					{hasArtifacts &&
 						(isExpanded ? (
-							<ChevronDown className="h-4 w-4" />
+							<ChevronDown className="h-4 w-4" aria-hidden="true" />
 						) : (
-							<ChevronRight className="h-4 w-4" />
+							<ChevronRight className="h-4 w-4" aria-hidden="true" />
 						))}
 				</button>
 
@@ -414,8 +449,10 @@ function TimelineRow({
 						<TooltipTrigger asChild>
 							<button
 								onClick={handleStepClick}
+								onKeyDown={handleStepKeyDown}
 								disabled={step.isPreview}
-								className={`rounded -m-1 flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors focus:outline-none ${
+								aria-label={`View details for step ${step.name}`}
+								className={`rounded -m-1 focus:ring-theme-border-primary flex min-w-0 flex-1 items-center gap-2 p-1 text-left transition-colors focus:outline-none focus:ring-2 ${
 									step.isPreview
 										? "cursor-default"
 										: "hover:bg-theme-surface-secondary focus:bg-theme-surface-secondary"
@@ -428,7 +465,12 @@ function TimelineRow({
 										>
 											<ExecutionStatusIcon status={step.status} className="h-3 w-3 shrink-0" />
 										</div>
-										<p className="truncate font-semibold text-theme-text-primary">{step.name}</p>
+										<p
+											id={`step-${step.id}-name`}
+											className="truncate font-semibold text-theme-text-primary"
+										>
+											{step.name}
+										</p>
 									</div>
 									<p className="text-text-sm text-theme-text-tertiary">
 										{step.isPreview ? (
@@ -513,7 +555,11 @@ function TimelineRow({
 
 			{/* Expanded Artifacts */}
 			{isExpanded && hasArtifacts && (
-				<div className="border-theme-border-subtle border-t bg-theme-surface-secondary px-8 py-3">
+				<div
+					className="border-theme-border-subtle border-t bg-theme-surface-secondary px-8 py-3"
+					role="region"
+					aria-label={`Artifacts for ${step.name}`}
+				>
 					{/* Input Artifacts */}
 					{step.inputArtifacts.length > 0 && (
 						<div className="mb-3">
@@ -531,7 +577,7 @@ function TimelineRow({
 												>
 													<ArtifactIcon
 														className="h-3 w-3 fill-theme-text-secondary"
-														artifactType={artifact.type}
+														artifactType={artifact.type as any}
 													/>
 													<span className="text-text-sm text-theme-text-primary">
 														{artifact.name}
@@ -579,7 +625,7 @@ function TimelineRow({
 												>
 													<ArtifactIcon
 														className="h-3 w-3 fill-theme-text-secondary"
-														artifactType={artifact.type}
+														artifactType={artifact.type as any}
 													/>
 													<span className="text-text-sm text-theme-text-primary">
 														{artifact.name}
@@ -611,6 +657,6 @@ function TimelineRow({
 					)}
 				</div>
 			)}
-		</div>
+		</li>
 	);
 }
