@@ -172,8 +172,7 @@ export function PipelineTimeline() {
 						endTime: endTimestamp
 					};
 				} catch (error) {
-					console.warn(`Failed to parse timestamps for step ${step.name}:`, error);
-					// Fall through to next condition or fallback
+					// Failed to parse timestamps, fall through to next condition
 				}
 			}
 
@@ -193,8 +192,7 @@ export function PipelineTimeline() {
 						endTime: endTimestamp
 					};
 				} catch (error) {
-					console.warn(`Failed to parse start timestamp for step ${step.name}:`, error);
-					// Fall through to fallback
+					// Failed to parse start timestamp, fall through to fallback
 				}
 			} else {
 				// Fallback: no timestamps available, use 0 (will need special handling)
