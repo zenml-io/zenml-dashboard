@@ -9,8 +9,9 @@ import {
 } from "@/components/ExecutionStatus";
 import { useSheetContext } from "@/components/dag-visualizer/sheet-context";
 import { SearchField } from "@/components/SearchField";
-import { secondsToTimeString } from "@/lib/dates";
+import { calculateTimeDifference, secondsToTimeString } from "@/lib/dates";
 import { StepNodePayload } from "@/types/dag-visualizer";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 import {
 	Tooltip,
@@ -19,6 +20,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useDag } from "./useDag";
 
 interface ArtifactInfo {
@@ -28,6 +30,13 @@ interface ArtifactInfo {
 	version?: string;
 	dataType?: string;
 	createdAt?: string;
+}
+
+interface StepInfo {
+	id: string;
+	name: string;
+	status: StepNodePayload["status"];
+	isPreview?: boolean;
 }
 
 interface TimelineStep {
@@ -41,6 +50,8 @@ interface TimelineStep {
 	actualEndTime?: string; // ISO timestamp
 	inputArtifacts: ArtifactInfo[];
 	outputArtifacts: ArtifactInfo[];
+	inputSteps: StepInfo[];
+	outputSteps: StepInfo[];
 	isPreview?: boolean;
 }
 
@@ -69,9 +80,11 @@ interface DagEdge {
 }
 
 export function PipelineTimeline() {
-	const { dagQuery, nodes, edges } = useDag();
+	const { dagQuery } = useDag();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [expandedSteps, setExpandedSteps] = useState<Set<string>>(new Set());
+	const { runId } = useParams() as { runId: string };
+	const pipelineRunQuery = usePipelineRun({ runId });
 
 	const timelineData = useMemo(() => {
 		// Use raw DAG data instead of waiting for computed ReactFlow nodes
@@ -108,6 +121,24 @@ export function PipelineTimeline() {
 			}
 		});
 
+		// Build step lookup for finding connected steps
+		const allStepNodes = [...stepNodes, ...previewStepNodes];
+		const stepLookup = new Map<string, StepInfo>();
+		allStepNodes.forEach((node) => {
+			const nodeId = node.node_id || node.id;
+			if (nodeId) {
+				const metadata = node.metadata;
+				stepLookup.set(nodeId, {
+					id: node.id || nodeId,
+					name: node.name,
+					status:
+						(metadata?.status as StepNodePayload["status"]) ||
+						(node.id ? "completed" : "initializing"),
+					isPreview: !node.id
+				});
+			}
+		});
+
 		// Process regular steps using raw nodes
 		const regularSteps: TimelineStep[] = stepNodes.map((node) => {
 			// Find input artifacts (edges FROM artifacts TO this step)
@@ -122,6 +153,37 @@ export function PipelineTimeline() {
 				.map((edge) => artifactLookup.get(edge.target))
 				.filter(Boolean) as ArtifactInfo[];
 
+			// Find input steps (steps that produce artifacts consumed by this step)
+			const inputStepIds = new Set<string>();
+			rawEdges
+				.filter((edge) => edge.target === node.node_id)
+				.forEach((edge) => {
+					// Find which step produces this input artifact
+					const producingStepEdge = rawEdges.find((e) => e.target === edge.source);
+					if (producingStepEdge) {
+						inputStepIds.add(producingStepEdge.source);
+					}
+				});
+			const inputSteps: StepInfo[] = Array.from(inputStepIds)
+				.map((stepId) => stepLookup.get(stepId))
+				.filter(Boolean) as StepInfo[];
+
+			// Find output steps (steps that consume artifacts produced by this step)
+			const outputStepIds = new Set<string>();
+			rawEdges
+				.filter((edge) => edge.source === node.node_id)
+				.forEach((edge) => {
+					// Find which steps consume this output artifact
+					rawEdges
+						.filter((e) => e.source === edge.target)
+						.forEach((e) => {
+							outputStepIds.add(e.target);
+						});
+				});
+			const outputSteps: StepInfo[] = Array.from(outputStepIds)
+				.map((stepId) => stepLookup.get(stepId))
+				.filter(Boolean) as StepInfo[];
+
 			const metadata = node.metadata;
 			return {
 				id: node.id!,
@@ -132,6 +194,8 @@ export function PipelineTimeline() {
 				actualEndTime: metadata?.end_time,
 				inputArtifacts,
 				outputArtifacts,
+				inputSteps,
+				outputSteps,
 				isPreview: false
 			};
 		});
@@ -141,6 +205,8 @@ export function PipelineTimeline() {
 			// Preview steps typically don't have artifacts in the current run
 			const inputArtifacts: ArtifactInfo[] = [];
 			const outputArtifacts: ArtifactInfo[] = [];
+			const inputSteps: StepInfo[] = [];
+			const outputSteps: StepInfo[] = [];
 
 			// Determine preview step status based on run status
 			let status: StepNodePayload["status"] = "initializing";
@@ -157,16 +223,13 @@ export function PipelineTimeline() {
 				duration: undefined, // No duration for preview steps
 				inputArtifacts,
 				outputArtifacts,
+				inputSteps,
+				outputSteps,
 				isPreview: true
 			};
 		});
 
 		const steps = [...regularSteps, ...previewSteps];
-
-		// Filter steps based on search term
-		const filteredSteps = searchTerm
-			? steps.filter((step) => step.name.toLowerCase().includes(searchTerm.toLowerCase()))
-			: steps;
 
 		// Calculate timeline positioning using actual timestamps for parallel execution
 		const allStepsWithTiming = steps.map((step) => {
@@ -244,7 +307,6 @@ export function PipelineTimeline() {
 		} else {
 			// Calculate relative positions based on actual timeline bounds
 			const earliestStart = Math.min(...stepsWithTimestamps.map((s) => s.startTime));
-			const latestEnd = Math.max(...stepsWithTimestamps.map((s) => s.endTime));
 
 			// Normalize timestamps to start from 0
 			allStepsWithTiming.forEach((step) => {
@@ -256,12 +318,28 @@ export function PipelineTimeline() {
 			});
 		}
 
-		// Calculate total duration with proper error handling
-		const nonPreviewSteps = allStepsWithTiming.filter((s) => !s.isPreview);
-		const endTimes = nonPreviewSteps
-			.map((s) => s.endTime)
-			.filter((time) => typeof time === "number" && !isNaN(time));
-		const totalDuration = endTimes.length > 0 ? Math.max(...endTimes) : 0;
+		// Calculate total duration using pipeline run metadata if available,
+		// otherwise fall back to step-based calculation
+		let totalDuration = 0;
+
+		// Use actual pipeline duration from pipeline run metadata
+		if (pipelineRunQuery.data?.metadata?.start_time && pipelineRunQuery.data?.metadata?.end_time) {
+			const startTime = new Date(pipelineRunQuery.data.metadata.start_time).getTime();
+			const endTime = new Date(pipelineRunQuery.data.metadata.end_time).getTime();
+
+			if (!isNaN(startTime) && !isNaN(endTime)) {
+				totalDuration = endTime - startTime; // Duration in milliseconds
+			}
+		}
+
+		// Fallback to step-based calculation if pipeline duration is not available
+		if (totalDuration === 0) {
+			const nonPreviewSteps = allStepsWithTiming.filter((s) => !s.isPreview);
+			const endTimes = nonPreviewSteps
+				.map((s) => s.endTime)
+				.filter((time) => typeof time === "number" && !isNaN(time));
+			totalDuration = endTimes.length > 0 ? Math.max(...endTimes) : 0;
+		}
 
 		// Filter the steps with timing but keep original proportions
 		const filteredStepsWithTiming = allStepsWithTiming.filter((step) =>
@@ -274,7 +352,7 @@ export function PipelineTimeline() {
 			totalSteps: steps.length,
 			filteredCount: filteredStepsWithTiming.length
 		};
-	}, [dagQuery.data, searchTerm]);
+	}, [dagQuery.data, searchTerm, pipelineRunQuery.data]);
 
 	if (dagQuery.isError) {
 		return (
@@ -310,7 +388,14 @@ export function PipelineTimeline() {
 				<div className="mb-4">
 					<h3 className="text-text-lg font-semibold text-theme-text-primary">Pipeline Timeline</h3>
 					<p className="text-text-sm text-theme-text-secondary">
-						Total Duration: {secondsToTimeString(timelineData.totalDuration / 1000)}
+						Total Duration:{" "}
+						{pipelineRunQuery.data?.metadata?.start_time &&
+						pipelineRunQuery.data?.metadata?.end_time
+							? calculateTimeDifference(
+									pipelineRunQuery.data.metadata.start_time,
+									pipelineRunQuery.data.metadata.end_time
+								)
+							: secondsToTimeString(timelineData.totalDuration / 1000)}
 						{searchTerm && timelineData.filteredCount < timelineData.totalSteps && (
 							<span className="ml-2">
 								• Showing {timelineData.filteredCount} of {timelineData.totalSteps} steps
@@ -386,7 +471,7 @@ interface TimelineRowProps {
 function TimelineRow({
 	step,
 	totalDuration,
-	index,
+	index: _index,
 	isLast,
 	isExpanded,
 	onToggleExpand
@@ -401,6 +486,8 @@ function TimelineRow({
 	const widthPercentage = (safeDuration / safeTotalDuration) * 100;
 
 	const hasArtifacts = step.inputArtifacts.length > 0 || step.outputArtifacts.length > 0;
+	const hasSteps = step.inputSteps.length > 0 || step.outputSteps.length > 0;
+	const hasExpandableContent = hasArtifacts || hasSteps;
 
 	function handleStepClick() {
 		if (!step.isPreview) {
@@ -414,10 +501,17 @@ function TimelineRow({
 		openArtifactSheet(artifactId);
 	}
 
+	function handleConnectedStepClick(e: React.MouseEvent, stepId: string, isPreview: boolean) {
+		e.stopPropagation();
+		if (!isPreview) {
+			openStepSheet(stepId);
+		}
+	}
+
 	function handleExpandKeyDown(e: React.KeyboardEvent) {
 		if (e.key === "Enter" || e.key === " ") {
 			e.preventDefault();
-			if (hasArtifacts) {
+			if (hasExpandableContent) {
 				onToggleExpand();
 			}
 		}
@@ -446,20 +540,20 @@ function TimelineRow({
 				<button
 					onClick={onToggleExpand}
 					onKeyDown={handleExpandKeyDown}
-					disabled={!hasArtifacts}
+					disabled={!hasExpandableContent}
 					aria-label={
-						hasArtifacts
-							? `${isExpanded ? "Collapse" : "Expand"} artifacts for ${step.name}`
-							: "No artifacts available"
+						hasExpandableContent
+							? `${isExpanded ? "Collapse" : "Expand"} details for ${step.name}`
+							: "No expandable content available"
 					}
-					aria-expanded={hasArtifacts ? isExpanded : undefined}
+					aria-expanded={hasExpandableContent ? isExpanded : undefined}
 					className={`focus:ring-theme-border-primary shrink-0 p-1 transition-colors focus:outline-none focus:ring-2 ${
-						hasArtifacts
+						hasExpandableContent
 							? "text-theme-text-secondary hover:text-theme-text-primary"
 							: "cursor-default text-transparent"
 					}`}
 				>
-					{hasArtifacts &&
+					{hasExpandableContent &&
 						(isExpanded ? (
 							<ChevronDown className="h-4 w-4" aria-hidden="true" />
 						) : (
@@ -577,13 +671,123 @@ function TimelineRow({
 				</div>
 			</div>
 
-			{/* Expanded Artifacts */}
-			{isExpanded && hasArtifacts && (
+			{/* Expanded Content */}
+			{isExpanded && hasExpandableContent && (
 				<div
 					className="border-theme-border-subtle border-t bg-theme-surface-secondary px-8 py-3"
 					role="region"
-					aria-label={`Artifacts for ${step.name}`}
+					aria-label={`Details for ${step.name}`}
 				>
+					{/* Input Steps */}
+					{step.inputSteps.length > 0 && (
+						<div className="mb-3">
+							<h4 className="mb-2 text-text-sm font-medium text-theme-text-secondary">
+								Input Steps ({step.inputSteps.length})
+							</h4>
+							<div className="flex flex-wrap gap-2">
+								{step.inputSteps.map((inputStep) => (
+									<TooltipProvider key={inputStep.id}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<button
+													onClick={(e) =>
+														handleConnectedStepClick(e, inputStep.id, inputStep.isPreview || false)
+													}
+													disabled={inputStep.isPreview}
+													className={`rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors ${
+														inputStep.isPreview
+															? "cursor-default opacity-50"
+															: "hover:bg-theme-surface-secondary"
+													}`}
+												>
+													<div
+														className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(inputStep.status)}`}
+													>
+														<ExecutionStatusIcon
+															status={inputStep.status}
+															className="h-3 w-3 shrink-0"
+														/>
+													</div>
+													<span className="text-text-sm text-theme-text-primary">
+														{inputStep.name}
+													</span>
+												</button>
+											</TooltipTrigger>
+											<TooltipContent className="z-20 max-w-xs">
+												<div className="space-y-1">
+													<div className="font-medium">{inputStep.name}</div>
+													<div className="text-text-sm">Status: {inputStep.status}</div>
+													{inputStep.isPreview && (
+														<div className="text-text-xs text-theme-text-secondary">
+															This is a preview step
+														</div>
+													)}
+												</div>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								))}
+							</div>
+						</div>
+					)}
+
+					{/* Output Steps */}
+					{step.outputSteps.length > 0 && (
+						<div className="mb-3">
+							<h4 className="mb-2 text-text-sm font-medium text-theme-text-secondary">
+								Output Steps ({step.outputSteps.length})
+							</h4>
+							<div className="flex flex-wrap gap-2">
+								{step.outputSteps.map((outputStep) => (
+									<TooltipProvider key={outputStep.id}>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<button
+													onClick={(e) =>
+														handleConnectedStepClick(
+															e,
+															outputStep.id,
+															outputStep.isPreview || false
+														)
+													}
+													disabled={outputStep.isPreview}
+													className={`rounded flex items-center gap-2 border border-theme-border-moderate bg-theme-surface-primary px-2 py-1 text-left transition-colors ${
+														outputStep.isPreview
+															? "cursor-default opacity-50"
+															: "hover:bg-theme-surface-secondary"
+													}`}
+												>
+													<div
+														className={`rounded-sm p-0.5 ${getExecutionStatusBackgroundColor(outputStep.status)}`}
+													>
+														<ExecutionStatusIcon
+															status={outputStep.status}
+															className="h-3 w-3 shrink-0"
+														/>
+													</div>
+													<span className="text-text-sm text-theme-text-primary">
+														{outputStep.name}
+													</span>
+												</button>
+											</TooltipTrigger>
+											<TooltipContent className="z-20 max-w-xs">
+												<div className="space-y-1">
+													<div className="font-medium">{outputStep.name}</div>
+													<div className="text-text-sm">Status: {outputStep.status}</div>
+													{outputStep.isPreview && (
+														<div className="text-text-xs text-theme-text-secondary">
+															This is a preview step
+														</div>
+													)}
+												</div>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+								))}
+							</div>
+						</div>
+					)}
+
 					{/* Input Artifacts */}
 					{step.inputArtifacts.length > 0 && (
 						<div className="mb-3">
