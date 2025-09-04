@@ -5,9 +5,11 @@ import { TimelineItem } from "./timeline-item";
 
 type Props = {
 	timelineItems: TimelineItemType[];
+	maxDuration: number;
+	earliestStartTime: number;
 };
 
-export function TimelineNodeList({ timelineItems }: Props) {
+export function TimelineNodeList({ timelineItems, maxDuration, earliestStartTime }: Props) {
 	const parentRef = useRef<HTMLDivElement>(null);
 
 	const count = timelineItems.length;
@@ -48,7 +50,11 @@ export function TimelineNodeList({ timelineItems }: Props) {
 								ref={virtualizer.measureElement}
 								className={virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven"}
 							>
-								<TimelineItem timelineItem={filteredItem} />
+								<TimelineItem
+									timelineItem={filteredItem}
+									maxDuration={maxDuration}
+									earliestStartTime={earliestStartTime}
+								/>
 							</div>
 						);
 					})}

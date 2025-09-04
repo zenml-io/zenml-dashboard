@@ -5,8 +5,6 @@ import { DAG } from "./dag";
 import { TimelineView } from "./timeline";
 import { useRunVisualization } from "./use-visualization";
 
-import dummy from "../../../../../dummy.json";
-
 type Props = {
 	runId: string;
 };
@@ -32,10 +30,12 @@ export function PipelineVisualization({ runId }: Props) {
 			</div>
 		);
 
+	const dagData = dagQuery.data;
+
 	if (activeView === "dag") {
 		return (
 			<DAG
-				dagData={dummy as any}
+				dagData={dagData}
 				refetchHandler={() => dagQuery.refetch()}
 				setActiveView={setActiveView}
 			/>
@@ -43,6 +43,12 @@ export function PipelineVisualization({ runId }: Props) {
 	}
 
 	if (activeView === "timeline") {
-		return <TimelineView dagData={dummy as any} setActiveView={setActiveView} />;
+		return (
+			<TimelineView
+				dagData={dagData}
+				setActiveView={setActiveView}
+				refetchHandler={() => dagQuery.refetch()}
+			/>
+		);
 	}
 }

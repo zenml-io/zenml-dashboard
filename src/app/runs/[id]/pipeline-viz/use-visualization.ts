@@ -7,7 +7,9 @@ import { PiplineRunVisualizationView } from "./types";
 const NODE_COUNT_THRESHOLD = 500;
 
 export function useRunVisualization(runId: string) {
-	const [activeView, setActiveView] = useState<PiplineRunVisualizationView>("timeline");
+	const [userSelectedView, setUserSelectedView] = useState<PiplineRunVisualizationView | null>(
+		null
+	);
 	const previousRunStatus = useRef<ExecutionStatus | null>(null);
 	const runQueryKey = useMemo(() => ["runs", runId], [runId]);
 	const queryClient = useQueryClient();
@@ -19,15 +21,14 @@ export function useRunVisualization(runId: string) {
 		}
 	);
 
-	useEffect(() => {
-		if (!dagQuery.data) return;
+	const derivedDefaultView = useMemo<PiplineRunVisualizationView>(() => {
+		if (!dagQuery.data) return "timeline";
 		const nodeCount = dagQuery.data.nodes.length;
-		if (nodeCount > NODE_COUNT_THRESHOLD) {
-			setActiveView("timeline");
-		} else {
-			setActiveView("dag");
-		}
+		return nodeCount > NODE_COUNT_THRESHOLD ? "timeline" : "dag";
 	}, [dagQuery.data]);
+
+	const activeView = userSelectedView ?? derivedDefaultView;
+	const setActiveView = (view: PiplineRunVisualizationView) => setUserSelectedView(view);
 
 	useEffect(() => {
 		if (dagQuery.data) {

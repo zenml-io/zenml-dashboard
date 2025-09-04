@@ -58,7 +58,7 @@ const ButtonTrigger = forwardRef<
 			{...rest}
 			ref={ref}
 			intent={activeView === view ? "primary" : "secondary"}
-			emphasis={activeView === view ? "bold" : "minimal"}
+			emphasis={activeView === view ? "bold" : "subtle"}
 			className="group flex aspect-square size-7 items-center justify-center rounded-sharp border-none"
 		>
 			{rest.children}
