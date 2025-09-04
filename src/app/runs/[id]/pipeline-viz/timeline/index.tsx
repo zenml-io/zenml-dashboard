@@ -1,48 +1,14 @@
 import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { getRealArtifacts, getRealSteps } from "@/components/dag-visualizer/node-types";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
+import { calculateEarliestStartTime, calculateTotalTimelineSpan } from "@/lib/timeline/calculate";
 import { buildTimelineItems } from "@/lib/timeline/mapping";
-import { TimelineItem } from "@/lib/timeline/types";
 import { Dag } from "@/types/dag-visualizer";
 import { useState } from "react";
 import { PiplineRunVisualizationView } from "../types";
 import { TimelineNodeList } from "./node-list";
-import { TimelineHeader } from "./timeline-header";
 import { TimelineEmptyState } from "./timeline-empty-state";
-
-function calculateEarliestStartTime(timelineItems: TimelineItem[]): number {
-	const startTimes = timelineItems
-		.map((item) => item.startTimeMs)
-		.filter((startTimeMs): startTimeMs is number => startTimeMs !== undefined);
-
-	return startTimes.length > 0 ? Math.min(...startTimes) : 0;
-}
-
-function calculateTotalTimelineSpan(timelineItems: TimelineItem[]): number {
-	const startTimes = timelineItems
-		.map((item) => item.startTimeMs)
-		.filter((startTimeMs): startTimeMs is number => startTimeMs !== undefined);
-
-	const durations = timelineItems
-		.map((item) => item.step.metadata.duration || 0)
-		.filter((duration) => duration > 0);
-
-	// If no durations, return 0
-	if (durations.length === 0) {
-		return 0;
-	}
-
-	// If no start times, use the maximum duration as the total span
-	if (startTimes.length === 0) {
-		return Math.max(...durations) * 1000; // Convert seconds to ms
-	}
-
-	// If we have both start times and durations, calculate the full span
-	const earliestStart = Math.min(...startTimes);
-	const latestEnd = Math.max(...startTimes) + Math.max(...durations) * 1000; // Convert seconds to ms
-
-	return latestEnd - earliestStart;
-}
+import { TimelineHeader } from "./timeline-header";
 
 type Props = {
 	dagData: Dag;
@@ -60,29 +26,22 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 
 	const timelineItems = buildTimelineItems({ steps, artifacts, edges });
 
-	// Calculate earliest start time for timeline offset
 	const earliestStartTime = calculateEarliestStartTime(timelineItems);
 
-	// Calculate total timeline span
 	const totalTimelineSpanMs = calculateTotalTimelineSpan(timelineItems);
 
 	const filteredTimelineItems = timelineItems.filter((i) => {
 		if (!search.trim()) return true;
-
 		const searchLower = search.toLowerCase();
-
 		if (i.step.name.toLowerCase().includes(searchLower)) {
 			return true;
 		}
-
 		if (i.inputs.some((input) => input.name.toLowerCase().includes(searchLower))) {
 			return true;
 		}
-
 		if (i.outputs.some((output) => output.name.toLowerCase().includes(searchLower))) {
 			return true;
 		}
-
 		return false;
 	});
 

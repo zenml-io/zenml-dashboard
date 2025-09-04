@@ -31,7 +31,7 @@ export function TimelineItem({
 	const stepStatus = timelineItem.step.metadata.status;
 	return (
 		<Collapsible.Root open={open} onOpenChange={setOpen} className="group">
-			<div className="flex items-center gap-1 overflow-hidden text-text-sm group-data-[state=open]:border-b">
+			<div className="flex items-center text-text-sm group-data-[state=open]:border-b">
 				<div className="flex w-full max-w-[180px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
 					<Collapsible.Trigger>
 						<ChevronDown
@@ -52,7 +52,7 @@ export function TimelineItem({
 						{stepName}
 					</Collapsible.Trigger>
 				</div>
-				<div className="min-w-0 flex-1">
+				<div className="min-w-0 flex-1 px-1">
 					{stepDuration !== undefined && (
 						<TimelineDurationIndicator
 							stepStatus={stepStatus}

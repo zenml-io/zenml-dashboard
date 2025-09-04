@@ -29,7 +29,6 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 			}
 		});
 
-		// Parse startTime once during timeline item creation
 		let startTimeMs: number | undefined;
 		if (step.metadata.startTime) {
 			try {

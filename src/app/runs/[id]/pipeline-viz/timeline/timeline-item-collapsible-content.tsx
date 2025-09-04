@@ -54,5 +54,5 @@ export function TimelineItemCollapsibleContent({ timelineItem, runStatus }: Prop
 }
 
 function Headline({ children }: { children: ReactNode }) {
-	return <div className="text-text-xs text-theme-text-tertiary">{children}</div>;
+	return <div className="whitespace-nowrap text-text-xs text-theme-text-tertiary">{children}</div>;
 }

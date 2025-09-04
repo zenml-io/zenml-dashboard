@@ -1,5 +1,4 @@
 import { getExecutionStatusBgColor } from "@/components/ExecutionStatus";
-import { secondsToTimeString } from "@/lib/dates";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
@@ -17,38 +16,29 @@ export function TimelineDurationIndicator({
 	stepStatus,
 	totalTimelineSpanMs
 }: Props) {
-	// Calculate duration percentage of total timeline span
-	const durationMs = duration * 1000; // Convert seconds to milliseconds
-	const durationPercentage = totalTimelineSpanMs > 0 ? (durationMs / totalTimelineSpanMs) * 100 : 0;
+	// Calculate offset percentage based on start time relative to earliest start time
+	const offsetPercentage = startTimeMs
+		? ((startTimeMs - earliestStartTime) / totalTimelineSpanMs) * 100
+		: 0;
 
-	// Calculate offset percentage - if no startTimeMs, start from beginning (0%)
-	// This ensures steps without start times still show their duration bars
-	const offsetMs =
-		startTimeMs !== undefined && earliestStartTime > 0 ? startTimeMs - earliestStartTime : 0;
-	const offsetPercentage = totalTimelineSpanMs > 0 ? (offsetMs / totalTimelineSpanMs) * 100 : 0;
+	// Calculate bar width percentage based on duration
+	let barWidth = ((duration * 1000) / totalTimelineSpanMs) * 100;
 
-	// Ensure we always show the duration bar, even for cached steps (0 duration)
-	const barWidth = duration > 0 ? `${Math.max(0.1, durationPercentage)}%` : "4px";
+	// Ensure minimum width for very short durations
+	const minWidthPercent = 0.5;
+	if (barWidth < minWidthPercent) {
+		barWidth = minWidthPercent;
+	}
 
 	return (
-		<div
-			className="flex w-full items-center gap-0.5"
-			style={{
-				marginLeft: `${Math.max(0, offsetPercentage)}%`,
-				width: "100%"
-			}}
-		>
+		<div className="rounded relative h-1 w-full overflow-hidden">
 			<div
-				className={`h-1 rounded-sm ${getExecutionStatusBgColor(stepStatus)}`}
+				className={`absolute h-full rounded-rounded ${getExecutionStatusBgColor(stepStatus)}`}
 				style={{
-					width: barWidth,
-					minWidth: "4px",
-					maxWidth: "100%"
+					left: `${offsetPercentage}%`,
+					width: `${barWidth}%`
 				}}
 			/>
-			<div className="whitespace-nowrap text-text-xs text-theme-text-secondary">
-				{secondsToTimeString(duration)}
-			</div>
 		</div>
 	);
 }
