@@ -5,7 +5,7 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 type Props = {
 	duration: number;
 	maxDuration: number;
-	startTime?: number;
+	startTimeMs?: number;
 	earliestStartTime: number;
 	stepStatus: ExecutionStatus;
 };
@@ -13,7 +13,7 @@ type Props = {
 export function TimelineDurationIndicator({
 	duration,
 	maxDuration,
-	startTime,
+	startTimeMs,
 	earliestStartTime,
 	stepStatus
 }: Props) {
@@ -30,8 +30,9 @@ export function TimelineDurationIndicator({
 
 	// Calculate timeline offset (left margin)
 	let leftOffset = 0;
-	if (startTime !== undefined && earliestStartTime > 0) {
-		const offsetSeconds = startTime - earliestStartTime;
+	if (startTimeMs !== undefined && earliestStartTime > 0) {
+		const offsetMs = startTimeMs - earliestStartTime;
+		const offsetSeconds = offsetMs / 1000; // Convert milliseconds to seconds
 		leftOffset = offsetSeconds * timeScale;
 	}
 

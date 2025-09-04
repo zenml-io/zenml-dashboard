@@ -4,4 +4,5 @@ export type TimelineItem = {
 	step: RawStepNode;
 	inputs: RawArtifactNode[];
 	outputs: RawArtifactNode[];
+	startTimeMs?: number; // Parsed timestamp in milliseconds
 };

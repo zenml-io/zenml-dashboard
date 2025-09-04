@@ -52,7 +52,7 @@ export function TimelineItem({ timelineItem, maxDuration, earliestStartTime, run
 						stepStatus={stepStatus}
 						duration={stepDuration}
 						maxDuration={maxDuration}
-						startTime={timelineItem.step.metadata.startTime}
+						startTimeMs={timelineItem.startTimeMs}
 						earliestStartTime={earliestStartTime}
 					/>
 				)}

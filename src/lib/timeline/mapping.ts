@@ -29,10 +29,26 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 			}
 		});
 
+		// Parse startTime once during timeline item creation
+		let startTimeMs: number | undefined;
+		if (step.metadata.startTime) {
+			try {
+				startTimeMs = new Date(step.metadata.startTime).getTime();
+				if (isNaN(startTimeMs)) {
+					console.warn(`Invalid date format for startTime: ${step.metadata.startTime}`);
+					startTimeMs = undefined;
+				}
+			} catch (error) {
+				console.warn(`Failed to parse startTime: ${step.metadata.startTime}`, error);
+				startTimeMs = undefined;
+			}
+		}
+
 		const timelineItem: TimelineItem = {
 			step,
 			inputs,
-			outputs
+			outputs,
+			startTimeMs
 		};
 
 		return timelineItem;

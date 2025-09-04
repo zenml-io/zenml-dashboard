@@ -21,8 +21,8 @@ function calculateMaxDuration(timelineItems: TimelineItem[]): number {
 
 function calculateEarliestStartTime(timelineItems: TimelineItem[]): number {
 	const startTimes = timelineItems
-		.map((item) => item.step.metadata.startTime)
-		.filter((startTime): startTime is number => startTime !== undefined);
+		.map((item) => item.startTimeMs)
+		.filter((startTimeMs): startTimeMs is number => startTimeMs !== undefined);
 
 	return startTimes.length > 0 ? Math.min(...startTimes) : 0;
 }
