@@ -32,7 +32,7 @@ export function TimelineDurationIndicator({
 
 	return (
 		<div
-			className="flex w-full items-center gap-1"
+			className="flex w-full items-center gap-0.5"
 			style={{
 				marginLeft: `${Math.max(0, offsetPercentage)}%`,
 				width: "100%"
@@ -46,7 +46,7 @@ export function TimelineDurationIndicator({
 					maxWidth: "100%"
 				}}
 			/>
-			<div className="ml-1 whitespace-nowrap text-text-xs text-theme-text-secondary">
+			<div className="whitespace-nowrap text-text-xs text-theme-text-secondary">
 				{secondsToTimeString(duration)}
 			</div>
 		</div>
