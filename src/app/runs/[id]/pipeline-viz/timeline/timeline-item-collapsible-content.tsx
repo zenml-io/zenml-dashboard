@@ -2,12 +2,14 @@ import { TimelineItem } from "@/lib/timeline/types";
 import LongArrowRight from "@/assets/icons/long-arrow-right.svg?react";
 import { ReactNode } from "react";
 import { TimelineArtifactNode, TimelineStepNode } from "./timeline-nodes";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItem: TimelineItem;
+	runStatus: ExecutionStatus;
 };
 
-export function TimelineItemCollapsibleContent({ timelineItem }: Props) {
+export function TimelineItemCollapsibleContent({ timelineItem, runStatus }: Props) {
 	const step = timelineItem.step;
 	const inputs = timelineItem.inputs;
 	const outputs = timelineItem.outputs;
@@ -30,7 +32,7 @@ export function TimelineItemCollapsibleContent({ timelineItem }: Props) {
 			)}
 			<div className="space-y-1">
 				<Headline>Step</Headline>
-				<TimelineStepNode step={step} />
+				<TimelineStepNode step={step} runStatus={runStatus} />
 			</div>
 			{outputs.length > 0 && (
 				<>

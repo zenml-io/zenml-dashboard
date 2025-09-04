@@ -2,14 +2,21 @@ import { TimelineItem as TimelineItemType } from "@/lib/timeline/types";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
 import { TimelineItem } from "./timeline-item";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItems: TimelineItemType[];
 	maxDuration: number;
 	earliestStartTime: number;
+	runStatus: ExecutionStatus;
 };
 
-export function TimelineNodeList({ timelineItems, maxDuration, earliestStartTime }: Props) {
+export function TimelineNodeList({
+	timelineItems,
+	maxDuration,
+	earliestStartTime,
+	runStatus
+}: Props) {
 	const parentRef = useRef<HTMLDivElement>(null);
 
 	const count = timelineItems.length;
@@ -51,6 +58,7 @@ export function TimelineNodeList({ timelineItems, maxDuration, earliestStartTime
 								className={virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven"}
 							>
 								<TimelineItem
+									runStatus={runStatus}
 									timelineItem={filteredItem}
 									maxDuration={maxDuration}
 									earliestStartTime={earliestStartTime}

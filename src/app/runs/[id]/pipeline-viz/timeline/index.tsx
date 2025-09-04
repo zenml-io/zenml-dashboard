@@ -1,28 +1,23 @@
-// import { getRealArtifacts, getRealSteps } from "@/components/dag-visualizer/node-types";
+import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { getRealArtifacts, getRealSteps } from "@/components/dag-visualizer/node-types";
+import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
 import { buildTimelineItems } from "@/lib/timeline/mapping";
 import { TimelineItem } from "@/lib/timeline/types";
 import { Dag } from "@/types/dag-visualizer";
 import { useState } from "react";
+import { PiplineRunVisualizationView } from "../types";
 import { TimelineNodeList } from "./node-list";
 import { TimelineHeader } from "./timeline-header";
-import { PiplineRunVisualizationView } from "../types";
 
-/**
- * Helper function to calculate the maximum duration across all timeline items
- */
 function calculateMaxDuration(timelineItems: TimelineItem[]): number {
 	return Math.max(
 		...timelineItems
 			.map((item) => item.step.metadata.duration || 0)
 			.filter((duration) => duration > 0),
-		0 // fallback to 0 if no durations found
+		0
 	);
 }
 
-/**
- * Helper function to calculate the earliest start time across all timeline items
- */
 function calculateEarliestStartTime(timelineItems: TimelineItem[]): number {
 	const startTimes = timelineItems
 		.map((item) => item.step.metadata.startTime)
@@ -74,18 +69,22 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 	});
 
 	return (
-		<div className="flex h-full flex-col">
-			<TimelineHeader
-				onSearch={setSearch}
-				search={search}
-				refetchHandler={refetchHandler}
-				setActiveView={setActiveView}
-			/>
-			<TimelineNodeList
-				timelineItems={filteredTimelineItems}
-				maxDuration={maxDuration}
-				earliestStartTime={earliestStartTime}
-			/>
-		</div>
+		<SheetProvider>
+			<div className="flex h-full flex-col">
+				<TimelineHeader
+					onSearch={setSearch}
+					search={search}
+					refetchHandler={refetchHandler}
+					setActiveView={setActiveView}
+				/>
+				<TimelineNodeList
+					runStatus={dagData.status}
+					timelineItems={filteredTimelineItems}
+					maxDuration={maxDuration}
+					earliestStartTime={earliestStartTime}
+				/>
+			</div>
+			<GlobalSheets />
+		</SheetProvider>
 	);
 }

@@ -11,13 +11,15 @@ import {
 import { useState } from "react";
 import { TimelineDurationIndicator } from "./timeline-duration";
 import { TimelineItemCollapsibleContent } from "./timeline-item-collapsible-content";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItem: TimelineItemType;
 	maxDuration: number;
 	earliestStartTime: number;
+	runStatus: ExecutionStatus;
 };
-export function TimelineItem({ timelineItem, maxDuration, earliestStartTime }: Props) {
+export function TimelineItem({ timelineItem, maxDuration, earliestStartTime, runStatus }: Props) {
 	const [open, setOpen] = useState(false);
 	const stepDuration = timelineItem.step.metadata.duration;
 	const stepName = timelineItem.step.name;
@@ -56,7 +58,7 @@ export function TimelineItem({ timelineItem, maxDuration, earliestStartTime }: P
 				)}
 			</div>
 			<Collapsible.Content>
-				<TimelineItemCollapsibleContent timelineItem={timelineItem} />
+				<TimelineItemCollapsibleContent timelineItem={timelineItem} runStatus={runStatus} />
 			</Collapsible.Content>
 		</Collapsible.Root>
 	);

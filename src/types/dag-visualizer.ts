@@ -12,6 +12,7 @@ export type Dag = components["schemas"]["PipelineRunDAG"];
 export type StepNodeMetadata = {
 	duration?: number;
 	status: ExecutionStatus;
+	// TODO: this will be a string in the future
 	startTime?: number; // Unix timestamp in seconds
 };
 
