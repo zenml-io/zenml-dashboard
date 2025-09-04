@@ -15,11 +15,16 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItem: TimelineItemType;
-	maxDuration: number;
 	earliestStartTime: number;
 	runStatus: ExecutionStatus;
+	totalTimelineSpanMs: number;
 };
-export function TimelineItem({ timelineItem, maxDuration, earliestStartTime, runStatus }: Props) {
+export function TimelineItem({
+	timelineItem,
+	earliestStartTime,
+	runStatus,
+	totalTimelineSpanMs
+}: Props) {
 	const [open, setOpen] = useState(false);
 	const stepDuration = timelineItem.step.metadata.duration;
 	const stepName = timelineItem.step.name;
@@ -47,15 +52,17 @@ export function TimelineItem({ timelineItem, maxDuration, earliestStartTime, run
 						{stepName}
 					</Collapsible.Trigger>
 				</div>
-				{stepDuration !== undefined && (
-					<TimelineDurationIndicator
-						stepStatus={stepStatus}
-						duration={stepDuration}
-						maxDuration={maxDuration}
-						startTimeMs={timelineItem.startTimeMs}
-						earliestStartTime={earliestStartTime}
-					/>
-				)}
+				<div className="min-w-0 flex-1">
+					{stepDuration !== undefined && (
+						<TimelineDurationIndicator
+							stepStatus={stepStatus}
+							duration={stepDuration}
+							startTimeMs={timelineItem.startTimeMs}
+							earliestStartTime={earliestStartTime}
+							totalTimelineSpanMs={totalTimelineSpanMs}
+						/>
+					)}
+				</div>
 			</div>
 			<Collapsible.Content>
 				<TimelineItemCollapsibleContent timelineItem={timelineItem} runStatus={runStatus} />

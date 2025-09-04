@@ -4,45 +4,51 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	duration: number;
-	maxDuration: number;
 	startTimeMs?: number;
 	earliestStartTime: number;
 	stepStatus: ExecutionStatus;
+	totalTimelineSpanMs: number;
 };
 
 export function TimelineDurationIndicator({
 	duration,
-	maxDuration,
 	startTimeMs,
 	earliestStartTime,
-	stepStatus
+	stepStatus,
+	totalTimelineSpanMs
 }: Props) {
-	const minBarWidth = 4;
-	const timeScale = 2; // 0.5px per second for timeline offset
+	// Calculate duration percentage of total timeline span
+	const durationMs = duration * 1000; // Convert seconds to milliseconds
+	const durationPercentage = totalTimelineSpanMs > 0 ? (durationMs / totalTimelineSpanMs) * 100 : 0;
 
-	// Calculate duration bar width
-	let barWidth = 0;
-	if (maxDuration > 0 && duration > 0) {
-		const ratio = duration / maxDuration;
-		const baseWidth = 80;
-		barWidth = Math.max(minBarWidth, ratio * baseWidth);
-	}
+	// Calculate offset percentage - if no startTimeMs, start from beginning (0%)
+	// This ensures steps without start times still show their duration bars
+	const offsetMs =
+		startTimeMs !== undefined && earliestStartTime > 0 ? startTimeMs - earliestStartTime : 0;
+	const offsetPercentage = totalTimelineSpanMs > 0 ? (offsetMs / totalTimelineSpanMs) * 100 : 0;
 
-	// Calculate timeline offset (left margin)
-	let leftOffset = 0;
-	if (startTimeMs !== undefined && earliestStartTime > 0) {
-		const offsetMs = startTimeMs - earliestStartTime;
-		const offsetSeconds = offsetMs / 1000; // Convert milliseconds to seconds
-		leftOffset = offsetSeconds * timeScale;
-	}
+	// Ensure we always show the duration bar, even for cached steps (0 duration)
+	const barWidth = duration > 0 ? `${Math.max(0.1, durationPercentage)}%` : "4px";
 
 	return (
-		<div className="flex items-center gap-1" style={{ marginLeft: `${leftOffset}px` }}>
+		<div
+			className="flex w-full items-center gap-1"
+			style={{
+				marginLeft: `${Math.max(0, offsetPercentage)}%`,
+				width: "100%"
+			}}
+		>
 			<div
 				className={`h-1 rounded-sm ${getExecutionStatusBgColor(stepStatus)}`}
-				style={{ width: `${barWidth}px` }}
+				style={{
+					width: barWidth,
+					minWidth: "4px",
+					maxWidth: "100%"
+				}}
 			/>
-			<div className="text-text-xs text-theme-text-secondary">{secondsToTimeString(duration)}</div>
+			<div className="ml-1 whitespace-nowrap text-text-xs text-theme-text-secondary">
+				{secondsToTimeString(duration)}
+			</div>
 		</div>
 	);
 }

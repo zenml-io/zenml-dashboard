@@ -6,16 +6,16 @@ import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItems: TimelineItemType[];
-	maxDuration: number;
 	earliestStartTime: number;
 	runStatus: ExecutionStatus;
+	totalTimelineSpanMs: number;
 };
 
 export function TimelineNodeList({
 	timelineItems,
-	maxDuration,
 	earliestStartTime,
-	runStatus
+	runStatus,
+	totalTimelineSpanMs
 }: Props) {
 	const parentRef = useRef<HTMLDivElement>(null);
 
@@ -60,8 +60,8 @@ export function TimelineNodeList({
 								<TimelineItem
 									runStatus={runStatus}
 									timelineItem={filteredItem}
-									maxDuration={maxDuration}
 									earliestStartTime={earliestStartTime}
+									totalTimelineSpanMs={totalTimelineSpanMs}
 								/>
 							</div>
 						);

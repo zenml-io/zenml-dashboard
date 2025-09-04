@@ -10,21 +10,38 @@ import { TimelineNodeList } from "./node-list";
 import { TimelineHeader } from "./timeline-header";
 import { TimelineEmptyState } from "./timeline-empty-state";
 
-function calculateMaxDuration(timelineItems: TimelineItem[]): number {
-	return Math.max(
-		...timelineItems
-			.map((item) => item.step.metadata.duration || 0)
-			.filter((duration) => duration > 0),
-		0
-	);
-}
-
 function calculateEarliestStartTime(timelineItems: TimelineItem[]): number {
 	const startTimes = timelineItems
 		.map((item) => item.startTimeMs)
 		.filter((startTimeMs): startTimeMs is number => startTimeMs !== undefined);
 
 	return startTimes.length > 0 ? Math.min(...startTimes) : 0;
+}
+
+function calculateTotalTimelineSpan(timelineItems: TimelineItem[]): number {
+	const startTimes = timelineItems
+		.map((item) => item.startTimeMs)
+		.filter((startTimeMs): startTimeMs is number => startTimeMs !== undefined);
+
+	const durations = timelineItems
+		.map((item) => item.step.metadata.duration || 0)
+		.filter((duration) => duration > 0);
+
+	// If no durations, return 0
+	if (durations.length === 0) {
+		return 0;
+	}
+
+	// If no start times, use the maximum duration as the total span
+	if (startTimes.length === 0) {
+		return Math.max(...durations) * 1000; // Convert seconds to ms
+	}
+
+	// If we have both start times and durations, calculate the full span
+	const earliestStart = Math.min(...startTimes);
+	const latestEnd = Math.max(...startTimes) + Math.max(...durations) * 1000; // Convert seconds to ms
+
+	return latestEnd - earliestStart;
 }
 
 type Props = {
@@ -43,11 +60,11 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 
 	const timelineItems = buildTimelineItems({ steps, artifacts, edges });
 
-	// Calculate max duration for relative scaling
-	const maxDuration = calculateMaxDuration(timelineItems);
-
 	// Calculate earliest start time for timeline offset
 	const earliestStartTime = calculateEarliestStartTime(timelineItems);
+
+	// Calculate total timeline span
+	const totalTimelineSpanMs = calculateTotalTimelineSpan(timelineItems);
 
 	const filteredTimelineItems = timelineItems.filter((i) => {
 		if (!search.trim()) return true;
@@ -82,8 +99,8 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 					<TimelineNodeList
 						runStatus={dagData.status}
 						timelineItems={filteredTimelineItems}
-						maxDuration={maxDuration}
 						earliestStartTime={earliestStartTime}
+						totalTimelineSpanMs={totalTimelineSpanMs}
 					/>
 				) : timelineItems.length === 0 ? (
 					<TimelineEmptyState
