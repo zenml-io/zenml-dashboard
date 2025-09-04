@@ -8,6 +8,7 @@ import { useState } from "react";
 import { PiplineRunVisualizationView } from "../types";
 import { TimelineNodeList } from "./node-list";
 import { TimelineHeader } from "./timeline-header";
+import { TimelineEmptyState } from "./timeline-empty-state";
 
 function calculateMaxDuration(timelineItems: TimelineItem[]): number {
 	return Math.max(
@@ -77,12 +78,24 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 					refetchHandler={refetchHandler}
 					setActiveView={setActiveView}
 				/>
-				<TimelineNodeList
-					runStatus={dagData.status}
-					timelineItems={filteredTimelineItems}
-					maxDuration={maxDuration}
-					earliestStartTime={earliestStartTime}
-				/>
+				{filteredTimelineItems.length > 0 ? (
+					<TimelineNodeList
+						runStatus={dagData.status}
+						timelineItems={filteredTimelineItems}
+						maxDuration={maxDuration}
+						earliestStartTime={earliestStartTime}
+					/>
+				) : timelineItems.length === 0 ? (
+					<TimelineEmptyState
+						title="No steps available"
+						description="This pipeline run doesn't contain any steps to display."
+					/>
+				) : (
+					<TimelineEmptyState
+						title="No steps found"
+						description={`No steps found that match the search "${search}".`}
+					/>
+				)}
 			</div>
 			<GlobalSheets />
 		</SheetProvider>
