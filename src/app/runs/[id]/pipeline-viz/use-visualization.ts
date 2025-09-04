@@ -10,6 +10,8 @@ export function useRunVisualization(runId: string) {
 	const [userSelectedView, setUserSelectedView] = useState<PiplineRunVisualizationView | null>(
 		null
 	);
+	const [showDagConfirmation, setShowDagConfirmation] = useState(false);
+	const [dagConfirmed, setDagConfirmed] = useState(false);
 	const previousRunStatus = useRef<ExecutionStatus | null>(null);
 	const runQueryKey = useMemo(() => ["runs", runId], [runId]);
 	const queryClient = useQueryClient();
@@ -28,7 +30,22 @@ export function useRunVisualization(runId: string) {
 	}, [dagQuery.data]);
 
 	const activeView = userSelectedView ?? derivedDefaultView;
-	const setActiveView = (view: PiplineRunVisualizationView) => setUserSelectedView(view);
+
+	const nodeCount = dagQuery.data?.nodes.length ?? 0;
+	const exceedsThreshold = nodeCount > NODE_COUNT_THRESHOLD;
+
+	const setActiveView = (view: PiplineRunVisualizationView) => {
+		if (view === "dag" && exceedsThreshold && !dagConfirmed) {
+			setShowDagConfirmation(true);
+			return;
+		}
+		setUserSelectedView(view);
+	};
+
+	const confirmDagView = () => {
+		setDagConfirmed(true);
+		setUserSelectedView("dag");
+	};
 
 	useEffect(() => {
 		if (dagQuery.data) {
@@ -45,6 +62,11 @@ export function useRunVisualization(runId: string) {
 	return {
 		dagQuery,
 		activeView,
-		setActiveView
+		setActiveView,
+		showDagConfirmation,
+		setShowDagConfirmation,
+		confirmDagView,
+		nodeCount,
+		threshold: NODE_COUNT_THRESHOLD
 	};
 }

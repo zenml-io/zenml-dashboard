@@ -2,6 +2,7 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { EmptyState } from "@/components/EmptyState";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 import { DAG } from "./dag";
+import { DagViewConfirmationDialog } from "./DagViewConfirmationDialog";
 import { TimelineView } from "./timeline";
 import { useRunVisualization } from "./use-visualization";
 
@@ -10,7 +11,16 @@ type Props = {
 };
 
 export function PipelineVisualization({ runId }: Props) {
-	const { dagQuery, activeView, setActiveView } = useRunVisualization(runId);
+	const {
+		dagQuery,
+		activeView,
+		setActiveView,
+		showDagConfirmation,
+		setShowDagConfirmation,
+		confirmDagView,
+		nodeCount,
+		threshold
+	} = useRunVisualization(runId);
 
 	if (dagQuery.isError) {
 		return (
@@ -44,11 +54,20 @@ export function PipelineVisualization({ runId }: Props) {
 
 	if (activeView === "timeline") {
 		return (
-			<TimelineView
-				dagData={dagData}
-				setActiveView={setActiveView}
-				refetchHandler={() => dagQuery.refetch()}
-			/>
+			<>
+				<TimelineView
+					dagData={dagData}
+					setActiveView={setActiveView}
+					refetchHandler={() => dagQuery.refetch()}
+				/>
+				<DagViewConfirmationDialog
+					open={showDagConfirmation}
+					onOpenChange={setShowDagConfirmation}
+					nodeCount={nodeCount}
+					threshold={threshold}
+					onConfirm={confirmDagView}
+				/>
+			</>
 		);
 	}
 }
