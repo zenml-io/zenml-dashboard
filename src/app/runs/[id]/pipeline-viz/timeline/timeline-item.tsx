@@ -1,6 +1,8 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
+import { secondsToTimeString } from "@/lib/dates";
 import { TimelineItem as TimelineItemType } from "@/lib/timeline/types";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import {
 	Tooltip,
@@ -11,7 +13,6 @@ import {
 import { useState } from "react";
 import { TimelineDurationIndicator } from "./timeline-duration";
 import { TimelineItemCollapsibleContent } from "./timeline-item-collapsible-content";
-import { ExecutionStatus } from "@/types/pipeline-runs";
 
 type Props = {
 	timelineItem: TimelineItemType;
@@ -32,7 +33,7 @@ export function TimelineItem({
 	return (
 		<Collapsible.Root open={open} onOpenChange={setOpen} className="group">
 			<div className="flex items-center text-text-sm group-data-[state=open]:border-b">
-				<div className="flex w-full max-w-[180px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
+				<div className="flex w-full max-w-[240px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
 					<Collapsible.Trigger>
 						<ChevronDown
 							className={`size-3 rounded-sm fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200 group-data-[state=closed]:-rotate-90`}
@@ -51,6 +52,11 @@ export function TimelineItem({
 					<Collapsible.Trigger className="flex-1 truncate text-left font-semibold">
 						{stepName}
 					</Collapsible.Trigger>
+					{stepDuration !== undefined && (
+						<div className="text-text-xs text-theme-text-secondary">
+							{secondsToTimeString(stepDuration)}
+						</div>
+					)}
 				</div>
 				<div className="min-w-0 flex-1 px-1">
 					{stepDuration !== undefined && (
