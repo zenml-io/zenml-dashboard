@@ -3,7 +3,7 @@ import { calculateEarliestStartTime, calculateTotalTimelineSpan } from "./calcul
 import { TimelineItem } from "./types";
 
 // Helper function to create a mock TimelineItem
-function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): TimelineItem {
+export function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): TimelineItem {
 	return {
 		step: {
 			node_id: "step-1",
@@ -13,7 +13,7 @@ function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): Timeline
 			metadata: {
 				status: "completed",
 				duration: 5,
-				startTime: "2023-01-01T10:00:00Z"
+				start_time: "2023-01-01T10:00:00Z"
 			}
 		},
 		inputs: [],

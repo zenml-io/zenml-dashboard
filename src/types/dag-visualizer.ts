@@ -12,7 +12,7 @@ export type Dag = components["schemas"]["PipelineRunDAG"];
 export type StepNodeMetadata = {
 	duration?: number;
 	status: ExecutionStatus;
-	startTime?: string;
+	start_time?: string;
 };
 
 export type ArtifactNodeMetadata = {

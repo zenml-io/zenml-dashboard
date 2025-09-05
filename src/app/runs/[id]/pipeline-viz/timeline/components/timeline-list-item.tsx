@@ -11,7 +11,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { TimelineDurationIndicator } from "./timeline-duration";
+import { TimelineDurationIndicator } from "./timeline-duration-indicator";
 import { TimelineItemCollapsibleContent } from "./timeline-item-collapsible-content";
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
 	runStatus: ExecutionStatus;
 	totalTimelineSpanMs: number;
 };
-export function TimelineItem({
+export function TimelineListItem({
 	timelineItem,
 	earliestStartTime,
 	runStatus,
@@ -59,10 +59,10 @@ export function TimelineItem({
 					)}
 				</div>
 				<div className="min-w-0 flex-1 px-1">
-					{stepDuration !== undefined && (
+					{(stepDuration !== undefined || stepStatus === "running") && (
 						<TimelineDurationIndicator
 							stepStatus={stepStatus}
-							duration={stepDuration}
+							duration={stepDuration ?? 0}
 							startTimeMs={timelineItem.startTimeMs}
 							earliestStartTime={earliestStartTime}
 							totalTimelineSpanMs={totalTimelineSpanMs}

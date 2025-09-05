@@ -1,6 +1,6 @@
 import { DebouncedInput } from "@/components/debounced-input";
-import { PiplineRunVisualizationView } from "../types";
-import { ViewSwitcher } from "../view-switcher";
+import { PiplineRunVisualizationView } from "../../types";
+import { ViewSwitcher } from "../../view-switcher";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import Refresh from "@/assets/icons/refresh.svg?react";
 

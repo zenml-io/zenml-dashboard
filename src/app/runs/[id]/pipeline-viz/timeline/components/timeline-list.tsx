@@ -1,8 +1,8 @@
 import { TimelineItem as TimelineItemType } from "@/lib/timeline/types";
+import { ExecutionStatus } from "@/types/pipeline-runs";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
-import { TimelineItem } from "./timeline-item";
-import { ExecutionStatus } from "@/types/pipeline-runs";
+import { TimelineListItem } from "./timeline-list-item";
 
 type Props = {
 	timelineItems: TimelineItemType[];
@@ -11,7 +11,7 @@ type Props = {
 	totalTimelineSpanMs: number;
 };
 
-export function TimelineNodeList({
+export function TimelineList({
 	timelineItems,
 	earliestStartTime,
 	runStatus,
@@ -57,7 +57,7 @@ export function TimelineNodeList({
 								ref={virtualizer.measureElement}
 								className={virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven"}
 							>
-								<TimelineItem
+								<TimelineListItem
 									runStatus={runStatus}
 									timelineItem={filteredItem}
 									earliestStartTime={earliestStartTime}

@@ -1,8 +1,9 @@
-import { TimelineItem } from "@/lib/timeline/types";
 import LongArrowRight from "@/assets/icons/long-arrow-right.svg?react";
-import { ReactNode } from "react";
-import { TimelineArtifactNode, TimelineStepNode } from "./timeline-nodes";
+import { TimelineItem } from "@/lib/timeline/types";
 import { ExecutionStatus } from "@/types/pipeline-runs";
+import { ReactNode } from "react";
+import { TimelineArtifactNode } from "./timeline-artifact-node";
+import { TimelineStepNode } from "./timeline-step-node";
 
 type Props = {
 	timelineItem: TimelineItem;

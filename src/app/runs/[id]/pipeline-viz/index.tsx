@@ -3,7 +3,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 import { DAG } from "./dag";
 import { DagViewConfirmationDialog } from "./DagViewConfirmationDialog";
-import { TimelineView } from "./timeline";
+import { TimelineView } from "./timeline/timeline-view";
 import { useRunVisualization } from "./use-visualization";
 
 type Props = {

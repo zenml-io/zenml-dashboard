@@ -30,15 +30,15 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 		});
 
 		let startTimeMs: number | undefined;
-		if (step.metadata.startTime) {
+		if (step.metadata.start_time) {
 			try {
-				startTimeMs = new Date(step.metadata.startTime).getTime();
+				startTimeMs = new Date(`${step.metadata.start_time}Z`).getTime();
 				if (isNaN(startTimeMs)) {
-					console.warn(`Invalid date format for startTime: ${step.metadata.startTime}`);
+					console.warn(`Invalid date format for startTime: ${step.metadata.start_time}`);
 					startTimeMs = undefined;
 				}
 			} catch (error) {
-				console.warn(`Failed to parse startTime: ${step.metadata.startTime}`, error);
+				console.warn(`Failed to parse startTime: ${step.metadata.start_time}`, error);
 				startTimeMs = undefined;
 			}
 		}

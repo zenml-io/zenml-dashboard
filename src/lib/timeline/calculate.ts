@@ -8,7 +8,10 @@ export function calculateEarliestStartTime(timelineItems: TimelineItem[]): numbe
 	return startTimes.length > 0 ? Math.min(...startTimes) : 0;
 }
 
-export function calculateTotalTimelineSpan(timelineItems: TimelineItem[]): number {
+export function calculateTotalTimelineSpan(
+	timelineItems: TimelineItem[],
+	currentTimeMs?: number
+): number {
 	if (timelineItems.length === 0) {
 		return 0;
 	}
@@ -35,9 +38,21 @@ export function calculateTotalTimelineSpan(timelineItems: TimelineItem[]): numbe
 
 	const earliestStart = Math.min(...startTimes);
 
+	// Calculate end times, using current time for running steps
 	const endTimes = timelineItems
-		.filter((item) => item.startTimeMs !== undefined && item.step.metadata.duration !== undefined)
-		.map((item) => item.startTimeMs! + item.step.metadata.duration! * 1000);
+		.filter((item) => item.startTimeMs !== undefined)
+		.map((item) => {
+			if (item.step.metadata.duration !== undefined) {
+				// Step has completed, use its actual end time
+				return item.startTimeMs! + item.step.metadata.duration * 1000;
+			} else if (currentTimeMs !== undefined) {
+				// Step is still running, use current time as end time
+				return currentTimeMs;
+			} else {
+				// No current time provided, use start time as fallback
+				return item.startTimeMs!;
+			}
+		});
 
 	const latestEnd = endTimes.length > 0 ? Math.max(...endTimes) : Math.max(...startTimes);
 
