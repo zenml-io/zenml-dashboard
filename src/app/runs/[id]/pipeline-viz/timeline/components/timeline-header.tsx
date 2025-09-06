@@ -1,8 +1,9 @@
+import Refresh from "@/assets/icons/refresh.svg?react";
+import Search from "@/assets/icons/search.svg?react";
 import { DebouncedInput } from "@/components/debounced-input";
+import { Button } from "@zenml-io/react-component-library/components/server";
 import { PiplineRunVisualizationView } from "../../types";
 import { ViewSwitcher } from "../../view-switcher";
-import { Button } from "@zenml-io/react-component-library/components/server";
-import Refresh from "@/assets/icons/refresh.svg?react";
 
 type Props = {
 	setActiveView: (view: PiplineRunVisualizationView) => void;
@@ -14,12 +15,17 @@ type Props = {
 export function TimelineHeader({ onSearch, search, setActiveView, refetchHandler }: Props) {
 	return (
 		<div className="flex flex-shrink-0 items-center gap-3 p-3">
-			<DebouncedInput
-				value={search}
-				onChange={onSearch}
-				placeholder="Search..."
-				className="w-full max-w-[300px]"
-			/>
+			<div className="relative">
+				<DebouncedInput
+					value={search}
+					onChange={onSearch}
+					placeholder="Search..."
+					className="w-full max-w-[300px] pl-[36px]"
+				/>
+				<div className="absolute inset-y-0 left-0 flex items-center pl-1">
+					<Search className="size-4 fill-neutral-400" />
+				</div>
+			</div>
 			<ViewSwitcher activeView={"timeline"} setActiveView={setActiveView} />
 			<Button
 				className="size-7 bg-theme-surface-primary"
