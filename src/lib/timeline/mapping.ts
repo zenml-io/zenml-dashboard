@@ -53,5 +53,14 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 		return timelineItem;
 	});
 
-	return transformedSteps;
+	const sortedSteps = transformedSteps.sort((a, b) => {
+		if (a.startTimeMs === undefined && b.startTimeMs === undefined) return 0;
+		if (a.startTimeMs === undefined) return 1;
+		if (b.startTimeMs === undefined) return -1;
+
+		// Sort by startTimeMs in ascending order (earliest first)
+		return a.startTimeMs - b.startTimeMs;
+	});
+
+	return sortedSteps;
 }
