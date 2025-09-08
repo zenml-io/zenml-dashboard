@@ -39,7 +39,7 @@ export function TimelineList({
 				}}
 			>
 				<div
-					className="divide-y divide-theme-border-moderate rounded-md border border-theme-border-moderate bg-theme-surface-primary"
+					className="divide-y divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary"
 					style={{
 						position: "absolute",
 						top: 0,
