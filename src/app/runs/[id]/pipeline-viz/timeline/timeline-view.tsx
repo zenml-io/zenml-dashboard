@@ -10,6 +10,7 @@ import { useRealtimeTimeline } from "./hooks/use-timeline-realtime";
 import { buildTimeline } from "./services/timeline-data-builder";
 import { getEmptyStateMessage } from "./services/timeline-empty-state-message";
 import { filterTimelineItems } from "./services/timeline-search";
+import { virtualizeTimelineItems } from "./services/timeline-virtualize-items";
 
 type Props = {
 	dagData: Dag;
@@ -22,13 +23,19 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 	const isRunning = dagData.status === "running";
 
 	const { currentTime } = useRealtimeTimeline(isRunning);
-	const { timelineItems, earliestStartTime, totalTimelineSpanMs } = buildTimeline(
+	const { timelineItems, earliestStartTime, totalTimelineSpanMs, placeholderSteps } = buildTimeline(
 		dagData,
 		isRunning,
 		currentTime
 	);
 
-	const filteredTimelineItems = filterTimelineItems(timelineItems, search);
+	const virtualizedTimelineItems = virtualizeTimelineItems({
+		timelineItems,
+		runStatus: dagData.status,
+		placeholderSteps
+	});
+
+	const filteredTimelineItems = filterTimelineItems(virtualizedTimelineItems, search);
 
 	return (
 		<SheetProvider>

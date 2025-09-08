@@ -43,12 +43,14 @@ export function TimelineListItem({
 				className="flex items-center text-text-sm transition-colors duration-200 data-[selected=true]:bg-theme-surface-tertiary group-data-[state=open]:border-b"
 			>
 				<div className="flex w-full max-w-[240px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
-					{hasArtifacts && (
+					{hasArtifacts ? (
 						<Collapsible.Trigger>
 							<ChevronDown
 								className={`size-3 rounded-sm fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200 group-data-[state=closed]:-rotate-90`}
 							/>
 						</Collapsible.Trigger>
+					) : (
+						<div className="size-3" />
 					)}
 					<TooltipProvider>
 						<Tooltip>

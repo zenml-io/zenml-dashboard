@@ -1,11 +1,15 @@
-import { TimelineItem as TimelineItemType } from "@/lib/timeline/types";
+import { VirtualizedItem } from "@/lib/timeline/types";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
 import { TimelineListItem } from "./timeline-list-item";
+import {
+	PlaceholderListItem,
+	TimelinePlaceholderSeparator
+} from "./timeline-placeholder-list-items";
 
 type Props = {
-	timelineItems: TimelineItemType[];
+	timelineItems: VirtualizedItem[];
 	earliestStartTime: number;
 	runStatus: ExecutionStatus;
 	totalTimelineSpanMs: number;
@@ -20,7 +24,6 @@ export function TimelineList({
 	const parentRef = useRef<HTMLDivElement>(null);
 
 	const count = timelineItems.length;
-
 	const virtualizer = useVirtualizer({
 		count,
 		getScrollElement: () => parentRef.current,
@@ -50,19 +53,25 @@ export function TimelineList({
 				>
 					{items.map((virtualRow) => {
 						const filteredItem = timelineItems[virtualRow.index];
+						const type = filteredItem.type;
 						return (
 							<div
 								key={virtualRow.key}
 								data-index={virtualRow.index}
 								ref={virtualizer.measureElement}
-								className={virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven"}
 							>
-								<TimelineListItem
-									runStatus={runStatus}
-									timelineItem={filteredItem}
-									earliestStartTime={earliestStartTime}
-									totalTimelineSpanMs={totalTimelineSpanMs}
-								/>
+								{type === "timeline" && (
+									<TimelineListItem
+										runStatus={runStatus}
+										timelineItem={filteredItem.item}
+										earliestStartTime={earliestStartTime}
+										totalTimelineSpanMs={totalTimelineSpanMs}
+									/>
+								)}
+								{type === "separator" && <TimelinePlaceholderSeparator />}
+								{type === "placeholder" && (
+									<PlaceholderListItem stepName={filteredItem.item.name} runStatus={runStatus} />
+								)}
 							</div>
 						);
 					})}

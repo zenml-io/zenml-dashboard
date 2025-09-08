@@ -20,6 +20,10 @@ export function getRealArtifacts(nodes: Node[]): RawArtifactNode[] {
 	return nodes.filter(isArtifactNode).filter((n) => !isPreviewNode(n)) as RawArtifactNode[];
 }
 
-export function getRealPreviewNodes(nodes: Node[]) {
+export function getPreviewNodes(nodes: Node[]) {
 	return nodes.filter(isPreviewNode);
+}
+
+export function getPreviewSteps(nodes: Node[]) {
+	return nodes.filter(isPreviewNode).filter(isStepNode);
 }

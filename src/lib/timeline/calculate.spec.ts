@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { calculateEarliestStartTime, calculateTotalTimelineSpan } from "./calculate";
 import { TimelineItem } from "./types";
+import { Node } from "@/types/dag-visualizer";
 
 // Helper function to create a mock TimelineItem
 export function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): TimelineItem {
@@ -20,6 +21,18 @@ export function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): T
 		outputs: [],
 		startTimeMs: 1672574400000, // 2023-01-01T10:00:00Z in milliseconds
 		...overrides
+	};
+}
+
+export function createMockPlaceholderStep(name: string, id: string): Node {
+	return {
+		id,
+		node_id: id,
+		type: "step",
+		name,
+		metadata: {
+			status: "stopped"
+		}
 	};
 }
 

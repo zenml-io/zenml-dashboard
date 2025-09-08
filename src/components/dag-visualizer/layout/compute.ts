@@ -5,7 +5,12 @@ import {
 	Node as ZenNode
 } from "@/types/dag-visualizer";
 import { ExecutionStatus } from "@/types/pipeline-runs";
-import { getRealArtifacts, getRealPreviewNodes, getRealSteps, isStepNode } from "../node-types";
+import {
+	getRealArtifacts,
+	getPreviewNodes as getPreviewNodes_lib,
+	getRealSteps,
+	isStepNode
+} from "../node-types";
 
 export function computeNodes(nodes: ZenNode[], runStatus: ExecutionStatus) {
 	const realSteps = getRealStepNodes(nodes, runStatus);
@@ -52,7 +57,7 @@ function getArtifactNodes(
 }
 
 function getPreviewNodes(nodes: ZenNode[], runStatus: ExecutionStatus): IntermediatePreviewNode[] {
-	const ghostNodes = getRealPreviewNodes(nodes);
+	const ghostNodes = getPreviewNodes_lib(nodes);
 	return ghostNodes.map((n) => {
 		const isStep = isStepNode(n);
 		return {

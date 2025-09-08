@@ -46,10 +46,6 @@ export type RawArtifactNode = Omit<Node, "metadata"> & {
 	metadata: ArtifactNodeMetadata;
 };
 
-export type RawPreviewNode = Omit<Node, "metadata"> & {
-	metadata: PreviewNodePayload;
-};
-
 export type StepNode = ReactFlowNode<StepNodePayload, NodeTypes>;
 export type ArtifactNode = ReactFlowNode<ArtifactNodePayload, NodeTypes>;
 export type PreviewNode = ReactFlowNode<PreviewNodePayload, NodeTypes>;
