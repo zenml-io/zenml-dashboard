@@ -3834,6 +3834,8 @@ export type components = {
 			materializer: components["schemas"]["Source"];
 			/** Data type of the artifact. */
 			data_type: components["schemas"]["Source"];
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 			/**
 			 * Tags of the artifact.
 			 * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
@@ -3908,6 +3910,8 @@ export type components = {
 			save_type: components["schemas"]["ArtifactSaveType"];
 			/** ID of the artifact store in which this artifact is stored. */
 			artifact_store_id?: string | null;
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 		};
 		/**
 		 * ArtifactVersionResponseMetadata
@@ -4159,6 +4163,41 @@ export type components = {
 			 * @default false
 			 */
 			requires_code_download?: boolean;
+		};
+		/**
+		 * CachePolicy
+		 * @description Cache policy.
+		 */
+		CachePolicy: {
+			/**
+			 * Include Step Code
+			 * @description Whether to include the step code in the cache key.
+			 * @default true
+			 */
+			include_step_code?: boolean;
+			/**
+			 * Include Step Parameters
+			 * @description Whether to include the step parameters in the cache key.
+			 * @default true
+			 */
+			include_step_parameters?: boolean;
+			/**
+			 * Include Artifact Values
+			 * @description Whether to include the artifact values in the cache key. If the materializer for an artifact doesn't support generating a content hash, the artifact ID will be used as a fallback if enabled.
+			 * @default true
+			 */
+			include_artifact_values?: boolean;
+			/**
+			 * Include Artifact Ids
+			 * @description Whether to include the artifact IDs in the cache key.
+			 * @default true
+			 */
+			include_artifact_ids?: boolean;
+			/**
+			 * Ignored Inputs
+			 * @description List of input names to ignore in the cache key.
+			 */
+			ignored_inputs?: string[] | null;
 		};
 		/**
 		 * ClientLazyLoader
@@ -4758,6 +4797,7 @@ export type components = {
 		 */
 		ExecutionStatus:
 			| "initializing"
+			| "provisioning"
 			| "failed"
 			| "completed"
 			| "running"
@@ -6395,6 +6435,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6444,6 +6485,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6745,6 +6787,8 @@ export type components = {
 			end_time?: string | null;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/**
 			 * Environment of the orchestrator that executed this pipeline run (OS, Python version, etc.).
 			 * @default {}
@@ -6807,6 +6851,8 @@ export type components = {
 			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/** The stack that was used for this run. */
 			stack?: components["schemas"]["StackResponse"] | null;
 			/** The pipeline this run belongs to. */
@@ -6894,8 +6940,12 @@ export type components = {
 		 */
 		PipelineRunUpdate: {
 			status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/** End Time */
 			end_time?: string | null;
+			/** Orchestrator Run Id */
+			orchestrator_run_id?: string | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -8722,17 +8772,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Input": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8755,9 +8823,13 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8766,6 +8838,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}
@@ -8809,17 +8890,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Output": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8842,9 +8941,13 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8853,6 +8956,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}

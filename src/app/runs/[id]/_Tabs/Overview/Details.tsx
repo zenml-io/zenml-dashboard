@@ -48,6 +48,8 @@ export function Details() {
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 
+	const statusReason = data.body?.status_reason;
+
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
@@ -71,14 +73,29 @@ export function Details() {
 					</Value>
 					<Key>Status</Key>
 					<Value>
-						<Tag
-							className="inline-flex items-center gap-0.5"
-							emphasis="subtle"
-							color={getExecutionStatusTagColor(data.body?.status)}
-						>
-							<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
-							{data.body?.status}
-						</Tag>
+						{(() => {
+							const statusTag = (
+								<Tag
+									className="inline-flex items-center gap-0.5"
+									emphasis="subtle"
+									color={getExecutionStatusTagColor(data.body?.status)}
+								>
+									<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
+									{statusReason ?? data?.body?.status}
+								</Tag>
+							);
+
+							return statusReason ? (
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger>{statusTag}</TooltipTrigger>
+										<TooltipContent>{data?.body?.status}</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							) : (
+								statusTag
+							);
+						})()}
 					</Value>
 					<Key>Pipeline</Key>
 					<Value>

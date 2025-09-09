@@ -96,6 +96,17 @@ export function StepConfigTab({ stepId }: Props) {
 			/>
 			<NestedCollapsible
 				isInitialOpen
+				title="Cache Policy"
+				sortKeysAlphabetically={false}
+				data={data.metadata?.config.cache_policy}
+			/>
+			<NestedCollapsible
+				isInitialOpen
+				title="Retry"
+				data={data?.metadata?.config.retry ?? undefined}
+			/>
+			<NestedCollapsible
+				isInitialOpen
 				title="Substitutions"
 				data={data.metadata?.config.substitutions}
 			/>

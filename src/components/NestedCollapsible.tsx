@@ -20,6 +20,7 @@ type Props = {
 	title: ReactNode;
 	isInitialOpen?: boolean;
 	contentClassName?: string;
+	sortKeysAlphabetically?: boolean;
 	className?: string;
 	schema?: JSONSchemaDefinition;
 };
@@ -34,7 +35,8 @@ export function NestedCollapsible({
 	contentClassName,
 	className,
 	children,
-	isInitialOpen = false
+	isInitialOpen = false,
+	sortKeysAlphabetically = true
 }: PropsWithChildren<Props>) {
 	const objects: { [key: string]: Record<string, unknown> } = {};
 	const nonObjects: { [key: string]: unknown } = {};
@@ -52,7 +54,9 @@ export function NestedCollapsible({
 
 	// sort keys of nonObjects alphabetically
 	const values = Object.entries(nonObjects);
-	values.sort((a, b) => a[0].localeCompare(b[0]));
+	if (sortKeysAlphabetically) {
+		values.sort((a, b) => a[0].localeCompare(b[0]));
+	}
 
 	const hasNoData = Object.keys(data || {}).length === 0;
 
