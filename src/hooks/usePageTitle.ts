@@ -4,12 +4,6 @@ import { routes } from "@/router/routes";
 
 /**
 	* Sets a descriptive document.title based on the current route.
-	* Phase 1: static mapping by top-level sections; generic labels for detail pages.
-	*
-	* Why this approach:
-	* - Centralizes mapping against route patterns, preventing path string drift.
-	* - Uses end: true matching to avoid false positives (e.g., "/" matching everything).
-	* - Keeps logic minimal and synchronous to avoid flicker and extra fetches.
 	*/
 export function usePageTitle(): void {
 	const location = useLocation();
