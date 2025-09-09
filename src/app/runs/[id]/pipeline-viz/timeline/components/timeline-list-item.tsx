@@ -43,16 +43,16 @@ export function TimelineListItem({
 				className="flex items-center text-text-sm transition-colors duration-200 data-[selected=true]:bg-theme-surface-tertiary group-data-[state=open]:border-b"
 			>
 				<div className="flex w-full max-w-[240px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
-					{hasArtifacts ? (
-						<Collapsible.Trigger>
-							<ChevronDown
-								className={`size-3 rounded-sm fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200 group-data-[state=closed]:-rotate-90`}
-							/>
-						</Collapsible.Trigger>
-					) : (
-						<div className="size-3" />
-					)}
 					<TooltipProvider>
+						{hasArtifacts ? (
+							<Collapsible.Trigger>
+								<ChevronDown
+									className={`size-3 rounded-sm fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200 group-data-[state=closed]:-rotate-90`}
+								/>
+							</Collapsible.Trigger>
+						) : (
+							<div className="size-3" />
+						)}
 						<Tooltip>
 							<TooltipTrigger>
 								<ExecutionStatusIcon className="size-3 shrink-0" status={stepStatus} />
@@ -61,15 +61,27 @@ export function TimelineListItem({
 								{stepStatus}
 							</TooltipContent>
 						</Tooltip>
-					</TooltipProvider>
-					<button className="flex-1 truncate text-left font-semibold" onClick={handleClick}>
-						{stepName}
-					</button>
-					{stepDuration !== undefined && (
-						<div className="text-text-xs text-theme-text-secondary">
-							{secondsToTimeString(stepDuration)}
+						<div className="min-w-0 flex-1">
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<button
+										className="max-w-full truncate text-left font-semibold"
+										onClick={handleClick}
+									>
+										{stepName}
+									</button>
+								</TooltipTrigger>
+								<TooltipContent side="right" className="z-10">
+									{stepName}
+								</TooltipContent>
+							</Tooltip>
 						</div>
-					)}
+						{stepDuration !== undefined && (
+							<div className="text-text-xs text-theme-text-secondary">
+								{secondsToTimeString(stepDuration)}
+							</div>
+						)}
+					</TooltipProvider>
 				</div>
 				<div className="min-w-0 flex-1 px-1">
 					{(stepDuration !== undefined || stepStatus === "running") && (
