@@ -42,11 +42,15 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 			{sources.length > 1 && (
 				<div className="flex items-center gap-2">
 					<span className="text-theme-text-secondary">Logs source:</span>
-					<LogCombobox
-						sources={sources}
-						selectedSource={selectedSource}
-						setSelectedSource={setSelectedSource}
-					/>
+					{sources.length > 1 ? (
+						<LogCombobox
+							sources={sources}
+							selectedSource={selectedSource}
+							setSelectedSource={setSelectedSource}
+						/>
+					) : (
+						<span className="font-semibold capitalize">{selectedSource}</span>
+					)}
 				</div>
 			)}
 			<LogDisplay selectedSource={selectedSource} runId={runId} />

@@ -70,15 +70,14 @@ export function EnhancedLogsViewer({
 	};
 
 	const handleCopyAllLogs = () => {
-		const logText = getOriginalLogText(logsToDisplay);
-
+		const logText = getOriginalLogText(logs);
 		navigator.clipboard.writeText(logText).catch((err) => {
 			console.error("Failed to copy logs:", err);
 		});
 	};
 
 	const handleDownloadLogs = () => {
-		const logText = getOriginalLogText(logsToDisplay);
+		const logText = getOriginalLogText(logs);
 		const blob = new Blob([logText], { type: "text/plain" });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
