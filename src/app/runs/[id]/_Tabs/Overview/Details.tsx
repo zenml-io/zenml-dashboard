@@ -81,7 +81,7 @@ export function Details() {
 									color={getExecutionStatusTagColor(data.body?.status)}
 								>
 									<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
-									{statusReason ?? data?.body?.status}
+									{statusReason ?? data.body?.status}
 								</Tag>
 							);
 
@@ -89,7 +89,7 @@ export function Details() {
 								<TooltipProvider>
 									<Tooltip>
 										<TooltipTrigger>{statusTag}</TooltipTrigger>
-										<TooltipContent>{data?.body?.status}</TooltipContent>
+										<TooltipContent>{data.body?.status}</TooltipContent>
 									</Tooltip>
 								</TooltipProvider>
 							) : (
