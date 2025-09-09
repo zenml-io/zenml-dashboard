@@ -1,15 +1,16 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
-import { LogEntry as LogEntryType } from "@/types/logs"; // Assuming types are in src/types/logs.ts
+import { LogEntryInternal } from "@/types/logs"; // Assuming types are in src/types/logs.ts
 import { Button } from "@zenml-io/react-component-library/components/server";
 import React, { useState } from "react";
+import { EmptyStateLogs } from "./empty-state-logs";
 import LogLine from "./log-line"; // Import the LogLine component
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
-import { EmptyStateLogs } from "./empty-state-logs";
+import { useLogLevelFilter } from "./use-loglevel-filter";
 
 interface EnhancedLogsViewerProps {
-	logs: LogEntryType[];
+	logs: LogEntryInternal[];
 	itemsPerPage?: number; // Optional prop for items per page
 }
 
@@ -22,7 +23,12 @@ export function EnhancedLogsViewer({
 	const [currentPage, setCurrentPage] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 
-	// Initialize search functionality on filtered logs
+	const {
+		filteredLogs: filteredLogsByLogLevel,
+		selectedLogLevel,
+		setSelectedLogLevel
+	} = useLogLevelFilter(logs);
+
 	const {
 		searchQuery,
 		setSearchQuery,
@@ -32,7 +38,7 @@ export function EnhancedLogsViewer({
 		goToNextMatch,
 		goToPreviousMatch,
 		highlightText
-	} = useLogSearch(logs);
+	} = useLogSearch(filteredLogsByLogLevel);
 
 	// Use search + filtered logs for pagination
 	const logsToDisplay = searchAndFilteredLogs;
@@ -89,10 +95,12 @@ export function EnhancedLogsViewer({
 	};
 
 	// Empty state - no logs at all
-	if (!logs) {
+	if (!logs || searchAndFilteredLogs.length === 0) {
 		return (
 			<div className="flex h-full flex-col space-y-5">
 				<LogToolbar
+					logLevel={selectedLogLevel}
+					setLogLevel={setSelectedLogLevel}
 					onSearchChange={setSearchQuery}
 					onCopyAll={handleCopyAllLogs}
 					onDownload={handleDownloadLogs}
@@ -113,6 +121,8 @@ export function EnhancedLogsViewer({
 	return (
 		<div className="flex h-full flex-col space-y-5">
 			<LogToolbar
+				logLevel={selectedLogLevel}
+				setLogLevel={setSelectedLogLevel}
 				onSearchChange={setSearchQuery}
 				onCopyAll={handleCopyAllLogs}
 				onDownload={handleDownloadLogs}
@@ -129,7 +139,7 @@ export function EnhancedLogsViewer({
 					{/* Table-style header with fixed structure */}
 					<div className="flex w-full min-w-[600px] space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary">
 						{/* Type column header - match LogLine badge area */}
-						<div className="flex w-8 flex-shrink-0 items-center">
+						<div className="flex w-12 flex-shrink-0 items-center">
 							<span className="text-text-sm font-semibold">Type</span>
 						</div>
 
@@ -248,6 +258,6 @@ export function EnhancedLogsViewer({
 	);
 }
 
-function getOriginalLogText(logs: LogEntryType[]) {
+function getOriginalLogText(logs: LogEntryInternal[]) {
 	return logs.map((log) => log.originalEntry).join("\n");
 }
