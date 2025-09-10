@@ -1,13 +1,14 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
 import { LogEntryInternal } from "@/types/logs"; // Assuming types are in src/types/logs.ts
-import { Button } from "@zenml-io/react-component-library/components/server";
-import React, { useState } from "react";
+import { Button, Input } from "@zenml-io/react-component-library/components/server";
+import React, { useCallback, useState } from "react";
 import { EmptyStateLogs } from "./empty-state-logs";
 import LogLine from "./log-line"; // Import the LogLine component
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
 import { useLogLevelFilter } from "./use-loglevel-filter";
+import { useLogPageInput } from "./use-logpage-input";
 
 interface EnhancedLogsViewerProps {
 	logs: LogEntryInternal[];
@@ -20,7 +21,7 @@ export function EnhancedLogsViewer({
 	logs,
 	itemsPerPage = DEFAULT_ITEMS_PER_PAGE
 }: EnhancedLogsViewerProps) {
-	const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPageState] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 
 	const {
@@ -44,21 +45,36 @@ export function EnhancedLogsViewer({
 	const logsToDisplay = searchAndFilteredLogs;
 
 	// Reset to first page when search or filters change
-	React.useEffect(() => {
-		setCurrentPage(1);
-	}, [searchQuery]);
 
 	const totalPages = Math.ceil(logsToDisplay.length / itemsPerPage);
 	const startIndex = (currentPage - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const currentLogs = logsToDisplay.slice(startIndex, endIndex);
 
+	const { form } = useLogPageInput(currentPage, totalPages);
+
+	const setCurrentPage = useCallback(
+		(page: number) => {
+			setCurrentPageState(page);
+			form.setValue("page", page);
+		},
+		[form]
+	);
+
+	function handlePageSubmit(data: { page: number }) {
+		setCurrentPage(data.page);
+	}
+
+	React.useEffect(() => {
+		setCurrentPage(1);
+	}, [searchQuery]);
+
 	const handlePreviousPage = () => {
-		setCurrentPage((prev) => Math.max(prev - 1, 1));
+		setCurrentPage(Math.max(currentPage - 1, 1));
 	};
 
 	const handleNextPage = () => {
-		setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+		setCurrentPage(Math.min(currentPage + 1, totalPages));
 	};
 
 	const handleFirstPage = () => {
@@ -225,9 +241,14 @@ export function EnhancedLogsViewer({
 								>
 									Previous
 								</Button>
-								<span className="text-sm text-theme-text-secondary">
-									Page {currentPage} of {totalPages}
-								</span>
+								<form
+									onSubmit={form.handleSubmit(handlePageSubmit)}
+									className="text-sm flex items-center gap-1 text-theme-text-secondary"
+								>
+									Page
+									<Input {...form.register("page")} className="w-10" />
+									of {totalPages}
+								</form>
 								<Button
 									className="bg-theme-surface-primary"
 									size="md"
