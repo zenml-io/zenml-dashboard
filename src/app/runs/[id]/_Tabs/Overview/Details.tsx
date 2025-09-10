@@ -10,6 +10,7 @@ import { Key, Value } from "@/components/KeyValue";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
+import { snakeCaseToTitleCase } from "@/lib/strings";
 import { routes } from "@/router/routes";
 import {
 	CollapsibleContent,
@@ -49,6 +50,7 @@ export function Details() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 
 	const statusReason = data.body?.status_reason;
+	const executionMode = data.metadata?.config.execution_mode;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -97,6 +99,7 @@ export function Details() {
 							);
 						})()}
 					</Value>
+
 					<Key>Pipeline</Key>
 					<Value>
 						{data.body?.pipeline ? (
@@ -119,6 +122,8 @@ export function Details() {
 							"Not available"
 						)}
 					</Value>
+					<Key>Execution Mode</Key>
+					<Value>{executionMode ? snakeCaseToTitleCase(executionMode) : "Not available"}</Value>
 					<Key>
 						<div className="flex items-center space-x-0.5 truncate">
 							<span className="truncate">Repository/Commit</span>
