@@ -39,7 +39,7 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
 	return (
 		<section className="space-y-5">
-			{sources.length > 1 && (
+			{sources.length > 0 && (
 				<div className="flex items-center gap-2">
 					<span className="text-theme-text-secondary">Logs source:</span>
 					{sources.length > 1 ? (
