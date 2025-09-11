@@ -18,6 +18,7 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 		case "failed":
 			return "fill-error-500";
 		case "initializing":
+		case "provisioning":
 			return "fill-primary-400";
 		case "cached":
 		case "stopped":
@@ -62,6 +63,7 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "un
 		case "failed":
 			return "bg-error-50";
 		case "initializing":
+		case "provisioning":
 			return "bg-primary-50";
 		case "cached":
 		case "stopped":
@@ -86,6 +88,7 @@ export function getExecutionStatusTagColor(
 		case "failed":
 			return "red";
 		case "initializing":
+		case "provisioning":
 			return "purple";
 		case "cached":
 		case "stopped":
@@ -115,6 +118,7 @@ export function ExecutionStatusIcon({
 		case "failed":
 			return <AlertCircle className={classNames} />;
 		case "initializing":
+		case "provisioning":
 		case "stopping":
 			return <Initializing className={classNames} />;
 		case "cached":

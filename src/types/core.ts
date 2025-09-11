@@ -4770,6 +4770,12 @@ export type components = {
 			step_code_line?: number | null;
 		};
 		/**
+		 * ExecutionMode
+		 * @description Enum that represents the execution mode of a pipeline run.
+		 * @enum {string}
+		 */
+		ExecutionMode: "fail_fast" | "stop_on_failure" | "continue_on_failure";
+		/**
 		 * ExecutionStatus
 		 * @description Enum that represents the execution status of a step or pipeline run.
 		 * @enum {string}
@@ -6445,6 +6451,8 @@ export type components = {
 			enable_step_logs?: boolean | null;
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6495,6 +6503,8 @@ export type components = {
 			enable_step_logs?: boolean | null;
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6892,6 +6902,8 @@ export type components = {
 			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** Whether the pipeline run is in progress. */
+			in_progress: boolean;
 			/** The reason for the status of the pipeline run. */
 			status_reason?: string | null;
 			/** The stack that was used for this run. */
@@ -13900,6 +13912,7 @@ export type operations = {
 				template_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -14453,6 +14466,7 @@ export type operations = {
 				template_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -21405,6 +21419,7 @@ export type operations = {
 				template_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
