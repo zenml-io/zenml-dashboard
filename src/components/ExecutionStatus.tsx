@@ -33,6 +33,28 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 	}
 }
 
+export function getExecutionStatusBgColor(status?: ExecutionStatus | "unknown" | null) {
+	if (!status) return null;
+	switch (status) {
+		case "completed":
+			return "bg-success-500";
+		case "failed":
+			return "bg-error-500";
+		case "initializing":
+			return "bg-primary-400";
+		case "cached":
+		case "stopped":
+		case "stopping":
+		case "retried":
+			return "bg-neutral-400";
+		case "running":
+		case "retrying":
+			return "bg-warning-500";
+		case "unknown":
+			return "bg-blue-500";
+	}
+}
+
 export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "unknown") {
 	if (!status) return null;
 	switch (status) {

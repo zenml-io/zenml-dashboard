@@ -1170,24 +1170,6 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
 	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
-		/**
-		 * Deployment Logs
-		 * @description Get deployment logs.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *
-		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
-		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
-	};
 	"/api/v1/runs": {
 		/**
 		 * List Runs
@@ -1341,16 +1323,16 @@ export type paths = {
 	"/api/v1/runs/{run_id}/logs": {
 		/**
 		 * Run Logs
-		 * @description Get pipeline run logs for a specific source.
+		 * @description Get log entries for efficient pagination.
+		 *
+		 * This endpoint returns the log entries.
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     List of log entries.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
@@ -2393,19 +2375,16 @@ export type paths = {
 	"/api/v1/steps/{step_id}/logs": {
 		/**
 		 * Get Step Logs
-		 * @description Get the logs of a specific step.
+		 * @description Get log entries for a step.
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     List of log entries.
 		 *
 		 * Raises:
-		 *     HTTPException: If no logs are available for this step.
+		 *     KeyError: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
 	};
@@ -4999,6 +4978,68 @@ export type components = {
 			/** Value */
 			value: string;
 		};
+		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
 		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
@@ -14381,64 +14422,6 @@ export type operations = {
 		};
 	};
 	/**
-	 * Deployment Logs
-	 * @description Get deployment logs.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *
-	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
-	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
-		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": string;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
 	 * List Runs
 	 * @description Get pipeline runs according to query filters.
 	 *
@@ -15078,16 +15061,16 @@ export type operations = {
 	};
 	/**
 	 * Run Logs
-	 * @description Get pipeline run logs for a specific source.
+	 * @description Get log entries for efficient pagination.
+	 *
+	 * This endpoint returns the log entries.
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     List of log entries.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -15096,8 +15079,6 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
-				length?: number;
 			};
 			path: {
 				run_id: string;
@@ -15107,7 +15088,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -19071,27 +19058,19 @@ export type operations = {
 	};
 	/**
 	 * Get Step Logs
-	 * @description Get the logs of a specific step.
+	 * @description Get log entries for a step.
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     List of log entries.
 	 *
 	 * Raises:
-	 *     HTTPException: If no logs are available for this step.
+	 *     KeyError: If no logs are available for this step.
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
-			};
 			path: {
 				step_id: string;
 			};
@@ -19100,7 +19079,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */

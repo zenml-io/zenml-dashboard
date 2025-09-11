@@ -2,7 +2,7 @@ import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useStepLogs } from "@/data/steps/step-logs-query";
-import { parseLogString } from "@/lib/logs";
+import { buildInternalLogEntries } from "@/lib/logs";
 import { useMemo } from "react";
 import { ErrorFallback } from "../../Error";
 
@@ -15,7 +15,7 @@ export function StepLogsTab({ stepId }: Props) {
 
 	const parsedLogs = useMemo(() => {
 		if (!data) return [];
-		return parseLogString(data);
+		return buildInternalLogEntries(data);
 	}, [data]);
 
 	if (isError) {

@@ -1,4 +1,3 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
 import { DagControls } from "@/components/dag-visualizer/Controls";
 import { ElkEdge } from "@/components/dag-visualizer/elk-edge";
@@ -7,11 +6,18 @@ import { PreviewArtifactNode } from "@/components/dag-visualizer/PreviewArtifact
 import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
-import { EmptyState } from "@/components/EmptyState";
+import { Dag } from "@/types/dag-visualizer";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
-import { useMemo } from "react";
 import ReactFlow, { NodeTypes } from "reactflow";
 import { useDag } from "./useDag";
+import { ViewSwitcher } from "../view-switcher";
+import { PiplineRunVisualizationView } from "../types";
+
+type Props = {
+	dagData: Dag;
+	refetchHandler: () => void;
+	setActiveView?: (view: PiplineRunVisualizationView) => void;
+};
 
 const customEdge = {
 	elk: ElkEdge
@@ -24,37 +30,16 @@ const customNodes: NodeTypes = {
 	previewArtifact: PreviewArtifactNode
 };
 
-export function DAG() {
-	const {
-		dagQuery,
-		nodes,
-		edges,
-		onNodesChange,
-		onEdgesChange,
-		initialRender,
-		topMostNode,
-		shouldFitView
-	} = useDag();
+export function DAG({ dagData, refetchHandler, setActiveView }: Props) {
+	const { nodes, edges, onNodesChange, onEdgesChange, initialRender, topMostNode, shouldFitView } =
+		useDag(dagData);
 
-	// Memoize refetch function to prevent DagControls re-render
-	const handleRefetch = useMemo(() => {
-		return () => dagQuery.refetch();
-	}, [dagQuery]);
-
-	if (dagQuery.isError) {
-		return (
-			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
-				<p className="text-center">There was an error loading the DAG visualization.</p>
-			</EmptyState>
-		);
-	}
-
-	if (dagQuery.isPending || initialRender)
+	if (initialRender)
 		return (
 			<div className="flex h-full flex-col items-center justify-center">
 				<Spinner />
 				<div className="mt-4 flex flex-col items-center">
-					<p className="mb-5 text-display-xs">Loading DAG Visualization</p>
+					<p className="mb-5 text-display-xs">Calculating DAG Visualization</p>
 				</div>
 			</div>
 		);
@@ -87,7 +72,12 @@ export function DAG() {
 							: undefined
 				}
 			>
-				<DagControls refetch={handleRefetch} />
+				<DagControls
+					refetch={refetchHandler}
+					viewSwitcher={
+						setActiveView ? <ViewSwitcher activeView={"dag"} setActiveView={setActiveView} /> : null
+					}
+				/>
 			</ReactFlow>
 			<GlobalSheets />
 		</SheetProvider>
