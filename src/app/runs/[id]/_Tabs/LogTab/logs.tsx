@@ -4,11 +4,11 @@ import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
-import { parseLogString } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
+import { buildInternalLogEntries } from "@/lib/logs";
 
 export function LogTab() {
 	const { runId } = useParams() as { runId: string };
@@ -39,14 +39,18 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
 	return (
 		<section className="space-y-5">
-			{sources.length > 1 && (
+			{sources.length > 0 && (
 				<div className="flex items-center gap-2">
 					<span className="text-theme-text-secondary">Logs source:</span>
-					<LogCombobox
-						sources={sources}
-						selectedSource={selectedSource}
-						setSelectedSource={setSelectedSource}
-					/>
+					{sources.length > 1 ? (
+						<LogCombobox
+							sources={sources}
+							selectedSource={selectedSource}
+							setSelectedSource={setSelectedSource}
+						/>
+					) : (
+						<span className="font-semibold capitalize">{selectedSource}</span>
+					)}
 				</div>
 			)}
 			<LogDisplay selectedSource={selectedSource} runId={runId} />
@@ -63,7 +67,7 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 
 	const parsedLogs = useMemo(() => {
 		if (!runLogs.data) return [];
-		return parseLogString(runLogs.data);
+		return buildInternalLogEntries(runLogs.data);
 	}, [runLogs.data]);
 
 	if (runLogs.isPending) return <LoadingLogs />;

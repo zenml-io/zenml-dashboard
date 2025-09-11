@@ -1,304 +1,223 @@
 import { LogEntry } from "@/types/logs";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getLogLevelStats, parseLogString } from "./logs";
+import { describe, expect, it } from "vitest";
+import { buildInternalLogEntries, LOG_LEVEL_NAMES, unchunkLogEntries } from "./logs";
 
-describe("parseLogString", () => {
-	beforeEach(() => {
-		vi.useFakeTimers();
-		vi.setSystemTime(new Date("2023-10-27T10:00:00.000Z"));
+describe("unchunkLogEntries", () => {
+	it("returns empty array for non-array or empty input", () => {
+		expect(unchunkLogEntries([])).toEqual([]);
+		expect((unchunkLogEntries as any)(null)).toEqual([]);
+		expect((unchunkLogEntries as any)(undefined)).toEqual([]);
 	});
 
-	afterEach(() => {
-		vi.useRealTimers();
-	});
-
-	it("should return empty array for invalid input", () => {
-		expect(parseLogString("")).toEqual([]);
-		expect(parseLogString(null as any)).toEqual([]);
-		expect(parseLogString(undefined as any)).toEqual([]);
-		expect(parseLogString(123 as any)).toEqual([]);
-	});
-
-	it("should return empty array for whitespace-only input", () => {
-		expect(parseLogString("   \n  \n   ")).toEqual([]);
-	});
-
-	it("should parse ZenML format logs", () => {
-		const logString =
-			"[2025-04-25 12:18:16 UTC] Starting pipeline execution\n[2025-04-25 12:18:17 UTC] Pipeline completed successfully";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "INFO",
-			message: "Starting pipeline execution",
-			timestamp: "2025-04-25T12:18:16Z",
-			originalEntry: "[2025-04-25 12:18:16 UTC] Starting pipeline execution"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "INFO",
-			message: "Pipeline completed successfully",
-			timestamp: "2025-04-25T12:18:17Z",
-			originalEntry: "[2025-04-25 12:18:17 UTC] Pipeline completed successfully"
-		});
-	});
-
-	it("should parse ISO timestamp with level format", () => {
-		const logString =
-			"2023-10-27T10:00:00.000Z [ERROR] Database connection failed\n2023-10-27T10:00:01.000Z [INFO] Retrying connection";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed",
-			timestamp: "2023-10-27T10:00:00.000Z"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "INFO",
-			message: "Retrying connection",
-			timestamp: "2023-10-27T10:00:01.000Z"
-		});
-	});
-
-	it("should parse timestamp with level format", () => {
-		const logString =
-			"2023-10-27 10:00:00 ERROR Database connection failed\n2023-10-27 10:00:01.123 WARN Connection unstable";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed",
-			timestamp: "2023-10-27 10:00:00"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "WARN",
-			message: "Connection unstable",
-			timestamp: "2023-10-27 10:00:01.123"
-		});
-	});
-
-	it("should parse level first format", () => {
-		const logString =
-			"ERROR 2023-10-27T10:00:00 Database connection failed\nINFO 2023-10-27T10:00:01Z Service started";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed",
-			timestamp: "2023-10-27T10:00:00"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "INFO",
-			message: "Service started",
-			timestamp: "2023-10-27T10:00:01Z"
-		});
-	});
-
-	it("should parse level in brackets with timestamp format", () => {
-		const logString =
-			"[ERROR] 2023-10-27T10:00:00 Database connection failed\n[DEBUG] 2023-10-27T10:00:01.456Z Debug information";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed",
-			timestamp: "2023-10-27T10:00:00"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "DEBUG",
-			message: "Debug information",
-			timestamp: "2023-10-27T10:00:01.456Z"
-		});
-	});
-
-	it("should parse simple level format", () => {
-		const logString = "ERROR: Database connection failed\nINFO: Service started successfully";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "INFO",
-			message: "Service started successfully"
-		});
-	});
-
-	it("should parse level in brackets only format", () => {
-		const logString = "[ERROR] Database connection failed\n[CRITICAL] System shutdown initiated";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0]).toMatchObject({
-			level: "ERROR",
-			message: "Database connection failed"
-		});
-		expect(entries[1]).toMatchObject({
-			level: "CRITICAL",
-			message: "System shutdown initiated"
-		});
-	});
-
-	it("should handle mixed log formats", () => {
-		const logString = `[2025-04-25 12:18:16 UTC] ZenML format log
-2023-10-27T10:00:00.000Z [ERROR] ISO format log
-INFO: Simple format log
-Plain text log without format`;
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(4);
-		expect(entries[0].level).toBe("INFO");
-		expect(entries[1].level).toBe("ERROR");
-		expect(entries[2].level).toBe("INFO");
-		expect(entries[3].level).toBe("INFO"); // Default level for unmatched format
-	});
-
-	it("should normalize log levels correctly", () => {
-		const logString = `ERR: Error message
-WARNING: Warning message
-DBG: Debug message
-INFORMATION: Info message
-CRIT: Critical message`;
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(5);
-		expect(entries[0].level).toBe("ERROR");
-		expect(entries[1].level).toBe("WARN");
-		expect(entries[2].level).toBe("DEBUG");
-		expect(entries[3].level).toBe("INFO");
-		expect(entries[4].level).toBe("CRITICAL");
-	});
-
-	it("should assign fallback timestamps for logs without timestamps", () => {
-		const logString = "INFO: First log\nERROR: Second log\nDEBUG: Third log";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(3);
-		// Should have unique timestamps based on fallback logic
-		expect(entries[0].timestamp).toBe(null); // Base timestamp
-		expect(entries[1].timestamp).toBe(null); // Base + 1 second
-		expect(entries[2].timestamp).toBe(null); // Base + 2 seconds
-	});
-
-	it("should generate unique IDs for log entries", () => {
-		const logString = "INFO: First log\nINFO: Second log";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0].id).toBeDefined();
-		expect(entries[1].id).toBeDefined();
-		expect(entries[0].id).not.toBe(entries[1].id);
-	});
-});
-
-describe("getLogLevelStats", () => {
-	it("should count log levels correctly", () => {
-		const logs: LogEntry[] = [
-			{ id: "1", timestamp: Date.now(), level: "INFO", message: "Info 1", originalEntry: "" },
-			{ id: "2", timestamp: Date.now(), level: "INFO", message: "Info 2", originalEntry: "" },
-			{ id: "3", timestamp: Date.now(), level: "ERROR", message: "Error 1", originalEntry: "" },
-			{ id: "4", timestamp: Date.now(), level: "WARN", message: "Warn 1", originalEntry: "" },
-			{ id: "5", timestamp: Date.now(), level: "DEBUG", message: "Debug 1", originalEntry: "" },
+	it("merges chunks by id, concatenates messages, removes chunk fields, preserves order", () => {
+		const entries: LogEntry[] = [
 			{
-				id: "6",
-				timestamp: Date.now(),
-				level: "CRITICAL",
-				message: "Critical 1",
-				originalEntry: ""
-			},
-			{ id: "7", timestamp: Date.now(), level: "ERROR", message: "Error 2", originalEntry: "" }
+				id: "a",
+				timestamp: 111,
+				level: 20 as any,
+				module: "m1",
+				filename: "f1",
+				lineno: 1,
+				message: "Hel",
+				chunk_index: 0,
+				total_chunks: 2
+			} as any,
+			{
+				id: "b-single",
+				timestamp: 222,
+				level: 40 as any,
+				message: "single error"
+			} as any,
+			{
+				id: "c",
+				timestamp: 333,
+				level: 10 as any,
+				message: "two",
+				chunk_index: 1,
+				total_chunks: 2
+			} as any,
+			{
+				id: "a",
+				timestamp: 111,
+				level: 20 as any,
+				module: "m1",
+				filename: "f1",
+				lineno: 1,
+				message: "lo",
+				chunk_index: 1,
+				total_chunks: 2
+			} as any,
+			{
+				id: "c",
+				timestamp: 333,
+				level: 10 as any,
+				message: "one",
+				chunk_index: 0,
+				total_chunks: 2
+			} as any
 		];
 
-		const stats = getLogLevelStats(logs);
+		const merged = unchunkLogEntries(entries);
 
-		expect(stats).toEqual({
-			INFO: 2,
-			ERROR: 2,
-			WARN: 1,
-			DEBUG: 1,
-			CRITICAL: 1
-		});
+		expect(merged).toHaveLength(3);
+		// order preserved by first-seen group key: a, b-single, c
+		expect(merged[0].id).toBe("a");
+		expect(merged[1].id).toBe("b-single");
+		expect(merged[2].id).toBe("c");
+
+		// messages concatenated in chunk_index order
+		expect(merged[0].message).toBe("Hello");
+		expect(merged[2].message).toBe("onetwo");
+
+		// chunk fields removed on merged items
+		expect("chunk_index" in (merged[0] as any)).toBe(false);
+		expect("total_chunks" in (merged[0] as any)).toBe(false);
+
+		// non-chunked entry passes through unchanged
+		expect(merged[1]).toMatchObject({ id: "b-single", message: "single error", level: 40 });
 	});
 
-	it("should return zero counts for empty log array", () => {
-		const stats = getLogLevelStats([]);
+	it("removes chunk fields for single chunk that is flagged as chunked", () => {
+		const only = {
+			id: "only",
+			timestamp: 1,
+			level: 20 as any,
+			message: "hello",
+			chunk_index: 0,
+			total_chunks: 2
+		} as any as LogEntry;
 
-		expect(stats).toEqual({
-			INFO: 0,
-			ERROR: 0,
-			WARN: 0,
-			DEBUG: 0,
-			CRITICAL: 0
-		});
+		const merged = unchunkLogEntries([only]);
+		expect(merged).toHaveLength(1);
+		expect(merged[0].message).toBe("hello");
+		expect("chunk_index" in (merged[0] as any)).toBe(false);
+		expect("total_chunks" in (merged[0] as any)).toBe(false);
 	});
 
-	it("should handle logs with only one level type", () => {
-		const logs: LogEntry[] = [
-			{ id: "1", timestamp: Date.now(), level: "ERROR", message: "Error 1", originalEntry: "" },
-			{ id: "2", timestamp: Date.now(), level: "ERROR", message: "Error 2", originalEntry: "" },
-			{ id: "3", timestamp: Date.now(), level: "ERROR", message: "Error 3", originalEntry: "" }
-		];
+	it("does not merge non-chunked entries even if they share the same id", () => {
+		const a = { id: "same", timestamp: 1, level: 20 as any, message: "a" } as any as LogEntry;
+		const b = { id: "same", timestamp: 2, level: 20 as any, message: "b" } as any as LogEntry;
+		const merged = unchunkLogEntries([a, b]);
+		expect(merged).toHaveLength(2);
+		expect(merged[0].message).toBe("a");
+		expect(merged[1].message).toBe("b");
+	});
 
-		const stats = getLogLevelStats(logs);
+	it("treats missing chunk messages as empty strings when joining", () => {
+		const a = {
+			id: "m",
+			timestamp: 1,
+			level: 20 as any,
+			message: "A",
+			chunk_index: 0,
+			total_chunks: 2
+		} as any as LogEntry;
+		const b = {
+			id: "m",
+			timestamp: 1,
+			level: 20 as any,
+			message: undefined as any,
+			chunk_index: 1,
+			total_chunks: 2
+		} as any as LogEntry;
+		const merged = unchunkLogEntries([a, b]);
+		expect(merged).toHaveLength(1);
+		expect(merged[0].message).toBe("A");
+	});
 
-		expect(stats).toEqual({
-			INFO: 0,
-			ERROR: 3,
-			WARN: 0,
-			DEBUG: 0,
-			CRITICAL: 0
-		});
+	it("merges chunked entries without id using composite key", () => {
+		const e1 = {
+			id: undefined,
+			timestamp: 123456,
+			level: 30 as any,
+			module: "mod",
+			filename: "file.py",
+			lineno: 99,
+			message: "part-1",
+			chunk_index: 0,
+			total_chunks: 2
+		} as any as LogEntry;
+		const e2 = {
+			id: undefined,
+			timestamp: 123456,
+			level: 30 as any,
+			module: "mod",
+			filename: "file.py",
+			lineno: 99,
+			message: "part-2",
+			chunk_index: 1,
+			total_chunks: 2
+		} as any as LogEntry;
+
+		const merged = unchunkLogEntries([e1, e2]);
+		expect(merged).toHaveLength(1);
+		expect(merged[0].message).toBe("part-1part-2");
+		expect("chunk_index" in (merged[0] as any)).toBe(false);
+		expect("total_chunks" in (merged[0] as any)).toBe(false);
+	});
+
+	it("does not merge entries with different composite attributes", () => {
+		const base = {
+			id: undefined,
+			timestamp: 1,
+			level: 30 as any,
+			module: "m",
+			filename: "f",
+			lineno: 1,
+			chunk_index: 0,
+			total_chunks: 2
+		} as any;
+		const a = { ...base, message: "A" } as LogEntry;
+		const b = { ...base, module: "m2", message: "B", chunk_index: 1 } as any as LogEntry;
+
+		const merged = unchunkLogEntries([a, b]);
+		expect(merged).toHaveLength(2);
 	});
 });
 
-describe("edge cases and error handling", () => {
-	it("should handle unknown log levels", () => {
-		const logString = "UNKNOWN: Some message\nTRACE: Another message";
-		const entries = parseLogString(logString);
+describe("buildInternalLogEntries", () => {
+	it("builds originalEntry using level mapping and merged message", () => {
+		const chunked: LogEntry[] = [
+			{
+				id: "x",
+				timestamp: 999,
+				level: 40 as any, // ERROR
+				message: "err",
+				chunk_index: 0,
+				total_chunks: 2
+			} as any,
+			{
+				id: "x",
+				timestamp: 999,
+				level: 40 as any,
+				message: "or happened",
+				chunk_index: 1,
+				total_chunks: 2
+			} as any
+		];
 
-		expect(entries).toHaveLength(2);
-		expect(entries[0].level).toBe("INFO"); // Should default to INFO
-		expect(entries[1].level).toBe("INFO"); // Should default to INFO
+		const internal = buildInternalLogEntries(chunked);
+		expect(internal).toHaveLength(1);
+		expect(internal[0].message).toBe("error happened");
+		const levelName = LOG_LEVEL_NAMES[40];
+		expect(internal[0].originalEntry).toBe(
+			`[${levelName}] [${chunked[0].timestamp}] ${internal[0].message}`
+		);
 	});
 
-	it("should preserve original entry for all parsed logs", () => {
-		const logString = "[2025-04-25 12:18:16 UTC] ZenML message\nINFO: Simple message";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(2);
-		expect(entries[0].originalEntry).toBe("[2025-04-25 12:18:16 UTC] ZenML message");
-		expect(entries[1].originalEntry).toBe("INFO: Simple message");
+	it("defaults to INFO when level is missing", () => {
+		const logs: LogEntry[] = [
+			{ id: "nolevel", timestamp: 1, level: undefined as any, message: "hi" } as any
+		];
+		const internal = buildInternalLogEntries(logs);
+		expect(internal).toHaveLength(1);
+		expect(internal[0].originalEntry.startsWith("[INFO] ")).toBe(true);
 	});
 
-	it("should handle very long log messages", () => {
-		const longMessage = "A".repeat(10000);
-		const logString = `INFO: ${longMessage}`;
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(1);
-		expect(entries[0].message).toBe(longMessage);
-		expect(entries[0].level).toBe("INFO");
-	});
-
-	it("should handle special characters in log messages", () => {
-		const logString = "INFO: Message with special chars: !@#$%^&*()[]{}|\\;:'\",.<>?/`~";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(1);
-		expect(entries[0].message).toBe("Message with special chars: !@#$%^&*()[]{}|\\;:'\",.<>?/`~");
-	});
-
-	it("should handle unicode characters in log messages", () => {
-		const logString = "INFO: Unicode message: 你好世界 🚀 ñoño";
-		const entries = parseLogString(logString);
-
-		expect(entries).toHaveLength(1);
-		expect(entries[0].message).toBe("Unicode message: 你好世界 🚀 ñoño");
+	it("uses INFO when level is 0 due to fallback behavior", () => {
+		const logs: LogEntry[] = [{ id: "lvl0", timestamp: 2, level: 0 as any, message: "msg" } as any];
+		const internal = buildInternalLogEntries(logs);
+		expect(internal).toHaveLength(1);
+		expect(internal[0].originalEntry.startsWith("[INFO] ")).toBe(true);
 	});
 });

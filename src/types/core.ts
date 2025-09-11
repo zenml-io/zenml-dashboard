@@ -1170,24 +1170,6 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
 	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
-		/**
-		 * Deployment Logs
-		 * @description Get deployment logs.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *
-		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
-		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
-	};
 	"/api/v1/runs": {
 		/**
 		 * List Runs
@@ -1341,16 +1323,16 @@ export type paths = {
 	"/api/v1/runs/{run_id}/logs": {
 		/**
 		 * Run Logs
-		 * @description Get pipeline run logs for a specific source.
+		 * @description Get log entries for efficient pagination.
+		 *
+		 * This endpoint returns the log entries.
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     List of log entries.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
@@ -2393,19 +2375,16 @@ export type paths = {
 	"/api/v1/steps/{step_id}/logs": {
 		/**
 		 * Get Step Logs
-		 * @description Get the logs of a specific step.
+		 * @description Get log entries for a step.
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     List of log entries.
 		 *
 		 * Raises:
-		 *     HTTPException: If no logs are available for this step.
+		 *     KeyError: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
 	};
@@ -3834,6 +3813,8 @@ export type components = {
 			materializer: components["schemas"]["Source"];
 			/** Data type of the artifact. */
 			data_type: components["schemas"]["Source"];
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 			/**
 			 * Tags of the artifact.
 			 * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
@@ -3908,6 +3889,8 @@ export type components = {
 			save_type: components["schemas"]["ArtifactSaveType"];
 			/** ID of the artifact store in which this artifact is stored. */
 			artifact_store_id?: string | null;
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 		};
 		/**
 		 * ArtifactVersionResponseMetadata
@@ -4159,6 +4142,41 @@ export type components = {
 			 * @default false
 			 */
 			requires_code_download?: boolean;
+		};
+		/**
+		 * CachePolicy
+		 * @description Cache policy.
+		 */
+		CachePolicy: {
+			/**
+			 * Include Step Code
+			 * @description Whether to include the step code in the cache key.
+			 * @default true
+			 */
+			include_step_code?: boolean;
+			/**
+			 * Include Step Parameters
+			 * @description Whether to include the step parameters in the cache key.
+			 * @default true
+			 */
+			include_step_parameters?: boolean;
+			/**
+			 * Include Artifact Values
+			 * @description Whether to include the artifact values in the cache key. If the materializer for an artifact doesn't support generating a content hash, the artifact ID will be used as a fallback if enabled.
+			 * @default true
+			 */
+			include_artifact_values?: boolean;
+			/**
+			 * Include Artifact Ids
+			 * @description Whether to include the artifact IDs in the cache key.
+			 * @default true
+			 */
+			include_artifact_ids?: boolean;
+			/**
+			 * Ignored Inputs
+			 * @description List of input names to ignore in the cache key.
+			 */
+			ignored_inputs?: string[] | null;
 		};
 		/**
 		 * ClientLazyLoader
@@ -4758,6 +4776,7 @@ export type components = {
 		 */
 		ExecutionStatus:
 			| "initializing"
+			| "provisioning"
 			| "failed"
 			| "completed"
 			| "running"
@@ -4953,6 +4972,68 @@ export type components = {
 			/** Value */
 			value: string;
 		};
+		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
 		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
@@ -6395,6 +6476,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6444,6 +6526,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6745,6 +6828,8 @@ export type components = {
 			end_time?: string | null;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/**
 			 * Environment of the orchestrator that executed this pipeline run (OS, Python version, etc.).
 			 * @default {}
@@ -6807,6 +6892,8 @@ export type components = {
 			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/** The stack that was used for this run. */
 			stack?: components["schemas"]["StackResponse"] | null;
 			/** The pipeline this run belongs to. */
@@ -6894,8 +6981,12 @@ export type components = {
 		 */
 		PipelineRunUpdate: {
 			status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/** End Time */
 			end_time?: string | null;
+			/** Orchestrator Run Id */
+			orchestrator_run_id?: string | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -8722,17 +8813,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Input": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8755,9 +8864,13 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8766,6 +8879,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}
@@ -8809,17 +8931,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Output": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8842,9 +8982,13 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8853,6 +8997,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}
@@ -14256,64 +14409,6 @@ export type operations = {
 		};
 	};
 	/**
-	 * Deployment Logs
-	 * @description Get deployment logs.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *
-	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
-	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
-		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": string;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
 	 * List Runs
 	 * @description Get pipeline runs according to query filters.
 	 *
@@ -14952,16 +15047,16 @@ export type operations = {
 	};
 	/**
 	 * Run Logs
-	 * @description Get pipeline run logs for a specific source.
+	 * @description Get log entries for efficient pagination.
+	 *
+	 * This endpoint returns the log entries.
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     List of log entries.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -14970,8 +15065,6 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
-				length?: number;
 			};
 			path: {
 				run_id: string;
@@ -14981,7 +15074,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -18945,27 +19044,19 @@ export type operations = {
 	};
 	/**
 	 * Get Step Logs
-	 * @description Get the logs of a specific step.
+	 * @description Get log entries for a step.
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     List of log entries.
 	 *
 	 * Raises:
-	 *     HTTPException: If no logs are available for this step.
+	 *     KeyError: If no logs are available for this step.
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
-			};
 			path: {
 				step_id: string;
 			};
@@ -18974,7 +19065,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */

@@ -3,6 +3,9 @@ import Download from "@/assets/icons/download-01.svg?react";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { SearchField } from "../SearchField";
+import { LogLevelSelect } from "./log-level-select";
+import { LoggingLevel } from "@/types/logs";
+import { Dispatch, SetStateAction } from "react";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
@@ -15,6 +18,9 @@ interface LogToolbarProps {
 	totalMatches?: number;
 	onPreviousMatch?: () => void;
 	onNextMatch?: () => void;
+	// log level related props
+	logLevel: LoggingLevel;
+	setLogLevel: Dispatch<SetStateAction<LoggingLevel>>;
 }
 
 export function LogToolbar({
@@ -25,7 +31,9 @@ export function LogToolbar({
 	currentMatchIndex = 0,
 	totalMatches = 0,
 	onPreviousMatch,
-	onNextMatch
+	onNextMatch,
+	logLevel,
+	setLogLevel
 }: LogToolbarProps) {
 	return (
 		<>
@@ -42,11 +50,12 @@ export function LogToolbar({
 
 						{/* Search controls */}
 						{searchQuery && (
-							<div className="flex items-center gap-1">
-								<span className="text-sm text-theme-text-secondary">
+							<div className="flex items-center gap-0.5">
+								<span className="text-sm whitespace-nowrap text-theme-text-secondary">
 									{totalMatches > 0 ? `${currentMatchIndex + 1} of ${totalMatches}` : "No matches"}
 								</span>
 								<Button
+									className="aspect-square"
 									size="sm"
 									emphasis="minimal"
 									onClick={onPreviousMatch}
@@ -56,6 +65,7 @@ export function LogToolbar({
 									<ArrowLeft className="h-4 w-4 shrink-0 rotate-90 fill-theme-text-tertiary" />
 								</Button>
 								<Button
+									className="aspect-square"
 									size="sm"
 									emphasis="minimal"
 									onClick={onNextMatch}
@@ -66,6 +76,10 @@ export function LogToolbar({
 								</Button>
 							</div>
 						)}
+						<LogLevelSelect
+							value={logLevel.toString()}
+							onValueChange={(value) => setLogLevel(Number(value) as LoggingLevel)}
+						/>
 					</div>
 
 					{/* Right side - Action Buttons */}

@@ -2,6 +2,7 @@ import { FetchError } from "@/lib/fetch-error";
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { fetcher } from "../fetch";
+import { LogResponse } from "@/types/logs";
 
 type StepLogs = {
 	stepId: string;
@@ -41,9 +42,9 @@ export async function fetchStepLogs({ stepId }: StepLogs) {
 
 export function useStepLogs(
 	params: StepLogs,
-	options?: Omit<UseQueryOptions<string, FetchError>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<LogResponse, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<string, FetchError>({
+	return useQuery<LogResponse, FetchError>({
 		queryKey: getStepLogsQueryKey(params),
 		queryFn: () => fetchStepLogs(params),
 		...options
