@@ -37,7 +37,9 @@ export const routes = {
 		},
 		pipelines: {
 			overview: "/projects/default/pipelines",
-			namespace: (namespace: string) => `/projects/default/pipelines/${namespace}`
+			detail: {
+				runs: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/runs`
+			}
 		},
 		models: {
 			overview: "/projects/default/models"

@@ -1,16 +1,16 @@
-import { usePipelineRunParams } from "./service";
-import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import Refresh from "@/assets/icons/refresh.svg?react";
-import { useParams } from "react-router-dom";
-import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
-import { SearchField } from "@/components/SearchField";
 import Pagination from "@/components/Pagination";
+import { SearchField } from "@/components/SearchField";
+import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
+import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
+import { useParams } from "react-router-dom";
+import { RunsButtonGroup } from "../../../runs/ButtonGroup";
+import { useRunsSelectorContext } from "../../../runs/RunsSelectorContext";
 import { getPipelineDetailColumns } from "./columns";
-import { useRunsSelectorContext } from "../../runs/RunsSelectorContext";
-import { RunsButtonGroup } from "../../runs/ButtonGroup";
+import { usePipelineRunParams } from "./service";
 
 export function PipelineRunsTable() {
-	const { namespace } = useParams() as { namespace: string };
+	const { pipelineId } = useParams() as { pipelineId: string };
 	const params = usePipelineRunParams();
 	const cols = getPipelineDetailColumns();
 	const { selectedRowCount } = useRunsSelectorContext();
@@ -18,7 +18,7 @@ export function PipelineRunsTable() {
 	const { data, refetch } = useAllPipelineRuns(
 		{
 			params: {
-				pipeline_name: decodeURIComponent(namespace),
+				pipeline_id: pipelineId,
 				...params,
 				sort_by: "desc:updated"
 			}
@@ -27,7 +27,7 @@ export function PipelineRunsTable() {
 	);
 
 	return (
-		<div className="flex flex-col gap-5 p-5">
+		<div className="flex flex-col gap-5">
 			<div className="flex items-center justify-between">
 				{selectedRowCount ? <RunsButtonGroup /> : <SearchField searchParams={params} />}
 				<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>

@@ -79,8 +79,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							label="Pipeline"
 							value={
 								<Link
-									to={routes.projects.pipelines.namespace(
-										encodeURIComponent(pipelineRunData.body?.pipeline?.name as string)
+									to={routes.projects.pipelines.detail.runs(
+										pipelineRunData.body?.pipeline?.id as string
 									)}
 								>
 									<Tag

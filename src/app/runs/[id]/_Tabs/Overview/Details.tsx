@@ -50,6 +50,7 @@ export function Details() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 
 	const statusReason = data.body?.status_reason;
+	// @ts-expect-error - execution_mode is not in the metadata
 	const executionMode = data.metadata?.config.execution_mode;
 
 	return (
@@ -103,11 +104,7 @@ export function Details() {
 					<Key>Pipeline</Key>
 					<Value>
 						{data.body?.pipeline ? (
-							<Link
-								to={routes.projects.pipelines.namespace(
-									encodeURIComponent(data.body?.pipeline?.name as string)
-								)}
-							>
+							<Link to={routes.projects.pipelines.detail.runs(data.body?.pipeline?.id as string)}>
 								<Tag
 									color="purple"
 									className="inline-flex items-center gap-0.5"

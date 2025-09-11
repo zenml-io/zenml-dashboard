@@ -91,20 +91,21 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		id: "pipeline",
 		header: "Pipeline",
 		accessorFn: (row) => row.body?.pipeline?.name,
-		cell: ({ getValue }) => {
-			const value = getValue<string>();
-			if (!value) {
+		cell: ({ row }) => {
+			const name = row.original.body?.pipeline?.name;
+			const id = row.original.body?.pipeline?.id;
+			if (!name || !id) {
 				return null;
 			}
 			return (
-				<Link to={routes.projects.pipelines.namespace(value)}>
+				<Link to={routes.projects.pipelines.detail.runs(id)}>
 					<Tag
 						color="purple"
 						className="inline-flex items-center gap-0.5 truncate"
 						rounded={false}
 						emphasis="subtle"
 					>
-						{value}
+						{name}
 					</Tag>
 				</Link>
 			);

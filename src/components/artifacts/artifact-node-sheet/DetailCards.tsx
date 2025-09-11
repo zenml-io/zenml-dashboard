@@ -136,8 +136,8 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 				label="Pipeline"
 				value={
 					<Link
-						to={routes.projects.pipelines.namespace(
-							encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
+						to={routes.projects.pipelines.detail.runs(
+							pipelineRun.data.body?.pipeline?.id as string
 						)}
 					>
 						<Tag

@@ -61,7 +61,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 						<div>
 							<div className="flex items-center gap-1">
 								<Link
-									to={routes.projects.pipelines.namespace(encodeURIComponent(row.original.name))}
+									to={routes.projects.pipelines.detail.runs(row.original.id)}
 									className="flex items-center gap-1"
 								>
 									<span className="text-text-md font-semibold text-theme-text-primary">
@@ -82,7 +82,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 								<CopyButton copyText={row.original.name} />
 							</div>
 							<Link
-								to={routes.projects.pipelines.namespace(encodeURIComponent(row.original.name))}
+								to={routes.projects.pipelines.detail.runs(row.original.id)}
 								className="flex items-center gap-1"
 							>
 								<p className="text-text-xs text-theme-text-secondary">

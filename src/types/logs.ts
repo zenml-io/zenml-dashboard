@@ -1,7 +1,9 @@
 import { operations, components } from "./core";
 
+// @ts-expect-error - LoggingLevels does not exist in the core schema
 export type LoggingLevel = components["schemas"]["LoggingLevels"];
 
+// @ts-expect-error - LogEntry does not exist in the core schema
 export type LogEntry = components["schemas"]["LogEntry"];
 
 export type LogResponse = LogEntry[];

@@ -15,7 +15,7 @@ export function useRunDetailBreadcrumbs(run?: PipelineRun) {
 					pipelineBreadcrumb,
 					{
 						label: run.body.pipeline.name || "",
-						href: routes.projects.pipelines.namespace(encodeURIComponent(run.body.pipeline.name))
+						href: routes.projects.pipelines.detail.runs(run.body.pipeline.id)
 					},
 					{
 						label: run.name || "",
