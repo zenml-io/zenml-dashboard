@@ -1,7 +1,7 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { NestedCollapsible } from "@/components/NestedCollapsible";
 import { NotAvailable } from "@/components/not-available";
-import { pipelineDeploymentQueries } from "@/data/pipeline-deployments";
+import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import {
 	CollapsibleContent,
@@ -13,18 +13,18 @@ import {
 import { useState } from "react";
 
 type Props = {
-	deploymentId?: string;
+	snapshotId?: string;
 };
 
-export function PipelineParamsCollapsible({ deploymentId }: Props) {
+export function PipelineParamsCollapsible({ snapshotId }: Props) {
 	const [open, setOpen] = useState(true);
 
 	const { isLoading, isError, data } = useQuery({
-		...pipelineDeploymentQueries.detail(deploymentId!),
-		enabled: !!deploymentId
+		...pipelineSnapshotQueries.detail(snapshotId!),
+		enabled: !!snapshotId
 	});
 
-	if (!deploymentId)
+	if (!snapshotId)
 		return (
 			<CollapsiblePanel open={open} onOpenChange={setOpen}>
 				<CollapsibleHeader intent="primary" className="flex items-center gap-[10px]">

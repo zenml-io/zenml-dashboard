@@ -35,7 +35,7 @@ export function ConfigurationTab() {
 
 	return (
 		<div className="grid grid-cols-1 gap-5">
-			<PipelineParamsCollapsible deploymentId={data.body?.deployment_id ?? undefined} />
+			<PipelineParamsCollapsible snapshotId={data.body?.snapshot_id ?? undefined} />
 			{(buildData?.metadata?.images as BuildItemMap)?.orchestrator && (
 				<DockerImageCollapsible data={buildData?.metadata?.images?.orchestrator as BuildItem} />
 			)}

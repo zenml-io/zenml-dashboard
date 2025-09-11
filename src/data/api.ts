@@ -37,8 +37,8 @@ export const apiPaths = {
 		all: "/pipeline_builds",
 		detail: (runId: string) => `/pipeline_builds/${runId}`
 	},
-	pipeline_deployments: {
-		detail: (deploymentId: string) => `/pipeline_deployments/${deploymentId}`
+	pipeline_snapshots: {
+		detail: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}`
 	},
 	code_repositories: {
 		all: "/code_repositories",
