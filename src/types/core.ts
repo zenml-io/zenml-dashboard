@@ -1159,25 +1159,11 @@ export type paths = {
 		 *     step_configuration_filter: List of step configurations to include in
 		 *         the response. If not given, all step configurations will be
 		 *         included.
-		 *     include_config_schema: Whether the config schema will be filled.
 		 *
 		 * Returns:
 		 *     A specific deployment object.
 		 */
 		get: operations["get_deployment_api_v1_pipeline_deployments__deployment_id__get"];
-		/**
-		 * Update Deployment
-		 * @deprecated
-		 * @description Update a deployment.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment to update.
-		 *     deployment_update: The update to apply.
-		 *
-		 * Returns:
-		 *     The updated deployment.
-		 */
-		put: operations["update_deployment_api_v1_pipeline_deployments__deployment_id__put"];
 		/**
 		 * Delete Deployment
 		 * @deprecated
@@ -1187,25 +1173,6 @@ export type paths = {
 		 *     deployment_id: ID of the deployment to delete.
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
-	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
-		/**
-		 * Deployment Logs
-		 * @deprecated
-		 * @description Get deployment logs.
-		 *
-		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *
-		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
-		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
 	};
 	"/api/v1/pipeline_snapshots": {
 		/**
@@ -1428,16 +1395,16 @@ export type paths = {
 	"/api/v1/runs/{run_id}/logs": {
 		/**
 		 * Run Logs
-		 * @description Get pipeline run logs for a specific source.
+		 * @description Get log entries for efficient pagination.
+		 *
+		 * This endpoint returns the log entries.
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     List of log entries.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
@@ -2485,19 +2452,16 @@ export type paths = {
 	"/api/v1/steps/{step_id}/logs": {
 		/**
 		 * Get Step Logs
-		 * @description Get the logs of a specific step.
+		 * @description Get log entries for a step.
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     List of log entries.
 		 *
 		 * Raises:
-		 *     HTTPException: If no logs are available for this step.
+		 *     KeyError: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
 	};
@@ -4883,6 +4847,12 @@ export type components = {
 			step_code_line?: number | null;
 		};
 		/**
+		 * ExecutionMode
+		 * @description Enum that represents the execution mode of a pipeline run.
+		 * @enum {string}
+		 */
+		ExecutionMode: "fail_fast" | "stop_on_failure" | "continue_on_failure";
+		/**
 		 * ExecutionStatus
 		 * @description Enum that represents the execution status of a step or pipeline run.
 		 * @enum {string}
@@ -5085,6 +5055,68 @@ export type components = {
 			/** Value */
 			value: string;
 		};
+		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
 		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
@@ -6509,6 +6541,8 @@ export type components = {
 			enable_step_logs?: boolean | null;
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6559,6 +6593,8 @@ export type components = {
 			enable_step_logs?: boolean | null;
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6741,6 +6777,8 @@ export type components = {
 			};
 			/** ID of the trigger execution that triggered this run. */
 			trigger_execution_id?: string | null;
+			/** Trigger information for the pipeline run. */
+			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
 			/** Tags of the pipeline run. */
 			tags?: (string | components["schemas"]["Tag"])[] | null;
 			/** Logs of the pipeline run. */
@@ -6794,6 +6832,8 @@ export type components = {
 			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** Whether the pipeline run is in progress. */
+			in_progress: boolean;
 			/** The reason for the status of the pipeline run. */
 			status_reason?: string | null;
 			/** The stack that was used for this run. */
@@ -6885,6 +6925,14 @@ export type components = {
 			[key: string]: unknown;
 		};
 		/**
+		 * PipelineRunTriggerInfo
+		 * @description Trigger information model.
+		 */
+		PipelineRunTriggerInfo: {
+			/** The ID of the step run that triggered the pipeline run. */
+			step_run_id?: string | null;
+		};
+		/**
 		 * PipelineRunUpdate
 		 * @description Pipeline run update model.
 		 */
@@ -6941,7 +6989,7 @@ export type components = {
 			pipeline_version_hash?: string | null;
 			/** The pipeline spec of the snapshot. */
 			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
-			/** The name of the snapshot. If set to True, a name will be generated automatically. */
+			/** The name of the snapshot. */
 			name?: boolean | string | null;
 			/** The description of the snapshot. */
 			description?: string | null;
@@ -7116,7 +7164,7 @@ export type components = {
 		 * @description Pipeline snapshot update model.
 		 */
 		PipelineSnapshotUpdate: {
-			/** The name of the snapshot. If set to True, the existing name will be kept or a new name will be generated. If set to False, the name will be removed. */
+			/** The name of the snapshot. If set to False, the name will be removed. */
 			name?: (boolean | string) | null;
 			/** The description of the snapshot. */
 			description?: string | null;
@@ -9718,13 +9766,6 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The user id. */
-			user_id?: string | null;
-			/**
-			 * The project id.
-			 * Format: uuid
-			 */
-			project_id: string;
 		};
 		/**
 		 * TriggerExecutionResponseMetadata
@@ -9744,10 +9785,8 @@ export type components = {
 		 * @description Class for all resource models associated with the trigger entity.
 		 */
 		TriggerExecutionResponseResources: {
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
 			/** The event source that activates this trigger. */
-			trigger?: components["schemas"]["TriggerResponse"] | null;
+			trigger: components["schemas"]["TriggerResponse"];
 			[key: string]: unknown;
 		};
 		/**
@@ -14044,6 +14083,7 @@ export type operations = {
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -14468,7 +14508,6 @@ export type operations = {
 	 *     step_configuration_filter: List of step configurations to include in
 	 *         the response. If not given, all step configurations will be
 	 *         included.
-	 *     include_config_schema: Whether the config schema will be filled.
 	 *
 	 * Returns:
 	 *     A specific deployment object.
@@ -14478,66 +14517,9 @@ export type operations = {
 			query?: {
 				hydrate?: boolean;
 				step_configuration_filter?: string[] | null;
-				include_config_schema?: boolean | null;
 			};
 			path: {
 				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Update Deployment
-	 * @deprecated
-	 * @description Update a deployment.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment to update.
-	 *     deployment_update: The update to apply.
-	 *
-	 * Returns:
-	 *     The updated deployment.
-	 */
-	update_deployment_api_v1_pipeline_deployments__deployment_id__put: {
-		parameters: {
-			path: {
-				deployment_id: string;
-			};
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["PipelineSnapshotUpdate"];
 			};
 		};
 		responses: {
@@ -14592,65 +14574,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Deployment Logs
-	 * @deprecated
-	 * @description Get deployment logs.
-	 *
-	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *
-	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
-	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
-		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": string;
 				};
 			};
 			/** @description Unauthorized */
@@ -15015,6 +14938,7 @@ export type operations = {
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -15610,16 +15534,16 @@ export type operations = {
 	};
 	/**
 	 * Run Logs
-	 * @description Get pipeline run logs for a specific source.
+	 * @description Get log entries for efficient pagination.
+	 *
+	 * This endpoint returns the log entries.
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     List of log entries.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -15628,8 +15552,6 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
-				length?: number;
 			};
 			path: {
 				run_id: string;
@@ -15639,7 +15561,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -19608,27 +19536,19 @@ export type operations = {
 	};
 	/**
 	 * Get Step Logs
-	 * @description Get the logs of a specific step.
+	 * @description Get log entries for a step.
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     List of log entries.
 	 *
 	 * Raises:
-	 *     HTTPException: If no logs are available for this step.
+	 *     KeyError: If no logs are available for this step.
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
-			};
 			path: {
 				step_id: string;
 			};
@@ -19637,7 +19557,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -21977,6 +21903,7 @@ export type operations = {
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;

@@ -50,7 +50,6 @@ export function Details() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 
 	const statusReason = data.body?.status_reason;
-	// @ts-expect-error - execution_mode is not in the metadata
 	const executionMode = data.metadata?.config.execution_mode;
 
 	return (
