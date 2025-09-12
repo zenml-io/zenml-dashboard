@@ -1,6 +1,6 @@
 import { snakeCaseToTitleCase } from "@/lib/strings";
-import { JSONSchemaDefinition } from "@/types/forms";
 import { isArray, isObject } from "@/lib/type-guards";
+import { JSONSchemaDefinition } from "@/types/forms";
 
 export function isTextField(schema: JSONSchemaDefinition) {
 	return schema.type === "string";
@@ -97,7 +97,7 @@ export function generateDefaultValues(
 					value === "True" ? true : value === "False" ? false : Boolean(value);
 			} else {
 				(defaultValues as Record<string, any>)[key] = isArray(value)
-					? value.map((i) => JSON.stringify(i))
+					? value.map((i) => (isObject(i) || isArray(i) ? JSON.stringify(i) : i))
 					: isObject(value)
 						? JSON.stringify(value)
 						: value;

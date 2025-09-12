@@ -12,6 +12,7 @@ export type Dag = components["schemas"]["PipelineRunDAG"];
 export type StepNodeMetadata = {
 	duration?: number;
 	status: ExecutionStatus;
+	start_time?: string;
 };
 
 export type ArtifactNodeMetadata = {
@@ -35,6 +36,14 @@ export type StepNodePayload = {
 export type PreviewNodePayload = {
 	runStatus: ExecutionStatus;
 	node_name: string;
+};
+
+export type RawStepNode = Omit<Node, "metadata"> & {
+	metadata: StepNodeMetadata;
+};
+
+export type RawArtifactNode = Omit<Node, "metadata"> & {
+	metadata: ArtifactNodeMetadata;
 };
 
 export type StepNode = ReactFlowNode<StepNodePayload, NodeTypes>;

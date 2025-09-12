@@ -43,6 +43,12 @@ export function ConfigurationTab() {
 			<EnvironmentCollapsible run={data} />
 			<NestedCollapsible
 				isInitialOpen
+				title="Cache Policy"
+				sortKeysAlphabetically={false}
+				data={data.metadata?.config.cache_policy ?? undefined}
+			/>
+			<NestedCollapsible
+				isInitialOpen
 				title="Resources"
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
