@@ -1,14 +1,14 @@
 import { RunsSelectorContextProvider } from "../../../runs/RunsSelectorContext";
 import { usePipelineDetailBreadcrumbs } from "./breadcrumb";
-import { PipelineRunsTable } from "./RunsTable";
+import { PipelineRunsContent } from "./content";
 
 export default function PipelineDetailPage() {
 	usePipelineDetailBreadcrumbs();
 
 	return (
-		<div>
+		<div className="space-y-5">
 			<RunsSelectorContextProvider>
-				<PipelineRunsTable />
+				<PipelineRunsContent />
 			</RunsSelectorContextProvider>
 		</div>
 	);
