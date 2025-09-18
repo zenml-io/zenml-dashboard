@@ -20,7 +20,7 @@ import {
 	Skeleton
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren } from "react";
-import Markdown from "react-markdown";
+import Markdown from "@/components/Markdown";
 
 type Props = {
 	pipelineContent: string | undefined;
