@@ -44,8 +44,8 @@ To get started with the ZenML Dashboard, follow these steps:
    - Ensure you have Node.js installed. You can either install version 18 directly or use [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm) with the following commands:
 
      ```bash
-     nvm install lts
-     nvm use lts
+     nvm install --lts
+     nvm use --lts
      ```
 
 2. **Install Pnpm:**
