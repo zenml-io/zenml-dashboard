@@ -39,13 +39,13 @@
 
 To get started with the ZenML Dashboard, follow these steps:
 
-1. **Install Node.js (v20):**
+1. **Install Node.js**
 
    - Ensure you have Node.js installed. You can either install version 18 directly or use [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm) with the following commands:
 
      ```bash
-     nvm install 20
-     nvm use 20
+     nvm install lts
+     nvm use lts
      ```
 
 2. **Install Pnpm:**
@@ -128,7 +128,7 @@ The ZenML Dashboard is intricately connected with the ZenML Server as its backen
   - Serve the static build files locally using the ZenML Python package:
 
     ```bash
-    zenml up
+    zenml login --local
     ```
 
     This creates a local daemon that serves the files in a [FastAPI](https://github.com/tiangolo/fastapi) server.
