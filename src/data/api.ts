@@ -38,6 +38,7 @@ export const apiPaths = {
 		detail: (runId: string) => `/pipeline_builds/${runId}`
 	},
 	pipeline_snapshots: {
+		list: "/pipeline_snapshots",
 		detail: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}`
 	},
 	code_repositories: {

@@ -3,6 +3,7 @@ import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query
 import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { getPipelineDetailColumns } from "./columns";
+import { useRunsSelectorContext } from "@/app/runs/RunsSelectorContext";
 
 type Props = {
 	params: PipelineRunOvervieweParams;
@@ -10,6 +11,7 @@ type Props = {
 
 export function PipelineRunsTable({ params }: Props) {
 	const cols = getPipelineDetailColumns();
+	const { rowSelection, setRowSelection } = useRunsSelectorContext();
 
 	const { data } = useAllPipelineRuns({ params }, { throwOnError: true });
 
@@ -17,7 +19,12 @@ export function PipelineRunsTable({ params }: Props) {
 		<div className="flex flex-col items-center gap-5">
 			<div className="w-full">
 				{data ? (
-					<DataTable columns={cols} data={data.items} />
+					<DataTable
+						rowSelection={rowSelection}
+						onRowSelectionChange={setRowSelection}
+						columns={cols}
+						data={data.items}
+					/>
 				) : (
 					<Skeleton className="h-[500px] w-full" />
 				)}

@@ -22,8 +22,11 @@ const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
 const ActivateServer = lazy(() => import("@/app/activate-server/page"));
+
+// Pipelines
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelineDetail = lazy(() => import("@/app/pipelines/[pipelineId]/runs/page"));
+const PipelineDetailSnapshots = lazy(() => import("@/app/pipelines/[pipelineId]/snapshots/page"));
 
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 
@@ -256,6 +259,11 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.pipelines.detail.runs(":pipelineId"),
 								element: withProtectedRoute(<PipelineDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.detail.snapshots(":pipelineId"),
+								element: withProtectedRoute(<PipelineDetailSnapshots />)
 							}
 						]
 					},

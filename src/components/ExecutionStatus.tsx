@@ -161,3 +161,24 @@ export function getBadgeColor(status?: ExecutionStatus | "unknown"): BadgeProps[
 			return "grey";
 	}
 }
+
+export function getRunIconColor(status?: ExecutionStatus) {
+	if (!status) return "fill-theme-text-brand";
+	switch (status) {
+		case "running":
+		case "retrying":
+			return "fill-orange-700";
+		case "cached":
+		case "stopped":
+		case "stopping":
+		case "retried":
+			return "fill-theme-text-secondary";
+		case "completed":
+			return "fill-success-800";
+		case "failed":
+			return "fill-error-800";
+		case "initializing":
+		case "provisioning":
+			return "fill-theme-text-brand";
+	}
+}

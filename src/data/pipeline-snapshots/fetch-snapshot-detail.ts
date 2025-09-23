@@ -7,7 +7,7 @@ export type PipelineSnapshotArgs = {
 	snapshotId: string;
 };
 
-export async function fetchPipelineDeployment({
+export async function fetchPipelineSnapshotDetail({
 	snapshotId
 }: PipelineSnapshotArgs): Promise<PipelineSnapshot> {
 	const url = createApiPath(apiPaths.pipeline_snapshots.detail(snapshotId));

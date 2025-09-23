@@ -4551,6 +4551,12 @@ export type components = {
 			type: components["schemas"]["StackComponentType"];
 			/** The flavor of the stack component. */
 			flavor: string;
+			/** Environment variables to set when running on this component. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/** Secrets to set as environment variables when running on this component. */
+			secrets?: string[] | null;
 			/** The stack component configuration. */
 			configuration: {
 				[key: string]: unknown;
@@ -4626,6 +4632,18 @@ export type components = {
 			configuration: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Environment variables to set when running on this component.
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets to set as environment variables when running on this component.
+			 * @default []
+			 */
+			secrets?: string[];
 			/** The stack component labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -4660,6 +4678,10 @@ export type components = {
 			configuration?: {
 				[key: string]: unknown;
 			} | null;
+			/** Environment variables to set when running on this component. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
 			/**
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
@@ -4671,6 +4693,10 @@ export type components = {
 			} | null;
 			/** The service connector linked to this stack component. */
 			connector?: string | null;
+			/** New secrets to add to the stack component. */
+			add_secrets?: string[] | null;
+			/** Secrets to remove from the stack component. */
+			remove_secrets?: string[] | null;
 		};
 		/**
 		 * DeployedStack
@@ -6000,6 +6026,16 @@ export type components = {
 			} | null;
 			[key: string]: unknown;
 		};
+		/**
+		 * OutputSpec
+		 * @description Pipeline output specification.
+		 */
+		OutputSpec: {
+			/** Step Name */
+			step_name: string;
+			/** Output Name */
+			output_name: string;
+		};
 		/** Page[APIKeyResponse] */
 		Page_APIKeyResponse_: {
 			/** Index */
@@ -6539,6 +6575,18 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
 			/** @default continue_on_failure */
@@ -6591,6 +6639,18 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
 			/** @default continue_on_failure */
@@ -7182,7 +7242,7 @@ export type components = {
 		"PipelineSpec-Input": {
 			/**
 			 * Version
-			 * @default 0.4
+			 * @default 0.5
 			 */
 			version?: string;
 			source?: components["schemas"]["Source"] | null;
@@ -7195,6 +7255,18 @@ export type components = {
 			};
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Input"][];
+			/**
+			 * Outputs
+			 * @default []
+			 */
+			outputs?: components["schemas"]["OutputSpec"][];
+			/**
+			 * Output Schema
+			 * @description JSON schema of the pipeline outputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline outputs are not JSON serializable.
+			 */
+			output_schema?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * PipelineSpec
@@ -7203,7 +7275,7 @@ export type components = {
 		"PipelineSpec-Output": {
 			/**
 			 * Version
-			 * @default 0.4
+			 * @default 0.5
 			 */
 			version?: string;
 			source?: components["schemas"]["Source"] | null;
@@ -7216,6 +7288,18 @@ export type components = {
 			};
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Output"][];
+			/**
+			 * Outputs
+			 * @default []
+			 */
+			outputs?: components["schemas"]["OutputSpec"][];
+			/**
+			 * Output Schema
+			 * @description JSON schema of the pipeline outputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline outputs are not JSON serializable.
+			 */
+			output_schema?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * PipelineUpdate
@@ -8868,6 +8952,12 @@ export type components = {
 			components: {
 				[key: string]: unknown;
 			};
+			/** Environment variables to set when running on this stack. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/** Secrets to set as environment variables when running on this stack. */
+			secrets?: string[] | null;
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -8937,6 +9027,18 @@ export type components = {
 			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
 			stack_spec_path?: string | null;
+			/**
+			 * Environment variables to set when running on this stack.
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets to set as environment variables when running on this stack.
+			 * @default []
+			 */
+			secrets?: string[];
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -8966,10 +9068,18 @@ export type components = {
 			components?: {
 				[key: string]: unknown;
 			} | null;
+			/** Environment variables to set when running on this stack. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
 			} | null;
+			/** New secrets to add to the stack. */
+			add_secrets?: string[] | null;
+			/** Secrets to remove from the stack. */
+			remove_secrets?: string[] | null;
 		};
 		/**
 		 * Step
@@ -9038,6 +9148,18 @@ export type components = {
 			settings?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/**
 			 * Extra
 			 * @default {}
@@ -9156,6 +9278,18 @@ export type components = {
 			settings?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/**
 			 * Extra
 			 * @default {}
@@ -14397,12 +14531,12 @@ export type operations = {
 				project?: string | null;
 				name?: string | null;
 				named_only?: boolean | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
+				pipeline?: string | null;
+				stack?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
-				template_id?: string | null;
 				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
 			};
 		};
 		responses: {
@@ -14635,12 +14769,12 @@ export type operations = {
 				project?: string | null;
 				name?: string | null;
 				named_only?: boolean | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
+				pipeline?: string | null;
+				stack?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
-				template_id?: string | null;
 				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
 			};
 		};
 		responses: {
@@ -21481,12 +21615,12 @@ export type operations = {
 				project?: string | null;
 				name?: string | null;
 				named_only?: boolean | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
+				pipeline?: string | null;
+				stack?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
-				template_id?: string | null;
 				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
 			};
 			path: {
 				project_name_or_id: string | null;
