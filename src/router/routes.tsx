@@ -39,7 +39,8 @@ export const routes = {
 			overview: "/projects/default/pipelines",
 			detail: {
 				runs: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/runs`,
-				snapshots: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/snapshots`
+				snapshots: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/snapshots`,
+				deployments: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/deployments`
 			}
 		},
 		snapshots: {

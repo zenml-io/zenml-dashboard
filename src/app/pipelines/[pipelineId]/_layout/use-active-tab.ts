@@ -1,6 +1,6 @@
 import { useRouteSegment } from "@/hooks/use-route-segment";
 
-type Tabs = "runs" | "snapshots";
+type Tabs = "runs" | "snapshots" | "deployments";
 
 export function useActiveTab() {
 	const activeTab = (useRouteSegment(4) || "runs") as Tabs;

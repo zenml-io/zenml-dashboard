@@ -26,6 +26,11 @@ export function PipelineDetailTabs() {
 							<span>Snapshots</span>
 						</Link>
 					</TabsTrigger>
+					<TabsTrigger asChild value="deployments">
+						<Link to={routes.projects.pipelines.detail.deployments(pipelineId)}>
+							<span>Deployments</span>
+						</Link>
+					</TabsTrigger>
 				</TabsList>
 				<ScrollBar className="" orientation="horizontal" />
 			</ScrollArea>

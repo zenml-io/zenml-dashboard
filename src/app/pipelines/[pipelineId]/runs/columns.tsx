@@ -3,7 +3,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { SnapshotLink } from "@/components/snapshots/snapshot-link";
+import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { routes } from "@/router/routes";
 import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";

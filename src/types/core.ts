@@ -354,14 +354,14 @@ export type paths = {
 		 * * Generic API token: This token is short-lived and can be used for
 		 * generic automation tasks. The expiration can be set by the user, but the
 		 * server will impose a maximum expiration time.
-		 * * Workload API token: This token is scoped to a specific pipeline run, step
-		 * run or schedule and is used by pipeline workloads to authenticate with the
-		 * server. A pipeline run ID, step run ID or schedule ID must be provided and
-		 * the generated token will only be valid for the indicated pipeline run, step
-		 * run or schedule. No time limit is imposed on the validity of the token.
-		 * A workload API token can be used to authenticate and generate another
-		 * workload API token, but only for the same schedule, pipeline run ID or step
-		 * run ID, in that order.
+		 * * Workload API token: This token is scoped to a specific pipeline run,
+		 * schedule or deployment and is used by pipeline workloads to
+		 * authenticate with the server. A pipeline run ID, schedule ID or deployment
+		 * ID must be provided and the generated token will only be valid for the
+		 * indicated pipeline run, schedule or deployment.
+		 * No time limit is imposed on the validity of the token. A workload API token
+		 * can be used to authenticate and generate another workload API token, but
+		 * only for the same schedule, pipeline run ID or deployment ID, in that order.
 		 *
 		 * Args:
 		 *     token_type: The type of API token to generate.
@@ -372,6 +372,8 @@ export type paths = {
 		 *     schedule_id: The ID of the schedule to scope the workload API token to.
 		 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 		 *         token to.
+		 *     deployment_id: The ID of the deployment to scope the workload
+		 *         API token to.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
@@ -542,6 +544,68 @@ export type paths = {
 		 *     code_repository_id: The ID of the code repository to delete.
 		 */
 		delete: operations["delete_code_repository_api_v1_code_repositories__code_repository_id__delete"];
+	};
+	"/api/v1/deployments": {
+		/**
+		 * List Deployments
+		 * @description Gets a list of deployments.
+		 *
+		 * Args:
+		 *     deployment_filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     List of deployment objects matching the filter criteria.
+		 */
+		get: operations["list_deployments_api_v1_deployments_get"];
+		/**
+		 * Create Deployment
+		 * @description Creates a deployment.
+		 *
+		 * Args:
+		 *     deployment: Deployment to create.
+		 *
+		 * Returns:
+		 *     The created deployment.
+		 */
+		post: operations["create_deployment_api_v1_deployments_post"];
+	};
+	"/api/v1/deployments/{deployment_id}": {
+		/**
+		 * Get Deployment
+		 * @description Gets a specific deployment using its unique id.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to get.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     A specific deployment object.
+		 */
+		get: operations["get_deployment_api_v1_deployments__deployment_id__get"];
+		/**
+		 * Update Deployment
+		 * @description Updates a specific deployment.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to update.
+		 *     deployment_update: Update model for the deployment.
+		 *
+		 * Returns:
+		 *     The updated deployment.
+		 */
+		put: operations["update_deployment_api_v1_deployments__deployment_id__put"];
+		/**
+		 * Delete Deployment
+		 * @description Deletes a specific deployment.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to delete.
+		 */
+		delete: operations["delete_deployment_api_v1_deployments__deployment_id__delete"];
 	};
 	"/api/v1/plugin-flavors": {
 		/**
@@ -4715,6 +4779,152 @@ export type components = {
 			service_connector?: components["schemas"]["ServiceConnectorResponse"] | null;
 		};
 		/**
+		 * DeploymentRequest
+		 * @description Request model for deployments.
+		 */
+		DeploymentRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The name of the deployment.
+			 * @description A unique name for the deployment within the project.
+			 */
+			name: string;
+			/**
+			 * The pipeline snapshot ID.
+			 * Format: uuid
+			 * @description The ID of the pipeline snapshot associated with the deployment.
+			 */
+			snapshot_id: string;
+			/**
+			 * The deployer ID.
+			 * Format: uuid
+			 * @description The ID of the deployer component managing this deployment.
+			 */
+			deployer_id: string;
+			/**
+			 * The auth key of the deployment.
+			 * @description The auth key of the deployment.
+			 */
+			auth_key?: string | null;
+		};
+		/**
+		 * DeploymentResponse
+		 * @description Response model for deployments.
+		 */
+		DeploymentResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["DeploymentResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["DeploymentResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["DeploymentResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the deployment. */
+			name: string;
+		};
+		/**
+		 * DeploymentResponseBody
+		 * @description Response body for deployments.
+		 */
+		DeploymentResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/**
+			 * The URL of the deployment.
+			 * @description The HTTP URL where the deployment can be accessed.
+			 */
+			url?: string | null;
+			/**
+			 * The status of the deployment.
+			 * @description Current operational status of the deployment.
+			 */
+			status?: string | null;
+		};
+		/**
+		 * DeploymentResponseMetadata
+		 * @description Response metadata for deployments.
+		 */
+		DeploymentResponseMetadata: {
+			/** The metadata of the deployment. */
+			deployment_metadata: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The auth key of the deployment.
+			 * @description The auth key of the deployment.
+			 */
+			auth_key?: string | null;
+		};
+		/**
+		 * DeploymentResponseResources
+		 * @description Response resources for deployments.
+		 */
+		DeploymentResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/**
+			 * The pipeline snapshot.
+			 * @description The pipeline snapshot being deployed.
+			 */
+			snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			/**
+			 * The deployer.
+			 * @description The deployer component managing this deployment.
+			 */
+			deployer?: components["schemas"]["ComponentResponse"] | null;
+			[key: string]: unknown;
+		};
+		/**
+		 * DeploymentUpdate
+		 * @description Update model for deployments.
+		 */
+		DeploymentUpdate: {
+			/** The new name of the deployment. */
+			name?: string | null;
+			/** New pipeline snapshot ID. */
+			snapshot_id?: string | null;
+			/** The new URL of the deployment. */
+			url?: string | null;
+			/** The new status of the deployment. */
+			status?: string | null;
+			/** The new metadata of the deployment. */
+			deployment_metadata?: {
+				[key: string]: unknown;
+			} | null;
+			/** The new auth key of the deployment. */
+			auth_key?: string | null;
+		};
+		/**
 		 * Edge
 		 * @description Edge in the pipeline run DAG.
 		 */
@@ -6127,6 +6337,19 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ComponentResponse"][];
 		};
+		/** Page[DeploymentResponse] */
+		Page_DeploymentResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["DeploymentResponse"][];
+		};
 		/** Page[EventSourceResponse] */
 		Page_EventSourceResponse_: {
 			/** Index */
@@ -6609,6 +6832,12 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			init_hook_source?: components["schemas"]["Source"] | null;
+			/** Init Hook Kwargs */
+			init_hook_kwargs?: {
+				[key: string]: unknown;
+			} | null;
+			cleanup_hook_source?: components["schemas"]["Source"] | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -6673,6 +6902,12 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			init_hook_source?: components["schemas"]["Source"] | null;
+			/** Init Hook Kwargs */
+			init_hook_kwargs?: {
+				[key: string]: unknown;
+			} | null;
+			cleanup_hook_source?: components["schemas"]["Source"] | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -7253,6 +7488,13 @@ export type components = {
 			parameters?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Input Schema
+			 * @default {}
+			 */
+			input_schema?: {
+				[key: string]: unknown;
+			};
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Input"][];
 			/**
@@ -7284,6 +7526,13 @@ export type components = {
 			 * @default {}
 			 */
 			parameters?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Input Schema
+			 * @default {}
+			 */
+			input_schema?: {
 				[key: string]: unknown;
 			};
 			/** Steps */
@@ -8859,7 +9108,8 @@ export type components = {
 			| "model_deployer"
 			| "orchestrator"
 			| "step_operator"
-			| "model_registry";
+			| "model_registry"
+			| "deployer";
 		/**
 		 * StackDeploymentConfig
 		 * @description Configuration about a stack deployment.
@@ -11535,14 +11785,14 @@ export type operations = {
 	 * * Generic API token: This token is short-lived and can be used for
 	 * generic automation tasks. The expiration can be set by the user, but the
 	 * server will impose a maximum expiration time.
-	 * * Workload API token: This token is scoped to a specific pipeline run, step
-	 * run or schedule and is used by pipeline workloads to authenticate with the
-	 * server. A pipeline run ID, step run ID or schedule ID must be provided and
-	 * the generated token will only be valid for the indicated pipeline run, step
-	 * run or schedule. No time limit is imposed on the validity of the token.
-	 * A workload API token can be used to authenticate and generate another
-	 * workload API token, but only for the same schedule, pipeline run ID or step
-	 * run ID, in that order.
+	 * * Workload API token: This token is scoped to a specific pipeline run,
+	 * schedule or deployment and is used by pipeline workloads to
+	 * authenticate with the server. A pipeline run ID, schedule ID or deployment
+	 * ID must be provided and the generated token will only be valid for the
+	 * indicated pipeline run, schedule or deployment.
+	 * No time limit is imposed on the validity of the token. A workload API token
+	 * can be used to authenticate and generate another workload API token, but
+	 * only for the same schedule, pipeline run ID or deployment ID, in that order.
 	 *
 	 * Args:
 	 *     token_type: The type of API token to generate.
@@ -11553,6 +11803,8 @@ export type operations = {
 	 *     schedule_id: The ID of the schedule to scope the workload API token to.
 	 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 	 *         token to.
+	 *     deployment_id: The ID of the deployment to scope the workload
+	 *         API token to.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
@@ -11569,6 +11821,7 @@ export type operations = {
 				expires_in?: number | null;
 				schedule_id?: string | null;
 				pipeline_run_id?: string | null;
+				deployment_id?: string | null;
 			};
 		};
 		responses: {
@@ -12111,6 +12364,277 @@ export type operations = {
 		parameters: {
 			path: {
 				code_repository_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * List Deployments
+	 * @description Gets a list of deployments.
+	 *
+	 * Args:
+	 *     deployment_filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     List of deployment objects matching the filter criteria.
+	 */
+	list_deployments_api_v1_deployments_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				name?: string | null;
+				url?: string | null;
+				status?: string | null;
+				snapshot_id?: string | null;
+				deployer_id?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_DeploymentResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Deployment
+	 * @description Creates a deployment.
+	 *
+	 * Args:
+	 *     deployment: Deployment to create.
+	 *
+	 * Returns:
+	 *     The created deployment.
+	 */
+	create_deployment_api_v1_deployments_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["DeploymentRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Deployment
+	 * @description Gets a specific deployment using its unique id.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to get.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     A specific deployment object.
+	 */
+	get_deployment_api_v1_deployments__deployment_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				deployment_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Deployment
+	 * @description Updates a specific deployment.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to update.
+	 *     deployment_update: Update model for the deployment.
+	 *
+	 * Returns:
+	 *     The updated deployment.
+	 */
+	update_deployment_api_v1_deployments__deployment_id__put: {
+		parameters: {
+			path: {
+				deployment_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["DeploymentUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Deployment
+	 * @description Deletes a specific deployment.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to delete.
+	 */
+	delete_deployment_api_v1_deployments__deployment_id__delete: {
+		parameters: {
+			path: {
+				deployment_id: string;
 			};
 		};
 		responses: {

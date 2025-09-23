@@ -69,3 +69,10 @@ export const ModelRegistrySection = {
 		"Model registries are centralized storage solutions for managing and tracking machine learning models across various stages of development and deployment.",
 	helpLink: "https://docs.zenml.io/stack-components/model-registries"
 };
+
+// TODO: adjust copy and add proper link
+export const DeployerSection = {
+	description:
+		"Deployers are stack components responsible for deploying machine learning models to a remote server.",
+	helpLink: "https://docs.zenml.io/stack-components/deployers"
+};

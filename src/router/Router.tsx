@@ -28,6 +28,9 @@ const ActivateServer = lazy(() => import("@/app/activate-server/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelineDetail = lazy(() => import("@/app/pipelines/[pipelineId]/runs/page"));
 const PipelineDetailSnapshots = lazy(() => import("@/app/pipelines/[pipelineId]/snapshots/page"));
+const PipelineDetailDeployments = lazy(
+	() => import("@/app/pipelines/[pipelineId]/deployments/page")
+);
 
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 
@@ -269,6 +272,11 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.pipelines.detail.snapshots(":pipelineId"),
 								element: withProtectedRoute(<PipelineDetailSnapshots />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.detail.deployments(":pipelineId"),
+								element: withProtectedRoute(<PipelineDetailDeployments />)
 							}
 						]
 					},

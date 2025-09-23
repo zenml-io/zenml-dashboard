@@ -48,13 +48,8 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 
 			{
 				id: "name",
-
 				header: "Snapshot",
-
-				enableSorting: true,
-
 				accessorFn: (row) => row.name,
-
 				cell: ({ row }) => {
 					const name = row.original.name;
 					const id = row.original.id;
@@ -107,7 +102,6 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 			{
 				id: "latest-run-author",
 				header: "Latest Run Author",
-				enableSorting: true,
 				accessorFn: (row) => row.resources?.latest_run_author,
 				cell: ({ row }) => {
 					const author = row.original.resources?.user;
@@ -124,7 +118,6 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 			{
 				id: "created",
 				header: "Created at",
-				enableSorting: true,
 				accessorFn: (row) => ({
 					date: row.body?.created
 				}),
