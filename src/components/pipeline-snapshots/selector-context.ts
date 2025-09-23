@@ -15,7 +15,7 @@ export function useSnapshotBulkDelete() {
 	const { mutateAsync } = useUpdateSnapshot();
 
 	async function handleDelete(id: string) {
-		await mutateAsync({ snapshotId: id, payload: { name: null } });
+		await mutateAsync({ snapshotId: id, payload: { name: false } });
 	}
 
 	return useBulkDelete({

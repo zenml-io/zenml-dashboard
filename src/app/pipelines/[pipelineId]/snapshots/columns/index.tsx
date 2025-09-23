@@ -1,4 +1,3 @@
-import PipelineIcon from "@/assets/icons/dataflow.svg?react";
 import SnapshotIcon from "@/assets/icons/pipeline-template.svg?react";
 import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { CopyButton } from "@/components/CopyButton";
@@ -64,7 +63,10 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 							<SnapshotIcon className={`h-5 w-5 fill-primary-400`} />
 							<div>
 								<div className="flex items-center gap-1">
-									<Link to="#" className="flex items-center gap-1">
+									<Link
+										to={routes.projects.snapshots.detail.overview(id)}
+										className="flex items-center gap-1"
+									>
 										<span className="text-text-md font-semibold text-theme-text-primary">
 											{name ?? "Unnamed"}
 										</span>
@@ -74,33 +76,6 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 								</div>
 							</div>
 						</div>
-					);
-				}
-			},
-
-			{
-				id: "pipeline",
-				header: "Pipeline",
-				accessorFn: (row) => row.metadata?.pipeline?.name,
-				cell: ({ row }) => {
-					const name = row.original.metadata?.pipeline?.name;
-					const id = row.original.metadata?.pipeline?.id;
-					if (!name || !id) {
-						return null;
-					}
-					return (
-						<Link to={routes.projects.pipelines.detail.runs(id)}>
-							<Tag
-								color="purple"
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
-							>
-								<PipelineIcon className="mr-1 h-4 w-4 fill-theme-text-brand" />
-
-								{name}
-							</Tag>
-						</Link>
 					);
 				}
 			},
@@ -130,10 +105,10 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 				}
 			},
 			{
-				id: "user",
-				header: "Author",
+				id: "latest-run-author",
+				header: "Latest Run Author",
 				enableSorting: true,
-				accessorFn: (row) => row.resources?.user?.name,
+				accessorFn: (row) => row.resources?.latest_run_author,
 				cell: ({ row }) => {
 					const author = row.original.resources?.user;
 					if (!author) return null;

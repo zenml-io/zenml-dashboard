@@ -42,6 +42,12 @@ export const routes = {
 				snapshots: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/snapshots`
 			}
 		},
+		snapshots: {
+			detail: {
+				overview: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}`,
+				runs: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}/runs`
+			}
+		},
 		models: {
 			overview: "/projects/default/models"
 		},

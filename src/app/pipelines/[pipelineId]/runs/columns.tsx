@@ -3,8 +3,8 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { SnapshotLink } from "@/components/snapshots/snapshot-link";
 import { routes } from "@/router/routes";
-import { CodeRepository } from "@/types/code-repository";
 import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
@@ -91,6 +91,18 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			}
 		},
 		{
+			id: "Snapshot",
+			header: "Snapshot",
+			accessorFn: (row) => row.resources?.snapshot?.id,
+			cell: ({ row }) => {
+				const snapshot = row.original.resources?.snapshot;
+				const name = snapshot?.name;
+				if (!snapshot || !name) return null;
+
+				return <SnapshotLink snapshotId={snapshot.id} snapshotName={name} />;
+			}
+		},
+		{
 			id: "stack",
 			header: "Stack",
 			accessorFn: (row) => ({
@@ -112,30 +124,6 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 							{name}
 						</Tag>
 					</Link>
-				);
-			}
-		},
-		{
-			id: "repository",
-			header: "Repository",
-			accessorFn: (row) => ({
-				name: row.body?.code_reference?.body?.code_repository.name,
-				id: row.body?.code_reference?.body?.code_repository.id
-			}),
-			cell: ({ getValue }) => {
-				const { name, id } = getValue<{
-					hasPermissionsDenied?: CodeRepository["permission_denied"];
-					name?: CodeRepository["name"];
-					id?: CodeRepository["id"];
-				}>();
-				if (!name || !id) return null;
-
-				return (
-					<div>
-						<Tag rounded={false} className="inline-block" color="grey" emphasis="subtle">
-							{name}
-						</Tag>
-					</div>
 				);
 			}
 		},

@@ -16,6 +16,7 @@ import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
 import PipelineDetailLayout from "@/app/pipelines/[pipelineId]/layout";
+import SnapshotDetailLayout from "@/app/snapshots/[snapshotId]/layout";
 
 const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -29,6 +30,10 @@ const PipelineDetail = lazy(() => import("@/app/pipelines/[pipelineId]/runs/page
 const PipelineDetailSnapshots = lazy(() => import("@/app/pipelines/[pipelineId]/snapshots/page"));
 
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+
+// Snapshots
+const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
+const SnapshotDetailRuns = lazy(() => import("@/app/snapshots/[snapshotId]/runs/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
@@ -264,6 +269,25 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.pipelines.detail.snapshots(":pipelineId"),
 								element: withProtectedRoute(<PipelineDetailSnapshots />)
+							}
+						]
+					},
+
+					// Snapshots
+
+					{
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<SnapshotDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.detail.overview(":snapshotId"),
+								element: withProtectedRoute(<SnapshotDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.detail.runs(":snapshotId"),
+								element: withProtectedRoute(<SnapshotDetailRuns />)
 							}
 						]
 					},

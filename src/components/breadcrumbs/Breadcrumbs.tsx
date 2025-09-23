@@ -20,7 +20,8 @@ const nestedSegments = [
 	"secrets",
 	"service-accounts",
 	"connectors",
-	"roles"
+	"roles",
+	"snapshots"
 ];
 
 function getCurrentSegment(remainingPath: string[], isSettingsPath: boolean): string {
@@ -42,11 +43,11 @@ function checkIfNestedSegment(
 	);
 }
 
-export function Breadcrumbs() {
+export function Breadcrumbs({ cutOffSegments = 2 }: { cutOffSegments?: number }) {
 	const { pathname } = useLocation();
 	const [currentBreadcrumbs, setCurrentBreadcrumbs] = useState<BreadcrumbSegment[]>([]);
 	const { breadcrumbs, setBreadcrumbs } = useBreadcrumbsContext();
-	const shouldShowEllipsis = currentBreadcrumbs.length > 2;
+	const shouldShowEllipsis = currentBreadcrumbs.length > cutOffSegments;
 
 	const handleMainPath = useCallback(
 		(isNestedSegment: boolean, isSettingsPath: boolean, currentSegment: string): void => {

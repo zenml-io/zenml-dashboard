@@ -1,5 +1,3 @@
-"use client";
-
 import { ButtonGroupBasic } from "@/components/button-group/button-group-basic";
 import {
 	useSnapshotBulkDelete,

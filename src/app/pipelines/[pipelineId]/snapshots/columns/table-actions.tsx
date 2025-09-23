@@ -1,5 +1,3 @@
-"use client";
-
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeletePipelineSnapshotAlert } from "@/components/pipeline-snapshots/delete-alert";
