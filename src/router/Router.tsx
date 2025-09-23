@@ -1,4 +1,7 @@
 import ComponentDetailLayout from "@/app/components/[componentId]/layout";
+import DeploymentDetailLayout from "@/app/deployments/[deploymentId]/layout";
+import PipelineDetailLayout from "@/app/pipelines/[pipelineId]/layout";
+import SnapshotDetailLayout from "@/app/snapshots/[snapshotId]/layout";
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
@@ -15,8 +18,6 @@ import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
-import PipelineDetailLayout from "@/app/pipelines/[pipelineId]/layout";
-import SnapshotDetailLayout from "@/app/snapshots/[snapshotId]/layout";
 
 const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -37,6 +38,9 @@ const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 // Snapshots
 const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
 const SnapshotDetailRuns = lazy(() => import("@/app/snapshots/[snapshotId]/runs/page"));
+
+// Deployments
+const DeploymentDetail = lazy(() => import("@/app/deployments/[deploymentId]/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
@@ -296,6 +300,20 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.snapshots.detail.runs(":snapshotId"),
 								element: withProtectedRoute(<SnapshotDetailRuns />)
+							}
+						]
+					},
+
+					// Deployments
+
+					{
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<DeploymentDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.detail.overview(":deploymentId"),
+								element: withProtectedRoute(<DeploymentDetail />)
 							}
 						]
 					},

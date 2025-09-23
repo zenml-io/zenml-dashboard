@@ -2,6 +2,7 @@ import Rocket from "@/assets/icons/rocket.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { routes } from "@/router/routes";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library/components/server";
@@ -49,13 +50,16 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 
 				cell: ({ row }) => {
 					const name = row.original.name;
-					// const id = row.original.id;
+					const id = row.original.id;
 					return (
 						<div className="group/copybutton flex items-center gap-2">
 							<Rocket className={`h-5 w-5 fill-primary-400`} />
 							<div>
 								<div className="flex items-center gap-1">
-									<Link to={"#"} className="flex items-center gap-1">
+									<Link
+										to={routes.projects.deployments.detail.overview(id)}
+										className="flex items-center gap-1"
+									>
 										<span className="text-text-md font-semibold text-theme-text-primary">
 											{name ?? "Unnamed"}
 										</span>

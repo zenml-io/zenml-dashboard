@@ -21,7 +21,8 @@ const nestedSegments = [
 	"service-accounts",
 	"connectors",
 	"roles",
-	"snapshots"
+	"snapshots",
+	"deployments"
 ];
 
 function getCurrentSegment(remainingPath: string[], isSettingsPath: boolean): string {

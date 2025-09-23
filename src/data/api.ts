@@ -26,7 +26,8 @@ export const apiPaths = {
 		verify: (deviceId: string) => `/devices/${deviceId}/verify`
 	},
 	deployments: {
-		list: "/deployments"
+		list: "/deployments",
+		detail: (deploymentId: string) => `/deployments/${deploymentId}`
 	},
 	runs: {
 		all: "/runs",

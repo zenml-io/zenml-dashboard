@@ -49,6 +49,11 @@ export const routes = {
 				runs: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}/runs`
 			}
 		},
+		deployments: {
+			detail: {
+				overview: (deploymentId: string) => `/projects/default/deployments/${deploymentId}`
+			}
+		},
 		models: {
 			overview: "/projects/default/models"
 		},

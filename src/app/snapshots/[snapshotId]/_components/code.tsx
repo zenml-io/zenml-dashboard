@@ -17,7 +17,7 @@ export function SnapshotCodeCollapsible() {
 	const [open, setOpen] = useState(true);
 	const code = `from zenml.client import Client
 
-Client().trigger_pipeline(snapshot_id="${snapshotId}")`;
+Client().trigger_pipeline(snapshot_name_or_id="${snapshotId}")`;
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
