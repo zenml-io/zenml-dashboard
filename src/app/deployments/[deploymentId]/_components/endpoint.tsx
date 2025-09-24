@@ -40,7 +40,14 @@ function EndpointCollapsibleContent({ deployment }: Props) {
 						value={
 							deploymentEndpoint ? (
 								<div className="group/copybutton flex items-center gap-0.5">
-									{deploymentEndpoint}
+									<a
+										className="link"
+										href={deploymentEndpoint}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{deploymentEndpoint}
+									</a>
 									<CopyButton copyText={deploymentEndpoint} />
 								</div>
 							) : (

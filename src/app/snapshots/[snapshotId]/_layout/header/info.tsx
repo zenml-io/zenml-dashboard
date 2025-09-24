@@ -1,4 +1,4 @@
-import SnapshotIcon from "@/assets/icons/pipeline-template.svg?react";
+import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";

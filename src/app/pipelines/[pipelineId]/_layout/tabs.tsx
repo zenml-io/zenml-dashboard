@@ -1,4 +1,4 @@
-import SnapshotIcon from "@/assets/icons/pipeline-template.svg?react";
+import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
 import DeploymentIcon from "@/assets/icons/rocket.svg?react";
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import { TabIcon } from "@/components/tab-icon";
