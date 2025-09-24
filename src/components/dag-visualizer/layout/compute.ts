@@ -2,6 +2,7 @@ import {
 	IntermediateArtifactNode,
 	IntermediatePreviewNode,
 	IntermediateStepNode,
+	NodeTypes,
 	Node as ZenNode
 } from "@/types/dag-visualizer";
 import { ExecutionStatus } from "@/types/pipeline-runs";
@@ -27,7 +28,7 @@ function getRealStepNodes(nodes: ZenNode[], runStatus: ExecutionStatus): Interme
 
 		return {
 			id: n.node_id!,
-			type: "triggered_run",
+			type: n.type as NodeTypes,
 			data: {
 				...metadata,
 				node_id: n.id!,

@@ -42,7 +42,7 @@ function SnapshotDetailInfoContent({ deployment }: { deployment: Deployment }) {
 	return (
 		<section className="space-y-2 bg-theme-surface-primary">
 			<div className="flex items-center gap-1">
-				<h1 className="text-text-lg font-semibold text-theme-text-primary">{name}</h1>
+				<h1 className="text-display-xs font-semibold text-theme-text-primary">{name}</h1>
 				<Tag
 					emphasis="subtle"
 					rounded={false}

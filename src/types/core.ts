@@ -4866,7 +4866,7 @@ export type components = {
 			url?: string | null;
 			/**
 			 * The status of the deployment.
-			 * @description Current operational status of the deployment.
+			 * @description Current operational status of the deployment. Possible values are: unknown, pending, running, absent, error
 			 */
 			status?: string | null;
 		};
@@ -4915,7 +4915,10 @@ export type components = {
 			snapshot_id?: string | null;
 			/** The new URL of the deployment. */
 			url?: string | null;
-			/** The new status of the deployment. */
+			/**
+			 * The new status of the deployment.
+			 * @description Possible values are: unknown, pending, running, absent, error
+			 */
 			status?: string | null;
 			/** The new metadata of the deployment. */
 			deployment_metadata?: {
@@ -7460,7 +7463,7 @@ export type components = {
 		 */
 		PipelineSnapshotUpdate: {
 			/** The name of the snapshot. If set to False, the name will be removed. */
-			name?: (boolean | string) | null;
+			name?: boolean | string | null;
 			/** The description of the snapshot. */
 			description?: string | null;
 			/** Whether to replace the existing snapshot with the same name. */
@@ -7490,11 +7493,11 @@ export type components = {
 			};
 			/**
 			 * Input Schema
-			 * @default {}
+			 * @description JSON schema of the pipeline inputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline inputs are not JSON serializable.
 			 */
 			input_schema?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Input"][];
 			/**
@@ -7530,11 +7533,11 @@ export type components = {
 			};
 			/**
 			 * Input Schema
-			 * @default {}
+			 * @description JSON schema of the pipeline inputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline inputs are not JSON serializable.
 			 */
 			input_schema?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Output"][];
 			/**
@@ -9882,11 +9885,8 @@ export type components = {
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * Pipeline Parameter Name
-			 * @default
-			 */
-			pipeline_parameter_name?: string;
+			/** Invocation Id */
+			invocation_id: string;
 		};
 		/**
 		 * StepSpec
@@ -9903,11 +9903,8 @@ export type components = {
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * Pipeline Parameter Name
-			 * @default
-			 */
-			pipeline_parameter_name?: string;
+			/** Invocation Id */
+			invocation_id: string;
 		};
 		/**
 		 * Tag

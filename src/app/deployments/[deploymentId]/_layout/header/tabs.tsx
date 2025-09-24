@@ -16,7 +16,7 @@ export function DeploymentDetailTabs() {
 		<Tabs value={activeTab}>
 			<ScrollArea>
 				<TabsList className="flex-nowrap border-none">
-					<TabsTrigger asChild value="runs">
+					<TabsTrigger asChild value="overview">
 						<Link to={routes.projects.deployments.detail.overview(deploymentId)}>
 							<span>Overview</span>
 						</Link>
