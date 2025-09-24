@@ -1,17 +1,16 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import Info from "@/assets/icons/info.svg?react";
-import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, Value } from "@/components/KeyValue";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { snakeCaseToTitleCase } from "@/lib/strings";
-import { routes } from "@/router/routes";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -25,7 +24,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type Props = {
 	runId: string;
@@ -106,17 +105,10 @@ export function Details({ runId }: Props) {
 					<Key>Pipeline</Key>
 					<Value>
 						{data.body?.pipeline ? (
-							<Link to={routes.projects.pipelines.detail.runs(data.body?.pipeline?.id as string)}>
-								<Tag
-									color="purple"
-									className="inline-flex items-center gap-0.5"
-									rounded={false}
-									emphasis="subtle"
-								>
-									<Pipelines className="h-4 w-4 fill-theme-text-brand" />
-									{data.body?.pipeline?.name}
-								</Tag>
-							</Link>
+							<PipelineLink
+								pipelineId={data.body?.pipeline?.id}
+								pipelineName={data.body?.pipeline?.name}
+							/>
 						) : (
 							"Not available"
 						)}

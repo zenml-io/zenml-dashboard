@@ -3,6 +3,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
@@ -97,18 +98,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			if (!name || !id) {
 				return null;
 			}
-			return (
-				<Link to={routes.projects.pipelines.detail.runs(id)}>
-					<Tag
-						color="purple"
-						className="inline-flex items-center gap-0.5 truncate"
-						rounded={false}
-						emphasis="subtle"
-					>
-						{name}
-					</Tag>
-				</Link>
-			);
+			return <PipelineLink pipelineId={id} pipelineName={name} />;
 		}
 	},
 

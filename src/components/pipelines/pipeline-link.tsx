@@ -9,18 +9,24 @@ type Props = ComponentPropsWithoutRef<typeof Tag> & {
 	pipelineId: string;
 	pipelineName: string;
 };
-export function PipelineLink({ pipelineId, pipelineName, iconClassname, ...props }: Props) {
+export function PipelineLink({
+	pipelineId,
+	pipelineName,
+	iconClassname,
+	className,
+	...props
+}: Props) {
 	return (
 		<Link to={routes.projects.pipelines.detail.runs(pipelineId)}>
 			<Tag
 				color="purple"
-				className="inline-flex items-center gap-0.5 text-primary-400"
+				className={cn("inline-flex items-center gap-0.5 text-primary-400", className)}
 				rounded={false}
 				emphasis="subtle"
 				{...props}
 			>
-				<PipelineIcon className={cn("mr-1 h-4 w-4 fill-primary-400", iconClassname)} />
-				{pipelineName}
+				<PipelineIcon className={cn("size-4 shrink-0 fill-primary-400", iconClassname)} />
+				<div className="truncate">{pipelineName}</div>
 			</Tag>
 		</Link>
 	);

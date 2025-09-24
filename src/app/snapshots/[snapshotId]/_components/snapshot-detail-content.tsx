@@ -1,19 +1,16 @@
-import PipelineIcon from "@/assets/icons/dataflow.svg?react";
 import { CollapsibleChevron } from "@/components/collapsible-chevron";
 import { CopyButton } from "@/components/CopyButton";
 import { KeyValue } from "@/components/KeyValue";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
-import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
-	CollapsibleTrigger,
-	Tag
+	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
 type Props = {
 	snapshot: PipelineSnapshot;
@@ -52,17 +49,7 @@ export function DetailsContent({ snapshot }: Props) {
 						label="Pipeline"
 						value={
 							pipelineName && pipelineId ? (
-								<Link to={routes.projects.pipelines.detail.runs(pipelineId)}>
-									<Tag
-										color="purple"
-										className="inline-flex items-center gap-0.5"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<PipelineIcon className="mr-1 h-4 w-4 fill-theme-text-brand" />
-										{pipelineName}
-									</Tag>
-								</Link>
+								<PipelineLink pipelineId={pipelineId} pipelineName={pipelineName} />
 							) : (
 								"Not available"
 							)

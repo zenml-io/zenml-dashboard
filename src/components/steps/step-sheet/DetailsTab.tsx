@@ -1,24 +1,22 @@
 import Info from "@/assets/icons/info.svg?react";
-import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { isString } from "@/lib/type-guards";
-import { routes } from "@/router/routes";
 import { MetadataMap } from "@/types/common";
 import {
 	Badge,
 	Skeleton,
-	Tag,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
 import { DisplayDate } from "../../DisplayDate";
@@ -50,6 +48,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 		pipelineRunData?.body?.status ?? "running"
 	);
 
+	const pipeline = pipelineRunData?.body?.pipeline;
+
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
@@ -78,21 +78,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						<KeyValue
 							label="Pipeline"
 							value={
-								<Link
-									to={routes.projects.pipelines.detail.runs(
-										pipelineRunData.body?.pipeline?.id as string
-									)}
-								>
-									<Tag
-										color="purple"
-										className="inline-flex items-center gap-0.5"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
-										{pipelineRunData.body?.pipeline?.name}
-									</Tag>
-								</Link>
+								pipeline ? (
+									<PipelineLink pipelineId={pipeline.id} pipelineName={pipeline.name} />
+								) : (
+									"Not available"
+								)
 							}
 						/>
 						<Key>
