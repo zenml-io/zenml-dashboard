@@ -2,7 +2,6 @@ import { InfoBox } from "@/components/Infobox";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { MetadataMap } from "@/types/common";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
 
 function FailedPanel() {
 	return (
@@ -37,9 +36,10 @@ function InitializingPanel() {
 		</InfoBox>
 	);
 }
-
-export function AlertPanels() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
+export function AlertPanels({ runId }: Props) {
 	const { data, isError, isPending } = usePipelineRun({ runId });
 	const metadata = data?.metadata?.run_metadata as MetadataMap | undefined;
 	const orchestrator_url = metadata?.orchestrator_url;

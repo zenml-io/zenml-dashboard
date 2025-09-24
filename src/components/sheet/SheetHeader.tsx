@@ -8,7 +8,7 @@ export function SheetHeader({ className, children, ...props }: Props) {
 	return (
 		<div
 			className={cn(
-				"flex h-9 items-center border-b border-theme-border-moderate bg-theme-surface-primary px-4 py-3",
+				"flex h-9 items-center gap-1 border-b border-theme-border-moderate bg-theme-surface-primary px-4 py-3",
 				className
 			)}
 			{...props}

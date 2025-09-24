@@ -4,14 +4,14 @@ import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
+import { buildInternalLogEntries } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
 import { LogCombobox } from "./combobox";
-import { buildInternalLogEntries } from "@/lib/logs";
-
-export function LogTab() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
+export function LogTab({ runId }: Props) {
 	const { data, isError, isPending } = usePipelineRun({ runId });
 
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;

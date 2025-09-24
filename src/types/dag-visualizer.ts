@@ -3,7 +3,7 @@ import { components } from "./core";
 import { ExecutionStatus } from "./pipeline-runs";
 import { Node as ReactFlowNode } from "reactflow";
 
-type NodeTypes = "step" | "previewStep" | "artifact" | "previewArtifact";
+export type NodeTypes = "step" | "triggered_run" | "previewStep" | "artifact" | "previewArtifact";
 
 export type Node = components["schemas"]["Node"];
 export type Edge = components["schemas"]["Edge"];
@@ -28,8 +28,8 @@ export type ArtifactNodePayload = {
 } & ArtifactNodeMetadata;
 
 export type StepNodePayload = {
-	step_id: string;
-	step_name: string;
+	node_id: string;
+	node_name: string;
 	runStatus: ExecutionStatus;
 } & StepNodeMetadata;
 

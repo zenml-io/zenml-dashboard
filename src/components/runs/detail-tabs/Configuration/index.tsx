@@ -3,14 +3,14 @@ import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-que
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { BuildItem, BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
 import { CodeCollapsible } from "./CodeCollapsible";
 import { DockerImageCollapsible } from "./DockerImageCollapsible";
 import { EnvironmentCollapsible } from "./EnvironmentCollapsible";
 import { PipelineParamsCollapsible } from "./ParameterCollapsible";
-
-export function ConfigurationTab() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
+export function ConfigurationTab({ runId }: Props) {
 	const { data, isError, isPending } = usePipelineRun(
 		{ runId: runId, queryParams: { include_python_packages: true } },
 		{ throwOnError: true }

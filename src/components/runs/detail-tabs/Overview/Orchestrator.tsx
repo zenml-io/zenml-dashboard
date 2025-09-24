@@ -13,12 +13,12 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
-export function OrchestratorCollapsible() {
-	const { runId } = useParams() as {
-		runId: string;
-	};
+type Props = {
+	runId: string;
+};
+
+export function OrchestratorCollapsible({ runId }: Props) {
 	const [open, setOpen] = useState(true);
 	const { data, isError, isPending } = usePipelineRun({ runId: runId });
 

@@ -17,6 +17,7 @@ export function createMockTimelineItem(overrides: Partial<TimelineItem> = {}): T
 				start_time: "2023-01-01T10:00:00Z"
 			}
 		},
+		triggeredRuns: [],
 		inputs: [],
 		outputs: [],
 		startTimeMs: 1672574400000, // 2023-01-01T10:00:00Z in milliseconds

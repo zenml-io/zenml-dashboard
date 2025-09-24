@@ -1,4 +1,4 @@
-import { DockerImageCollapsible } from "@/app/runs/[id]/_Tabs/Configuration/DockerImageCollapsible";
+import { DockerImageCollapsible } from "@/components/runs/detail-tabs/Configuration/DockerImageCollapsible";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";

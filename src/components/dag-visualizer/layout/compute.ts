@@ -6,9 +6,10 @@ import {
 } from "@/types/dag-visualizer";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import {
-	getRealArtifacts,
 	getPreviewNodes as getPreviewNodes_lib,
+	getRealArtifacts,
 	getRealSteps,
+	getRealTriggeredRuns,
 	isStepNode
 } from "../node-types";
 
@@ -20,16 +21,17 @@ export function computeNodes(nodes: ZenNode[], runStatus: ExecutionStatus) {
 }
 
 function getRealStepNodes(nodes: ZenNode[], runStatus: ExecutionStatus): IntermediateStepNode[] {
-	const realSteps = getRealSteps(nodes);
+	const realSteps = [...getRealSteps(nodes), ...getRealTriggeredRuns(nodes)];
 	return realSteps.map((n) => {
 		const metadata = n.metadata;
+
 		return {
 			id: n.node_id!,
-			type: "step",
+			type: "triggered_run",
 			data: {
 				...metadata,
-				step_id: n.id!,
-				step_name: n.name,
+				node_id: n.id!,
+				node_name: n.name,
 				runStatus
 			}
 		};

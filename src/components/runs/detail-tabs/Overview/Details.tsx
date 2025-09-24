@@ -25,10 +25,13 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-export function Details() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
+
+export function Details({ runId }: Props) {
 	const [open, setOpen] = useState(true);
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();

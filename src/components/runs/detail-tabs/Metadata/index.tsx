@@ -4,10 +4,12 @@ import { MetadataCards, UncategorizedCard } from "@/components/MetadataCards";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { MetadataMap } from "@/types/common";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
 
-export function MetadataTab() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
+
+export function MetadataTab({ runId }: Props) {
 	const { data, isError } = usePipelineRun({ runId }, { throwOnError: true });
 
 	if (isError) return <p>Failed to fetch pipeline run</p>;

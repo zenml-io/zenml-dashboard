@@ -5,11 +5,12 @@ import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { PipelineRun } from "@/types/pipeline-runs";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
 
-export function StackTab() {
-	const { runId } = useParams() as { runId: string };
+type Props = {
+	runId: string;
+};
 
+export function StackTab({ runId }: Props) {
 	const run = usePipelineRun({ runId: runId }, { throwOnError: true });
 
 	if (run.isPending) return <Skeleton className="h-[250px] w-full" />;
