@@ -1,3 +1,5 @@
+import InfoIcon from "@/assets/icons/info.svg?react";
+import { TabIcon } from "@/components/tab-icon";
 import { routes } from "@/router/routes";
 import {
 	ScrollArea,
@@ -15,9 +17,10 @@ export function DeploymentDetailTabs() {
 	return (
 		<Tabs value={activeTab}>
 			<ScrollArea>
-				<TabsList className="flex-nowrap border-none">
+				<TabsList className="flex-nowrap border-none [&_*]:flex [&_*]:items-center [&_*]:gap-1">
 					<TabsTrigger asChild value="overview">
 						<Link to={routes.projects.deployments.detail.overview(deploymentId)}>
+							<TabIcon icon={InfoIcon} />
 							<span>Overview</span>
 						</Link>
 					</TabsTrigger>

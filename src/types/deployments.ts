@@ -10,3 +10,6 @@ export type DeploymentsListQueryParams = NonNullable<
 // Detail
 
 export type Deployment = components["schemas"]["DeploymentResponse"];
+
+// Common
+export type DeploymentStatus = components["schemas"]["DeploymentStatus"];

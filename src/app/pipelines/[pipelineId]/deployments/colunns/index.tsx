@@ -2,6 +2,8 @@ import Rocket from "@/assets/icons/rocket.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { getDeploymentStatusBackground } from "@/lib/deployments";
+import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
@@ -82,12 +84,16 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 
 					return (
 						<Tag
+							size="xs"
 							emphasis="subtle"
 							rounded={false}
-							className="inline-flex items-center gap-0.5"
-							color="green"
+							className="inline-flex items-center gap-1 text-theme-text-primary"
+							color="grey"
 						>
-							{status}
+							<div
+								className={`size-1 shrink-0 rounded-rounded ${getDeploymentStatusBackground(status)}`}
+							></div>
+							{capitalize(status)}
 						</Tag>
 					);
 				}

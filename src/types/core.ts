@@ -4866,9 +4866,9 @@ export type components = {
 			url?: string | null;
 			/**
 			 * The status of the deployment.
-			 * @description Current operational status of the deployment. Possible values are: unknown, pending, running, absent, error
+			 * @description Current operational status of the deployment.
 			 */
-			status?: string | null;
+			status?: components["schemas"]["DeploymentStatus"] | null;
 		};
 		/**
 		 * DeploymentResponseMetadata
@@ -4905,6 +4905,12 @@ export type components = {
 			[key: string]: unknown;
 		};
 		/**
+		 * DeploymentStatus
+		 * @description Status of a deployment.
+		 * @enum {string}
+		 */
+		DeploymentStatus: "unknown" | "pending" | "running" | "absent" | "error";
+		/**
 		 * DeploymentUpdate
 		 * @description Update model for deployments.
 		 */
@@ -4915,11 +4921,8 @@ export type components = {
 			snapshot_id?: string | null;
 			/** The new URL of the deployment. */
 			url?: string | null;
-			/**
-			 * The new status of the deployment.
-			 * @description Possible values are: unknown, pending, running, absent, error
-			 */
-			status?: string | null;
+			/** The new status of the deployment. */
+			status?: components["schemas"]["DeploymentStatus"] | null;
 			/** The new metadata of the deployment. */
 			deployment_metadata?: {
 				[key: string]: unknown;
@@ -7229,6 +7232,8 @@ export type components = {
 		PipelineRunTriggerInfo: {
 			/** The ID of the step run that triggered the pipeline run. */
 			step_run_id?: string | null;
+			/** The ID of the deployment that triggered the pipeline run. */
+			deployment_id?: string | null;
 		};
 		/**
 		 * PipelineRunUpdate
@@ -14750,6 +14755,7 @@ export type operations = {
 				stack_component?: string | null;
 				templatable?: boolean | null;
 				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 			path: {
 				pipeline_id: string | null;
@@ -15605,6 +15611,7 @@ export type operations = {
 				stack_component?: string | null;
 				templatable?: boolean | null;
 				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 		};
 		responses: {
@@ -22570,6 +22577,7 @@ export type operations = {
 				stack_component?: string | null;
 				templatable?: boolean | null;
 				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 			path: {
 				project_name_or_id: string | null;

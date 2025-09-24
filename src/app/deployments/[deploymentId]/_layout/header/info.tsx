@@ -9,6 +9,7 @@ import { DeploymentDetailHeaderInfoSubrow } from "./info-subrow";
 import { usePipelineDetailRunsBreadcrumbs } from "./use-breadcrumb";
 import { capitalize } from "@/lib/strings";
 import { useActiveTab } from "./use-active-tab";
+import { getDeploymentStatusTagColor } from "@/lib/deployments";
 // import { useSnapshotDetailRunsBreadcrumbs } from "./breadcrumbs";
 
 type Props = {
@@ -47,9 +48,9 @@ function SnapshotDetailInfoContent({ deployment }: { deployment: Deployment }) {
 					emphasis="subtle"
 					rounded={false}
 					className="inline-flex items-center gap-0.5"
-					color="green"
+					color={getDeploymentStatusTagColor(status ?? undefined)}
 				>
-					{status}
+					{capitalize(status ?? "")}
 				</Tag>
 			</div>
 			<div className="flex flex-wrap items-center justify-between gap-1">
