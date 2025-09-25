@@ -2,6 +2,7 @@ import Rocket from "@/assets/icons/rocket.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { getDeploymentStatusBackground } from "@/lib/deployments";
 import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
@@ -14,37 +15,6 @@ import { Link } from "react-router-dom";
 export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 	return useMemo<ColumnDef<Deployment>[]>(
 		() => [
-			// {
-			// 	id: "check",
-
-			// 	header: ({ table }) => {
-			// 		return (
-			// 			<Checkbox
-			// 				id="check-all"
-			// 				checked={table.getIsAllRowsSelected()}
-			// 				onCheckedChange={(state) =>
-			// 					table.toggleAllRowsSelected(state === "indeterminate" ? true : state)
-			// 				}
-			// 			/>
-			// 		);
-			// 	},
-
-			// 	meta: {
-			// 		width: "1%"
-			// 	},
-
-			// 	cell: ({ row }) => {
-			// 		return (
-			// 			<Checkbox
-			// 				id={row.id}
-			// 				checked={row.getIsSelected()}
-			// 				onCheckedChange={row.getToggleSelectedHandler()}
-			// 				className="h-3 w-3"
-			// 			/>
-			// 		);
-			// 	}
-			// },
-
 			{
 				id: "name",
 				header: "Deployment",
@@ -99,6 +69,18 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 				}
 			},
 			{
+				id: "snapshot",
+				header: "Snapshot",
+				accessorFn: (row) => row.resources?.snapshot?.name,
+				cell: ({ row }) => {
+					const snapshot = row.original.resources?.snapshot;
+					const snapshotName = snapshot?.name;
+					const snapshotId = snapshot?.id;
+					if (!snapshotName || !snapshotId) return null;
+					return <SnapshotLink snapshotId={snapshotId} snapshotName={snapshotName} />;
+				}
+			},
+			{
 				id: "author",
 				header: "Author",
 				accessorFn: (row) => row.resources?.user?.name,
@@ -127,16 +109,6 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 					return <DisplayDate dateString={date} />;
 				}
 			}
-			// {
-			// 	id: "admin_actions",
-			// 	header: "",
-			// 	accessorFn: (row) => row.id,
-			// 	cell: ({ row }) => {
-			// 		const snapshotId = row.original.id;
-
-			// 		return <PipelineSnapshotTableActions snapshotId={snapshotId} />;
-			// 	}
-			// }
 		],
 
 		[]
