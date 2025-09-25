@@ -1,6 +1,7 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import Download from "@/assets/icons/download-01.svg?react";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import Refresh from "@/assets/icons/refresh.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { SearchField } from "../SearchField";
 import { LogLevelSelect } from "./log-level-select";
@@ -10,6 +11,7 @@ import { Dispatch, SetStateAction } from "react";
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
 
+	onReload: () => void;
 	onCopyAll: () => void;
 	onDownload: () => void;
 	// Search-related props from useLogSearch hook
@@ -25,6 +27,7 @@ interface LogToolbarProps {
 
 export function LogToolbar({
 	onSearchChange,
+	onReload,
 	onCopyAll,
 	onDownload,
 	searchQuery = "",
@@ -84,6 +87,18 @@ export function LogToolbar({
 
 					{/* Right side - Action Buttons */}
 					<div className="flex items-center gap-2">
+						<Button
+							size="md"
+							emphasis="subtle"
+							intent="secondary"
+							onClick={onReload}
+							title="Copy all displayed logs"
+							className="bg-theme-surface-primary"
+						>
+							<Refresh className="mr-1 h-4 w-4 fill-theme-text-secondary" />
+							Reload
+						</Button>
+
 						<Button
 							size="md"
 							emphasis="subtle"
