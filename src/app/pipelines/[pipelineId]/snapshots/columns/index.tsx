@@ -1,6 +1,7 @@
 import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
 import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { CopyButton } from "@/components/CopyButton";
+import { DeploymentStatusTag } from "@/components/deployments/deployment-status-tag";
 import { DisplayDate } from "@/components/DisplayDate";
 import { getExecutionStatusTagColor, getRunIconColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
@@ -72,6 +73,17 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 							</div>
 						</div>
 					);
+				}
+			},
+			{
+				id: "deployment",
+				header: "Deployment",
+				accessorFn: (row) => row.resources?.deployment?.id,
+				cell: ({ row }) => {
+					const deployment = row.original.resources?.deployment;
+					const status = deployment?.body?.status;
+					if (!status) return null;
+					return <DeploymentStatusTag status={status} />;
 				}
 			},
 			{

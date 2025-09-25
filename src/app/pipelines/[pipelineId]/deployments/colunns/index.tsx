@@ -1,14 +1,12 @@
 import Rocket from "@/assets/icons/rocket.svg?react";
 import { CopyButton } from "@/components/CopyButton";
+import { DeploymentStatusTag } from "@/components/deployments/deployment-status-tag";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
-import { getDeploymentStatusBackground } from "@/lib/deployments";
-import { capitalize } from "@/lib/strings";
 import { routes } from "@/router/routes";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
-import { Tag } from "@zenml-io/react-component-library/components/server";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 
@@ -52,20 +50,7 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 					const status = row.original.body?.status;
 					if (!status) return <div>No status</div>;
 
-					return (
-						<Tag
-							size="xs"
-							emphasis="subtle"
-							rounded={false}
-							className="inline-flex items-center gap-1 text-theme-text-primary"
-							color="grey"
-						>
-							<div
-								className={`size-1 shrink-0 rounded-rounded ${getDeploymentStatusBackground(status)}`}
-							></div>
-							{capitalize(status)}
-						</Tag>
-					);
+					return <DeploymentStatusTag status={status} />;
 				}
 			},
 			{
