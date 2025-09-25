@@ -92,7 +92,7 @@ export function LogToolbar({
 							emphasis="subtle"
 							intent="secondary"
 							onClick={onReload}
-							title="Copy all displayed logs"
+							title="Reload logs"
 							className="bg-theme-surface-primary"
 						>
 							<Refresh className="mr-1 h-4 w-4 fill-theme-text-secondary" />
