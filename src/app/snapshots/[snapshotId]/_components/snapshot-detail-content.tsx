@@ -1,6 +1,7 @@
 import { CollapsibleChevron } from "@/components/collapsible-chevron";
 import { CopyButton } from "@/components/CopyButton";
 import { KeyValue } from "@/components/KeyValue";
+import { NotAvailable } from "@/components/not-available";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
@@ -20,9 +21,9 @@ export function DetailsContent({ snapshot }: Props) {
 	const [open, setOpen] = useState(true);
 
 	const snapshotId = snapshot.id;
-	const pipelineName = snapshot.metadata?.pipeline.name;
-	const pipelineId = snapshot.metadata?.pipeline.id;
-	const codeReference = snapshot.metadata?.code_reference;
+	const pipelineName = snapshot.resources?.pipeline.name;
+	const pipelineId = snapshot.resources?.pipeline.id;
+	const codeReference = snapshot.resources?.code_reference;
 	const codeRepositoryId = codeReference?.body?.code_repository.id;
 	const codeCommit = codeReference?.body?.commit;
 
@@ -51,7 +52,7 @@ export function DetailsContent({ snapshot }: Props) {
 							pipelineName && pipelineId ? (
 								<PipelineLink pipelineId={pipelineId} pipelineName={pipelineName} />
 							) : (
-								"Not available"
+								<NotAvailable />
 							)
 						}
 					/>
@@ -62,7 +63,7 @@ export function DetailsContent({ snapshot }: Props) {
 							codeRepositoryId && codeCommit ? (
 								<RepoBadge repositoryId={codeRepositoryId} commit={codeCommit} />
 							) : (
-								"Not available"
+								<NotAvailable />
 							)
 						}
 					/>

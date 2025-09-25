@@ -32,9 +32,6 @@ export const routes = {
 			overview: "/projects/default/runs",
 			detail: (id: string) => `/projects/default/runs/${id}`
 		},
-		templates: {
-			overview: "/projects/default/run-templates"
-		},
 		pipelines: {
 			overview: "/projects/default/pipelines",
 			detail: {

@@ -17,9 +17,9 @@ export function ConfigurationTab({ runId }: Props) {
 	);
 	const { data: buildData } = usePipelineBuild(
 		{
-			buildId: data?.body?.build?.id as string
+			buildId: data?.resources?.build?.id as string
 		},
-		{ enabled: !!data?.body?.build?.id }
+		{ enabled: !!data?.resources?.build?.id }
 	);
 
 	if (isError) return null;
@@ -35,7 +35,7 @@ export function ConfigurationTab({ runId }: Props) {
 
 	return (
 		<div className="grid grid-cols-1 gap-5">
-			<PipelineParamsCollapsible snapshotId={data.body?.snapshot_id ?? undefined} />
+			<PipelineParamsCollapsible snapshotId={data.resources?.snapshot?.id ?? undefined} />
 			{(buildData?.metadata?.images as BuildItemMap)?.orchestrator && (
 				<DockerImageCollapsible data={buildData?.metadata?.images?.orchestrator as BuildItem} />
 			)}

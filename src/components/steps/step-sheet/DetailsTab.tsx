@@ -35,7 +35,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
 
-	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
+	const repository = pipelineRunData?.resources?.code_reference?.body?.code_repository;
 
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
@@ -48,7 +48,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 		pipelineRunData?.body?.status ?? "running"
 	);
 
-	const pipeline = pipelineRunData?.body?.pipeline;
+	const pipeline = pipelineRunData?.resources?.pipeline;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
@@ -103,10 +103,10 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							</div>
 						</Key>
 						<Value className="h-auto">
-							{pipelineRunData.body?.code_reference ? (
+							{pipelineRunData.resources?.code_reference ? (
 								<RepoBadge
 									repositoryId={repository?.id}
-									commit={pipelineRunData.body.code_reference.body?.commit}
+									commit={pipelineRunData.resources.code_reference.body?.commit}
 								/>
 							) : (
 								"Not available"

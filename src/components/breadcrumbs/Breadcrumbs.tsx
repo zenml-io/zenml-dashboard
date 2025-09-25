@@ -12,7 +12,6 @@ const nestedSegments = [
 	"stacks",
 	"model-versions",
 	"artifact-versions",
-	"run-templates",
 	"models",
 	"runs",
 	"artifacts",

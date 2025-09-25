@@ -14,7 +14,7 @@ export function SnapshotStack() {
 	const snapshotQuery = useQuery({
 		...pipelineSnapshotQueries.detail(snapshotId)
 	});
-	const stackId = snapshotQuery.data?.metadata?.stack?.id;
+	const stackId = snapshotQuery.data?.resources?.stack?.id;
 	const stackQuery = useQuery({
 		...stackQueries.stackDetail(stackId ?? ""),
 		enabled: !!stackId

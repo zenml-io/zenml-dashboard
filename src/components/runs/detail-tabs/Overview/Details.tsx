@@ -104,10 +104,10 @@ export function Details({ runId }: Props) {
 
 					<Key>Pipeline</Key>
 					<Value>
-						{data.body?.pipeline ? (
+						{data.resources?.pipeline ? (
 							<PipelineLink
-								pipelineId={data.body?.pipeline?.id}
-								pipelineName={data.body?.pipeline?.name}
+								pipelineId={data.resources?.pipeline?.id}
+								pipelineName={data.resources?.pipeline?.name}
 							/>
 						) : (
 							"Not available"
@@ -133,10 +133,10 @@ export function Details({ runId }: Props) {
 						</div>
 					</Key>
 					<Value className="h-auto">
-						{data.body?.code_reference ? (
+						{data.resources?.code_reference ? (
 							<RepoBadge
-								repositoryId={data.body?.code_reference.body?.code_repository.id}
-								commit={data.body.code_reference.body?.commit}
+								repositoryId={data.resources?.code_reference.body?.code_repository.id}
+								commit={data.resources?.code_reference.body?.commit}
 							/>
 						) : (
 							"Not available"

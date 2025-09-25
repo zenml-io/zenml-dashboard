@@ -106,8 +106,8 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			id: "stack",
 			header: "Stack",
 			accessorFn: (row) => ({
-				name: row.body?.stack?.name,
-				id: row.body?.stack?.id
+				name: row.resources?.stack?.name,
+				id: row.resources?.stack?.id
 			}),
 			cell: ({ getValue }) => {
 				const { name, id } = getValue<{

@@ -10,12 +10,12 @@ export function useRunDetailBreadcrumbs(run?: PipelineRun) {
 
 	useEffect(() => {
 		if (run) {
-			if (run.body?.pipeline) {
+			if (run.resources?.pipeline) {
 				setBreadcrumbs([
 					pipelineBreadcrumb,
 					{
-						label: run.body.pipeline.name || "",
-						href: routes.projects.pipelines.detail.runs(run.body.pipeline.id)
+						label: run.resources.pipeline.name || "",
+						href: routes.projects.pipelines.detail.runs(run.resources.pipeline.id)
 					},
 					{
 						label: run.name || "",

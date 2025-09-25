@@ -16,7 +16,7 @@ export function StackTab({ runId }: Props) {
 	if (run.isPending) return <Skeleton className="h-[250px] w-full" />;
 	if (run.isError) return <p>Something went wrong fetching the run</p>;
 
-	const stackId = run.data?.body?.stack?.id;
+	const stackId = run.data?.resources?.stack?.id;
 
 	if (!stackId)
 		return (

@@ -91,10 +91,10 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
 		id: "pipeline",
 		header: "Pipeline",
-		accessorFn: (row) => row.body?.pipeline?.name,
+		accessorFn: (row) => row.resources?.pipeline?.name,
 		cell: ({ row }) => {
-			const name = row.original.body?.pipeline?.name;
-			const id = row.original.body?.pipeline?.id;
+			const name = row.original.resources?.pipeline?.name;
+			const id = row.original.resources?.pipeline?.id;
 			if (!name || !id) {
 				return null;
 			}
@@ -106,8 +106,8 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		id: "stack",
 		header: "Stack",
 		accessorFn: (row) => ({
-			name: row.body?.stack?.name,
-			id: row.body?.stack?.id
+			name: row.resources?.stack?.name,
+			id: row.resources?.stack?.id
 		}),
 		cell: ({ getValue }) => {
 			const { name, id } = getValue<{

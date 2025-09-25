@@ -28,9 +28,9 @@ export function StepConfigTab({ stepId }: Props) {
 
 	const { data: buildData } = usePipelineBuild(
 		{
-			buildId: pipeline_run?.body?.build?.id as string
+			buildId: pipeline_run?.resources?.build?.id as string
 		},
-		{ enabled: !!pipeline_run?.body?.build?.id }
+		{ enabled: !!pipeline_run?.resources?.build?.id }
 	);
 
 	const stepName = data?.name;

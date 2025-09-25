@@ -66,7 +66,6 @@ const ServiceAccountsDetail = lazy(
 
 const Projects = lazy(() => import("@/app/projects/page"));
 const Runs = lazy(() => import("@/app/runs/page"));
-const Templates = lazy(() => import("@/app/run-templates/page"));
 
 // Components
 const Components = lazy(() => import("@/app/components/page"));
@@ -215,11 +214,7 @@ export const router = createBrowserRouter([
 								path: routes.projects.pipelines.overview,
 								element: withProtectedRoute(<Pipelines />)
 							},
-							{
-								errorElement: <PageBoundary />,
-								path: routes.projects.templates.overview,
-								element: withProtectedRoute(<Templates />)
-							},
+
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.runs.overview,

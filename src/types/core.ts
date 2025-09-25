@@ -7150,22 +7150,6 @@ export type components = {
 			in_progress: boolean;
 			/** The reason for the status of the pipeline run. */
 			status_reason?: string | null;
-			/** The stack that was used for this run. */
-			stack?: components["schemas"]["StackResponse"] | null;
-			/** The pipeline this run belongs to. */
-			pipeline?: components["schemas"]["PipelineResponse"] | null;
-			/** The pipeline build that was used for this run. */
-			build?: components["schemas"]["PipelineBuildResponse"] | null;
-			/** The schedule that was used for this run. */
-			schedule?: components["schemas"]["ScheduleResponse"] | null;
-			/** The code reference that was used for this run. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
-			/** The snapshot that was used for this run. */
-			snapshot_id?: string | null;
-			/** The trigger execution that triggered this run. */
-			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
-			/** The ID of the model version that was configured by this pipeline run explicitly. */
-			model_version_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -7210,11 +7194,6 @@ export type components = {
 			 */
 			template_id?: string | null;
 			/**
-			 * Source Snapshot Id
-			 * @description Source snapshot used for the pipeline run.
-			 */
-			source_snapshot_id?: string | null;
-			/**
 			 * Is Templatable
 			 * @description Whether a template can be created from this run.
 			 * @default false
@@ -7229,6 +7208,19 @@ export type components = {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
 			snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			source_snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			/** The stack that was used for this run. */
+			stack?: components["schemas"]["StackResponse"] | null;
+			/** The pipeline this run belongs to. */
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
+			/** The pipeline build that was used for this run. */
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
+			/** The schedule that was used for this run. */
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
+			/** The code reference that was used for this run. */
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/** The trigger execution that triggered this run. */
+			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** Tags associated with the pipeline run. */
 			tags: components["schemas"]["TagResponse"][];
@@ -7428,16 +7420,6 @@ export type components = {
 			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
 			/** Optional path where the code is stored in the artifact store. */
 			code_path?: string | null;
-			/** The pipeline associated with the snapshot. */
-			pipeline: components["schemas"]["PipelineResponse"];
-			/** The stack associated with the snapshot. */
-			stack?: components["schemas"]["StackResponse"] | null;
-			/** The pipeline build associated with the snapshot. */
-			build?: components["schemas"]["PipelineBuildResponse"] | null;
-			/** The schedule associated with the snapshot. */
-			schedule?: components["schemas"]["ScheduleResponse"] | null;
-			/** The code reference associated with the snapshot. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
 			/**
 			 * Template Id
 			 * @deprecated
@@ -7465,6 +7447,16 @@ export type components = {
 		PipelineSnapshotResponseResources: {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
+			/** The pipeline associated with the snapshot. */
+			pipeline: components["schemas"]["PipelineResponse"];
+			/** The stack associated with the snapshot. */
+			stack?: components["schemas"]["StackResponse"] | null;
+			/** The pipeline build associated with the snapshot. */
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
+			/** The schedule associated with the snapshot. */
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
+			/** The code reference associated with the snapshot. */
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
 			/** The deployment associated with the snapshot. */
 			deployment?: components["schemas"]["DeploymentResponse"] | null;
 			/**
@@ -7476,6 +7468,8 @@ export type components = {
 			latest_run_id?: string | null;
 			/** The status of the latest run of the snapshot. */
 			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The user that created the latest run of the snapshot. */
+			latest_run_user?: components["schemas"]["UserResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**

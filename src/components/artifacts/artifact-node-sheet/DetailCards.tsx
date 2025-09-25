@@ -131,7 +131,7 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 		);
 	if (pipelineRun.isError) return null;
 
-	const pipeline = pipelineRun.data.body?.pipeline;
+	const pipeline = pipelineRun.data.resources?.pipeline;
 	return (
 		<>
 			<KeyValue
