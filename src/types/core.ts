@@ -4812,6 +4812,8 @@ export type components = {
 			 * @description The auth key of the deployment.
 			 */
 			auth_key?: string | null;
+			/** Tags of the deployment. */
+			tags?: (string | components["schemas"]["Tag"])[] | null;
 		};
 		/**
 		 * DeploymentResponse
@@ -4902,6 +4904,13 @@ export type components = {
 			 * @description The deployer component managing this deployment.
 			 */
 			deployer?: components["schemas"]["ComponentResponse"] | null;
+			/**
+			 * The pipeline.
+			 * @description The pipeline being deployed.
+			 */
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
+			/** Tags associated with the deployment. */
+			tags: components["schemas"]["TagResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -4929,6 +4938,10 @@ export type components = {
 			} | null;
 			/** The new auth key of the deployment. */
 			auth_key?: string | null;
+			/** New tags to add to the deployment. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the deployment. */
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * Edge
@@ -7320,7 +7333,6 @@ export type components = {
 			code_path?: string | null;
 			/**
 			 * Template
-			 * @deprecated
 			 * @description DEPRECATED: Template used for the snapshot.
 			 */
 			template?: string | null;
@@ -7378,6 +7390,8 @@ export type components = {
 			project_id: string;
 			/** If a run can be started from the snapshot. */
 			runnable: boolean;
+			/** If the snapshot can be deployed. */
+			deployable: boolean;
 		};
 		/**
 		 * PipelineSnapshotResponseMetadata
@@ -7451,6 +7465,8 @@ export type components = {
 		PipelineSnapshotResponseResources: {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
+			/** The deployment associated with the snapshot. */
+			deployment?: components["schemas"]["DeploymentResponse"] | null;
 			/**
 			 * Tags associated with the snapshot.
 			 * @default []
@@ -10114,7 +10130,8 @@ export type components = {
 			| "pipeline"
 			| "pipeline_run"
 			| "run_template"
-			| "pipeline_snapshot";
+			| "pipeline_snapshot"
+			| "deployment";
 		/**
 		 * TriggerExecutionResponse
 		 * @description Response model for trigger executions.
@@ -12425,12 +12442,15 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				tag?: string | null;
+				tags?: string[] | null;
 				scope_user?: string | null;
 				user?: string | null;
 				project?: string | null;
 				name?: string | null;
 				url?: string | null;
 				status?: string | null;
+				pipeline?: string | null;
 				snapshot_id?: string | null;
 				deployer_id?: string | null;
 			};
@@ -15064,6 +15084,8 @@ export type operations = {
 				schedule_id?: string | null;
 				source_snapshot_id?: string | null;
 				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 		};
 		responses: {
@@ -15302,6 +15324,8 @@ export type operations = {
 				schedule_id?: string | null;
 				source_snapshot_id?: string | null;
 				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 		};
 		responses: {
@@ -22149,6 +22173,8 @@ export type operations = {
 				schedule_id?: string | null;
 				source_snapshot_id?: string | null;
 				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 			path: {
 				project_name_or_id: string | null;

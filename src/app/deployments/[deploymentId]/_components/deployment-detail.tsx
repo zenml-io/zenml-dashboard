@@ -1,7 +1,9 @@
 import { CollapsibleChevron } from "@/components/collapsible-chevron";
 import { CopyButton } from "@/components/CopyButton";
 import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { NotAvailable } from "@/components/not-available";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { Deployment } from "@/types/deployments";
 import {
 	CollapsibleContent,
@@ -11,8 +13,6 @@ import {
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
-import { PipelineValue } from "./pipeline-value";
-import { NotAvailable } from "@/components/not-available";
 
 export function DeploymentDetail() {
 	return <DeploymentDetailWrapper Component={DeploymentDetailContent} />;
@@ -29,6 +29,9 @@ function DeploymentDetailContent({ deployment }: Props) {
 	const snapshot = deployment.resources?.snapshot;
 	const snapshotId = snapshot?.id;
 	const snapshotName = snapshot?.name;
+
+	const pipelineId = deployment.resources?.pipeline?.id;
+	const pipelineName = deployment.resources?.pipeline?.name;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -61,7 +64,11 @@ function DeploymentDetailContent({ deployment }: Props) {
 					/>
 					<Key className="h-auto">Pipeline</Key>
 					<Value className="h-auto">
-						{snapshotId ? <PipelineValue snapshotId={snapshotId} /> : "Not available"}
+						{pipelineId && pipelineName ? (
+							<PipelineLink pipelineId={pipelineId} pipelineName={pipelineName} />
+						) : (
+							"Not available"
+						)}
 					</Value>
 				</dl>
 			</CollapsibleContent>

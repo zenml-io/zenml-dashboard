@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 
-export function useDeleteStack(stackId: string) {
+export function useDeleteStack(stackId: string, closeAlert?: () => void) {
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
@@ -14,6 +14,7 @@ export function useDeleteStack(stackId: string) {
 		onSuccess: async () => {
 			queryClient.invalidateQueries({ queryKey: stackQueries.all });
 			navigate(routes.stacks.overview);
+			closeAlert?.();
 		},
 		onError: (error) => {
 			toast({

@@ -70,9 +70,8 @@ export const ModelRegistrySection = {
 	helpLink: "https://docs.zenml.io/stack-components/model-registries"
 };
 
-// TODO: adjust copy and add proper link
 export const DeployerSection = {
 	description:
-		"Deployers are stack components responsible for deploying machine learning models to a remote server.",
-	helpLink: "https://docs.zenml.io/stack-components/deployers"
+		"Deployers transform ML pipelines into long-running HTTP services for real-time, on-demand execution through API endpoints.",
+	helpLink: "https://docs.zenml.io/stacks/stack-components/deployers"
 };

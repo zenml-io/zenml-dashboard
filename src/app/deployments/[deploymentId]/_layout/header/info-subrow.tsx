@@ -10,11 +10,18 @@ type Props = {
 export function DeploymentDetailHeaderInfoSubrow({ deployment }: Props) {
 	const snapshotId = deployment.resources?.snapshot?.id;
 	const snapshotName = deployment.resources?.snapshot?.name;
+	const pipelineId = deployment.resources?.pipeline?.id;
+	const pipelineName = deployment.resources?.pipeline?.name;
+
 	return (
 		<div className="flex items-center gap-5">
 			<div className="flex items-center gap-[10px]">
 				<div className="text-text-sm text-theme-text-secondary">Pipeline</div>
-				{snapshotId ? <PipelineTag snapshotId={snapshotId} /> : <NotAvailableTag />}
+				{pipelineId && pipelineName ? (
+					<PipelineTag pipelineId={pipelineId} pipelineName={pipelineName} />
+				) : (
+					<NotAvailableTag />
+				)}
 			</div>
 			<div className="flex items-center gap-[10px]">
 				<div className="text-text-sm text-theme-text-secondary">Snapshot</div>

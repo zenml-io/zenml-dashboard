@@ -1,38 +1,40 @@
-import { DialogContent, DialogHeader, DialogTitle } from "@zenml-io/react-component-library";
-import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
-import { InfoBox as InfoboxPrimitive } from "@/components/Infobox";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { InfoBox as InfoboxPrimitive } from "@/components/Infobox";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle
+} from "@zenml-io/react-component-library";
 
 type Props = {
-	closeModal?: () => void;
+	open: boolean;
+	setOpen: (open: boolean) => void;
 	name: string;
 };
 
-export const UpdateStackDialog = forwardRef<
-	ElementRef<typeof DialogContent>,
-	ComponentPropsWithoutRef<typeof DialogContent> & Props
->(({ closeModal, name, ...rest }, ref) => {
+export function UpdateStackDialog({ name, open, setOpen }: Props) {
 	return (
-		<DialogContent {...rest} ref={ref}>
-			<DialogHeader>
-				<DialogTitle>Update Stack</DialogTitle>
-			</DialogHeader>
-			<div className="space-y-5 p-7">
-				<Infobox action="update" />
-				<div className="space-y-1">
-					<p className="text-text-sm text-theme-text-secondary">Update a stack</p>
-					<Codesnippet
-						codeClasses="whitespace-pre-wrap"
-						wrap
-						code={`zenml stack update ${name} -o NEW_ORCHESTRATOR_NAME`}
-					/>
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Update Stack</DialogTitle>
+				</DialogHeader>
+				<div className="space-y-5 p-7">
+					<Infobox action="update" />
+					<div className="space-y-1">
+						<p className="text-text-sm text-theme-text-secondary">Update a stack</p>
+						<Codesnippet
+							codeClasses="whitespace-pre-wrap"
+							wrap
+							code={`zenml stack update ${name} -o NEW_ORCHESTRATOR_NAME`}
+						/>
+					</div>
 				</div>
-			</div>
-		</DialogContent>
+			</DialogContent>
+		</Dialog>
 	);
-});
-
-UpdateStackDialog.displayName = "UpdateStackDialog";
+}
 
 type InfoProps = {
 	action: "delete" | "update" | "describe";

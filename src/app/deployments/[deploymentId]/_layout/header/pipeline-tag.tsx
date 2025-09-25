@@ -1,32 +1,13 @@
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
-import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { routes } from "@/router/routes";
-import { useQuery } from "@tanstack/react-query";
-import { Skeleton, Tag } from "@zenml-io/react-component-library";
+import { Tag } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { NotAvailableTag } from "./not-available-tag";
 type Props = {
-	snapshotId: string | undefined;
+	pipelineId: string;
+	pipelineName: string;
 };
 
-export function PipelineTag({ snapshotId }: Props) {
-	const snapshotQuery = useQuery({
-		...pipelineSnapshotQueries.detail(snapshotId!),
-		enabled: !!snapshotId
-	});
-
-	if (!snapshotId) return <NotAvailableTag />;
-
-	if (snapshotQuery.isPending) return <Skeleton className="h-5 w-[150px]" />;
-	if (snapshotQuery.isError) return <NotAvailableTag />;
-
-	const snapshot = snapshotQuery.data;
-
-	const pipelineId = snapshot?.metadata?.pipeline.id;
-	const pipelineName = snapshot?.metadata?.pipeline.name;
-
-	if (!pipelineId || !pipelineName) return <NotAvailableTag />;
-
+export function PipelineTag({ pipelineId, pipelineName }: Props) {
 	return (
 		<Link to={routes.projects.pipelines.detail.runs(pipelineId)}>
 			<Tag
