@@ -67,7 +67,7 @@ function DeploymentDetailContent({ deployment }: Props) {
 						{pipelineId && pipelineName ? (
 							<PipelineLink pipelineId={pipelineId} pipelineName={pipelineName} />
 						) : (
-							"Not available"
+							<NotAvailable />
 						)}
 					</Value>
 				</dl>
