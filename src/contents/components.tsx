@@ -43,7 +43,7 @@ export const ExperimentTrackerSection = {
 export const AlerterSection = {
 	description:
 		"Alerters allow you to send messages to chat services (like Slack, Discord, Mattermost, etc.) from within your pipelines. This is useful to immediately get notified when failures happen, for general monitoring/reporting, and also for building human-in-the-loop ML.",
-	helpLink: "https://docs.zenml.io/stacks/stack-components/alerters	"
+	helpLink: "https://docs.zenml.io/stacks/stack-components/alerters"
 };
 
 export const AnnotatorSection = {
