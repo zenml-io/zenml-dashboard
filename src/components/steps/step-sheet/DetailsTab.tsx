@@ -1,24 +1,22 @@
 import Info from "@/assets/icons/info.svg?react";
-import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { isString } from "@/lib/type-guards";
-import { routes } from "@/router/routes";
 import { MetadataMap } from "@/types/common";
 import {
 	Badge,
 	Skeleton,
-	Tag,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
 import { DisplayDate } from "../../DisplayDate";
@@ -37,7 +35,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
 
-	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
+	const repository = pipelineRunData?.resources?.code_reference?.body?.code_repository;
 
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
@@ -49,6 +47,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 		data.body?.status ?? "running",
 		pipelineRunData?.body?.status ?? "running"
 	);
+
+	const pipeline = pipelineRunData?.resources?.pipeline;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
@@ -78,21 +78,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						<KeyValue
 							label="Pipeline"
 							value={
-								<Link
-									to={routes.projects.pipelines.namespace(
-										encodeURIComponent(pipelineRunData.body?.pipeline?.name as string)
-									)}
-								>
-									<Tag
-										color="purple"
-										className="inline-flex items-center gap-0.5"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
-										{pipelineRunData.body?.pipeline?.name}
-									</Tag>
-								</Link>
+								pipeline ? (
+									<PipelineLink pipelineId={pipeline.id} pipelineName={pipeline.name} />
+								) : (
+									"Not available"
+								)
 							}
 						/>
 						<Key>
@@ -113,10 +103,10 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							</div>
 						</Key>
 						<Value className="h-auto">
-							{pipelineRunData.body?.code_reference ? (
+							{pipelineRunData.resources?.code_reference ? (
 								<RepoBadge
 									repositoryId={repository?.id}
-									commit={pipelineRunData.body.code_reference.body?.commit}
+									commit={pipelineRunData.resources.code_reference.body?.commit}
 								/>
 							) : (
 								"Not available"

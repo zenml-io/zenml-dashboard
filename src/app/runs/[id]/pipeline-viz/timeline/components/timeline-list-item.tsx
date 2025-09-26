@@ -32,7 +32,10 @@ export function TimelineListItem({
 	const stepDuration = timelineItem.step.metadata.duration;
 	const stepName = timelineItem.step.name;
 	const stepStatus = timelineItem.step.metadata.status;
-	const hasArtifacts = timelineItem.inputs.length > 0 || timelineItem.outputs.length > 0;
+	const hasArtifacts =
+		timelineItem.inputs.length > 0 ||
+		timelineItem.outputs.length > 0 ||
+		timelineItem.triggeredRuns.length > 0;
 
 	const { isSelected, handleClick } = useTimelineItem(stepId ?? undefined);
 

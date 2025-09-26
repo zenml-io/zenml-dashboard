@@ -4,6 +4,10 @@ export function isStepNode(node: Node) {
 	return node.type === "step";
 }
 
+export function isTriggeredRunNode(node: Node) {
+	return node.type === "triggered_run";
+}
+
 export function isArtifactNode(node: Node) {
 	return node.type === "artifact";
 }
@@ -18,6 +22,10 @@ export function getRealSteps(nodes: Node[]): RawStepNode[] {
 
 export function getRealArtifacts(nodes: Node[]): RawArtifactNode[] {
 	return nodes.filter(isArtifactNode).filter((n) => !isPreviewNode(n)) as RawArtifactNode[];
+}
+
+export function getRealTriggeredRuns(nodes: Node[]): RawStepNode[] {
+	return nodes.filter(isTriggeredRunNode).filter((n) => !isPreviewNode(n)) as RawStepNode[];
 }
 
 export function getPreviewNodes(nodes: Node[]) {

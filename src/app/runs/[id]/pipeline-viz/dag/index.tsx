@@ -6,12 +6,13 @@ import { PreviewArtifactNode } from "@/components/dag-visualizer/PreviewArtifact
 import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
+import { TriggeredRunNode } from "@/components/dag-visualizer/TriggeredRunNode";
 import { Dag } from "@/types/dag-visualizer";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 import ReactFlow, { NodeTypes } from "reactflow";
-import { useDag } from "./useDag";
-import { ViewSwitcher } from "../view-switcher";
 import { PiplineRunVisualizationView } from "../types";
+import { ViewSwitcher } from "../view-switcher";
+import { useDag } from "./useDag";
 
 type Props = {
 	dagData: Dag;
@@ -27,7 +28,8 @@ const customNodes: NodeTypes = {
 	step: StepNode,
 	artifact: ArtifactNode,
 	previewStep: PreviewStepNode,
-	previewArtifact: PreviewArtifactNode
+	previewArtifact: PreviewArtifactNode,
+	triggered_run: TriggeredRunNode
 };
 
 export function DAG({ dagData, refetchHandler, setActiveView }: Props) {

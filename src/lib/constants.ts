@@ -14,5 +14,6 @@ export const stackComponentTypes: StackComponentType[] = [
 	"annotator",
 	"data_validator",
 	"image_builder",
-	"model_registry"
+	"model_registry",
+	"deployer"
 ] as const;

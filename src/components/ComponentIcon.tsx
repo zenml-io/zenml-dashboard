@@ -43,5 +43,7 @@ export function ComponentIcon({ type, ...rest }: Props) {
 			return <Package {...rest} />;
 		case "model_registry":
 			return <Layout {...rest} />;
+		case "deployer":
+			return <Rocket {...rest} />;
 	}
 }

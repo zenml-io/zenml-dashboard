@@ -5,6 +5,7 @@ import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
+import { TabIcon } from "@/components/tab-icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { StepCodeTab } from "./CodeTab";
@@ -32,27 +33,27 @@ export function StepSheetContent({ stepId }: Props) {
 				<Tabs defaultValue="overview">
 					<TabsList>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
-							<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={Info} />
 							<span>Overview</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="stack">
-							<Stack className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={Stack} />
 							<span>Stack</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="code">
-							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={Code} />
 							<span>Code</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
-							<Logs className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={Logs} />
 							<span>Logs</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="config">
-							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={Tools} />
 							<span>Configuration</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 text-text-md" value="metadata">
-							<MetadataIcon className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<TabIcon icon={MetadataIcon} />
 							<span>Metadata</span>
 						</TabsTrigger>
 					</TabsList>

@@ -4,6 +4,7 @@ import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import {
 	AlertDialogTrigger,
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuTrigger
@@ -45,8 +46,14 @@ export function RunDropdown({ id }: Props) {
 
 	return (
 		<DropdownMenu onOpenChange={setDropdownOpen} open={dropdownOpen}>
-			<DropdownMenuTrigger ref={dropdownTriggerRef}>
-				<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
+			<DropdownMenuTrigger ref={dropdownTriggerRef} asChild>
+				<Button
+					intent="secondary"
+					emphasis="minimal"
+					className="flex aspect-square items-center justify-center p-0"
+				>
+					<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
+				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				hidden={hasOpenDialog}

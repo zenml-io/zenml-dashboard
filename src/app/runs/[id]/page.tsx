@@ -4,7 +4,7 @@ import { ScrollArea } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { RunsDetailHeader } from "./Header";
-import { RunsDetailTabs, TabsHeader } from "./_Tabs";
+import { RunsDetailTabs, TabsHeader } from "./detail-tabs";
 import { ExpandPanelButton, GlobalDagControls } from "./expand-panel-button";
 import { PipelineVisualization } from "./pipeline-viz";
 
