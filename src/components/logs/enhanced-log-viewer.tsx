@@ -87,10 +87,6 @@ export function EnhancedLogsViewer({
 		setCurrentPage(totalPages);
 	};
 
-	const handleReloadLogs = () => {
-		reloadLogs();
-	};
-
 	const handleCopyAllLogs = () => {
 		const logText = getOriginalLogText(logs);
 		navigator.clipboard.writeText(logText).catch((err) => {
@@ -123,7 +119,7 @@ export function EnhancedLogsViewer({
 					logLevel={selectedLogLevel}
 					setLogLevel={setSelectedLogLevel}
 					onSearchChange={setSearchQuery}
-					onReload={handleReloadLogs}
+					onReload={reloadLogs}
 					onCopyAll={handleCopyAllLogs}
 					onDownload={handleDownloadLogs}
 					searchQuery={searchQuery}
@@ -146,7 +142,7 @@ export function EnhancedLogsViewer({
 				logLevel={selectedLogLevel}
 				setLogLevel={setSelectedLogLevel}
 				onSearchChange={setSearchQuery}
-				onReload={handleReloadLogs}
+				onReload={reloadLogs}
 				onCopyAll={handleCopyAllLogs}
 				onDownload={handleDownloadLogs}
 				searchQuery={searchQuery}
