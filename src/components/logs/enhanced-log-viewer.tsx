@@ -12,6 +12,7 @@ import { useLogPageInput } from "./use-logpage-input";
 
 interface EnhancedLogsViewerProps {
 	logs: LogEntryInternal[];
+	reloadLogs: () => void;
 	itemsPerPage?: number; // Optional prop for items per page
 }
 
@@ -19,6 +20,7 @@ const DEFAULT_ITEMS_PER_PAGE = 100;
 
 export function EnhancedLogsViewer({
 	logs,
+	reloadLogs,
 	itemsPerPage = DEFAULT_ITEMS_PER_PAGE
 }: EnhancedLogsViewerProps) {
 	const [currentPage, setCurrentPageState] = useState(1);
@@ -117,6 +119,7 @@ export function EnhancedLogsViewer({
 					logLevel={selectedLogLevel}
 					setLogLevel={setSelectedLogLevel}
 					onSearchChange={setSearchQuery}
+					onReload={reloadLogs}
 					onCopyAll={handleCopyAllLogs}
 					onDownload={handleDownloadLogs}
 					searchQuery={searchQuery}
@@ -139,6 +142,7 @@ export function EnhancedLogsViewer({
 				logLevel={selectedLogLevel}
 				setLogLevel={setSelectedLogLevel}
 				onSearchChange={setSearchQuery}
+				onReload={reloadLogs}
 				onCopyAll={handleCopyAllLogs}
 				onDownload={handleDownloadLogs}
 				searchQuery={searchQuery}

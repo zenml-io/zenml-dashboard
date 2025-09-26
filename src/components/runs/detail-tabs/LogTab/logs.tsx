@@ -88,7 +88,7 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 
 	return (
 		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={parsedLogs} />
+			<EnhancedLogsViewer logs={parsedLogs} reloadLogs={() => runLogs.refetch()} />
 		</div>
 	);
 }
