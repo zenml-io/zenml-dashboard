@@ -32,7 +32,7 @@ function AddComponents() {
 					<a
 						target="_blank"
 						rel="noopener noreferrer"
-						href="https://docs.zenml.io/stack-components/component-guide"
+						href="https://docs.zenml.io/stacks#stack-components-guide"
 						className="link text-primary-400"
 					>
 						Learn more
