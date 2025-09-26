@@ -1,6 +1,7 @@
 import Container from "@/assets/icons/container.svg?react";
 import ConfigIcon from "@/assets/icons/tool-02.svg?react";
 import Trigger from "@/assets/icons/trigger.svg?react";
+import { TabIcon } from "@/components/tab-icon";
 import { useRouteSegment } from "@/hooks/use-route-segment";
 import { routes } from "@/router/routes";
 import {
@@ -34,15 +35,15 @@ export function ServiceConnectorTabs({ children }: { children: ReactNode }) {
 		<Tabs onValueChange={changeValue} value={selectedTab || "configuration"}>
 			<TabsList>
 				<TabsTrigger className="flex items-center gap-2 text-text-md" value="configuration">
-					<ConfigIcon className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+					<TabIcon icon={ConfigIcon} />
 					<span>Configuration</span>
 				</TabsTrigger>
 				<TabsTrigger className="flex items-center gap-2 text-text-md" value="components">
-					<Container className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+					<TabIcon icon={Container} />
 					<span>Components</span>
 				</TabsTrigger>
 				<TabsTrigger className="flex items-center gap-2 text-text-md" value="resources">
-					<Trigger className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+					<TabIcon icon={Trigger} />
 					<span>Resources</span>
 				</TabsTrigger>
 			</TabsList>

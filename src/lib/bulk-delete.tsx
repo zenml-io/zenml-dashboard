@@ -4,7 +4,7 @@ import { Fragment } from "react/jsx-runtime";
 
 type BulkDeleteConfig = {
 	deleteFn: (id: string) => Promise<void>;
-	queryKeyToInvalidate: string[];
+	queryKeyToInvalidate: readonly string[];
 	setRowSelection: (selection: Record<string, boolean>) => void;
 };
 

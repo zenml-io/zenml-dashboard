@@ -18,7 +18,7 @@ export function AuthenticatedHeader() {
 				<div className="flex h-full flex-1 items-center gap-0.5 overflow-x-auto pl-1">
 					<WorkspaceLink />
 					<ProjectLink />
-					<Breadcrumbs />
+					<Breadcrumbs cutOffSegments={3} />
 				</div>
 				<div className="ml-auto pl-3 pr-4">
 					<UserDropdown />

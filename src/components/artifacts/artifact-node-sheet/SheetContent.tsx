@@ -17,6 +17,7 @@ import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { ArtifactDetailTab } from "./DetailsTab";
 import { ArtifactMetadataTab } from "./MetadataTab";
 import { VisualizationErrorFallback, VisualizationTab } from "./VisualizationTab";
+import { TabIcon } from "@/components/tab-icon";
 
 type Props = {
 	artifactVersionId: string;
@@ -57,18 +58,18 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 					<Tabs defaultValue="overview">
 						<TabsList>
 							<TabsTrigger className="flex items-center gap-2 text-text-md" value="overview">
-								<Info className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+								<TabIcon icon={Info} />
 								<span>Overview</span>
 							</TabsTrigger>
 							<TabsTrigger
 								className="flex items-center gap-2 truncate text-text-md"
 								value="metadata"
 							>
-								<CodeSquare className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+								<TabIcon icon={CodeSquare} />
 								<span>Metadata</span>
 							</TabsTrigger>
 							<TabsTrigger className="flex items-center gap-2 text-text-md" value="visualization">
-								<BarChart className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+								<TabIcon icon={BarChart} />
 								<span>Visualization</span>
 							</TabsTrigger>
 						</TabsList>

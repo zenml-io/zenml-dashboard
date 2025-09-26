@@ -25,6 +25,10 @@ export const apiPaths = {
 		detail: (deviceId: string) => `/devices/${deviceId}`,
 		verify: (deviceId: string) => `/devices/${deviceId}/verify`
 	},
+	deployments: {
+		list: "/deployments",
+		detail: (deploymentId: string) => `/deployments/${deploymentId}`
+	},
 	runs: {
 		all: "/runs",
 		detail: (id: string) => `/runs/${id}`,
@@ -37,8 +41,9 @@ export const apiPaths = {
 		all: "/pipeline_builds",
 		detail: (runId: string) => `/pipeline_builds/${runId}`
 	},
-	pipeline_deployments: {
-		detail: (deploymentId: string) => `/pipeline_deployments/${deploymentId}`
+	pipeline_snapshots: {
+		list: "/pipeline_snapshots",
+		detail: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}`
 	},
 	code_repositories: {
 		all: "/code_repositories",

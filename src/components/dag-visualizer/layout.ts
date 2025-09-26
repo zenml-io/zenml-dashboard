@@ -1,16 +1,33 @@
 import {
+	Edge,
 	IntermediateArtifactNode,
 	IntermediatePreviewNode,
 	IntermediateStepNode,
-	Edge
+	NodeTypes
 } from "@/types/dag-visualizer";
-import { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
 import ELK, { ElkExtendedEdge } from "elkjs/lib/elk-api";
 import worker from "elkjs/lib/elk-worker.min?url";
+import { Edge as ReactFlowEdge, Node as ReactFlowNode } from "reactflow";
 
 const nodeWidth = 300;
 const artifactHeight = 50;
 const stepHeight = 70;
+const triggeredRunHeight = 60;
+const previewHeight = 50;
+
+function getNodeHeight(type: NodeTypes) {
+	switch (type) {
+		case "step":
+			return stepHeight;
+		case "triggered_run":
+			return triggeredRunHeight;
+		case "artifact":
+			return artifactHeight;
+		case "previewStep":
+		case "previewArtifact":
+			return previewHeight;
+	}
+}
 
 const elk = new ELK({
 	workerUrl: worker
@@ -25,7 +42,7 @@ export async function getLayoutedItems(
 		.map((node) => ({
 			id: node.id,
 			width: nodeWidth,
-			height: node.type === "step" || node.type === "previewStep" ? stepHeight : artifactHeight
+			height: getNodeHeight(node.type || "step")
 		}))
 		.sort((a, b) => a.id.localeCompare(b.id));
 
