@@ -2,6 +2,7 @@ import { RawArtifactNode, RawStepNode } from "@/types/dag-visualizer";
 import { Node } from "@/types/dag-visualizer";
 
 export type TimelineItem = {
+	triggeredRuns: RawStepNode[];
 	step: RawStepNode;
 	inputs: RawArtifactNode[];
 	outputs: RawArtifactNode[];

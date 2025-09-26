@@ -5,10 +5,17 @@ type Config = {
 	steps: RawStepNode[];
 	artifacts: RawArtifactNode[];
 	edges: Edge[];
+	rawTriggeredRuns: RawStepNode[];
 };
 
-export function buildTimelineItems({ steps, artifacts, edges }: Config): TimelineItem[] {
+export function buildTimelineItems({
+	steps,
+	artifacts,
+	edges,
+	rawTriggeredRuns
+}: Config): TimelineItem[] {
 	const transformedSteps: TimelineItem[] = steps.map((step) => {
+		const triggeredRuns: RawStepNode[] = [];
 		const inputs: RawArtifactNode[] = [];
 		const outputs: RawArtifactNode[] = [];
 		const attachedEdges = edges.filter(
@@ -21,10 +28,18 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 				if (artifact) {
 					outputs.push(artifact);
 				}
+				const triggeredRun = rawTriggeredRuns.find((r) => r.node_id === e.target);
+				if (triggeredRun) {
+					triggeredRuns.push(triggeredRun);
+				}
 			} else {
 				const artifact = artifacts.find((a) => a.node_id === e.source);
 				if (artifact) {
 					inputs.push(artifact);
+				}
+				const triggeredRun = rawTriggeredRuns.find((r) => r.node_id === e.source);
+				if (triggeredRun) {
+					triggeredRuns.push(triggeredRun);
 				}
 			}
 		});
@@ -44,6 +59,7 @@ export function buildTimelineItems({ steps, artifacts, edges }: Config): Timelin
 		}
 
 		const timelineItem: TimelineItem = {
+			triggeredRuns,
 			step,
 			inputs,
 			outputs,
