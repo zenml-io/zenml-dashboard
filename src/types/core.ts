@@ -14756,6 +14756,7 @@ export type operations = {
 				template_id?: string | null;
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
 				in_progress?: boolean | null;
 				start_time?: string | null;
@@ -15616,6 +15617,7 @@ export type operations = {
 				template_id?: string | null;
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
 				in_progress?: boolean | null;
 				start_time?: string | null;
@@ -22584,6 +22586,7 @@ export type operations = {
 				template_id?: string | null;
 				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
 				in_progress?: boolean | null;
 				start_time?: string | null;
