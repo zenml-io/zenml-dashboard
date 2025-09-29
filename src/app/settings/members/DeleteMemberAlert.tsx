@@ -1,15 +1,8 @@
-import {
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogTitle,
-	Button,
-	AlertDialogAction,
-	useToast
-} from "@zenml-io/react-component-library";
-import { useDeleteUserMutation } from "@/data/users/delete-user-mutation";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { useDeleteUserMutation } from "@/data/users/delete-user-mutation";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@zenml-io/react-component-library";
 
 type Props = {
 	userId: string;
@@ -40,25 +33,13 @@ export function DeleteMemberAlert({ userId, name }: Props) {
 	}
 
 	return (
-		<AlertDialogContent className="p-0">
-			<AlertDialogTitle className="py-2 pl-5 pr-3 text-text-lg font-semibold">
-				Delete Member
-			</AlertDialogTitle>
-			<div className="border-y border-theme-border-moderate px-5 py-5">
-				<AlertDialogDescription>
-					Deleting <strong>{name}</strong> cannot be undone.
-				</AlertDialogDescription>
-			</div>
-			<div className="flex justify-end gap-3 px-5 py-3">
-				<AlertDialogCancel asChild>
-					<Button intent="secondary">Cancel</Button>
-				</AlertDialogCancel>
-				<AlertDialogAction asChild>
-					<Button onClick={deleteUser} disabled={isPending} intent="danger">
-						Delete
-					</Button>
-				</AlertDialogAction>
-			</div>
-		</AlertDialogContent>
+		<DeleteAlertContent isPending={isPending} title="Delete Member" handleDelete={deleteUser}>
+			<DeleteAlertContentBody>
+				<p>Are you sure?</p>
+				<p>
+					Removing <strong>{name}</strong> cannot be undone.
+				</p>
+			</DeleteAlertContentBody>
+		</DeleteAlertContent>
 	);
 }
