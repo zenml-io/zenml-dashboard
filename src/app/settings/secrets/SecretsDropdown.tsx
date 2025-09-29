@@ -1,76 +1,63 @@
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import EditIcon from "@/assets/icons/edit.svg?react";
-import DeleteIcon from "@/assets/icons/trash.svg?react";
-import { DialogItem } from "@/components/dialog/DialogItem";
+import Trash from "@/assets/icons/trash.svg?react";
 import {
-	AlertDialogTrigger,
+	Button,
+	Dialog,
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
-import { ElementRef, useRef, useState } from "react";
+import { useState } from "react";
 import { DeleteSecretAlert } from "./DeleteSecretAlert";
 import { EditSecretDialog } from "./EditSecretDialog";
 
 export default function SecretsDropdown({ secretId }: { secretId: string }) {
-	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [hasOpenDialog, setHasOpenDialog] = useState(false);
-	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
-	const focusRef = useRef<HTMLElement | null>(null);
-
-	function handleDialogItemSelect() {
-		focusRef.current = dropdownTriggerRef.current;
-	}
-
-	function handleDialogItemOpenChange(open: boolean) {
-		if (open === false) {
-			setDropdownOpen(false);
-			setTimeout(() => {
-				setHasOpenDialog(open);
-			}, 200);
-			return;
-		}
-		setHasOpenDialog(open);
-	}
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [editDialogOpen, setEditDialogOpen] = useState(false);
 
 	return (
-		<DropdownMenu onOpenChange={setDropdownOpen} open={dropdownOpen}>
-			<DropdownMenuTrigger ref={dropdownTriggerRef}>
-				<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
-			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				hidden={hasOpenDialog}
-				onCloseAutoFocus={(event) => {
-					if (focusRef.current) {
-						focusRef.current.focus();
-						focusRef.current = null;
-						event.preventDefault();
-					}
-				}}
-				align="end"
-				sideOffset={7}
-			>
-				<DialogItem
-					onSelect={handleDialogItemSelect}
-					onOpenChange={handleDialogItemOpenChange}
-					triggerChildren="Edit "
-					icon={<EditIcon />}
-				>
-					<EditSecretDialog
-						secretId={secretId}
-						isSecretNameEditable={true}
-						dialogTitle="Edit secret"
-					></EditSecretDialog>
-				</DialogItem>
-				<DialogItem
-					onSelect={handleDialogItemSelect}
-					onOpenChange={handleDialogItemOpenChange}
-					triggerChildren="Delete "
-					icon={<DeleteIcon />}
-				>
-					<DeleteSecretAlert secretId={secretId}></DeleteSecretAlert>
-				</DialogItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<>
+			<DeleteSecretAlert
+				secretId={secretId}
+				open={deleteDialogOpen}
+				setOpen={setDeleteDialogOpen}
+			/>
+			<Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
+				<EditSecretDialog
+					secretId={secretId}
+					isSecretNameEditable={true}
+					dialogTitle="Edit secret"
+				/>
+			</Dialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button
+						intent="secondary"
+						emphasis="minimal"
+						className="flex aspect-square items-center justify-center p-0"
+					>
+						<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
+					</Button>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end" sideOffset={7}>
+					<DropdownMenuItem
+						onClick={() => setEditDialogOpen(true)}
+						className="cursor-pointer space-x-2"
+					>
+						<EditIcon className="h-3 w-3 fill-neutral-400" />
+						<p>Edit</p>
+					</DropdownMenuItem>
+					<DropdownMenuItem
+						onClick={() => setDeleteDialogOpen(true)}
+						className="cursor-pointer space-x-2"
+					>
+						<Trash className="h-3 w-3 fill-neutral-400" />
+						<p>Delete</p>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</>
 	);
 }
