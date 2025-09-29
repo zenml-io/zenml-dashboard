@@ -39,7 +39,7 @@ export default function SecretTableDropDown({
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem
-						onClick={() => setDeleteDialogOpen(true)}
+						onSelect={() => setDeleteDialogOpen(true)}
 						className="cursor-pointer space-x-2"
 					>
 						<Trash className="h-3 w-3 fill-neutral-400" />
