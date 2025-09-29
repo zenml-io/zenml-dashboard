@@ -43,14 +43,14 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem
-						onClick={() => setEditDialogOpen(true)}
+						onSelect={() => setEditDialogOpen(true)}
 						className="cursor-pointer space-x-2"
 					>
 						<EditIcon className="h-3 w-3 fill-neutral-400" />
 						<p>Edit</p>
 					</DropdownMenuItem>
 					<DropdownMenuItem
-						onClick={() => setDeleteDialogOpen(true)}
+						onSelect={() => setDeleteDialogOpen(true)}
 						className="cursor-pointer space-x-2"
 					>
 						<Trash className="h-3 w-3 fill-neutral-400" />
