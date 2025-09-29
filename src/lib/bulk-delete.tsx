@@ -53,7 +53,7 @@ export function useBulkDelete({
 					toast({
 						status: "error",
 						emphasis: "subtle",
-						description: `Failed to delete ${id}: ${error}`,
+						description: ids.length < 2 ? `${error}` : `Failed to delete ${id}: ${error}`,
 						rounded: true
 					});
 				});
