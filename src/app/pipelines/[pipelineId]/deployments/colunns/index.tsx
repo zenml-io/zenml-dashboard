@@ -37,6 +37,13 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 
 									<CopyButton copyText={name ?? ""} />
 								</div>
+								<Link
+									to={routes.projects.deployments.detail.overview(id)}
+									className="flex items-center gap-1"
+								>
+									<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
+									<CopyButton copyText={id} />
+								</Link>
 							</div>
 						</div>
 					);

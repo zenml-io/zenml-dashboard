@@ -39,7 +39,7 @@ Client().trigger_pipeline(snapshot_name_or_id="${snapshotId}")`;
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 			<CollapsibleContent className="border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
-				<p className="mb-2">Trigger the snapshot</p>
+				<p className="mb-2">Run the snapshot</p>
 				<Codesnippet fullWidth highlightCode wrap code={code} />
 			</CollapsibleContent>
 		</CollapsiblePanel>
