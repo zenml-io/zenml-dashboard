@@ -82,8 +82,13 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 				cell: ({ row }) => {
 					const deployment = row.original.resources?.deployment;
 					const status = deployment?.body?.status;
-					if (!status) return null;
-					return <DeploymentStatusTag status={status} />;
+					const id = deployment?.id;
+					if (!status || !id) return null;
+					return (
+						<Link to={routes.projects.deployments.detail.overview(id)}>
+							<DeploymentStatusTag status={status} />
+						</Link>
+					);
 				}
 			},
 			{
