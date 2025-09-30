@@ -7,6 +7,12 @@ import { SearchField } from "../SearchField";
 import { LogLevelSelect } from "./log-level-select";
 import { LoggingLevel } from "@/types/logs";
 import { Dispatch, SetStateAction } from "react";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
@@ -86,43 +92,54 @@ export function LogToolbar({
 					</div>
 
 					{/* Right side - Action Buttons */}
-					<div className="flex items-center gap-2">
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onReload}
-							title="Reload logs"
-							className="bg-theme-surface-primary"
-						>
-							<Refresh className="mr-1 h-4 w-4 fill-theme-text-secondary" />
-							Reload
-						</Button>
+					<TooltipProvider>
+						<div className="flex items-center gap-2">
+							<Tooltip delayDuration={200}>
+								<TooltipTrigger>
+									<Button
+										size="md"
+										emphasis="subtle"
+										intent="secondary"
+										onClick={onReload}
+										className="bg-theme-surface-primary"
+									>
+										<Refresh className="h-4 w-4 fill-theme-text-secondary" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Reload logs</TooltipContent>
+							</Tooltip>
 
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onCopyAll}
-							title="Copy all displayed logs"
-							className="bg-theme-surface-primary"
-						>
-							<Copy className="mr-1 h-4 w-4 fill-theme-text-secondary" />
-							Copy All
-						</Button>
+							<Tooltip delayDuration={200}>
+								<TooltipTrigger>
+									<Button
+										size="md"
+										emphasis="subtle"
+										intent="secondary"
+										onClick={onCopyAll}
+										className="bg-theme-surface-primary"
+									>
+										<Copy className="h-4 w-4 fill-theme-text-secondary" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Copy all displayed logs</TooltipContent>
+							</Tooltip>
 
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onDownload}
-							title="Download logs as file"
-							className="bg-theme-surface-primary"
-						>
-							<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
-							Download
-						</Button>
-					</div>
+							<Tooltip delayDuration={200}>
+								<TooltipTrigger>
+									<Button
+										size="md"
+										emphasis="subtle"
+										intent="secondary"
+										onClick={onDownload}
+										className="bg-theme-surface-primary"
+									>
+										<Download className="h-5 w-5 fill-theme-text-tertiary" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>Download logs as file</TooltipContent>
+							</Tooltip>
+						</div>
+					</TooltipProvider>
 				</div>
 			</div>
 		</>
