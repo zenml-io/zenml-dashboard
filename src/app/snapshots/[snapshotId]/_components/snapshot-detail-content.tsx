@@ -1,9 +1,11 @@
 import { CollapsibleChevron } from "@/components/collapsible-chevron";
 import { CopyButton } from "@/components/CopyButton";
+import { DeploymentStatusTag } from "@/components/deployments/deployment-status-tag";
 import { KeyValue } from "@/components/KeyValue";
 import { NotAvailable } from "@/components/not-available";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
+import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import {
 	CollapsibleContent,
@@ -12,6 +14,7 @@ import {
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
 	snapshot: PipelineSnapshot;
@@ -26,6 +29,10 @@ export function DetailsContent({ snapshot }: Props) {
 	const codeReference = snapshot.resources?.code_reference;
 	const codeRepositoryId = codeReference?.body?.code_repository.id;
 	const codeCommit = codeReference?.body?.commit;
+
+	const deployment = snapshot.resources?.deployment;
+	const deploymentId = deployment?.id;
+	const deploymentStatus = deployment?.body?.status;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -46,11 +53,25 @@ export function DetailsContent({ snapshot }: Props) {
 							</div>
 						}
 					/>
+
 					<KeyValue
 						label="Pipeline"
 						value={
 							pipelineName && pipelineId ? (
 								<PipelineLink pipelineId={pipelineId} pipelineName={pipelineName} />
+							) : (
+								<NotAvailable />
+							)
+						}
+					/>
+
+					<KeyValue
+						label="Deployment"
+						value={
+							deploymentId && deploymentStatus ? (
+								<Link to={routes.projects.deployments.detail.overview(deploymentId)}>
+									<DeploymentStatusTag size="sm" status={deploymentStatus} />
+								</Link>
 							) : (
 								<NotAvailable />
 							)
