@@ -1,10 +1,9 @@
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
+import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-
-import { StackContent } from "./snapshot-stack-content";
 import { useParams } from "react-router-dom";
-import { stackQueries } from "@/data/stacks";
+import { StackContent } from "./snapshot-stack-content";
 
 export function SnapshotStack() {
 	const { snapshotId } = useParams() as {
