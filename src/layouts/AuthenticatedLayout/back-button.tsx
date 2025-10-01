@@ -19,7 +19,7 @@ export function BackButton() {
 			emphasis="minimal"
 			onClick={() => navigate(-1)}
 		>
-			<ArrowLeft className="size-5 shrink-0 fill-neutral-500" />
+			<ArrowLeft className="size-5 shrink-0 fill-theme-text-secondary" />
 			<span className="sr-only">Go back</span>
 		</Button>
 	);
