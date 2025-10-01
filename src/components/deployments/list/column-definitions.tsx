@@ -41,9 +41,7 @@ export function DeploymentNameColumn(): ColumnDef<Deployment> {
 								to={routes.projects.deployments.detail.overview(id)}
 								className="flex items-center gap-1"
 							>
-								<p className="text-text-xs text-theme-text-secondary">
-									{getFirstUuidSegment(id)}
-								</p>
+								<p className="text-text-xs text-theme-text-secondary">{getFirstUuidSegment(id)}</p>
 							</Link>
 							<CopyButton copyText={id} />
 						</div>
