@@ -1,12 +1,14 @@
 import { DeploymentsListQueryParams } from "@/types/deployments";
-import { PipelineDeploymentsTable } from "./table";
-import { DeploymentsTableToolbar } from "./toolbar";
-import { usePipelineDeploymentParams } from "./use-queryparams";
+import { DeploymentsTableToolbar } from "@/components/deployments/list/toolbar";
+import { useDeploymentQueryParams } from "@/components/deployments/list/use-deployment-queryparams";
 import { useParams } from "react-router-dom";
+import { PipelineDeploymentsTable } from "@/components/deployments/list/table";
+import { useDeploymentColumns } from "./columns";
 
 export function PipelineDeploymentsContent() {
 	const { pipelineId } = useParams() as { pipelineId: string };
-	const existingParams = usePipelineDeploymentParams();
+	const existingParams = useDeploymentQueryParams();
+	const columns = useDeploymentColumns();
 
 	const searchParams: DeploymentsListQueryParams = {
 		...existingParams,
@@ -17,7 +19,7 @@ export function PipelineDeploymentsContent() {
 	return (
 		<>
 			<DeploymentsTableToolbar params={searchParams} />
-			<PipelineDeploymentsTable params={searchParams} />
+			<PipelineDeploymentsTable params={searchParams} columns={columns} />
 		</>
 	);
 }
