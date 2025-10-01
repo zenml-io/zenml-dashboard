@@ -94,54 +94,54 @@ export function LogToolbar({
 					{/* Right side - Action Buttons */}
 					<TooltipProvider>
 						<div className="flex items-center gap-2">
-							<Tooltip delayDuration={200}>
-								<TooltipTrigger>
-									<Button
-										size="md"
-										emphasis="subtle"
-										intent="secondary"
-										onClick={onReload}
-										className="bg-theme-surface-primary"
-									>
-										<Refresh className="h-4 w-4 fill-theme-text-secondary" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>Reload logs</TooltipContent>
-							</Tooltip>
+							<LogIconButton
+								icon={<Refresh className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Reload logs"
+								onClick={onReload}
+							/>
 
-							<Tooltip delayDuration={200}>
-								<TooltipTrigger>
-									<Button
-										size="md"
-										emphasis="subtle"
-										intent="secondary"
-										onClick={onCopyAll}
-										className="bg-theme-surface-primary"
-									>
-										<Copy className="h-4 w-4 fill-theme-text-secondary" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>Copy all displayed logs</TooltipContent>
-							</Tooltip>
+							<LogIconButton
+								icon={<Copy className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Copy all displayed logs"
+								onClick={onCopyAll}
+							/>
 
-							<Tooltip delayDuration={200}>
-								<TooltipTrigger>
-									<Button
-										size="md"
-										emphasis="subtle"
-										intent="secondary"
-										onClick={onDownload}
-										className="bg-theme-surface-primary"
-									>
-										<Download className="h-5 w-5 fill-theme-text-tertiary" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>Download logs as file</TooltipContent>
-							</Tooltip>
+							<LogIconButton
+								icon={<Download className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Download logs as file"
+								onClick={onDownload}
+							/>
 						</div>
 					</TooltipProvider>
 				</div>
 			</div>
 		</>
+	);
+}
+
+function LogIconButton({
+	icon,
+	tooltip,
+	onClick
+}: {
+	icon: React.ReactNode;
+	tooltip: string;
+	onClick: () => void;
+}) {
+	return (
+		<Tooltip delayDuration={200}>
+			<TooltipTrigger>
+				<Button
+					size="md"
+					emphasis="subtle"
+					intent="secondary"
+					onClick={onClick}
+					className="flex aspect-square items-center justify-center bg-theme-surface-primary p-0"
+				>
+					{icon}
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent>{tooltip}</TooltipContent>
+		</Tooltip>
 	);
 }
