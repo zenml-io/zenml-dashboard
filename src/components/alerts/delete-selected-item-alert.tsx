@@ -1,5 +1,6 @@
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { pluralize } from "@/lib/strings";
 import {
 	AlertDialog,
 	AlertDialogTrigger
@@ -25,8 +26,8 @@ export function DeleteSelectedItemsAlert({
 		setIsOpen(false);
 	}
 
-	const plural = selectedItemCount > 1 ? "s" : "";
-	const title = `Delete ${itemName}${plural}`;
+	const plural = pluralize(selectedItemCount, itemName);
+	const title = `Delete ${plural}`;
 
 	return (
 		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>

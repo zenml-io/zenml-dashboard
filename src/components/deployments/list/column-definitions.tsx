@@ -5,6 +5,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { getFirstUuidSegment } from "@/lib/strings";
 import { routes } from "@/router/routes";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
@@ -35,6 +36,13 @@ export function DeploymentNameColumn(): ColumnDef<Deployment> {
 
 							<CopyButton copyText={name ?? ""} />
 						</div>
+						<Link
+							to={routes.projects.deployments.detail.overview(id)}
+							className="flex items-center gap-1"
+						>
+							<p className="text-text-xs text-theme-text-secondary">{getFirstUuidSegment(id)}</p>
+							<CopyButton copyText={id} />
+						</Link>
 					</div>
 				</div>
 			);

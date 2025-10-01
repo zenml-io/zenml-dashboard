@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function StepLogsTab({ stepId }: Props) {
-	const { data, isPending, isError, error } = useStepLogs({ stepId });
+	const { data, isPending, isError, error, refetch } = useStepLogs({ stepId });
 
 	const parsedLogs = useMemo(() => {
 		if (!data) return [];
@@ -37,7 +37,7 @@ export function StepLogsTab({ stepId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			<EnhancedLogsViewer logs={parsedLogs} />
+			<EnhancedLogsViewer logs={parsedLogs} reloadLogs={refetch} />
 		</div>
 	);
 }

@@ -93,9 +93,9 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 		{
 			id: "Snapshot",
 			header: "Snapshot",
-			accessorFn: (row) => row.resources?.snapshot?.id,
+			accessorFn: (row) => row.resources?.source_snapshot?.id,
 			cell: ({ row }) => {
-				const snapshot = row.original.resources?.snapshot;
+				const snapshot = row.original.resources?.source_snapshot;
 				const name = snapshot?.name;
 				if (!snapshot || !name) return null;
 
