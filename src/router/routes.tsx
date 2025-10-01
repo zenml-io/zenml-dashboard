@@ -30,7 +30,8 @@ export const routes = {
 		overview: "/projects",
 		runs: {
 			overview: "/projects/default/runs",
-			detail: (id: string) => `/projects/default/runs/${id}`
+			detail: (id: string) => `/projects/default/runs/${id}`,
+			createSnapshot: (id: string) => `/projects/default/runs/${id}/create-snapshot`
 		},
 		pipelines: {
 			overview: "/projects/default/pipelines",
