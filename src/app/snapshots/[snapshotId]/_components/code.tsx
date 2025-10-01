@@ -1,5 +1,6 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleChevron } from "@/components/collapsible-chevron";
+import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -7,14 +8,25 @@ import {
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+
+import { SnapshotDetailWrapper } from "./fetch-wrapper";
 
 export function SnapshotCodeCollapsible() {
-	const { snapshotId } = useParams() as {
-		snapshotId: string;
-	};
+	return <SnapshotDetailWrapper Component={SnapshotCodeContent} />;
+}
 
+type Props = {
+	snapshot: PipelineSnapshot;
+};
+
+function SnapshotCodeContent({ snapshot }: Props) {
 	const [open, setOpen] = useState(true);
+
+	const runnable = snapshot.body?.runnable;
+
+	if (!runnable) return null;
+
+	const snapshotId = snapshot.id;
 	const code = `from zenml.client import Client
 
 Client().trigger_pipeline(snapshot_name_or_id="${snapshotId}")`;
@@ -27,7 +39,7 @@ Client().trigger_pipeline(snapshot_name_or_id="${snapshotId}")`;
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 			<CollapsibleContent className="border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
-				<p className="mb-2">Trigger the snapshot</p>
+				<p className="mb-2">Run the snapshot</p>
 				<Codesnippet fullWidth highlightCode wrap code={code} />
 			</CollapsibleContent>
 		</CollapsiblePanel>

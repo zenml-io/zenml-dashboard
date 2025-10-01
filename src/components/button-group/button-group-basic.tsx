@@ -1,3 +1,4 @@
+import { pluralize } from "@/lib/strings";
 import { PropsWithChildren } from "react";
 import {
 	DeleteSelectedItemsAlert,
@@ -12,8 +13,8 @@ export function ButtonGroupBasic({
 	onDeleteSelected,
 	children
 }: PropsWithChildren<MultiSelectBasicInfoGroupProps>) {
-	const plural = selectedItemCount > 1 ? "s" : "";
-	const info = `${selectedItemCount} ${itemName}${plural} selected`;
+	const plural = pluralize(selectedItemCount, itemName);
+	const info = `${selectedItemCount} ${plural} selected`;
 
 	return (
 		<div className="flex items-center divide-x divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate">

@@ -3,7 +3,7 @@ import { Tag } from "@zenml-io/react-component-library";
 import { ComponentPropsWithoutRef } from "react";
 
 export function getDeploymentStatusBackground(status: DeploymentStatus | undefined) {
-	if (!status) return "bg-neutral-50";
+	if (!status) return "bg-neutral-300";
 	switch (status) {
 		case "running":
 			return "bg-success-500";
@@ -13,7 +13,7 @@ export function getDeploymentStatusBackground(status: DeploymentStatus | undefin
 			return "bg-warning-500";
 		case "unknown":
 		case "absent":
-			return "bg-neutral-500";
+			return "bg-neutral-300";
 	}
 }
 
