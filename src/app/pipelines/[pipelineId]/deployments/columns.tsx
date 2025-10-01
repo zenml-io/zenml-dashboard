@@ -1,9 +1,9 @@
 import {
-	DeploymentAuthorColumn,
-	DeploymentCreatedColumn,
-	DeploymentNameColumn,
-	DeploymentSnapshotColumn,
-	DeploymentStatusColumn
+	createDeploymentAuthorColumn,
+	createDeploymentCreatedColumn,
+	createDeploymentNameColumn,
+	createDeploymentSnapshotColumn,
+	createDeploymentStatusColumn
 } from "@/components/deployments/list/column-definitions";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
@@ -12,11 +12,11 @@ import { useMemo } from "react";
 export function usePipelineDeploymentColumns(): ColumnDef<Deployment>[] {
 	return useMemo<ColumnDef<Deployment>[]>(
 		() => [
-			DeploymentNameColumn(),
-			DeploymentStatusColumn(),
-			DeploymentSnapshotColumn(),
-			DeploymentAuthorColumn(),
-			DeploymentCreatedColumn()
+			createDeploymentNameColumn(),
+			createDeploymentStatusColumn(),
+			createDeploymentSnapshotColumn(),
+			createDeploymentAuthorColumn(),
+			createDeploymentCreatedColumn()
 		],
 
 		[]

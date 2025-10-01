@@ -11,7 +11,7 @@ import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
-export function DeploymentNameColumn(): ColumnDef<Deployment> {
+export function createDeploymentNameColumn(): ColumnDef<Deployment> {
 	return {
 		id: "name",
 		header: "Deployment",
@@ -52,7 +52,7 @@ export function DeploymentNameColumn(): ColumnDef<Deployment> {
 	};
 }
 
-export function DeploymentStatusColumn(): ColumnDef<Deployment> {
+export function createDeploymentStatusColumn(): ColumnDef<Deployment> {
 	return {
 		id: "status",
 		header: "Status",
@@ -66,7 +66,7 @@ export function DeploymentStatusColumn(): ColumnDef<Deployment> {
 	};
 }
 
-export function DeploymentPipelineColumn(): ColumnDef<Deployment> {
+export function createDeploymentPipelineColumn(): ColumnDef<Deployment> {
 	return {
 		id: "pipeline",
 		header: "Pipeline",
@@ -79,7 +79,7 @@ export function DeploymentPipelineColumn(): ColumnDef<Deployment> {
 	};
 }
 
-export function DeploymentSnapshotColumn(): ColumnDef<Deployment> {
+export function createDeploymentSnapshotColumn(): ColumnDef<Deployment> {
 	return {
 		id: "snapshot",
 		header: "Snapshot",
@@ -94,7 +94,7 @@ export function DeploymentSnapshotColumn(): ColumnDef<Deployment> {
 	};
 }
 
-export function DeploymentAuthorColumn(): ColumnDef<Deployment> {
+export function createDeploymentAuthorColumn(): ColumnDef<Deployment> {
 	return {
 		id: "author",
 		header: "Author",
@@ -113,7 +113,7 @@ export function DeploymentAuthorColumn(): ColumnDef<Deployment> {
 	};
 }
 
-export function DeploymentCreatedColumn(): ColumnDef<Deployment> {
+export function createDeploymentCreatedColumn(): ColumnDef<Deployment> {
 	return {
 		id: "created",
 		header: "Created at",
