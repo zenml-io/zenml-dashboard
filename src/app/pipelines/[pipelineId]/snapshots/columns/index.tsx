@@ -12,6 +12,7 @@ import { Checkbox, Tag } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotTableActions } from "./table-actions";
+import { getFirstUuidSegment } from "@/lib/strings";
 
 export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 	return useMemo<ColumnDef<PipelineSnapshot>[]>(
@@ -74,7 +75,9 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 									to={routes.projects.snapshots.detail.overview(id)}
 									className="flex items-center gap-1"
 								>
-									<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
+									<p className="text-text-xs text-theme-text-secondary">
+										{getFirstUuidSegment(id)}
+									</p>
 									<CopyButton copyText={id} />
 								</Link>
 							</div>

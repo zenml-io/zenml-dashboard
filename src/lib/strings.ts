@@ -70,3 +70,11 @@ export function truncateText(text: string, maxLength: number) {
 	if (text.length <= maxLength) return text;
 	return text.slice(0, maxLength) + "...";
 }
+
+export function pluralize(count: number, noun: string, suffix = "s") {
+	return `${noun}${count !== 1 ? suffix : ""}`;
+}
+
+export function getFirstUuidSegment(uuid: string) {
+	return uuid.split("-")[0];
+}

@@ -1,13 +1,15 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import {
+	capitalize,
 	extractDockerImageKey,
 	formatIdToTitleCase,
+	getFirstUuidSegment,
+	pluralize,
 	renderAnyToString,
 	snakeCaseToDashCase,
 	snakeCaseToLowerCase,
 	snakeCaseToTitleCase,
-	transformToEllipsis,
-	capitalize
+	transformToEllipsis
 } from "./strings";
 
 describe("snakeCaseToTitleCase converts snake_case to Title Case", () => {
@@ -159,5 +161,25 @@ describe("capitalizes string correctly", () => {
 		test(description, () => {
 			expect(capitalize(input)).toBe(expected);
 		});
+	});
+});
+
+describe("pluralize pluralizes string correctly", () => {
+	it("should handle basic pluralization", () => {
+		expect(pluralize(1, "item")).toBe("item");
+		expect(pluralize(2, "item")).toBe("items");
+		expect(pluralize(0, "item")).toBe("items");
+	});
+
+	it("should handle custom suffix", () => {
+		expect(pluralize(1, "fox", "es")).toBe("fox");
+		expect(pluralize(2, "fox", "es")).toBe("foxes");
+		expect(pluralize(0, "fox", "es")).toBe("foxes");
+	});
+});
+
+describe("getFirstUuidSection gets the first section of a uuid", () => {
+	it("should get the first section of a uuid", () => {
+		expect(getFirstUuidSegment("12345678-1234-1234-1234-123456789012")).toBe("12345678");
 	});
 });

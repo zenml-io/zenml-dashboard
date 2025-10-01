@@ -1,6 +1,7 @@
 import Alert from "@/assets/icons/alert-triangle.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { pluralize } from "@/lib/strings";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { usePipelineBulkDelete, usePipelineSelectorContext } from "./PipelineSelectorContext";
@@ -15,8 +16,7 @@ export function DeletePipelineAlert() {
 		setIsOpen(false);
 	}
 
-	const plural = selectedRowCount > 1 ? "s" : "";
-	const itemName = `Pipeline${plural}`;
+	const itemName = pluralize(selectedRowCount, "Pipeline");
 	const title = `Delete ${itemName}`;
 
 	return (

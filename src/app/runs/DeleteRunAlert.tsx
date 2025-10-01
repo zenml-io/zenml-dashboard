@@ -1,5 +1,6 @@
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { pluralize } from "@/lib/strings";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { useRunBulkDelete, useRunsSelectorContext } from "./RunsSelectorContext";
@@ -28,7 +29,7 @@ export function DeleteRunAlert() {
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Run${selectedRowCount >= 2 ? "s" : ""}`}
+				title={`Delete ${pluralize(selectedRowCount, "Run")}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>
