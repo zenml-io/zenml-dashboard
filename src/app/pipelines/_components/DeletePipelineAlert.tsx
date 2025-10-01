@@ -1,3 +1,4 @@
+import Alert from "@/assets/icons/alert-triangle.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import { AlertDialog, AlertDialogTrigger, Button } from "@zenml-io/react-component-library";
@@ -14,6 +15,10 @@ export function DeletePipelineAlert() {
 		setIsOpen(false);
 	}
 
+	const plural = selectedRowCount > 1 ? "s" : "";
+	const itemName = `Pipeline${plural}`;
+	const title = `Delete ${itemName}`;
+
 	return (
 		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
 			<AlertDialogTrigger asChild>
@@ -27,13 +32,19 @@ export function DeletePipelineAlert() {
 					Delete
 				</Button>
 			</AlertDialogTrigger>
-			<DeleteAlertContent
-				title={`Delete Pipeline${selectedRowCount >= 2 ? "s" : ""}`}
-				handleDelete={handleDelete}
-			>
-				<DeleteAlertContentBody>
-					<p>Are you sure?</p>
-					<p>This action cannot be undone.</p>
+			<DeleteAlertContent title={title} handleDelete={handleDelete}>
+				<DeleteAlertContentBody className="space-y-1">
+					<div>
+						<p>Are you sure?</p>
+						<p>This action cannot be undone.</p>
+					</div>
+
+					<div className="space-y-3 rounded-md border border-warning-300 bg-warning-50 px-2 py-1 text-warning-900">
+						<div className="flex items-center gap-2 text-text-sm">
+							<Alert width={24} height={24} className="shrink-0 fill-warning-700" />
+							<p>This will also delete all runs and snapshots associated with the {itemName}.</p>
+						</div>
+					</div>
 				</DeleteAlertContentBody>
 			</DeleteAlertContent>
 		</AlertDialog>
