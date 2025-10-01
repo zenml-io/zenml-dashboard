@@ -36,13 +36,17 @@ export function DeploymentNameColumn(): ColumnDef<Deployment> {
 
 							<CopyButton copyText={name ?? ""} />
 						</div>
-						<Link
-							to={routes.projects.deployments.detail.overview(id)}
-							className="flex items-center gap-1"
-						>
-							<p className="text-text-xs text-theme-text-secondary">{getFirstUuidSegment(id)}</p>
+						<div className="flex items-center gap-1">
+							<Link
+								to={routes.projects.deployments.detail.overview(id)}
+								className="flex items-center gap-1"
+							>
+								<p className="text-text-xs text-theme-text-secondary">
+									{getFirstUuidSegment(id)}
+								</p>
+							</Link>
 							<CopyButton copyText={id} />
-						</Link>
+						</div>
 					</div>
 				</div>
 			);
