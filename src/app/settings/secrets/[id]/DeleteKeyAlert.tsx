@@ -1,21 +1,19 @@
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import { secretQueries } from "@/data/secrets";
 import { useUpdateSecret } from "@/data/secrets/update-secret-query";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateSecret } from "@/types/secret";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	Button,
-	Input,
-	toast
-} from "@zenml-io/react-component-library";
-import { ChangeEvent, useState } from "react";
+import { AlertDialog, toast } from "@zenml-io/react-component-library";
 
-export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyName: string }) {
+type Props = {
+	secretId: string;
+	keyName: string;
+	open: boolean;
+	setOpen: (open: boolean) => void;
+};
+
+export function DeleteKeyAlert({ secretId, keyName, open, setOpen }: Props) {
 	const {
 		data: secretDetail,
 		isLoading,
@@ -39,8 +37,6 @@ export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyNam
 		}
 	});
 
-	const [inputValue, setInputValue] = useState("");
-
 	const deleteSecret = () => {
 		if (secretDetail) {
 			const updatedValues = { ...secretDetail.body?.values };
@@ -55,49 +51,17 @@ export function DeleteKeyAlert({ secretId, keyName }: { secretId: string; keyNam
 		}
 	};
 
-	function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-		setInputValue(event.target.value);
-	}
-
 	if (isLoading) return <div>Loading...</div>;
 	if (isError) return <div>Error loading secret details</div>;
 
 	return (
-		<AlertDialogContent>
-			<AlertDialogHeader>
-				<AlertDialogTitle>Delete Key</AlertDialogTitle>
-			</AlertDialogHeader>
-			<div className="gap-5 p-5">
-				<p className="text-text-md text-theme-text-secondary">
-					Are you sure you want to delete this key?
-				</p>
-				<p className="text-text-md text-theme-text-secondary">This action cannot be undone.</p>
-				<h3 className="font-inter text-sm mb-1 mt-4 text-left font-medium leading-5">
-					Please type DELETE to confirm
-				</h3>
-				<Input
-					name="key"
-					onChange={handleInputChange}
-					className="w-full"
-					required
-					value={inputValue}
-				/>
-			</div>
-			<AlertDialogFooter className="gap-[10px]">
-				<AlertDialogCancel asChild>
-					<Button size="sm" intent="secondary">
-						Cancel
-					</Button>
-				</AlertDialogCancel>
-				<Button
-					intent="danger"
-					type="button"
-					onClick={deleteSecret}
-					disabled={inputValue !== "DELETE"}
-				>
-					Delete
-				</Button>
-			</AlertDialogFooter>
-		</AlertDialogContent>
+		<AlertDialog open={open} onOpenChange={setOpen}>
+			<DeleteAlertContent title="Delete Key" handleDelete={deleteSecret}>
+				<DeleteAlertContentBody>
+					<p>Are you sure?</p>
+					<p>This action cannot be undone.</p>
+				</DeleteAlertContentBody>
+			</DeleteAlertContent>
+		</AlertDialog>
 	);
 }
