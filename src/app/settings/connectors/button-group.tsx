@@ -1,11 +1,12 @@
 import Trash from "@/assets/icons/trash.svg?react";
+import { DeleteConnectorAlertBody } from "@/components/service-connectors/delete-connector";
+import { pluralize } from "@/lib/strings";
 import {
 	AlertDialog,
 	AlertDialogTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useConnectorBulkDelete, useConnectorSelectorContext } from "./selector-context";
-import { DeleteConnectorAlertBody } from "@/components/service-connectors/delete-connector";
 export function ConnectorButtonGroup() {
 	const { selectedRowCount, selectedRowIDs } = useConnectorSelectorContext();
 	const { bulkDelete } = useConnectorBulkDelete();
@@ -14,8 +15,8 @@ export function ConnectorButtonGroup() {
 		await bulkDelete(selectedRowIDs);
 	}
 
-	const plural = selectedRowCount > 1 ? "s" : "";
-	const info = `${selectedRowCount} Service connector${plural} selected`;
+	const plural = pluralize(selectedRowCount, "Service connector");
+	const info = `${selectedRowCount} ${plural} selected`;
 
 	return (
 		<div className="flex h-7 items-center divide-x divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate">

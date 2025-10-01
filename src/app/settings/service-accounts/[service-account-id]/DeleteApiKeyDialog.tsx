@@ -1,4 +1,6 @@
 import Trash from "@/assets/icons/trash.svg?react";
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { pluralize } from "@/lib/strings";
 import {
 	AlertDialog,
 	AlertDialogTrigger
@@ -6,7 +8,6 @@ import {
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useApiKeyBulkDelete, useApiKeySelectorContext } from "./SelectorContext";
-import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 
 export function DeleteApiKey({ serviceAccountId }: { serviceAccountId: string }) {
 	const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +32,7 @@ export function DeleteApiKey({ serviceAccountId }: { serviceAccountId: string })
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Api Key${selectedRowCount >= 2 ? "s" : ""}`}
+				title={`Delete ${pluralize(selectedRowCount, "Api Key")}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>

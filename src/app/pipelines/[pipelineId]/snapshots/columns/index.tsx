@@ -12,6 +12,7 @@ import { Checkbox, Tag } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotTableActions } from "./table-actions";
+import { getFirstUuidSegment } from "@/lib/strings";
 
 export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 	return useMemo<ColumnDef<PipelineSnapshot>[]>(
@@ -70,6 +71,15 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 
 									<CopyButton copyText={name ?? ""} />
 								</div>
+								<Link
+									to={routes.projects.snapshots.detail.overview(id)}
+									className="flex items-center gap-1"
+								>
+									<p className="text-text-xs text-theme-text-secondary">
+										{getFirstUuidSegment(id)}
+									</p>
+									<CopyButton copyText={id} />
+								</Link>
 							</div>
 						</div>
 					);
@@ -82,8 +92,13 @@ export function useSnapshotColumns(): ColumnDef<PipelineSnapshot>[] {
 				cell: ({ row }) => {
 					const deployment = row.original.resources?.deployment;
 					const status = deployment?.body?.status;
-					if (!status) return null;
-					return <DeploymentStatusTag status={status} />;
+					const id = deployment?.id;
+					if (!status || !id) return null;
+					return (
+						<Link to={routes.projects.deployments.detail.overview(id)}>
+							<DeploymentStatusTag status={status} />
+						</Link>
+					);
 				}
 			},
 			{
