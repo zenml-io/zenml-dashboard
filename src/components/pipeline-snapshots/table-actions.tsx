@@ -15,7 +15,7 @@ type Props = {
 	snapshotId: string;
 };
 
-export function PipelineSnapshotTableActions({ snapshotId }: Props) {
+export function PipelineSnapshotActions({ snapshotId }: Props) {
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	const { bulkDelete } = useSnapshotBulkDelete();

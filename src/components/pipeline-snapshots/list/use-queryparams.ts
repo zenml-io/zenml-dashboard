@@ -11,7 +11,7 @@ const filterParamsSchema = z.object({
 	operator: z.enum(["and", "or"]).optional()
 });
 
-export function usePipelineSnapshotParams(): PipelineSnapshotListQueryParams {
+export function useSnapshotListQueryParams(): PipelineSnapshotListQueryParams {
 	const [searchParams] = useSearchParams();
 
 	const { page, name, operator } = filterParamsSchema.parse({

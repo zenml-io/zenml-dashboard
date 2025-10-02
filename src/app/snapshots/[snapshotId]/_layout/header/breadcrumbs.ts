@@ -1,3 +1,4 @@
+import { snapshotBreadcrumb } from "@/components/breadcrumbs/library";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
@@ -10,11 +11,7 @@ export function useSnapshotDetailRunsBreadcrumbs(activeTab: string, snapshot?: P
 	useEffect(() => {
 		if (snapshot) {
 			setBreadcrumbs([
-				{
-					disabled: true,
-					label: "Snapshots",
-					href: "#"
-				},
+				snapshotBreadcrumb,
 				{
 					label: snapshot.name || "",
 					href: routes.projects.snapshots.detail.overview(snapshot.id)
