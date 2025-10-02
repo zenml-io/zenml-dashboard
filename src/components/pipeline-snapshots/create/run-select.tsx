@@ -40,7 +40,7 @@ export function RunSelect({ run }: Props) {
 		<Controller
 			control={control}
 			name="run"
-			render={({ field: { onChange, ...rest } }) => (
+			render={({ field: { onChange, ref, ...rest } }) => (
 				<Select
 					disabled={!!run || !pipeline}
 					{...rest}
@@ -54,7 +54,10 @@ export function RunSelect({ run }: Props) {
 						onChange(val);
 					}}
 				>
-					<SelectTrigger className="border border-theme-border-moderate data-[error=true]:border-error-500">
+					<SelectTrigger
+						ref={ref}
+						className="border border-theme-border-moderate data-[error=true]:border-error-500"
+					>
 						<span className="truncate">
 							<SelectValue placeholder="Select a run" />
 						</span>

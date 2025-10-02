@@ -1,7 +1,9 @@
 import { PipelineRun } from "@/types/pipeline-runs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Input } from "@zenml-io/react-component-library";
+import { Box, Input } from "@zenml-io/react-component-library";
 import { FormProvider, useForm } from "react-hook-form";
+import { CreateSnapshotFormFooter } from "./_form-components/create-snapshot-form-footer";
+import { CreateSnapshotFormHeader } from "./_form-components/create-snapshot-form-header";
 import { CreatePipelineSnapshotFormSchema, createPipelineSnapshotFormSchema } from "./form-schema";
 import { generateSnapshotName } from "./name-helper";
 import { PipelineSelect } from "./pipeline-select";
@@ -29,27 +31,28 @@ export function CreateSnapshotForm({ run }: Props) {
 	const pipeline = run?.resources?.pipeline;
 
 	return (
-		<Box className="p-5">
+		<Box>
 			<FormProvider {...form}>
-				<form className="space-y-5" onSubmit={form.handleSubmit(handleCreateSnapshot)}>
-					<div>
-						<label className="text-text-sm">Name</label>
-						<Input className="w-full" {...form.register("name")} />
+				<form
+					className="divide-y divide-theme-border-moderate"
+					onSubmit={form.handleSubmit(handleCreateSnapshot)}
+				>
+					<CreateSnapshotFormHeader />
+					<div className="space-y-5 p-5">
+						<div>
+							<label className="text-text-sm">Name</label>
+							<Input className="w-full" {...form.register("name")} />
+						</div>
+						<div>
+							<label className="text-text-sm">Pipeline</label>
+							<PipelineSelect pipeline={pipeline || undefined} />
+						</div>
+						<div>
+							<label className="text-text-sm">Run</label>
+							<RunSelect run={run || undefined} />
+						</div>
 					</div>
-					<div>
-						<label className="text-text-sm">Pipeline</label>
-						<PipelineSelect pipeline={pipeline || undefined} />
-					</div>
-					<div>
-						<label className="text-text-sm">Run</label>
-						<RunSelect run={run || undefined} />
-					</div>
-					<Button type="submit" disabled={isPending}>
-						{isPending && (
-							<div className="h-4 w-4 animate-spin rounded-rounded border-2 border-theme-text-negative border-b-theme-text-brand" />
-						)}
-						Create Snapshot
-					</Button>
+					<CreateSnapshotFormFooter isPending={isPending} />
 				</form>
 			</FormProvider>
 		</Box>
