@@ -16,6 +16,7 @@ import { JSONVisualization } from "./JsonVisualization";
 import { DownloadButton } from "./visualization-download-button";
 import MarkdownVisualization from "./MarkdownVisualization";
 import CSVVisualization from "./CsvVizualization";
+import { useVisualizationUIState } from "@/context/VisualizationUIStateContext";
 
 export type Props = {
 	content: string;
@@ -45,6 +46,8 @@ export function Visualization({
 		{ versionId: artifactVersionId, params },
 		{ retry: false, enabled: !isCancelled }
 	);
+
+	const { getMarkdownMode } = useVisualizationUIState();
 
 	if (isCancelled) {
 		return (
@@ -132,7 +135,9 @@ export function Visualization({
 		<div>
 			{data.type === "image" && <ImageVisualization content={data.value} />}
 			{data.type === "html" && <HTMLVisualization content={data.value} />}
-			{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
+			{data.type === "markdown" && (
+				<MarkdownVisualization content={data.value} mode={getMarkdownMode(visualizationIndex)} />
+			)}
 			{data.type === "csv" && <CSVVisualization content={data.value} />}
 			{data.type === "json" && <JSONVisualization content={data.value} />}
 		</div>
