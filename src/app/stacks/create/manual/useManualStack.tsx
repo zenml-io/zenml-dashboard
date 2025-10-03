@@ -65,7 +65,8 @@ export function useManualStack() {
 				model_registry: null,
 				image_builder: null,
 				model_deployer: null,
-				step_operator: null
+				step_operator: null,
+				deployer: null
 			},
 			stackName: ""
 		}

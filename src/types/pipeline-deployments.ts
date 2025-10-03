@@ -1,6 +1,5 @@
 import { components } from "./core";
 
-export type PipelineDeployment = components["schemas"]["PipelineDeploymentResponse"];
 export type StepOutput = components["schemas"]["Step-Output"];
 export type StepOutputInput = {
 	step_name: string;

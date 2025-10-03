@@ -3,6 +3,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
@@ -90,24 +91,14 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
 		id: "pipeline",
 		header: "Pipeline",
-		accessorFn: (row) => row.body?.pipeline?.name,
-		cell: ({ getValue }) => {
-			const value = getValue<string>();
-			if (!value) {
+		accessorFn: (row) => row.resources?.pipeline?.name,
+		cell: ({ row }) => {
+			const name = row.original.resources?.pipeline?.name;
+			const id = row.original.resources?.pipeline?.id;
+			if (!name || !id) {
 				return null;
 			}
-			return (
-				<Link to={routes.projects.pipelines.namespace(value)}>
-					<Tag
-						color="purple"
-						className="inline-flex items-center gap-0.5 truncate"
-						rounded={false}
-						emphasis="subtle"
-					>
-						{value}
-					</Tag>
-				</Link>
-			);
+			return <PipelineLink pipelineId={id} pipelineName={name} />;
 		}
 	},
 
@@ -115,8 +106,8 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		id: "stack",
 		header: "Stack",
 		accessorFn: (row) => ({
-			name: row.body?.stack?.name,
-			id: row.body?.stack?.id
+			name: row.resources?.stack?.name,
+			id: row.resources?.stack?.id
 		}),
 		cell: ({ getValue }) => {
 			const { name, id } = getValue<{

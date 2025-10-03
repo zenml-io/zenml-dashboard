@@ -1,7 +1,8 @@
 import {
 	getPreviewSteps,
 	getRealArtifacts,
-	getRealSteps
+	getRealSteps,
+	getRealTriggeredRuns
 } from "@/components/dag-visualizer/node-types";
 import { calculateEarliestStartTime, calculateTotalTimelineSpan } from "@/lib/timeline/calculate";
 import { buildTimelineItems } from "@/lib/timeline/mapping";
@@ -13,10 +14,16 @@ export function buildTimeline(dagData: Dag, isRunning: boolean, currentTime: num
 
 	const steps = getRealSteps(nodes);
 	const artifacts = getRealArtifacts(nodes);
+	const triggeredRuns = getRealTriggeredRuns(nodes);
 
 	const placeholderSteps = getPreviewSteps(nodes);
 
-	const timelineItems = buildTimelineItems({ steps, artifacts, edges });
+	const timelineItems = buildTimelineItems({
+		steps,
+		artifacts,
+		edges,
+		rawTriggeredRuns: triggeredRuns
+	});
 
 	const earliestStartTime = calculateEarliestStartTime(timelineItems);
 

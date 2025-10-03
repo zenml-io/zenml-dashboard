@@ -1,8 +1,10 @@
 import { componentQueries } from "@/data/components";
 import { useCreateComponent } from "@/data/components/create-component";
+import { useUpdateComponent } from "@/data/components/update-component";
 import { flavorQueries } from "@/data/flavors";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { getisOptional, getZodSchemaFromConfig } from "@/lib/forms";
+import { StackComponent } from "@/types/components";
 import { Flavor } from "@/types/flavors";
 import { JSONSchema } from "@/types/forms";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,8 +18,6 @@ import { generateDefaultValues } from "../../form/helper";
 import { ConnectorSection } from "./connector-section";
 import { InfoTile } from "./info-tile";
 import { componentBaseSchema } from "./schema";
-import { StackComponent } from "@/types/components";
-import { useUpdateComponent } from "@/data/components/update-component";
 
 type Props = {
 	formId: string;

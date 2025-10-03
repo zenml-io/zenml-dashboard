@@ -16,7 +16,7 @@ export function StepNodeComponent({ data, selected }: NodeProps<StepNodePayload>
 
 	const isFailed = data.status === "failed";
 	function handleClick() {
-		openStepSheet(data.step_id);
+		openStepSheet(data.node_id);
 	}
 
 	const isStatusUnknown = getIsStatusUnknown(data.status, data.runStatus);
@@ -47,10 +47,10 @@ export function StepNodeComponent({ data, selected }: NodeProps<StepNodePayload>
 							className="h-4 w-4 shrink-0"
 						/>
 					</div>
-					<p className="truncate font-semibold">{data.step_name}</p>
+					<p className="truncate font-semibold">{data.node_name}</p>
 					<CopyNodeButton
 						className="h-4 w-4 shrink-0 rounded-sm hover:bg-theme-surface-secondary active:bg-neutral-300"
-						code={getStepSnippet(data.step_id)}
+						code={getStepSnippet(data.node_id)}
 						type="step"
 					>
 						<Copy className="h-3 w-3 fill-theme-text-tertiary" />

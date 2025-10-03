@@ -1,5 +1,3 @@
-"use client";
-
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import StopCircle from "@/assets/icons/stop-circle.svg?react";
 import {

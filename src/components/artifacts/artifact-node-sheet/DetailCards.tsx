@@ -1,4 +1,3 @@
-import Pipelines from "@/assets/icons/pipeline.svg?react";
 import Run from "@/assets/icons/terminal-square.svg?react";
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { DisplayDate } from "@/components/DisplayDate";
@@ -6,6 +5,7 @@ import { ErrorFallback } from "@/components/Error";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { KeyValue } from "@/components/KeyValue";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { componentQueries } from "@/data/components";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
@@ -130,26 +130,18 @@ function ProducerKeys({ producerRunId }: { producerRunId: string }) {
 			/>
 		);
 	if (pipelineRun.isError) return null;
+
+	const pipeline = pipelineRun.data.resources?.pipeline;
 	return (
 		<>
 			<KeyValue
 				label="Pipeline"
 				value={
-					<Link
-						to={routes.projects.pipelines.namespace(
-							encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
-						)}
-					>
-						<Tag
-							color="purple"
-							className="inline-flex items-center gap-0.5"
-							rounded={false}
-							emphasis="subtle"
-						>
-							<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
-							{pipelineRun.data.body?.pipeline?.name}
-						</Tag>
-					</Link>
+					pipeline ? (
+						<PipelineLink pipelineId={pipeline.id} pipelineName={pipeline.name} />
+					) : (
+						"Not available"
+					)
 				}
 			/>
 			<KeyValue

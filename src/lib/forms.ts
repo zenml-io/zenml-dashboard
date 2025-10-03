@@ -67,7 +67,12 @@ function getZodTypeFromSchema(
 				return isOptional ? z.union([z.literal(""), jsonSchema]) : jsonSchema;
 			}
 			const arraySchema = z.array(
-				getZodTypeFromSchema(resolvedSchema.items || {}, definitions, false, true)
+				getZodTypeFromSchema(
+					resolvedSchema.items || resolvedSchema.prefixItems?.[0] || {},
+					definitions,
+					false,
+					true
+				)
 			);
 			return isOptional ? arraySchema : arraySchema.min(1);
 		}
