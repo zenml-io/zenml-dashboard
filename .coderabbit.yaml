@@ -24,9 +24,6 @@ reviews:
   - path: "e2e-tests/**/*.ts"
     instructions: |
       Review Playwright journeys for critical coverage, stable selectors, and lean setup/teardown flows.
-  - path: "docs/**/*.md"
-    instructions: |
-      Review documentation for developer onboarding clarity, updated CLI instructions, and alignment with UI behaviour.
   auto_review:
     enabled: false
     ignore_title_keywords:
