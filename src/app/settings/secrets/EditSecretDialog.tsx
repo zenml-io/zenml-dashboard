@@ -29,7 +29,6 @@ interface EditSecretDialogProps {
 
 export function EditSecretDialog({
 	secretId,
-
 	isSecretNameEditable,
 	dialogTitle
 }: EditSecretDialogProps) {
@@ -211,6 +210,7 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 							<div className="flex items-center">
 								{index === fields.length - 1 && (
 									<Button
+										type="button"
 										intent="primary"
 										emphasis="subtle"
 										onClick={addKeyValuePair}
@@ -221,6 +221,7 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 								)}
 								{index !== fields.length - 1 && (
 									<Button
+										type="button"
 										intent="secondary"
 										emphasis="minimal"
 										onClick={() => remove(index)}
@@ -232,6 +233,17 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 							</div>
 						</div>
 					))}
+					{fields.length === 0 && (
+						<Button
+							type="button"
+							intent="primary"
+							emphasis="subtle"
+							onClick={addKeyValuePair}
+							className="mb-2 flex h-7 w-7 items-center justify-center"
+						>
+							<Plus className="flex-shrink-0 fill-primary-600" />
+						</Button>
+					)}
 				</div>
 			</form>
 

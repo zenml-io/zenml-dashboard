@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { Fragment } from "react/jsx-runtime";
 
 type BulkDeleteConfig = {
 	deleteFn: (id: string) => Promise<void>;
@@ -44,26 +43,19 @@ export function useBulkDelete({
 					rounded: true
 				});
 			} else {
-				const length = failures.length;
 				console.error(
 					"Failed to delete items:\n",
 					failures.map(({ id, error }) => `${id}: ${error}`).join("\n")
 				);
-				toast({
-					status: "error",
-					emphasis: "subtle",
-					description: (
-						<p>
-							Failed to delete {length} item{length > 1 ? "s" : ""}:
-							{failures.map(({ id }) => (
-								<Fragment key={id}>
-									<br />
-									<span>{id}</span>
-								</Fragment>
-							))}
-						</p>
-					),
-					rounded: true
+
+				// Show individual toast for each failure with the actual error cause
+				failures.forEach(({ id, error }) => {
+					toast({
+						status: "error",
+						emphasis: "subtle",
+						description: ids.length < 2 ? `${error}` : `Failed to delete ${id}: ${error}`,
+						rounded: true
+					});
 				});
 			}
 			await queryClient.invalidateQueries({ queryKey: queryKeyToInvalidate });

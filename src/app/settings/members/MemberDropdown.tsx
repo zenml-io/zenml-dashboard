@@ -1,67 +1,38 @@
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	AlertDialogTrigger
-} from "@zenml-io/react-component-library";
-import SlashCircle from "@/assets/icons/slash-circle.svg?react";
 import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
-import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
+import SlashCircle from "@/assets/icons/slash-circle.svg?react";
+import {
+	AlertDialog,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger
+} from "@zenml-io/react-component-library";
+import { useState } from "react";
 import { DeleteMemberAlert } from "./DeleteMemberAlert";
-import { ElementRef, useRef, useState } from "react";
 
 type Props = {
 	userId: string;
 	name: string;
 };
 export default function MembersDropdown({ userId, name }: Props) {
-	const [hasOpenDialog, setHasOpenDialog] = useState(false);
-	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const dropdownTriggerRef = useRef<ElementRef<typeof AlertDialogTrigger> | null>(null);
-	const focusRef = useRef<HTMLElement | null>(null);
-
-	function handleDialogItemSelect() {
-		focusRef.current = dropdownTriggerRef.current;
-	}
-
-	function handleDialogItemOpenChange(open: boolean) {
-		if (open === false) {
-			setDropdownOpen(false);
-			setTimeout(() => {
-				setHasOpenDialog(open);
-			}, 200);
-			return;
-		}
-		setHasOpenDialog(open);
-	}
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
 	return (
-		<DropdownMenu onOpenChange={setDropdownOpen} open={dropdownOpen}>
-			<DropdownMenuTrigger ref={dropdownTriggerRef}>
-				<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
-			</DropdownMenuTrigger>
-			<DropdownMenuContent
-				hidden={hasOpenDialog}
-				onCloseAutoFocus={(event) => {
-					if (focusRef.current) {
-						focusRef.current.focus();
-						focusRef.current = null;
-						event.preventDefault();
-					}
-				}}
-				align="end"
-				sideOffset={7}
-			>
-				{/* <DropdownMenuItem ></DropdownMenuItem> */}
-				<AlertDialogItem
-					onSelect={handleDialogItemSelect}
-					onOpenChange={handleDialogItemOpenChange}
-					triggerChildren="Remove Member"
-					icon={<SlashCircle fill="red" />}
-				>
-					<DeleteMemberAlert name={name} userId={userId} />
-				</AlertDialogItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+		<>
+			<AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+				<DeleteMemberAlert name={name} userId={userId} />
+			</AlertDialog>
+
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end" sideOffset={7}>
+					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<SlashCircle />}>
+						Remove Member
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</>
 	);
 }
