@@ -46,6 +46,7 @@ export function useSubmitHandler(originalSnapshotId: string | null) {
 				description: "Failed to fetch run",
 				rounded: true
 			});
+			return;
 		}
 
 		if (!snapshotId) {
