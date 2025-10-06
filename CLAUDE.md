@@ -9,6 +9,7 @@ This is the **zenml-dashboard** - the open-source React frontend for ZenML that 
 ## Development Commands
 
 ### Essential Commands
+
 ```bash
 pnpm install          # Install dependencies (uses pnpm, not yarn!)
 pnpm dev             # Start development server (default port 5173)
@@ -18,12 +19,14 @@ pnpm format          # Format code with Prettier
 ```
 
 ### Testing
+
 ```bash
 pnpm test:unit       # Run unit tests with Vitest
 pnpm test:e2e        # Run e2e tests with Playwright
 ```
 
 ### Type Generation
+
 ```bash
 pnpm generate:types -- <baseurl>  # Generate TypeScript types from OpenAPI/Swagger
 ```
@@ -35,16 +38,19 @@ This script fetches `/openapi.json` from the server and generates `src/types/cor
 ### Running Tests
 
 **Single unit test file:**
+
 ```bash
 pnpm vitest run src/lib/forms.spec.ts
 ```
 
 **Watch mode for unit tests:**
+
 ```bash
 pnpm vitest watch
 ```
 
 **Single e2e test file:**
+
 ```bash
 pnpm playwright test e2e-tests/example.spec.ts
 ```
@@ -65,6 +71,7 @@ VITE_REO_KEY=<key>                              # Optional: Reo analytics key
 ## Architecture Overview
 
 ### Technology Stack
+
 - **Framework:** Vite + React 18 (SPA)
 - **Routing:** React Router v6 with lazy-loaded routes
 - **Data Fetching:** TanStack Query (React Query) v5
@@ -89,7 +96,7 @@ src/
 ├── data/               # Data fetching layer (React Query hooks and fetchers)
 ├── types/              # TypeScript types (generated and custom)
 ├── lib/                # Utility functions and business logic
-├── context/            # React contexts (Auth, Schema, Wizard, etc.)
+├── context/            # Gloabl and reused React contexts (Auth, Schema, Wizard, etc.)
 ├── router/             # Router configuration and route definitions
 ├── hooks/              # Custom React hooks
 └── assets/             # Icons, images, and global styles
@@ -100,11 +107,13 @@ src/
 All API interactions follow a consistent pattern using TanStack Query:
 
 1. **Query files** (e.g., `pipeline-run-detail-query.ts`) export:
+
    - `getXQueryKey()` - Query key factory function
    - `fetchX()` - Async fetcher function
    - `useX()` - React Query hook
 
 2. **Example pattern:**
+
 ```typescript
 // Query key factory
 export function getPipelineRunDetailQueryKey({ runId, queryParams }) {
@@ -155,6 +164,7 @@ Configured in both `tsconfig.json` and `vite.config.ts`.
 ### Authentication
 
 Authentication state is managed via:
+
 - Cookie-based authentication with the ZenML Server
 - `AuthContext` in `src/context/AuthContext.tsx`
 - Session helpers in `src/lib/sessions.ts`
@@ -163,6 +173,7 @@ Authentication state is managed via:
 ### Form Handling
 
 Forms use React Hook Form + Zod for validation:
+
 - Dynamic form generation from JSON Schema (see `src/lib/forms.ts`)
 - Schema-to-Zod conversion for service connectors and stack components
 - Form components in `src/components/form/`
@@ -170,6 +181,7 @@ Forms use React Hook Form + Zod for validation:
 ### Code Chunking
 
 Vite build is configured to split chunks by library:
+
 - `@reactflow` - DAG visualization
 - `@radix` - UI primitives
 - `@tanstack` - React Query
@@ -185,12 +197,14 @@ Vite build is configured to split chunks by library:
 ## Testing Guidelines
 
 ### Unit Tests
+
 - Located alongside source files with `.spec.ts` extension
 - Use Vitest for running tests
 - Focus on utility functions in `src/lib/`
 - Example files: `forms.spec.ts`, `search.spec.ts`, `user.spec.ts`
 
 ### E2E Tests
+
 - Located in `e2e-tests/` directory
 - Use Playwright for browser automation
 - Test against built preview server (port 4173)
@@ -206,18 +220,21 @@ Vite build is configured to split chunks by library:
 ## Common Patterns
 
 ### Adding a new query
+
 1. Create a new file in `src/data/<resource>/`
 2. Export query key factory, fetcher, and hook
 3. Add API path to `src/data/api.ts`
 4. Use the hook in your component
 
 ### Adding a new route
+
 1. Add route definition to `src/router/routes.tsx`
 2. Create page component in `src/app/<route>/page.tsx`
 3. Lazy import in `src/router/Router.tsx`
 4. Wrap with `withProtectedRoute()` if authentication required
 
 ### Adding a new component
+
 1. Place in `src/components/<category>/`
 2. Use Radix UI primitives where possible
 3. Style with Tailwind CSS utility classes
