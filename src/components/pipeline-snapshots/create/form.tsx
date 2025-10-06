@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { CreateSnapshotFormFooter } from "./_form-components/create-snapshot-form-footer";
 import { CreateSnapshotFormHeader } from "./_form-components/create-snapshot-form-header";
 import { CreatePipelineSnapshotFormSchema, createPipelineSnapshotFormSchema } from "./form-schema";
-import { generateSnapshotName } from "./name-helper";
+import { generateUniqueName } from "@/lib/name";
 import { PipelineSelect } from "./pipeline-select";
 import { RunSelect } from "./run-select";
 import { useSubmitHandler } from "./use-submit-handler";
@@ -18,7 +18,7 @@ export function CreateSnapshotForm({ run }: Props) {
 	const form = useForm<CreatePipelineSnapshotFormSchema>({
 		resolver: zodResolver(createPipelineSnapshotFormSchema),
 		defaultValues: {
-			name: run?.name ? generateSnapshotName(run.name) : "",
+			name: run?.name ? generateUniqueName() : "",
 			pipeline: run?.resources?.pipeline?.id || "",
 			run: run?.id || ""
 		}

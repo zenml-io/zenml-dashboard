@@ -14,7 +14,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Controller, useFormContext } from "react-hook-form";
 import { CreatePipelineSnapshotFormSchema } from "./form-schema";
-import { generateSnapshotName } from "./name-helper";
+import { generateUniqueName } from "@/lib/name";
 
 type Props = {
 	run?: PipelineRun;
@@ -51,10 +51,7 @@ export function RunSelect({ run }: Props) {
 					{...rest}
 					onValueChange={(val) => {
 						if (!getValues("name")) {
-							const item = runs.find((item) => item.id === val);
-							if (item) {
-								setValue("name", generateSnapshotName(item.name));
-							}
+							setValue("name", generateUniqueName());
 						}
 						onChange(val);
 					}}
