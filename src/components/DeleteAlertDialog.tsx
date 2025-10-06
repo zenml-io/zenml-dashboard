@@ -26,11 +26,12 @@ type DeleteConfirm = z.infer<typeof deleteConfirmSchema>;
 type RunDeleteAlertContent = {
 	title: ReactNode;
 	handleDelete: () => void;
+	isPending?: boolean;
 };
 export const DeleteAlertContent = forwardRef<
 	ElementRef<typeof AlertDialogContent>,
 	ComponentPropsWithoutRef<typeof AlertDialogContent> & RunDeleteAlertContent
->(({ handleDelete, title, children }, ref) => {
+>(({ handleDelete, title, children, isPending }, ref) => {
 	const {
 		register,
 		handleSubmit,
@@ -62,7 +63,7 @@ export const DeleteAlertContent = forwardRef<
 						Cancel
 					</Button>
 				</AlertDialogCancel>
-				<Button form="delete-form" disabled={!isValid} intent="danger" type="submit">
+				<Button form="delete-form" disabled={!isValid || isPending} intent="danger" type="submit">
 					Delete
 				</Button>
 			</AlertDialogFooter>
