@@ -10,7 +10,7 @@ export default function CreateSnapshotFromRunPage() {
 	if (runQuery.isError) return <p>Error</p>;
 
 	return (
-		<div className="mx-auto w-full max-w-2xl p-5">
+		<div className="mx-auto w-full max-w-4xl p-5">
 			<CreateSnapshotForm run={runQuery.data} />
 		</div>
 	);

@@ -39,10 +39,22 @@ export function CreateSnapshotForm({ run }: Props) {
 				>
 					<CreateSnapshotFormHeader />
 					<div className="space-y-5 p-5">
-						<div>
-							<label className="text-text-sm">Name</label>
-							<Input className="w-full" {...form.register("name")} />
+						<div className="space-y-1">
+							<p className="font-semibold">Select a name for your Snapshot</p>
+							<p className="text-text-sm text-theme-text-secondary">
+								You can keep the suggested name or create your own.
+							</p>
 						</div>
+						<Input className="w-full" {...form.register("name")} />
+
+						<div className="h-[1px] bg-theme-border-moderate"></div>
+						<div className="space-y-1">
+							<p className="font-semibold">Pipeline Settings</p>
+							<p className="text-text-sm text-theme-text-secondary">
+								Select a pipeline and a pipeline run to create your snapshot
+							</p>
+						</div>
+
 						<div>
 							<label className="text-text-sm">Pipeline</label>
 							<PipelineSelect pipeline={pipeline || undefined} />
