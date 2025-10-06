@@ -80,6 +80,7 @@ export function PipelineSelect({ pipeline }: Props) {
 								<>
 									<div className="h-[1px] fill-theme-border-moderate"></div>
 									<button
+										type="button"
 										onClick={() => pipelineQuery.fetchNextPage()}
 										className="flex w-full rounded-sm bg-theme-surface-primary px-2 py-1 hover:bg-theme-surface-tertiary"
 									>
