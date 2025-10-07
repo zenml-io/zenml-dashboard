@@ -43,6 +43,7 @@ export const routes = {
 		},
 		snapshots: {
 			overview: "/projects/default/snapshots",
+			create: "/projects/default/snapshots/create",
 			detail: {
 				overview: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}`,
 				runs: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}/runs`

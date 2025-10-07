@@ -180,6 +180,7 @@ export function createSnapshotCreatedColumn(): ColumnDef<PipelineSnapshot> {
 export function createSnapshotAdminActionsColumn(): ColumnDef<PipelineSnapshot> {
 	return {
 		id: "admin_actions",
+		header: undefined,
 		accessorFn: (row) => row.id,
 		cell: ({ row }) => {
 			const snapshotId = row.original.id;
