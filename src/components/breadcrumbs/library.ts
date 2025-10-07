@@ -17,6 +17,11 @@ export const deploymentBreadcrumb: BreadcrumbSegment = {
 	disabled: true
 };
 
+export const snapshotBreadcrumb: BreadcrumbSegment = {
+	label: "Snapshots",
+	href: routes.projects.snapshots.overview
+};
+
 export const stacksBreadcrumb: BreadcrumbSegment = {
 	label: "Stacks",
 	href: routes.stacks.overview

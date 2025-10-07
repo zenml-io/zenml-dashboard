@@ -1,20 +1,19 @@
 import Pagination from "@/components/Pagination";
 import { useSnapshotSelectorContext } from "@/components/pipeline-snapshots/selector-context";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
-import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
+import { PipelineSnapshot, PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@zenml-io/react-component-library/components/client";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useSnapshotColumns } from "./columns";
 
 type Props = {
 	params: PipelineSnapshotListQueryParams;
+	columns: ColumnDef<PipelineSnapshot>[];
 };
 
-export function PipelineSnapshotsTable({ params }: Props) {
+export function PipelineSnapshotsTable({ params, columns }: Props) {
 	const { rowSelection, setRowSelection } = useSnapshotSelectorContext();
-
-	const cols = useSnapshotColumns();
 
 	const listQuery = useQuery({ ...pipelineSnapshotQueries.list(params), throwOnError: true });
 
@@ -37,7 +36,7 @@ export function PipelineSnapshotsTable({ params }: Props) {
 		<div className="flex flex-col items-center gap-5">
 			<div className="w-full">
 				<DataTable
-					columns={cols}
+					columns={columns}
 					data={data.items}
 					rowSelection={rowSelection}
 					onRowSelectionChange={setRowSelection}
