@@ -1,6 +1,6 @@
 import KeyIcon from "@/assets/icons/key-icon.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
-import { is1yearOld, is6monthsOld } from "@/lib/dates";
+import { is1yearOld, is6monthsOld, prepareBackendTimestamp } from "@/lib/dates";
 import { ApiKey } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
 import ApiKeyDropdown from "./Dropdown";
@@ -84,7 +84,7 @@ export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 				if (!date) {
 					return <p>Never</p>;
 				}
-				const parsedDate = new Date(`${date}Z`);
+				const parsedDate = prepareBackendTimestamp(date);
 				const is6Months = is6monthsOld(parsedDate);
 				const is1Year = is1yearOld(parsedDate);
 				return (

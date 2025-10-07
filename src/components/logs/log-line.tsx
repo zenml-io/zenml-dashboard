@@ -1,7 +1,8 @@
-import React from "react";
-import { LogEntryInternal, LoggingLevel } from "@/types/logs";
-import { CopyButton } from "../CopyButton";
+import { prepareBackendTimestamp } from "@/lib/dates";
 import { LOG_LEVEL_NAMES } from "@/lib/logs";
+import { LogEntryInternal, LoggingLevel } from "@/types/logs";
+import React from "react";
+import { CopyButton } from "../CopyButton";
 
 interface LogLineProps {
 	entry: LogEntryInternal;
@@ -29,7 +30,7 @@ const getLogLevelColor = (level: LoggingLevel | undefined): string => {
 };
 
 const formatTimestamp = (timestamp: string | number): string => {
-	const date = new Date(timestamp);
+	const date = prepareBackendTimestamp(timestamp);
 	return date.toISOString().replace("T", " ").slice(0, 19);
 };
 
