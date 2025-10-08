@@ -23,6 +23,9 @@ export async function fetchPipelineSnapshotDetail({
 		const errorData: string = await res
 			.json()
 			.then((data) => {
+				if (Array.isArray(data)) {
+					return data[1];
+				}
 				if (Array.isArray(data.detail)) {
 					return data.detail[1];
 				}
