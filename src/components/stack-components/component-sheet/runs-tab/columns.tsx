@@ -22,6 +22,9 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			name: row.name,
 			status: row.body?.status
 		}),
+		meta: {
+			className: "max-w-[30ch]"
+		},
 		cell: ({ getValue }) => {
 			const { name, status, id } = getValue<{
 				id: string;
@@ -31,10 +34,15 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			return (
 				<div className="group/copybutton flex items-center gap-2">
 					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
-					<div>
-						<div className="flex items-center gap-1">
-							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
-								<span className="text-text-md font-semibold text-theme-text-primary">{name}</span>
+					<div className="flex w-full flex-col">
+						<div className="flex flex-1 items-center gap-1">
+							<Link
+								to={routes.projects.runs.detail(id)}
+								className="flex min-w-0 flex-1 items-center gap-1"
+							>
+								<span className="truncate text-text-md font-semibold text-theme-text-primary">
+									{name}
+								</span>
 							</Link>
 							<TooltipProvider>
 								<Tooltip>

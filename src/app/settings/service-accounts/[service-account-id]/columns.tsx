@@ -41,13 +41,16 @@ export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 			accessorFn: (row) => ({
 				name: row.name
 			}),
+			meta: {
+				className: "max-w-[30ch]"
+			},
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center space-x-2">
 						<KeyIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
-						<div className="group/copybutton flex flex-col">
-							<div className="flex flex-row items-center space-x-1">
-								<div className="flex items-center space-x-1 text-text-md font-semibold text-theme-text-primary">
+						<div className="group/copybutton flex w-full flex-col">
+							<div className="flex min-w-0 flex-1 flex-row items-center space-x-1">
+								<div className="flex items-center space-x-1 truncate text-text-md font-semibold text-theme-text-primary">
 									{row.original.name}
 								</div>
 							</div>

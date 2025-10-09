@@ -15,17 +15,20 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		id: "secret",
 		header: "Secret",
 		accessorFn: (row) => row.name,
+		meta: {
+			className: "max-w-[30ch]"
+		},
 		cell: ({ getValue, row }) => {
 			const code = getSecretSnippet(row.original.name);
 
 			return (
 				<div className="flex items-center space-x-2">
 					<LockIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
-					<div className="group/copybutton flex flex-col">
-						<div className="flex flex-row items-center space-x-1">
-							<div className="flex items-center space-x-1">
+					<div className="group/copybutton flex w-full flex-col">
+						<div className="flex flex-1 flex-row items-center space-x-1">
+							<div className="flex min-w-0 flex-1 items-center space-x-1">
 								<Link
-									className="text-text-md font-semibold text-theme-text-primary"
+									className="truncate text-text-md font-semibold text-theme-text-primary"
 									to={routes.settings.secrets.detail(row.original.id)}
 								>
 									{row.original.name}

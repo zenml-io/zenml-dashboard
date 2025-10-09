@@ -39,6 +39,9 @@ export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 			id: "service-account",
 			header: "Service Account",
 			accessorFn: (row) => row.name,
+			meta: {
+				className: "max-w-[30ch]"
+			},
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center space-x-2">
@@ -48,11 +51,11 @@ export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 							serviceAccountName={row.original.name}
 							serviceAccountAvatar={row.original.body?.avatar_url ?? undefined}
 						/>
-						<div className="group/copybutton flex flex-col">
-							<div className="flex flex-row items-center space-x-1">
-								<div className="flex items-center space-x-1">
+						<div className="group/copybutton flex w-full flex-col">
+							<div className="flex flex-1 flex-row items-center space-x-1">
+								<div className="flex min-w-0 flex-1 items-center space-x-1">
 									<Link
-										className="text-text-md font-semibold text-theme-text-primary"
+										className="truncate text-text-md font-semibold text-theme-text-primary"
 										to={routes.settings.service_accounts.detail(row.original.id)}
 									>
 										{row.original.name}
