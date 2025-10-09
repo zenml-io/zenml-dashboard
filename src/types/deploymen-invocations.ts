@@ -19,7 +19,7 @@ export type DeploymentInvocationResponse = {
 	/** Whether the pipeline execution was successful. */
 	success: boolean;
 	/** PipelineOutput */
-	outputs: unknown;
+	outputs: Record<string, unknown>;
 	/** The time taken to execute the pipeline. */
 	execution_time: number;
 	/** The metadata of the pipeline execution. */

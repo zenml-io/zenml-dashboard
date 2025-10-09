@@ -6,7 +6,7 @@ export default function DeploymentDetailLayout() {
 	return (
 		<div className="flex h-full flex-1 flex-col">
 			<DeploymentDetailHeader deploymentId={deploymentId} />
-			<section className="flex-1 px-5 lg:px-[80px]">
+			<section className="flex-1">
 				<Outlet />
 			</section>
 		</div>

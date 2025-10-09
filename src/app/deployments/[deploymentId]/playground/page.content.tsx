@@ -53,7 +53,7 @@ export function PlaygroundPageContent({ snapshot, deployment }: Props) {
 				submitDeployment={submitDeployment}
 				snapshot={snapshot}
 			/>
-			<div className="h-full w-full bg-theme-surface-primary xl:w-1/2">
+			<div className="h-full w-full bg-theme-surface-primary xl:w-1/2 xl:pr-[80px]">
 				<PlaygroundOutputs
 					clearOutputs={() => invokeDeployment.reset()}
 					isInvoking={invokeDeployment.isPending}

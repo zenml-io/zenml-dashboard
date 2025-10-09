@@ -3,7 +3,7 @@ import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import "@/monaco-setup";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { PlaygroundError } from "./_components/error";
+import { PlaygroundEmptyState, PlaygroundError } from "./_components/error";
 import { PlaygroundLoader } from "./_components/loader";
 import { PlaygroundPageContent } from "./page.content";
 
@@ -31,6 +31,11 @@ export default function PlaygroundPage() {
 
 	const snapshot = snapshotQuery.data;
 	const deployment = deploymentQuery.data;
+
+	if (deployment.body?.status !== "running" || !deployment.body.url)
+		return (
+			<PlaygroundEmptyState subtitle="Please make sure the deployment is running and has a URL" />
+		);
 
 	return <PlaygroundPageContent snapshot={snapshot} deployment={deployment} />;
 }
