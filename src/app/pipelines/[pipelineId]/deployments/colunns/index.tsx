@@ -18,20 +18,22 @@ export function useDeploymentColumns(): ColumnDef<Deployment>[] {
 				id: "name",
 				header: "Deployment",
 				accessorFn: (row) => row.name,
-
+				meta: {
+					className: "max-w-[30ch]"
+				},
 				cell: ({ row }) => {
 					const name = row.original.name;
 					const id = row.original.id;
 					return (
 						<div className="group/copybutton flex items-center gap-2">
 							<Rocket className={`h-5 w-5 fill-primary-400`} />
-							<div>
-								<div className="flex items-center gap-1">
+							<div className="flex w-full flex-col">
+								<div className="flex flex-1 items-center gap-1">
 									<Link
 										to={routes.projects.deployments.detail.overview(id)}
-										className="flex items-center gap-1"
+										className="flex min-w-0 flex-1 items-center gap-1"
 									>
-										<span className="text-text-md font-semibold text-theme-text-primary">
+										<span className="truncate text-text-md font-semibold text-theme-text-primary">
 											{name ?? "Unnamed"}
 										</span>
 									</Link>

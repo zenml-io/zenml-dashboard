@@ -11,7 +11,7 @@ const ValueCell: React.FC<{ value: unknown }> = ({ value }) => {
 	const dots = "•".repeat(valueStr.length);
 
 	return (
-		<div className="flex  items-center gap-2 space-x-2">
+		<div className="flex items-center gap-2 space-x-2">
 			<EyeIcon onClick={() => setIsVisible(!isVisible)} className="h-4 w-4 flex-shrink-0" />
 			<span>{isVisible ? valueStr : dots}</span>
 		</div>
@@ -27,6 +27,9 @@ export function getSecretDetailColumn(
 			id: "key",
 			header: "Key",
 			accessorKey: "key",
+			meta: {
+				className: "max-w-[30ch]"
+			},
 			cell: ({ row }) => {
 				const code = `from zenml.client import Client
 secret = Client().get_secret("${name}")
@@ -37,10 +40,10 @@ secret.secret_values["${row.original.key}"]
 				return (
 					<div className="flex items-center space-x-2">
 						<KeyIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
-						<div className="flex flex-col">
-							<div className="flex items-center space-x-1">
-								<div className="flex items-center space-x-1">
-									<span className="text-text-md font-semibold text-theme-text-primary">
+						<div className="flex w-full flex-col">
+							<div className="flex flex-1 items-center space-x-1">
+								<div className="flex min-w-0 flex-1 items-center space-x-1">
+									<span className="truncate text-text-md font-semibold text-theme-text-primary">
 										{row.original.key}
 									</span>
 									<SecretTooltip code={code} />
