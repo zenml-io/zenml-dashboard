@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function PlaygroundOutputsContent({ outputs, clearOutputs }: Props) {
-	const [activeView, setActiveView] = useState<PlaygroundOutputsView>("json");
+	const [activeView, setActiveView] = useState<PlaygroundOutputsView>("preview");
 	const { metadata } = outputs;
 
 	return (
