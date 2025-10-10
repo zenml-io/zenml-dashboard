@@ -16,6 +16,11 @@ export const deploymentBreadcrumb: BreadcrumbSegment = {
 	href: routes.projects.deployments.overview
 };
 
+export const snapshotBreadcrumb: BreadcrumbSegment = {
+	label: "Snapshots",
+	href: routes.projects.snapshots.overview
+};
+
 export const stacksBreadcrumb: BreadcrumbSegment = {
 	label: "Stacks",
 	href: routes.stacks.overview
