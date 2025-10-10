@@ -54,14 +54,14 @@ export function createSnapshotNameColumn(): ColumnDef<PipelineSnapshot> {
 			const id = row.original.id;
 			return (
 				<div className="group/copybutton flex items-center gap-2">
-					<SnapshotIcon className={`h-5 w-5 fill-primary-400`} />
+					<SnapshotIcon className={`h-5 w-5 shrink-0 fill-primary-400`} />
 					<div>
 						<div className="flex items-center gap-1">
 							<Link
 								to={routes.projects.snapshots.detail.overview(id)}
 								className="flex items-center gap-1"
 							>
-								<span className="text-text-md font-semibold text-theme-text-primary">
+								<span className="truncate text-text-md font-semibold text-theme-text-primary">
 									{name ?? "Unnamed"}
 								</span>
 							</Link>
@@ -180,6 +180,7 @@ export function createSnapshotCreatedColumn(): ColumnDef<PipelineSnapshot> {
 export function createSnapshotAdminActionsColumn(): ColumnDef<PipelineSnapshot> {
 	return {
 		id: "admin_actions",
+		header: undefined,
 		accessorFn: (row) => row.id,
 		cell: ({ row }) => {
 			const snapshotId = row.original.id;

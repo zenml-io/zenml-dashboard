@@ -47,7 +47,7 @@ function SnapshotDetailInfoContent({ snapshot }: { snapshot: PipelineSnapshot })
 			</div>
 
 			<div className="flex items-center gap-1">
-				<SnapshotIcon className={`h-5 w-5 fill-primary-400`} />
+				<SnapshotIcon className={`h-5 w-5 shrink-0 fill-primary-400`} />
 				<h2 className="text-text-lg font-semibold text-theme-text-primary">{name}</h2>
 			</div>
 

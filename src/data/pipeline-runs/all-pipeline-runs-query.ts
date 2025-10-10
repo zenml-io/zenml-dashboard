@@ -1,9 +1,9 @@
-import { createApiPath, apiPaths } from "../api";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
+import { notFound } from "@/lib/not-found-error";
 import { objectToSearchParams } from "@/lib/url";
 import { PipelineRunOvervieweParams, PipelineRunPage } from "@/types/pipeline-runs";
-import { notFound } from "@/lib/not-found-error";
+import { UseQueryOptions, infiniteQueryOptions, useQuery } from "@tanstack/react-query";
+import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
 export type PipelineRunOverview = {
 	params: PipelineRunOvervieweParams;
@@ -42,5 +42,16 @@ export function useAllPipelineRuns(
 		queryKey: getPipelineRunQueryKey(params),
 		queryFn: () => fetchAllPipelineRuns(params),
 		...options
+	});
+}
+
+export function allPipelineRunsInfinite(queryParams: PipelineRunOverview) {
+	return infiniteQueryOptions({
+		queryKey: [...getPipelineRunQueryKey(queryParams), "infinite"],
+		queryFn: ({ pageParam }) =>
+			fetchAllPipelineRuns({ params: { ...queryParams.params, page: pageParam } }),
+		getNextPageParam: (lastPage) =>
+			lastPage.index < lastPage.total_pages ? lastPage.index + 1 : null,
+		initialPageParam: 1
 	});
 }

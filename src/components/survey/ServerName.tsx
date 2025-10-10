@@ -3,19 +3,11 @@ import { ServerNameFormSchema, ServerNameFormType } from "./form-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useId } from "react";
 import { Button, Input } from "@zenml-io/react-component-library";
-import { uniqueNamesGenerator, colors, animals } from "unique-names-generator";
+import { generateUniqueName } from "@/lib/name";
 
 type Props = {
 	submitHandler: (data: ServerNameFormType) => void;
 };
-
-const blockedAnimals = ["booby", "swallow"];
-
-function generateUniqueName() {
-	return uniqueNamesGenerator({
-		dictionaries: [colors, animals.filter((el) => !blockedAnimals.includes(el))]
-	});
-}
 
 export function ServerNameForm({ submitHandler }: Props) {
 	const serverNameId = useId();

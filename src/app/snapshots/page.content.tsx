@@ -15,7 +15,7 @@ export function GlobalSnapshotsContent() {
 
 	return (
 		<>
-			<SnapshotTableToolbar params={searchParams} />
+			<SnapshotTableToolbar displayCreateButton params={searchParams} />
 			<PipelineSnapshotsTable params={searchParams} columns={columns} />
 		</>
 	);

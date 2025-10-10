@@ -18,7 +18,10 @@ export function getPipelineRunDetailQueryKey({
 	return ["runs", runId, queryParams];
 }
 
-export async function fetchPipelineRun({ runId, queryParams = {} }: PipelineRunDetailOverview) {
+export async function fetchPipelineRun({
+	runId,
+	queryParams = {}
+}: PipelineRunDetailOverview): Promise<PipelineRun> {
 	const queryString = objectToSearchParams(queryParams);
 	const url = createApiPath(apiPaths.runs.detail(runId)) + (queryString ? `?${queryString}` : "");
 	const res = await fetcher(url, {
