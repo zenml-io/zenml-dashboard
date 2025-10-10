@@ -1,20 +1,19 @@
 import { useDeploymentSelectorContext } from "@/components/deployments/selector-context";
 import Pagination from "@/components/Pagination";
 import { deploymentQueries } from "@/data/deployments";
-import { DeploymentsListQueryParams } from "@/types/deployments";
+import { Deployment, DeploymentsListQueryParams } from "@/types/deployments";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@zenml-io/react-component-library/components/client";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useDeploymentColumns } from "./colunns";
+import { ColumnDef } from "@tanstack/react-table";
 
 type Props = {
 	params: DeploymentsListQueryParams;
+	columns: ColumnDef<Deployment>[];
 };
 
-export function PipelineDeploymentsTable({ params }: Props) {
+export function PipelineDeploymentsTable({ params, columns }: Props) {
 	const { rowSelection, setRowSelection } = useDeploymentSelectorContext();
-
-	const cols = useDeploymentColumns();
 
 	const listQuery = useQuery({ ...deploymentQueries.list(params), throwOnError: true });
 
@@ -37,7 +36,7 @@ export function PipelineDeploymentsTable({ params }: Props) {
 		<div className="flex flex-col items-center gap-5">
 			<div className="w-full">
 				<DataTable
-					columns={cols}
+					columns={columns}
 					data={data.items}
 					rowSelection={rowSelection}
 					onRowSelectionChange={setRowSelection}

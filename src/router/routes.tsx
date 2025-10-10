@@ -48,6 +48,7 @@ export const routes = {
 			}
 		},
 		deployments: {
+			overview: "/projects/default/deployments",
 			detail: {
 				overview: (deploymentId: string) => `/projects/default/deployments/${deploymentId}`
 			}
