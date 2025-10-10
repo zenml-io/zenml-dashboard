@@ -57,3 +57,13 @@ export function secondsToTimeString(seconds: number) {
 
 	return parts.join(" ");
 }
+
+export function prepareBackendTimestamp(dateString: string | number) {
+	if (typeof dateString === "number") {
+		return new Date(dateString);
+	}
+	if (!dateString.endsWith("Z")) {
+		return new Date(dateString + "Z");
+	}
+	return new Date(dateString);
+}

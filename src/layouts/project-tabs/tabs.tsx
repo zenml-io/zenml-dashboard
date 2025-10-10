@@ -10,7 +10,15 @@ import {
 import { useNavigate } from "react-router-dom";
 
 // settings is in brackets because of the file structure
-type TabValues = "pipelines" | "runs" | "artifacts" | "models" | "settings" | "snapshots";
+
+type TabValues =
+	| "pipelines"
+	| "runs"
+	| "artifacts"
+	| "models"
+	| "settings"
+	| "snapshots"
+	| "deployments";
 
 export function ProjectTabs() {
 	const navigate = useNavigate();
@@ -23,6 +31,9 @@ export function ProjectTabs() {
 				break;
 			case "runs":
 				navigate(routes.projects.runs.overview);
+				break;
+			case "deployments":
+				navigate(routes.projects.deployments.overview);
 				break;
 			case "artifacts":
 				navigate(routes.projects.artifacts.overview);
@@ -51,6 +62,9 @@ export function ProjectTabs() {
 					</TabsTrigger>
 					<TabsTrigger value="snapshots">
 						<span>Snapshots</span>
+					</TabsTrigger>
+					<TabsTrigger value="deployments">
+						<span>Deployments</span>
 					</TabsTrigger>
 					<TabsTrigger value="artifacts">
 						<span>Artifacts</span>
