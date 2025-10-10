@@ -1,4 +1,5 @@
 import { Edge, RawArtifactNode, RawStepNode } from "@/types/dag-visualizer";
+import { prepareBackendTimestamp } from "../dates";
 import { TimelineItem } from "./types";
 
 type Config = {
@@ -47,7 +48,7 @@ export function buildTimelineItems({
 		let startTimeMs: number | undefined;
 		if (step.metadata.start_time) {
 			try {
-				startTimeMs = new Date(`${step.metadata.start_time}Z`).getTime();
+				startTimeMs = prepareBackendTimestamp(step.metadata.start_time).getTime();
 				if (isNaN(startTimeMs)) {
 					console.warn(`Invalid date format for startTime: ${step.metadata.start_time}`);
 					startTimeMs = undefined;
