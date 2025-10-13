@@ -6,7 +6,7 @@ type Props = {
 
 export function PlaygroundLoader({ subtitle }: Props) {
 	return (
-		<div className="flex h-full w-full flex-col items-center justify-center gap-2">
+		<div className="flex h-full w-full flex-col items-center justify-center gap-2 p-5">
 			<Spinner />
 			{subtitle && <p className="text-text-lg font-semibold">{subtitle}</p>}
 		</div>

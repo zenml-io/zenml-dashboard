@@ -19,7 +19,7 @@ export function PlaygroundOutputsContent({ outputs, clearOutputs }: Props) {
 
 	return (
 		<div className="flex h-full w-full flex-col divide-y divide-theme-border-moderate">
-			<div className="flex h-full flex-col gap-5 overflow-auto py-5 pl-5">
+			<div className="flex h-full flex-col gap-5 overflow-auto py-5 pl-5 pr-5 xl:pr-0">
 				<PlaygroundOutputsHeader activeView={activeView} setActiveView={setActiveView} />
 				<div>
 					<PlaygroundRunCard
