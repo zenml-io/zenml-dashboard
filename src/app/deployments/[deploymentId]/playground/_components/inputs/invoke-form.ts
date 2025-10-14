@@ -1,5 +1,6 @@
 import { JSONSchemaDefinition } from "@/types/forms";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@zenml-io/react-component-library";
 import { JSONSchemaFaker } from "json-schema-faker";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,6 +21,7 @@ export function useInvokeForm(
 	jsonSchema: JSONSchemaDefinition,
 	submitDeployment: (data: unknown) => void
 ) {
+	const { toast } = useToast();
 	const defaultValues = JSONSchemaFaker.generate(jsonSchema);
 	const form = useForm<InvokeFormType>({
 		resolver: zodResolver(invokeFormSchema),
@@ -32,6 +34,14 @@ export function useInvokeForm(
 		try {
 			submitDeployment(JSON.parse(data.parameters));
 		} catch (error) {
+			if (error instanceof Error) {
+				toast({
+					emphasis: "subtle",
+					status: "error",
+					rounded: true,
+					description: error.message
+				});
+			}
 			console.error(error);
 		}
 	}

@@ -34,7 +34,13 @@ export function PlaygroundPageContent({ snapshot, deployment }: Props) {
 		const url = deployment.body?.url;
 
 		if (!url) {
-			throw new Error("URL is not set");
+			toast({
+				status: "error",
+				emphasis: "subtle",
+				rounded: true,
+				description: "URL is not set"
+			});
+			return;
 		}
 
 		invokeDeployment.mutate({
