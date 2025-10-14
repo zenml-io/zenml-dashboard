@@ -1,4 +1,4 @@
-import { DeploymentInvocationResponse } from "@/types/deploymen-invocations";
+import { DeploymentInvocationResponse } from "@/types/deployment-invocations";
 import Editor from "@monaco-editor/react";
 import { PlaygroundEmptyState } from "../error";
 import { PlaygroundOutputsFooter } from "./footer";

@@ -1,6 +1,6 @@
 import { isArray, isObject, isString } from "@/lib/type-guards";
 import { useState } from "react";
-import { shouldCollapseString } from "../services/string-threshhold";
+import { shouldCollapseString } from "../services/string-threshold";
 import { ObjectValue } from "./object-value";
 import { PlaygroundValueCollapsible } from "./playground-value-collapsible";
 import { RenderSimpleValue } from "./simple-value";
@@ -23,7 +23,7 @@ export function ArrayValueBody({ value }: { value: unknown[] }) {
 	return (
 		<ul className="space-y-3">
 			{simpleValues.map((val, idx) => {
-				const isCollapsingString = isString(value) && shouldCollapseString(value);
+				const isCollapsingString = isString(val) && shouldCollapseString(val);
 				return (
 					<li
 						key={idx}

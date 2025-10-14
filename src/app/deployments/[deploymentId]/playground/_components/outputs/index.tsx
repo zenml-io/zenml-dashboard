@@ -1,4 +1,4 @@
-import { DeploymentInvocationResponse } from "@/types/deploymen-invocations";
+import { DeploymentInvocationResponse } from "@/types/deployment-invocations";
 import { PlaygroundLoader } from "../loader";
 import { PlaygroundOutputsContent } from "./content";
 import { PlaygroundOutputsEmptyState } from "./empty-state";

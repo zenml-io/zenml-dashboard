@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ExpandCollapseLineIcon } from "./expand-collapse-icon";
-import { shouldCollapseString } from "../services/string-threshhold";
+import { shouldCollapseString } from "../services/string-threshold";
 
 export function Collapsiblevalue({ value }: { value: string }) {
 	const [isExpanded, setIsExpanded] = useState(false);

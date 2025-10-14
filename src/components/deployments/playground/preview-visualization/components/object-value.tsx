@@ -1,7 +1,7 @@
 import { isString } from "@/lib/type-guards";
 import { useState } from "react";
 import { sortJsonKeys } from "../services/sort-json-keys";
-import { shouldCollapseString } from "../services/string-threshhold";
+import { shouldCollapseString } from "../services/string-threshold";
 import { ArrayValue } from "./array-value";
 import { PlaygroundValueCollapsible } from "./playground-value-collapsible";
 import { RenderSimpleValue } from "./simple-value";

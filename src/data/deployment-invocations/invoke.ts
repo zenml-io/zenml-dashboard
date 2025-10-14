@@ -3,7 +3,7 @@ import {
 	DeploymentInvocationRequest,
 	DeploymentInvocationResponse,
 	InvocationValidationError
-} from "@/types/deploymen-invocations";
+} from "@/types/deployment-invocations";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 
 type InvokeConfig = {

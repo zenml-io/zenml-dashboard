@@ -24,7 +24,7 @@ export async function fetchPipelineSnapshotDetail({
 			.json()
 			.then((data) => {
 				if (Array.isArray(data)) {
-					return data[1];
+					return data[1] || "Unknown error";
 				}
 				if (Array.isArray(data.detail)) {
 					return data.detail[1];

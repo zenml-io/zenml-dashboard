@@ -2,7 +2,7 @@ import { isArray, isObject } from "@/lib/type-guards";
 
 export function sortJsonKeys(json: Record<string, unknown>, sortKeysAlphabetically = true) {
 	const objects: { [key: string]: Record<string, unknown> } = {};
-	const nonObjects: { [key: string]: unknown } = {};
+	const nonObjects: Record<string, unknown> = {};
 	const arrays: { [key: string]: unknown[] } = {};
 
 	for (const [key, value] of Object.entries(json || {})) {
