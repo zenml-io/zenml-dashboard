@@ -34,6 +34,7 @@ export function PlaygroundOutputsContent({ outputs, clearOutputs }: Props) {
 						<PlaygroundOutputsPreviewVisualization json={outputs.outputs} />
 					) : (
 						<Editor
+							theme="github-light"
 							value={JSON.stringify(outputs.outputs, null, "\t")}
 							language="json"
 							options={{

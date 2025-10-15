@@ -26,6 +26,7 @@ export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: 
 
 	return (
 		<Editor
+			theme="github-light"
 			path={fileMatch}
 			value={value}
 			onChange={onChange}
