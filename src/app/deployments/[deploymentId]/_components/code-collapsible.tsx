@@ -51,7 +51,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 						</TabsTrigger>
 						{displayCurl && (
 							<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="curl">
-								<span>cUrl</span>
+								<span>cURL</span>
 							</TabsTrigger>
 						)}
 					</TabsList>
