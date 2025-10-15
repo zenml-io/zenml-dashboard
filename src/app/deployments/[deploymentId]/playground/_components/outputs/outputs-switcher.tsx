@@ -1,7 +1,5 @@
-import {
-	PlaygroundButtonSwitcherTabs,
-	PlaygroundViewSwitcherButton
-} from "@/components/deployments/playground/playground-view-switcher";
+import { PlaygroundViewSwitcherButton } from "@/components/deployments/playground/playground-view-switcher-button";
+import { PlaygroundButtonSwitcherTabs } from "@/components/deployments/playground/playground-view-switcher-tabs";
 import { TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 import { PlaygroundOutputsView } from "./types";
 

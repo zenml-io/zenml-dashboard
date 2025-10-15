@@ -1,4 +1,3 @@
-import { Tabs } from "@radix-ui/react-tabs";
 import { cn } from "@zenml-io/react-component-library";
 import { Button } from "@zenml-io/react-component-library/components";
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
@@ -24,28 +23,3 @@ export const PlaygroundViewSwitcherButton = forwardRef<
 });
 
 PlaygroundViewSwitcherButton.displayName = "PlaygroundViewSwitcherButton";
-
-type PlaygroundButtonSwitcherTabsProps = ComponentPropsWithoutRef<typeof Tabs> & {
-	activeView: string;
-	setActiveView: (view: string) => void;
-};
-
-export function PlaygroundButtonSwitcherTabs({
-	activeView,
-	setActiveView,
-	className,
-	children
-}: PlaygroundButtonSwitcherTabsProps) {
-	return (
-		<Tabs
-			className={cn(
-				"w-fit overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary",
-				className
-			)}
-			value={activeView}
-			onValueChange={(value) => setActiveView(value)}
-		>
-			{children}
-		</Tabs>
-	);
-}

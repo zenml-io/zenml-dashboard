@@ -5,6 +5,7 @@ import {
 	InvocationValidationError
 } from "@/types/deployment-invocations";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
+import { createDeploymentInvocationClient } from "./invoke-client";
 
 type InvokeConfig = {
 	url: string;
@@ -17,16 +18,9 @@ async function invokeDeployment({
 	payload,
 	authKey
 }: InvokeConfig): Promise<DeploymentInvocationResponse> {
-	const invocationUrl = `${url}/invoke`;
+	const invokeClient = createDeploymentInvocationClient({ authKey });
 
-	const res = await fetch(invocationUrl, {
-		method: "POST",
-		headers: {
-			...(authKey ? { Authorization: `Bearer ${authKey}` } : {}),
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify(payload)
-	});
+	const res = await invokeClient.invokeDeployment(url, payload);
 
 	if (!res.ok) {
 		let errorMessage: string;
