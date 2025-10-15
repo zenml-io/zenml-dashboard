@@ -55,6 +55,7 @@ export function PlaygroundPageContent({ snapshot, deployment }: Props) {
 	return (
 		<div className="flex h-full w-full flex-1 flex-col divide-y divide-theme-border-moderate xl:flex-row xl:divide-x xl:divide-y-0">
 			<PlaygroundInputs
+				deploymentId={deployment.id}
 				isInvoking={invokeDeployment.isPending}
 				submitDeployment={submitDeployment}
 				snapshot={snapshot}

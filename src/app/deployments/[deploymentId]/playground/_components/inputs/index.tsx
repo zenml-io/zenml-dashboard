@@ -9,9 +9,10 @@ type Props = {
 	snapshot: PipelineSnapshot;
 	submitDeployment: (data: unknown) => void;
 	isInvoking: boolean;
+	deploymentId: string;
 };
 
-export function PlaygroundInputs({ snapshot, submitDeployment, isInvoking }: Props) {
+export function PlaygroundInputs({ snapshot, submitDeployment, isInvoking, deploymentId }: Props) {
 	const jsonSchema = snapshot.metadata?.pipeline_spec?.input_schema as JSONSchemaDefinition;
 	const { form, handleSubmit } = useInvokeForm(jsonSchema, submitDeployment);
 
@@ -28,6 +29,7 @@ export function PlaygroundInputs({ snapshot, submitDeployment, isInvoking }: Pro
 						name="parameters"
 						render={({ field }) => (
 							<PlaygroundEditor
+								deploymentId={deploymentId}
 								jsonSchema={jsonSchema}
 								value={field.value}
 								onChange={field.onChange}

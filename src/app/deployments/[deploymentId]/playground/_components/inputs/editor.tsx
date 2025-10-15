@@ -2,10 +2,13 @@ import { JSONSchemaDefinition } from "@/types/forms";
 import Editor, { EditorProps, OnMount } from "@monaco-editor/react";
 
 type Props = EditorProps & {
+	deploymentId: string;
 	jsonSchema: JSONSchemaDefinition;
 };
 
-export function PlaygroundEditor({ jsonSchema, value, onChange }: Props) {
+export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: Props) {
+	const fileMatch = `${deploymentId}.json`;
+
 	const handleEditorMount: OnMount = (_editor, monaco) => {
 		// Configure JSON language defaults with schema validation
 		monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
@@ -13,8 +16,8 @@ export function PlaygroundEditor({ jsonSchema, value, onChange }: Props) {
 			validate: true,
 			schemas: [
 				{
-					uri: "http://zenml.io/deployment-input-schema.json",
-					fileMatch: ["*"],
+					uri: `deployment-input-schema-${deploymentId}.json`,
+					fileMatch: [fileMatch],
 					schema: jsonSchema
 				}
 			]
@@ -23,6 +26,7 @@ export function PlaygroundEditor({ jsonSchema, value, onChange }: Props) {
 
 	return (
 		<Editor
+			path={fileMatch}
 			value={value}
 			onChange={onChange}
 			language="json"
