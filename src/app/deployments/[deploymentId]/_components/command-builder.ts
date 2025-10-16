@@ -1,8 +1,20 @@
+function getAuthTokenPlaceholder(authKey: string) {
+	return "*".repeat(Math.min(authKey.length, 10));
+}
+
+export function replaceAuthTokenPlaceholder(command: string, authKey: string | undefined) {
+	if (!authKey) {
+		return command;
+	}
+	const placeholder = getAuthTokenPlaceholder(authKey);
+	return command.replace(placeholder, authKey);
+}
+
 export function buildCurl(url: string, defaultBody?: unknown, authKey?: string) {
 	const curlHeaders: string[] = [];
 
 	if (authKey) {
-		curlHeaders.push(`-H "Authorization: Bearer ${authKey}"`);
+		curlHeaders.push(`-H "Authorization: Bearer ${getAuthTokenPlaceholder(authKey)}"`);
 	}
 
 	curlHeaders.push(`-H "Content-Type: application/json"`);
@@ -71,7 +83,7 @@ export function buildTs(url: string, defaultBody?: unknown, authKey?: string) {
 	const headers: string[] = [];
 
 	if (authKey) {
-		headers.push(`    "Authorization": "Bearer ${authKey}"`);
+		headers.push(`    "Authorization": "Bearer ${getAuthTokenPlaceholder(authKey)}"`);
 	}
 
 	headers.push(`    "Content-Type": "application/json"`);

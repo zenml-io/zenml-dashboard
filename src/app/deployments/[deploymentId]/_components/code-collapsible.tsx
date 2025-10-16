@@ -13,7 +13,13 @@ import {
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
-import { buildCurl, buildPythonCommand, buildTs, buildZenCommand } from "./command-builder";
+import {
+	buildCurl,
+	buildPythonCommand,
+	buildTs,
+	buildZenCommand,
+	replaceAuthTokenPlaceholder
+} from "./command-builder";
 
 export function DeploymentCodeCollapsible() {
 	return <DeploymentDetailWrapper Component={DeploymentCodeContent} />;
@@ -82,36 +88,36 @@ function DeploymentCodeContent({ deployment }: Props) {
 					</TabsContent>
 					{!!url && (
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="curl">
-							<Codesnippet
-								fullWidth
-								highlightCode
-								wrap
-								language="bash"
-								code={buildCurl(
-									url,
-									{
-										city: "Paris"
-									},
-									authKey
-								)}
-							/>
+							{(() => {
+								const curlCode = buildCurl(url, { city: "Paris" }, authKey);
+								return (
+									<Codesnippet
+										fullWidth
+										highlightCode
+										wrap
+										language="bash"
+										copyCode={replaceAuthTokenPlaceholder(curlCode, authKey)}
+										code={curlCode}
+									/>
+								);
+							})()}
 						</TabsContent>
 					)}
 					{!!url && (
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="ts">
-							<Codesnippet
-								fullWidth
-								wrap
-								highlightCode
-								language="ts"
-								code={buildTs(
-									url,
-									{
-										city: "Paris"
-									},
-									authKey
-								)}
-							/>
+							{(() => {
+								const tsCode = buildTs(url, { city: "Paris" }, authKey);
+								return (
+									<Codesnippet
+										fullWidth
+										wrap
+										highlightCode
+										language="ts"
+										copyCode={replaceAuthTokenPlaceholder(tsCode, authKey)}
+										code={tsCode}
+									/>
+								);
+							})()}
 						</TabsContent>
 					)}
 				</Tabs>
