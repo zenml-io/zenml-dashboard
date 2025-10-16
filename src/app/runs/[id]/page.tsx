@@ -1,46 +1,61 @@
-import { useServerInfo } from "@/data/server/info-query";
-import { checkIsLocalServer } from "@/lib/server";
-import { ScrollArea } from "@zenml-io/react-component-library";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { RunsDetailHeader } from "./Header";
 import { RunsDetailTabs, TabsHeader } from "./detail-tabs";
 import { ExpandPanelButton, GlobalDagControls } from "./expand-panel-button";
 import { PipelineVisualization } from "./pipeline-viz";
 
+import {
+	ImperativePanelHandle,
+	Panel,
+	PanelGroup,
+	PanelResizeHandle
+} from "react-resizable-panels";
+
 export default function RunDetailPage() {
 	const { runId } = useParams() as { runId: string };
-	const serverInfo = useServerInfo();
-	const isLocal = checkIsLocalServer(serverInfo.data?.deployment_type || "other");
-	const [isPanelOpen, setIsPanelOpen] = useState(true);
+
+	const ref = useRef<ImperativePanelHandle>(null);
+	const [isCollapsed, setIsCollapsed] = useState(false);
+
+	function collapsePanel() {
+		const panel = ref.current;
+		if (panel) {
+			panel.collapse();
+		}
+	}
+
+	function expandPanel() {
+		const panel = ref.current;
+		if (panel) {
+			panel.expand();
+		}
+	}
+
 	return (
-		<div>
+		<>
 			<RunsDetailHeader />
-			<div
-				className={`flex ${isLocal ? "h-[calc(100vh_-_4rem_-_4rem_-_4rem_-_2px)]" : "h-[calc(100vh_-_4rem_-_4rem_-_2px)]"} w-full`}
-			>
-				<div
-					className={`relative bg-white/40 transition-all duration-500 ${
-						isPanelOpen ? "w-1/2" : "w-full"
-					}`}
-				>
+			<PanelGroup direction="horizontal" className="relative">
+				<Panel minSize={25} defaultSize={50}>
 					<PipelineVisualization runId={runId} />
 					<GlobalDagControls>
-						<ExpandPanelButton isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
+						<ExpandPanelButton isCollapsed={isCollapsed} handlePanelToggle={expandPanel} />
 					</GlobalDagControls>
-				</div>
-				<div
-					aria-hidden={!isPanelOpen}
-					className={`h-full min-w-0 overflow-x-hidden text-ellipsis whitespace-nowrap bg-theme-surface-secondary transition-all duration-500 ${
-						isPanelOpen ? "w-1/2 border-l border-theme-border-moderate" : "w-0 border-transparent"
-					}`}
+				</Panel>
+				<PanelResizeHandle className="w-[1px] bg-theme-border-moderate" />
+				<Panel
+					collapsible
+					ref={ref}
+					className="!overflow-y-auto"
+					minSize={25}
+					defaultSize={50}
+					onCollapse={() => setIsCollapsed(true)}
+					onExpand={() => setIsCollapsed(false)}
 				>
-					<ScrollArea viewportClassName="[&>*]:!block">
-						<TabsHeader setIsPanelOpen={setIsPanelOpen} />
-						<RunsDetailTabs />
-					</ScrollArea>
-				</div>
-			</div>
-		</div>
+					<TabsHeader handlePanelToggle={collapsePanel} />
+					<RunsDetailTabs />
+				</Panel>
+			</PanelGroup>
+		</>
 	);
 }
