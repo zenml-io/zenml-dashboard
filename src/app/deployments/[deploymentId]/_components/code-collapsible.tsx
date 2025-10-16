@@ -13,7 +13,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
-import { buildCurl, buildPythonCommand, buildZenCommand } from "./command-builder";
+import { buildCurl, buildPythonCommand, buildTs, buildZenCommand } from "./command-builder";
 
 export function DeploymentCodeCollapsible() {
 	return <DeploymentDetailWrapper Component={DeploymentCodeContent} />;
@@ -27,8 +27,6 @@ function DeploymentCodeContent({ deployment }: Props) {
 	const [open, setOpen] = useState(true);
 	const [selectedTab, setSelectedTab] = useState("cli");
 	const url = deployment.body?.url;
-
-	const displayCurl = !!url;
 
 	const authKey = deployment.metadata?.auth_key ?? undefined;
 
@@ -49,9 +47,14 @@ function DeploymentCodeContent({ deployment }: Props) {
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="python">
 							<span>Python</span>
 						</TabsTrigger>
-						{displayCurl && (
+						{!!url && (
 							<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="curl">
 								<span>cURL</span>
+							</TabsTrigger>
+						)}
+						{!!url && (
+							<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="ts">
+								<span>Typescript</span>
 							</TabsTrigger>
 						)}
 					</TabsList>
@@ -60,6 +63,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 						<Codesnippet
 							fullWidth
 							highlightCode
+							language="bash"
 							wrap
 							code={buildZenCommand(deployment.name, { city: "Paris", test: 20 })}
 						/>
@@ -68,6 +72,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 						<Codesnippet
 							fullWidth
 							highlightCode
+							language="python"
 							wrap
 							code={buildPythonCommand({
 								deploymentId: deployment.id,
@@ -75,12 +80,31 @@ function DeploymentCodeContent({ deployment }: Props) {
 							})}
 						/>
 					</TabsContent>
-					{displayCurl && (
+					{!!url && (
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="curl">
 							<Codesnippet
 								fullWidth
+								highlightCode
 								wrap
+								language="bash"
 								code={buildCurl(
+									url,
+									{
+										city: "Paris"
+									},
+									authKey
+								)}
+							/>
+						</TabsContent>
+					)}
+					{!!url && (
+						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="ts">
+							<Codesnippet
+								fullWidth
+								wrap
+								highlightCode
+								language="ts"
+								code={buildTs(
 									url,
 									{
 										city: "Paris"

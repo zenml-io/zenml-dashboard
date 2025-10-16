@@ -66,3 +66,44 @@ export function buildPythonCommand({
 
 	return `${importStatement}response = invoke_deployment(\n    deployment_name_or_id="${deploymentId}"${argsString}\n)`;
 }
+
+export function buildTs(url: string, defaultBody?: unknown, authKey?: string) {
+	const headers: string[] = [];
+
+	if (authKey) {
+		headers.push(`    "Authorization": "Bearer ${authKey}"`);
+	}
+
+	headers.push(`    "Content-Type": "application/json"`);
+
+	const headersStr = headers.join(",\n");
+
+	if (defaultBody) {
+		const bodyParams = JSON.stringify(defaultBody, null, 2)
+			.split("\n")
+			.map((line, idx) => (idx === 0 ? line : `    ${line}`))
+			.join("\n");
+
+		return `async function invokeDeployment() {
+  const response = await fetch("${url}/invoke", {
+    method: "POST",
+    headers: {
+${headersStr}
+    },
+    body: JSON.stringify({
+      parameters: ${bodyParams}
+    })
+  });
+}
+`;
+	}
+
+	return `async function invokeDeployment() {
+  const response = await fetch("${url}/invoke", {
+    method: "POST",
+    headers: {
+${headersStr}
+    }
+  });
+}`;
+}

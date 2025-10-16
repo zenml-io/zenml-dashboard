@@ -10,6 +10,7 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
+	language?: string;
 };
 
 export function Codesnippet({
@@ -18,7 +19,8 @@ export function Codesnippet({
 	fullWidth = false,
 	highlightCode = false,
 	className,
-	codeClasses
+	codeClasses,
+	language = "python"
 }: DisplayCodeProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -51,7 +53,7 @@ export function Codesnippet({
 					codeClasses
 				)}
 			>
-				{highlightCode ? <CodeHighlighter code={code} /> : <code>{code}</code>}
+				{highlightCode ? <CodeHighlighter language={language} code={code} /> : <code>{code}</code>}
 			</pre>
 			<button onClick={() => copyToClipboard(code)}>
 				{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
