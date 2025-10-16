@@ -1,5 +1,36 @@
 import { describe, it, expect } from "vitest";
-import { buildCurl, buildZenCommand, buildPythonCommand } from "./command-builder";
+import {
+	buildCurl,
+	buildZenCommand,
+	buildPythonCommand,
+	replaceAuthTokenPlaceholder
+} from "./command-builder";
+
+describe("replaceAuthTokenPlaceholder", () => {
+	it("should replace the placeholder with the token", () => {
+		expect(replaceAuthTokenPlaceholder("Bearer **********", "test-token-123")).toBe(
+			"Bearer test-token-123"
+		);
+	});
+
+	it("should not change string if placeholder not present", () => {
+		expect(replaceAuthTokenPlaceholder("Bearer my-token", "test-token-123")).toBe(
+			"Bearer my-token"
+		);
+	});
+
+	it("should handle empty token and placeholder present", () => {
+		expect(replaceAuthTokenPlaceholder("Bearer **********", undefined)).toBe("Bearer **********");
+	});
+
+	it("should handle empty string input", () => {
+		expect(replaceAuthTokenPlaceholder("", "abc")).toBe("");
+	});
+
+	it("should replace when placeholder is in the middle", () => {
+		expect(replaceAuthTokenPlaceholder("Start ***** End", "value")).toBe("Start value End");
+	});
+});
 
 describe("build invocation curl command", () => {
 	describe("happy paths", () => {
@@ -15,7 +46,7 @@ describe("build invocation curl command", () => {
 		it("should include authorization header when authKey is provided", () => {
 			const result = buildCurl("https://api.example.com", undefined, "test-token-123");
 
-			expect(result).toContain(`-H "Authorization: Bearer test-token-123"`);
+			expect(result).toContain(`-H "Authorization: Bearer **********"`);
 			expect(result).toContain(`-H "Content-Type: application/json"`);
 		});
 
@@ -33,7 +64,7 @@ describe("build invocation curl command", () => {
 			const body = { param: "value" };
 			const result = buildCurl("https://api.example.com", body, "auth-key");
 
-			expect(result).toContain(`-H "Authorization: Bearer auth-key"`);
+			expect(result).toContain(`-H "Authorization: Bearer ********"`);
 			expect(result).toContain(`-H "Content-Type: application/json"`);
 			expect(result).toContain(`"parameters":`);
 			expect(result).toContain(`"param": "value"`);
@@ -71,7 +102,7 @@ describe("build invocation curl command", () => {
 
 			expect(result).toBe(
 				`curl -X POST /invoke \\
-  -H "Authorization: Bearer token" \\
+  -H "Authorization: Bearer *****" \\
   -H "Content-Type: application/json"`
 			);
 		});
