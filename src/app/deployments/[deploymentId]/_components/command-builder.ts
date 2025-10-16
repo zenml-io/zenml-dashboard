@@ -84,26 +84,21 @@ export function buildTs(url: string, defaultBody?: unknown, authKey?: string) {
 			.map((line, idx) => (idx === 0 ? line : `    ${line}`))
 			.join("\n");
 
-		return `async function invokeDeployment() {
-  const response = await fetch("${url}/invoke", {
-    method: "POST",
-    headers: {
+		return `const response = await fetch("${url}/invoke", {
+  method: "POST",
+  headers: {
 ${headersStr}
-    },
-    body: JSON.stringify({
-      parameters: ${bodyParams}
-    })
-  });
-}
-`;
+  },
+  body: JSON.stringify({
+    parameters: ${bodyParams}
+  })
+});`;
 	}
 
-	return `async function invokeDeployment() {
-  const response = await fetch("${url}/invoke", {
-    method: "POST",
-    headers: {
+	return `const response = await fetch("${url}/invoke", {
+  method: "POST",
+  headers: {
 ${headersStr}
-    }
-  });
-}`;
+  }
+});`;
 }
