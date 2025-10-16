@@ -31,11 +31,23 @@ export default function PlaygroundPage() {
 
 	const snapshot = snapshotQuery.data;
 	const deployment = deploymentQuery.data;
+	const deploymentUrl = deployment.body?.url;
 
-	if (deployment.body?.status !== "running" || !deployment.body.url)
+	if (deployment.body?.status !== "running" || !deploymentUrl)
 		return (
 			<PlaygroundEmptyState subtitle="Please make sure the deployment is running and has a URL" />
 		);
+
+	const isHttpsPage = window.location.protocol === "https:";
+	const isHttpDeployment = deploymentUrl.startsWith("http://");
+	const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+	if (isHttpsPage && isHttpDeployment && isSafari) {
+		const errorMessage =
+			"Safari doesn’t allow HTTPS pages to connect to local HTTP services. Please use Chrome or Firefox, or run your local service with HTTPS.";
+
+		return <PlaygroundEmptyState title="Cannot invoke deployment" subtitle={errorMessage} />;
+	}
 
 	return <PlaygroundPageContent snapshot={snapshot} deployment={deployment} />;
 }
