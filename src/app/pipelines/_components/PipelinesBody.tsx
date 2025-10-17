@@ -18,7 +18,7 @@ export function PipelinesBody() {
 	});
 
 	return (
-		<div className="flex flex-col gap-5 pt-5">
+		<div className="flex flex-col gap-5">
 			<div className="flex items-center justify-between">
 				{selectedRowCount ? <PipelinesButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">

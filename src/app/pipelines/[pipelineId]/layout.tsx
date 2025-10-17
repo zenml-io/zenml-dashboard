@@ -3,9 +3,9 @@ import { PipelineDetailHeader } from "./_layout/header";
 
 export default function PipelineDetailLayout() {
 	return (
-		<div>
+		<div className="overflow-y-auto">
 			<PipelineDetailHeader />
-			<section className="px-5 pt-5 lg:px-[80px]">
+			<section className="p-5 lg:px-[80px]">
 				<Outlet />
 			</section>
 		</div>

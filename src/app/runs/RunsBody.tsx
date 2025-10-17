@@ -25,7 +25,7 @@ export function RunsBody({ fixedQueryParams = {} }: Props) {
 	});
 
 	return (
-		<div className="flex flex-col gap-5 pt-5">
+		<div className="flex flex-col gap-5">
 			<div className="flex items-center justify-between">
 				{selectedRowCount ? <RunsButtonGroup /> : <SearchField searchParams={queryParams} />}
 				<div className="flex justify-between">

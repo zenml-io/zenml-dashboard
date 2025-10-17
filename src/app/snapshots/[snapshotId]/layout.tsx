@@ -4,7 +4,7 @@ import { SnapshotDetailHeader } from "./_layout/header";
 export default function SnapshotDetailLayout() {
 	const { snapshotId } = useParams() as { snapshotId: string };
 	return (
-		<div>
+		<div className="overflow-y-auto">
 			<SnapshotDetailHeader snapshotId={snapshotId} />
 			<section className="p-5 lg:px-[80px]">
 				<Outlet />
