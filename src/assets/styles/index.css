@@ -1,6 +1,5 @@
-@import "@fontsource/inter/400";
-@import "@fontsource/inter/500";
-@import "@fontsource/inter/600";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
 
 @tailwind base;
 @tailwind components;
