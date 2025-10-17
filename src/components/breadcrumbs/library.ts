@@ -13,8 +13,7 @@ export const pipelineBreadcrumb: BreadcrumbSegment = {
 
 export const deploymentBreadcrumb: BreadcrumbSegment = {
 	label: "Deployments",
-	href: "#",
-	disabled: true
+	href: routes.projects.deployments.overview
 };
 
 export const snapshotBreadcrumb: BreadcrumbSegment = {

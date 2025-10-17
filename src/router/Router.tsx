@@ -43,6 +43,7 @@ const CreateSnapshotFromRun = lazy(() => import("@/app/runs/[id]/create-snapshot
 const CreateSnapshot = lazy(() => import("@/app/snapshots/create/page"));
 
 // Deployments
+const DeploymentsList = lazy(() => import("@/app/deployments/page"));
 const DeploymentDetail = lazy(() => import("@/app/deployments/[deploymentId]/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
@@ -226,6 +227,11 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.runs.overview,
 								element: withProtectedRoute(<Runs />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.overview,
+								element: withProtectedRoute(<DeploymentsList />)
 							},
 							// Models & Artifacts
 							{
