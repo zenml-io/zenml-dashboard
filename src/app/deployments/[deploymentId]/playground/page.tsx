@@ -1,5 +1,6 @@
 import { deploymentQueries } from "@/data/deployments";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
+import { getIsSafari } from "@/lib/environment";
 import "@/monaco-setup";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -40,7 +41,7 @@ export default function PlaygroundPage() {
 
 	const isHttpsPage = window.location.protocol === "https:";
 	const isHttpDeployment = deploymentUrl.startsWith("http://");
-	const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+	const isSafari = getIsSafari();
 
 	if (isHttpsPage && isHttpDeployment && isSafari) {
 		const errorMessage =
