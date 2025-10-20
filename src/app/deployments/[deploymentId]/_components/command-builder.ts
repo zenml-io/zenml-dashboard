@@ -1,3 +1,5 @@
+import { shellEscape } from "@/lib/strings";
+
 function getAuthTokenPlaceholder(authKey: string) {
 	return "*".repeat(Math.min(authKey.length, 10));
 }
@@ -22,7 +24,7 @@ export function buildCurl(url: string, defaultBody?: unknown, authKey?: string) 
 	const headersStr = curlHeaders.join(" \\\n  ");
 
 	if (defaultBody) {
-		const curlParams = JSON.stringify(defaultBody, null, 2).split("\n").join("\n    ");
+		const curlParams = shellEscape(JSON.stringify(defaultBody, null, 2).split("\n").join("\n    "));
 
 		return `curl -X POST ${url}/invoke \\
   ${headersStr} \\
@@ -37,19 +39,19 @@ export function buildCurl(url: string, defaultBody?: unknown, authKey?: string) 
 
 export function buildZenCommand(name: string, defaultBody?: unknown) {
 	if (!defaultBody || typeof defaultBody !== "object" || Array.isArray(defaultBody)) {
-		return `zenml deployment invoke ${name}`;
+		return `zenml deployment invoke ${shellEscape(name)}`;
 	}
 
 	const cliArgs = Object.entries(defaultBody)
 		.map(([key, value]) => {
 			const isComplexType = typeof value === "object" && value !== null;
 			const jsonValue = JSON.stringify(value);
-			const formattedValue = isComplexType ? `'${jsonValue}'` : jsonValue;
+			const formattedValue = isComplexType ? `'${shellEscape(jsonValue)}'` : shellEscape(jsonValue);
 			return `--${key}=${formattedValue}`;
 		})
 		.join(" ");
 
-	return `zenml deployment invoke ${name} ${cliArgs}`;
+	return `zenml deployment invoke ${shellEscape(name)} ${cliArgs}`;
 }
 
 export function buildPythonCommand({
