@@ -1,7 +1,8 @@
 import Expand from "@/assets/icons/expand-full.svg?react";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
+import { ResizableSheetContent } from "@/components/sheet/resizable-sheet";
 import { routes } from "@/router/routes";
-import { Sheet, SheetContent, SheetTrigger } from "@zenml-io/react-component-library";
+import { Sheet, SheetTrigger } from "@zenml-io/react-component-library";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
@@ -19,7 +20,10 @@ export function ComponentSheet({ children, onOpenChange, componentId }: PropsWit
 	return (
 		<Sheet onOpenChange={onOpenChange}>
 			<SheetTrigger asChild>{children}</SheetTrigger>
-			<SheetContent className="w-[1000px] overflow-y-auto">
+			<ResizableSheetContent
+				handleSheetClose={() => onOpenChange?.(false)}
+				className="overflow-y-auto"
+			>
 				<SheetHeader className="gap-0.5">
 					<Button
 						className="flex aspect-square items-center justify-center p-0"
@@ -42,7 +46,7 @@ export function ComponentSheet({ children, onOpenChange, componentId }: PropsWit
 						componentId={componentId}
 					/>
 				</div>
-			</SheetContent>
+			</ResizableSheetContent>
 		</Sheet>
 	);
 }

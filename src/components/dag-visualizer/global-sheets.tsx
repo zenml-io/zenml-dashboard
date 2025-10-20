@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useStoreApi } from "reactflow";
 import { ArtifactSheetContent } from "../artifacts/artifact-node-sheet/SheetContent";
 import { BorderErrorFallback, RunSheet } from "../runs/run-sheet";
-import { ResizableSheetContent } from "../sheets/resizable-sheet";
+import { ResizableSheetContent } from "../sheet/resizable-sheet";
 import { StepSheetContent } from "../steps/step-sheet/SheetContent";
 import { useSheetContext } from "./sheet-context";
 

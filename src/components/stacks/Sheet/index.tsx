@@ -1,6 +1,7 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
+import { ResizableSheetContent } from "@/components/sheet/resizable-sheet";
 import { stackQueries } from "@/data/stacks";
 import { extractComponents } from "@/lib/components";
 import { snakeCaseToTitleCase } from "@/lib/strings";
@@ -12,17 +13,16 @@ import {
 	AvatarFallback,
 	Box,
 	Sheet,
-	SheetContent,
 	SheetTrigger,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import { PropsWithChildren, useEffect } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { routes } from "@/router/routes";
 import { CopyButton } from "../../CopyButton";
 import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
-import { Link } from "react-router-dom";
-import { routes } from "../../../router/routes";
 import { UpdateStackDialog } from "./update-stacks-dialog";
 
 type Props = {
@@ -34,17 +34,18 @@ export function StackSheet({
 	stackId,
 	stackName
 }: PropsWithChildren<Props & { stackName: string }>) {
+	const [isOpen, setIsOpen] = useState(false);
 	return (
-		<Sheet>
+		<Sheet open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger>{children}</SheetTrigger>
-			<SheetContent className="w-[1000px] overflow-y-auto">
+			<ResizableSheetContent handleSheetClose={() => setIsOpen(false)} className="overflow-y-auto">
 				<IntegrationsContextProvider>
 					<SheetHeader />
 					<StackHeadline stackId={stackId} />
 					<StackSetCommand name={stackName} />
 					<ComponentList stackId={stackId} />
 				</IntegrationsContextProvider>
-			</SheetContent>
+			</ResizableSheetContent>
 		</Sheet>
 	);
 }

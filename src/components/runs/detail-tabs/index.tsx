@@ -4,7 +4,8 @@ import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { TabIcon } from "@/components/tab-icon";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
+import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
+import { Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { ErrorBoundary } from "react-error-boundary";
 import { ConfigurationTab } from "./Configuration";
 import { LogsTabBoundary } from "./LogTab/boundary";
@@ -25,7 +26,7 @@ export function RunDetailTabsDisplay({
 }: RunDetailTabsDisplayProps) {
 	return (
 		<Tabs value={selectedTab} onValueChange={handleTabChage}>
-			<TabsList>
+			<ScrollingTabsList>
 				<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
 					<TabIcon icon={Info} />
 					<span>Overview</span>
@@ -49,7 +50,7 @@ export function RunDetailTabsDisplay({
 					<TabIcon icon={MetadataIcon} />
 					<span>Metadata</span>
 				</TabsTrigger>
-			</TabsList>
+			</ScrollingTabsList>
 
 			<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 				<OverviewTab runId={runId} />

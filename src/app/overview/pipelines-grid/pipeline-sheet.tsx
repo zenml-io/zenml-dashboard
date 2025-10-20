@@ -6,6 +6,7 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { FallbackIcon } from "@/components/fallback/icon";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
+import { ResizableSheetContent } from "@/components/sheet/resizable-sheet";
 import { Tick } from "@/components/Tick";
 import { useGithubPipelineSummary } from "@/data/github/pipeline-summary";
 import { useCopy } from "@/lib/copy";
@@ -15,7 +16,6 @@ import {
 	DialogTitle,
 	ProgressOutstanding,
 	Sheet,
-	SheetContent,
 	SheetTrigger,
 	Skeleton
 } from "@zenml-io/react-component-library";
@@ -43,7 +43,10 @@ export function GithubPipelineSheet({
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
 			<SheetTrigger className="w-full">{children}</SheetTrigger>
-			<SheetContent aria-describedby={undefined} className="w-[1000px] overflow-y-auto">
+			<ResizableSheetContent
+				handleSheetClose={() => onOpenChange(false)}
+				aria-describedby={undefined}
+			>
 				<SheetHeader />
 				<SecondaryHeader
 					displayName={displayName}
@@ -75,7 +78,7 @@ export function GithubPipelineSheet({
 						<NoPipelineContentFallback />
 					)}
 				</div>
-			</SheetContent>
+			</ResizableSheetContent>
 		</Sheet>
 	);
 }
