@@ -27,10 +27,7 @@ export function GlobalSheets() {
 
 	return (
 		<Sheet open={sheetState.isOpen} onOpenChange={handleOpenChange}>
-			<ResizableSheetContent
-				handleSheetClose={() => handleOpenChange(false)}
-				autoSaveId={getAutoSaveId()}
-			>
+			<ResizableSheetContent className="overflow-y-auto" autoSaveId={getAutoSaveId()}>
 				{sheetState.lastContent?.type === "step" && (
 					<StepSheetContent stepId={sheetState.lastContent.id} />
 				)}

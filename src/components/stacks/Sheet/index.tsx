@@ -6,6 +6,7 @@ import { stackQueries } from "@/data/stacks";
 import { extractComponents } from "@/lib/components";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
+import { routes } from "@/router/routes";
 import { StackComponent } from "@/types/components";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -18,7 +19,6 @@ import {
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { routes } from "@/router/routes";
 import { CopyButton } from "../../CopyButton";
 import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
@@ -38,7 +38,7 @@ export function StackSheet({
 	return (
 		<Sheet open={isOpen} onOpenChange={setIsOpen}>
 			<SheetTrigger>{children}</SheetTrigger>
-			<ResizableSheetContent handleSheetClose={() => setIsOpen(false)} className="overflow-y-auto">
+			<ResizableSheetContent className="overflow-y-auto">
 				<IntegrationsContextProvider>
 					<SheetHeader />
 					<StackHeadline stackId={stackId} />

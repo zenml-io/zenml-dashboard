@@ -20,10 +20,7 @@ export function ComponentSheet({ children, onOpenChange, componentId }: PropsWit
 	return (
 		<Sheet onOpenChange={onOpenChange}>
 			<SheetTrigger asChild>{children}</SheetTrigger>
-			<ResizableSheetContent
-				handleSheetClose={() => onOpenChange?.(false)}
-				className="overflow-y-auto"
-			>
+			<ResizableSheetContent className="overflow-y-auto">
 				<SheetHeader className="gap-0.5">
 					<Button
 						className="flex aspect-square items-center justify-center p-0"

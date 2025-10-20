@@ -42,7 +42,7 @@ export default function RunDetailPage() {
 						<ExpandPanelButton isCollapsed={isCollapsed} handlePanelToggle={expandPanel} />
 					</GlobalDagControls>
 				</Panel>
-				<PanelResizeHandle className="w-[1px] bg-theme-border-moderate" />
+				<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
 				<Panel
 					collapsible
 					ref={ref}

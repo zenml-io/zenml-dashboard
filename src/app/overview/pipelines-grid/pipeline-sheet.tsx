@@ -43,10 +43,7 @@ export function GithubPipelineSheet({
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
 			<SheetTrigger className="w-full">{children}</SheetTrigger>
-			<ResizableSheetContent
-				handleSheetClose={() => onOpenChange(false)}
-				aria-describedby={undefined}
-			>
+			<ResizableSheetContent className="overflow-y-auto">
 				<SheetHeader />
 				<SecondaryHeader
 					displayName={displayName}

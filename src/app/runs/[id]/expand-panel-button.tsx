@@ -13,6 +13,7 @@ type ExpandPanelProps = {
 export function ExpandPanelButton({ isCollapsed, handlePanelToggle }: ExpandPanelProps) {
 	return (
 		<Button
+			aria-label="Expand details panel"
 			intent="secondary"
 			className={`h-7 w-7 items-center justify-center border border-neutral-300 bg-theme-surface-primary p-0.5 ${
 				isCollapsed ? "flex" : "hidden"
