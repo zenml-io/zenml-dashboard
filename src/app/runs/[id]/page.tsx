@@ -33,7 +33,7 @@ export default function RunDetailPage() {
 	}
 
 	return (
-		<div className="flex flex-1 flex-col overflow-hidden">
+		<div className="no-scroll flex flex-1 flex-col overflow-hidden">
 			<RunsDetailHeader />
 			<PanelGroup direction="horizontal" className="relative">
 				<Panel minSize={25} defaultSize={50}>

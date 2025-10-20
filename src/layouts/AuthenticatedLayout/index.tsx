@@ -19,7 +19,7 @@ export function AuthenticatedLayout() {
 	}
 
 	return (
-		<div className="relative flex h-dvh w-full flex-col">
+		<div className="relative flex min-h-screen w-full flex-col has-[.no-scroll]:h-dvh">
 			<BreadcrumbContextProvider>
 				<div className="sticky top-0 z-10">
 					<LocalBanner />
