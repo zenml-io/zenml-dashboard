@@ -1,4 +1,4 @@
-import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
+import { DeploymentsListQueryParams } from "@/types/deployments";
 import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
@@ -11,7 +11,7 @@ const filterParamsSchema = z.object({
 	operator: z.enum(["and", "or"]).optional()
 });
 
-export function usePipelineSnapshotParams(): PipelineSnapshotListQueryParams {
+export function useDeploymentQueryParams(): DeploymentsListQueryParams {
 	const [searchParams] = useSearchParams();
 
 	const { page, name, operator } = filterParamsSchema.parse({

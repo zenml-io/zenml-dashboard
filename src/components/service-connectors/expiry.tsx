@@ -1,9 +1,9 @@
-import { ReactNode, useEffect } from "react";
-import { useState } from "react";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { prepareBackendTimestamp } from "@/lib/dates";
+import { ReactNode, useEffect, useState } from "react";
 
 function calculateTimeLeft(expires: string) {
-	const expiryDate = new Date(`${expires}Z`);
+	const expiryDate = prepareBackendTimestamp(expires);
 	const now = new Date();
 
 	if (expiryDate < now) {

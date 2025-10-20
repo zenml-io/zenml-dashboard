@@ -36,10 +36,12 @@ const PipelineDetailDeployments = lazy(
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 
 // Snapshots
+const GlobalSnapshots = lazy(() => import("@/app/snapshots/page"));
 const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
 const SnapshotDetailRuns = lazy(() => import("@/app/snapshots/[snapshotId]/runs/page"));
 
 // Deployments
+const DeploymentsList = lazy(() => import("@/app/deployments/page"));
 const DeploymentDetail = lazy(() => import("@/app/deployments/[deploymentId]/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
@@ -214,11 +216,20 @@ export const router = createBrowserRouter([
 								path: routes.projects.pipelines.overview,
 								element: withProtectedRoute(<Pipelines />)
 							},
-
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.overview,
+								element: withProtectedRoute(<GlobalSnapshots />)
+							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.runs.overview,
 								element: withProtectedRoute(<Runs />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.overview,
+								element: withProtectedRoute(<DeploymentsList />)
 							},
 							// Models & Artifacts
 							{
