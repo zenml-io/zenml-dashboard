@@ -48,6 +48,7 @@ export function usePageTitle(): void {
 			return "Connector Components";
 		if (is(routes.settings.connectors.detail.resources(":connectorId")))
 			return "Connector Resources";
+		if (is(routes.settings.connectors.create)) return "Create Connector";
 		if (is(routes.settings.connectors.overview)) return "Connectors";
 		if (is(routes.settings.service_accounts.detail(":id"))) return "Service Account";
 		if (is(routes.settings.service_accounts.overview)) return "Service Accounts";
