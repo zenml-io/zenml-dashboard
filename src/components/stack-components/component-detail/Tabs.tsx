@@ -6,6 +6,7 @@ import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ComponentConfigTab } from "./ConfigTab";
 import { useSelectedTab } from "./service";
+import { TabIcon } from "@/components/tab-icon";
 
 type Props = {
 	componentId: string;
@@ -38,15 +39,15 @@ export function StackComponentTabs({
 			<Tabs value={isPanel ? inMemoryTab : selectedTab} onValueChange={handleTabChage}>
 				<TabsList>
 					<TabsTrigger className="flex items-center gap-2 text-text-md" value="configuration">
-						<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<TabIcon icon={Tools} />
 						<span>Configuration</span>
 					</TabsTrigger>
 					<TabsTrigger className="flex items-center gap-2 text-text-md" value="stacks">
-						<Stacks className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<TabIcon icon={Stacks} />
 						<span>Stacks</span>
 					</TabsTrigger>
 					<TabsTrigger className="flex items-center gap-2 text-text-md" value="runs">
-						<RunIcon className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<TabIcon icon={RunIcon} />
 						<span>Runs</span>
 					</TabsTrigger>
 				</TabsList>

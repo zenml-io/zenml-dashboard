@@ -1,12 +1,23 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import Download from "@/assets/icons/download-01.svg?react";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
+import Refresh from "@/assets/icons/refresh.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { SearchField } from "../SearchField";
+import { LogLevelSelect } from "./log-level-select";
+import { LoggingLevel } from "@/types/logs";
+import { Dispatch, SetStateAction } from "react";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 
 interface LogToolbarProps {
 	onSearchChange: (searchTerm: string) => void;
 
+	onReload: () => void;
 	onCopyAll: () => void;
 	onDownload: () => void;
 	// Search-related props from useLogSearch hook
@@ -15,17 +26,23 @@ interface LogToolbarProps {
 	totalMatches?: number;
 	onPreviousMatch?: () => void;
 	onNextMatch?: () => void;
+	// log level related props
+	logLevel: LoggingLevel;
+	setLogLevel: Dispatch<SetStateAction<LoggingLevel>>;
 }
 
 export function LogToolbar({
 	onSearchChange,
+	onReload,
 	onCopyAll,
 	onDownload,
 	searchQuery = "",
 	currentMatchIndex = 0,
 	totalMatches = 0,
 	onPreviousMatch,
-	onNextMatch
+	onNextMatch,
+	logLevel,
+	setLogLevel
 }: LogToolbarProps) {
 	return (
 		<>
@@ -42,11 +59,12 @@ export function LogToolbar({
 
 						{/* Search controls */}
 						{searchQuery && (
-							<div className="flex items-center gap-1">
-								<span className="text-sm text-theme-text-secondary">
+							<div className="flex items-center gap-0.5">
+								<span className="text-sm whitespace-nowrap text-theme-text-secondary">
 									{totalMatches > 0 ? `${currentMatchIndex + 1} of ${totalMatches}` : "No matches"}
 								</span>
 								<Button
+									className="aspect-square"
 									size="sm"
 									emphasis="minimal"
 									onClick={onPreviousMatch}
@@ -56,6 +74,7 @@ export function LogToolbar({
 									<ArrowLeft className="h-4 w-4 shrink-0 rotate-90 fill-theme-text-tertiary" />
 								</Button>
 								<Button
+									className="aspect-square"
 									size="sm"
 									emphasis="minimal"
 									onClick={onNextMatch}
@@ -66,36 +85,63 @@ export function LogToolbar({
 								</Button>
 							</div>
 						)}
+						<LogLevelSelect
+							value={logLevel.toString()}
+							onValueChange={(value) => setLogLevel(Number(value) as LoggingLevel)}
+						/>
 					</div>
 
 					{/* Right side - Action Buttons */}
-					<div className="flex items-center gap-2">
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onCopyAll}
-							title="Copy all displayed logs"
-							className="bg-theme-surface-primary"
-						>
-							<Copy className="mr-1 h-4 w-4 fill-theme-text-secondary" />
-							Copy All
-						</Button>
+					<TooltipProvider>
+						<div className="flex items-center gap-2">
+							<LogIconButton
+								icon={<Refresh className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Reload logs"
+								onClick={onReload}
+							/>
 
-						<Button
-							size="md"
-							emphasis="subtle"
-							intent="secondary"
-							onClick={onDownload}
-							title="Download logs as file"
-							className="bg-theme-surface-primary"
-						>
-							<Download className="mr-1 h-5 w-5 fill-theme-text-tertiary" />
-							Download
-						</Button>
-					</div>
+							<LogIconButton
+								icon={<Copy className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Copy all displayed logs"
+								onClick={onCopyAll}
+							/>
+
+							<LogIconButton
+								icon={<Download className="h-4 w-4 fill-theme-text-primary" />}
+								tooltip="Download logs as file"
+								onClick={onDownload}
+							/>
+						</div>
+					</TooltipProvider>
 				</div>
 			</div>
 		</>
+	);
+}
+
+function LogIconButton({
+	icon,
+	tooltip,
+	onClick
+}: {
+	icon: React.ReactNode;
+	tooltip: string;
+	onClick: () => void;
+}) {
+	return (
+		<Tooltip delayDuration={200}>
+			<TooltipTrigger>
+				<Button
+					size="md"
+					emphasis="subtle"
+					intent="secondary"
+					onClick={onClick}
+					className="flex aspect-square items-center justify-center bg-theme-surface-primary p-0"
+				>
+					{icon}
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent>{tooltip}</TooltipContent>
+		</Tooltip>
 	);
 }

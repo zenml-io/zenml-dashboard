@@ -1,4 +1,7 @@
 import ComponentDetailLayout from "@/app/components/[componentId]/layout";
+import DeploymentDetailLayout from "@/app/deployments/[deploymentId]/layout";
+import PipelineDetailLayout from "@/app/pipelines/[pipelineId]/layout";
+import SnapshotDetailLayout from "@/app/snapshots/[snapshotId]/layout";
 import { CreateStacksLayout } from "@/app/stacks/create/layout";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
@@ -21,10 +24,25 @@ const Login = lazy(() => import("@/app/login/page"));
 const Upgrade = lazy(() => import("@/app/upgrade/page"));
 const ActivateUser = lazy(() => import("@/app/activate-user/page"));
 const ActivateServer = lazy(() => import("@/app/activate-server/page"));
+
+// Pipelines
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
-const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
+const PipelineDetail = lazy(() => import("@/app/pipelines/[pipelineId]/runs/page"));
+const PipelineDetailSnapshots = lazy(() => import("@/app/pipelines/[pipelineId]/snapshots/page"));
+const PipelineDetailDeployments = lazy(
+	() => import("@/app/pipelines/[pipelineId]/deployments/page")
+);
 
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+
+// Snapshots
+const GlobalSnapshots = lazy(() => import("@/app/snapshots/page"));
+const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
+const SnapshotDetailRuns = lazy(() => import("@/app/snapshots/[snapshotId]/runs/page"));
+
+// Deployments
+const DeploymentsList = lazy(() => import("@/app/deployments/page"));
+const DeploymentDetail = lazy(() => import("@/app/deployments/[deploymentId]/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
@@ -50,7 +68,6 @@ const ServiceAccountsDetail = lazy(
 
 const Projects = lazy(() => import("@/app/projects/page"));
 const Runs = lazy(() => import("@/app/runs/page"));
-const Templates = lazy(() => import("@/app/run-templates/page"));
 
 // Components
 const Components = lazy(() => import("@/app/components/page"));
@@ -201,13 +218,18 @@ export const router = createBrowserRouter([
 							},
 							{
 								errorElement: <PageBoundary />,
-								path: routes.projects.templates.overview,
-								element: withProtectedRoute(<Templates />)
+								path: routes.projects.snapshots.overview,
+								element: withProtectedRoute(<GlobalSnapshots />)
 							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.runs.overview,
 								element: withProtectedRoute(<Runs />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.overview,
+								element: withProtectedRoute(<DeploymentsList />)
 							},
 							// Models & Artifacts
 							{
@@ -249,9 +271,64 @@ export const router = createBrowserRouter([
 
 					{
 						errorElement: <PageBoundary />,
-						path: routes.projects.pipelines.namespace(":namespace"),
-						element: withProtectedRoute(<PipelinesNamespace />)
+						element: withProtectedRoute(<PipelineDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.detail.runs(":pipelineId"),
+								element: withProtectedRoute(<PipelineDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.detail.snapshots(":pipelineId"),
+								element: withProtectedRoute(<PipelineDetailSnapshots />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.pipelines.detail.deployments(":pipelineId"),
+								element: withProtectedRoute(<PipelineDetailDeployments />)
+							}
+						]
 					},
+
+					// Snapshots
+
+					{
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<SnapshotDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.detail.overview(":snapshotId"),
+								element: withProtectedRoute(<SnapshotDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.detail.runs(":snapshotId"),
+								element: withProtectedRoute(<SnapshotDetailRuns />)
+							}
+						]
+					},
+
+					// Deployments
+
+					{
+						errorElement: <PageBoundary />,
+						element: withProtectedRoute(<DeploymentDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.detail.overview(":deploymentId"),
+								element: withProtectedRoute(<DeploymentDetail />)
+							}
+						]
+					},
+
+					// {
+					// 	errorElement: <PageBoundary />,
+					// 	path: routes.projects.pipelines.detail.runs(":pipelineId"),
+					// 	element: withProtectedRoute(<PipelineDetail />)
+					// },
 
 					// Runs
 					{

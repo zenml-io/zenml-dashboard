@@ -1,5 +1,6 @@
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { pluralize } from "@/lib/strings";
 import {
 	AlertDialog,
 	AlertDialogTrigger
@@ -32,7 +33,7 @@ export function DeleteServiceAccountAlert() {
 				</Button>
 			</AlertDialogTrigger>
 			<DeleteAlertContent
-				title={`Delete Service Account${selectedRowCount >= 2 ? "s" : ""}`}
+				title={`Delete ${pluralize(selectedRowCount, "Service Account")}`}
 				handleDelete={handleDelete}
 			>
 				<DeleteAlertContentBody>

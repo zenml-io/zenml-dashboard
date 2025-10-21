@@ -354,14 +354,14 @@ export type paths = {
 		 * * Generic API token: This token is short-lived and can be used for
 		 * generic automation tasks. The expiration can be set by the user, but the
 		 * server will impose a maximum expiration time.
-		 * * Workload API token: This token is scoped to a specific pipeline run, step
-		 * run or schedule and is used by pipeline workloads to authenticate with the
-		 * server. A pipeline run ID, step run ID or schedule ID must be provided and
-		 * the generated token will only be valid for the indicated pipeline run, step
-		 * run or schedule. No time limit is imposed on the validity of the token.
-		 * A workload API token can be used to authenticate and generate another
-		 * workload API token, but only for the same schedule, pipeline run ID or step
-		 * run ID, in that order.
+		 * * Workload API token: This token is scoped to a specific pipeline run,
+		 * schedule or deployment and is used by pipeline workloads to
+		 * authenticate with the server. A pipeline run ID, schedule ID or deployment
+		 * ID must be provided and the generated token will only be valid for the
+		 * indicated pipeline run, schedule or deployment.
+		 * No time limit is imposed on the validity of the token. A workload API token
+		 * can be used to authenticate and generate another workload API token, but
+		 * only for the same schedule, pipeline run ID or deployment ID, in that order.
 		 *
 		 * Args:
 		 *     token_type: The type of API token to generate.
@@ -372,6 +372,8 @@ export type paths = {
 		 *     schedule_id: The ID of the schedule to scope the workload API token to.
 		 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 		 *         token to.
+		 *     deployment_id: The ID of the deployment to scope the workload
+		 *         API token to.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
@@ -542,6 +544,68 @@ export type paths = {
 		 *     code_repository_id: The ID of the code repository to delete.
 		 */
 		delete: operations["delete_code_repository_api_v1_code_repositories__code_repository_id__delete"];
+	};
+	"/api/v1/deployments": {
+		/**
+		 * List Deployments
+		 * @description Gets a list of deployments.
+		 *
+		 * Args:
+		 *     deployment_filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     List of deployment objects matching the filter criteria.
+		 */
+		get: operations["list_deployments_api_v1_deployments_get"];
+		/**
+		 * Create Deployment
+		 * @description Creates a deployment.
+		 *
+		 * Args:
+		 *     deployment: Deployment to create.
+		 *
+		 * Returns:
+		 *     The created deployment.
+		 */
+		post: operations["create_deployment_api_v1_deployments_post"];
+	};
+	"/api/v1/deployments/{deployment_id}": {
+		/**
+		 * Get Deployment
+		 * @description Gets a specific deployment using its unique id.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to get.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     A specific deployment object.
+		 */
+		get: operations["get_deployment_api_v1_deployments__deployment_id__get"];
+		/**
+		 * Update Deployment
+		 * @description Updates a specific deployment.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to update.
+		 *     deployment_update: Update model for the deployment.
+		 *
+		 * Returns:
+		 *     The updated deployment.
+		 */
+		put: operations["update_deployment_api_v1_deployments__deployment_id__put"];
+		/**
+		 * Delete Deployment
+		 * @description Deletes a specific deployment.
+		 *
+		 * Args:
+		 *     deployment_id: ID of the deployment to delete.
+		 */
+		delete: operations["delete_deployment_api_v1_deployments__deployment_id__delete"];
 	};
 	"/api/v1/plugin-flavors": {
 		/**
@@ -1115,6 +1179,7 @@ export type paths = {
 	"/api/v1/pipeline_deployments": {
 		/**
 		 * List Deployments
+		 * @deprecated
 		 * @description Gets a list of deployments.
 		 *
 		 * Args:
@@ -1131,6 +1196,7 @@ export type paths = {
 		get: operations["list_deployments_api_v1_pipeline_deployments_get"];
 		/**
 		 * Create Deployment
+		 * @deprecated
 		 * @description Creates a deployment.
 		 *
 		 * Args:
@@ -1146,6 +1212,7 @@ export type paths = {
 	"/api/v1/pipeline_deployments/{deployment_id}": {
 		/**
 		 * Get Deployment
+		 * @deprecated
 		 * @description Gets a specific deployment using its unique id.
 		 *
 		 * Args:
@@ -1163,6 +1230,7 @@ export type paths = {
 		get: operations["get_deployment_api_v1_pipeline_deployments__deployment_id__get"];
 		/**
 		 * Delete Deployment
+		 * @deprecated
 		 * @description Deletes a specific deployment.
 		 *
 		 * Args:
@@ -1170,23 +1238,73 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_pipeline_deployments__deployment_id__delete"];
 	};
-	"/api/v1/pipeline_deployments/{deployment_id}/logs": {
+	"/api/v1/pipeline_snapshots": {
 		/**
-		 * Deployment Logs
-		 * @description Get deployment logs.
+		 * List Pipeline Snapshots
+		 * @description Gets a list of snapshots.
 		 *
 		 * Args:
-		 *     deployment_id: ID of the deployment.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
+		 *     snapshot_filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     project_name_or_id: Optional name or ID of the project to filter by.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
 		 *
 		 * Returns:
-		 *     The deployment logs.
-		 *
-		 * Raises:
-		 *     KeyError: If no logs are available for the deployment.
+		 *     List of snapshot objects matching the filter criteria.
 		 */
-		get: operations["deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get"];
+		get: operations["list_pipeline_snapshots_api_v1_pipeline_snapshots_get"];
+		/**
+		 * Create Pipeline Snapshot
+		 * @description Creates a snapshot.
+		 *
+		 * Args:
+		 *     snapshot: Snapshot to create.
+		 *     project_name_or_id: Optional name or ID of the project.
+		 *
+		 * Returns:
+		 *     The created snapshot.
+		 */
+		post: operations["create_pipeline_snapshot_api_v1_pipeline_snapshots_post"];
+	};
+	"/api/v1/pipeline_snapshots/{snapshot_id}": {
+		/**
+		 * Get Pipeline Snapshot
+		 * @description Gets a specific snapshot using its unique id.
+		 *
+		 * Args:
+		 *     snapshot_id: ID of the snapshot to get.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *     step_configuration_filter: List of step configurations to include in
+		 *         the response. If not given, all step configurations will be
+		 *         included.
+		 *     include_config_schema: Whether the config schema will be filled.
+		 *
+		 * Returns:
+		 *     A specific snapshot object.
+		 */
+		get: operations["get_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__get"];
+		/**
+		 * Update Pipeline Snapshot
+		 * @description Update a snapshot.
+		 *
+		 * Args:
+		 *     snapshot_id: ID of the snapshot to update.
+		 *     snapshot_update: The update to apply.
+		 *
+		 * Returns:
+		 *     The updated snapshot.
+		 */
+		put: operations["update_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__put"];
+		/**
+		 * Delete Pipeline Snapshot
+		 * @description Deletes a specific snapshot.
+		 *
+		 * Args:
+		 *     snapshot_id: ID of the snapshot to delete.
+		 */
+		delete: operations["delete_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__delete"];
 	};
 	"/api/v1/runs": {
 		/**
@@ -1341,16 +1459,16 @@ export type paths = {
 	"/api/v1/runs/{run_id}/logs": {
 		/**
 		 * Run Logs
-		 * @description Get pipeline run logs for a specific source.
+		 * @description Get log entries for efficient pagination.
+		 *
+		 * This endpoint returns the log entries.
 		 *
 		 * Args:
 		 *     run_id: ID of the pipeline run.
 		 *     source: Required source to get logs for.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
 		 *
 		 * Returns:
-		 *     Logs for the specified source.
+		 *     List of log entries.
 		 *
 		 * Raises:
 		 *     KeyError: If no logs are found for the specified source.
@@ -1375,6 +1493,7 @@ export type paths = {
 	"/api/v1/run_templates": {
 		/**
 		 * List Run Templates
+		 * @deprecated
 		 * @description Get a page of run templates.
 		 *
 		 * Args:
@@ -1390,6 +1509,7 @@ export type paths = {
 		get: operations["list_run_templates_api_v1_run_templates_get"];
 		/**
 		 * Create Run Template
+		 * @deprecated
 		 * @description Create a run template.
 		 *
 		 * Args:
@@ -1404,6 +1524,7 @@ export type paths = {
 	"/api/v1/run_templates/{template_id}": {
 		/**
 		 * Get Run Template
+		 * @deprecated
 		 * @description Get a run template.
 		 *
 		 * Args:
@@ -1417,6 +1538,7 @@ export type paths = {
 		get: operations["get_run_template_api_v1_run_templates__template_id__get"];
 		/**
 		 * Update Run Template
+		 * @deprecated
 		 * @description Update a run template.
 		 *
 		 * Args:
@@ -1429,6 +1551,7 @@ export type paths = {
 		put: operations["update_run_template_api_v1_run_templates__template_id__put"];
 		/**
 		 * Delete Run Template
+		 * @deprecated
 		 * @description Delete a run template.
 		 *
 		 * Args:
@@ -2393,19 +2516,16 @@ export type paths = {
 	"/api/v1/steps/{step_id}/logs": {
 		/**
 		 * Get Step Logs
-		 * @description Get the logs of a specific step.
+		 * @description Get log entries for a step.
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
-		 *     offset: The offset from which to start reading.
-		 *     length: The amount of bytes that should be read.
-		 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 		 *
 		 * Returns:
-		 *     The logs of the step.
+		 *     List of log entries.
 		 *
 		 * Raises:
-		 *     HTTPException: If no logs are available for this step.
+		 *     KeyError: If no logs are available for this step.
 		 */
 		get: operations["get_step_logs_api_v1_steps__step_id__logs_get"];
 	};
@@ -3834,6 +3954,8 @@ export type components = {
 			materializer: components["schemas"]["Source"];
 			/** Data type of the artifact. */
 			data_type: components["schemas"]["Source"];
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 			/**
 			 * Tags of the artifact.
 			 * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
@@ -3908,6 +4030,8 @@ export type components = {
 			save_type: components["schemas"]["ArtifactSaveType"];
 			/** ID of the artifact store in which this artifact is stored. */
 			artifact_store_id?: string | null;
+			/** The content hash of the artifact version. */
+			content_hash?: string | null;
 		};
 		/**
 		 * ArtifactVersionResponseMetadata
@@ -4159,6 +4283,41 @@ export type components = {
 			 * @default false
 			 */
 			requires_code_download?: boolean;
+		};
+		/**
+		 * CachePolicy
+		 * @description Cache policy.
+		 */
+		CachePolicy: {
+			/**
+			 * Include Step Code
+			 * @description Whether to include the step code in the cache key.
+			 * @default true
+			 */
+			include_step_code?: boolean;
+			/**
+			 * Include Step Parameters
+			 * @description Whether to include the step parameters in the cache key.
+			 * @default true
+			 */
+			include_step_parameters?: boolean;
+			/**
+			 * Include Artifact Values
+			 * @description Whether to include the artifact values in the cache key. If the materializer for an artifact doesn't support generating a content hash, the artifact ID will be used as a fallback if enabled.
+			 * @default true
+			 */
+			include_artifact_values?: boolean;
+			/**
+			 * Include Artifact Ids
+			 * @description Whether to include the artifact IDs in the cache key.
+			 * @default true
+			 */
+			include_artifact_ids?: boolean;
+			/**
+			 * Ignored Inputs
+			 * @description List of input names to ignore in the cache key.
+			 */
+			ignored_inputs?: string[] | null;
 		};
 		/**
 		 * ClientLazyLoader
@@ -4456,6 +4615,12 @@ export type components = {
 			type: components["schemas"]["StackComponentType"];
 			/** The flavor of the stack component. */
 			flavor: string;
+			/** Environment variables to set when running on this component. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/** Secrets to set as environment variables when running on this component. */
+			secrets?: string[] | null;
 			/** The stack component configuration. */
 			configuration: {
 				[key: string]: unknown;
@@ -4531,6 +4696,18 @@ export type components = {
 			configuration: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Environment variables to set when running on this component.
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets to set as environment variables when running on this component.
+			 * @default []
+			 */
+			secrets?: string[];
 			/** The stack component labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -4565,6 +4742,10 @@ export type components = {
 			configuration?: {
 				[key: string]: unknown;
 			} | null;
+			/** Environment variables to set when running on this component. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
 			/**
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
@@ -4576,6 +4757,10 @@ export type components = {
 			} | null;
 			/** The service connector linked to this stack component. */
 			connector?: string | null;
+			/** New secrets to add to the stack component. */
+			add_secrets?: string[] | null;
+			/** Secrets to remove from the stack component. */
+			remove_secrets?: string[] | null;
 		};
 		/**
 		 * DeployedStack
@@ -4592,6 +4777,171 @@ export type components = {
 			 * @description The service connector for the deployed stack.
 			 */
 			service_connector?: components["schemas"]["ServiceConnectorResponse"] | null;
+		};
+		/**
+		 * DeploymentRequest
+		 * @description Request model for deployments.
+		 */
+		DeploymentRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The name of the deployment.
+			 * @description A unique name for the deployment within the project.
+			 */
+			name: string;
+			/**
+			 * The pipeline snapshot ID.
+			 * Format: uuid
+			 * @description The ID of the pipeline snapshot associated with the deployment.
+			 */
+			snapshot_id: string;
+			/**
+			 * The deployer ID.
+			 * Format: uuid
+			 * @description The ID of the deployer component managing this deployment.
+			 */
+			deployer_id: string;
+			/**
+			 * The auth key of the deployment.
+			 * @description The auth key of the deployment.
+			 */
+			auth_key?: string | null;
+			/** Tags of the deployment. */
+			tags?: (string | components["schemas"]["Tag"])[] | null;
+		};
+		/**
+		 * DeploymentResponse
+		 * @description Response model for deployments.
+		 */
+		DeploymentResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["DeploymentResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["DeploymentResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["DeploymentResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the deployment. */
+			name: string;
+		};
+		/**
+		 * DeploymentResponseBody
+		 * @description Response body for deployments.
+		 */
+		DeploymentResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/**
+			 * The URL of the deployment.
+			 * @description The HTTP URL where the deployment can be accessed.
+			 */
+			url?: string | null;
+			/**
+			 * The status of the deployment.
+			 * @description Current operational status of the deployment.
+			 */
+			status?: components["schemas"]["DeploymentStatus"] | null;
+		};
+		/**
+		 * DeploymentResponseMetadata
+		 * @description Response metadata for deployments.
+		 */
+		DeploymentResponseMetadata: {
+			/** The metadata of the deployment. */
+			deployment_metadata: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The auth key of the deployment.
+			 * @description The auth key of the deployment.
+			 */
+			auth_key?: string | null;
+		};
+		/**
+		 * DeploymentResponseResources
+		 * @description Response resources for deployments.
+		 */
+		DeploymentResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/**
+			 * The pipeline snapshot.
+			 * @description The pipeline snapshot being deployed.
+			 */
+			snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			/**
+			 * The deployer.
+			 * @description The deployer component managing this deployment.
+			 */
+			deployer?: components["schemas"]["ComponentResponse"] | null;
+			/**
+			 * The pipeline.
+			 * @description The pipeline being deployed.
+			 */
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
+			/** Tags associated with the deployment. */
+			tags: components["schemas"]["TagResponse"][];
+			[key: string]: unknown;
+		};
+		/**
+		 * DeploymentStatus
+		 * @description Status of a deployment.
+		 * @enum {string}
+		 */
+		DeploymentStatus: "unknown" | "pending" | "running" | "absent" | "error";
+		/**
+		 * DeploymentUpdate
+		 * @description Update model for deployments.
+		 */
+		DeploymentUpdate: {
+			/** The new name of the deployment. */
+			name?: string | null;
+			/** New pipeline snapshot ID. */
+			snapshot_id?: string | null;
+			/** The new URL of the deployment. */
+			url?: string | null;
+			/** The new status of the deployment. */
+			status?: components["schemas"]["DeploymentStatus"] | null;
+			/** The new metadata of the deployment. */
+			deployment_metadata?: {
+				[key: string]: unknown;
+			} | null;
+			/** The new auth key of the deployment. */
+			auth_key?: string | null;
+			/** New tags to add to the deployment. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the deployment. */
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * Edge
@@ -4752,12 +5102,19 @@ export type components = {
 			step_code_line?: number | null;
 		};
 		/**
+		 * ExecutionMode
+		 * @description Enum that represents the execution mode of a pipeline run.
+		 * @enum {string}
+		 */
+		ExecutionMode: "fail_fast" | "stop_on_failure" | "continue_on_failure";
+		/**
 		 * ExecutionStatus
 		 * @description Enum that represents the execution status of a step or pipeline run.
 		 * @enum {string}
 		 */
 		ExecutionStatus:
 			| "initializing"
+			| "provisioning"
 			| "failed"
 			| "completed"
 			| "running"
@@ -4953,6 +5310,68 @@ export type components = {
 			/** Value */
 			value: string;
 		};
+		/**
+		 * LogEntry
+		 * @description A structured log entry with parsed information.
+		 */
+		LogEntry: {
+			/**
+			 * Message
+			 * @description The log message content
+			 */
+			message: string;
+			/**
+			 * Name
+			 * @description The name of the logger
+			 */
+			name?: string | null;
+			/** @description The log level */
+			level?: components["schemas"]["LoggingLevels"] | null;
+			/**
+			 * Timestamp
+			 * @description When the log was created
+			 */
+			timestamp?: string | null;
+			/**
+			 * Module
+			 * @description The module that generated this log entry
+			 */
+			module?: string | null;
+			/**
+			 * Filename
+			 * @description The name of the file that generated this log entry
+			 */
+			filename?: string | null;
+			/**
+			 * Lineno
+			 * @description The fileno that generated this log entry
+			 */
+			lineno?: number | null;
+			/**
+			 * Chunk Index
+			 * @description The index of the chunk in the log entry
+			 * @default 0
+			 */
+			chunk_index?: number;
+			/**
+			 * Total Chunks
+			 * @description The total number of chunks in the log entry
+			 * @default 1
+			 */
+			total_chunks?: number;
+			/**
+			 * Id
+			 * Format: uuid
+			 * @description The unique identifier of the log entry
+			 */
+			id?: string;
+		};
+		/**
+		 * LoggingLevels
+		 * @description Enum for logging levels.
+		 * @enum {integer}
+		 */
+		LoggingLevels: 0 | 40 | 30 | 20 | 10 | 50;
 		/**
 		 * LogicalOperators
 		 * @description Logical Ops to use to combine filters on list methods.
@@ -5836,6 +6255,16 @@ export type components = {
 			} | null;
 			[key: string]: unknown;
 		};
+		/**
+		 * OutputSpec
+		 * @description Pipeline output specification.
+		 */
+		OutputSpec: {
+			/** Step Name */
+			step_name: string;
+			/** Output Name */
+			output_name: string;
+		};
 		/** Page[APIKeyResponse] */
 		Page_APIKeyResponse_: {
 			/** Index */
@@ -5926,6 +6355,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["ComponentResponse"][];
+		};
+		/** Page[DeploymentResponse] */
+		Page_DeploymentResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["DeploymentResponse"][];
 		};
 		/** Page[EventSourceResponse] */
 		Page_EventSourceResponse_: {
@@ -6056,6 +6498,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["PipelineRunResponse"][];
+		};
+		/** Page[PipelineSnapshotResponse] */
+		Page_PipelineSnapshotResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["PipelineSnapshotResponse"][];
 		};
 		/** Page[ProjectResponse] */
 		Page_ProjectResponse_: {
@@ -6362,8 +6817,22 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6382,6 +6851,12 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			init_hook_source?: components["schemas"]["Source"] | null;
+			/** Init Hook Kwargs */
+			init_hook_kwargs?: {
+				[key: string]: unknown;
+			} | null;
+			cleanup_hook_source?: components["schemas"]["Source"] | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -6395,6 +6870,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6411,8 +6887,22 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
 			/** Enable Pipeline Logs */
 			enable_pipeline_logs?: boolean | null;
+			/** @default continue_on_failure */
+			execution_mode?: components["schemas"]["ExecutionMode"];
 			/**
 			 * Settings
 			 * @default {}
@@ -6431,6 +6921,12 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			init_hook_source?: components["schemas"]["Source"] | null;
+			/** Init Hook Kwargs */
+			init_hook_kwargs?: {
+				[key: string]: unknown;
+			} | null;
+			cleanup_hook_source?: components["schemas"]["Source"] | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -6444,170 +6940,9 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			cache_policy?: components["schemas"]["CachePolicy"] | null;
 			/** Name */
 			name: string;
-		};
-		/**
-		 * PipelineDeploymentRequest
-		 * @description Request model for pipeline deployments.
-		 */
-		PipelineDeploymentRequest: {
-			/** The id of the user that created this resource. Set automatically by the server. */
-			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
-			/** The run name template for runs created using this deployment. */
-			run_name_template: string;
-			/** The pipeline configuration for this deployment. */
-			pipeline_configuration: components["schemas"]["PipelineConfiguration-Input"];
-			/**
-			 * The step configurations for this deployment.
-			 * @default {}
-			 */
-			step_configurations?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * The client environment for this deployment.
-			 * @default {}
-			 */
-			client_environment?: {
-				[key: string]: unknown;
-			};
-			/** The version of the ZenML installation on the client side. */
-			client_version?: string | null;
-			/** The version of the ZenML installation on the server side. */
-			server_version?: string | null;
-			/** The pipeline version hash of the deployment. */
-			pipeline_version_hash?: string | null;
-			/** The pipeline spec of the deployment. */
-			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
-			/**
-			 * The stack associated with the deployment.
-			 * Format: uuid
-			 */
-			stack: string;
-			/** The pipeline associated with the deployment. */
-			pipeline?: string | null;
-			/** The build associated with the deployment. */
-			build?: string | null;
-			/** The schedule associated with the deployment. */
-			schedule?: string | null;
-			/** The code reference associated with the deployment. */
-			code_reference?: components["schemas"]["CodeReferenceRequest"] | null;
-			/** Optional path where the code is stored in the artifact store. */
-			code_path?: string | null;
-			/**
-			 * Template
-			 * @description Template used for the deployment.
-			 */
-			template?: string | null;
-		};
-		/**
-		 * PipelineDeploymentResponse
-		 * @description Response model for pipeline deployments.
-		 */
-		PipelineDeploymentResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["PipelineDeploymentResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineDeploymentResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineDeploymentResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-		};
-		/**
-		 * PipelineDeploymentResponseBody
-		 * @description Response body for pipeline deployments.
-		 */
-		PipelineDeploymentResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-			/** The user id. */
-			user_id?: string | null;
-			/**
-			 * The project id.
-			 * Format: uuid
-			 */
-			project_id: string;
-		};
-		/**
-		 * PipelineDeploymentResponseMetadata
-		 * @description Response metadata for pipeline deployments.
-		 */
-		PipelineDeploymentResponseMetadata: {
-			/** The run name template for runs created using this deployment. */
-			run_name_template: string;
-			/** The pipeline configuration for this deployment. */
-			pipeline_configuration: components["schemas"]["PipelineConfiguration-Output"];
-			/**
-			 * The step configurations for this deployment.
-			 * @default {}
-			 */
-			step_configurations?: {
-				[key: string]: unknown;
-			};
-			/**
-			 * The client environment for this deployment.
-			 * @default {}
-			 */
-			client_environment?: {
-				[key: string]: unknown;
-			};
-			/** The version of the ZenML installation on the client side. */
-			client_version: string | null;
-			/** The version of the ZenML installation on the server side. */
-			server_version: string | null;
-			/** The pipeline version hash of the deployment. */
-			pipeline_version_hash?: string | null;
-			/** The pipeline spec of the deployment. */
-			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
-			/** Optional path where the code is stored in the artifact store. */
-			code_path?: string | null;
-			/** The pipeline associated with the deployment. */
-			pipeline?: components["schemas"]["PipelineResponse"] | null;
-			/** The stack associated with the deployment. */
-			stack?: components["schemas"]["StackResponse"] | null;
-			/** The pipeline build associated with the deployment. */
-			build?: components["schemas"]["PipelineBuildResponse"] | null;
-			/** The schedule associated with the deployment. */
-			schedule?: components["schemas"]["ScheduleResponse"] | null;
-			/** The code reference associated with the deployment. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
-			/**
-			 * Template Id
-			 * @description Template used for the pipeline run.
-			 */
-			template_id?: string | null;
-		};
-		/**
-		 * PipelineDeploymentResponseResources
-		 * @description Class for all resource models associated with the pipeline deployment entity.
-		 */
-		PipelineDeploymentResponseResources: {
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			[key: string]: unknown;
 		};
 		/**
 		 * PipelineRequest
@@ -6731,10 +7066,10 @@ export type components = {
 			/** The name of the pipeline run. */
 			name: string;
 			/**
-			 * The deployment associated with the pipeline run.
+			 * The snapshot associated with the pipeline run.
 			 * Format: uuid
 			 */
-			deployment: string;
+			snapshot: string;
 			/** The pipeline associated with the pipeline run. */
 			pipeline?: string | null;
 			/** The orchestrator run ID. */
@@ -6745,6 +7080,8 @@ export type components = {
 			end_time?: string | null;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/**
 			 * Environment of the orchestrator that executed this pipeline run (OS, Python version, etc.).
 			 * @default {}
@@ -6754,6 +7091,8 @@ export type components = {
 			};
 			/** ID of the trigger execution that triggered this run. */
 			trigger_execution_id?: string | null;
+			/** Trigger information for the pipeline run. */
+			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
 			/** Tags of the pipeline run. */
 			tags?: (string | components["schemas"]["Tag"])[] | null;
 			/** Logs of the pipeline run. */
@@ -6807,22 +7146,10 @@ export type components = {
 			project_id: string;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
-			/** The stack that was used for this run. */
-			stack?: components["schemas"]["StackResponse"] | null;
-			/** The pipeline this run belongs to. */
-			pipeline?: components["schemas"]["PipelineResponse"] | null;
-			/** The pipeline build that was used for this run. */
-			build?: components["schemas"]["PipelineBuildResponse"] | null;
-			/** The schedule that was used for this run. */
-			schedule?: components["schemas"]["ScheduleResponse"] | null;
-			/** The code reference that was used for this run. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
-			/** The deployment that was used for this run. */
-			deployment_id?: string | null;
-			/** The trigger execution that triggered this run. */
-			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
-			/** The ID of the model version that was configured by this pipeline run explicitly. */
-			model_version_id?: string | null;
+			/** Whether the pipeline run is in progress. */
+			in_progress: boolean;
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -6862,7 +7189,8 @@ export type components = {
 			code_path?: string | null;
 			/**
 			 * Template Id
-			 * @description Template used for the pipeline run.
+			 * @deprecated
+			 * @description DEPRECATED: Template used for the pipeline run.
 			 */
 			template_id?: string | null;
 			/**
@@ -6879,6 +7207,20 @@ export type components = {
 		PipelineRunResponseResources: {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
+			snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			source_snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
+			/** The stack that was used for this run. */
+			stack?: components["schemas"]["StackResponse"] | null;
+			/** The pipeline this run belongs to. */
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
+			/** The pipeline build that was used for this run. */
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
+			/** The schedule that was used for this run. */
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
+			/** The code reference that was used for this run. */
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/** The trigger execution that triggered this run. */
+			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** Tags associated with the pipeline run. */
 			tags: components["schemas"]["TagResponse"][];
@@ -6889,13 +7231,27 @@ export type components = {
 			[key: string]: unknown;
 		};
 		/**
+		 * PipelineRunTriggerInfo
+		 * @description Trigger information model.
+		 */
+		PipelineRunTriggerInfo: {
+			/** The ID of the step run that triggered the pipeline run. */
+			step_run_id?: string | null;
+			/** The ID of the deployment that triggered the pipeline run. */
+			deployment_id?: string | null;
+		};
+		/**
 		 * PipelineRunUpdate
 		 * @description Pipeline run update model.
 		 */
 		PipelineRunUpdate: {
 			status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The reason for the status of the pipeline run. */
+			status_reason?: string | null;
 			/** End Time */
 			end_time?: string | null;
+			/** Orchestrator Run Id */
+			orchestrator_run_id?: string | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -6904,13 +7260,242 @@ export type components = {
 			add_logs?: components["schemas"]["LogsRequest"][] | null;
 		};
 		/**
+		 * PipelineSnapshotRequest
+		 * @description Request model for pipeline snapshots.
+		 */
+		PipelineSnapshotRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/** The run name template for runs created using this snapshot. */
+			run_name_template: string;
+			/** The pipeline configuration for this snapshot. */
+			pipeline_configuration: components["schemas"]["PipelineConfiguration-Input"];
+			/**
+			 * The step configurations for this snapshot.
+			 * @default {}
+			 */
+			step_configurations?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The client environment for this snapshot.
+			 * @default {}
+			 */
+			client_environment?: {
+				[key: string]: unknown;
+			};
+			/** The version of the ZenML installation on the client side. */
+			client_version?: string | null;
+			/** The version of the ZenML installation on the server side. */
+			server_version?: string | null;
+			/** The pipeline version hash of the snapshot. */
+			pipeline_version_hash?: string | null;
+			/** The pipeline spec of the snapshot. */
+			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
+			/** The name of the snapshot. */
+			name?: boolean | string | null;
+			/** The description of the snapshot. */
+			description?: string | null;
+			/** Whether to replace the existing snapshot with the same name. */
+			replace?: boolean | null;
+			/** Tags of the snapshot. */
+			tags?: string[] | null;
+			/**
+			 * The stack associated with the snapshot.
+			 * Format: uuid
+			 */
+			stack: string;
+			/**
+			 * The pipeline associated with the snapshot.
+			 * Format: uuid
+			 */
+			pipeline: string;
+			/** The build associated with the snapshot. */
+			build?: string | null;
+			/** The schedule associated with the snapshot. */
+			schedule?: string | null;
+			/** The code reference associated with the snapshot. */
+			code_reference?: components["schemas"]["CodeReferenceRequest"] | null;
+			/** Optional path where the code is stored in the artifact store. */
+			code_path?: string | null;
+			/**
+			 * Template
+			 * @description DEPRECATED: Template used for the snapshot.
+			 */
+			template?: string | null;
+			/**
+			 * Source Snapshot
+			 * @description Snapshot that is the source of this snapshot.
+			 */
+			source_snapshot?: string | null;
+		};
+		/**
+		 * PipelineSnapshotResponse
+		 * @description Response model for pipeline snapshots.
+		 */
+		PipelineSnapshotResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["PipelineSnapshotResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["PipelineSnapshotResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["PipelineSnapshotResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the snapshot. */
+			name?: string | null;
+		};
+		/**
+		 * PipelineSnapshotResponseBody
+		 * @description Response body for pipeline snapshots.
+		 */
+		PipelineSnapshotResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/** If a run can be started from the snapshot. */
+			runnable: boolean;
+			/** If the snapshot can be deployed. */
+			deployable: boolean;
+		};
+		/**
+		 * PipelineSnapshotResponseMetadata
+		 * @description Response metadata for pipeline snapshots.
+		 */
+		PipelineSnapshotResponseMetadata: {
+			/** The description of the snapshot. */
+			description?: string | null;
+			/** The run name template for runs created using this snapshot. */
+			run_name_template: string;
+			/** The pipeline configuration for this snapshot. */
+			pipeline_configuration: components["schemas"]["PipelineConfiguration-Output"];
+			/**
+			 * The step configurations for this snapshot.
+			 * @default {}
+			 */
+			step_configurations?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The client environment for this snapshot.
+			 * @default {}
+			 */
+			client_environment?: {
+				[key: string]: unknown;
+			};
+			/** The version of the ZenML installation on the client side. */
+			client_version: string | null;
+			/** The version of the ZenML installation on the server side. */
+			server_version: string | null;
+			/** The pipeline version hash of the snapshot. */
+			pipeline_version_hash?: string | null;
+			/** The pipeline spec of the snapshot. */
+			pipeline_spec?: components["schemas"]["PipelineSpec-Output"] | null;
+			/** Optional path where the code is stored in the artifact store. */
+			code_path?: string | null;
+			/**
+			 * Template Id
+			 * @deprecated
+			 * @description Template from which this snapshot was created.
+			 */
+			template_id?: string | null;
+			/**
+			 * Source Snapshot Id
+			 * @description Snapshot that is the source of this snapshot.
+			 */
+			source_snapshot_id?: string | null;
+			/** Run configuration template. */
+			config_template?: {
+				[key: string]: unknown;
+			} | null;
+			/** Run configuration schema. */
+			config_schema?: {
+				[key: string]: unknown;
+			} | null;
+		};
+		/**
+		 * PipelineSnapshotResponseResources
+		 * @description Run snapshot resources.
+		 */
+		PipelineSnapshotResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** The pipeline associated with the snapshot. */
+			pipeline: components["schemas"]["PipelineResponse"];
+			/** The stack associated with the snapshot. */
+			stack?: components["schemas"]["StackResponse"] | null;
+			/** The pipeline build associated with the snapshot. */
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
+			/** The schedule associated with the snapshot. */
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
+			/** The code reference associated with the snapshot. */
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/** The deployment associated with the snapshot. */
+			deployment?: components["schemas"]["DeploymentResponse"] | null;
+			/**
+			 * Tags associated with the snapshot.
+			 * @default []
+			 */
+			tags?: components["schemas"]["TagResponse"][];
+			/** The ID of the latest run of the snapshot. */
+			latest_run_id?: string | null;
+			/** The status of the latest run of the snapshot. */
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The user that created the latest run of the snapshot. */
+			latest_run_user?: components["schemas"]["UserResponse"] | null;
+			[key: string]: unknown;
+		};
+		/**
+		 * PipelineSnapshotUpdate
+		 * @description Pipeline snapshot update model.
+		 */
+		PipelineSnapshotUpdate: {
+			/** The name of the snapshot. If set to False, the name will be removed. */
+			name?: boolean | string | null;
+			/** The description of the snapshot. */
+			description?: string | null;
+			/** Whether to replace the existing snapshot with the same name. */
+			replace?: boolean | null;
+			/** New tags to add to the snapshot. */
+			add_tags?: string[] | null;
+			/** Tags to remove from the snapshot. */
+			remove_tags?: string[] | null;
+		};
+		/**
 		 * PipelineSpec
 		 * @description Specification of a pipeline.
 		 */
 		"PipelineSpec-Input": {
 			/**
 			 * Version
-			 * @default 0.4
+			 * @default 0.5
 			 */
 			version?: string;
 			source?: components["schemas"]["Source"] | null;
@@ -6921,8 +7506,27 @@ export type components = {
 			parameters?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Input Schema
+			 * @description JSON schema of the pipeline inputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline inputs are not JSON serializable.
+			 */
+			input_schema?: {
+				[key: string]: unknown;
+			} | null;
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Input"][];
+			/**
+			 * Outputs
+			 * @default []
+			 */
+			outputs?: components["schemas"]["OutputSpec"][];
+			/**
+			 * Output Schema
+			 * @description JSON schema of the pipeline outputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline outputs are not JSON serializable.
+			 */
+			output_schema?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * PipelineSpec
@@ -6931,7 +7535,7 @@ export type components = {
 		"PipelineSpec-Output": {
 			/**
 			 * Version
-			 * @default 0.4
+			 * @default 0.5
 			 */
 			version?: string;
 			source?: components["schemas"]["Source"] | null;
@@ -6942,8 +7546,27 @@ export type components = {
 			parameters?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Input Schema
+			 * @description JSON schema of the pipeline inputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline inputs are not JSON serializable.
+			 */
+			input_schema?: {
+				[key: string]: unknown;
+			} | null;
 			/** Steps */
 			steps: components["schemas"]["StepSpec-Output"][];
+			/**
+			 * Outputs
+			 * @default []
+			 */
+			outputs?: components["schemas"]["OutputSpec"][];
+			/**
+			 * Output Schema
+			 * @description JSON schema of the pipeline outputs. This is only set for pipeline specs with version >= 0.5. If the value is None, the schema generation failed, which is most likely because some of the pipeline outputs are not JSON serializable.
+			 */
+			output_schema?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * PipelineUpdate
@@ -7181,10 +7804,10 @@ export type components = {
 			/** The description of the run template. */
 			description?: string | null;
 			/**
-			 * The deployment that should be the base of the created template.
+			 * The snapshot that should be the base of the created template.
 			 * Format: uuid
 			 */
-			source_deployment_id: string;
+			source_snapshot_id: string;
 			/**
 			 * Whether the run template is hidden.
 			 * @default false
@@ -7272,8 +7895,8 @@ export type components = {
 		RunTemplateResponseResources: {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
-			/** The deployment that is the source of the template. */
-			source_deployment?: components["schemas"]["PipelineDeploymentResponse"] | null;
+			/** The snapshot that is the source of the template. */
+			source_snapshot?: components["schemas"]["PipelineSnapshotResponse"] | null;
 			/** The pipeline associated with the template. */
 			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The pipeline build associated with the template. */
@@ -8503,7 +9126,8 @@ export type components = {
 			| "model_deployer"
 			| "orchestrator"
 			| "step_operator"
-			| "model_registry";
+			| "model_registry"
+			| "deployer";
 		/**
 		 * StackDeploymentConfig
 		 * @description Configuration about a stack deployment.
@@ -8596,6 +9220,12 @@ export type components = {
 			components: {
 				[key: string]: unknown;
 			};
+			/** Environment variables to set when running on this stack. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/** Secrets to set as environment variables when running on this stack. */
+			secrets?: string[] | null;
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -8665,6 +9295,18 @@ export type components = {
 			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
 			stack_spec_path?: string | null;
+			/**
+			 * Environment variables to set when running on this stack.
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets to set as environment variables when running on this stack.
+			 * @default []
+			 */
+			secrets?: string[];
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
@@ -8694,10 +9336,18 @@ export type components = {
 			components?: {
 				[key: string]: unknown;
 			} | null;
+			/** Environment variables to set when running on this stack. */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
 			/** The stack labels. */
 			labels?: {
 				[key: string]: unknown;
 			} | null;
+			/** New secrets to add to the stack. */
+			add_secrets?: string[] | null;
+			/** Secrets to remove from the stack. */
+			remove_secrets?: string[] | null;
 		};
 		/**
 		 * Step
@@ -8722,17 +9372,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Input": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8749,15 +9417,31 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
+			/**
 			 * Extra
 			 * @default {}
 			 */
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8766,6 +9450,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}
@@ -8809,17 +9502,35 @@ export type components = {
 		 * @description Step configuration class.
 		 */
 		"StepConfiguration-Output": {
-			/** Enable Cache */
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
 			enable_cache?: boolean | null;
-			/** Enable Artifact Metadata */
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
 			enable_artifact_metadata?: boolean | null;
-			/** Enable Artifact Visualization */
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
 			enable_artifact_visualization?: boolean | null;
-			/** Enable Step Logs */
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
 			enable_step_logs?: boolean | null;
-			/** Step Operator */
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
 			step_operator?: boolean | string | null;
-			/** Experiment Tracker */
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
 			experiment_tracker?: boolean | string | null;
 			/**
 			 * Parameters
@@ -8836,15 +9547,31 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/**
+			 * Environment
+			 * @default {}
+			 */
+			environment?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Secrets
+			 * @default []
+			 */
+			secrets?: string[];
+			/**
 			 * Extra
 			 * @default {}
 			 */
 			extra?: {
 				[key: string]: unknown;
 			};
+			/** @description The failure hook source for the step. */
 			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Substitutions
@@ -8853,6 +9580,15 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * @default {
+			 *   "include_step_code": true,
+			 *   "include_step_parameters": true,
+			 *   "include_artifact_values": true,
+			 *   "include_artifact_ids": true
+			 * }
+			 */
+			cache_policy?: components["schemas"]["CachePolicy"];
 			/**
 			 * Outputs
 			 * @default {}
@@ -9084,10 +9820,10 @@ export type components = {
 			/** Logs associated with this step run. */
 			logs?: components["schemas"]["LogsResponse"] | null;
 			/**
-			 * The deployment associated with the step run.
+			 * The snapshot associated with the step run.
 			 * Format: uuid
 			 */
-			deployment_id: string;
+			snapshot_id: string;
 			/**
 			 * The ID of the pipeline run that this step run belongs to.
 			 * Format: uuid
@@ -9164,11 +9900,8 @@ export type components = {
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * Pipeline Parameter Name
-			 * @default
-			 */
-			pipeline_parameter_name?: string;
+			/** Invocation Id */
+			invocation_id: string;
 		};
 		/**
 		 * StepSpec
@@ -9185,11 +9918,8 @@ export type components = {
 			inputs?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * Pipeline Parameter Name
-			 * @default
-			 */
-			pipeline_parameter_name?: string;
+			/** Invocation Id */
+			invocation_id: string;
 		};
 		/**
 		 * Tag
@@ -9393,7 +10123,9 @@ export type components = {
 			| "model_version"
 			| "pipeline"
 			| "pipeline_run"
-			| "run_template";
+			| "run_template"
+			| "pipeline_snapshot"
+			| "deployment";
 		/**
 		 * TriggerExecutionResponse
 		 * @description Response model for trigger executions.
@@ -11066,14 +11798,14 @@ export type operations = {
 	 * * Generic API token: This token is short-lived and can be used for
 	 * generic automation tasks. The expiration can be set by the user, but the
 	 * server will impose a maximum expiration time.
-	 * * Workload API token: This token is scoped to a specific pipeline run, step
-	 * run or schedule and is used by pipeline workloads to authenticate with the
-	 * server. A pipeline run ID, step run ID or schedule ID must be provided and
-	 * the generated token will only be valid for the indicated pipeline run, step
-	 * run or schedule. No time limit is imposed on the validity of the token.
-	 * A workload API token can be used to authenticate and generate another
-	 * workload API token, but only for the same schedule, pipeline run ID or step
-	 * run ID, in that order.
+	 * * Workload API token: This token is scoped to a specific pipeline run,
+	 * schedule or deployment and is used by pipeline workloads to
+	 * authenticate with the server. A pipeline run ID, schedule ID or deployment
+	 * ID must be provided and the generated token will only be valid for the
+	 * indicated pipeline run, schedule or deployment.
+	 * No time limit is imposed on the validity of the token. A workload API token
+	 * can be used to authenticate and generate another workload API token, but
+	 * only for the same schedule, pipeline run ID or deployment ID, in that order.
 	 *
 	 * Args:
 	 *     token_type: The type of API token to generate.
@@ -11084,6 +11816,8 @@ export type operations = {
 	 *     schedule_id: The ID of the schedule to scope the workload API token to.
 	 *     pipeline_run_id: The ID of the pipeline run to scope the workload API
 	 *         token to.
+	 *     deployment_id: The ID of the deployment to scope the workload
+	 *         API token to.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
@@ -11100,6 +11834,7 @@ export type operations = {
 				expires_in?: number | null;
 				schedule_id?: string | null;
 				pipeline_run_id?: string | null;
+				deployment_id?: string | null;
 			};
 		};
 		responses: {
@@ -11642,6 +12377,280 @@ export type operations = {
 		parameters: {
 			path: {
 				code_repository_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * List Deployments
+	 * @description Gets a list of deployments.
+	 *
+	 * Args:
+	 *     deployment_filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     List of deployment objects matching the filter criteria.
+	 */
+	list_deployments_api_v1_deployments_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				tag?: string | null;
+				tags?: string[] | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				name?: string | null;
+				url?: string | null;
+				status?: string | null;
+				pipeline?: string | null;
+				snapshot_id?: string | null;
+				deployer_id?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_DeploymentResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Deployment
+	 * @description Creates a deployment.
+	 *
+	 * Args:
+	 *     deployment: Deployment to create.
+	 *
+	 * Returns:
+	 *     The created deployment.
+	 */
+	create_deployment_api_v1_deployments_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["DeploymentRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Deployment
+	 * @description Gets a specific deployment using its unique id.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to get.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     A specific deployment object.
+	 */
+	get_deployment_api_v1_deployments__deployment_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				deployment_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Deployment
+	 * @description Updates a specific deployment.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to update.
+	 *     deployment_update: Update model for the deployment.
+	 *
+	 * Returns:
+	 *     The updated deployment.
+	 */
+	update_deployment_api_v1_deployments__deployment_id__put: {
+		parameters: {
+			path: {
+				deployment_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["DeploymentUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeploymentResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Deployment
+	 * @description Deletes a specific deployment.
+	 *
+	 * Args:
+	 *     deployment_id: ID of the deployment to delete.
+	 */
+	delete_deployment_api_v1_deployments__deployment_id__delete: {
+		parameters: {
+			path: {
+				deployment_id: string;
 			};
 		};
 		responses: {
@@ -13742,11 +14751,14 @@ export type operations = {
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
-				deployment_id?: string | null;
+				snapshot_id?: string | null;
 				code_repository_id?: string | null;
 				template_id?: string | null;
+				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -13757,6 +14769,8 @@ export type operations = {
 				model?: string | null;
 				stack_component?: string | null;
 				templatable?: boolean | null;
+				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 			path: {
 				pipeline_id: string | null;
@@ -14026,6 +15040,7 @@ export type operations = {
 	};
 	/**
 	 * List Deployments
+	 * @deprecated
 	 * @description Gets a list of deployments.
 	 *
 	 * Args:
@@ -14051,14 +15066,21 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				tag?: string | null;
+				tags?: string[] | null;
 				scope_user?: string | null;
 				user?: string | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
+				name?: string | null;
+				named_only?: boolean | null;
+				pipeline?: string | null;
+				stack?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
-				template_id?: string | null;
+				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 		};
 		responses: {
@@ -14096,6 +15118,7 @@ export type operations = {
 	};
 	/**
 	 * Create Deployment
+	 * @deprecated
 	 * @description Creates a deployment.
 	 *
 	 * Args:
@@ -14114,7 +15137,7 @@ export type operations = {
 		};
 		requestBody: {
 			content: {
-				"application/json": components["schemas"]["PipelineDeploymentRequest"];
+				"application/json": components["schemas"]["PipelineSnapshotRequest"];
 			};
 		};
 		responses: {
@@ -14152,6 +15175,7 @@ export type operations = {
 	};
 	/**
 	 * Get Deployment
+	 * @deprecated
 	 * @description Gets a specific deployment using its unique id.
 	 *
 	 * Args:
@@ -14211,6 +15235,7 @@ export type operations = {
 	};
 	/**
 	 * Delete Deployment
+	 * @deprecated
 	 * @description Deletes a specific deployment.
 	 *
 	 * Args:
@@ -14256,35 +15281,269 @@ export type operations = {
 		};
 	};
 	/**
-	 * Deployment Logs
-	 * @description Get deployment logs.
+	 * List Pipeline Snapshots
+	 * @description Gets a list of snapshots.
 	 *
 	 * Args:
-	 *     deployment_id: ID of the deployment.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
+	 *     snapshot_filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     project_name_or_id: Optional name or ID of the project to filter by.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
 	 *
 	 * Returns:
-	 *     The deployment logs.
-	 *
-	 * Raises:
-	 *     KeyError: If no logs are available for the deployment.
+	 *     List of snapshot objects matching the filter criteria.
 	 */
-	deployment_logs_api_v1_pipeline_deployments__deployment_id__logs_get: {
+	list_pipeline_snapshots_api_v1_pipeline_snapshots_get: {
 		parameters: {
 			query?: {
-				offset?: number;
-				length?: number;
-			};
-			path: {
-				deployment_id: string;
+				project_name_or_id?: string | null;
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				tag?: string | null;
+				tags?: string[] | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				name?: string | null;
+				named_only?: boolean | null;
+				pipeline?: string | null;
+				stack?: string | null;
+				build_id?: string | null;
+				schedule_id?: string | null;
+				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 		};
 		responses: {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["Page_PipelineSnapshotResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Pipeline Snapshot
+	 * @description Creates a snapshot.
+	 *
+	 * Args:
+	 *     snapshot: Snapshot to create.
+	 *     project_name_or_id: Optional name or ID of the project.
+	 *
+	 * Returns:
+	 *     The created snapshot.
+	 */
+	create_pipeline_snapshot_api_v1_pipeline_snapshots_post: {
+		parameters: {
+			query?: {
+				project_name_or_id?: string | null;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["PipelineSnapshotRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["PipelineSnapshotResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Pipeline Snapshot
+	 * @description Gets a specific snapshot using its unique id.
+	 *
+	 * Args:
+	 *     snapshot_id: ID of the snapshot to get.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *     step_configuration_filter: List of step configurations to include in
+	 *         the response. If not given, all step configurations will be
+	 *         included.
+	 *     include_config_schema: Whether the config schema will be filled.
+	 *
+	 * Returns:
+	 *     A specific snapshot object.
+	 */
+	get_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				step_configuration_filter?: string[] | null;
+				include_config_schema?: boolean | null;
+			};
+			path: {
+				snapshot_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["PipelineSnapshotResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Pipeline Snapshot
+	 * @description Update a snapshot.
+	 *
+	 * Args:
+	 *     snapshot_id: ID of the snapshot to update.
+	 *     snapshot_update: The update to apply.
+	 *
+	 * Returns:
+	 *     The updated snapshot.
+	 */
+	update_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__put: {
+		parameters: {
+			path: {
+				snapshot_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["PipelineSnapshotUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Pipeline Snapshot
+	 * @description Deletes a specific snapshot.
+	 *
+	 * Args:
+	 *     snapshot_id: ID of the snapshot to delete.
+	 */
+	delete_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__delete: {
+		parameters: {
+			path: {
+				snapshot_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
 				};
 			};
 			/** @description Unauthorized */
@@ -14353,11 +15612,14 @@ export type operations = {
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
-				deployment_id?: string | null;
+				snapshot_id?: string | null;
 				code_repository_id?: string | null;
 				template_id?: string | null;
+				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -14368,6 +15630,8 @@ export type operations = {
 				model?: string | null;
 				stack_component?: string | null;
 				templatable?: boolean | null;
+				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 		};
 		responses: {
@@ -14656,7 +15920,7 @@ export type operations = {
 				start_time?: string | null;
 				end_time?: string | null;
 				pipeline_run_id?: string | null;
-				deployment_id?: string | null;
+				snapshot_id?: string | null;
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
@@ -14952,16 +16216,16 @@ export type operations = {
 	};
 	/**
 	 * Run Logs
-	 * @description Get pipeline run logs for a specific source.
+	 * @description Get log entries for efficient pagination.
+	 *
+	 * This endpoint returns the log entries.
 	 *
 	 * Args:
 	 *     run_id: ID of the pipeline run.
 	 *     source: Required source to get logs for.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
 	 *
 	 * Returns:
-	 *     Logs for the specified source.
+	 *     List of log entries.
 	 *
 	 * Raises:
 	 *     KeyError: If no logs are found for the specified source.
@@ -14970,8 +16234,6 @@ export type operations = {
 		parameters: {
 			query: {
 				source: string;
-				offset?: number;
-				length?: number;
 			};
 			path: {
 				run_id: string;
@@ -14981,7 +16243,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -15068,6 +16336,7 @@ export type operations = {
 	};
 	/**
 	 * List Run Templates
+	 * @deprecated
 	 * @description Get a page of run templates.
 	 *
 	 * Args:
@@ -15142,6 +16411,7 @@ export type operations = {
 	};
 	/**
 	 * Create Run Template
+	 * @deprecated
 	 * @description Create a run template.
 	 *
 	 * Args:
@@ -15197,6 +16467,7 @@ export type operations = {
 	};
 	/**
 	 * Get Run Template
+	 * @deprecated
 	 * @description Get a run template.
 	 *
 	 * Args:
@@ -15251,6 +16522,7 @@ export type operations = {
 	};
 	/**
 	 * Update Run Template
+	 * @deprecated
 	 * @description Update a run template.
 	 *
 	 * Args:
@@ -15306,6 +16578,7 @@ export type operations = {
 	};
 	/**
 	 * Delete Run Template
+	 * @deprecated
 	 * @description Delete a run template.
 	 *
 	 * Args:
@@ -18644,7 +19917,7 @@ export type operations = {
 				start_time?: string | null;
 				end_time?: string | null;
 				pipeline_run_id?: string | null;
-				deployment_id?: string | null;
+				snapshot_id?: string | null;
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
@@ -18945,27 +20218,19 @@ export type operations = {
 	};
 	/**
 	 * Get Step Logs
-	 * @description Get the logs of a specific step.
+	 * @description Get log entries for a step.
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
-	 *     offset: The offset from which to start reading.
-	 *     length: The amount of bytes that should be read.
-	 *     strip_timestamp: Whether to strip the timestamp in logs or not.
 	 *
 	 * Returns:
-	 *     The logs of the step.
+	 *     List of log entries.
 	 *
 	 * Raises:
-	 *     HTTPException: If no logs are available for this step.
+	 *     KeyError: If no logs are available for this step.
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
-			query?: {
-				offset?: number;
-				length?: number;
-				strip_timestamp?: boolean;
-			};
 			path: {
 				step_id: string;
 			};
@@ -18974,7 +20239,13 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": string;
+					"application/json": components["schemas"]["LogEntry"][];
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 			/** @description Unauthorized */
@@ -20885,14 +22156,21 @@ export type operations = {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				tag?: string | null;
+				tags?: string[] | null;
 				scope_user?: string | null;
 				user?: string | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
+				name?: string | null;
+				named_only?: boolean | null;
+				pipeline?: string | null;
+				stack?: string | null;
 				build_id?: string | null;
 				schedule_id?: string | null;
-				template_id?: string | null;
+				source_snapshot_id?: string | null;
+				runnable?: boolean | null;
+				deployable?: boolean | null;
+				deployed?: boolean | null;
 			};
 			path: {
 				project_name_or_id: string | null;
@@ -20946,7 +22224,7 @@ export type operations = {
 		};
 		requestBody: {
 			content: {
-				"application/json": components["schemas"]["PipelineDeploymentRequest"];
+				"application/json": components["schemas"]["PipelineSnapshotRequest"];
 			};
 		};
 		responses: {
@@ -21303,11 +22581,14 @@ export type operations = {
 				stack_id?: string | null;
 				schedule_id?: string | null;
 				build_id?: string | null;
-				deployment_id?: string | null;
+				snapshot_id?: string | null;
 				code_repository_id?: string | null;
 				template_id?: string | null;
+				source_snapshot_id?: string | null;
 				model_version_id?: string | null;
+				linked_to_model_version_id?: string | null;
 				status?: string | null;
+				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
 				unlisted?: boolean | null;
@@ -21318,6 +22599,8 @@ export type operations = {
 				model?: string | null;
 				stack_component?: string | null;
 				templatable?: boolean | null;
+				triggered_by_step_run_id?: string | null;
+				triggered_by_deployment_id?: string | null;
 			};
 			path: {
 				project_name_or_id: string | null;

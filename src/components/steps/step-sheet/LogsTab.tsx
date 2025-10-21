@@ -2,7 +2,7 @@ import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { useStepLogs } from "@/data/steps/step-logs-query";
-import { parseLogString } from "@/lib/logs";
+import { buildInternalLogEntries } from "@/lib/logs";
 import { useMemo } from "react";
 import { ErrorFallback } from "../../Error";
 
@@ -11,11 +11,11 @@ type Props = {
 };
 
 export function StepLogsTab({ stepId }: Props) {
-	const { data, isPending, isError, error } = useStepLogs({ stepId });
+	const { data, isPending, isError, error, refetch } = useStepLogs({ stepId });
 
 	const parsedLogs = useMemo(() => {
 		if (!data) return [];
-		return parseLogString(data);
+		return buildInternalLogEntries(data);
 	}, [data]);
 
 	if (isError) {
@@ -37,7 +37,7 @@ export function StepLogsTab({ stepId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			<EnhancedLogsViewer logs={parsedLogs} />
+			<EnhancedLogsViewer logs={parsedLogs} reloadLogs={refetch} />
 		</div>
 	);
 }

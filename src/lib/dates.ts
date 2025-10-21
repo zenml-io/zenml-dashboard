@@ -37,7 +37,33 @@ export function is1yearOld(date: Date) {
 }
 
 export function secondsToTimeString(seconds: number) {
-	const minutes = Math.floor(seconds / 60);
+	const hours = Math.floor(seconds / 3600);
+	const minutes = Math.floor((seconds % 3600) / 60);
 	const remainingSeconds = Math.floor(seconds % 60);
-	return `${minutes}min ${remainingSeconds}s`;
+
+	const parts: string[] = [];
+
+	if (hours > 0) {
+		parts.push(`${hours}h`);
+	}
+
+	if (minutes > 0) {
+		parts.push(`${minutes}min`);
+	}
+
+	if (parts.length === 0 || remainingSeconds > 0) {
+		parts.push(`${remainingSeconds}s`);
+	}
+
+	return parts.join(" ");
+}
+
+export function prepareBackendTimestamp(dateString: string | number) {
+	if (typeof dateString === "number") {
+		return new Date(dateString);
+	}
+	if (!dateString.endsWith("Z")) {
+		return new Date(dateString + "Z");
+	}
+	return new Date(dateString);
 }

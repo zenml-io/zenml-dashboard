@@ -5,16 +5,21 @@ import Refresh from "@/assets/icons/refresh.svg?react";
 import { Button } from "@zenml-io/react-component-library/components";
 import { useReactFlow } from "reactflow";
 import { NodeSearch } from "./search";
+import { ReactNode } from "react";
 
 type Props = {
 	refetch: () => void;
+	viewSwitcher: ReactNode;
 };
-export function DagControls({ refetch }: Props) {
+export function DagControls({ refetch, viewSwitcher }: Props) {
 	const { fitView, zoomIn, zoomOut } = useReactFlow();
 
 	return (
 		<div aria-label="Dag Controls" className="absolute left-4 top-4 z-10 flex flex-col gap-1">
-			<NodeSearch />
+			<div className="flex items-center gap-2">
+				{viewSwitcher}
+				<NodeSearch />
+			</div>
 			<div className="w-fit divide-y divide-neutral-300 overflow-hidden rounded-md border border-neutral-300 bg-theme-surface-primary">
 				<div>
 					<Button

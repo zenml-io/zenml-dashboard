@@ -1,26 +1,28 @@
+import { prepareBackendTimestamp } from "@/lib/dates";
+import { LOG_LEVEL_NAMES } from "@/lib/logs";
+import { LogEntryInternal, LoggingLevel } from "@/types/logs";
 import React from "react";
-import { LogEntry, LogLevel } from "@/types/logs";
 import { CopyButton } from "../CopyButton";
 
 interface LogLineProps {
-	entry: LogEntry;
+	entry: LogEntryInternal;
 	searchTerm?: string;
 	isCurrentMatch?: boolean;
 	textWrapEnabled?: boolean;
 	highlightedMessage?: React.ReactNode;
 }
 
-const getLogLevelColor = (level: LogLevel): string => {
+const getLogLevelColor = (level: LoggingLevel | undefined): string => {
 	switch (level) {
-		case "INFO":
-			return "bg-blue-500";
-		case "ERROR":
-			return "bg-error-500";
-		case "WARN":
-			return "bg-warning-500";
-		case "DEBUG":
+		case 10:
 			return "bg-neutral-400";
-		case "CRITICAL":
+		case 20:
+			return "bg-blue-500";
+		case 30:
+			return "bg-warning-500";
+		case 40:
+			return "bg-error-500";
+		case 50:
 			return "bg-error-700";
 		default:
 			return "bg-neutral-400";
@@ -28,8 +30,16 @@ const getLogLevelColor = (level: LogLevel): string => {
 };
 
 const formatTimestamp = (timestamp: string | number): string => {
-	const date = new Date(timestamp);
-	return date.toISOString().replace("T", " ").slice(0, 19);
+	const date = prepareBackendTimestamp(timestamp);
+	return date.toLocaleString("sv-SE", {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false
+	});
 };
 
 export function LogLine({
@@ -41,7 +51,7 @@ export function LogLine({
 }: LogLineProps) {
 	const { timestamp, level, message, originalEntry } = entry;
 	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
-	const levelColorClass = getLogLevelColor(level);
+	const levelColorClass = getLogLevelColor(level ?? undefined);
 
 	const highlightSearchTerm = (text: string) => {
 		if (!searchTerm) return text;
@@ -70,9 +80,11 @@ export function LogLine({
 	return (
 		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm transition-colors hover:bg-theme-surface-secondary">
 			{/* Compact log level badge */}
-			<div className="flex max-h-6 w-8 flex-shrink-0 items-center">
+			<div className="flex max-h-6 w-12 flex-shrink-0 items-center">
 				<div className={`h-4 w-[2px] rounded-sm ${levelColorClass} mr-2`}></div>
-				<span className="text-xs font-medium text-theme-text-tertiary">{level}</span>
+				<span className="text-xs font-medium text-theme-text-tertiary">
+					{LOG_LEVEL_NAMES[level ?? 20]}
+				</span>
 			</div>
 
 			{/* Timestamp */}

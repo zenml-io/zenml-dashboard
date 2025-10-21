@@ -18,6 +18,7 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 		case "failed":
 			return "fill-error-500";
 		case "initializing":
+		case "provisioning":
 			return "fill-primary-400";
 		case "cached":
 		case "stopped":
@@ -32,6 +33,28 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 	}
 }
 
+export function getExecutionStatusBgColor(status?: ExecutionStatus | "unknown" | null) {
+	if (!status) return null;
+	switch (status) {
+		case "completed":
+			return "bg-success-500";
+		case "failed":
+			return "bg-error-500";
+		case "initializing":
+			return "bg-primary-400";
+		case "cached":
+		case "stopped":
+		case "stopping":
+		case "retried":
+			return "bg-neutral-400";
+		case "running":
+		case "retrying":
+			return "bg-warning-500";
+		case "unknown":
+			return "bg-blue-500";
+	}
+}
+
 export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "unknown") {
 	if (!status) return null;
 	switch (status) {
@@ -40,6 +63,7 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "un
 		case "failed":
 			return "bg-error-50";
 		case "initializing":
+		case "provisioning":
 			return "bg-primary-50";
 		case "cached":
 		case "stopped":
@@ -64,6 +88,7 @@ export function getExecutionStatusTagColor(
 		case "failed":
 			return "red";
 		case "initializing":
+		case "provisioning":
 			return "purple";
 		case "cached":
 		case "stopped":
@@ -93,6 +118,7 @@ export function ExecutionStatusIcon({
 		case "failed":
 			return <AlertCircle className={classNames} />;
 		case "initializing":
+		case "provisioning":
 		case "stopping":
 			return <Initializing className={classNames} />;
 		case "cached":
@@ -133,5 +159,26 @@ export function getBadgeColor(status?: ExecutionStatus | "unknown"): BadgeProps[
 			return "blue";
 		default:
 			return "grey";
+	}
+}
+
+export function getRunIconColor(status?: ExecutionStatus) {
+	if (!status) return "fill-theme-text-brand";
+	switch (status) {
+		case "running":
+		case "retrying":
+			return "fill-orange-700";
+		case "cached":
+		case "stopped":
+		case "stopping":
+		case "retried":
+			return "fill-theme-text-secondary";
+		case "completed":
+			return "fill-success-800";
+		case "failed":
+			return "fill-error-800";
+		case "initializing":
+		case "provisioning":
+			return "fill-theme-text-brand";
 	}
 }

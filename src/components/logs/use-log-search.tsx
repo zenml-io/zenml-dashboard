@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
-import { LogEntry } from "@/types/logs";
+import { LogEntryInternal } from "@/types/logs";
 import React from "react";
 
 export interface SearchMatch {
@@ -14,7 +14,7 @@ export interface UseLogSearchReturn {
 	setSearchQuery: (query: string) => void;
 	caseSensitive: boolean;
 	setCaseSensitive: (caseSensitive: boolean) => void;
-	filteredLogs: LogEntry[];
+	filteredLogs: LogEntryInternal[];
 	matches: SearchMatch[];
 	currentMatchIndex: number;
 	totalMatches: number;
@@ -24,7 +24,7 @@ export interface UseLogSearchReturn {
 	highlightText: (text: string, logIndex: number) => React.ReactNode;
 }
 
-export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
+export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [caseSensitive, setCaseSensitive] = useState(false);
 	const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
@@ -36,7 +36,7 @@ export function useLogSearch(logs: LogEntry[]): UseLogSearchReturn {
 		}
 
 		const query = caseSensitive ? searchQuery : searchQuery.toLowerCase();
-		const filtered: LogEntry[] = [];
+		const filtered: LogEntryInternal[] = [];
 		const allMatches: SearchMatch[] = [];
 
 		logs.forEach((log) => {

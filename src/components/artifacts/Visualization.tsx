@@ -74,7 +74,7 @@ export function Visualization({
 							className="link"
 							rel="noopener noreferrer"
 							target="_blank"
-							href="https://docs.zenml.io/stack-components/artifact-stores/custom"
+							href="https://docs.zenml.io/stacks/stack-components/artifact-stores/custom"
 						>
 							docs
 						</a>

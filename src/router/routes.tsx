@@ -32,12 +32,26 @@ export const routes = {
 			overview: "/projects/default/runs",
 			detail: (id: string) => `/projects/default/runs/${id}`
 		},
-		templates: {
-			overview: "/projects/default/run-templates"
-		},
 		pipelines: {
 			overview: "/projects/default/pipelines",
-			namespace: (namespace: string) => `/projects/default/pipelines/${namespace}`
+			detail: {
+				runs: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/runs`,
+				snapshots: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/snapshots`,
+				deployments: (pipelineId: string) => `/projects/default/pipelines/${pipelineId}/deployments`
+			}
+		},
+		snapshots: {
+			overview: "/projects/default/snapshots",
+			detail: {
+				overview: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}`,
+				runs: (snapshotId: string) => `/projects/default/snapshots/${snapshotId}/runs`
+			}
+		},
+		deployments: {
+			overview: "/projects/default/deployments",
+			detail: {
+				overview: (deploymentId: string) => `/projects/default/deployments/${deploymentId}`
+			}
 		},
 		models: {
 			overview: "/projects/default/models"

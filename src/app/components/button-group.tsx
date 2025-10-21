@@ -1,11 +1,12 @@
 import Trash from "@/assets/icons/trash.svg?react";
+import { DeleteStackComponentAlertBody } from "@/components/stack-components/delete-component/delete-alert";
+import { pluralize } from "@/lib/strings";
 import {
 	AlertDialog,
 	AlertDialogTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useComponentBulkDelete, useComponentSelectorContext } from "./selector-context";
-import { DeleteStackComponentAlertBody } from "@/components/stack-components/delete-component/delete-alert";
 
 export function ComponentButtonGroup() {
 	const { bulkDelete } = useComponentBulkDelete();
@@ -15,8 +16,8 @@ export function ComponentButtonGroup() {
 		await bulkDelete(selectedRowIDs);
 	}
 
-	const plural = selectedRowCount > 1 ? "s" : "";
-	const info = `${selectedRowCount} Component${plural} selected`;
+	const plural = pluralize(selectedRowCount, "Component");
+	const info = `${selectedRowCount} ${plural} selected`;
 
 	return (
 		<div className="flex items-center divide-x divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate">

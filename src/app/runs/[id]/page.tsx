@@ -1,13 +1,15 @@
-import Expand from "@/assets/icons/expand.svg?react";
 import { useServerInfo } from "@/data/server/info-query";
 import { checkIsLocalServer } from "@/lib/server";
-import { Button, ScrollArea } from "@zenml-io/react-component-library";
-import { Dispatch, SetStateAction, useState } from "react";
-import { DAG } from "./Dag";
+import { ScrollArea } from "@zenml-io/react-component-library";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { RunsDetailHeader } from "./Header";
-import { RunsDetailTabs, TabsHeader } from "./_Tabs";
+import { RunsDetailTabs, TabsHeader } from "./detail-tabs";
+import { ExpandPanelButton, GlobalDagControls } from "./expand-panel-button";
+import { PipelineVisualization } from "./pipeline-viz";
 
 export default function RunDetailPage() {
+	const { runId } = useParams() as { runId: string };
 	const serverInfo = useServerInfo();
 	const isLocal = checkIsLocalServer(serverInfo.data?.deployment_type || "other");
 	const [isPanelOpen, setIsPanelOpen] = useState(true);
@@ -22,8 +24,10 @@ export default function RunDetailPage() {
 						isPanelOpen ? "w-1/2" : "w-full"
 					}`}
 				>
-					<DAG />
-					<ExpandPanelButton isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
+					<PipelineVisualization runId={runId} />
+					<GlobalDagControls>
+						<ExpandPanelButton isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
+					</GlobalDagControls>
 				</div>
 				<div
 					aria-hidden={!isPanelOpen}
@@ -38,23 +42,5 @@ export default function RunDetailPage() {
 				</div>
 			</div>
 		</div>
-	);
-}
-
-type ExpandPanelProps = {
-	isPanelOpen: boolean;
-	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
-};
-function ExpandPanelButton({ isPanelOpen, setIsPanelOpen }: ExpandPanelProps) {
-	return (
-		<Button
-			intent="secondary"
-			className={`absolute right-4 top-4 h-7 w-7 items-center justify-center border border-neutral-300 bg-theme-surface-primary p-0.5 ${
-				isPanelOpen ? "hidden" : "flex"
-			}`}
-			onClick={() => setIsPanelOpen(true)}
-		>
-			<Expand className="h-5 w-5 fill-theme-text-primary" />
-		</Button>
 	);
 }

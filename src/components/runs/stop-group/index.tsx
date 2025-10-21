@@ -12,8 +12,11 @@ export function RunStopGroup({ runId }: Props) {
 	if (runQuery.isError) return null;
 	if (runQuery.isPending) return <Skeleton className="h-6 w-[100px]" />;
 
-	const status = runQuery.data?.body?.status;
-	const isActive = status === "running" || status === "initializing";
+	const status = runQuery.data.body?.status;
+	const orchestratorRunID = runQuery.data.metadata?.orchestrator_run_id;
+	const isActive =
+		(status === "running" || status === "initializing" || status === "provisioning") &&
+		!!orchestratorRunID;
 
 	return (
 		<div className="flex">

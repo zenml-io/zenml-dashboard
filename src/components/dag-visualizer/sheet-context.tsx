@@ -1,3 +1,4 @@
+import { NodeTypes } from "@/types/dag-visualizer";
 import {
 	createContext,
 	PropsWithChildren,
@@ -10,7 +11,7 @@ import {
 interface SheetState {
 	isOpen: boolean;
 	lastContent: {
-		type: "step" | "artifact";
+		type: Extract<NodeTypes, "step" | "artifact" | "triggered_run">;
 		id: string;
 	} | null;
 }
@@ -19,6 +20,7 @@ interface SheetContextValue {
 	sheetState: SheetState;
 	openStepSheet: (stepId: string) => void;
 	openArtifactSheet: (artifactId: string) => void;
+	openTriggeredRunSheet: (runId: string) => void;
 	closeSheet: () => void;
 }
 
@@ -34,6 +36,13 @@ export function SheetProvider({ children }: PropsWithChildren) {
 		setSheetState({
 			isOpen: true,
 			lastContent: { type: "step", id: stepId }
+		});
+	}, []);
+
+	const openTriggeredRunSheet = useCallback((runId: string) => {
+		setSheetState({
+			isOpen: true,
+			lastContent: { type: "triggered_run", id: runId }
 		});
 	}, []);
 
@@ -57,9 +66,10 @@ export function SheetProvider({ children }: PropsWithChildren) {
 			sheetState,
 			openStepSheet,
 			openArtifactSheet,
+			openTriggeredRunSheet,
 			closeSheet
 		}),
-		[sheetState, openStepSheet, openArtifactSheet, closeSheet]
+		[sheetState, openStepSheet, openArtifactSheet, openTriggeredRunSheet, closeSheet]
 	);
 
 	return <SheetContext.Provider value={value}>{children}</SheetContext.Provider>;
