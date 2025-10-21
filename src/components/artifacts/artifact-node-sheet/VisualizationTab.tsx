@@ -63,7 +63,9 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			<div className={`flex ${visualizations.length > 1 ? "justify-between" : "justify-end"}`}>
+			<div
+				className={`flex gap-1 ${visualizations.length > 1 ? "justify-between" : "justify-end"}`}
+			>
 				{visualizations.length > 1 && (
 					<VisualizationCombobox
 						setIndex={setIndex}
@@ -71,44 +73,32 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 						index={index}
 					/>
 				)}
-				{isVisualizationConfirmed(index) && hasViz && loadedViz.type === "markdown" && (
-					<>
-						{markdownMode === "markdown" && (
-							<Button
-								intent="secondary"
-								emphasis="subtle"
-								size="md"
-								className="flex items-center gap-1 bg-theme-surface-primary"
-								onClick={() => setMarkdownMode("raw")}
-							>
-								Raw
-							</Button>
-						)}
-						{markdownMode === "raw" && (
-							<Button
-								intent="secondary"
-								emphasis="subtle"
-								size="md"
-								className="flex items-center gap-1 bg-theme-surface-primary"
-								onClick={() => setMarkdownMode("markdown")}
-							>
-								Markdown
-							</Button>
-						)}
-					</>
-				)}
-				{isVisualizationConfirmed(index) && (
-					<DownloadButton
-						artifactName={data.body?.artifact.name || "artifact"}
-						artifactVersionId={artifactVersionId}
-						visualizationIndex={index}
-					/>
-				)}
+				<div className="flex gap-1">
+					{isVisualizationConfirmed(index) && hasViz && loadedViz.type === "markdown" && (
+						<Button
+							intent="secondary"
+							emphasis="subtle"
+							size="md"
+							className="flex items-center gap-1 bg-theme-surface-primary"
+							onClick={() => setMarkdownMode((mode) => (mode === "markdown" ? "raw" : "markdown"))}
+						>
+							{markdownMode === "raw" ? "Markdown" : "Raw"}
+						</Button>
+					)}
+					{isVisualizationConfirmed(index) && (
+						<DownloadButton
+							artifactName={data.body?.artifact.name || "artifact"}
+							artifactVersionId={artifactVersionId}
+							visualizationIndex={index}
+						/>
+					)}
+				</div>
 			</div>
 			<Visualization
 				artifactName={data.body?.artifact.name || "artifact"}
 				visualizationIndex={index}
 				artifactVersionId={artifactVersionId}
+				markdownMode={markdownMode}
 			/>
 		</div>
 	);
