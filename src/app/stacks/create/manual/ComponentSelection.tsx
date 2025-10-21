@@ -21,7 +21,7 @@ export function ComponentsSelection() {
 	return (
 		<>
 			{stackComponentTypes.map((type) => (
-				<TabsContent className="h-full space-y-5 p-5" key={type} value={type}>
+				<TabsContent className="space-y-5 p-5" key={type} value={type}>
 					<ComponentTabContent type={type} />
 				</TabsContent>
 			))}
