@@ -1,14 +1,14 @@
-// import { Visualization } from "@/components/tenants-dashboard/artifacts/Visualization";
 import { default as Barchart, default as BarChart } from "@/assets/icons/bar-chart.svg?react";
 import { EmptyState } from "@/components/EmptyState";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
-import { Skeleton } from "@zenml-io/react-component-library";
+import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { FallbackProps } from "react-error-boundary";
 import { Visualization } from "../Visualization";
 import { useState } from "react";
 import { VisualizationCombobox } from "../visualization-combobox";
 import { DownloadButton } from "../visualization-download-button";
 import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
+import { useArtifactVisualization } from "@/data/artifact-versions/artifact-visualization-query";
 
 type Props = {
 	artifactVersionId: string;
@@ -17,10 +17,20 @@ type Props = {
 export function VisualizationTab({ artifactVersionId }: Props) {
 	const [index, setIndex] = useState(0);
 	const { isVisualizationConfirmed } = useArtifactLoadConfirmationContext();
+	const [markdownMode, setMarkdownMode] = useState<"markdown" | "raw">("markdown");
 
 	const { data, isPending, isError, error } = useArtifactVersion({
 		versionId: artifactVersionId
 	});
+
+	const { data: loadedViz, isSuccess: hasViz } = useArtifactVisualization(
+		{ versionId: artifactVersionId, params: { index } },
+		{
+			// Do not fetch before confirmation; rely on existing query/cache after confirmed
+			retry: false,
+			enabled: isVisualizationConfirmed(index)
+		}
+	);
 
 	if (isError) {
 		return (
@@ -60,6 +70,32 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 						visualizations={visualizations}
 						index={index}
 					/>
+				)}
+				{isVisualizationConfirmed(index) && hasViz && loadedViz.type === "markdown" && (
+					<>
+						{markdownMode === "markdown" && (
+							<Button
+								intent="secondary"
+								emphasis="subtle"
+								size="md"
+								className="flex items-center gap-1 bg-theme-surface-primary"
+								onClick={() => setMarkdownMode("raw")}
+							>
+								Raw
+							</Button>
+						)}
+						{markdownMode === "raw" && (
+							<Button
+								intent="secondary"
+								emphasis="subtle"
+								size="md"
+								className="flex items-center gap-1 bg-theme-surface-primary"
+								onClick={() => setMarkdownMode("markdown")}
+							>
+								Markdown
+							</Button>
+						)}
+					</>
 				)}
 				{isVisualizationConfirmed(index) && (
 					<DownloadButton
