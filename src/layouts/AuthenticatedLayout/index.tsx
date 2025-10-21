@@ -25,7 +25,7 @@ export function AuthenticatedLayout() {
 					<LocalBanner />
 					<AuthenticatedHeader />
 				</div>
-				<main className="flex flex-1 flex-col overflow-x-hidden has-[.no-scroll]:overflow-hidden">
+				<main className="flex flex-1 flex-col overflow-x-hidden">
 					<Analytics />
 					{/* <ProductTour /> */}
 					<Outlet />
