@@ -73,7 +73,7 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 						index={index}
 					/>
 				)}
-				<div className="flex gap-1">
+				<div className="flex items-center gap-1">
 					{isVisualizationConfirmed(index) && hasViz && loadedViz.type === "markdown" && (
 						<Button
 							intent="secondary"
