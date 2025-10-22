@@ -17,3 +17,5 @@ export const stackComponentTypes: StackComponentType[] = [
 	"model_registry",
 	"deployer"
 ] as const;
+
+export const COLLAPSE_STRING_THRESHOLD_CHARACTERS = 100; // characters
