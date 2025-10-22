@@ -44,7 +44,7 @@ export function PlaygroundOutputsContent({ outputs, clearOutputs }: Props) {
 								wordWrap: "on",
 								wordWrapColumn: 80
 							}}
-							className="h-full border border-theme-border-moderate"
+							className="h-full min-h-[200px] border border-theme-border-moderate md:min-h-[auto]"
 						/>
 					)
 				) : (

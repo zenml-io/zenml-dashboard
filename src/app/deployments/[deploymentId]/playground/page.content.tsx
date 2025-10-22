@@ -4,6 +4,7 @@ import { PlaygroundInputs } from "./_components/inputs";
 import { useInvokeDeployment } from "@/data/deployment-invocations/invoke";
 import { PlaygroundOutputs } from "./_components/outputs";
 import { useToast } from "@zenml-io/react-component-library";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 type Props = {
 	snapshot: PipelineSnapshot;
@@ -53,20 +54,23 @@ export function PlaygroundPageContent({ snapshot, deployment }: Props) {
 	}
 
 	return (
-		<div className="flex h-full w-full flex-1 flex-col divide-y divide-theme-border-moderate xl:flex-row xl:divide-x xl:divide-y-0">
-			<PlaygroundInputs
-				deploymentId={deployment.id}
-				isInvoking={invokeDeployment.isPending}
-				submitDeployment={submitDeployment}
-				snapshot={snapshot}
-			/>
-			<div className="h-full w-full bg-theme-surface-primary xl:w-1/2 xl:pr-[80px]">
+		<PanelGroup direction="horizontal" className="h-full !flex-col md:!flex-row">
+			<Panel minSize={33} defaultSize={50}>
+				<PlaygroundInputs
+					deploymentId={deployment.id}
+					isInvoking={invokeDeployment.isPending}
+					submitDeployment={submitDeployment}
+					snapshot={snapshot}
+				/>
+			</Panel>
+			<PanelResizeHandle className="hidden w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold md:block" />
+			<Panel minSize={33} defaultSize={50} className="h-full bg-theme-surface-primary xl:pr-[80px]">
 				<PlaygroundOutputs
 					clearOutputs={() => invokeDeployment.reset()}
 					isInvoking={invokeDeployment.isPending}
 					outputs={invokeDeployment.data}
 				/>
-			</div>
-		</div>
+			</Panel>
+		</PanelGroup>
 	);
 }
