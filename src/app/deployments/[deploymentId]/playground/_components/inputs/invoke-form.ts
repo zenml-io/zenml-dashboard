@@ -1,15 +1,9 @@
+import { JSONSchemaFaker } from "@/lib/json-faker";
 import { JSONSchemaDefinition } from "@/types/forms";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@zenml-io/react-component-library";
-import { JSONSchemaFaker } from "json-schema-faker";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-JSONSchemaFaker.option({
-	alwaysFakeOptionals: true,
-	useDefaultValue: true,
-	random: () => 0
-});
 
 const invokeFormSchema = z.object({
 	parameters: z.string()

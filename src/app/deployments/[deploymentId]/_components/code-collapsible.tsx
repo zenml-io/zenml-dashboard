@@ -6,6 +6,7 @@ import {
 	CollapsibleHeader,
 	CollapsiblePanel,
 	CollapsibleTrigger,
+	Skeleton,
 	Tabs,
 	TabsContent,
 	TabsList,
@@ -20,6 +21,10 @@ import {
 	buildZenCommand,
 	replaceAuthTokenPlaceholder
 } from "./command-builder";
+import { useQuery } from "@tanstack/react-query";
+import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
+import { JSONSchema } from "@/types/forms";
+import { JSONSchemaFaker } from "@/lib/json-faker";
 
 export function DeploymentCodeCollapsible() {
 	return <DeploymentDetailWrapper Component={DeploymentCodeContent} />;
@@ -32,6 +37,23 @@ type Props = {
 function DeploymentCodeContent({ deployment }: Props) {
 	const [open, setOpen] = useState(true);
 	const [selectedTab, setSelectedTab] = useState("cli");
+
+	const snapshotId = deployment.resources?.snapshot?.id;
+
+	const snapshotQuery = useQuery({
+		...pipelineSnapshotQueries.detail(snapshotId!),
+		enabled: !!snapshotId
+	});
+
+	if (!snapshotId) return null;
+	if (snapshotQuery.isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (snapshotQuery.isError) return null;
+	const snapshot = snapshotQuery.data;
+
+	const schema = snapshot.metadata?.pipeline_spec?.input_schema as JSONSchema;
+
+	const defaultBody = schema ? JSONSchemaFaker.generate(schema) : {};
+
 	const url = deployment.body?.url;
 
 	const authKey = deployment.metadata?.auth_key ?? undefined;
@@ -71,7 +93,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 							highlightCode
 							language="bash"
 							wrap
-							code={buildZenCommand(deployment.name, { city: "Paris", test: 20 })}
+							code={buildZenCommand(deployment.name, defaultBody)}
 						/>
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="python">
@@ -82,14 +104,14 @@ function DeploymentCodeContent({ deployment }: Props) {
 							wrap
 							code={buildPythonCommand({
 								deploymentId: deployment.id,
-								defaultBody: { city: "Paris", test: 20 }
+								defaultBody: defaultBody
 							})}
 						/>
 					</TabsContent>
 					{!!url && (
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="curl">
 							{(() => {
-								const curlCode = buildCurl(url, { city: "Paris" }, authKey);
+								const curlCode = buildCurl(url, defaultBody, authKey);
 								return (
 									<Codesnippet
 										fullWidth
@@ -106,7 +128,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 					{!!url && (
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="ts">
 							{(() => {
-								const tsCode = buildTs(url, { city: "Paris" }, authKey);
+								const tsCode = buildTs(url, defaultBody, authKey);
 								return (
 									<Codesnippet
 										fullWidth
