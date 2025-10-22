@@ -10,35 +10,25 @@ export function useCreateSnapshotFromRunBreadcrumbs(run?: PipelineRun) {
 
 	useEffect(() => {
 		if (run) {
-			if (run.resources?.pipeline) {
-				setBreadcrumbs([
-					pipelineBreadcrumb,
-					{
-						label: run.resources.pipeline.name || "",
-						href: routes.projects.pipelines.detail.runs(run.resources.pipeline.id)
-					},
-					{
-						label: run.name || "",
-						href: routes.projects.runs.detail(run.id)
-					},
-					{
-						label: "Create Snapshot",
-						href: routes.projects.runs.createSnapshot(run.id)
-					}
-				]);
-			} else {
-				setBreadcrumbs([
-					runBreadcrumb,
-					{
-						label: run.name || "",
-						href: routes.projects.runs.detail(run.id)
-					},
-					{
-						label: "Create Snapshot",
-						href: routes.projects.runs.createSnapshot(run.id)
-					}
-				]);
-			}
+			setBreadcrumbs([
+				...(run.resources?.pipeline
+					? [
+							pipelineBreadcrumb,
+							{
+								label: run.resources.pipeline.name || "",
+								href: routes.projects.pipelines.detail.runs(run.resources.pipeline.id)
+							}
+						]
+					: [runBreadcrumb]),
+				{
+					label: run.name || "",
+					href: routes.projects.runs.detail(run.id)
+				},
+				{
+					label: "Create Snapshot",
+					href: routes.projects.runs.createSnapshot(run.id)
+				}
+			]);
 		}
 	}, [setBreadcrumbs, run]);
 }
