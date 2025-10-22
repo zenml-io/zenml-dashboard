@@ -29,7 +29,12 @@ export default defineConfig({
 });
 
 function splitChunks(id: string) {
+	if (id.includes("zod")) return "@zod";
+	if (id.includes("featureos-widget")) return "@featureos-widget";
+	if (id.includes("json-schema-faker")) return "@json-schema-faker";
+	if (id.includes("monaco-editor")) return "@monaco-editor";
 	if (id.includes("reactflow")) return "@reactflow";
+	if (id.includes("elkjs")) return "@elkjs";
 	if (id.includes("radix")) return "@radix";
 	if (id.includes("tanstack")) return "@tanstack";
 	if (id.includes("react-router-dom") || id.includes("@remix-run") || id.includes("react-router")) {
