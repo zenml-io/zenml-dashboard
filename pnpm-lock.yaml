@@ -61,9 +61,6 @@ importers:
       elkjs:
         specifier: ^0.10.0
         version: 0.10.0
-      featureos-widget:
-        specifier: ^0.0.32
-        version: 0.0.32
       immer:
         specifier: ^10.1.1
         version: 10.1.1
@@ -2306,9 +2303,6 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
-
-  featureos-widget@0.0.32:
-    resolution: {integrity: sha512-ERgreSJB6U5/Z892xAhDVIKKKQ2H6fiXhJjTKh+aomBfX+6QOHwGADiL/Pamz9GBVnRmZ5ioCLufTx6kbO6HbQ==}
 
   file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
@@ -5837,8 +5831,6 @@ snapshots:
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
-
-  featureos-widget@0.0.32: {}
 
   file-entry-cache@6.0.1:
     dependencies:

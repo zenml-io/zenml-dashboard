@@ -37,7 +37,6 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"elkjs": "^0.10.0",
-		"featureos-widget": "^0.0.32",
 		"immer": "^10.1.1",
 		"json-schema-faker": "^0.5.9",
 		"jwt-decode": "^4.0.0",

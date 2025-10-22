@@ -1,11 +1,14 @@
 import File from "@/assets/icons/file.svg?react";
 import LogoutIcon from "@/assets/icons/logout.svg?react";
 import Users from "@/assets/icons/users.svg?react";
+import { WhatsNewDialog } from "@/components/announcements/whats-new-list/whats-new-dialog";
 import { useAuthContext } from "@/context/AuthContext";
+import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { isNoAuthServer } from "@/lib/server";
+import { sanitizeUrl } from "@/lib/url";
 import {
 	Avatar,
 	AvatarFallback,
@@ -18,10 +21,10 @@ import {
 } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import ChangeLogButton from "./changelog-button";
-import { useServerSettings } from "@/data/server/get-server-settings";
-import { sanitizeUrl } from "@/lib/url";
+import { useChangelog } from "./use-changelog";
 
 export function UserDropdown() {
+	const { isChangelogOpen, setIsChangelogOpen, openChangelog } = useChangelog();
 	const currentUser = useCurrentUser();
 	const serverInfo = useServerInfo();
 	const serverSettings = useServerSettings();
@@ -42,45 +45,48 @@ export function UserDropdown() {
 	const displayUpdates = !!serverSettings.data.body?.display_updates;
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger>
-				<Avatar size="lg">
-					<AvatarImage src={sanitizeUrl(currentUser.data.body?.avatar_url ?? undefined)} />
-					<AvatarFallback size="lg">{currentUser.data.name[0]}</AvatarFallback>
-				</Avatar>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" sideOffset={7}>
-				{displayUpdates && <ChangeLogButton />}
-				<DropdownMenuItem asChild icon={<File />}>
-					<a
+		<>
+			{displayUpdates && <WhatsNewDialog open={isChangelogOpen} setOpen={setIsChangelogOpen} />}
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<Avatar size="lg">
+						<AvatarImage src={sanitizeUrl(currentUser.data.body?.avatar_url ?? undefined)} />
+						<AvatarFallback size="lg">{currentUser.data.name[0]}</AvatarFallback>
+					</Avatar>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align="end" sideOffset={7}>
+					{displayUpdates && <ChangeLogButton openChangelog={() => openChangelog()} />}
+					<DropdownMenuItem asChild icon={<File />}>
+						<a
+							className="cursor-pointer"
+							rel="noopener noreferrer"
+							target="_blank"
+							href="https://docs.zenml.io/"
+						>
+							Docs
+						</a>
+					</DropdownMenuItem>
+					<DropdownMenuItem asChild icon={<Users />}>
+						<a
+							className="cursor-pointer"
+							rel="noopener noreferrer"
+							target="_blank"
+							href="https://zenml.io/slack"
+						>
+							Community
+						</a>
+					</DropdownMenuItem>
+					<div aria-hidden="true" className="my-1 h-[1px] bg-theme-border-moderate"></div>
+					<DropdownMenuItem
 						className="cursor-pointer"
-						rel="noopener noreferrer"
-						target="_blank"
-						href="https://docs.zenml.io/"
+						disabled={isNoAuthServer(serverInfo.data.auth_scheme)}
+						onClick={() => mutation.mutate()}
+						icon={<LogoutIcon className="h-3 w-3 fill-neutral-400" />}
 					>
-						Docs
-					</a>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild icon={<Users />}>
-					<a
-						className="cursor-pointer"
-						rel="noopener noreferrer"
-						target="_blank"
-						href="https://zenml.io/slack"
-					>
-						Community
-					</a>
-				</DropdownMenuItem>
-				<div aria-hidden="true" className="my-1 h-[1px] bg-theme-border-moderate"></div>
-				<DropdownMenuItem
-					className="cursor-pointer"
-					disabled={isNoAuthServer(serverInfo.data.auth_scheme)}
-					onClick={() => mutation.mutate()}
-					icon={<LogoutIcon className="h-3 w-3 fill-neutral-400" />}
-				>
-					Logout
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+						Logout
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</>
 	);
 }

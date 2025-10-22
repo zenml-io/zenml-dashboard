@@ -6,6 +6,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { BreadcrumbContextProvider } from "./BreadcrumbsContext";
 import { LocalBanner } from "./LocalBanner";
+import { FeatureHighlight } from "@/components/announcements/feature-highlight";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
@@ -29,6 +30,7 @@ export function AuthenticatedLayout() {
 					<div className="flex flex-grow">
 						<div className="w-full overflow-y-hidden">
 							<Analytics />
+							<FeatureHighlight />
 							{/* <ProductTour /> */}
 							<Outlet />
 						</div>

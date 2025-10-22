@@ -1,0 +1,88 @@
+import ExternalLink from "@/assets/icons/link-external.svg?react";
+import { Markdown } from "@/components/Markdown";
+import {
+	Button,
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogTitle,
+	Tag
+} from "@zenml-io/react-component-library";
+import { useState } from "react";
+import { setChangelogLastSeen } from "../persist-changelog";
+import { ChangelogImagePlaceholder } from "../placeholder";
+import { useNewChangelogHighlights } from "./get-new-highlights";
+import { ChangelogHighlightPageIndicator } from "./page-indicator";
+
+export function FeatureHighlight() {
+	const newFeatureHighlights = useNewChangelogHighlights();
+	const [open, setOpen] = useState(newFeatureHighlights.length >= 1);
+	const [currentPage, setCurrentPage] = useState(0);
+
+	function handleChange(open: boolean) {
+		setChangelogLastSeen();
+		setOpen(open);
+	}
+
+	function handleNext() {
+		const isLast = currentPage === newFeatureHighlights.length - 1;
+		if (isLast) {
+			handleChange(false);
+		} else {
+			setCurrentPage((prev) => prev + 1);
+		}
+	}
+
+	const isLastPage = currentPage === newFeatureHighlights.length - 1;
+	const currentItem = newFeatureHighlights[currentPage];
+
+	return (
+		<Dialog open={open} onOpenChange={handleChange}>
+			<DialogContent className="flex max-w-[600px] flex-col">
+				<ChangelogImagePlaceholder />
+				<div className="space-y-5 p-5">
+					<ChangelogHighlightPageIndicator
+						currentPage={currentPage}
+						totalPages={newFeatureHighlights.length}
+					/>
+					<div className="space-y-3">
+						<div className="space-y-1">
+							<DialogTitle className="text-display-xs font-semibold">
+								{currentItem.title}
+							</DialogTitle>
+							<DialogDescription className="sr-only">
+								Changelog Highlight: {currentItem.title}
+							</DialogDescription>
+							<ul className="flex flex-wrap items-center gap-0.5">
+								{currentItem.labels.map((label) => (
+									<li className="inline-flex" key={label.id}>
+										<Tag color="green" size="xs" rounded={false} emphasis="subtle">
+											{label.name}
+										</Tag>
+									</li>
+								))}
+							</ul>
+						</div>
+						<Markdown
+							className="prose text-theme-text-secondary"
+							markdown={currentItem.description_md}
+						/>
+					</div>
+				</div>
+				<div className="flex items-center justify-end gap-2 p-5">
+					{currentItem.learn_more_url && (
+						<Button size="md" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
+							<a href={currentItem.learn_more_url} target="_blank" rel="noopener noreferrer">
+								<ExternalLink className="size-4 shrink-0 fill-inherit" />
+								<span>Learn more</span>
+							</a>
+						</Button>
+					)}
+					<Button size="md" onClick={handleNext}>
+						{isLastPage ? "Got it" : "Next"}
+					</Button>
+				</div>
+			</DialogContent>
+		</Dialog>
+	);
+}
