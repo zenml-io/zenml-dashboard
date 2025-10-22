@@ -62,7 +62,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			}>();
 			return (
 				<div className="group/copybutton flex items-center gap-2">
-					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+					<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">
 							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">

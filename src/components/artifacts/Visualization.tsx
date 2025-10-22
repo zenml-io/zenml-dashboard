@@ -25,12 +25,14 @@ type VisualizationProps = {
 	artifactVersionId: string;
 	artifactName: string;
 	visualizationIndex?: number;
+	markdownMode?: "markdown" | "raw";
 };
 
 export function Visualization({
 	artifactVersionId,
 	artifactName,
-	visualizationIndex = 0
+	visualizationIndex = 0,
+	markdownMode = "markdown"
 }: VisualizationProps) {
 	const [isCancelled, setIsCancelled] = useState(false);
 	const params: ArtifactVisualizationQueryParams = {
@@ -132,7 +134,9 @@ export function Visualization({
 		<div>
 			{data.type === "image" && <ImageVisualization content={data.value} />}
 			{data.type === "html" && <HTMLVisualization content={data.value} />}
-			{data.type === "markdown" && <MarkdownVisualization content={data.value} />}
+			{data.type === "markdown" && (
+				<MarkdownVisualization content={data.value} markdownMode={markdownMode} />
+			)}
 			{data.type === "csv" && <CSVVisualization content={data.value} />}
 			{data.type === "json" && <JSONVisualization content={data.value} />}
 		</div>
