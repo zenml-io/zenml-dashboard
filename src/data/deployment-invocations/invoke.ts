@@ -34,7 +34,7 @@ async function invokeDeployment({
 				.json()
 				.then((data) => {
 					if (Array.isArray(data)) {
-						return data[1];
+						if (data.length >= 2) return data[1];
 					}
 					if (Array.isArray(data.detail)) {
 						return data.detail[1];

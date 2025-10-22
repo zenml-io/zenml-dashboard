@@ -18,4 +18,4 @@ export const stackComponentTypes: StackComponentType[] = [
 	"deployer"
 ] as const;
 
-export const COLLAPSE_STRING_THRESHOLD = 100; // characters
+export const COLLAPSE_STRING_THRESHOLD_CHARACTERS = 100; // characters
