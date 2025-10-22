@@ -38,7 +38,7 @@ export function RunsDetailHeader() {
 			<div className="flex items-center gap-1">
 				<RunRefreshGroup runId={runId} />
 				<RunStopGroup runId={runId} />
-				<RunActionsMenu />
+				<RunActionsMenu runId={runId} />
 			</div>
 		</PageHeader>
 	);
