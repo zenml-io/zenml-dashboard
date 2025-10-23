@@ -23,6 +23,9 @@ export async function fetchDeploymentDetail({
 		const errorData: string = await res
 			.json()
 			.then((data) => {
+				if (Array.isArray(data)) {
+					return data[1] || "Unknown error";
+				}
 				if (Array.isArray(data.detail)) {
 					return data.detail[1];
 				}

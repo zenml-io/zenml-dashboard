@@ -1,12 +1,15 @@
 import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
 import { useParams } from "react-router-dom";
-import { SnapshotTableToolbar } from "./toolbar";
-import { PipelineSnapshotsTable } from "./table";
-import { usePipelineSnapshotParams } from "./use-queryparams";
+import { SnapshotTableToolbar } from "@/components/pipeline-snapshots/list/toolbar";
+import { PipelineSnapshotsTable } from "@/components/pipeline-snapshots/list/table";
+import { useSnapshotListQueryParams } from "@/components/pipeline-snapshots/list/use-queryparams";
+import { usePipelineSnapshotColumns } from "./columns";
 
 export function PipelineSnapshotsContent() {
 	const { pipelineId } = useParams() as { pipelineId: string };
-	const existingParams = usePipelineSnapshotParams();
+	const existingParams = useSnapshotListQueryParams();
+
+	const columns = usePipelineSnapshotColumns();
 
 	const searchParams: PipelineSnapshotListQueryParams = {
 		pipeline: pipelineId,
@@ -18,7 +21,7 @@ export function PipelineSnapshotsContent() {
 	return (
 		<>
 			<SnapshotTableToolbar params={searchParams} />
-			<PipelineSnapshotsTable params={searchParams} />
+			<PipelineSnapshotsTable params={searchParams} columns={columns} />
 		</>
 	);
 }

@@ -87,7 +87,7 @@ export function SetProjectCommand({ projectId }: { projectId: string }) {
 	return (
 		<div className="flex items-center gap-2 truncate">
 			<div className="flex w-full items-center justify-between gap-1 truncate rounded-md border border-theme-border-moderate bg-theme-surface-secondary px-2 py-1 text-text-sm text-theme-text-secondary">
-				<code className="truncate">{loginCommand}</code>
+				<code className="truncate font-normal">{loginCommand}</code>
 				{copied ? (
 					<>
 						<Tick className="h-3 w-3 shrink-0 fill-theme-text-tertiary" />

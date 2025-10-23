@@ -1,3 +1,5 @@
+import { prepareBackendTimestamp } from "@/lib/dates";
+
 export function DisplayDate({
 	dateString,
 	short = false
@@ -5,7 +7,7 @@ export function DisplayDate({
 	dateString: string;
 	short?: boolean;
 }) {
-	const date = new Date(`${dateString}Z`);
+	const date = prepareBackendTimestamp(dateString);
 
 	return <>{short ? formatShortDate(date) : date.toLocaleString()}</>;
 }

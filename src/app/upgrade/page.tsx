@@ -3,8 +3,8 @@ import { UpgradeWrapperBox } from "./components/form/Wrapper";
 
 export default function UpgradePage() {
 	return (
-		<div className="flex h-full items-center justify-center">
-			<div className="layout-container">
+		<div className="flex items-center justify-center lg:h-full">
+			<div className="layout-container py-5">
 				<UpgradeProvider>
 					<UpgradeWrapperBox />
 				</UpgradeProvider>

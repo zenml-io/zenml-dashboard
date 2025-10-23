@@ -1,12 +1,13 @@
 import Stacks from "@/assets/icons/stack.svg?react";
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import Tools from "@/assets/icons/tool-02.svg?react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
+import { TabIcon } from "@/components/tab-icon";
+import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
+import { Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { ReactNode, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ComponentConfigTab } from "./ConfigTab";
 import { useSelectedTab } from "./service";
-import { TabIcon } from "@/components/tab-icon";
 
 type Props = {
 	componentId: string;
@@ -37,7 +38,7 @@ export function StackComponentTabs({
 	return (
 		<div className="p-5">
 			<Tabs value={isPanel ? inMemoryTab : selectedTab} onValueChange={handleTabChage}>
-				<TabsList>
+				<ScrollingTabsList>
 					<TabsTrigger className="flex items-center gap-2 text-text-md" value="configuration">
 						<TabIcon icon={Tools} />
 						<span>Configuration</span>
@@ -50,7 +51,7 @@ export function StackComponentTabs({
 						<TabIcon icon={RunIcon} />
 						<span>Runs</span>
 					</TabsTrigger>
-				</TabsList>
+				</ScrollingTabsList>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 					<ComponentConfigTab componentId={componentId} />

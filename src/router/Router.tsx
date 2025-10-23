@@ -36,11 +36,16 @@ const PipelineDetailDeployments = lazy(
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 
 // Snapshots
+const GlobalSnapshots = lazy(() => import("@/app/snapshots/page"));
 const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
 const SnapshotDetailRuns = lazy(() => import("@/app/snapshots/[snapshotId]/runs/page"));
+const CreateSnapshotFromRun = lazy(() => import("@/app/runs/[id]/create-snapshot/page"));
+const CreateSnapshot = lazy(() => import("@/app/snapshots/create/page"));
 
 // Deployments
+const DeploymentsList = lazy(() => import("@/app/deployments/page"));
 const DeploymentDetail = lazy(() => import("@/app/deployments/[deploymentId]/page"));
+const DeploymentPlayground = lazy(() => import("@/app/deployments/[deploymentId]/playground/page"));
 
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
@@ -214,11 +219,20 @@ export const router = createBrowserRouter([
 								path: routes.projects.pipelines.overview,
 								element: withProtectedRoute(<Pipelines />)
 							},
-
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.snapshots.overview,
+								element: withProtectedRoute(<GlobalSnapshots />)
+							},
 							{
 								errorElement: <PageBoundary />,
 								path: routes.projects.runs.overview,
 								element: withProtectedRoute(<Runs />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.overview,
+								element: withProtectedRoute(<DeploymentsList />)
 							},
 							// Models & Artifacts
 							{
@@ -284,6 +298,12 @@ export const router = createBrowserRouter([
 
 					{
 						errorElement: <PageBoundary />,
+						path: routes.projects.snapshots.create,
+						element: withProtectedRoute(<CreateSnapshot />)
+					},
+
+					{
+						errorElement: <PageBoundary />,
 						element: withProtectedRoute(<SnapshotDetailLayout />),
 						children: [
 							{
@@ -309,6 +329,11 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.deployments.detail.overview(":deploymentId"),
 								element: withProtectedRoute(<DeploymentDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.deployments.detail.playground(":deploymentId"),
+								element: withProtectedRoute(<DeploymentPlayground />)
 							}
 						]
 					},
@@ -324,6 +349,11 @@ export const router = createBrowserRouter([
 						errorElement: <PageBoundary />,
 						path: routes.projects.runs.detail(":runId"),
 						element: withProtectedRoute(<RunDetail />)
+					},
+					{
+						errorElement: <PageBoundary />,
+						path: routes.projects.runs.createSnapshot(":runId"),
+						element: withProtectedRoute(<CreateSnapshotFromRun />)
 					},
 					// Components
 					{

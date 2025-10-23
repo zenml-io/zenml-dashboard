@@ -1,6 +1,17 @@
+import { Codesnippet } from "../CodeSnippet";
+import { Markdown } from "../Markdown";
 import { Props } from "./Visualization";
-import Markdown from "react-markdown";
 
-export default function MarkdownVisualization({ content }: Props) {
-	return <Markdown className="!prose !max-w-none">{content}</Markdown>;
+type MarkdownVisualizationProps = Props & {
+	markdownMode?: "markdown" | "raw";
+};
+
+export default function MarkdownVisualization({
+	content,
+	markdownMode
+}: MarkdownVisualizationProps) {
+	if (markdownMode === "raw") {
+		return <Codesnippet code={content} fullWidth wrap />;
+	}
+	return <Markdown className="!prose !max-w-none" markdown={content} />;
 }

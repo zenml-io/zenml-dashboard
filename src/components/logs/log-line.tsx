@@ -1,7 +1,8 @@
-import React from "react";
-import { LogEntryInternal, LoggingLevel } from "@/types/logs";
-import { CopyButton } from "../CopyButton";
+import { prepareBackendTimestamp } from "@/lib/dates";
 import { LOG_LEVEL_NAMES } from "@/lib/logs";
+import { LogEntryInternal, LoggingLevel } from "@/types/logs";
+import React from "react";
+import { CopyButton } from "../CopyButton";
 
 interface LogLineProps {
 	entry: LogEntryInternal;
@@ -29,8 +30,16 @@ const getLogLevelColor = (level: LoggingLevel | undefined): string => {
 };
 
 const formatTimestamp = (timestamp: string | number): string => {
-	const date = new Date(timestamp);
-	return date.toISOString().replace("T", " ").slice(0, 19);
+	const date = prepareBackendTimestamp(timestamp);
+	return date.toLocaleString("sv-SE", {
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		hour12: false
+	});
 };
 
 export function LogLine({
@@ -69,13 +78,11 @@ export function LogLine({
 	};
 
 	return (
-		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm transition-colors hover:bg-theme-surface-secondary">
+		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm font-normal transition-colors hover:bg-theme-surface-secondary">
 			{/* Compact log level badge */}
 			<div className="flex max-h-6 w-12 flex-shrink-0 items-center">
 				<div className={`h-4 w-[2px] rounded-sm ${levelColorClass} mr-2`}></div>
-				<span className="text-xs font-medium text-theme-text-tertiary">
-					{LOG_LEVEL_NAMES[level ?? 20]}
-				</span>
+				<span className="text-xs text-theme-text-tertiary">{LOG_LEVEL_NAMES[level ?? 20]}</span>
 			</div>
 
 			{/* Timestamp */}
