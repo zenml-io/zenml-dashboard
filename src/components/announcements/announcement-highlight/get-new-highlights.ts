@@ -1,11 +1,11 @@
 import Items from "@/contents/whats-new.json";
-import { useLastSeen } from "../use-last-seen";
+import { useAnnouncementLastSeen } from "../use-last-seen";
 
-export function useNewChangelogHighlights() {
+export function useNewAnnouncementHighlights() {
 	const featureHighlights = Items.entries
 		.filter((item) => item.published)
 		.filter((item) => item.should_highlight);
-	const { lastSeenDate } = useLastSeen();
+	const { lastSeenDate } = useAnnouncementLastSeen();
 
 	const newFeatureHighlights = featureHighlights.filter(
 		(item) => new Date(item.published_at) > (lastSeenDate ?? new Date(0))

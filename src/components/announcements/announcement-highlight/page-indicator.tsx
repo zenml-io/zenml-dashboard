@@ -3,7 +3,7 @@ type Props = {
 	totalPages: number;
 };
 
-export function ChangelogHighlightPageIndicator({ currentPage, totalPages }: Props) {
+export function AnnouncementHighlightPageIndicator({ currentPage, totalPages }: Props) {
 	if (totalPages <= 1) return null;
 
 	return (

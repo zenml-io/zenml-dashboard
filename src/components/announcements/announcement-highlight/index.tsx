@@ -9,18 +9,18 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { setChangelogLastSeen } from "../persist-changelog";
-import { ChangelogImagePlaceholder } from "../placeholder";
-import { useNewChangelogHighlights } from "./get-new-highlights";
-import { ChangelogHighlightPageIndicator } from "./page-indicator";
+import { setAnnouncementLastSeen } from "../persist-announcement";
+import { AnnouncementImagePlaceholder } from "../placeholder";
+import { useNewAnnouncementHighlights } from "./get-new-highlights";
+import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 
-export function FeatureHighlight() {
-	const newFeatureHighlights = useNewChangelogHighlights();
+export function AnnouncementHighlight() {
+	const newFeatureHighlights = useNewAnnouncementHighlights();
 	const [open, setOpen] = useState(newFeatureHighlights.length >= 1);
 	const [currentPage, setCurrentPage] = useState(0);
 
 	function handleChange(open: boolean) {
-		setChangelogLastSeen();
+		setAnnouncementLastSeen();
 		setOpen(open);
 	}
 
@@ -39,9 +39,9 @@ export function FeatureHighlight() {
 	return (
 		<Dialog open={open} onOpenChange={handleChange}>
 			<DialogContent className="flex max-w-[600px] flex-col">
-				<ChangelogImagePlaceholder />
+				<AnnouncementImagePlaceholder />
 				<div className="space-y-5 p-5">
-					<ChangelogHighlightPageIndicator
+					<AnnouncementHighlightPageIndicator
 						currentPage={currentPage}
 						totalPages={newFeatureHighlights.length}
 					/>
@@ -51,7 +51,7 @@ export function FeatureHighlight() {
 								{currentItem.title}
 							</DialogTitle>
 							<DialogDescription className="sr-only">
-								Changelog Highlight: {currentItem.title}
+								Announcement Highlight: {currentItem.title}
 							</DialogDescription>
 							<ul className="flex flex-wrap items-center gap-0.5">
 								{currentItem.labels.map((label) => (

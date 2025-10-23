@@ -1,25 +1,25 @@
 import Items from "@/contents/whats-new.json";
 import { Dialog, DialogContent, DialogDescription } from "@zenml-io/react-component-library";
-import { ChangelogItem } from "./changelog-item";
-import { WhatsNewDialogHeader } from "./whats-new-dialog-header";
+import { AnnouncementDialogHeader } from "./announcement-dialog-header";
+import { AnnouncementItem } from "./announcement-item";
 
 type Props = {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 };
 
-export function WhatsNewDialog({ open, setOpen }: Props) {
+export function AnnouncementDialog({ open, setOpen }: Props) {
 	const publishedItems = Items.entries.filter((item) => item.published);
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent className="flex max-h-[600px] max-w-[600px] flex-col">
-				<WhatsNewDialogHeader />
+				<AnnouncementDialogHeader />
 				<DialogDescription className="sr-only">Whats' new in ZenML</DialogDescription>
 				<ul className="space-y-8 overflow-y-auto p-5">
 					{publishedItems.map((item) => (
 						<li key={item.id}>
-							<ChangelogItem key={item.id} item={item} />
+							<AnnouncementItem key={item.id} item={item} />
 						</li>
 					))}
 				</ul>

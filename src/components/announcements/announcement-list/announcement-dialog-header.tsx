@@ -1,7 +1,7 @@
 import X from "@/assets/icons/close.svg?react";
 import { Button, DialogClose, DialogTitle } from "@zenml-io/react-component-library";
 
-export function WhatsNewDialogHeader() {
+export function AnnouncementDialogHeader() {
 	return (
 		<div className="flex items-center justify-between px-5 py-3">
 			<DialogTitle className="text-text-lg font-semibold">What's new</DialogTitle>

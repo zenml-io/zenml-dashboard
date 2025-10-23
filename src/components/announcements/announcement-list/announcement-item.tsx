@@ -3,19 +3,19 @@ import { DisplayDate } from "@/components/DisplayDate";
 import Item from "@/contents/whats-new.json";
 import { Button, Tag } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
-import { ChangelogImagePlaceholder } from "../placeholder";
-import { useLastSeen } from "../use-last-seen";
+import { AnnouncementImagePlaceholder } from "../placeholder";
+import { useAnnouncementLastSeen } from "../use-last-seen";
 
-type ChangelogItem = (typeof Item.entries)[number];
+type AnnouncementItem = (typeof Item.entries)[number];
 
-export function ChangelogItem({ item }: { item: ChangelogItem }) {
-	const { lastSeenDate } = useLastSeen();
+export function AnnouncementItem({ item }: { item: AnnouncementItem }) {
+	const { lastSeenDate } = useAnnouncementLastSeen();
 
 	const isNew = lastSeenDate && new Date(item.published_at) > lastSeenDate;
 
 	return (
 		<div className="space-y-3">
-			<ChangelogImagePlaceholder>
+			<AnnouncementImagePlaceholder>
 				{isNew && (
 					<Tag
 						className="absolute right-2 top-2"
@@ -27,7 +27,7 @@ export function ChangelogItem({ item }: { item: ChangelogItem }) {
 						New
 					</Tag>
 				)}
-			</ChangelogImagePlaceholder>
+			</AnnouncementImagePlaceholder>
 			<div className="text-text-sm font-semibold text-theme-text-brand">
 				<DisplayDate short justDate dateString={item.published_at} />
 			</div>

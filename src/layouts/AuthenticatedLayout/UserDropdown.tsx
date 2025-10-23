@@ -1,7 +1,7 @@
 import File from "@/assets/icons/file.svg?react";
 import LogoutIcon from "@/assets/icons/logout.svg?react";
 import Users from "@/assets/icons/users.svg?react";
-import { WhatsNewDialog } from "@/components/announcements/whats-new-list/whats-new-dialog";
+import { AnnouncementDialog } from "@/components/announcements/announcement-list/announcement-dialog";
 import { useAuthContext } from "@/context/AuthContext";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
@@ -20,11 +20,11 @@ import {
 	Skeleton
 } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
-import ChangeLogButton from "./changelog-button";
-import { useChangelog } from "./use-changelog";
+import AnnouncementButton from "./whats-new-button";
+import { useAnnouncement } from "./use-announcement";
 
 export function UserDropdown() {
-	const { isChangelogOpen, setIsChangelogOpen, openChangelog } = useChangelog();
+	const { isAnnouncementOpen, setIsAnnouncementOpen, openAnnouncement } = useAnnouncement();
 	const currentUser = useCurrentUser();
 	const serverInfo = useServerInfo();
 	const serverSettings = useServerSettings();
@@ -46,7 +46,9 @@ export function UserDropdown() {
 
 	return (
 		<>
-			{displayUpdates && <WhatsNewDialog open={isChangelogOpen} setOpen={setIsChangelogOpen} />}
+			{displayUpdates && (
+				<AnnouncementDialog open={isAnnouncementOpen} setOpen={setIsAnnouncementOpen} />
+			)}
 			<DropdownMenu>
 				<DropdownMenuTrigger>
 					<Avatar size="lg">
@@ -55,7 +57,7 @@ export function UserDropdown() {
 					</Avatar>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
-					{displayUpdates && <ChangeLogButton openChangelog={() => openChangelog()} />}
+					{displayUpdates && <AnnouncementButton openDialog={() => openAnnouncement()} />}
 					<DropdownMenuItem asChild icon={<File />}>
 						<a
 							className="cursor-pointer"

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getChangelogLastSeen } from "./persist-changelog";
+import { getAnnouncementLastSeen } from "./persist-announcement";
 
-export function useLastSeen() {
+export function useAnnouncementLastSeen() {
 	const [lastSeenDate, setLastSeenDate] = useState<Date | null>(null);
 
 	useEffect(() => {
-		const lastSeen = getChangelogLastSeen();
+		const lastSeen = getAnnouncementLastSeen();
 		setLastSeenDate(lastSeen);
 	}, []);
 
