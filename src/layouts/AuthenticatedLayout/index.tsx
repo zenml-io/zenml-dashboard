@@ -19,20 +19,15 @@ export function AuthenticatedLayout() {
 	}
 
 	return (
-		<div className="relative flex min-h-screen w-full flex-col">
+		<div className="relative flex h-dvh flex-col overflow-hidden">
 			<BreadcrumbContextProvider>
 				<div className="sticky top-0 z-10">
 					<LocalBanner />
 					<AuthenticatedHeader />
 				</div>
-				<main className="flex flex-grow flex-col">
-					<div className="flex flex-grow">
-						<div className="w-full overflow-y-hidden">
-							<Analytics />
-							{/* <ProductTour /> */}
-							<Outlet />
-						</div>
-					</div>
+				<main className="flex flex-1 flex-col overflow-x-hidden">
+					<Analytics />
+					<Outlet />
 				</main>
 			</BreadcrumbContextProvider>
 		</div>

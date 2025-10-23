@@ -19,7 +19,7 @@ export function PlaygroundInputs({ snapshot, submitDeployment, isInvoking, deplo
 	return (
 		<form
 			onSubmit={form.handleSubmit(handleSubmit)}
-			className="flex h-full w-full flex-col divide-y divide-theme-border-moderate pl-5 pr-5 xl:w-1/2 xl:pl-[80px] xl:pr-0"
+			className="flex h-full w-full flex-col divide-y divide-theme-border-moderate pl-5 pr-5 xl:pl-[80px] xl:pr-0"
 		>
 			<div className="flex h-full flex-col gap-5 overflow-auto py-5 xl:pr-5">
 				<p className="text-text-lg font-semibold">Input</p>

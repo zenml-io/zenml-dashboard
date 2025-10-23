@@ -4,7 +4,7 @@ export function ProjectTabsLayout() {
 	return (
 		<div>
 			<ProjectHeader />
-			<div className="px-5 lg:px-[80px]">
+			<div className="p-5 lg:px-[80px]">
 				<Outlet />
 			</div>
 		</div>

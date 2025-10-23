@@ -43,7 +43,7 @@ export function Codesnippet({
 			className={cn(
 				`flex ${
 					fullWidth ? "w-full" : "max-w-fit"
-				} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3`,
+				} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
 				className
 			)}
 		>

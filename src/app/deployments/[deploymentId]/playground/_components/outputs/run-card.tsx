@@ -18,10 +18,10 @@ export function PlaygroundRunCard({ runId, runName, duration, success }: Props) 
 	return (
 		<Box className="space-y-3 p-3">
 			<div className="flex flex-wrap items-start justify-between gap-1">
-				<div>
+				<div className="max-w-full">
 					<p className="text-text-xs text-theme-text-tertiary">Run</p>
 					<div className="flex items-center gap-1">
-						<p className="font-semibold">{runName}</p>
+						<p className="truncate font-semibold">{runName}</p>
 						<ExecutionStatusIcon
 							className="size-3 shrink-0"
 							status={success ? "completed" : "failed"}

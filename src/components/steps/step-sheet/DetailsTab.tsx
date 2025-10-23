@@ -131,7 +131,10 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						</Key>
 						<Value className={pipelineRunData.metadata?.code_path ? "col-span-3 h-auto" : ""}>
 							{pipelineRunData.metadata?.code_path ? (
-								<Codesnippet code={pipelineRunData.metadata.code_path} />
+								<Codesnippet
+									className="overflow-hidden"
+									code={pipelineRunData.metadata.code_path}
+								/>
 							) : (
 								"Not available"
 							)}

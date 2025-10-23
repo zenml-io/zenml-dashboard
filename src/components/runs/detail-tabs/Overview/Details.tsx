@@ -161,7 +161,7 @@ export function Details({ runId }: Props) {
 					</Key>
 					<Value className={data.metadata?.code_path ? "col-span-3 h-auto" : ""}>
 						{data.metadata?.code_path ? (
-							<Codesnippet code={data.metadata.code_path} />
+							<Codesnippet className="overflow-hidden" code={data.metadata.code_path} />
 						) : (
 							"Not available"
 						)}

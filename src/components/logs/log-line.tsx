@@ -78,13 +78,11 @@ export function LogLine({
 	};
 
 	return (
-		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm transition-colors hover:bg-theme-surface-secondary">
+		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm font-normal transition-colors hover:bg-theme-surface-secondary">
 			{/* Compact log level badge */}
 			<div className="flex max-h-6 w-12 flex-shrink-0 items-center">
 				<div className={`h-4 w-[2px] rounded-sm ${levelColorClass} mr-2`}></div>
-				<span className="text-xs font-medium text-theme-text-tertiary">
-					{LOG_LEVEL_NAMES[level ?? 20]}
-				</span>
+				<span className="text-xs text-theme-text-tertiary">{LOG_LEVEL_NAMES[level ?? 20]}</span>
 			</div>
 
 			{/* Timestamp */}
