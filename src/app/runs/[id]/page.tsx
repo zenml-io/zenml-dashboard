@@ -19,10 +19,7 @@ export default function RunDetailPage() {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 
 	function collapsePanel() {
-		const panel = ref.current;
-		if (panel) {
-			panel.collapse();
-		}
+		ref.current?.collapse();
 	}
 
 	function expandPanel() {

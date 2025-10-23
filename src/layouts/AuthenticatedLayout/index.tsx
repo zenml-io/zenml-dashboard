@@ -27,7 +27,6 @@ export function AuthenticatedLayout() {
 				</div>
 				<main className="flex flex-1 flex-col overflow-x-hidden">
 					<Analytics />
-					{/* <ProductTour /> */}
 					<Outlet />
 				</main>
 			</BreadcrumbContextProvider>
