@@ -80,5 +80,5 @@ export function getFirstUuidSegment(uuid: string) {
 }
 
 export function shellEscape(value: string) {
-	return value.replace(/'/g, `'\\''`);
+	return value.replace(/'|\\/g, (match) => `\\${match}`);
 }
