@@ -6,6 +6,7 @@ import {
 	getFirstUuidSegment,
 	pluralize,
 	renderAnyToString,
+	shellEscape,
 	snakeCaseToDashCase,
 	snakeCaseToLowerCase,
 	snakeCaseToTitleCase,
@@ -181,5 +182,166 @@ describe("pluralize pluralizes string correctly", () => {
 describe("getFirstUuidSection gets the first section of a uuid", () => {
 	it("should get the first section of a uuid", () => {
 		expect(getFirstUuidSegment("12345678-1234-1234-1234-123456789012")).toBe("12345678");
+	});
+});
+
+describe("shellEscape escapes strings for safe shell usage", () => {
+	describe("happy path - basic strings", () => {
+		it("should return simple strings unchanged", () => {
+			expect(shellEscape("hello")).toBe("hello");
+		});
+
+		it("should return strings with spaces unchanged", () => {
+			expect(shellEscape("hello world")).toBe("hello world");
+		});
+
+		it("should return strings with common special characters unchanged", () => {
+			expect(shellEscape("hello-world_123")).toBe("hello-world_123");
+		});
+
+		it("should return strings with shell metacharacters unchanged", () => {
+			expect(shellEscape("echo $HOME")).toBe("echo $HOME");
+			expect(shellEscape("test & background")).toBe("test & background");
+			expect(shellEscape("pipe | test")).toBe("pipe | test");
+			expect(shellEscape("redirect > file")).toBe("redirect > file");
+		});
+	});
+
+	describe("edge cases - single quotes", () => {
+		it("should escape a single quote in the middle", () => {
+			expect(shellEscape("don't")).toBe("don\\'t");
+		});
+
+		it("should escape multiple single quotes", () => {
+			expect(shellEscape("it's a test's case")).toBe("it\\'s a test\\'s case");
+		});
+
+		it("should escape consecutive single quotes", () => {
+			expect(shellEscape("test''case")).toBe("test\\'\\'case");
+		});
+
+		it("should handle string that is only a single quote", () => {
+			expect(shellEscape("'")).toBe("\\'");
+		});
+
+		it("should handle single quote at the beginning", () => {
+			expect(shellEscape("'hello")).toBe("\\'hello");
+		});
+
+		it("should handle single quote at the end", () => {
+			expect(shellEscape("hello'")).toBe("hello\\'");
+		});
+
+		it("should handle string surrounded by single quotes", () => {
+			expect(shellEscape("'hello'")).toBe("\\'hello\\'");
+		});
+	});
+
+	describe("edge cases - backslashes", () => {
+		it("should escape single backslash", () => {
+			expect(shellEscape("test\\value")).toBe("test\\\\value");
+		});
+
+		it("should escape multiple backslashes", () => {
+			expect(shellEscape("path\\to\\file")).toBe("path\\\\to\\\\file");
+		});
+
+		it("should escape consecutive backslashes", () => {
+			expect(shellEscape("test\\\\case")).toBe("test\\\\\\\\case");
+		});
+
+		it("should handle string that is only a backslash", () => {
+			expect(shellEscape("\\")).toBe("\\\\");
+		});
+
+		it("should handle backslash at the beginning", () => {
+			expect(shellEscape("\\hello")).toBe("\\\\hello");
+		});
+
+		it("should handle backslash at the end", () => {
+			expect(shellEscape("hello\\")).toBe("hello\\\\");
+		});
+	});
+
+	describe("edge cases - combined quotes and backslashes", () => {
+		it("should escape both single quotes and backslashes", () => {
+			expect(shellEscape("it's\\a\\test")).toBe("it\\'s\\\\a\\\\test");
+		});
+
+		it("should handle backslash before single quote", () => {
+			expect(shellEscape("\\'hello")).toBe("\\\\\\'hello");
+		});
+
+		it("should handle single quote before backslash", () => {
+			expect(shellEscape("'\\test")).toBe("\\'\\\\test");
+		});
+
+		it("should handle complex mix of quotes and backslashes", () => {
+			// Test a simple case: single quote followed by backslash
+			expect(shellEscape("a'b\\c")).toBe("a\\'b\\\\c");
+		});
+	});
+
+	describe("edge cases - special scenarios", () => {
+		it("should handle empty string", () => {
+			expect(shellEscape("")).toBe("");
+		});
+
+		it("should handle string with newlines", () => {
+			expect(shellEscape("line1\nline2")).toBe("line1\nline2");
+		});
+
+		it("should handle string with tabs", () => {
+			expect(shellEscape("tab\there")).toBe("tab\there");
+		});
+
+		it("should handle string with double quotes", () => {
+			expect(shellEscape('say "hello"')).toBe('say "hello"');
+		});
+
+		it("should handle string with backticks", () => {
+			expect(shellEscape("command `ls`")).toBe("command `ls`");
+		});
+	});
+
+	describe("complex real-world scenarios", () => {
+		it("should handle mixed special characters with single quotes", () => {
+			expect(shellEscape("user's $HOME dir & file.txt")).toBe("user\\'s $HOME dir & file.txt");
+		});
+
+		it("should handle SQL-like strings with quotes", () => {
+			expect(shellEscape("SELECT * FROM users WHERE name='John'")).toBe(
+				"SELECT * FROM users WHERE name=\\'John\\'"
+			);
+		});
+
+		it("should handle JSON strings", () => {
+			expect(shellEscape('{"key": "value"}')).toBe('{"key": "value"}');
+		});
+
+		it("should escape quotes in command injection attempts", () => {
+			expect(shellEscape("'; rm -rf /")).toBe("\\'; rm -rf /");
+			expect(shellEscape("$(cat /etc/passwd)")).toBe("$(cat /etc/passwd)");
+		});
+
+		it("should handle Windows-style paths with backslashes", () => {
+			expect(shellEscape("C:\\Users\\Documents\\file.txt")).toBe(
+				"C:\\\\Users\\\\Documents\\\\file.txt"
+			);
+		});
+
+		it("should handle escaped quotes in strings", () => {
+			expect(shellEscape("She said \\'hello\\'")).toBe("She said \\\\\\'hello\\\\\\'");
+		});
+
+		it("should handle URLs", () => {
+			expect(shellEscape("https://example.com?q=test&foo=bar")).toBe(
+				"https://example.com?q=test&foo=bar"
+			);
+		});
+
+		it("should handle file paths with spaces", () => {
+			expect(shellEscape("/path/to/my documents/file.txt")).toBe("/path/to/my documents/file.txt");
+		});
 	});
 });

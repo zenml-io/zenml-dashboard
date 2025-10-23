@@ -78,3 +78,7 @@ export function pluralize(count: number, noun: string, suffix = "s") {
 export function getFirstUuidSegment(uuid: string) {
 	return uuid.split("-")[0];
 }
+
+export function shellEscape(value: string) {
+	return value.replace(/'|\\/g, (match) => `\\${match}`);
+}
