@@ -9,9 +9,10 @@ import { useAnnouncementLastSeen } from "../use-last-seen";
 type AnnouncementItem = (typeof Item.entries)[number];
 
 export function AnnouncementItem({ item }: { item: AnnouncementItem }) {
-	const { lastSeenDate } = useAnnouncementLastSeen();
+	const lastSeenTimestamp = useAnnouncementLastSeen();
 
-	const isNew = lastSeenDate && new Date(item.published_at) > lastSeenDate;
+	const isNew =
+		lastSeenTimestamp !== null && new Date(item.published_at).getTime() > lastSeenTimestamp;
 
 	return (
 		<div className="space-y-3">

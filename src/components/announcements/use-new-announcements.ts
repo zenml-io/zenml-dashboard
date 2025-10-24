@@ -3,10 +3,10 @@ import { useAnnouncementLastSeen } from "./use-last-seen";
 
 export function useNewAnnouncements() {
 	const publishedItems = Items.entries.filter((item) => item.published);
-	const { lastSeenDate } = useAnnouncementLastSeen();
+	const lastSeenTimestamp = useAnnouncementLastSeen();
 
 	const newPublishedItems = publishedItems.filter(
-		(item) => new Date(item.published_at) > (lastSeenDate ?? new Date(0))
+		(item) => new Date(item.published_at).getTime() > (lastSeenTimestamp ?? 0)
 	);
 
 	return newPublishedItems;

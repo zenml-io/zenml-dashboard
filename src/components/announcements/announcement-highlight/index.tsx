@@ -9,10 +9,9 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { setAnnouncementLastSeen } from "../persist-announcement";
 import { AnnouncementImagePlaceholder } from "../placeholder";
-import { useNewAnnouncementHighlights } from "./use-new-highlights";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
+import { useNewAnnouncementHighlights } from "./use-new-highlights";
 
 export function AnnouncementHighlight() {
 	const newFeatureHighlights = useNewAnnouncementHighlights();
@@ -20,7 +19,6 @@ export function AnnouncementHighlight() {
 	const [currentPage, setCurrentPage] = useState(0);
 
 	function handleChange(open: boolean) {
-		setAnnouncementLastSeen();
 		setOpen(open);
 	}
 
@@ -32,6 +30,8 @@ export function AnnouncementHighlight() {
 			setCurrentPage((prev) => prev + 1);
 		}
 	}
+
+	if (newFeatureHighlights.length === 0) return null;
 
 	const isLastPage = currentPage === newFeatureHighlights.length - 1;
 	const currentItem = newFeatureHighlights[currentPage];
