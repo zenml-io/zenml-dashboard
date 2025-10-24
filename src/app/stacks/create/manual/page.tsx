@@ -1,7 +1,7 @@
 import { Tabs } from "@radix-ui/react-tabs";
-import { cn } from "@zenml-io/react-component-library/utilities";
-import { HTMLAttributes, useState } from "react";
+import { useState } from "react";
 import { FormProvider } from "react-hook-form";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ComponentsSelection } from "./ComponentSelection";
 import { TypeOverview } from "./TypeOverview";
 import { useManualStack } from "./useManualStack";
@@ -12,23 +12,30 @@ export default function CreateStackManualPage() {
 
 	return (
 		<FormProvider {...form}>
-			<Tabs value={selectedTab} onValueChange={setSelectedTab} className="h-full">
+			<Tabs
+				value={selectedTab}
+				onValueChange={setSelectedTab}
+				className="lg:h-full lg:overflow-hidden"
+			>
 				<form
 					onSubmit={form.handleSubmit(createManualStack)}
-					className="flex h-[calc(100vh_-_4rem_-_4rem_-_2px)] flex-1 flex-col divide-y divide-theme-border-moderate xl:flex-row-reverse xl:divide-x xl:divide-y-0 xl:divide-x-reverse"
+					className="hidden h-full flex-col lg:flex"
 				>
-					<LayoutBox className="h-full flex-1 bg-theme-surface-primary">
-						<TypeOverview />
-					</LayoutBox>
-					<LayoutBox>
-						<ComponentsSelection />
-					</LayoutBox>
+					<PanelGroup direction="horizontal">
+						<Panel className="!overflow-y-auto" defaultSize={50} minSize={33}>
+							<ComponentsSelection />
+						</Panel>
+						<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
+						<Panel className="!overflow-y-auto" defaultSize={50} minSize={33}>
+							<TypeOverview />
+						</Panel>
+					</PanelGroup>
+				</form>
+				<form onSubmit={form.handleSubmit(createManualStack)} className="block lg:hidden">
+					<TypeOverview />
+					<ComponentsSelection />
 				</form>
 			</Tabs>
 		</FormProvider>
 	);
-}
-
-function LayoutBox({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
-	return <div className={cn("w-full overflow-y-auto xl:w-1/2", className)} {...rest} />;
 }

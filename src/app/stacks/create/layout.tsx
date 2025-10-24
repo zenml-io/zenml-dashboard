@@ -6,7 +6,7 @@ import { useStackCreateBreadcrumbs } from "./breadcrumb";
 export function CreateStacksLayout() {
 	useStackCreateBreadcrumbs();
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<PageHeader>
 				<div className="flex items-center gap-1">
 					<Stack className="h-5 w-5 fill-turquoise-400" />
