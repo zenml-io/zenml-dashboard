@@ -22,6 +22,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import AnnouncementButton from "./whats-new-button";
 import { useAnnouncement } from "./use-announcement";
+import { AnnouncementIndicator } from "@/components/announcements/announcement-indicator";
 
 export function UserDropdown() {
 	const { isAnnouncementOpen, setIsAnnouncementOpen, openAnnouncement } = useAnnouncement();
@@ -50,7 +51,10 @@ export function UserDropdown() {
 				<AnnouncementDialog open={isAnnouncementOpen} setOpen={setIsAnnouncementOpen} />
 			)}
 			<DropdownMenu>
-				<DropdownMenuTrigger>
+				<DropdownMenuTrigger className="relative">
+					{displayUpdates && (
+						<AnnouncementIndicator className="absolute right-0 top-0 ring-2 ring-theme-surface-primary" />
+					)}
 					<Avatar size="lg">
 						<AvatarImage src={sanitizeUrl(currentUser.data.body?.avatar_url ?? undefined)} />
 						<AvatarFallback size="lg">{currentUser.data.name[0]}</AvatarFallback>

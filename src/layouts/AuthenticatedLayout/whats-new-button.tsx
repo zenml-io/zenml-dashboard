@@ -1,4 +1,5 @@
 import Speaker from "@/assets/icons/announcement.svg?react";
+import { AnnouncementIndicator } from "@/components/announcements/announcement-indicator";
 import { DropdownMenuItem } from "@zenml-io/react-component-library/components/client";
 
 type Props = {
@@ -9,10 +10,11 @@ export default function WhatsNewButton({ openDialog }: Props) {
 	return (
 		<DropdownMenuItem
 			onSelect={() => openDialog()}
-			className="flex items-center hover:cursor-pointer data-[highlighted]:bg-theme-surface-tertiary"
+			className="flex items-start gap-0.5 hover:cursor-pointer data-[highlighted]:bg-theme-surface-tertiary"
 			icon={<Speaker />}
 		>
 			What's new
+			<AnnouncementIndicator />
 		</DropdownMenuItem>
 	);
 }

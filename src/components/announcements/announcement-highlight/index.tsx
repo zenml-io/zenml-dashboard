@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import { setAnnouncementLastSeen } from "../persist-announcement";
 import { AnnouncementImagePlaceholder } from "../placeholder";
-import { useNewAnnouncementHighlights } from "./get-new-highlights";
+import { useNewAnnouncementHighlights } from "./use-new-highlights";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 
 export function AnnouncementHighlight() {
