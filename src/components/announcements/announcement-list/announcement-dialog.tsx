@@ -1,8 +1,8 @@
-import Items from "@/contents/whats-new.json";
 import { Dialog, DialogContent, DialogDescription } from "@zenml-io/react-component-library";
 import { AnnouncementDialogHeader } from "./announcement-dialog-header";
 import { AnnouncementItem } from "./announcement-item";
 import { AnnouncementEmptyState } from "./announcement-empty-state";
+import { useAnnouncements } from "@/data/announcements/announcements";
 
 type Props = {
 	open: boolean;
@@ -10,7 +10,12 @@ type Props = {
 };
 
 export function AnnouncementDialog({ open, setOpen }: Props) {
-	const publishedItems = Items.entries.filter((item) => item.published);
+	const announcementsQuery = useAnnouncements();
+	if (announcementsQuery.isPending) return null;
+	if (announcementsQuery.isError) return null;
+
+	const announcements = announcementsQuery.data;
+	const publishedItems = announcements.filter((item) => item.published);
 
 	const isEmpty = publishedItems.length <= 1;
 

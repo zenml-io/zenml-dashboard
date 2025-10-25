@@ -1,5 +1,6 @@
 import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { Markdown } from "@/components/Markdown";
+import { useAnnouncements } from "@/data/announcements/announcements";
 import {
 	Button,
 	Dialog,
@@ -8,20 +9,30 @@ import {
 	DialogTitle,
 	Tag
 } from "@zenml-io/react-component-library";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { announcementStore } from "../persist-announcement";
 import { AnnouncementImagePlaceholder } from "../placeholder";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
 
 export function AnnouncementHighlight() {
-	const newFeatureHighlights = useNewAnnouncementHighlights();
-	const [open, setOpen] = useState(newFeatureHighlights.length >= 1);
+	const announcementsQuery = useAnnouncements();
+	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data);
+	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 
+	useEffect(() => {
+		if (newFeatureHighlights.length >= 1) {
+			setOpen(true);
+		}
+	}, [newFeatureHighlights]);
+
 	function handleChange(open: boolean) {
-		announcementStore.setAnnouncementLastSeen("lastSeenHighlights");
 		setOpen(open);
+		setCurrentPage(0);
+		if (!open) {
+			announcementStore.setAnnouncementLastSeen("lastSeenHighlights");
+		}
 	}
 
 	function handleNext() {
@@ -33,9 +44,10 @@ export function AnnouncementHighlight() {
 		}
 	}
 
-	if (newFeatureHighlights.length === 0) return null;
+	const highlightedFeatureCount = newFeatureHighlights.length;
+	if (highlightedFeatureCount === 0) return null;
 
-	const isLastPage = currentPage === newFeatureHighlights.length - 1;
+	const isLastPage = currentPage === highlightedFeatureCount - 1;
 	const currentItem = newFeatureHighlights[currentPage];
 
 	return (
@@ -45,7 +57,7 @@ export function AnnouncementHighlight() {
 				<div className="space-y-5 p-5">
 					<AnnouncementHighlightPageIndicator
 						currentPage={currentPage}
-						totalPages={newFeatureHighlights.length}
+						totalPages={highlightedFeatureCount}
 					/>
 					<div className="space-y-3">
 						<div className="space-y-1">

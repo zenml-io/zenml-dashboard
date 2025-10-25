@@ -1,14 +1,12 @@
 import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
-import Item from "@/contents/whats-new.json";
+import { Announcement } from "@/data/announcements/announcement-schema";
 import { Button, Tag } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
 import { AnnouncementImagePlaceholder } from "../placeholder";
 import { useAnnouncementLastSeen } from "../use-last-seen";
 
-type AnnouncementItem = (typeof Item.entries)[number];
-
-export function AnnouncementItem({ item }: { item: AnnouncementItem }) {
+export function AnnouncementItem({ item }: { item: Announcement }) {
 	const lastSeenTimestamp = useAnnouncementLastSeen("lastSeen");
 
 	const isNew =

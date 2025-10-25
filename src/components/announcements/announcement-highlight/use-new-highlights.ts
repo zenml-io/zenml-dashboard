@@ -1,6 +1,10 @@
+import { Announcements } from "@/data/announcements/announcement-schema";
 import { useNewAnnouncements } from "../use-new-announcements";
 
-export function useNewAnnouncementHighlights() {
-	const newPublishedItems = useNewAnnouncements("lastSeenHighlights");
+export function useNewAnnouncementHighlights(announcements: Announcements | undefined) {
+	const newPublishedItems = useNewAnnouncements("lastSeenHighlights", announcements);
+
+	if (!announcements) return [];
+
 	return newPublishedItems.filter((item) => item.should_highlight);
 }

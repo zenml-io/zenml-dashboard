@@ -1,4 +1,5 @@
 import { Analytics } from "@/components/Analytics";
+import { AnnouncementHighlight } from "@/components/announcements/announcement-highlight";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { checkUserOnboarding } from "@/lib/user";
 import { routes } from "@/router/routes";
@@ -6,7 +7,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { BreadcrumbContextProvider } from "./BreadcrumbsContext";
 import { LocalBanner } from "./LocalBanner";
-import { AnnouncementHighlight } from "@/components/announcements/announcement-highlight";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();

@@ -1,3 +1,4 @@
+import { useAnnouncements } from "@/data/announcements/announcements";
 import { cn } from "@zenml-io/react-component-library";
 import { useNewAnnouncements } from "./use-new-announcements";
 
@@ -6,7 +7,9 @@ type Props = {
 };
 
 export function AnnouncementIndicator({ className }: Props) {
-	const newPublishedItems = useNewAnnouncements("lastSeen");
+	const announcementsQuery = useAnnouncements();
+	const newPublishedItems = useNewAnnouncements("lastSeen", announcementsQuery.data);
+
 	const hasNewAnnouncements = newPublishedItems.length > 0;
 
 	if (!hasNewAnnouncements) return null;
