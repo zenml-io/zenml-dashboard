@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from "react";
-import { announcementStore } from "./persist-announcement";
+import { AnnouncementKey, announcementStore } from "./persist-announcement";
 
-export function useAnnouncementLastSeen() {
-	return useSyncExternalStore(announcementStore.subscribe, announcementStore.getSnapshot);
+export function useAnnouncementLastSeen(key: AnnouncementKey) {
+	return useSyncExternalStore(announcementStore.subscribe(key), () =>
+		announcementStore.getSnapshot(key)
+	);
 }

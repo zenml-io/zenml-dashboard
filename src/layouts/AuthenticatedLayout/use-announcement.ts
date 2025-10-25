@@ -5,12 +5,12 @@ export function useAnnouncement() {
 	const [open, setOpen] = useState(false);
 
 	function openAnnouncement() {
-		announcementStore.setAnnouncementLastSeen();
+		announcementStore.setAnnouncementLastSeen("lastSeen");
 		setOpen(true);
 	}
 
 	function setIsAnnouncementOpen(open: boolean) {
-		announcementStore.setAnnouncementLastSeen();
+		announcementStore.setAnnouncementLastSeen("lastSeen");
 		setOpen(open);
 	}
 

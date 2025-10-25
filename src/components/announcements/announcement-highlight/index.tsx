@@ -9,6 +9,7 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
+import { announcementStore } from "../persist-announcement";
 import { AnnouncementImagePlaceholder } from "../placeholder";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
@@ -19,6 +20,7 @@ export function AnnouncementHighlight() {
 	const [currentPage, setCurrentPage] = useState(0);
 
 	function handleChange(open: boolean) {
+		announcementStore.setAnnouncementLastSeen("lastSeenHighlights");
 		setOpen(open);
 	}
 

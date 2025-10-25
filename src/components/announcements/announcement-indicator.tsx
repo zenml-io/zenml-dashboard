@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function AnnouncementIndicator({ className }: Props) {
-	const newPublishedItems = useNewAnnouncements();
+	const newPublishedItems = useNewAnnouncements("lastSeen");
 	const hasNewAnnouncements = newPublishedItems.length > 0;
 
 	if (!hasNewAnnouncements) return null;

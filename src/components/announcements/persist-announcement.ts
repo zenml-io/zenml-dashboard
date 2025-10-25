@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-const ANNOUNCEMENT_KEY = "zenml.announcement.last-seen";
+const ANNOUNCEMENT_KEYS = {
+	lastSeen: "zenml.announcement.last-seen",
+	lastSeenHighlights: "zenml.announcement.last-seen-highlights"
+} as const;
+
+export type AnnouncementKey = keyof typeof ANNOUNCEMENT_KEYS;
 
 const announcementTimestampSchema = z.number();
 
@@ -12,47 +17,47 @@ function emitChange() {
 	listeners.forEach((listener) => listener());
 }
 
-function getAnnouncementLastSeen(): number | null {
+function getAnnouncementLastSeen(key: AnnouncementKey): number | null {
 	try {
-		const timestamp = localStorage.getItem(ANNOUNCEMENT_KEY);
+		const timestamp = localStorage.getItem(ANNOUNCEMENT_KEYS[key]);
 		if (timestamp === null) return null;
 
 		const parsed = announcementTimestampSchema.safeParse(JSON.parse(timestamp));
 		return parsed.success ? parsed.data : null;
 	} catch (_) {
-		setAnnouncementLastSeen();
+		setAnnouncementLastSeen(key);
 		return null;
 	}
 }
 
-function setAnnouncementLastSeen(): void {
+function setAnnouncementLastSeen(key: AnnouncementKey): void {
 	const timestamp = Date.now();
-	localStorage.setItem(ANNOUNCEMENT_KEY, JSON.stringify(timestamp));
+	localStorage.setItem(ANNOUNCEMENT_KEYS[key], JSON.stringify(timestamp));
 }
 
-function removeAnnouncementLastSeen(): void {
-	localStorage.removeItem(ANNOUNCEMENT_KEY);
+function removeAnnouncementLastSeen(key: AnnouncementKey): void {
+	localStorage.removeItem(ANNOUNCEMENT_KEYS[key]);
 }
 
 export const announcementStore = {
-	getSnapshot: () => {
-		return getAnnouncementLastSeen();
+	getSnapshot: (key: AnnouncementKey) => {
+		return getAnnouncementLastSeen(key);
 	},
-	setAnnouncementLastSeen: () => {
-		setAnnouncementLastSeen();
+	setAnnouncementLastSeen: (key: AnnouncementKey) => {
+		setAnnouncementLastSeen(key);
 		emitChange();
 	},
-	removeAnnouncementLastSeen: () => {
-		removeAnnouncementLastSeen();
+	removeAnnouncementLastSeen: (key: AnnouncementKey) => {
+		removeAnnouncementLastSeen(key);
 		emitChange();
 	},
-	subscribe: (listener: () => void) => {
+	subscribe: (key: AnnouncementKey) => (listener: () => void) => {
 		// Add listener to the set
 		listeners.add(listener);
 
 		// Listen for storage events (cross-tab synchronization)
 		const handleStorageChange = (e: StorageEvent) => {
-			if (e.key === ANNOUNCEMENT_KEY) {
+			if (e.key === ANNOUNCEMENT_KEYS[key]) {
 				listener();
 			}
 		};
