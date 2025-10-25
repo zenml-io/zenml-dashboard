@@ -39,7 +39,7 @@ export function ScheduleCollapsible({ runId }: Props) {
 			<CollapsibleHeader className="flex items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full items-center gap-2">
 					<CollapsibleChevron open={open} />
-					<p id="orchestrator-collapsible">Schedule</p>
+					<p id="schedule-collapsible">Schedule</p>
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 			<CollapsibleContent className="space-y-3 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
