@@ -1,5 +1,6 @@
 import { DeploymentCodeCollapsible } from "./_components/code-collapsible";
 import { DeployerConfigCollapsible } from "./_components/config-collapsible";
+import { DeploymentStackCollapsible } from "./_components/stack-collapsible";
 import { DeploymentDetail } from "./_components/deployment-detail";
 import { EndpointCollapsible } from "./_components/endpoint";
 
@@ -12,6 +13,7 @@ export default function DeploymentDetailPage() {
 			</div>
 			<div className="space-y-5">
 				<DeployerConfigCollapsible />
+				<DeploymentStackCollapsible />
 				<DeploymentCodeCollapsible />
 			</div>
 		</div>
