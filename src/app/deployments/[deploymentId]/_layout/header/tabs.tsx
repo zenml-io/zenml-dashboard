@@ -26,16 +26,16 @@ export function DeploymentDetailTabs() {
 							<span>Overview</span>
 						</Link>
 					</TabsTrigger>
-					<TabsTrigger asChild value="runs">
-						<Link to={routes.projects.deployments.detail.runs(deploymentId)}>
-							<TabIcon icon={RunIcon} />
-							<span>Runs</span>
-						</Link>
-					</TabsTrigger>
 					<TabsTrigger asChild value="playground">
 						<Link to={routes.projects.deployments.detail.playground(deploymentId)}>
 							<TabIcon icon={PlayIcon} />
 							<span>Playground</span>
+						</Link>
+					</TabsTrigger>
+					<TabsTrigger asChild value="runs">
+						<Link to={routes.projects.deployments.detail.runs(deploymentId)}>
+							<TabIcon icon={RunIcon} />
+							<span>Runs</span>
 						</Link>
 					</TabsTrigger>
 				</TabsList>
