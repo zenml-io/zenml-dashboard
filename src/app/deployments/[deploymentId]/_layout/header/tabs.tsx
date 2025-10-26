@@ -1,5 +1,6 @@
 import InfoIcon from "@/assets/icons/info.svg?react";
 import PlayIcon from "@/assets/icons/play-circle.svg?react";
+import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { TabIcon } from "@/components/tab-icon";
 import { routes } from "@/router/routes";
 import {
@@ -23,6 +24,12 @@ export function DeploymentDetailTabs() {
 						<Link to={routes.projects.deployments.detail.overview(deploymentId)}>
 							<TabIcon icon={InfoIcon} />
 							<span>Overview</span>
+						</Link>
+					</TabsTrigger>
+					<TabsTrigger asChild value="runs">
+						<Link to={routes.projects.deployments.detail.runs(deploymentId)}>
+							<TabIcon icon={RunIcon} />
+							<span>Runs</span>
 						</Link>
 					</TabsTrigger>
 					<TabsTrigger asChild value="playground">
