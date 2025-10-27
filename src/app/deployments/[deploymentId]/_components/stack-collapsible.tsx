@@ -96,7 +96,7 @@ function DeploymentStackCollapsibleStackSection({
 	}
 
 	const config =
-		(deployment.metadata?.config?.settings as Record<string, unknown> | undefined) ?? {};
+		(deployment.metadata?.deployment_metadata as Record<string, unknown> | undefined) ?? {};
 
 	return (
 		<CollapsibleCard title="Stack" initialOpen={true}>
