@@ -9,12 +9,12 @@ export default function DeploymentDetailPage() {
 		<div className="grid grid-cols-1 gap-5 p-5 lg:grid-cols-2 lg:px-[80px]">
 			<div className="space-y-5">
 				<EndpointCollapsible />
-				<DeploymentDetail />
+				<DeploymentCodeCollapsible />
 			</div>
 			<div className="space-y-5">
-				<DeployerConfigCollapsible />
+				<DeploymentDetail />
 				<DeploymentStackCollapsible />
-				<DeploymentCodeCollapsible />
+				<DeployerConfigCollapsible />
 			</div>
 		</div>
 	);
