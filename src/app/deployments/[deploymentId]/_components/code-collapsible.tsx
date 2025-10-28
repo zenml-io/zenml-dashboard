@@ -63,7 +63,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 			<CollapsibleHeader className="flex items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full gap-2">
 					<CollapsibleChevron open={open} />
-					Endpoint
+					Invocation
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 			<CollapsibleContent className="space-y-5 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">

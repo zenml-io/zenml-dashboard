@@ -1,11 +1,11 @@
 "use client";
 
 import { getPipelineDetailColumns } from "@/app/pipelines/[pipelineId]/runs/columns";
+import { RunsTableToolbar } from "@/app/pipelines/[pipelineId]/runs/runs-table-toolbar";
 import { PipelineRunsTable } from "@/app/pipelines/[pipelineId]/runs/RunsTable";
 import { usePipelineRunParams } from "@/app/pipelines/[pipelineId]/runs/service";
 import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
 import { useParams } from "react-router-dom";
-import { DeploymentRunsTableToolbar } from "./runs-table-toolbar";
 
 export function DeploymentRunsContent() {
 	const params = usePipelineRunParams();
@@ -22,7 +22,7 @@ export function DeploymentRunsContent() {
 
 	return (
 		<>
-			<DeploymentRunsTableToolbar params={searchParams} />
+			<RunsTableToolbar params={searchParams} />
 			<PipelineRunsTable columns={columns} params={searchParams} />
 		</>
 	);
