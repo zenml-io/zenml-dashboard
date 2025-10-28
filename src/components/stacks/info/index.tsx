@@ -5,21 +5,23 @@ import { StackHeader } from "./StackHeader";
 
 type Props = {
 	stack: Stack;
+	displayInfoBox?: boolean;
 	objectConfig: Record<string, any>;
 };
-export function StackInfo({ stack, objectConfig }: Props) {
+export function StackInfo({ stack, objectConfig, displayInfoBox = true }: Props) {
+	const allComponents = Object.values(
+		(stack.metadata?.components as StackComponentsList) || {}
+	).flat();
 	return (
 		<div className="space-y-5">
-			<StackInfobox />
+			{displayInfoBox && <StackInfobox />}
 			<StackHeader stack={stack} />
 			<ul className="space-y-5">
-				{Object.values((stack.metadata?.components as StackComponentsList) || {}).map(
-					(component) => (
-						<li key={component[0].id} className="w-full">
-							<ComponentCollapsible component={component[0]} objectConfig={objectConfig} />
-						</li>
-					)
-				)}
+				{allComponents.map((component) => (
+					<li key={component.id} className="w-full">
+						<ComponentCollapsible component={component} objectConfig={objectConfig} />
+					</li>
+				))}
 			</ul>
 		</div>
 	);

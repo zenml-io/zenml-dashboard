@@ -7,6 +7,7 @@ import { StackInfo } from "@/components/stacks/info";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { Deployment } from "@/types/deployments";
+import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
@@ -16,93 +17,71 @@ type DeploymentStackCollapsibleContentProps = {
 };
 
 export function DeploymentStackCollapsible() {
-	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleContent} />;
+	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleWrapper} />;
+}
+
+function DeploymentStackCollapsibleWrapper({ deployment }: DeploymentStackCollapsibleContentProps) {
+	return (
+		<CollapsibleCard title="Stack" initialOpen={true}>
+			<DeploymentStackCollapsibleContent deployment={deployment} />
+		</CollapsibleCard>
+	);
 }
 
 function DeploymentStackCollapsibleContent({ deployment }: DeploymentStackCollapsibleContentProps) {
 	const snapshot = deployment.resources?.snapshot;
 
-	if (!snapshot?.id) {
+	if (!snapshot) {
 		return <NoStackEmptyState />;
 	}
 
-	return <DeploymentStackCollapsibleWithSnapshot deployment={deployment} snapshot={snapshot} />;
+	return <DeploymentStackCollapsibleWithSnapshot snapshotId={snapshot.id} />;
 }
 
-type DeploymentSnapshot = NonNullable<NonNullable<Deployment["resources"]>["snapshot"]>;
-
-function DeploymentStackCollapsibleWithSnapshot({
-	deployment,
-	snapshot
-}: {
-	deployment: Deployment;
-	snapshot: DeploymentSnapshot;
-}) {
-	const snapshotId = snapshot.id;
-	const shouldFetchSnapshot = !snapshot.resources?.stack?.id;
-
+function DeploymentStackCollapsibleWithSnapshot({ snapshotId }: { snapshotId: string }) {
 	const snapshotQuery = useQuery({
-		...pipelineSnapshotQueries.detail(snapshotId),
-		enabled: shouldFetchSnapshot
+		...pipelineSnapshotQueries.detail(snapshotId)
 	});
 
-	if (shouldFetchSnapshot && snapshotQuery.isPending) {
-		return <Skeleton className="h-[250px] w-full" />;
+	if (snapshotQuery.isPending) {
+		return <Skeleton className="h-[200px] w-full" />;
 	}
 
-	if (shouldFetchSnapshot && snapshotQuery.isError) {
+	if (snapshotQuery.isError) {
 		return <p>Something went wrong fetching the snapshot</p>;
 	}
 
-	const stackId = snapshot.resources?.stack?.id ?? snapshotQuery.data?.resources?.stack?.id;
+	const stackId = snapshotQuery.data?.resources?.stack?.id;
 
 	if (!stackId) {
 		return <NoStackEmptyState />;
 	}
 
-	return <DeploymentStackCollapsibleStackSection deployment={deployment} stackId={stackId} />;
+	return <DeploymentStackCollapsibleStackSection snapshot={snapshotQuery.data} stackId={stackId} />;
 }
 
 function DeploymentStackCollapsibleStackSection({
-	deployment,
+	snapshot,
 	stackId
 }: {
-	deployment: Deployment;
+	snapshot: PipelineSnapshot;
 	stackId: string;
 }) {
-	const {
-		data: stack,
-		isPending: isStackPending,
-		isError: isStackError,
-		error: stackError
-	} = useStack({ stackId });
+	const stackQuery = useStack({ stackId });
 
-	if (isStackPending) {
-		return <Skeleton className="h-[250px] w-full" />;
+	if (stackQuery.isPending) {
+		return <Skeleton className="h-[200px] w-full" />;
 	}
 
-	if (isStackError || !stack) {
-		if ((stackError as { status?: number } | undefined)?.status === 403) {
-			return (
-				<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
-					<p className="mb-2 text-display-xs font-semibold">Insufficient permissions</p>
-					<p className="text-text-lg text-theme-text-secondary">
-						You do not have permission to view this stack.
-					</p>
-				</EmptyState>
-			);
-		}
+	if (stackQuery.isError) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	const config =
-		(deployment.metadata?.deployment_metadata as Record<string, unknown> | undefined) ?? {};
+	const stack = stackQuery.data;
 
-	return (
-		<CollapsibleCard title="Stack" initialOpen={true}>
-			<StackInfo stack={stack} objectConfig={config} />
-		</CollapsibleCard>
-	);
+	const snapshotConfig = snapshot.metadata?.pipeline_configuration.settings || {};
+
+	return <StackInfo displayInfoBox={false} stack={stack} objectConfig={snapshotConfig} />;
 }
 
 function NoStackEmptyState() {
