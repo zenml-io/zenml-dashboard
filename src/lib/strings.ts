@@ -23,8 +23,8 @@ export const transformToEllipsis = (text: string, maxLength: number) => {
 	}
 };
 
+const regex = /(?:.*\/)?([^/:@]+)(?::([^@]+))?(?:@.*)?$/;
 export const extractDockerImageKey = (string: string) => {
-	const regex = /\/([^@/:]+)(?:@[^@]*$|:([^@]*$|$))/;
 	const match = regex.exec(string);
 	if (match && match[1]) {
 		if (match[2]) {

@@ -11,7 +11,7 @@ export function getPipelineBuildQueryKey({ buildId }: PipelineBuildOverview) {
 }
 
 export async function fetchAllPipelineBuilds({ buildId }: PipelineBuildOverview, token?: string) {
-	const url = createApiPath(apiPaths.runs.detail(buildId));
+	const url = createApiPath(apiPaths.pipeline_builds.detail(buildId));
 
 	const res = await fetch(url, {
 		method: "GET",

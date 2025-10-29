@@ -10,7 +10,7 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
-	language?: string;
+	language?: "python" | "bash" | "ts" | "dockerfile";
 	copyCode?: string;
 };
 

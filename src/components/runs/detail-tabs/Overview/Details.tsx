@@ -5,7 +5,8 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Key, Value } from "@/components/KeyValue";
+import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
@@ -53,6 +54,8 @@ export function Details({ runId }: Props) {
 
 	const statusReason = data.body?.status_reason;
 	const executionMode = data.metadata?.config.execution_mode;
+
+	const sourceSnapshot = data.resources?.source_snapshot;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -113,6 +116,16 @@ export function Details({ runId }: Props) {
 							"Not available"
 						)}
 					</Value>
+					<KeyValue
+						label="Snapshot"
+						value={
+							sourceSnapshot && sourceSnapshot.name ? (
+								<SnapshotLink snapshotId={sourceSnapshot.id} snapshotName={sourceSnapshot.name} />
+							) : (
+								"Not available"
+							)
+						}
+					/>
 					<Key>Execution Mode</Key>
 					<Value>{executionMode ? snakeCaseToTitleCase(executionMode) : "Not available"}</Value>
 					<Key>

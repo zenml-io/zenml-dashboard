@@ -17,9 +17,10 @@ import { extractDockerImageKey } from "@/lib/strings";
 
 type Props = {
 	data: BuildItem;
+	displayCopyButton?: boolean;
 };
 
-export function DockerImageCollapsible({ data }: Props) {
+export function DockerImageCollapsible({ data, displayCopyButton = true }: Props) {
 	const [open, setOpen] = useState(true);
 
 	return (
@@ -44,17 +45,19 @@ export function DockerImageCollapsible({ data }: Props) {
 									<Docker className="mr-1 h-4 w-4 fill-theme-text-brand" />
 									{extractDockerImageKey(data.image)}
 								</Tag>
-								<div className="align-center mr-1 flex">
-									<a
-										className="cursor-pointer"
-										rel="noopener noreferrer"
-										target="_blank"
-										href={`https://${data.image}`}
-									>
-										<Redirect className="mr-1 mt-0.5 h-5 w-5 fill-theme-text-tertiary" />
-									</a>
-									<CopyButton copyText={data.image} isVisible copyTitle="Copy url" />
-								</div>
+								{displayCopyButton && (
+									<div className="align-center mr-1 flex">
+										<a
+											className="cursor-pointer"
+											rel="noopener noreferrer"
+											target="_blank"
+											href={`https://${data.image}`}
+										>
+											<Redirect className="mr-1 mt-0.5 h-5 w-5 fill-theme-text-tertiary" />
+										</a>
+										<CopyButton copyText={data.image} isVisible copyTitle="Copy url" />
+									</div>
+								)}
 							</div>
 						}
 					/>
@@ -67,7 +70,7 @@ export function DockerImageCollapsible({ data }: Props) {
 								rounded={false}
 								emphasis="subtle"
 							>
-								{data.contains_code ? "Available" : "None"}
+								{data.contains_code ? "True" : "False"}
 							</Tag>
 						}
 					/>
@@ -75,7 +78,13 @@ export function DockerImageCollapsible({ data }: Props) {
 				{data.dockerfile && (
 					<>
 						<p className="mb-2 mt-5 text-theme-text-secondary">Dockerfile</p>
-						<Codesnippet fullWidth wrap code={data.dockerfile} />
+						<Codesnippet
+							highlightCode
+							language="dockerfile"
+							fullWidth
+							wrap
+							code={data.dockerfile}
+						/>
 					</>
 				)}
 				{data.requirements && (
