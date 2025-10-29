@@ -26,7 +26,11 @@ export default function CreateStackManualPage() {
 							<ComponentsSelection />
 						</Panel>
 						<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
-						<Panel className="!overflow-y-auto" defaultSize={50} minSize={33}>
+						<Panel
+							className="!overflow-y-auto bg-theme-surface-primary"
+							defaultSize={50}
+							minSize={33}
+						>
 							<TypeOverview />
 						</Panel>
 					</PanelGroup>
