@@ -48,7 +48,12 @@ function DeploymentStackCollapsibleWithSnapshot({ snapshotId }: { snapshotId: st
 	}
 
 	if (snapshotQuery.isError) {
-		return <p>Something went wrong fetching the snapshot</p>;
+		return (
+			<StackCollapsibleEmptyState
+				title="Unable to get Stack"
+				subtitle="Something went wrong fetching the deployment snapshot"
+			/>
+		);
 	}
 
 	const stackId = snapshotQuery.data?.resources?.stack?.id;
@@ -74,7 +79,12 @@ function DeploymentStackCollapsibleStackSection({
 	}
 
 	if (stackQuery.isError) {
-		return <p>Failed to fetch Stack</p>;
+		return (
+			<StackCollapsibleEmptyState
+				title="Failed to fetch the stack"
+				subtitle="Something went wrong fetching the stack"
+			/>
+		);
 	}
 
 	const stack = stackQuery.data;
@@ -84,15 +94,25 @@ function DeploymentStackCollapsibleStackSection({
 	return <StackInfo displayInfoBox={false} stack={stack} objectConfig={snapshotConfig} />;
 }
 
-function NoStackEmptyState() {
+function StackCollapsibleEmptyState({ title, subtitle }: { title: string; subtitle?: string }) {
 	return (
-		<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+		<EmptyState
+			className="p-5"
+			icon={<AlertCircle className="h-[60px] w-[60px] fill-neutral-300" />}
+		>
 			<div className="text-center">
-				<p className="text-display-xs font-semibold">No Stack</p>
-				<p className="text-text-lg text-theme-text-secondary">
-					There is no stack associated with this deployment.
-				</p>
+				<p className="text-text-lg font-semibold">{title}</p>
+				{subtitle && <p className="text-text-md text-theme-text-secondary">{subtitle}</p>}
 			</div>
 		</EmptyState>
+	);
+}
+
+function NoStackEmptyState() {
+	return (
+		<StackCollapsibleEmptyState
+			title="No Stack"
+			subtitle="There is no stack associated with this deployment."
+		/>
 	);
 }
