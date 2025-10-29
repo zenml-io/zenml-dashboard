@@ -17,7 +17,14 @@ export function StepCodeTab({ stepId }: Props) {
 
 	return (
 		<CollapsibleCard initialOpen title="Code">
-			<Codesnippet fullWidth highlightCode wrap code={data?.metadata?.source_code || ""} />
+			<Codesnippet
+				fullWidth
+				highlightCode
+				wrap
+				code={data?.metadata?.source_code || ""}
+				exceptionCodeLine={data?.metadata?.exception_info?.step_code_line ?? undefined}
+				exceptionTraceback={data?.metadata?.exception_info?.traceback}
+			/>
 		</CollapsibleCard>
 	);
 }
