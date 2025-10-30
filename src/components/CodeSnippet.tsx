@@ -10,6 +10,8 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
+	language?: "python" | "bash" | "ts" | "dockerfile";
+	copyCode?: string;
 };
 
 export function Codesnippet({
@@ -18,7 +20,9 @@ export function Codesnippet({
 	fullWidth = false,
 	highlightCode = false,
 	className,
-	codeClasses
+	codeClasses,
+	language = "python",
+	copyCode = code
 }: DisplayCodeProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -39,7 +43,7 @@ export function Codesnippet({
 			className={cn(
 				`flex ${
 					fullWidth ? "w-full" : "max-w-fit"
-				} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3`,
+				} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
 				className
 			)}
 		>
@@ -51,9 +55,9 @@ export function Codesnippet({
 					codeClasses
 				)}
 			>
-				{highlightCode ? <CodeHighlighter code={code} /> : <code>{code}</code>}
+				{highlightCode ? <CodeHighlighter language={language} code={code} /> : <code>{code}</code>}
 			</pre>
-			<button onClick={() => copyToClipboard(code)}>
+			<button onClick={() => copyToClipboard(copyCode)}>
 				{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
 			</button>
 		</div>

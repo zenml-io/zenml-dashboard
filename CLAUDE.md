@@ -2,10 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Repository Context
-
-This is the **zenml-dashboard** - the open-source React frontend for ZenML that gets bundled with the ZenML Python package. This lives in a monorepo alongside zenml-cloud-ui (the Pro SaaS offering).
-
 ## Development Commands
 
 ### Essential Commands

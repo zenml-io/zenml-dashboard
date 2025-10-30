@@ -4,9 +4,9 @@ import { DeploymentDetailHeader } from "./_layout/header";
 export default function DeploymentDetailLayout() {
 	const { deploymentId } = useParams() as { deploymentId: string };
 	return (
-		<div>
+		<div className="flex h-full flex-col">
 			<DeploymentDetailHeader deploymentId={deploymentId} />
-			<section className="p-5 lg:px-[80px]">
+			<section className="flex-1 overflow-y-auto">
 				<Outlet />
 			</section>
 		</div>

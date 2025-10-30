@@ -5,6 +5,7 @@ export const FIVEMEGABYTES = 5 * 1024 * 1024;
 export const stackComponentTypes: StackComponentType[] = [
 	"orchestrator",
 	"artifact_store",
+	"deployer",
 	"container_registry",
 	"step_operator",
 	"model_deployer",
@@ -14,6 +15,7 @@ export const stackComponentTypes: StackComponentType[] = [
 	"annotator",
 	"data_validator",
 	"image_builder",
-	"model_registry",
-	"deployer"
+	"model_registry"
 ] as const;
+
+export const COLLAPSE_STRING_THRESHOLD_CHARACTERS = 100; // characters

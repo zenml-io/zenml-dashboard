@@ -1,23 +1,17 @@
 import BarChart from "@/assets/icons/bar-chart.svg?react";
 import CodeSquare from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
+import { SheetHeader } from "@/components/sheet/SheetHeader";
+import { TabIcon } from "@/components/tab-icon";
+import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
 import { VisualizationConfirmProvider } from "@/context/VisualizationConfirmationContext";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
-import {
-	Badge,
-	Skeleton,
-	Tabs,
-	TabsContent,
-	TabsList,
-	TabsTrigger
-} from "@zenml-io/react-component-library";
+import { Badge, Skeleton, Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { ErrorBoundary } from "react-error-boundary";
 import { ArtifactIcon } from "../../ArtifactIcon";
-import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { ArtifactDetailTab } from "./DetailsTab";
 import { ArtifactMetadataTab } from "./MetadataTab";
 import { VisualizationErrorFallback, VisualizationTab } from "./VisualizationTab";
-import { TabIcon } from "@/components/tab-icon";
 
 type Props = {
 	artifactVersionId: string;
@@ -56,7 +50,7 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 			<div className="p-5">
 				<VisualizationConfirmProvider>
 					<Tabs defaultValue="overview">
-						<TabsList>
+						<ScrollingTabsList>
 							<TabsTrigger className="flex items-center gap-2 text-text-md" value="overview">
 								<TabIcon icon={Info} />
 								<span>Overview</span>
@@ -72,7 +66,7 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 								<TabIcon icon={BarChart} />
 								<span>Visualization</span>
 							</TabsTrigger>
-						</TabsList>
+						</ScrollingTabsList>
 
 						<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 							<ArtifactDetailTab artifactVersionId={artifactVersionId} />

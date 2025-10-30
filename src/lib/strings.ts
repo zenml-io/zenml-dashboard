@@ -23,8 +23,9 @@ export const transformToEllipsis = (text: string, maxLength: number) => {
 	}
 };
 
+// Processing docker image tags, stripping registry, keeping name and tag, removing sha256 digest
+const regex = /(?:.*\/)?([^/:@]+)(?::([^@]+))?(?:@.*)?$/;
 export const extractDockerImageKey = (string: string) => {
-	const regex = /\/([^@/:]+)(?:@[^@]*$|:([^@]*$|$))/;
 	const match = regex.exec(string);
 	if (match && match[1]) {
 		if (match[2]) {
@@ -77,4 +78,8 @@ export function pluralize(count: number, noun: string, suffix = "s") {
 
 export function getFirstUuidSegment(uuid: string) {
 	return uuid.split("-")[0];
+}
+
+export function shellEscape(value: string) {
+	return value.replace(/'|\\/g, (match) => `\\${match}`);
 }

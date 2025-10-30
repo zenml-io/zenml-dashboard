@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
@@ -62,7 +63,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			}>();
 			return (
 				<div className="group/copybutton flex items-center gap-2">
-					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+					<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">
 							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
@@ -118,10 +119,25 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			if (!name || !id) return null;
 
 			return (
-				<Tag rounded={false} className="inline-block" color="turquoise" emphasis="subtle">
+				<Tag
+					rounded={false}
+					className="inline-block whitespace-nowrap"
+					color="turquoise"
+					emphasis="subtle"
+				>
 					{name}
 				</Tag>
 			);
+		}
+	},
+	{
+		id: "trigger",
+		header: "Trigger",
+		accessorFn: (row) => row.resources?.schedule?.name,
+		cell: ({ row }) => {
+			const schedule = row.original.resources?.schedule;
+			if (!schedule) return null;
+			return <ScheduleTag />;
 		}
 	},
 	{
@@ -135,7 +151,11 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 				date: string;
 			}>();
 
-			return <DisplayDate dateString={date} />;
+			return (
+				<span className="whitespace-nowrap">
+					<DisplayDate dateString={date} />
+				</span>
+			);
 		}
 	},
 	{

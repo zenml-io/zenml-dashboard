@@ -6,7 +6,8 @@ import Stack from "@/assets/icons/stack.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { SheetHeader } from "@/components/sheet/SheetHeader";
 import { TabIcon } from "@/components/tab-icon";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@zenml-io/react-component-library";
+import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
+import { Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
@@ -31,7 +32,7 @@ export function StepSheetContent({ stepId }: Props) {
 			</div>
 			<div className="p-5">
 				<Tabs defaultValue="overview">
-					<TabsList>
+					<ScrollingTabsList>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
 							<TabIcon icon={Info} />
 							<span>Overview</span>
@@ -56,7 +57,7 @@ export function StepSheetContent({ stepId }: Props) {
 							<TabIcon icon={MetadataIcon} />
 							<span>Metadata</span>
 						</TabsTrigger>
-					</TabsList>
+					</ScrollingTabsList>
 
 					<TabsContent className="m-0 mt-5 space-y-5 border-0 bg-transparent p-0" value="overview">
 						<StepDetailsTab runId={runId} stepId={stepId} />

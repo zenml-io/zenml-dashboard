@@ -15,11 +15,7 @@ export function RootLayout() {
 		if (data && data.active === false) {
 			navigate(routes.activateServer + `?redirect=${routes.onboarding}`, { replace: true });
 		}
-	}, [data]);
+	}, [data, navigate]);
 
-	return (
-		<div className="bg-theme-surface-secondary font-sans font-medium text-theme-text-primary antialiased">
-			<Outlet />
-		</div>
-	);
+	return <Outlet />;
 }

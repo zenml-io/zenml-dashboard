@@ -1,10 +1,11 @@
-import { useStoreApi } from "reactflow";
-import { useSheetContext } from "./sheet-context";
-import { StepSheetContent } from "../steps/step-sheet/SheetContent";
-import { ArtifactSheetContent } from "../artifacts/artifact-node-sheet/SheetContent";
-import { Sheet, SheetContent } from "@zenml-io/react-component-library/components/client";
-import { BorderErrorFallback, RunSheet } from "../runs/run-sheet";
+import { Sheet } from "@zenml-io/react-component-library/components/client";
 import { ErrorBoundary } from "react-error-boundary";
+import { useStoreApi } from "reactflow";
+import { ArtifactSheetContent } from "../artifacts/artifact-node-sheet/SheetContent";
+import { BorderErrorFallback, RunSheet } from "../runs/run-sheet";
+import { ResizableSheetContent } from "../sheet/resizable-sheet";
+import { StepSheetContent } from "../steps/step-sheet/SheetContent";
+import { useSheetContext } from "./sheet-context";
 
 export function GlobalSheets() {
 	const { sheetState, closeSheet } = useSheetContext();
@@ -20,9 +21,13 @@ export function GlobalSheets() {
 		}
 	}
 
+	function getAutoSaveId() {
+		return `run-resizable-${sheetState.lastContent?.type}-sheet`;
+	}
+
 	return (
 		<Sheet open={sheetState.isOpen} onOpenChange={handleOpenChange}>
-			<SheetContent className="w-[1000px] overflow-y-auto">
+			<ResizableSheetContent className="overflow-y-auto" autoSaveId={getAutoSaveId()}>
 				{sheetState.lastContent?.type === "step" && (
 					<StepSheetContent stepId={sheetState.lastContent.id} />
 				)}
@@ -34,7 +39,7 @@ export function GlobalSheets() {
 						<RunSheet runId={sheetState.lastContent.id} />
 					</ErrorBoundary>
 				)}
-			</SheetContent>
+			</ResizableSheetContent>
 		</Sheet>
 	);
 }
