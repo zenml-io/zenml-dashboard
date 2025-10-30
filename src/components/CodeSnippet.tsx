@@ -13,7 +13,6 @@ type DisplayCodeProps = {
 	language?: string;
 	copyCode?: string;
 	exceptionCodeLine?: number;
-	exceptionTraceback?: string;
 };
 
 export function Codesnippet({
@@ -25,8 +24,7 @@ export function Codesnippet({
 	codeClasses,
 	language = "python",
 	copyCode = code,
-	exceptionCodeLine,
-	exceptionTraceback
+	exceptionCodeLine
 }: DisplayCodeProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -43,46 +41,39 @@ export function Codesnippet({
 	}
 
 	return (
-		<>
-			{exceptionTraceback && (
-				<div className="mt-4 whitespace-pre-wrap font-mono text-theme-text-error">
-					{exceptionTraceback}
-				</div>
-			)}
-			<div className="relative w-full">
-				<div
+		<div className="relative w-full">
+			<div
+				className={cn(
+					`flex ${
+						fullWidth ? "w-full" : "max-w-fit"
+					} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
+					className
+				)}
+			>
+				<pre
 					className={cn(
-						`flex ${
-							fullWidth ? "w-full" : "max-w-fit"
-						} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
-						className
+						`${
+							wrap ? "" : "whitespace-nowrap"
+						} overflow-auto text-left font-mono text-theme-text-primary`,
+						codeClasses
 					)}
 				>
-					<pre
-						className={cn(
-							`${
-								wrap ? "" : "whitespace-nowrap"
-							} overflow-auto text-left font-mono text-theme-text-primary`,
-							codeClasses
-						)}
-					>
-						{highlightCode ? (
-							<CodeHighlighter language={language} code={code} />
-						) : (
-							<code>{code}</code>
-						)}
-					</pre>
-					{exceptionCodeLine && (
-						<div
-							className="pointer-events-none absolute left-0 h-[24px] w-full bg-red-500/30"
-							style={{ top: `${24 * exceptionCodeLine + 17}px` }}
-						></div>
+					{highlightCode ? (
+						<CodeHighlighter language={language} code={code} />
+					) : (
+						<code>{code}</code>
 					)}
-					<button onClick={() => copyToClipboard(copyCode)}>
-						{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
-					</button>
-				</div>
+				</pre>
+				{exceptionCodeLine && (
+					<div
+						className="error-highlight-line pointer-events-none absolute left-0 h-[24px] w-full bg-red-500/30"
+						style={{ top: `${24 * exceptionCodeLine + 17}px` }}
+					></div>
+				)}
+				<button onClick={() => copyToClipboard(copyCode)}>
+					{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
+				</button>
 			</div>
-		</>
+		</div>
 	);
 }

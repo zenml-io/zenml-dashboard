@@ -13,7 +13,7 @@ import { CopyMetadataButton } from "./copy-metadata-button";
 type CollapsibleCardProps = {
 	initialOpen?: boolean;
 	children: React.ReactNode;
-	title: string | React.ReactNode;
+	title: React.ReactNode;
 	className?: string;
 	contentClassName?: string;
 	intent?: CollapsibleHeaderProps["intent"];
