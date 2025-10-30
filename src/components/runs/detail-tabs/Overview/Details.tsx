@@ -5,9 +5,10 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Key, Value } from "@/components/KeyValue";
+import { Key, KeyValue, Value } from "@/components/KeyValue";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { snakeCaseToTitleCase } from "@/lib/strings";
@@ -54,6 +55,7 @@ export function Details({ runId }: Props) {
 	const statusReason = data.body?.status_reason;
 	const executionMode = data.metadata?.config.execution_mode;
 
+	const schedule = data.resources?.schedule;
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
@@ -142,6 +144,7 @@ export function Details({ runId }: Props) {
 							"Not available"
 						)}
 					</Value>
+					{schedule && <KeyValue label="Triggered by" value={<ScheduleTag />} />}
 					<Key className={data.metadata?.code_path ? "col-span-3" : ""}>
 						<div className="flex items-center space-x-0.5 truncate">
 							<span>Code Path</span>
