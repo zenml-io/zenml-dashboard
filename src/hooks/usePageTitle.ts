@@ -10,9 +10,8 @@ export function usePageTitle(): void {
 	const pathname = location.pathname;
 
 	const baseTitle = useMemo(() => {
-		// Helper to match exact route patterns (end=true by default for specificity).
-		const is = (pattern: string, end: boolean = true) =>
-			matchPath({ path: pattern, end }, pathname) !== null;
+		// Helper to match exact route patterns (end=true for specificity).
+		const is = (pattern: string) => matchPath({ path: pattern, end: true }, pathname) !== null;
 
 		// Public/standalone pages
 		if (is(routes.login)) return "Login";
@@ -72,16 +71,21 @@ export function usePageTitle(): void {
 
 		// Project-scoped: Snapshots
 		if (is(routes.projects.snapshots.overview)) return "Snapshots";
+		if (is(routes.projects.snapshots.create)) return "Create Snapshot";
 		if (is(routes.projects.snapshots.detail.overview(":snapshotId"))) return "Snapshot";
 		if (is(routes.projects.snapshots.detail.runs(":snapshotId"))) return "Snapshot Runs";
 
 		// Project-scoped: Runs
 		if (is(routes.projects.runs.overview)) return "Pipeline Runs";
 		if (is(routes.projects.runs.detail(":runId"))) return "Run";
+		if (is(routes.projects.runs.createSnapshot(":runId"))) return "Create Snapshot";
 
 		// Project-scoped: Deployments
 		if (is(routes.projects.deployments.overview)) return "Deployments";
 		if (is(routes.projects.deployments.detail.overview(":deploymentId"))) return "Deployment";
+		if (is(routes.projects.deployments.detail.runs(":deploymentId"))) return "Deployment Runs";
+		if (is(routes.projects.deployments.detail.playground(":deploymentId")))
+			return "Deployment Playground";
 
 		// Project-scoped: Other tabs
 		if (is(routes.projects.models.overview)) return "Models";
