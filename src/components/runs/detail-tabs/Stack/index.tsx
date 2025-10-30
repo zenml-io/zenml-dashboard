@@ -1,7 +1,6 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { EmptyState } from "@/components/EmptyState";
-import { StackInfo } from "@/components/stacks/info";
-import { StackInfoCollapsible } from "@/components/stacks/info/stack-info-collapsible";
+import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { PipelineRun } from "@/types/pipeline-runs";
@@ -49,9 +48,5 @@ function StackTabContent({ stackId, run }: StackTabContentProps) {
 
 	const config = run.metadata?.config.settings || {};
 
-	return (
-		<StackInfoCollapsible stackName={data.name}>
-			<StackInfo stack={data} objectConfig={config} />
-		</StackInfoCollapsible>
-	);
+	return <StackInfoFull stack={data} objectConfig={config} />;
 }

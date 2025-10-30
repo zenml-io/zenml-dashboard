@@ -12,7 +12,7 @@ type Props = {
 	component: StackComponent;
 	objectConfig: Record<string, unknown>;
 };
-export function StackInfoComponentCollapsible({ component, objectConfig }: Props) {
+export function StackInfoComponentListItem({ component, objectConfig }: Props) {
 	const keyName = `${component.body?.type}.${component.body?.flavor_name}`;
 	const settings = objectConfig?.[keyName] ?? undefined;
 

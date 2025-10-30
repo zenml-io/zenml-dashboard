@@ -1,9 +1,8 @@
 "use client";
 
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { EmptyState } from "@/components/EmptyState";
-import { StackInfo } from "@/components/stacks/info";
+import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { Deployment } from "@/types/deployments";
@@ -11,21 +10,14 @@ import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
 
 type DeploymentStackCollapsibleContentProps = {
 	deployment: Deployment;
 };
 
 export function DeploymentStackCollapsible() {
-	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleWrapper} />;
-}
-
-function DeploymentStackCollapsibleWrapper({ deployment }: DeploymentStackCollapsibleContentProps) {
-	return (
-		<CollapsibleCard title="Stack" initialOpen={true}>
-			<DeploymentStackCollapsibleContent deployment={deployment} />
-		</CollapsibleCard>
-	);
+	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleContent} />;
 }
 
 function DeploymentStackCollapsibleContent({ deployment }: DeploymentStackCollapsibleContentProps) {
@@ -91,20 +83,22 @@ function DeploymentStackCollapsibleStackSection({
 
 	const snapshotConfig = snapshot.metadata?.pipeline_configuration.settings || {};
 
-	return <StackInfo stack={stack} objectConfig={snapshotConfig} />;
+	return <StackInfoFull stack={stack} objectConfig={snapshotConfig} />;
 }
 
 function StackCollapsibleEmptyState({ title, subtitle }: { title: string; subtitle?: string }) {
 	return (
-		<EmptyState
-			className="p-5"
-			icon={<AlertCircle className="h-[60px] w-[60px] fill-neutral-300" />}
-		>
-			<div className="text-center">
-				<p className="text-text-lg font-semibold">{title}</p>
-				{subtitle && <p className="text-text-md text-theme-text-secondary">{subtitle}</p>}
-			</div>
-		</EmptyState>
+		<CollapsibleCard title="Stack" initialOpen={true}>
+			<EmptyState
+				className="p-5"
+				icon={<AlertCircle className="h-[60px] w-[60px] fill-neutral-300" />}
+			>
+				<div className="text-center">
+					<p className="text-text-lg font-semibold">{title}</p>
+					{subtitle && <p className="text-text-md text-theme-text-secondary">{subtitle}</p>}
+				</div>
+			</EmptyState>
+		</CollapsibleCard>
 	);
 }
 

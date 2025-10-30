@@ -1,12 +1,12 @@
 import { Stack, StackComponentsList } from "@/types/stack";
-import { StackInfoComponentCollapsible } from "./stack-info-component-collapsible";
+import { StackInfoComponentListItem } from "./stack-info-component-list-item";
 import { sortComponents } from "./sort-component";
 
 type Props = {
 	stack: Stack;
 	objectConfig: Record<string, unknown>;
 };
-export function StackInfo({ stack, objectConfig }: Props) {
+export function StackInfoComponentList({ stack, objectConfig }: Props) {
 	const allComponents = sortComponents(
 		Object.values((stack.metadata?.components as StackComponentsList) || {}).flat()
 	);
@@ -15,7 +15,7 @@ export function StackInfo({ stack, objectConfig }: Props) {
 		<ul className="space-y-5">
 			{allComponents.map((component) => (
 				<li key={component.id} className="w-full">
-					<StackInfoComponentCollapsible component={component} objectConfig={objectConfig} />
+					<StackInfoComponentListItem component={component} objectConfig={objectConfig} />
 				</li>
 			))}
 		</ul>
