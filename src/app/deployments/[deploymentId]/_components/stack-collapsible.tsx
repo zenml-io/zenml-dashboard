@@ -91,7 +91,7 @@ function DeploymentStackCollapsibleStackSection({
 
 	const snapshotConfig = snapshot.metadata?.pipeline_configuration.settings || {};
 
-	return <StackInfo displayInfoBox={false} stack={stack} objectConfig={snapshotConfig} />;
+	return <StackInfo stack={stack} objectConfig={snapshotConfig} />;
 }
 
 function StackCollapsibleEmptyState({ title, subtitle }: { title: string; subtitle?: string }) {

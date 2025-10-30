@@ -1,6 +1,7 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { EmptyState } from "@/components/EmptyState";
 import { StackInfo } from "@/components/stacks/info";
+import { StackInfoCollapsible } from "@/components/stacks/info/stack-info-collapsible";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { PipelineRun } from "@/types/pipeline-runs";
@@ -46,7 +47,11 @@ function StackTabContent({ stackId, run }: StackTabContentProps) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	const config = (run.metadata?.config.settings as { [key: string]: any } | undefined) || {};
+	const config = run.metadata?.config.settings || {};
 
-	return <StackInfo stack={data} objectConfig={config} />;
+	return (
+		<StackInfoCollapsible stackName={data.name}>
+			<StackInfo stack={data} objectConfig={config} />
+		</StackInfoCollapsible>
+	);
 }
