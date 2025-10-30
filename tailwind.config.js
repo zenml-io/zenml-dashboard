@@ -17,7 +17,9 @@ export default {
 		}
 	},
 	plugins: [
-		require("@tailwindcss/forms"),
+		require("@tailwindcss/forms")({
+			strategy: "class"
+		}),
 		require("tailwindcss-animate"),
 		require("@tailwindcss/typography"),
 		require("@tailwindcss/container-queries")
