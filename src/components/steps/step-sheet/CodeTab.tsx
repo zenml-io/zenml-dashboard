@@ -36,7 +36,8 @@ export function StepCodeTab({ stepId }: Props) {
 							<AlertCircle className="h-5 w-5 fill-red-500" /> Error
 						</>
 					}
-					headerClassName="flex justify-between"
+					className="border border-error-200"
+					headerClassName="flex justify-between border-b border-error-200"
 					headerChildren={
 						<Button
 							className="whitespace-nowrap border border-red-500 bg-white text-red-500 hover:bg-white active:bg-white"
