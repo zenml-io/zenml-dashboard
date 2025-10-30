@@ -48,7 +48,7 @@ function DockerBuildCollapsibleContent({ deployment }: Props) {
 		return (
 			<div>
 				<AlertEmptyState
-					title="Unable to get get the docker build"
+					title="Unable to get the docker build"
 					subtitle="Something went wrong fetching the build"
 				/>
 			</div>
