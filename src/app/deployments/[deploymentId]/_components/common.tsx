@@ -1,7 +1,12 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { EmptyState } from "@/components/EmptyState";
 
-export function AlertEmptyState({ title, subtitle }: { title: string; subtitle?: string }) {
+type Props = {
+	title: string;
+	subtitle?: string;
+};
+
+export function AlertEmptyState({ title, subtitle }: Props) {
 	return (
 		<EmptyState
 			className="p-5"

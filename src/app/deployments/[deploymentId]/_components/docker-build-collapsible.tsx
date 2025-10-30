@@ -1,12 +1,12 @@
-import { Skeleton } from "@zenml-io/react-component-library";
-import { DeploymentDetailWrapper } from "./fetch-wrapper";
-import { AlertEmptyState } from "./common";
+import { DockerImageCollapsible } from "@/components/runs/detail-tabs/Configuration/DockerImageCollapsible";
+import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
+import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { Deployment } from "@/types/deployments";
 import { BuildItem } from "@/types/pipeline-builds";
-import { DockerImageCollapsible } from "@/components/runs/detail-tabs/Configuration/DockerImageCollapsible";
 import { useQuery } from "@tanstack/react-query";
-import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
-import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { AlertEmptyState } from "./common";
+import { DeploymentDetailWrapper } from "./fetch-wrapper";
 
 export function DockerBuildCollapsible() {
 	return <DeploymentDetailWrapper Component={DockerBuildCollapsibleContent} />;
@@ -19,7 +19,7 @@ type Props = {
 function DockerBuildCollapsibleContent({ deployment }: Props) {
 	const snapshotId = deployment.resources?.snapshot?.id;
 
-	const snapshotQuery = useQuery({ ...pipelineSnapshotQueries.detail(snapshotId!) });
+	const snapshotQuery = useQuery(pipelineSnapshotQueries.detail(snapshotId!));
 	const buildId = snapshotQuery.data?.resources?.build?.id;
 	const buildQuery = usePipelineBuild(
 		{

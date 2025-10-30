@@ -23,6 +23,7 @@ export const transformToEllipsis = (text: string, maxLength: number) => {
 	}
 };
 
+// Processing docker image tags, stripping registry, keeping name and tag, removing sha256 digest
 const regex = /(?:.*\/)?([^/:@]+)(?::([^@]+))?(?:@.*)?$/;
 export const extractDockerImageKey = (string: string) => {
 	const match = regex.exec(string);
