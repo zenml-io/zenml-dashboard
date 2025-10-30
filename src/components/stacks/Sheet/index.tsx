@@ -64,12 +64,14 @@ function StackHeadline({ stackId }: Props) {
 	return (
 		<div className="flex items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 			<div className="flex items-center space-x-2">
-				<Avatar type="square" size="lg">
+				<Avatar type="square" size="lg" className="shrink-0">
 					<AvatarFallback size="lg">{stack.data.name[0]}</AvatarFallback>
 				</Avatar>
 				<div>
-					<div className="group/copybutton flex items-center gap-0.5">
-						<p className="mb-0.5 text-text-sm text-theme-text-secondary">{stack.data.id}</p>
+					<div className="group/copybutton grid grid-cols-1 items-center gap-0.5">
+						<p className="mb-0.5 truncate text-text-sm text-theme-text-secondary">
+							{stack.data.id}
+						</p>
 						<CopyButton copyText={stack.data.id} />
 					</div>
 

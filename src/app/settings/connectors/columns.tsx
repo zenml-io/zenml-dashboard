@@ -60,9 +60,9 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 								<div className="flex items-center gap-1">
 									<Link
 										to={routes.settings.connectors.detail.configuration(id)}
-										className="block max-w-[200px] truncate text-text-md font-semibold"
+										className="block grid max-w-[200px] grid-cols-1 text-text-md font-semibold"
 									>
-										{name}
+										<span className="truncate">{name}</span>
 									</Link>
 									<CopyButton copyText={name} />
 								</div>

@@ -44,10 +44,10 @@ export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 			cell: ({ row }) => {
 				return (
 					<div className="flex items-center space-x-2">
-						<KeyIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
+						<KeyIcon className="h-5 w-5 shrink-0 fill-primary-400" />
 						<div className="group/copybutton flex flex-col">
-							<div className="flex flex-row items-center space-x-1">
-								<div className="flex items-center space-x-1 text-text-md font-semibold text-theme-text-primary">
+							<div className="grid grid-cols-1 items-center space-x-1">
+								<div className="truncate text-text-md font-semibold text-theme-text-primary">
 									{row.original.name}
 								</div>
 							</div>

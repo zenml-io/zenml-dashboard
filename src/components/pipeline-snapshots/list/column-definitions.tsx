@@ -59,7 +59,7 @@ export function createSnapshotNameColumn(): ColumnDef<PipelineSnapshot> {
 						<div className="flex items-center gap-1">
 							<Link
 								to={routes.projects.snapshots.detail.overview(id)}
-								className="flex items-center gap-1"
+								className="grid grid-cols-1 items-center gap-1"
 							>
 								<span className="truncate text-text-md font-semibold text-theme-text-primary">
 									{name ?? "Unnamed"}

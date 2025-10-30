@@ -30,11 +30,16 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			}>();
 			return (
 				<div className="group/copybutton flex items-center gap-2">
-					<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+					<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">
-							<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
-								<span className="text-text-md font-semibold text-theme-text-primary">{name}</span>
+							<Link
+								to={routes.projects.runs.detail(id)}
+								className="grid grid-cols-1 items-center gap-1"
+							>
+								<span className="truncate text-text-md font-semibold text-theme-text-primary">
+									{name}
+								</span>
 							</Link>
 							<TooltipProvider>
 								<Tooltip>

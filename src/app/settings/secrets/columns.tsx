@@ -20,15 +20,15 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 
 			return (
 				<div className="flex items-center space-x-2">
-					<LockIcon className="h-5 w-5 flex-shrink-0 fill-primary-400" />
+					<LockIcon className="h-5 w-5 shrink-0 fill-primary-400" />
 					<div className="group/copybutton flex flex-col">
 						<div className="flex flex-row items-center space-x-1">
 							<div className="flex items-center space-x-1">
 								<Link
-									className="text-text-md font-semibold text-theme-text-primary"
+									className="grid grid-cols-1 text-text-md font-semibold text-theme-text-primary"
 									to={routes.settings.secrets.detail(row.original.id)}
 								>
-									{row.original.name}
+									<span className="truncate">{row.original.name}</span>
 								</Link>
 								<SecretTooltip code={code} />
 							</div>

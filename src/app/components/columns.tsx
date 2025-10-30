@@ -53,12 +53,13 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 							height={32}
 							src={sanitizeUrl(row.original.body?.logo_url || "")}
 							alt="Flavor Icon"
+							className="shrink-0"
 						/>
 						<div>
 							<div className="flex items-center gap-1">
 								<ComponentSheet componentId={id}>
-									<button>
-										<h2 className="text-text-md font-semibold">{name}</h2>
+									<button className="grid grid-cols-1 items-center">
+										<h2 className="truncate text-text-md font-semibold">{name}</h2>
 									</button>
 								</ComponentSheet>
 								<CopyButton copyText={name} />
