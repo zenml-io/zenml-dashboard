@@ -9,6 +9,7 @@ import { Key, KeyValue, Value } from "@/components/KeyValue";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { snakeCaseToTitleCase } from "@/lib/strings";
@@ -56,6 +57,7 @@ export function Details({ runId }: Props) {
 	const executionMode = data.metadata?.config.execution_mode;
 
 	const sourceSnapshot = data.resources?.source_snapshot;
+	const schedule = data.resources?.schedule;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -155,6 +157,7 @@ export function Details({ runId }: Props) {
 							"Not available"
 						)}
 					</Value>
+					{schedule && <KeyValue label="Triggered by" value={<ScheduleTag />} />}
 					<Key className={data.metadata?.code_path ? "col-span-3" : ""}>
 						<div className="flex items-center space-x-0.5 truncate">
 							<span>Code Path</span>

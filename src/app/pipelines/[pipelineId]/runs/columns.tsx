@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
 import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
@@ -120,11 +121,26 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 
 				return (
 					<Link to={routes.stacks.overview}>
-						<Tag rounded={false} className="inline-block" color="turquoise" emphasis="subtle">
+						<Tag
+							rounded={false}
+							className="inline-block whitespace-nowrap"
+							color="turquoise"
+							emphasis="subtle"
+						>
 							{name}
 						</Tag>
 					</Link>
 				);
+			}
+		},
+		{
+			id: "trigger",
+			header: "Trigger",
+			accessorFn: (row) => row.resources?.schedule?.name,
+			cell: ({ row }) => {
+				const schedule = row.original.resources?.schedule;
+				if (!schedule) return null;
+				return <ScheduleTag />;
 			}
 		},
 		{
