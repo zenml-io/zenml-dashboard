@@ -39,7 +39,7 @@ export function StepCodeTab({ stepId }: Props) {
 					headerClassName="flex justify-between"
 					headerChildren={
 						<Button
-							className="whitespace-nowrap border border-red-500 bg-white text-red-500"
+							className="whitespace-nowrap border border-red-500 bg-white text-red-500 hover:bg-white active:bg-white"
 							onClick={goToError}
 						>
 							Go to error
