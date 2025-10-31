@@ -25,7 +25,7 @@ export function DockerImageCollapsible({ data, displayCopyButton = true }: Props
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
-			<CollapsibleHeader intent="primary" className="flex items-center gap-[10px]">
+			<CollapsibleHeader intent="primary" className="flex h-9 items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<ChevronDown
 						className={` ${
