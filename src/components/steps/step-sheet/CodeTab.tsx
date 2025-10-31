@@ -33,18 +33,20 @@ export function StepCodeTab({ stepId }: Props) {
 					initialOpen
 					title={
 						<>
-							<AlertCircle className="h-5 w-5 fill-red-500" /> Error
+							<AlertCircle className="h-5 w-5 fill-error-500" /> Error
 						</>
 					}
 					className="border border-error-200"
 					headerClassName="flex justify-between border-b border-error-200"
 					headerChildren={
 						<Button
-							className="whitespace-nowrap border border-red-500 bg-white text-red-500 hover:bg-white active:bg-white"
+							className="whitespace-nowrap"
 							onClick={goToError}
+							intent="danger"
+							emphasis="subtle"
 						>
 							Go to error
-							<ArrowLeft className="h-5 w-5 -rotate-90 fill-red-500" />
+							<ArrowLeft className="h-5 w-5 -rotate-90 fill-error-700" />
 						</Button>
 					}
 				>
