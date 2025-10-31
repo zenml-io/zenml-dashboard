@@ -9,5 +9,5 @@ export const stackNameSchema = z
 	.refine((name) => validateStackNameNotInUse(name), "Stack name is already in use")
 	.refine(
 		(name) => name.match(/^[a-zA-Z0-9-]+$/),
-		"Stack name can only contain letters, numbers and dashes"
+		"Stack name can only contain only letters, numbers and dashes"
 	);
