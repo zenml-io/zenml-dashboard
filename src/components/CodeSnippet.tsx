@@ -66,7 +66,7 @@ export function Codesnippet({
 				</pre>
 				{exceptionCodeLine && (
 					<div
-						className="error-highlight-line pointer-events-none absolute left-0 h-[24px] w-full bg-error-500/30"
+						className="error-highlight-line pointer-events-none absolute left-0 h-[24px] w-full bg-error-50"
 						style={{ top: `${24 * exceptionCodeLine + 17}px` }}
 					></div>
 				)}

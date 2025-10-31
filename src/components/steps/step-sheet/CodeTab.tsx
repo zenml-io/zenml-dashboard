@@ -10,6 +10,13 @@ type Props = {
 	stepId: string;
 };
 
+function goToError() {
+	const errorLineElement = document.querySelector(".error-highlight-line");
+	if (errorLineElement) {
+		errorLineElement.scrollIntoView({ behavior: "smooth" });
+	}
+}
+
 export function StepCodeTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepDetail({ stepId });
 
@@ -19,13 +26,6 @@ export function StepCodeTab({ stepId }: Props) {
 
 	const traceback = data?.metadata?.exception_info?.traceback;
 
-	function goToError() {
-		const errorLineElement = document.querySelector(".error-highlight-line");
-		if (errorLineElement) {
-			errorLineElement.scrollIntoView({ behavior: "smooth" });
-		}
-	}
-
 	return (
 		<div className="flex flex-col gap-5">
 			{traceback && (
@@ -33,11 +33,12 @@ export function StepCodeTab({ stepId }: Props) {
 					initialOpen
 					title={
 						<>
-							<AlertCircle className="h-5 w-5 fill-error-500" /> Error
+							<AlertCircle className="h-5 w-5 fill-theme-text-error" /> Error
 						</>
 					}
+					contentClassName="border-t border-error-200"
 					className="border border-error-200"
-					headerClassName="flex justify-between border-b border-error-200"
+					headerClassName="flex justify-between"
 					headerChildren={
 						<Button
 							className="whitespace-nowrap"
@@ -50,7 +51,7 @@ export function StepCodeTab({ stepId }: Props) {
 						</Button>
 					}
 				>
-					<div className="mt-4 whitespace-pre-wrap font-mono text-text-sm">{traceback}</div>
+					<div className="whitespace-pre-wrap font-mono text-text-md">{traceback}</div>
 				</CollapsibleCard>
 			)}
 			<CollapsibleCard initialOpen title="Code">
