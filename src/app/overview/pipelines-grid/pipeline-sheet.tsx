@@ -76,7 +76,7 @@ export function GithubPipelineSheet({
 									<p className="mb-1 text-text-sm text-theme-text-secondary">
 										Deploy the pipeline.
 									</p>
-									<Codesnippet code={`zenml pipeline deploy run.${name}`} />
+									<Codesnippet code={`zenml pipeline deploy ${name}.${name}`} />
 								</div>
 							)}
 							<HelpBox link="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline" />
