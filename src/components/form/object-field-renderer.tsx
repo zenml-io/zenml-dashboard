@@ -28,7 +28,8 @@ export function ObjectFieldRenderer({ name, label, isOptional, schema }: Dynamic
 						placeholder="Please paste your JSON"
 						className={inputVariants({
 							inputSize: "md",
-							className: "h-auto w-full resize-none font-mono data-[error=true]:border-error-500"
+							className:
+								"h-auto w-full resize-none p-1 font-mono data-[error=true]:border-error-500"
 						})}
 						id={name}
 						{...field}
