@@ -22,12 +22,14 @@ export type PageEventContext = {
 	page: PageEventPage;
 };
 
-export type PageEventProperties = PageEventPage & { category: string; [key: string]: any };
+export type PageEventProperties = PageEventPage & { category: string; [key: string]: unknown };
 
 export type TrackEvent = {
 	type: "track";
 	user_id: string;
 	debug: boolean;
 	event: string;
-	properties: Record<string, any>;
+	properties: Record<string, unknown>;
 };
+
+export type AnalyticsEvent = PageEvent | TrackEvent;

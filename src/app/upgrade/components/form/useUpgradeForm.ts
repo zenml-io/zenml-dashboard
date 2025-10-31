@@ -1,8 +1,6 @@
-import { fetcher } from "@/data/fetch";
-import { analyticsServerUrl } from "@/lib/analytics";
+import { useAnalyticsEvent } from "@/data/analytics/event";
 import { TrackEvent } from "@/types/analytics";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useForm } from "react-hook-form";
 import { useUpgradeContext } from "../Context";
@@ -20,53 +18,38 @@ export function useUpgradeForm() {
 		}
 	});
 
-	const submitFormMutation = useMutation({
-		mutationFn: submitUpgradeForm,
+	const submitFormMutation = useAnalyticsEvent({
 		onSuccess: () => setSubmitSuccess(true),
 		onError: (e) => {
-			toast({
-				emphasis: "subtle",
-				status: "error",
-				rounded: true,
-				description: e.message
-			});
+			if (e instanceof Error) {
+				toast({
+					emphasis: "subtle",
+					status: "error",
+					rounded: true,
+					description: e.message
+				});
+			}
 		}
 	});
 
-	async function handleSubmitForm(data: UpgradeForm, userId: string, isDebug: boolean) {
-		submitFormMutation.mutate({
-			...data,
-			userId,
-			isDebug
-		});
+	async function handleSubmitForm(
+		{ company, email, name }: UpgradeForm,
+		userId: string,
+		isDebug: boolean
+	) {
+		const trackEvent: TrackEvent = {
+			debug: isDebug,
+			event: "Upgrade initiated",
+			type: "track",
+			user_id: userId,
+			properties: {
+				company,
+				email,
+				name
+			}
+		};
+
+		submitFormMutation.mutate(trackEvent);
 	}
 	return { form, submitFormMutation, handleSubmitForm };
-}
-
-async function submitUpgradeForm({
-	company,
-	email,
-	isDebug,
-	name,
-	userId
-}: UpgradeForm & { isDebug: boolean; userId: string }) {
-	const trackEvent: TrackEvent = {
-		debug: isDebug,
-		event: "Upgrade initiated",
-		type: "track",
-		user_id: userId,
-		properties: {
-			company,
-			email,
-			name
-		}
-	};
-	return fetcher(analyticsServerUrl, {
-		method: "POST",
-		credentials: "omit",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify([trackEvent])
-	});
 }
