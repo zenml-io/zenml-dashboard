@@ -40,7 +40,7 @@ export function StackInfoComponentListItem({ component, objectConfig }: Props) {
 			intent="secondary"
 			contentClassName="pl-[60px]"
 			className="w-full"
-			isInitialOpen={false}
+			isInitialOpen={true}
 			title={undefined}
 			headerChildren={
 				<div className="relative flex w-full items-center justify-between gap-3 text-left">
