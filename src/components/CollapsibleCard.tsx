@@ -55,7 +55,7 @@ export function CollapsibleCard({
 	);
 }
 
-type Props = Omit<CollapsibleCardProps, "headerChildren"> & {
+type Props = CollapsibleCardProps & {
 	copyText: string;
 	displayCopyButton?: boolean;
 };
@@ -65,6 +65,7 @@ export function CollapsibleCardWithCopy({
 	displayCopyButton = true,
 	headerClassName,
 	className,
+	headerChildren,
 	...props
 }: Props) {
 	return (
@@ -76,7 +77,9 @@ export function CollapsibleCardWithCopy({
 				headerClassName
 			)}
 			headerChildren={
-				displayCopyButton ? (
+				headerChildren ? (
+					headerChildren
+				) : displayCopyButton ? (
 					<div className="opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100">
 						<CopyMetadataButton copyText={copyText} />
 					</div>
