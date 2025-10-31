@@ -24,4 +24,20 @@
 	body {
 		@apply bg-theme-surface-secondary font-sans font-medium text-theme-text-primary antialiased;
 	}
+
+	select {
+		@apply form-select;
+	}
+
+	select[multiple] {
+		@apply form-multiselect;
+	}
+
+	[type="checkbox"] {
+		@apply form-checkbox;
+	}
+
+	[type="radio"] {
+		@apply form-radio;
+	}
 }

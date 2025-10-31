@@ -1,6 +1,5 @@
-"use client";
-
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { EmptyState } from "@/components/EmptyState";
 import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
@@ -10,7 +9,6 @@ import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
-import { CollapsibleCard } from "@/components/CollapsibleCard";
 
 type DeploymentStackCollapsibleContentProps = {
 	deployment: Deployment;
