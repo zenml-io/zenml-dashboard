@@ -18,7 +18,7 @@ export function StackInfoCollapsible({ children, stackName }: PropsWithChildren<
 	const [open, setOpen] = useState(true);
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
-			<CollapsibleHeader className="p-0">
+			<CollapsibleHeader className="flex h-9 items-center p-0">
 				<CollapsibleTrigger className="flex w-full items-center gap-2 px-5 py-3">
 					<CollapsibleChevron open={open} />
 					<div className="group/copybutton flex items-center gap-2">
