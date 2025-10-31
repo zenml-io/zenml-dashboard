@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import EmptySnapshots from "@/assets/illustrations/empty-snapshots.svg?react";
 import { Button } from "@zenml-io/react-component-library";
 import Plus from "@/assets/icons/plus.svg?react";
+import { Link } from "react-router-dom";
+import { routes } from "@/router/routes";
 
 export function GlobalSnapshotsContent() {
 	const columns = useGlobalSnapshotColumns();
@@ -54,9 +56,11 @@ function EmptyState() {
 				<p>Run a pipeline in a remote stack to get started.</p>
 			</div>
 			<div className="flex justify-center">
-				<Button>
-					<Plus className="h-5 w-5 shrink-0 fill-white" />
-					New Snapshot
+				<Button className="whitespace-nowrap" asChild size="md">
+					<Link to={routes.projects.snapshots.create}>
+						<Plus className="h-5 w-5 shrink-0 fill-white" />
+						<span>Create Snapshot</span>
+					</Link>
 				</Button>
 			</div>
 		</div>
