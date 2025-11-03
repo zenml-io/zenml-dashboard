@@ -86,7 +86,7 @@ function ComponentCollapsibleHeader({
 							width={32}
 							height={32}
 							alt={`${componentName} logo`}
-							src={sanitizeUrl(componentLogoUrl || "")}
+							src={sanitizeUrl(componentLogoUrl)}
 						/>
 					) : (
 						<ComponentIcon type={componentType} />
