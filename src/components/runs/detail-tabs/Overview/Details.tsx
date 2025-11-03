@@ -27,6 +27,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { DeploymentTag } from "./deployment-tag";
 
 type Props = {
 	runId: string;
@@ -57,6 +58,7 @@ export function Details({ runId }: Props) {
 	const executionMode = data.metadata?.config.execution_mode;
 
 	const sourceSnapshot = data.resources?.source_snapshot;
+	const deploymentId = data.metadata?.trigger_info?.deployment_id;
 	const schedule = data.resources?.schedule;
 
 	return (
@@ -127,6 +129,11 @@ export function Details({ runId }: Props) {
 								"Not available"
 							)
 						}
+					/>
+
+					<KeyValue
+						label="Deployment"
+						value={deploymentId ? <DeploymentTag deploymentId={deploymentId} /> : "Not available"}
 					/>
 					<Key>Execution Mode</Key>
 					<Value>{executionMode ? snakeCaseToTitleCase(executionMode) : "Not available"}</Value>
