@@ -1,5 +1,3 @@
-"use client";
-
 import { getPipelineDetailColumns } from "@/app/pipelines/[pipelineId]/runs/columns";
 import { RunsTableToolbar } from "@/app/pipelines/[pipelineId]/runs/runs-table-toolbar";
 import { PipelineRunsTable } from "@/app/pipelines/[pipelineId]/runs/RunsTable";

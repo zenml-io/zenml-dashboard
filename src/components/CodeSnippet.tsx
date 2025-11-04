@@ -10,8 +10,9 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
-	language?: string;
+	language?: "python" | "bash" | "ts" | "dockerfile";
 	copyCode?: string;
+	exceptionCodeLine?: number;
 };
 
 export function Codesnippet({
@@ -22,7 +23,8 @@ export function Codesnippet({
 	className,
 	codeClasses,
 	language = "python",
-	copyCode = code
+	copyCode = code,
+	exceptionCodeLine
 }: DisplayCodeProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -39,27 +41,39 @@ export function Codesnippet({
 	}
 
 	return (
-		<div
-			className={cn(
-				`flex ${
-					fullWidth ? "w-full" : "max-w-fit"
-				} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
-				className
-			)}
-		>
-			<pre
+		<div className="relative w-full">
+			<div
 				className={cn(
-					`${
-						wrap ? "" : "whitespace-nowrap"
-					} overflow-auto text-left font-mono text-theme-text-primary`,
-					codeClasses
+					`flex ${
+						fullWidth ? "w-full" : "max-w-fit"
+					} justify-between gap-4 rounded-md border border-theme-border-moderate bg-theme-surface-tertiary px-4 py-3 font-normal`,
+					className
 				)}
 			>
-				{highlightCode ? <CodeHighlighter language={language} code={code} /> : <code>{code}</code>}
-			</pre>
-			<button onClick={() => copyToClipboard(copyCode)}>
-				{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
-			</button>
+				<pre
+					className={cn(
+						`${
+							wrap ? "" : "whitespace-nowrap"
+						} overflow-auto text-left font-mono text-theme-text-primary`,
+						codeClasses
+					)}
+				>
+					{highlightCode ? (
+						<CodeHighlighter language={language} code={code} />
+					) : (
+						<code>{code}</code>
+					)}
+				</pre>
+				{exceptionCodeLine && (
+					<div
+						className="error-highlight-line pointer-events-none absolute left-0 h-[24px] w-full bg-error-50"
+						style={{ top: `${24 * exceptionCodeLine + 17}px` }}
+					></div>
+				)}
+				<button onClick={() => copyToClipboard(copyCode)}>
+					{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
+				</button>
+			</div>
 		</div>
 	);
 }
