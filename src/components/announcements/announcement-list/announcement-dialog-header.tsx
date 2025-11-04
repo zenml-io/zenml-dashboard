@@ -3,7 +3,7 @@ import { Button, DialogClose, DialogTitle } from "@zenml-io/react-component-libr
 
 export function AnnouncementDialogHeader() {
 	return (
-		<div className="flex items-center justify-between px-5 py-3">
+		<div className="flex items-center justify-between border-b border-theme-border-moderate px-5 py-3">
 			<DialogTitle className="text-text-lg font-semibold">What's new</DialogTitle>
 			<DialogClose asChild>
 				<Button
