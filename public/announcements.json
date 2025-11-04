@@ -10,7 +10,7 @@
 		"published": true,
 		"published_at": "2025-10-23T09:00:00Z",
 		"should_highlight": true,
-		"labels": [{ "id": "feature", "name": "Feature" }]
+		"labels": ["feature", "bugfix"]
 	},
 	{
 		"id": 2,
@@ -23,7 +23,7 @@
 		"published": true,
 		"published_at": "2025-09-25T12:00:00Z",
 		"should_highlight": true,
-		"labels": [{ "id": "improvement", "name": "Improvement" }]
+		"labels": ["improvement"]
 	},
 	{
 		"id": 3,
@@ -36,7 +36,7 @@
 		"published": true,
 		"published_at": "2025-08-15T14:30:00Z",
 		"should_highlight": false,
-		"labels": [{ "id": "feature", "name": "Feature" }]
+		"labels": ["feature"]
 	},
 	{
 		"id": 4,
@@ -48,7 +48,7 @@
 		"published": true,
 		"published_at": "2025-07-05T08:00:00Z",
 		"should_highlight": false,
-		"labels": [{ "id": "feature", "name": "Feature" }]
+		"labels": ["feature"]
 	},
 	{
 		"id": 5,
@@ -61,7 +61,7 @@
 		"published": true,
 		"published_at": "2025-06-10T10:00:00Z",
 		"should_highlight": false,
-		"labels": [{ "id": "deprecation", "name": "Deprecation" }]
+		"labels": ["deprecation"]
 	},
 	{
 		"id": 6,
@@ -74,6 +74,6 @@
 		"published": true,
 		"published_at": "2025-05-20T14:00:00Z",
 		"should_highlight": false,
-		"labels": [{ "id": "bug-fix", "name": "Bug Fix" }]
+		"labels": ["bugfix"]
 	}
 ]

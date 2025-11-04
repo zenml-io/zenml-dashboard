@@ -3,6 +3,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { Announcement } from "@/data/announcements/announcement-schema";
 import { Button, Tag } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
+import { AnnouncementLabel } from "../announcement-label";
 import { AnnouncementImagePlaceholder } from "../placeholder";
 import { useAnnouncementLastSeen } from "../use-last-seen";
 
@@ -34,10 +35,8 @@ export function AnnouncementItem({ item }: { item: Announcement }) {
 				<h3 className="text-text-xl font-semibold">{item.title}</h3>
 				<ul className="flex flex-wrap items-center gap-0.5">
 					{item.labels.map((label) => (
-						<li className="inline-flex" key={label.id}>
-							<Tag color="green" size="xs" rounded={false} emphasis="subtle">
-								{label.name}
-							</Tag>
+						<li className="inline-flex" key={label}>
+							<AnnouncementLabel label={label} />
 						</li>
 					))}
 				</ul>

@@ -6,10 +6,10 @@ import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
-	DialogTitle,
-	Tag
+	DialogTitle
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
+import { AnnouncementLabel } from "../announcement-label";
 import { announcementStore } from "../persist-announcement";
 import { AnnouncementImagePlaceholder } from "../placeholder";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
@@ -68,11 +68,9 @@ export function AnnouncementHighlight() {
 								Announcement Highlight: {currentItem.title}
 							</DialogDescription>
 							<ul className="flex flex-wrap items-center gap-0.5">
-								{currentItem.labels.map((label) => (
-									<li className="inline-flex" key={label.id}>
-										<Tag color="green" size="xs" rounded={false} emphasis="subtle">
-											{label.name}
-										</Tag>
+								{currentItem.labels.map((label, idx) => (
+									<li className="inline-flex" key={idx}>
+										<AnnouncementLabel label={label} />
 									</li>
 								))}
 							</ul>

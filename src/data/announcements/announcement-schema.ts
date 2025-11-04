@@ -1,9 +1,7 @@
+import { ALLOWED_LABEL_VALUES, LabelValue } from "@/components/announcements/label-utils";
 import { z } from "zod";
 
-const announcementLabelSchema = z.object({
-	id: z.string(),
-	name: z.string()
-});
+const announcementLabelSchema = z.enum(ALLOWED_LABEL_VALUES);
 
 export const announcementSchema = z.object({
 	id: z.number(),
@@ -11,12 +9,18 @@ export const announcementSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	description_md: z.string(),
-	feature_image_url: z.string().url(),
+	feature_image_url: z.string().url().optional(),
 	learn_more_url: z.string().url().optional(),
 	published: z.boolean(),
 	published_at: z.string().datetime(),
 	should_highlight: z.boolean(),
-	labels: z.array(announcementLabelSchema)
+	labels: z
+		.array(z.string())
+		.transform((labels) =>
+			labels.filter((label): label is LabelValue =>
+				ALLOWED_LABEL_VALUES.includes(label as LabelValue)
+			)
+		)
 });
 
 export const announcementsSchema = z.array(announcementSchema);
