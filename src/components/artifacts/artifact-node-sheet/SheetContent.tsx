@@ -7,7 +7,9 @@ import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
 import { VisualizationConfirmProvider } from "@/context/VisualizationConfirmationContext";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { Badge, Skeleton, Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
+import { useCallback } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { useSheetContext } from "@/components/dag-visualizer/sheet-context";
 import { ArtifactIcon } from "../../ArtifactIcon";
 import { ArtifactDetailTab } from "./DetailsTab";
 import { ArtifactMetadataTab } from "./MetadataTab";
@@ -21,6 +23,10 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 	const { data } = useArtifactVersion({ versionId: artifactVersionId });
 
 	const version = data?.body?.version;
+	const { openArtifactSheet } = useSheetContext();
+	const handleVersionBadgeClick = useCallback(() => {
+		openArtifactSheet(artifactVersionId);
+	}, [artifactVersionId, openArtifactSheet]);
 
 	return (
 		<div>
@@ -39,9 +45,19 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 							className="h-5 w-5 fill-theme-surface-strong"
 						/>
 						<h2 className="text-display-xs font-semibold">{data.body?.artifact.name}</h2>
-						<Badge color={version ? "light-purple" : "light-grey"} rounded={false}>
-							{version || "None"}
-						</Badge>
+
+						<button
+							type="button"
+							onClick={handleVersionBadgeClick}
+							className="m-0 inline-flex cursor-pointer items-center border-0 bg-transparent p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-theme-surface-primary"
+							aria-label={`Open artifact version ${version ?? "None"} (${artifactVersionId})`}
+							aria-haspopup="dialog"
+							title={`Open artifact version ${version ?? "None"} (${artifactVersionId})`}
+						>
+							<Badge color={version ? "light-purple" : "light-grey"} rounded={false}>
+								{version || "None"}
+							</Badge>
+						</button>
 					</div>
 				) : (
 					<Skeleton className="h-6 w-7" />
