@@ -20,9 +20,7 @@ export function InlineAvatar({ username, isServiceAccount, avatarUrl, className,
 				isServiceAccount={isServiceAccount}
 				avatarUrl={avatarUrl}
 			/>
-			<div className="grid grid-cols-1">
-				<p className="truncate text-text-sm font-semibold text-theme-text-primary">{username}</p>
-			</div>
+			<p className="truncate text-text-sm font-semibold text-theme-text-primary">{username}</p>
 			{isServiceAccount && <BotBadge />}
 		</div>
 	);
