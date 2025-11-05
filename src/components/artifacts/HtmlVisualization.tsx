@@ -8,6 +8,8 @@ export function HTMLVisualization({ content }: Props) {
 		const iframe = iframeRef.current;
 		if (!iframe) return;
 
+		let resizeObserver: ResizeObserver | null = null;
+
 		const adjustHeight = () => {
 			if (iframe.contentWindow) {
 				const contentHeight = iframe.contentWindow.document.documentElement.scrollHeight;
@@ -16,11 +18,16 @@ export function HTMLVisualization({ content }: Props) {
 		};
 
 		const handleLoad = () => {
+			// Disconnect previous observer if it exists
+			if (resizeObserver) {
+				resizeObserver.disconnect();
+			}
+
 			const iframeDoc = iframe.contentWindow?.document.documentElement;
 			if (!iframeDoc) return;
 
 			// ResizeObserver watches for any size changes in the iframe content
-			const resizeObserver = new ResizeObserver(() => {
+			resizeObserver = new ResizeObserver(() => {
 				adjustHeight();
 			});
 
@@ -28,15 +35,15 @@ export function HTMLVisualization({ content }: Props) {
 
 			// Initial height adjustment
 			adjustHeight();
-
-			// Cleanup function
-			return () => resizeObserver.disconnect();
 		};
 
 		iframe.addEventListener("load", handleLoad);
 
 		return () => {
 			iframe.removeEventListener("load", handleLoad);
+			if (resizeObserver) {
+				resizeObserver.disconnect();
+			}
 		};
 	}, []);
 
