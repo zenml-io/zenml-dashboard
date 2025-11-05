@@ -17,11 +17,7 @@ import { useNewAnnouncementHighlights } from "./use-new-highlights";
 
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
-	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data).sort(
-		(a, b) => {
-			return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
-		}
-	);
+	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data);
 	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 

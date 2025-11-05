@@ -9,7 +9,7 @@ export const announcementSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	description_md: z.string(),
-	feature_image_url: z.string().url().optional(),
+	feature_image_url: z.string().optional(),
 	learn_more_url: z.string().url().optional(),
 	published: z.boolean(),
 	published_at: z.string().datetime(),

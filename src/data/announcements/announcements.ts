@@ -9,8 +9,14 @@ async function fetchAnnouncements() {
 	}
 	const data = await response.json();
 	const parsedData = announcementsSchema.safeParse(data);
-	if (!parsedData.success) throw new Error("Failed to parse Changelogs");
-	return parsedData.data;
+	if (!parsedData.success) {
+		console.error(parsedData.error);
+		throw new Error("Failed to parse Changelogs");
+	}
+	const sortedData = parsedData.data.sort((a, b) => {
+		return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+	});
+	return sortedData;
 }
 
 export function useAnnouncements(
