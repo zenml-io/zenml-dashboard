@@ -25,7 +25,11 @@ export const ResizableSheetContent = forwardRef<
 					<SheetClose className="absolute inset-0 hover:cursor-default" />
 				</Panel>
 				<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
-				<Panel className="!overflow-y-auto bg-theme-surface-primary" minSize={25} defaultSize={50}>
+				<Panel
+					className="!overflow-y-auto bg-theme-surface-secondary"
+					minSize={25}
+					defaultSize={50}
+				>
 					{children}
 				</Panel>
 			</PanelGroup>

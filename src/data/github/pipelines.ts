@@ -4,7 +4,8 @@ import { z } from "zod";
 const githubPipelineOrderEntrySchema = z.object({
 	index: z.number(),
 	directory: z.string(),
-	name: z.string()
+	name: z.string(),
+	deployable: z.boolean()
 });
 
 const githubPipelinesOrderSchema = z.object({

@@ -29,6 +29,7 @@ type Props = {
 	isDone: boolean;
 	name: string;
 	displayName: string;
+	deployable: boolean;
 };
 
 export function GithubPipelineSheet({
@@ -38,7 +39,8 @@ export function GithubPipelineSheet({
 	open,
 	name,
 	displayName,
-	isDone
+	isDone,
+	deployable
 }: PropsWithChildren<Props>) {
 	return (
 		<Sheet open={open} onOpenChange={onOpenChange}>
@@ -69,6 +71,14 @@ export function GithubPipelineSheet({
 								<p className="mb-1 text-text-sm text-theme-text-secondary">Run the pipeline.</p>
 								<Codesnippet code={`python ${name}.py`} />
 							</div>
+							{deployable && (
+								<div>
+									<p className="mb-1 text-text-sm text-theme-text-secondary">
+										Deploy the pipeline.
+									</p>
+									<Codesnippet code={`zenml pipeline deploy ${name}.${name}`} />
+								</div>
+							)}
 							<HelpBox link="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline" />
 						</Box>
 					) : (
