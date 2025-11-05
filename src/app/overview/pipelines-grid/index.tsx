@@ -102,6 +102,7 @@ function PipelinesGrid({ pipelines }: Props) {
 						isDone={apiPipelines.some((p) => p.name === pipeline.directory)}
 						pipelineName={pipeline.directory}
 						displayName={pipeline.name}
+						deployable={pipeline.deployable ?? false}
 					/>
 				</li>
 			))}

@@ -54,17 +54,17 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			header: "Pipeline",
 			cell: ({ row }) => {
 				return (
-					<div className="group/copybutton flex items-center gap-2">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 						<PipelineIcon
-							className={`h-5 w-5 ${getExecutionStatusColor(row.original.resources?.latest_run_status)}`}
+							className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(row.original.resources?.latest_run_status)}`}
 						/>
 						<div>
 							<div className="flex items-center gap-1">
 								<Link
 									to={routes.projects.pipelines.detail.runs(row.original.id)}
-									className="flex items-center gap-1"
+									className="grid grid-cols-1 items-center gap-1"
 								>
-									<span className="text-text-md font-semibold text-theme-text-primary">
+									<span className="truncate text-text-md font-semibold text-theme-text-primary">
 										{row.original.name}
 									</span>
 								</Link>

@@ -52,7 +52,7 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 					const connectorType = row.original.body?.connector_type;
 
 					return (
-						<div className="group/copybutton flex items-center gap-2">
+						<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 							{!!connectorType && typeof connectorType !== "string" && (
 								<ConnectorTypeTooltip connectorType={connectorType} />
 							)}
@@ -60,9 +60,9 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 								<div className="flex items-center gap-1">
 									<Link
 										to={routes.settings.connectors.detail.configuration(id)}
-										className="block max-w-[200px] truncate text-text-md font-semibold"
+										className="block grid max-w-[200px] grid-cols-1 text-text-md font-semibold"
 									>
-										{name}
+										<span className="truncate">{name}</span>
 									</Link>
 									<CopyButton copyText={name} />
 								</div>

@@ -12,9 +12,10 @@ type Props = {
 	displayName: string;
 	pipelineName: string;
 	isDone: boolean;
+	deployable: boolean;
 };
 
-export function PipelineItem({ displayName, pipelineName, isDone }: Props) {
+export function PipelineItem({ displayName, pipelineName, isDone, deployable }: Props) {
 	const [open, setOpen] = useState(false);
 	const content = useGithubPipelineContent(pipelineName, {
 		refetchOnWindowFocus: false,
@@ -36,6 +37,7 @@ export function PipelineItem({ displayName, pipelineName, isDone }: Props) {
 			pipelineContent={content.data}
 			open={open}
 			onOpenChange={setOpen}
+			deployable={deployable}
 		>
 			<Box className="space-y-5 p-5 text-start transition-shadow duration-200 hover:shadow-sm">
 				{isDone ? <Tick /> : <ProgressOutstanding />}

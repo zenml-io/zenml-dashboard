@@ -15,13 +15,13 @@ export function getStackColumnsPanel(): ColumnDef<Stack>[] {
 			cell: ({ row }) => {
 				const { name, id } = row.original;
 				return (
-					<div className="group/copybutton flex items-center gap-2">
-						<Avatar type="square" size="md">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
+						<Avatar type="square" size="md" className="shrink-0">
 							<AvatarFallback size="md">{name[0]}</AvatarFallback>
 						</Avatar>
 						<div>
-							<div className="flex items-center gap-1">
-								<h2 className="text-text-md font-semibold">{name}</h2>
+							<div className="grid grid-cols-1 items-center gap-1">
+								<h2 className="truncate text-text-md font-semibold">{name}</h2>
 							</div>
 							<div className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
