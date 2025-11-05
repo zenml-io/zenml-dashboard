@@ -14,9 +14,11 @@ import { announcementStore } from "../persist-announcement";
 import { AnnouncementImage } from "../announcement-image";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
+import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
+	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
 	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data);
 	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
@@ -84,7 +86,12 @@ export function AnnouncementHighlight() {
 				<div className="flex items-center justify-end gap-2 p-5">
 					{currentItem.learn_more_url && (
 						<Button size="md" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
-							<a href={currentItem.learn_more_url} target="_blank" rel="noopener noreferrer">
+							<a
+								onClick={() => trackAnnouncementItemClicked(currentItem.slug)}
+								href={currentItem.learn_more_url}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<ExternalLink className="size-4 shrink-0 fill-inherit" />
 								<span>Learn more</span>
 							</a>

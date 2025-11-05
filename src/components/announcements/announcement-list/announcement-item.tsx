@@ -3,10 +3,12 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { Announcement } from "@/data/announcements/announcement-schema";
 import { Button } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
-import { AnnouncementLabel } from "../announcement-label";
 import { AnnouncementImage } from "../announcement-image";
+import { AnnouncementLabel } from "../announcement-label";
+import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 
 export function AnnouncementItem({ item }: { item: Announcement }) {
+	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
 	return (
 		<div className="space-y-3">
 			<AnnouncementImage
@@ -30,7 +32,12 @@ export function AnnouncementItem({ item }: { item: Announcement }) {
 			{item.description_md && <Markdown className="prose">{item.description_md}</Markdown>}
 			{item.learn_more_url && (
 				<Button size="sm" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
-					<a href={item.learn_more_url} target="_blank" rel="noopener noreferrer">
+					<a
+						onClick={() => trackAnnouncementItemClicked(item.slug)}
+						href={item.learn_more_url}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
 						<ExternalLink className="size-3 shrink-0 fill-inherit" />
 						<span>Learn more</span>
 					</a>
