@@ -62,7 +62,7 @@ function StackHeadline({ stackId }: Props) {
 		);
 
 	return (
-		<div className="flex items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
+		<div className="flex min-w-[10rem] items-center justify-between border-b border-theme-border-moderate bg-theme-surface-primary p-5">
 			<div className="flex items-center space-x-2">
 				<Avatar type="square" size="lg" className="shrink-0">
 					<AvatarFallback size="lg">{stack.data.name[0]}</AvatarFallback>

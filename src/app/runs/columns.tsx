@@ -62,7 +62,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 				status: ExecutionStatus;
 			}>();
 			return (
-				<div className="group/copybutton flex items-center gap-2">
+				<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 					<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 					<div>
 						<div className="flex items-center gap-1">

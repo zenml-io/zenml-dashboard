@@ -53,7 +53,7 @@ export function createSnapshotNameColumn(): ColumnDef<PipelineSnapshot> {
 			const name = row.original.name;
 			const id = row.original.id;
 			return (
-				<div className="group/copybutton flex items-center gap-2">
+				<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 					<SnapshotIcon className={`h-5 w-5 shrink-0 fill-primary-400`} />
 					<div>
 						<div className="flex items-center gap-1">

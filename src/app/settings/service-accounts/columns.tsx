@@ -41,7 +41,7 @@ export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 			accessorFn: (row) => row.name,
 			cell: ({ row }) => {
 				return (
-					<div className="flex items-center space-x-2">
+					<div className="flex min-w-[10rem] items-center space-x-2">
 						<ServiceAccountAvatar
 							className="shrink-0 rounded-sm"
 							size="sm"

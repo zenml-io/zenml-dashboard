@@ -47,7 +47,7 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 				const id = row.original.id;
 				const name = row.original.name;
 				return (
-					<div className="group/copybutton flex items-center gap-2">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 						<img
 							width={32}
 							height={32}

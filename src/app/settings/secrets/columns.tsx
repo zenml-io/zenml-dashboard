@@ -19,7 +19,7 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 			const code = getSecretSnippet(row.original.name);
 
 			return (
-				<div className="flex items-center space-x-2">
+				<div className="flex min-w-[10rem] items-center space-x-2">
 					<LockIcon className="h-5 w-5 shrink-0 fill-primary-400" />
 					<div className="group/copybutton flex flex-col">
 						<div className="flex flex-row items-center space-x-1">

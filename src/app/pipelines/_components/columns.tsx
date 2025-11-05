@@ -54,7 +54,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			header: "Pipeline",
 			cell: ({ row }) => {
 				return (
-					<div className="group/copybutton flex items-center gap-2">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 						<PipelineIcon
 							className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(row.original.resources?.latest_run_status)}`}
 						/>
