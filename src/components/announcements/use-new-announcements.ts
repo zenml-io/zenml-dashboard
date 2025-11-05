@@ -1,14 +1,22 @@
 import { Announcements } from "@/data/announcements/announcement-schema";
-import { AnnouncementKey } from "./persist-announcement";
+import { AnnouncementKey, announcementStore } from "./persist-announcement";
 import { useAnnouncementLastSeen } from "./use-last-seen";
 
 export function useNewAnnouncements(
 	key: AnnouncementKey,
-	announcements: Announcements | undefined
+	announcements: Announcements | undefined,
+	setDate: boolean
 ) {
 	const lastSeenTimestamp = useAnnouncementLastSeen(key);
 
 	if (!announcements) return [];
+
+	if (lastSeenTimestamp === null) {
+		if (setDate) {
+			announcementStore.setAnnouncementLastSeen(key);
+			return [];
+		}
+	}
 
 	const publishedItems = announcements.filter((item) => item.published);
 
@@ -18,6 +26,5 @@ export function useNewAnnouncements(
 	const newPublishedItems = publishedItems.filter(
 		(item) => new Date(item.published_at).getTime() >= (lastSeenTimestamp ?? thirtyDaysAgo)
 	);
-
 	return newPublishedItems;
 }

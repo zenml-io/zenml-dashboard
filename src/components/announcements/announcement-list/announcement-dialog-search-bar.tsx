@@ -8,7 +8,7 @@ type Props = {
 
 export function AnnouncementDialogSearchBar({ searchQuery, setSearchQuery }: Props) {
 	return (
-		<div className="px-5 py-3">
+		<div className="px-5 py-2">
 			<div className="relative">
 				<DebouncedInput
 					value={searchQuery}

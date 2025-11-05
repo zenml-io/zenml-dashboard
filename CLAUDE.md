@@ -58,7 +58,6 @@ Required environment variables (see `.env.example`):
 ```bash
 VITE_API_BASE_URL=http://localhost:8080/api/v1  # ZenML Server API endpoint
 VITE_FRONTEND_VERSION=v0.17.0                   # Optional: UI version number
-VITE_FEATURE_OS_KEY=<key>                       # Optional: Feature flag service key
 VITE_REO_KEY=<key>                              # Optional: Reo analytics key
 ```
 

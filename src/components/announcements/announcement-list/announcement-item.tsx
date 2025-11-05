@@ -1,33 +1,19 @@
 import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
 import { Announcement } from "@/data/announcements/announcement-schema";
-import { Button, Tag } from "@zenml-io/react-component-library";
+import { Button } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
 import { AnnouncementLabel } from "../announcement-label";
-import { AnnouncementImagePlaceholder } from "../placeholder";
-import { useAnnouncementLastSeen } from "../use-last-seen";
+import { AnnouncementImage } from "../announcement-image";
 
 export function AnnouncementItem({ item }: { item: Announcement }) {
-	const lastSeenTimestamp = useAnnouncementLastSeen("lastSeen");
-
-	const isNew =
-		lastSeenTimestamp !== null && new Date(item.published_at).getTime() > lastSeenTimestamp;
-
 	return (
 		<div className="space-y-3">
-			<AnnouncementImagePlaceholder>
-				{isNew && (
-					<Tag
-						className="absolute right-2 top-2"
-						color="red"
-						size="xs"
-						rounded={false}
-						emphasis="bold"
-					>
-						New
-					</Tag>
-				)}
-			</AnnouncementImagePlaceholder>
+			<AnnouncementImage
+				className="rounded-md"
+				title={item.title}
+				imageUrl={item.feature_image_url}
+			/>
 			<div className="text-text-sm font-semibold text-theme-text-brand">
 				<DisplayDate short justDate dateString={item.published_at} />
 			</div>

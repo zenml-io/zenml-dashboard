@@ -11,13 +11,17 @@ import {
 import { useEffect, useState } from "react";
 import { AnnouncementLabel } from "../announcement-label";
 import { announcementStore } from "../persist-announcement";
-import { AnnouncementImagePlaceholder } from "../placeholder";
+import { AnnouncementImage } from "../announcement-image";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
 
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
-	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data);
+	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data).sort(
+		(a, b) => {
+			return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+		}
+	);
 	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 
@@ -52,8 +56,8 @@ export function AnnouncementHighlight() {
 
 	return (
 		<Dialog open={open} onOpenChange={handleChange}>
-			<DialogContent className="flex max-w-[600px] flex-col">
-				<AnnouncementImagePlaceholder />
+			<DialogContent className="flex max-w-[600px] flex-col overflow-hidden">
+				<AnnouncementImage title={currentItem.title} imageUrl={currentItem.feature_image_url} />
 				<div className="space-y-5 p-5">
 					<AnnouncementHighlightPageIndicator
 						currentPage={currentPage}

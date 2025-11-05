@@ -14,3 +14,9 @@ export function generateNumberFromSalt(salt: string): number {
 	const hash = hashString(salt);
 	return (hash % 49) + 1;
 }
+
+export function generateProjectImageUrl(projectName: string): string {
+	return `https://public-flavor-logos.s3.eu-central-1.amazonaws.com/projects/${generateNumberFromSalt(
+		projectName
+	)}.jpg`;
+}

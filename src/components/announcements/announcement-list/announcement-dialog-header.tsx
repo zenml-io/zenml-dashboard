@@ -17,7 +17,7 @@ export function AnnouncementDialogHeader({ searchOpen, toggleSearch }: Props) {
 					data-state={searchOpen ? "on" : "off"}
 					aria-pressed={searchOpen}
 					intent="secondary"
-					className="flex aspect-square size-6 items-center justify-center p-0"
+					className="flex aspect-square size-6 items-center justify-center p-0 data-[state=on]:bg-neutral-200"
 					emphasis="minimal"
 					size="md"
 				>

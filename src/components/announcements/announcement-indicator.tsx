@@ -8,7 +8,7 @@ type Props = {
 
 export function AnnouncementIndicator({ className }: Props) {
 	const announcementsQuery = useAnnouncements();
-	const newPublishedItems = useNewAnnouncements("lastSeen", announcementsQuery.data);
+	const newPublishedItems = useNewAnnouncements("lastSeen", announcementsQuery.data, false);
 
 	const hasNewAnnouncements = newPublishedItems.length > 0;
 
