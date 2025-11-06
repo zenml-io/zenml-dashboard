@@ -79,7 +79,7 @@ export function AnnouncementHighlight() {
 						</div>
 						<Markdown
 							className="prose text-theme-text-secondary"
-							markdown={currentItem.description_md}
+							markdown={currentItem.description}
 						/>
 					</div>
 				</div>

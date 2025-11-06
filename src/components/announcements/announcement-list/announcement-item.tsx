@@ -29,7 +29,7 @@ export function AnnouncementItem({ item }: { item: Announcement }) {
 					))}
 				</ul>
 			</div>
-			{item.description_md && <Markdown className="prose">{item.description_md}</Markdown>}
+			{item.description && <Markdown className="prose">{item.description}</Markdown>}
 			{item.learn_more_url && (
 				<Button size="sm" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
 					<a
