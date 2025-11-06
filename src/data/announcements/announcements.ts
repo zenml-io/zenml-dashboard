@@ -14,7 +14,7 @@ async function fetchAnnouncements() {
 		throw new Error("Failed to parse Changelogs");
 	}
 	const sortedData = parsedData.data
-		.filter((item) => !item.is_pro_only)
+		.filter((item) => item.audience !== "pro")
 		.filter((item) => item.published === true)
 		.sort((a, b) => {
 			return new Date(b.published_at).getTime() - new Date(a.published_at).getTime();

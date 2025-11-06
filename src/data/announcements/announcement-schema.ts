@@ -10,14 +10,16 @@ export const announcementSchema = z.object({
 	description: z.string(),
 	feature_image_url: z.string().optional(),
 	learn_more_url: z.string().url().optional(),
-	published: z.boolean(),
+	published: z.boolean().default(true),
 	published_at: z.string().datetime(),
 	highlight_until: z.string().datetime().optional(),
-	should_highlight: z.boolean(),
+	should_highlight: z.boolean().optional().default(false),
 	video_url: z.string().optional(),
-	is_pro_only: z.boolean().optional().default(false),
+	audience: z.enum(["pro", "oss", "all"]).optional().default("all"),
 	labels: z
 		.array(z.string())
+		.optional()
+		.default([])
 		.transform((labels) =>
 			labels.filter((label): label is LabelValue =>
 				ALLOWED_LABEL_VALUES.includes(label as LabelValue)

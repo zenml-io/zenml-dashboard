@@ -11,7 +11,7 @@
 		"should_highlight": true,
 		"highlight_until": "2025-11-10T09:00:00Z",
 		"video_url": "https://www.youtube-nocookie.com/embed/wEVwIkDvUPs",
-		"is_pro_only": false,
+		"audience": "all",
 		"labels": ["feature", "bugfix"]
 	},
 	{
@@ -23,7 +23,7 @@
 		"published": true,
 		"published_at": "2025-10-22T12:00:00Z",
 		"should_highlight": true,
-		"is_pro_only": false,
+		"audience": "all",
 		"labels": ["improvement"]
 	},
 	{
@@ -36,7 +36,7 @@
 		"published": true,
 		"published_at": "2025-08-15T14:30:00Z",
 		"should_highlight": false,
-		"is_pro_only": true,
+		"audience": "pro",
 		"labels": ["feature"]
 	},
 	{
@@ -48,7 +48,7 @@
 		"published": true,
 		"published_at": "2025-07-05T08:00:00Z",
 		"should_highlight": false,
-		"is_pro_only": false,
+		"audience": "all",
 		"labels": ["feature"]
 	},
 	{
@@ -61,7 +61,7 @@
 		"published": true,
 		"published_at": "2025-06-10T10:00:00Z",
 		"should_highlight": false,
-		"is_pro_only": false,
+		"audience": "oss",
 		"labels": ["deprecation"]
 	},
 	{
@@ -74,7 +74,7 @@
 		"published": true,
 		"published_at": "2025-05-20T14:00:00Z",
 		"should_highlight": false,
-		"is_pro_only": false,
+		"audience": "all",
 		"labels": ["bugfix"]
 	}
 ]
