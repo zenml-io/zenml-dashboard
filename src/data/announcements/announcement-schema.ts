@@ -12,6 +12,7 @@ export const announcementSchema = z.object({
 	learn_more_url: z.string().url().optional(),
 	published: z.boolean(),
 	published_at: z.string().datetime(),
+	highlight_until: z.string().datetime().optional(),
 	should_highlight: z.boolean(),
 	video_url: z.string().optional(),
 	is_pro_only: z.boolean().optional().default(false),

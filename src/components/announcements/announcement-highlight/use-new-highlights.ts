@@ -6,5 +6,17 @@ export function useNewAnnouncementHighlights(announcements: Announcements | unde
 
 	if (!announcements) return [];
 
-	return newPublishedItems.filter((item) => item.should_highlight);
+	const currentTime = new Date();
+
+	return newPublishedItems.filter((item) => {
+		if (!item.should_highlight) return false;
+
+		// If highlight_until is set, check if we're still within the highlight period
+		if (item.highlight_until) {
+			const highlightUntil = new Date(item.highlight_until);
+			return currentTime < highlightUntil;
+		}
+
+		return true;
+	});
 }

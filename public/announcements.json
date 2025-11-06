@@ -9,6 +9,7 @@
 		"published": true,
 		"published_at": "2025-10-23T09:00:00Z",
 		"should_highlight": true,
+		"highlight_until": "2025-11-10T09:00:00Z",
 		"video_url": "https://www.youtube-nocookie.com/embed/wEVwIkDvUPs",
 		"is_pro_only": false,
 		"labels": ["feature", "bugfix"]
