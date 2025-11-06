@@ -18,12 +18,10 @@ export function useNewAnnouncements(
 		}
 	}
 
-	const publishedItems = announcements.filter((item) => item.published);
-
 	// If lastSeenTimestamp is null, use 30 days ago as the fallback
 	const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
-	const newPublishedItems = publishedItems.filter(
+	const newPublishedItems = announcements.filter(
 		(item) => new Date(item.published_at).getTime() >= (lastSeenTimestamp ?? thirtyDaysAgo)
 	);
 	return newPublishedItems;

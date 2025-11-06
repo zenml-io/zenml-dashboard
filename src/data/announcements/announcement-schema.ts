@@ -13,6 +13,7 @@ export const announcementSchema = z.object({
 	published: z.boolean(),
 	published_at: z.string().datetime(),
 	should_highlight: z.boolean(),
+	is_pro_only: z.boolean().optional().default(false),
 	labels: z
 		.array(z.string())
 		.transform((labels) =>

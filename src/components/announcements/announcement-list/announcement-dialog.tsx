@@ -16,8 +16,7 @@ export function AnnouncementDialog({ open, setOpen }: Props) {
 	const announcementsQuery = useAnnouncements();
 
 	const publishedItems = useMemo(
-		() =>
-			announcementsQuery.isSuccess ? announcementsQuery.data.filter((item) => item.published) : [],
+		() => (announcementsQuery.isSuccess ? announcementsQuery.data : []),
 		[announcementsQuery.isSuccess, announcementsQuery.data]
 	);
 
