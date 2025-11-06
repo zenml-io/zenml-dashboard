@@ -3,19 +3,24 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { Announcement } from "@/data/announcements/announcement-schema";
 import { Button } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
-import { AnnouncementImage } from "../announcement-image";
 import { AnnouncementLabel } from "../announcement-label";
+import { AnnouncementVideo } from "../announcement-video";
 import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
+import { AnnouncementImage } from "../announcement-image";
 
 export function AnnouncementItem({ item }: { item: Announcement }) {
 	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
 	return (
 		<div className="space-y-3">
-			<AnnouncementImage
-				className="rounded-md"
-				title={item.title}
-				imageUrl={item.feature_image_url}
-			/>
+			{item.video_url ? (
+				<AnnouncementVideo className="rounded-md" videoUrl={item.video_url} />
+			) : (
+				<AnnouncementImage
+					className="rounded-md"
+					title={item.title}
+					imageUrl={item.feature_image_url}
+				/>
+			)}
 			<div className="text-text-sm font-semibold text-theme-text-brand">
 				<DisplayDate short justDate dateString={item.published_at} />
 			</div>

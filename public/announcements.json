@@ -9,6 +9,7 @@
 		"published": true,
 		"published_at": "2025-10-23T09:00:00Z",
 		"should_highlight": true,
+		"video_url": "https://www.youtube-nocookie.com/embed/wEVwIkDvUPs",
 		"is_pro_only": false,
 		"labels": ["feature", "bugfix"]
 	},
@@ -19,7 +20,7 @@
 		"description": "We've optimized **data fetching** and rendering — your dashboard now loads **twice as fast!**",
 		"learn_more_url": "https://docs.zenml.io/performance-improvements",
 		"published": true,
-		"published_at": "2025-10-25T12:00:00Z",
+		"published_at": "2025-10-22T12:00:00Z",
 		"should_highlight": true,
 		"is_pro_only": false,
 		"labels": ["improvement"]

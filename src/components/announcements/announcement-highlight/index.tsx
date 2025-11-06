@@ -9,12 +9,13 @@ import {
 	DialogTitle
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
-import { AnnouncementLabel } from "../announcement-label";
-import { announcementStore } from "../persist-announcement";
 import { AnnouncementImage } from "../announcement-image";
+import { AnnouncementLabel } from "../announcement-label";
+import { AnnouncementVideo } from "../announcement-video";
+import { announcementStore } from "../persist-announcement";
+import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
-import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
@@ -55,7 +56,11 @@ export function AnnouncementHighlight() {
 	return (
 		<Dialog open={open} onOpenChange={handleChange}>
 			<DialogContent className="flex max-w-[600px] flex-col overflow-hidden">
-				<AnnouncementImage title={currentItem.title} imageUrl={currentItem.feature_image_url} />
+				{currentItem.video_url ? (
+					<AnnouncementVideo videoUrl={currentItem.video_url} />
+				) : (
+					<AnnouncementImage title={currentItem.title} imageUrl={currentItem.feature_image_url} />
+				)}
 				<div className="space-y-5 p-5">
 					<AnnouncementHighlightPageIndicator
 						currentPage={currentPage}
