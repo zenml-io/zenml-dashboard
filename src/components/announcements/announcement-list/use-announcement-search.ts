@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from "react";
-import { Announcement } from "@/data/announcements/announcement-schema";
+import { Announcement } from "@/types/announcements";
 import { getFilteredAnnouncements } from "./get-filtered-items";
 
 export type UseAnnouncementSearchReturn = {

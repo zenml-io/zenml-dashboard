@@ -1,4 +1,4 @@
-import { AnnouncementList } from "@/data/announcements/announcement-schema";
+import { AnnouncementList } from "@/types/announcements";
 import { useNewAnnouncements } from "../use-new-announcements";
 
 export function useNewAnnouncementHighlights(announcements: AnnouncementList | undefined) {

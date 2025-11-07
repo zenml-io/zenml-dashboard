@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { AnnouncementList } from "@/data/announcements/announcement-schema";
+import { AnnouncementList } from "@/types/announcements";
 import { AnnouncementKey, announcementStore } from "./persist-announcement";
 import { useAnnouncementLastSeen } from "./use-last-seen";
 

@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { AnnouncementList, announcementListSchema } from "./announcement-schema";
+import { AnnouncementList, announcementListSchema } from "../../types/announcements";
 
 async function fetchAnnouncements() {
 	const url = "/announcements.json";
