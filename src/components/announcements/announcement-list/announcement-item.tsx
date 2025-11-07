@@ -1,15 +1,12 @@
-import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
 import { Announcement } from "@/types/announcements";
-import { Button } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
-import { AnnouncementLabel } from "../announcement-label";
-import { AnnouncementVideo } from "../announcement-video";
-import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 import { AnnouncementImage } from "../announcement-image";
+import { AnnouncementLabel } from "../announcement-label";
+import { AnnouncementLinks } from "../announcement-links";
+import { AnnouncementVideo } from "../announcement-video";
 
 export function AnnouncementItem({ item }: { item: Announcement }) {
-	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
 	return (
 		<div className="space-y-3">
 			{item.video_url ? (
@@ -35,18 +32,13 @@ export function AnnouncementItem({ item }: { item: Announcement }) {
 				</ul>
 			</div>
 			{item.description && <Markdown className="prose">{item.description}</Markdown>}
-			{item.learn_more_url && (
-				<Button size="sm" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
-					<a
-						onClick={() => trackAnnouncementItemClicked(item.slug)}
-						href={item.learn_more_url}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<ExternalLink className="size-3 shrink-0 fill-inherit" />
-						<span>Learn more</span>
-					</a>
-				</Button>
+			{(item.learn_more_url || item.docs_url) && (
+				<AnnouncementLinks
+					docs_url={item.docs_url}
+					learn_more_url={item.learn_more_url}
+					slug={item.slug}
+					size="sm"
+				/>
 			)}
 		</div>
 	);

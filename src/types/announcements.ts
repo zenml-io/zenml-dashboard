@@ -10,6 +10,7 @@ export const announcementSchema = z.object({
 	description: z.string(),
 	feature_image_url: z.string().optional(),
 	learn_more_url: z.string().url().optional(),
+	docs_url: z.string().url().optional(),
 	published: z.boolean().default(true),
 	published_at: z.string().datetime(),
 	highlight_until: z.string().datetime().optional(),

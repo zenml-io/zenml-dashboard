@@ -1,4 +1,3 @@
-import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { Markdown } from "@/components/Markdown";
 import { useAnnouncements } from "@/data/announcements/announcements";
 import {
@@ -11,15 +10,14 @@ import {
 import { useEffect, useState } from "react";
 import { AnnouncementImage } from "../announcement-image";
 import { AnnouncementLabel } from "../announcement-label";
+import { AnnouncementLinks } from "../announcement-links";
 import { AnnouncementVideo } from "../announcement-video";
 import { announcementStore } from "../persist-announcement";
-import { useAnnouncementItemClickedAnalytics } from "../use-announcement-item-analytics";
 import { AnnouncementHighlightPageIndicator } from "./page-indicator";
 import { useNewAnnouncementHighlights } from "./use-new-highlights";
 
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
-	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
 	const newFeatureHighlights = [...useNewAnnouncementHighlights(announcementsQuery.data)].reverse();
 	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
@@ -89,18 +87,13 @@ export function AnnouncementHighlight() {
 					</div>
 				</div>
 				<div className="flex items-center justify-end gap-2 p-5">
-					{currentItem.learn_more_url && (
-						<Button size="md" emphasis="subtle" className="inline-flex" intent="secondary" asChild>
-							<a
-								onClick={() => trackAnnouncementItemClicked(currentItem.slug)}
-								href={currentItem.learn_more_url}
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<ExternalLink className="size-4 shrink-0 fill-inherit" />
-								<span>Learn more</span>
-							</a>
-						</Button>
+					{(currentItem.learn_more_url || currentItem.docs_url) && (
+						<AnnouncementLinks
+							docs_url={currentItem.docs_url}
+							learn_more_url={currentItem.learn_more_url}
+							slug={currentItem.slug}
+							size="md"
+						/>
 					)}
 					<Button size="md" onClick={handleNext}>
 						{isLastPage ? "Got it" : "Next"}
