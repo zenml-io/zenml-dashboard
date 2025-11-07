@@ -1,10 +1,10 @@
-import { Announcements } from "@/data/announcements/announcement-schema";
+import { AnnouncementList } from "@/data/announcements/announcement-schema";
 import { AnnouncementKey, announcementStore } from "./persist-announcement";
 import { useAnnouncementLastSeen } from "./use-last-seen";
 
 export function useNewAnnouncements(
 	key: AnnouncementKey,
-	announcements: Announcements | undefined,
+	announcements: AnnouncementList | undefined,
 	setDate: boolean
 ) {
 	const lastSeenTimestamp = useAnnouncementLastSeen(key);

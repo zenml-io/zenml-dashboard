@@ -1,7 +1,7 @@
 import { ALLOWED_LABEL_VALUES, LabelValue } from "@/components/announcements/label-utils";
 import { z } from "zod";
 
-const announcementLabelSchema = z.enum(ALLOWED_LABEL_VALUES);
+const labelSchema = z.enum(ALLOWED_LABEL_VALUES);
 
 export const announcementSchema = z.object({
 	id: z.number(),
@@ -27,8 +27,8 @@ export const announcementSchema = z.object({
 		)
 });
 
-export const announcementsSchema = z.array(announcementSchema);
+export const announcementListSchema = z.array(announcementSchema);
 
+export type AnnouncementLabel = z.infer<typeof labelSchema>;
 export type Announcement = z.infer<typeof announcementSchema>;
-export type AnnouncementLabel = z.infer<typeof announcementLabelSchema>;
-export type Announcements = z.infer<typeof announcementsSchema>;
+export type AnnouncementList = z.infer<typeof announcementListSchema>;

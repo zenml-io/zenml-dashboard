@@ -1,5 +1,5 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
-import { Announcements, announcementsSchema } from "./announcement-schema";
+import { AnnouncementList, announcementListSchema } from "./announcement-schema";
 
 async function fetchAnnouncements() {
 	const url = "/announcements.json";
@@ -8,7 +8,7 @@ async function fetchAnnouncements() {
 		throw new Error("Failed to fetch announcements");
 	}
 	const data = await response.json();
-	const parsedData = announcementsSchema.safeParse(data);
+	const parsedData = announcementListSchema.safeParse(data);
 	if (!parsedData.success) {
 		console.error(parsedData.error);
 		throw new Error("Failed to parse Changelogs");
@@ -23,9 +23,9 @@ async function fetchAnnouncements() {
 }
 
 export function useAnnouncements(
-	options?: Omit<UseQueryOptions<Announcements>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<AnnouncementList>, "queryKey" | "queryFn">
 ) {
-	return useQuery<Announcements>({
+	return useQuery<AnnouncementList>({
 		queryKey: ["announcements"],
 		queryFn: async () => fetchAnnouncements(),
 		...options
