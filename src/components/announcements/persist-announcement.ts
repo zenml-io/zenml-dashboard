@@ -35,6 +35,10 @@ function setAnnouncementLastSeen(key: AnnouncementKey): void {
 	localStorage.setItem(ANNOUNCEMENT_KEYS[key], JSON.stringify(timestamp));
 }
 
+function setAnnouncementLastSeenTimestamp(key: AnnouncementKey, timestamp: number): void {
+	localStorage.setItem(ANNOUNCEMENT_KEYS[key], JSON.stringify(timestamp));
+}
+
 function removeAnnouncementLastSeen(key: AnnouncementKey): void {
 	localStorage.removeItem(ANNOUNCEMENT_KEYS[key]);
 }
@@ -45,6 +49,10 @@ export const announcementStore = {
 	},
 	setAnnouncementLastSeen: (key: AnnouncementKey) => {
 		setAnnouncementLastSeen(key);
+		emitChange();
+	},
+	setAnnouncementLastSeenTimestamp: (key: AnnouncementKey, timestamp: number) => {
+		setAnnouncementLastSeenTimestamp(key, timestamp);
 		emitChange();
 	},
 	removeAnnouncementLastSeen: (key: AnnouncementKey) => {
