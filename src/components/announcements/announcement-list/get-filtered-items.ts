@@ -1,4 +1,4 @@
-import { Announcement } from "@/data/announcements/announcement-schema";
+import { Announcement } from "@/types/announcements";
 
 type getFilteredAnnouncementsParams = {
 	announcements: Announcement[];

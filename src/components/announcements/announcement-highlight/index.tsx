@@ -20,7 +20,7 @@ import { useNewAnnouncementHighlights } from "./use-new-highlights";
 export function AnnouncementHighlight() {
 	const announcementsQuery = useAnnouncements();
 	const { trackAnnouncementItemClicked } = useAnnouncementItemClickedAnalytics();
-	const newFeatureHighlights = useNewAnnouncementHighlights(announcementsQuery.data);
+	const newFeatureHighlights = [...useNewAnnouncementHighlights(announcementsQuery.data)].reverse();
 	const [open, setOpen] = useState(false);
 	const [currentPage, setCurrentPage] = useState(0);
 

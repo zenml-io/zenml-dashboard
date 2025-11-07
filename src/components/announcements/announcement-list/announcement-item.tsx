@@ -1,6 +1,6 @@
 import ExternalLink from "@/assets/icons/link-external.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
-import { Announcement } from "@/data/announcements/announcement-schema";
+import { Announcement } from "@/types/announcements";
 import { Button } from "@zenml-io/react-component-library";
 import Markdown from "react-markdown";
 import { AnnouncementLabel } from "../announcement-label";
