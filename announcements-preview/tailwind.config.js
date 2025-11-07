@@ -1,7 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-undef */
 import { zenmlPreset } from "@zenml-io/react-component-library/tailwind";
 import defaultTheme from "tailwindcss/defaultTheme";
+import forms from "@tailwindcss/forms";
+import animate from "tailwindcss-animate";
+import typography from "@tailwindcss/typography";
+import containerQueries from "@tailwindcss/container-queries";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -19,12 +21,12 @@ export default {
 		}
 	},
 	plugins: [
-		require("@tailwindcss/forms")({
+		forms({
 			strategy: "class"
 		}),
-		require("tailwindcss-animate"),
-		require("@tailwindcss/typography"),
-		require("@tailwindcss/container-queries")
+		animate,
+		typography,
+		containerQueries
 	],
 	presets: [zenmlPreset]
 };

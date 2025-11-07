@@ -3,6 +3,7 @@ import { EditorPanel } from "./components/EditorPanel";
 import { PreviewPanel } from "./components/PreviewPanel";
 import { ValidationErrors } from "./components/ValidationErrors";
 import { validateAnnouncements } from "./lib/validation";
+import { Announcement } from "./lib/schema";
 import { ZodError } from "zod";
 import sampleAnnouncements from "./data/sample-announcements.json";
 
@@ -19,7 +20,7 @@ export function App() {
 		setError(err);
 	}, []);
 
-	let announcements: ReturnType<typeof validateAnnouncements>["data"] = [];
+	let announcements: Announcement[] = [];
 	if (isValid && json.trim()) {
 		try {
 			const parsed = JSON.parse(json);
