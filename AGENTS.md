@@ -27,8 +27,7 @@
 
 ## Scope Guardrails
 
-- **Personal API Keys (PATs) are Pro-only** and belong in the Cloud UI. Do **not** add PAT functionality to this OSS dashboard.
-- Focus on **workspace-level service accounts** for this repo.
+- **Workspace-level resources only:** This repo implements workspace-level service accounts. User-level API keys are out of scope.
 - **Icons:** Reuse existing icon components; **do not** import from `lucide-react` (AI tools default to this incorrectly).
 
 ## Common Implementation Patterns
