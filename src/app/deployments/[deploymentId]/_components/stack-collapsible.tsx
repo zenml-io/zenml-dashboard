@@ -1,12 +1,13 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
-import { StackInfo } from "@/components/stacks/info";
+import { EmptyState } from "@/components/EmptyState";
+import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { Deployment } from "@/types/deployments";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { AlertEmptyState } from "./common";
 import { DeploymentDetailWrapper } from "./fetch-wrapper";
 
 type DeploymentStackCollapsibleContentProps = {
@@ -14,15 +15,7 @@ type DeploymentStackCollapsibleContentProps = {
 };
 
 export function DeploymentStackCollapsible() {
-	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleWrapper} />;
-}
-
-function DeploymentStackCollapsibleWrapper({ deployment }: DeploymentStackCollapsibleContentProps) {
-	return (
-		<CollapsibleCard title="Stack" initialOpen={true}>
-			<DeploymentStackCollapsibleContent deployment={deployment} />
-		</CollapsibleCard>
-	);
+	return <DeploymentDetailWrapper Component={DeploymentStackCollapsibleContent} />;
 }
 
 function DeploymentStackCollapsibleContent({ deployment }: DeploymentStackCollapsibleContentProps) {
@@ -46,7 +39,7 @@ function DeploymentStackCollapsibleWithSnapshot({ snapshotId }: { snapshotId: st
 
 	if (snapshotQuery.isError) {
 		return (
-			<AlertEmptyState
+			<StackCollapsibleEmptyState
 				title="Unable to get Stack"
 				subtitle="Something went wrong fetching the deployment snapshot"
 			/>
@@ -77,8 +70,8 @@ function DeploymentStackCollapsibleStackSection({
 
 	if (stackQuery.isError) {
 		return (
-			<AlertEmptyState
-				title="Unable to get Stack"
+			<StackCollapsibleEmptyState
+				title="Failed to fetch the stack"
 				subtitle="Something went wrong fetching the stack"
 			/>
 		);
@@ -88,12 +81,28 @@ function DeploymentStackCollapsibleStackSection({
 
 	const snapshotConfig = snapshot.metadata?.pipeline_configuration.settings || {};
 
-	return <StackInfo displayInfoBox={false} stack={stack} objectConfig={snapshotConfig} />;
+	return <StackInfoFull stack={stack} objectConfig={snapshotConfig} />;
+}
+
+function StackCollapsibleEmptyState({ title, subtitle }: { title: string; subtitle?: string }) {
+	return (
+		<CollapsibleCard title="Stack" initialOpen={true}>
+			<EmptyState
+				className="p-5"
+				icon={<AlertCircle className="h-[60px] w-[60px] fill-neutral-300" />}
+			>
+				<div className="text-center">
+					<p className="text-text-lg font-semibold">{title}</p>
+					{subtitle && <p className="text-text-md text-theme-text-secondary">{subtitle}</p>}
+				</div>
+			</EmptyState>
+		</CollapsibleCard>
+	);
 }
 
 function NoStackEmptyState() {
 	return (
-		<AlertEmptyState
+		<StackCollapsibleEmptyState
 			title="No Stack"
 			subtitle="There is no stack associated with this deployment."
 		/>

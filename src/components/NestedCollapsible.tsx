@@ -23,6 +23,7 @@ type Props = {
 	sortKeysAlphabetically?: boolean;
 	className?: string;
 	schema?: JSONSchemaDefinition;
+	headerChildren?: ReactNode;
 };
 
 const regex = /^<class\s+'.*'>$/;
@@ -36,7 +37,8 @@ export function NestedCollapsible({
 	className,
 	children,
 	isInitialOpen = false,
-	sortKeysAlphabetically = true
+	sortKeysAlphabetically = true,
+	headerChildren
 }: PropsWithChildren<Props>) {
 	const objects: { [key: string]: Record<string, unknown> } = {};
 	const nonObjects: { [key: string]: unknown } = {};
@@ -62,6 +64,7 @@ export function NestedCollapsible({
 
 	return (
 		<CollapsibleCardWithCopy
+			headerChildren={headerChildren}
 			contentClassName={contentClassName}
 			initialOpen={isInitialOpen}
 			intent={intent}

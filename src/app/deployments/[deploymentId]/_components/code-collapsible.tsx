@@ -60,7 +60,7 @@ function DeploymentCodeContent({ deployment }: Props) {
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
-			<CollapsibleHeader className="flex items-center gap-[10px]">
+			<CollapsibleHeader className="flex h-9 items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full gap-2">
 					<CollapsibleChevron open={open} />
 					Invocation

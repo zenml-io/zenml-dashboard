@@ -1,5 +1,5 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { StackInfo } from "@/components/stacks/info";
+import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
@@ -20,7 +20,7 @@ export function StackTab({ stepId }: Props) {
 	if (run.isError || step.isError) return <p>Something went wrong fetching the run</p>;
 
 	const stackId = run.data?.resources?.stack?.id;
-	const config = (step.data.metadata?.config.settings as { [key: string]: any } | undefined) || {};
+	const config = step.data.metadata?.config.settings || {};
 
 	if (!stackId)
 		return (
@@ -39,7 +39,7 @@ export function StackTab({ stepId }: Props) {
 
 type StackTabContentProps = {
 	stackId: string;
-	objectConfig: Record<string, any>;
+	objectConfig: Record<string, unknown>;
 };
 function StackTabContent({ stackId, objectConfig }: StackTabContentProps) {
 	const { data, isError, isPending } = useStack({ stackId: stackId });
@@ -50,5 +50,5 @@ function StackTabContent({ stackId, objectConfig }: StackTabContentProps) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	return <StackInfo stack={data} objectConfig={objectConfig} />;
+	return <StackInfoFull stack={data} objectConfig={objectConfig} />;
 }
