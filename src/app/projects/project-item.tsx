@@ -1,14 +1,14 @@
-import { Box, Skeleton } from "@zenml-io/react-component-library/components/server";
+import Copy from "@/assets/icons/copy.svg?react";
 import Hash from "@/assets/icons/hash.svg?react";
-import { Link } from "react-router-dom";
-import { routes } from "@/router/routes";
 import Pipeline from "@/assets/icons/pipeline.svg?react";
 import Terminal from "@/assets/icons/terminal.svg?react";
-import { useQuery } from "@tanstack/react-query";
+import Tick from "@/assets/icons/tick-circle.svg?react";
 import { projectQueries } from "@/data/projects";
 import { useCopy } from "@/lib/copy";
-import Tick from "@/assets/icons/tick-circle.svg?react";
-import Copy from "@/assets/icons/copy.svg?react";
+import { generateProjectImageUrl } from "@/lib/images";
+import { routes } from "@/router/routes";
+import { Project } from "@/types/projects";
+import { useQuery } from "@tanstack/react-query";
 import {
 	Badge,
 	Tooltip,
@@ -16,8 +16,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { generateNumberFromSalt } from "@/lib/images";
-import { Project } from "@/types/projects";
+import { Box, Skeleton } from "@zenml-io/react-component-library/components/server";
+import { Link } from "react-router-dom";
 import { ProjectMenu } from "./project-menu";
 
 type Props = {
@@ -27,9 +27,7 @@ type Props = {
 
 export function ProjectItem({ project, isDefault = false }: Props) {
 	const displayName = project.body?.display_name;
-	const imageUrl = `https://public-flavor-logos.s3.eu-central-1.amazonaws.com/projects/${generateNumberFromSalt(
-		project.name
-	)}.jpg`;
+	const imageUrl = generateProjectImageUrl(project.name);
 	return (
 		<Box className="group relative h-full overflow-hidden transition-all duration-300 hover:shadow-md">
 			<div className="relative h-[180px] w-full">

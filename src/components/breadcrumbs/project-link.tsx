@@ -1,4 +1,5 @@
 import Divider from "@/assets/icons/slash-divider.svg?react";
+import { generateProjectImageUrl } from "@/lib/images";
 import { routes } from "@/router/routes";
 import {
 	Tooltip,
@@ -6,10 +7,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Link, useLocation } from "react-router-dom";
-
-import { generateNumberFromSalt } from "@/lib/images";
 import { Button } from "@zenml-io/react-component-library/components/server";
+import { Link, useLocation } from "react-router-dom";
 
 export function ProjectLink() {
 	const pathname = useLocation().pathname;
@@ -33,9 +32,7 @@ export function ProjectLink() {
 										<img
 											className="size-5 shrink-0 rounded-md object-cover"
 											alt="default"
-											src={`https://public-flavor-logos.s3.eu-central-1.amazonaws.com/projects/${generateNumberFromSalt(
-												"default"
-											)}.jpg`}
+											src={generateProjectImageUrl("default")}
 										/>
 										<p className="truncate text-text-md font-medium">default</p>
 									</div>
