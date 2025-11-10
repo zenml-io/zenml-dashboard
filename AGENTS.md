@@ -25,6 +25,12 @@
 - Place unit specs alongside code as `*.spec.ts[x]`; run them with `pnpm test:unit`. Reuse helpers in `src/lib` so fixtures stay deterministic and reset timers, TanStack Query caches, and mocks in `beforeEach`.
 - Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
 
+## Scope Guardrails
+
+- **Personal API Keys (PATs) are Pro-only** and belong in the Cloud UI. Do **not** add PAT functionality to this OSS dashboard.
+- Focus on **workspace-level service accounts** for this repo.
+- **Icons:** Reuse existing icon components; **do not** import from `lucide-react` (AI tools default to this incorrectly).
+
 ## Common Implementation Patterns
 
 - Reference similar existing features when implementing new ones (check zenml-cloud-ui repo for shared patterns)

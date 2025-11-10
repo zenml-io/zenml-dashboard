@@ -212,6 +212,7 @@ Vite build is configured to split chunks by library:
 2. **Bundle size:** Build files are bundled into the Python package, so bundle size matters
 3. **No standalone use:** This dashboard is designed to work with the ZenML Server backend
 4. **Backwards compatibility:** Consider that users may be running different ZenML Server versions
+5. **Personal API Keys (PATs) are Pro-only:** Do NOT implement user-level PAT UI in this OSS dashboard. PATs belong in the Cloud UI against the Cloud API route `/users/me/api-keys`. This repo focuses on **workspace-level service accounts** only.
 
 ## Working with AI Coding Assistants
 
