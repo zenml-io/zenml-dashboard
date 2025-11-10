@@ -1,9 +1,9 @@
+import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useParams } from "react-router-dom";
-import { StackContent } from "./snapshot-stack-content";
 
 export function SnapshotStack() {
 	const { snapshotId } = useParams() as {
@@ -39,5 +39,5 @@ export function SnapshotStack() {
 		return <div>Failed to load stack.</div>;
 	}
 
-	return <StackContent stack={stackQuery.data} />;
+	return <StackInfoFull stack={stackQuery.data} objectConfig={{}} />;
 }

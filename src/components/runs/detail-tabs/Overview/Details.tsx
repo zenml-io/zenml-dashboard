@@ -5,9 +5,11 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Key, Value } from "@/components/KeyValue";
+import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { snakeCaseToTitleCase } from "@/lib/strings";
@@ -25,6 +27,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { DeploymentTag } from "./deployment-tag";
 
 type Props = {
 	runId: string;
@@ -53,6 +56,10 @@ export function Details({ runId }: Props) {
 
 	const statusReason = data.body?.status_reason;
 	const executionMode = data.metadata?.config.execution_mode;
+
+	const sourceSnapshot = data.resources?.source_snapshot;
+	const deploymentId = data.metadata?.trigger_info?.deployment_id;
+	const schedule = data.resources?.schedule;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -113,6 +120,21 @@ export function Details({ runId }: Props) {
 							"Not available"
 						)}
 					</Value>
+					<KeyValue
+						label="Snapshot"
+						value={
+							sourceSnapshot && sourceSnapshot.name ? (
+								<SnapshotLink snapshotId={sourceSnapshot.id} snapshotName={sourceSnapshot.name} />
+							) : (
+								"Not available"
+							)
+						}
+					/>
+
+					<KeyValue
+						label="Deployment"
+						value={deploymentId ? <DeploymentTag deploymentId={deploymentId} /> : "Not available"}
+					/>
 					<Key>Execution Mode</Key>
 					<Value>{executionMode ? snakeCaseToTitleCase(executionMode) : "Not available"}</Value>
 					<Key>
@@ -142,6 +164,7 @@ export function Details({ runId }: Props) {
 							"Not available"
 						)}
 					</Value>
+					{schedule && <KeyValue label="Triggered by" value={<ScheduleTag />} />}
 					<Key className={data.metadata?.code_path ? "col-span-3" : ""}>
 						<div className="flex items-center space-x-0.5 truncate">
 							<span>Code Path</span>

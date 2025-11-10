@@ -17,16 +17,18 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 			cell: ({ getValue }) => {
 				const { name, id } = getValue<{ name: string; id: string }>();
 				return (
-					<div className="group/copybutton flex items-center gap-2">
-						<Avatar type="square" size="md">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
+						<Avatar type="square" size="md" className="shrink-0">
 							<AvatarFallback size="md">{name[0]}</AvatarFallback>
 						</Avatar>
 						<div>
 							<div className="flex items-center gap-1">
 								<StackSheet stackName={name} stackId={id}>
-									<h2 className="text-text-md font-semibold">{name}</h2>
+									<h2 className="grid grid-cols-1 text-text-md font-semibold">
+										<span className="truncate">{name}</span>
+									</h2>
 								</StackSheet>
-								<CopyButton copyText={name}></CopyButton>
+								<CopyButton copyText={name} />
 							</div>
 							<div className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>

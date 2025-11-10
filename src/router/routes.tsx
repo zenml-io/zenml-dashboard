@@ -53,6 +53,7 @@ export const routes = {
 			overview: "/projects/default/deployments",
 			detail: {
 				overview: (deploymentId: string) => `/projects/default/deployments/${deploymentId}`,
+				runs: (deploymentId: string) => `/projects/default/deployments/${deploymentId}/runs`,
 				playground: (deploymentId: string) =>
 					`/projects/default/deployments/${deploymentId}/playground`
 			}

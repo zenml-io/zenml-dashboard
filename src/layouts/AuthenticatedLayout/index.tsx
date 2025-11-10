@@ -1,4 +1,6 @@
 import { Analytics } from "@/components/Analytics";
+import { AnnouncementHighlight } from "@/components/announcements/announcement-highlight";
+import { useServerSettings } from "@/data/server/get-server-settings";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { checkUserOnboarding } from "@/lib/user";
 import { routes } from "@/router/routes";
@@ -9,6 +11,7 @@ import { LocalBanner } from "./LocalBanner";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
+	const serverSettings = useServerSettings();
 
 	if (data && checkUserOnboarding(data)) {
 		return (
@@ -17,6 +20,8 @@ export function AuthenticatedLayout() {
 			/>
 		);
 	}
+
+	const displayUpdates = serverSettings.data?.body?.display_updates ?? false;
 
 	return (
 		<div className="relative flex h-dvh flex-col overflow-hidden">
@@ -27,6 +32,7 @@ export function AuthenticatedLayout() {
 				</div>
 				<main className="flex flex-1 flex-col overflow-x-hidden">
 					<Analytics />
+					{displayUpdates && <AnnouncementHighlight />}
 					<Outlet />
 				</main>
 			</BreadcrumbContextProvider>

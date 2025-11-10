@@ -607,6 +607,53 @@ export type paths = {
 		 */
 		delete: operations["delete_deployment_api_v1_deployments__deployment_id__delete"];
 	};
+	"/api/v1/curated_visualizations": {
+		/**
+		 * Create Curated Visualization
+		 * @description Create a curated visualization.
+		 *
+		 * Args:
+		 *     visualization: The curated visualization to create.
+		 *
+		 * Returns:
+		 *     The created curated visualization.
+		 */
+		post: operations["create_curated_visualization_api_v1_curated_visualizations_post"];
+	};
+	"/api/v1/curated_visualizations/{visualization_id}": {
+		/**
+		 * Get Curated Visualization
+		 * @description Retrieve a curated visualization by ID.
+		 *
+		 * Args:
+		 *     visualization_id: The ID of the curated visualization to retrieve.
+		 *     hydrate: Flag deciding whether to return the hydrated model.
+		 *
+		 * Returns:
+		 *     The curated visualization with the given ID.
+		 */
+		get: operations["get_curated_visualization_api_v1_curated_visualizations__visualization_id__get"];
+		/**
+		 * Update Curated Visualization
+		 * @description Update a curated visualization.
+		 *
+		 * Args:
+		 *     visualization_id: The ID of the curated visualization to update.
+		 *     visualization_update: The update to apply to the curated visualization.
+		 *
+		 * Returns:
+		 *     The updated curated visualization.
+		 */
+		put: operations["update_curated_visualization_api_v1_curated_visualizations__visualization_id__put"];
+		/**
+		 * Delete Curated Visualization
+		 * @description Delete a curated visualization.
+		 *
+		 * Args:
+		 *     visualization_id: The ID of the curated visualization to delete.
+		 */
+		delete: operations["delete_curated_visualization_api_v1_curated_visualizations__visualization_id__delete"];
+	};
 	"/api/v1/plugin-flavors": {
 		/**
 		 * List Flavors
@@ -2487,6 +2534,23 @@ export type paths = {
 		 */
 		put: operations["update_step_api_v1_steps__step_id__put"];
 	};
+	"/api/v1/steps/{step_run_id}/heartbeat": {
+		/**
+		 * Update Heartbeat
+		 * @description Updates a step.
+		 *
+		 * Args:
+		 *     step_run_id: ID of the step.
+		 *     auth_context: Authorization/Authentication context.
+		 *
+		 * Returns:
+		 *     The step heartbeat response (id, status, last_heartbeat).
+		 *
+		 * Raises:
+		 *     HTTPException: If the step is finished raises with 422 status code.
+		 */
+		put: operations["update_heartbeat_api_v1_steps__step_run_id__heartbeat_put"];
+	};
 	"/api/v1/steps/{step_id}/step-configuration": {
 		/**
 		 * Get Step Configuration
@@ -2556,42 +2620,40 @@ export type paths = {
 		 */
 		post: operations["create_tag_api_v1_tags_post"];
 	};
-	"/api/v1/tags/{tag_name_or_id}": {
+	"/api/v1/tags/{tag_id}": {
 		/**
 		 * Get Tag
-		 * @description Get a tag by name or ID.
+		 * @description Get a tag by ID.
 		 *
 		 * Args:
-		 *     tag_name_or_id: The name or ID of the tag to get.
+		 *     tag_id: The ID of the tag to get.
 		 *     hydrate: Flag deciding whether to hydrate the output model(s)
 		 *         by including metadata fields in the response.
 		 *
 		 * Returns:
-		 *     The tag with the given name or ID.
+		 *     The tag with the given ID.
 		 */
-		get: operations["get_tag_api_v1_tags__tag_name_or_id__get"];
-		/**
-		 * Delete Tag
-		 * @description Delete a tag by name or ID.
-		 *
-		 * Args:
-		 *     tag_name_or_id: The name or ID of the tag to delete.
-		 */
-		delete: operations["delete_tag_api_v1_tags__tag_name_or_id__delete"];
-	};
-	"/api/v1/tags/{tag_id}": {
+		get: operations["get_tag_api_v1_tags__tag_id__get"];
 		/**
 		 * Update Tag
 		 * @description Updates a tag.
 		 *
 		 * Args:
-		 *     tag_id: Id or name of the tag.
+		 *     tag_id: ID of the tag to update.
 		 *     tag_update_model: Tag to use for the update.
 		 *
 		 * Returns:
 		 *     The updated tag.
 		 */
 		put: operations["update_tag_api_v1_tags__tag_id__put"];
+		/**
+		 * Delete Tag
+		 * @description Delete a tag by ID.
+		 *
+		 * Args:
+		 *     tag_id: The ID of the tag to delete.
+		 */
+		delete: operations["delete_tag_api_v1_tags__tag_id__delete"];
 	};
 	"/api/v1/tag_resources": {
 		/**
@@ -4141,6 +4203,11 @@ export type components = {
 		 * @description Class for all resource models associated with the artifact visualization.
 		 */
 		ArtifactVisualizationResponseResources: {
+			/**
+			 * The artifact version.
+			 * @description Artifact version that owns this visualization, when included.
+			 */
+			artifact_version?: components["schemas"]["ArtifactVersionResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -4288,7 +4355,7 @@ export type components = {
 		 * CachePolicy
 		 * @description Cache policy.
 		 */
-		CachePolicy: {
+		"CachePolicy-Input": {
 			/**
 			 * Include Step Code
 			 * @description Whether to include the step code in the cache key.
@@ -4318,6 +4385,75 @@ export type components = {
 			 * @description List of input names to ignore in the cache key.
 			 */
 			ignored_inputs?: string[] | null;
+			/**
+			 * File Dependencies
+			 * @description List of file paths. The contents of theses files will be included in the cache key. Only relative paths within the source root are allowed.
+			 */
+			file_dependencies?: string[] | null;
+			/**
+			 * Source Dependencies
+			 * @description List of Python objects (modules, classes, functions). The source code of these objects will be included in the cache key.
+			 */
+			source_dependencies?: components["schemas"]["Source"][] | null;
+			/** @description Function without arguments that returns a string. The returned value will be included in the cache key. */
+			cache_func?: components["schemas"]["Source"] | null;
+			/**
+			 * Expires After
+			 * @description The number of seconds after which the cached result by a step with this cache policy will expire. If not set, the result will never expire.
+			 */
+			expires_after?: number | null;
+		};
+		/**
+		 * CachePolicy
+		 * @description Cache policy.
+		 */
+		"CachePolicy-Output": {
+			/**
+			 * Include Step Code
+			 * @description Whether to include the step code in the cache key.
+			 * @default true
+			 */
+			include_step_code?: boolean;
+			/**
+			 * Include Step Parameters
+			 * @description Whether to include the step parameters in the cache key.
+			 * @default true
+			 */
+			include_step_parameters?: boolean;
+			/**
+			 * Include Artifact Values
+			 * @description Whether to include the artifact values in the cache key. If the materializer for an artifact doesn't support generating a content hash, the artifact ID will be used as a fallback if enabled.
+			 * @default true
+			 */
+			include_artifact_values?: boolean;
+			/**
+			 * Include Artifact Ids
+			 * @description Whether to include the artifact IDs in the cache key.
+			 * @default true
+			 */
+			include_artifact_ids?: boolean;
+			/**
+			 * Ignored Inputs
+			 * @description List of input names to ignore in the cache key.
+			 */
+			ignored_inputs?: string[] | null;
+			/**
+			 * File Dependencies
+			 * @description List of file paths. The contents of theses files will be included in the cache key. Only relative paths within the source root are allowed.
+			 */
+			file_dependencies?: string[] | null;
+			/**
+			 * Source Dependencies
+			 * @description List of Python objects (modules, classes, functions). The source code of these objects will be included in the cache key.
+			 */
+			source_dependencies?: components["schemas"]["Source"][] | null;
+			/** @description Function without arguments that returns a string. The returned value will be included in the cache key. */
+			cache_func?: components["schemas"]["Source"] | null;
+			/**
+			 * Expires After
+			 * @description The number of seconds after which the cached result by a step with this cache policy will expire. If not set, the result will never expire.
+			 */
+			expires_after?: number | null;
 		};
 		/**
 		 * ClientLazyLoader
@@ -4763,6 +4899,179 @@ export type components = {
 			remove_secrets?: string[] | null;
 		};
 		/**
+		 * CuratedVisualizationRequest
+		 * @description Request model for curated visualizations.
+		 *
+		 * Each curated visualization links a pre-rendered artifact visualization
+		 * to a single ZenML resource to surface it in the appropriate UI context.
+		 * Supported resources include:
+		 * - **Deployments**
+		 * - **Models**
+		 * - **Pipelines**
+		 * - **Pipeline Runs**
+		 * - **Pipeline Snapshots**
+		 * - **Projects**
+		 */
+		CuratedVisualizationRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The artifact visualization ID.
+			 * Format: uuid
+			 * @description Identifier of the artifact visualization that should be surfaced for the target resource.
+			 */
+			artifact_visualization_id: string;
+			/** The display name of the visualization. */
+			display_name?: string | null;
+			/**
+			 * The display order of the visualization.
+			 * @description Optional ordering hint that must be unique for the combination of resource type and resource ID.
+			 */
+			display_order?: number | null;
+			/**
+			 * The layout size of the visualization.
+			 * @description Controls how much horizontal space the visualization occupies on the dashboard.
+			 * @default full_width
+			 */
+			layout_size?: components["schemas"]["CuratedVisualizationSize"];
+			/**
+			 * The linked resource ID.
+			 * Format: uuid
+			 * @description Identifier of the resource (deployment, model, pipeline, pipeline run, pipeline snapshot, or project) that should surface this visualization.
+			 */
+			resource_id: string;
+			/**
+			 * The linked resource type.
+			 * @description Type of the resource associated with this visualization.
+			 */
+			resource_type: components["schemas"]["VisualizationResourceTypes"];
+		};
+		/**
+		 * CuratedVisualizationResponse
+		 * @description Response model for curated visualizations.
+		 */
+		CuratedVisualizationResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["CuratedVisualizationResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["CuratedVisualizationResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["CuratedVisualizationResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+		};
+		/**
+		 * CuratedVisualizationResponseBody
+		 * @description Response body for curated visualizations.
+		 */
+		CuratedVisualizationResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/**
+			 * The artifact visualization ID.
+			 * Format: uuid
+			 * @description Identifier of the artifact visualization that is curated for this resource.
+			 */
+			artifact_visualization_id: string;
+			/**
+			 * The artifact version ID.
+			 * Format: uuid
+			 * @description Identifier of the artifact version that owns the curated visualization. Provided for read-only context when available.
+			 */
+			artifact_version_id: string;
+			/** The display name of the visualization. */
+			display_name?: string | null;
+			/**
+			 * The display order of the visualization.
+			 * @description Optional ordering hint that is unique per combination of resource type and resource ID.
+			 */
+			display_order?: number | null;
+			/**
+			 * The layout size of the visualization.
+			 * @default full_width
+			 */
+			layout_size?: components["schemas"]["CuratedVisualizationSize"];
+			/**
+			 * The linked resource ID.
+			 * Format: uuid
+			 * @description Identifier of the resource associated with this visualization.
+			 */
+			resource_id: string;
+			/**
+			 * The linked resource type.
+			 * @description Type of the resource associated with this visualization.
+			 */
+			resource_type: components["schemas"]["VisualizationResourceTypes"];
+		};
+		/**
+		 * CuratedVisualizationResponseMetadata
+		 * @description Response metadata for curated visualizations.
+		 */
+		CuratedVisualizationResponseMetadata: Record<string, never>;
+		/**
+		 * CuratedVisualizationResponseResources
+		 * @description Response resources included for curated visualizations.
+		 */
+		CuratedVisualizationResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/**
+			 * The artifact visualization.
+			 * @description Artifact visualization that is surfaced through this curated visualization.
+			 */
+			artifact_visualization: components["schemas"]["ArtifactVisualizationResponse"];
+			[key: string]: unknown;
+		};
+		/**
+		 * CuratedVisualizationSize
+		 * @description Layout size options for curated visualizations.
+		 * @enum {string}
+		 */
+		CuratedVisualizationSize: "full_width" | "half_width";
+		/**
+		 * CuratedVisualizationUpdate
+		 * @description Update model for curated visualizations.
+		 */
+		CuratedVisualizationUpdate: {
+			/** The new display name of the visualization. */
+			display_name?: string | null;
+			/**
+			 * The new display order of the visualization.
+			 * @description Optional ordering hint. When provided, it must remain unique for the combination of resource type and resource ID.
+			 */
+			display_order?: number | null;
+			/** The updated layout size of the visualization. */
+			layout_size?: components["schemas"]["CuratedVisualizationSize"] | null;
+		};
+		/**
 		 * DeployedStack
 		 * @description Information about a deployed stack.
 		 */
@@ -4911,6 +5220,13 @@ export type components = {
 			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** Tags associated with the deployment. */
 			tags: components["schemas"]["TagResponse"][];
+			/** Curated deployment visualizations. */
+			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
+			/**
+			 * The stack that was deployed.
+			 * @description The stack that was deployed.
+			 */
+			stack?: components["schemas"]["StackResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -5670,6 +5986,8 @@ export type components = {
 			latest_version_name?: string | null;
 			/** Latest Version Id */
 			latest_version_id?: string | null;
+			/** Curated visualizations associated with the model. */
+			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -6870,7 +7188,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
-			cache_policy?: components["schemas"]["CachePolicy"] | null;
+			cache_policy?: components["schemas"]["CachePolicy-Input"] | null;
 			/** Name */
 			name: string;
 		};
@@ -6940,7 +7258,7 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
-			cache_policy?: components["schemas"]["CachePolicy"] | null;
+			cache_policy?: components["schemas"]["CachePolicy-Output"] | null;
 			/** Name */
 			name: string;
 		};
@@ -7033,6 +7351,11 @@ export type components = {
 			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 			/** Tags associated with the pipeline. */
 			tags: components["schemas"]["TagResponse"][];
+			/**
+			 * Curated visualizations associated with the pipeline.
+			 * @default []
+			 */
+			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -7199,6 +7522,8 @@ export type components = {
 			 * @default false
 			 */
 			is_templatable?: boolean;
+			/** Trigger information for the pipeline run. */
+			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -7228,6 +7553,11 @@ export type components = {
 			logs?: components["schemas"]["LogsResponse"] | null;
 			/** Logs associated with this pipeline run. */
 			log_collection?: components["schemas"]["LogsResponse"][] | null;
+			/**
+			 * Curated visualizations associated with the pipeline run.
+			 * @default []
+			 */
+			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -7250,6 +7580,8 @@ export type components = {
 			status_reason?: string | null;
 			/** End Time */
 			end_time?: string | null;
+			/** Whether the pipeline run is finished. */
+			is_finished?: boolean | null;
 			/** Orchestrator Run Id */
 			orchestrator_run_id?: string | null;
 			/** New tags to add to the pipeline run. */
@@ -7297,6 +7629,11 @@ export type components = {
 			pipeline_version_hash?: string | null;
 			/** The pipeline spec of the snapshot. */
 			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
+			/**
+			 * Whether this is a snapshot of a dynamic pipeline.
+			 * @default false
+			 */
+			is_dynamic?: boolean;
 			/** The name of the snapshot. */
 			name?: boolean | string | null;
 			/** The description of the snapshot. */
@@ -7384,6 +7721,8 @@ export type components = {
 			runnable: boolean;
 			/** If the snapshot can be deployed. */
 			deployable: boolean;
+			/** Whether this is a snapshot of a dynamic pipeline. */
+			is_dynamic: boolean;
 		};
 		/**
 		 * PipelineSnapshotResponseMetadata
@@ -7470,6 +7809,11 @@ export type components = {
 			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 			/** The user that created the latest run of the snapshot. */
 			latest_run_user?: components["schemas"]["UserResponse"] | null;
+			/**
+			 * Curated visualizations associated with the pipeline snapshot.
+			 * @default []
+			 */
+			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
 			[key: string]: unknown;
 		};
 		/**
@@ -9458,7 +9802,9 @@ export type components = {
 			 *   "include_artifact_ids": true
 			 * }
 			 */
-			cache_policy?: components["schemas"]["CachePolicy"];
+			cache_policy?: components["schemas"]["CachePolicy-Input"];
+			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
+			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Outputs
 			 * @default {}
@@ -9468,6 +9814,8 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			/** Template */
+			template?: string | null;
 			/**
 			 * Caching Parameters
 			 * @default {}
@@ -9588,7 +9936,9 @@ export type components = {
 			 *   "include_artifact_ids": true
 			 * }
 			 */
-			cache_policy?: components["schemas"]["CachePolicy"];
+			cache_policy?: components["schemas"]["CachePolicy-Output"];
+			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
+			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Outputs
 			 * @default {}
@@ -9598,6 +9948,8 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			/** Template */
+			template?: string | null;
 			/**
 			 * Caching Parameters
 			 * @default {}
@@ -9626,6 +9978,23 @@ export type components = {
 			client_lazy_loaders?: {
 				[key: string]: unknown;
 			};
+		};
+		/**
+		 * StepHeartbeatResponse
+		 * @description Light-weight model for Step Heartbeat responses.
+		 */
+		StepHeartbeatResponse: {
+			/**
+			 * Id
+			 * Format: uuid
+			 */
+			id: string;
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * Latest Heartbeat
+			 * Format: date-time
+			 */
+			latest_heartbeat: string;
 		};
 		/**
 		 * StepRetryConfig
@@ -9693,14 +10062,19 @@ export type components = {
 			project: string;
 			/** The name of the pipeline run step. */
 			name: string;
-			/** The start time of the step run. */
-			start_time?: string | null;
+			/**
+			 * The start time of the step run.
+			 * Format: date-time
+			 */
+			start_time: string;
 			/** The end time of the step run. */
 			end_time?: string | null;
 			/** The status of the step. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The cache key of the step run. */
 			cache_key?: string | null;
+			/** The time at which this step run should not be used for cached results anymore. If not set, the result will never expire. */
+			cache_expires_at?: string | null;
 			/** The code hash of the step run. */
 			code_hash?: string | null;
 			/** The docstring of the step function or class. */
@@ -9731,6 +10105,8 @@ export type components = {
 			logs?: components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the step run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The dynamic configuration of the step run. */
+			dynamic_config?: components["schemas"]["Step-Input"] | null;
 		};
 		/**
 		 * StepRunResponse
@@ -9788,6 +10164,8 @@ export type components = {
 			start_time?: string | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
+			/** The latest heartbeat of the step run. */
+			latest_heartbeat?: string | null;
 			/** The ID of the model version that was configured by this step run explicitly. */
 			model_version_id?: string | null;
 			/**
@@ -9809,6 +10187,8 @@ export type components = {
 			spec: components["schemas"]["StepSpec-Output"];
 			/** The cache key of the step run. */
 			cache_key?: string | null;
+			/** The time at which this step run should not be used for cached results anymore. If not set, the result will never expire. */
+			cache_expires_at?: string | null;
 			/** The code hash of the step run. */
 			code_hash?: string | null;
 			/** The docstring of the step function or class. */
@@ -9884,7 +10264,15 @@ export type components = {
 			end_time?: string | null;
 			/** The exception information of the step run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The time at which this step run should not be used for cached results anymore. */
+			cache_expires_at?: string | null;
 		};
+		/**
+		 * StepRuntime
+		 * @description All possible runtime modes for a step.
+		 * @enum {string}
+		 */
+		StepRuntime: "inline" | "isolated";
 		/**
 		 * StepSpec
 		 * @description Specification of a pipeline.
@@ -10507,6 +10895,34 @@ export type components = {
 			/** Error Type */
 			type: string;
 		};
+		/**
+		 * VisualizationResourceTypes
+		 * @description Resource types that support curated visualizations.
+		 *
+		 * Curated visualizations can be attached to these ZenML resources to provide
+		 * contextual dashboards and visual insights throughout the ML lifecycle:
+		 *
+		 * - **DEPLOYMENT**: Server-side pipeline deployments - surface visualizations
+		 *   on deployment monitoring dashboards and status pages
+		 * - **MODEL**: ZenML model entities - surface model evaluation dashboards and
+		 *   performance summaries directly on the model detail pages
+		 * - **PIPELINE**: Pipeline definitions - associate visualizations with pipeline
+		 *   configurations for reusable visual documentation
+		 * - **PIPELINE_RUN**: Pipeline execution runs - attach visualizations to specific
+		 *   run results for detailed analysis and debugging
+		 * - **PIPELINE_SNAPSHOT**: Pipeline snapshots - link visualizations to captured
+		 *   pipeline configurations for version comparison and historical analysis
+		 * - **PROJECT**: Project-level overviews - provide high-level project dashboards
+		 *   and KPI visualizations for cross-pipeline insights
+		 * @enum {string}
+		 */
+		VisualizationResourceTypes:
+			| "deployment"
+			| "model"
+			| "pipeline"
+			| "pipeline_run"
+			| "pipeline_snapshot"
+			| "project";
 		/**
 		 * VisualizationType
 		 * @description All currently available visualization types.
@@ -12687,6 +13103,191 @@ export type operations = {
 		};
 	};
 	/**
+	 * Create Curated Visualization
+	 * @description Create a curated visualization.
+	 *
+	 * Args:
+	 *     visualization: The curated visualization to create.
+	 *
+	 * Returns:
+	 *     The created curated visualization.
+	 */
+	create_curated_visualization_api_v1_curated_visualizations_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["CuratedVisualizationRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["CuratedVisualizationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Curated Visualization
+	 * @description Retrieve a curated visualization by ID.
+	 *
+	 * Args:
+	 *     visualization_id: The ID of the curated visualization to retrieve.
+	 *     hydrate: Flag deciding whether to return the hydrated model.
+	 *
+	 * Returns:
+	 *     The curated visualization with the given ID.
+	 */
+	get_curated_visualization_api_v1_curated_visualizations__visualization_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				visualization_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["CuratedVisualizationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Curated Visualization
+	 * @description Update a curated visualization.
+	 *
+	 * Args:
+	 *     visualization_id: The ID of the curated visualization to update.
+	 *     visualization_update: The update to apply to the curated visualization.
+	 *
+	 * Returns:
+	 *     The updated curated visualization.
+	 */
+	update_curated_visualization_api_v1_curated_visualizations__visualization_id__put: {
+		parameters: {
+			path: {
+				visualization_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["CuratedVisualizationUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["CuratedVisualizationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Curated Visualization
+	 * @description Delete a curated visualization.
+	 *
+	 * Args:
+	 *     visualization_id: The ID of the curated visualization to delete.
+	 */
+	delete_curated_visualization_api_v1_curated_visualizations__visualization_id__delete: {
+		parameters: {
+			path: {
+				visualization_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * List Flavors
 	 * @description Returns all event flavors.
 	 *
@@ -14471,6 +15072,7 @@ export type operations = {
 				project?: string | null;
 				name?: string | null;
 				latest_run_status?: string | null;
+				latest_run_user?: string | null;
 			};
 		};
 		responses: {
@@ -15925,6 +16527,8 @@ export type operations = {
 				model_version_id?: string | null;
 				model?: string | null;
 				exclude_retried?: boolean | null;
+				cache_expires_at?: string | null;
+				cache_expired?: boolean | null;
 			};
 			path: {
 				run_id: string;
@@ -19922,6 +20526,8 @@ export type operations = {
 				model_version_id?: string | null;
 				model?: string | null;
 				exclude_retried?: boolean | null;
+				cache_expires_at?: string | null;
+				cache_expired?: boolean | null;
 			};
 		};
 		responses: {
@@ -20088,6 +20694,59 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["StepRunResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Heartbeat
+	 * @description Updates a step.
+	 *
+	 * Args:
+	 *     step_run_id: ID of the step.
+	 *     auth_context: Authorization/Authentication context.
+	 *
+	 * Returns:
+	 *     The step heartbeat response (id, status, last_heartbeat).
+	 *
+	 * Raises:
+	 *     HTTPException: If the step is finished raises with 422 status code.
+	 */
+	update_heartbeat_api_v1_steps__step_run_id__heartbeat_put: {
+		parameters: {
+			path: {
+				step_run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["StepHeartbeatResponse"];
 				};
 			};
 			/** @description Unauthorized */
@@ -20390,23 +21049,78 @@ export type operations = {
 	};
 	/**
 	 * Get Tag
-	 * @description Get a tag by name or ID.
+	 * @description Get a tag by ID.
 	 *
 	 * Args:
-	 *     tag_name_or_id: The name or ID of the tag to get.
+	 *     tag_id: The ID of the tag to get.
 	 *     hydrate: Flag deciding whether to hydrate the output model(s)
 	 *         by including metadata fields in the response.
 	 *
 	 * Returns:
-	 *     The tag with the given name or ID.
+	 *     The tag with the given ID.
 	 */
-	get_tag_api_v1_tags__tag_name_or_id__get: {
+	get_tag_api_v1_tags__tag_id__get: {
 		parameters: {
 			query?: {
 				hydrate?: boolean;
 			};
 			path: {
-				tag_name_or_id: string;
+				tag_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["TagResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Tag
+	 * @description Updates a tag.
+	 *
+	 * Args:
+	 *     tag_id: ID of the tag to update.
+	 *     tag_update_model: Tag to use for the update.
+	 *
+	 * Returns:
+	 *     The updated tag.
+	 */
+	update_tag_api_v1_tags__tag_id__put: {
+		parameters: {
+			path: {
+				tag_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["TagUpdate"];
 			};
 		};
 		responses: {
@@ -20444,15 +21158,15 @@ export type operations = {
 	};
 	/**
 	 * Delete Tag
-	 * @description Delete a tag by name or ID.
+	 * @description Delete a tag by ID.
 	 *
 	 * Args:
-	 *     tag_name_or_id: The name or ID of the tag to delete.
+	 *     tag_id: The ID of the tag to delete.
 	 */
-	delete_tag_api_v1_tags__tag_name_or_id__delete: {
+	delete_tag_api_v1_tags__tag_id__delete: {
 		parameters: {
 			path: {
-				tag_name_or_id: string;
+				tag_id: string;
 			};
 		};
 		responses: {
@@ -20460,61 +21174,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * Update Tag
-	 * @description Updates a tag.
-	 *
-	 * Args:
-	 *     tag_id: Id or name of the tag.
-	 *     tag_update_model: Tag to use for the update.
-	 *
-	 * Returns:
-	 *     The updated tag.
-	 */
-	update_tag_api_v1_tags__tag_id__put: {
-		parameters: {
-			path: {
-				tag_id: string;
-			};
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["TagUpdate"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["TagResponse"];
 				};
 			};
 			/** @description Unauthorized */
@@ -22287,6 +22946,7 @@ export type operations = {
 				project?: string | null;
 				name?: string | null;
 				latest_run_status?: string | null;
+				latest_run_user?: string | null;
 			};
 			path: {
 				project_name_or_id: string | null;

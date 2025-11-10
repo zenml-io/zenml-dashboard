@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
+import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
 import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
@@ -64,12 +65,15 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 				}>();
 
 				return (
-					<div className="group/copybutton flex items-center gap-2">
+					<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 						<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 						<div>
 							<div className="flex items-center gap-1">
-								<Link to={routes.projects.runs.detail(id)} className="flex items-center gap-1">
-									<h2 className="text-text-md font-semibold">{name}</h2>
+								<Link
+									to={routes.projects.runs.detail(id)}
+									className="grid grid-cols-1 items-center gap-1"
+								>
+									<h2 className="truncate text-text-md font-semibold">{name}</h2>
 								</Link>
 								<TooltipProvider>
 									<Tooltip>
@@ -120,11 +124,26 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 
 				return (
 					<Link to={routes.stacks.overview}>
-						<Tag rounded={false} className="inline-block" color="turquoise" emphasis="subtle">
+						<Tag
+							rounded={false}
+							className="inline-block whitespace-nowrap"
+							color="turquoise"
+							emphasis="subtle"
+						>
 							{name}
 						</Tag>
 					</Link>
 				);
+			}
+		},
+		{
+			id: "trigger",
+			header: "Trigger",
+			accessorFn: (row) => row.resources?.schedule?.name,
+			cell: ({ row }) => {
+				const schedule = row.original.resources?.schedule;
+				if (!schedule) return null;
+				return <ScheduleTag />;
 			}
 		},
 		{

@@ -25,6 +25,19 @@
 - Place unit specs alongside code as `*.spec.ts[x]`; run them with `pnpm test:unit`. Reuse helpers in `src/lib` so fixtures stay deterministic and reset timers, TanStack Query caches, and mocks in `beforeEach`.
 - Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
 
+## Scope Guardrails
+
+- **Workspace-level resources only:** This repo implements workspace-level service accounts. User-level API keys are out of scope.
+- **Icons:** Reuse existing icon components; **do not** import from `lucide-react` (AI tools default to this incorrectly).
+
+## Common Implementation Patterns
+
+- Reference similar existing features when implementing new ones (check zenml-cloud-ui repo for shared patterns)
+- **One-time secrets**: Display token/key once after creation in a dialog, never persist in UI state
+- **Query invalidation**: After mutations (create/update/delete), invalidate TanStack Query cache to refetch data
+- **Component reuse**: Check `src/components/` for existing patterns before creating new components
+- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+
 ## Commit & Pull Request Guidelines
 
 - Follow Conventional Commit prefixes (`feat:`, `fix:`, `chore:`) with ≤72-character subjects and include issue references (`#123`) when relevant.

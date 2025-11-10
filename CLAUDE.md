@@ -58,7 +58,6 @@ Required environment variables (see `.env.example`):
 ```bash
 VITE_API_BASE_URL=http://localhost:8080/api/v1  # ZenML Server API endpoint
 VITE_FRONTEND_VERSION=v0.17.0                   # Optional: UI version number
-VITE_FEATURE_OS_KEY=<key>                       # Optional: Feature flag service key
 VITE_REO_KEY=<key>                              # Optional: Reo analytics key
 ```
 
@@ -212,6 +211,24 @@ Vite build is configured to split chunks by library:
 2. **Bundle size:** Build files are bundled into the Python package, so bundle size matters
 3. **No standalone use:** This dashboard is designed to work with the ZenML Server backend
 4. **Backwards compatibility:** Consider that users may be running different ZenML Server versions
+5. **Scope: Workspace-level resources only:** This dashboard implements workspace-level service accounts. User-level API keys are out of scope for this repository.
+
+## Working with AI Coding Assistants
+
+When using AI tools with this codebase:
+
+### Provide Context
+
+1. Reference existing implementations for similar features
+2. Point to the data fetching patterns in `src/data/`
+3. Note that many patterns are shared with zenml-cloud-ui (check that repo for reference implementations)
+
+### Common Patterns
+
+- **One-time secrets**: Display token/key once after creation, never show again
+- **Query invalidation**: After mutations, invalidate related TanStack Query queries to trigger refetch
+- **Component reuse**: Check `src/components/` before creating new components
+- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
 
 ## Common Patterns
 

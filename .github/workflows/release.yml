@@ -34,7 +34,6 @@ jobs:
         env:
           VITE_API_BASE_URL: "/api/v1"
           VITE_FRONTEND_VERSION: ${{ steps.get_version.outputs.VERSION }}
-          VITE_FEATURE_OS_KEY: ${{ secrets.FEATURE_OS_KEY }}
           VITE_REO_KEY: ${{ secrets.REO_KEY }}
 
       - name: Generate Changelog

@@ -1,4 +1,3 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -8,12 +7,13 @@ import {
 } from "@zenml-io/react-component-library";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import { useState } from "react";
+import { CollapsibleChevron } from "./collapsible-chevron";
 import { CopyMetadataButton } from "./copy-metadata-button";
 
 type CollapsibleCardProps = {
 	initialOpen?: boolean;
 	children: React.ReactNode;
-	title: string | React.ReactNode;
+	title: React.ReactNode;
 	className?: string;
 	contentClassName?: string;
 	intent?: CollapsibleHeaderProps["intent"];
@@ -35,12 +35,8 @@ export function CollapsibleCard({
 	return (
 		<CollapsiblePanel className={className} open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader intent={intent} className={headerClassName}>
-				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
-					<ChevronDown
-						className={` ${
-							open ? "" : "-rotate-90"
-						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
-					/>
+				<CollapsibleTrigger className="flex flex-1 items-center gap-[10px]">
+					<CollapsibleChevron open={open} />
 					{title}
 				</CollapsibleTrigger>
 
@@ -59,7 +55,7 @@ export function CollapsibleCard({
 	);
 }
 
-type Props = Omit<CollapsibleCardProps, "headerChildren"> & {
+type Props = CollapsibleCardProps & {
 	copyText: string;
 	displayCopyButton?: boolean;
 };
@@ -69,6 +65,7 @@ export function CollapsibleCardWithCopy({
 	displayCopyButton = true,
 	headerClassName,
 	className,
+	headerChildren,
 	...props
 }: Props) {
 	return (
@@ -80,7 +77,9 @@ export function CollapsibleCardWithCopy({
 				headerClassName
 			)}
 			headerChildren={
-				displayCopyButton ? (
+				headerChildren ? (
+					headerChildren
+				) : displayCopyButton ? (
 					<div className="opacity-100 transition-opacity duration-200 lg:opacity-0 lg:group-hover:opacity-100">
 						<CopyMetadataButton copyText={copyText} />
 					</div>
