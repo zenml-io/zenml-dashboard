@@ -11,6 +11,10 @@ export function useNewAnnouncementHighlights(announcements: AnnouncementList | u
 	return newPublishedItems.filter((item) => {
 		if (!item.should_highlight) return false;
 
+		// Filter out if published in the future
+		const publishedAt = new Date(item.published_at);
+		if (publishedAt > currentTime) return false;
+
 		// If highlight_until is set, check if we're still within the highlight period
 		if (item.highlight_until) {
 			const highlightUntil = new Date(item.highlight_until);

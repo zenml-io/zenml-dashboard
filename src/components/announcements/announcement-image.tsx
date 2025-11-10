@@ -12,6 +12,7 @@ export function AnnouncementImage({ imageUrl, title, className }: Props) {
 
 	return (
 		<img
+			loading="lazy"
 			src={src}
 			alt={`Announcement image for ${title}`}
 			className={cn("aspect-video h-full w-full object-cover", className)}
