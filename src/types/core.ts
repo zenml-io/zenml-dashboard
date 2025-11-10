@@ -2534,6 +2534,23 @@ export type paths = {
 		 */
 		put: operations["update_step_api_v1_steps__step_id__put"];
 	};
+	"/api/v1/steps/{step_run_id}/heartbeat": {
+		/**
+		 * Update Heartbeat
+		 * @description Updates a step.
+		 *
+		 * Args:
+		 *     step_run_id: ID of the step.
+		 *     auth_context: Authorization/Authentication context.
+		 *
+		 * Returns:
+		 *     The step heartbeat response (id, status, last_heartbeat).
+		 *
+		 * Raises:
+		 *     HTTPException: If the step is finished raises with 422 status code.
+		 */
+		put: operations["update_heartbeat_api_v1_steps__step_run_id__heartbeat_put"];
+	};
 	"/api/v1/steps/{step_id}/step-configuration": {
 		/**
 		 * Get Step Configuration
@@ -5205,6 +5222,11 @@ export type components = {
 			tags: components["schemas"]["TagResponse"][];
 			/** Curated deployment visualizations. */
 			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
+			/**
+			 * The stack that was deployed.
+			 * @description The stack that was deployed.
+			 */
+			stack?: components["schemas"]["StackResponse"] | null;
 			[key: string]: unknown;
 		};
 		/**
@@ -7558,6 +7580,8 @@ export type components = {
 			status_reason?: string | null;
 			/** End Time */
 			end_time?: string | null;
+			/** Whether the pipeline run is finished. */
+			is_finished?: boolean | null;
 			/** Orchestrator Run Id */
 			orchestrator_run_id?: string | null;
 			/** New tags to add to the pipeline run. */
@@ -7605,6 +7629,11 @@ export type components = {
 			pipeline_version_hash?: string | null;
 			/** The pipeline spec of the snapshot. */
 			pipeline_spec?: components["schemas"]["PipelineSpec-Input"] | null;
+			/**
+			 * Whether this is a snapshot of a dynamic pipeline.
+			 * @default false
+			 */
+			is_dynamic?: boolean;
 			/** The name of the snapshot. */
 			name?: boolean | string | null;
 			/** The description of the snapshot. */
@@ -7692,6 +7721,8 @@ export type components = {
 			runnable: boolean;
 			/** If the snapshot can be deployed. */
 			deployable: boolean;
+			/** Whether this is a snapshot of a dynamic pipeline. */
+			is_dynamic: boolean;
 		};
 		/**
 		 * PipelineSnapshotResponseMetadata
@@ -9772,6 +9803,8 @@ export type components = {
 			 * }
 			 */
 			cache_policy?: components["schemas"]["CachePolicy-Input"];
+			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
+			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Outputs
 			 * @default {}
@@ -9781,6 +9814,8 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			/** Template */
+			template?: string | null;
 			/**
 			 * Caching Parameters
 			 * @default {}
@@ -9902,6 +9937,8 @@ export type components = {
 			 * }
 			 */
 			cache_policy?: components["schemas"]["CachePolicy-Output"];
+			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
+			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Outputs
 			 * @default {}
@@ -9911,6 +9948,8 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			/** Template */
+			template?: string | null;
 			/**
 			 * Caching Parameters
 			 * @default {}
@@ -9939,6 +9978,23 @@ export type components = {
 			client_lazy_loaders?: {
 				[key: string]: unknown;
 			};
+		};
+		/**
+		 * StepHeartbeatResponse
+		 * @description Light-weight model for Step Heartbeat responses.
+		 */
+		StepHeartbeatResponse: {
+			/**
+			 * Id
+			 * Format: uuid
+			 */
+			id: string;
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * Latest Heartbeat
+			 * Format: date-time
+			 */
+			latest_heartbeat: string;
 		};
 		/**
 		 * StepRetryConfig
@@ -10049,6 +10105,8 @@ export type components = {
 			logs?: components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the step run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The dynamic configuration of the step run. */
+			dynamic_config?: components["schemas"]["Step-Input"] | null;
 		};
 		/**
 		 * StepRunResponse
@@ -10106,6 +10164,8 @@ export type components = {
 			start_time?: string | null;
 			/** The end time of the step run. */
 			end_time?: string | null;
+			/** The latest heartbeat of the step run. */
+			latest_heartbeat?: string | null;
 			/** The ID of the model version that was configured by this step run explicitly. */
 			model_version_id?: string | null;
 			/**
@@ -10207,6 +10267,12 @@ export type components = {
 			/** The time at which this step run should not be used for cached results anymore. */
 			cache_expires_at?: string | null;
 		};
+		/**
+		 * StepRuntime
+		 * @description All possible runtime modes for a step.
+		 * @enum {string}
+		 */
+		StepRuntime: "inline" | "isolated";
 		/**
 		 * StepSpec
 		 * @description Specification of a pipeline.
@@ -20628,6 +20694,59 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["StepRunResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Heartbeat
+	 * @description Updates a step.
+	 *
+	 * Args:
+	 *     step_run_id: ID of the step.
+	 *     auth_context: Authorization/Authentication context.
+	 *
+	 * Returns:
+	 *     The step heartbeat response (id, status, last_heartbeat).
+	 *
+	 * Raises:
+	 *     HTTPException: If the step is finished raises with 422 status code.
+	 */
+	update_heartbeat_api_v1_steps__step_run_id__heartbeat_put: {
+		parameters: {
+			path: {
+				step_run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["StepHeartbeatResponse"];
 				};
 			};
 			/** @description Unauthorized */
