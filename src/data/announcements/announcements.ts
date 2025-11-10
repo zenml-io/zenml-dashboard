@@ -2,8 +2,7 @@ import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { AnnouncementList, announcementListSchema } from "../../types/announcements";
 
 async function fetchAnnouncements() {
-	const url =
-		"https://raw.githubusercontent.com/zenml-io/zenml/refs/heads/feat/4072--whats-new/changelog.json";
+	const url = "https://raw.githubusercontent.com/zenml-io/zenml/HEAD/changelog.json";
 	const response = await fetch(url);
 	if (!response.ok) {
 		throw new Error("Failed to fetch announcements");
