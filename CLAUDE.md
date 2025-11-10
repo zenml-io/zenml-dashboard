@@ -213,6 +213,23 @@ Vite build is configured to split chunks by library:
 3. **No standalone use:** This dashboard is designed to work with the ZenML Server backend
 4. **Backwards compatibility:** Consider that users may be running different ZenML Server versions
 
+## Working with AI Coding Assistants
+
+When using AI tools with this codebase:
+
+### Provide Context
+
+1. Reference existing implementations for similar features
+2. Point to the data fetching patterns in `src/data/`
+3. Note that many patterns are shared with zenml-cloud-ui (check that repo for reference implementations)
+
+### Common Patterns
+
+- **One-time secrets**: Display token/key once after creation, never show again
+- **Query invalidation**: After mutations, invalidate related TanStack Query queries to trigger refetch
+- **Component reuse**: Check `src/components/` before creating new components
+- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+
 ## Common Patterns
 
 ### Adding a new query
