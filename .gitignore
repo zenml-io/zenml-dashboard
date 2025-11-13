@@ -30,3 +30,6 @@ dist-ssr
 !.env.example
 
 urls.txt
+
+# Claude Code
+.claude/
