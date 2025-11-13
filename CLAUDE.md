@@ -27,9 +27,9 @@ pnpm test:e2e        # Run e2e tests with Playwright
 pnpm generate:types -- <baseurl>  # Generate TypeScript types from OpenAPI/Swagger
 ```
 
-Example: `pnpm generate:types -- http://localhost:8080/api/v1`
+Example: `pnpm generate:types -- http://localhost:8237` (point it at whichever ZenML server instance is running).
 
-This script fetches `/openapi.json` from the server and generates `src/types/core.ts` using openapi-typescript.
+This script fetches `/openapi.json` from the server and generates `src/types/core.ts` using openapi-typescript. Data models come from the `components` namespace, while query params live under `operations`. Store the outputs under `src/types`, prefer `type` aliases over `interface` (reserve interfaces for the rare inheritance case), and never fall back to `any`.
 
 ### Running Tests
 
@@ -50,6 +50,14 @@ pnpm vitest watch
 ```bash
 pnpm playwright test e2e-tests/example.spec.ts
 ```
+
+## General OSS Practices
+
+- The dashboard is a pure Vite SPA—everything runs client-side, so no SSR plumbing is required.
+- Routing flows through `react-router-dom`; keep navigation centralized in router helpers rather than ad-hoc history calls.
+- The OSS dashboard ships alongside the FastAPI ZenML server, so API requests always target the paired backend domain using shared cookies.
+- Avoid duplicating code or inventing hyper-generic abstractions: inspect existing flows (and `zenml-cloud-ui`) before writing new components or helpers.
+- Prefer focused components over catch-all versions; duplicating two purposeful components is often clearer than a single complex abstraction.
 
 ## Environment Configuration
 
@@ -72,7 +80,7 @@ VITE_REO_KEY=<key>                              # Optional: Reo analytics key
 - **Data Fetching:** TanStack Query (React Query) v5
 - **Forms:** React Hook Form + Zod validation
 - **Styling:** Tailwind CSS + Tailwind plugins (forms, typography, container-queries)
-- **UI Components:** Radix UI primitives
+- **UI Components:** @zenml-io/react-component-library; Radix UI primitives where needed
 - **Testing:** Vitest (unit) + Playwright (e2e)
 - **Type Safety:** TypeScript (strict mode) with generated types from OpenAPI
 
@@ -96,6 +104,13 @@ src/
 ├── hooks/              # Custom React hooks
 └── assets/             # Icons, images, and global styles
 ```
+
+- Route folders mirror URL paths; dynamic segments use square brackets (e.g., `src/app/stacks/[stackId]/page.tsx`).
+- Each page exports a default component from `page.tsx`. Page-specific components can live beside the page, while shared components belong under `src/components/`.
+- Layouts in `src/layouts` always render `<Outlet />` and are wired through the lazy router.
+- Contexts reused across the app belong in `src/context`; page-only contexts/components can stay local to the feature directory.
+- Utilities live under `src/lib/<topic>/` and should ship with matching `*.spec.ts` coverage to keep business logic testable.
+- Assets (icons/images) live in `src/assets` and can be imported as React components via SVGR. `src/contents` is legacy static copy—avoid expanding it unless absolutely required.
 
 ### Data Fetching Pattern
 
@@ -136,6 +151,14 @@ export function usePipelineRun(params, options) {
 3. **API paths** are centralized in `src/data/api.ts`
 4. **Custom fetcher** in `src/data/fetch.ts` adds `credentials: "include"` and `Source-Context: "dashboard-v2"` header
 
+Additional guardrails:
+
+- Store exactly one request per endpoint under `src/data/<resource>/`. Use the folder's `index.ts` to re-export query options.
+- All fetchers must call the shared `fetcher` helper so cookies, headers, and context are set consistently.
+- Match query keys to the API path: list queries look like `["stacks", params]`, detail queries `["stacks", stackId, params?]`. Pass query params as optional, strongly typed objects from `src/types`.
+- Mutations live beside their resource queries, export their helpers directly, and must invalidate relevant query keys.
+- Never duplicate requests—extend existing hooks or helpers before adding a new file.
+
 ### Routing Architecture
 
 - Routes defined in `src/router/Router.tsx` using React Router's data router
@@ -143,7 +166,14 @@ export function usePipelineRun(params, options) {
 - Protected routes wrapped with `withProtectedRoute()` HOC
 - Loaders used for data prefetching (`rootLoader`, `authenticatedLayoutLoader`)
 - Error boundaries at root and page level (`RootBoundary`, `PageBoundary`)
-- Route paths centralized in `src/router/routes.tsx`
+- Route paths are centralized in `src/router/routes.tsx`; do not hard-code literal href strings outside that helper.
+
+### Layouts & Pages
+
+- Every route folder under `src/app/` mirrors the URL shape; dynamic params use `[paramName]` directories.
+- Each page exports a default component from `page.tsx`. Keep page-only helpers beside that file; promote reusable pieces to `src/components/`.
+- Layout components in `src/layouts` must render `<Outlet />` and are lazy-loaded through `src/router/Router.tsx`.
+- The router lazily imports page modules; follow that pattern for any new top-level or nested routes.
 
 ### Path Aliasing
 
@@ -189,6 +219,23 @@ Vite build is configured to split chunks by library:
 - `bundler` module resolution
 - All files must pass type checking before build
 
+### Components & Styling
+
+- Reach for primitives in `@zenml-io/react-component-library` first; use Radix UI primitives only when the component library does not cover the need.
+- Components that serve as primitives should accept transient props via `HTMLAttributes` so consumers can pass native attributes/refs.
+- Organize shared components by context under `src/components/<context>/` and avoid barrel exports unless necessary.
+- It's fine to colocate component-specific TypeScript helpers or contexts under `src/components` alongside the component; reserve `src/lib` for global/shared helpers.
+- Icons and illustrations live in `src/assets` and can be imported as React components via SVGR; avoid pulling from `lucide-react`.
+- Keep Tailwind utility classes; Prettier (with the Tailwind plugin) auto-sorts them.
+- Prefer focused components over overly generic abstractions.
+
+### Coding Conventions
+
+- Define React components with `function` declarations instead of arrow functions.
+- Remove `console.log` debugging before committing.
+- Use `useMemo`/`useCallback` to stabilize expensive derived data or callback props, but do so intentionally.
+- Stick to strict typing: no `any`, prefer `type` aliases, and colocate types near usage or under `src/types` (with `components` vs `operations` imports as appropriate).
+
 ## Testing Guidelines
 
 ### Unit Tests
@@ -197,6 +244,7 @@ Vite build is configured to split chunks by library:
 - Use Vitest for running tests
 - Focus on utility functions in `src/lib/`
 - Example files: `forms.spec.ts`, `search.spec.ts`, `user.spec.ts`
+- Only test TypeScript business logic—avoid dedicated React component harnesses and instead pull logic into `.ts` helpers.
 
 ### E2E Tests
 
@@ -205,6 +253,12 @@ Vite build is configured to split chunks by library:
 - Test against built preview server (port 4173)
 - Configured to run on chromium, firefox, and webkit
 
+### Error Handling & Analytics
+
+- Use the `isError` flag returned by queries for lightweight error states, and wrap failure-prone visualizations with `react-error-boundary`.
+- Throw a `not-found` error for 404s and set `throwOnError` on the query so React Router error boundaries can capture it.
+- Analytics events route through the ZenML Analytics Server (not Segment); coordinate new events with backend partners and guard each emission with `serverInfo.analytics_enabled`.
+
 ## Important Constraints
 
 1. **Same-domain requirement:** Frontend and API must be on the same domain for authentication
@@ -212,6 +266,17 @@ Vite build is configured to split chunks by library:
 3. **No standalone use:** This dashboard is designed to work with the ZenML Server backend
 4. **Backwards compatibility:** Consider that users may be running different ZenML Server versions
 5. **Scope: Workspace-level resources only:** This dashboard implements workspace-level service accounts. User-level API keys are out of scope for this repository.
+6. **OSS vs Pro parity:** The OSS dashboard intentionally omits list filtering, tagging, model/artifact management, and UI-triggered snapshot runs. It uniquely supports server activation, user activation, and workspace-level user management, so never promise Pro-only functionality here.
+
+## Assets & Content
+
+- Place all icons/images in `src/assets` and import them as React components via SVGR; reuse existing assets before adding new ones.
+- `src/contents` stores legacy static text blocks—avoid extending it unless a piece of copy truly must be centralized.
+
+## Backend & Analytics Coupling
+
+- The dashboard is deployed together with the FastAPI backend, so API requests always go to its paired server using shared credentials.
+- Analytics runs through the ZenML Analytics Server. Coordinate new events with backend owners and wrap every emission in a `serverInfo.analytics_enabled` check.
 
 ## Working with AI Coding Assistants
 
@@ -229,6 +294,10 @@ When using AI tools with this codebase:
 - **Query invalidation**: After mutations, invalidate related TanStack Query queries to trigger refetch
 - **Component reuse**: Check `src/components/` before creating new components
 - **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+- **Transient props**: Primitive components should forward `HTMLAttributes` props so callers can pass native attributes/refs.
+- **Memoization**: Reach for `useCallback`/`useMemo` to keep props stable when children are memoized.
+- **Routing discipline**: Reference `src/router/routes.tsx` helpers instead of hard-coded strings, and mirror URLs with `[param]` directories under `src/app/`.
+- **Query hygiene**: Follow the one-request-per-endpoint rule in `src/data/<resource>/` and invalidate keys after mutations.
 
 ## Common Patterns
 
@@ -252,3 +321,4 @@ When using AI tools with this codebase:
 2. Use Radix UI primitives where possible
 3. Style with Tailwind CSS utility classes
 4. Export from component file (avoid barrel exports)
+5. Prefer focused components, forward transient props where helpful, and remove `console.log` statements once debugging is complete.
