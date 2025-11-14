@@ -45,7 +45,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      final_message: ${{ steps.run_codex.outputs.final-message }}
+      final_message: ${{ steps.codex_comment.outputs.final-message || steps.codex_full_review.outputs.final-message }}
     steps:
       - name: Checkout PR merge commit
         uses: actions/checkout@v5
@@ -58,8 +58,18 @@ jobs:
             ${{ github.event.issue.pull_request.base.ref }} \
             +refs/pull/${{ github.event.issue.number }}/head \
             +refs/pull/${{ github.event.issue.number }}/merge
-      - name: Run Codex
-        id: run_codex
+      - name: Determine Codex mode
+        id: mode
+        run: |
+          COMMENT="${{ github.event.comment.body }}"
+          if echo "$COMMENT" | grep -qi '@codex /full-review'; then
+            echo "mode=full-review" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=comment" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Run Codex (quick reply)
+        id: codex_comment
+        if: steps.mode.outputs.mode == 'comment'
         uses: openai/codex-action@v1
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
@@ -74,6 +84,52 @@ jobs:
             ----
 
             Follow the comment instructions precisely and respond with actionable guidance tailored to this PR.
+      - name: Run Codex (full review)
+        id: codex_full_review
+        if: steps.mode.outputs.mode == 'full-review'
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          codex-args: --max-turns 5 --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"
+          prompt: |
+            You are Codex reviewing frontend code changes for the ZenML Dashboard (OSS) with git diffs available locally.
+
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.issue.number }}
+            BASE SHA: ${{ github.event.issue.pull_request.base.sha }}
+            HEAD SHA: ${{ github.event.issue.pull_request.head.sha }}
+
+            Triggering comment from @${{ github.actor }}:
+            ----
+            ${{ github.event.comment.body }}
+            ----
+
+            Context:
+            - Fetch additional context via:
+              * gh pr view ${{ github.event.issue.number }} --json title,body,author,headRefName,baseRefName,commits
+              * gh pr diff ${{ github.event.issue.number }} --name-only
+            - Follow CLAUDE.md, AGENTS.md, and README conventions.
+            - This is a Vite + React SPA using TanStack Query, React Router, Tailwind CSS, and TypeScript.
+            - UI components should come from @zenml-io/react-component-library (never lucide-react).
+
+            Primary Review Goals:
+            1) Verify the change intent, edge cases, and regression risk.
+            2) Enforce code quality: readability, hooks discipline, Query hygiene, router best practices.
+            3) Validate accessibility, performance, and data-loading patterns.
+            4) Ensure intentional diffs—no dead code, accidental assets, or config drift.
+            5) Flag security or compatibility issues across supported ZenML versions.
+
+            Documentation & Testing:
+            - Cross-check docs (README, CLAUDE.md, AGENTS.md) when user flows/components change.
+            - Confirm env vars and OpenAPI types are updated where applicable.
+            - Recommend test coverage (unit/e2e) for critical flows.
+
+            Output Instructions:
+            - Start with a summary of what the PR achieves.
+            - Enumerate critical blockers with file paths/lines.
+            - Provide minor suggestions and highlight strong work.
+            - End with actionable next steps.
+            - Use `gh pr comment` for inline issues if needed (permitted via codex-args).
 
   post-comment:
     name: Post Codex reply
