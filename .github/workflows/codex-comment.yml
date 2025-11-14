@@ -71,6 +71,8 @@ jobs:
         id: codex_comment
         if: steps.mode.outputs.mode == 'comment'
         uses: openai/codex-action@v1
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt: |
@@ -88,9 +90,11 @@ jobs:
         id: codex_full_review
         if: steps.mode.outputs.mode == 'full-review'
         uses: openai/codex-action@v1
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          codex-args: --max-turns 5 --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"
+          codex-args: --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"
           prompt: |
             You are Codex reviewing frontend code changes for the ZenML Dashboard (OSS) with git diffs available locally.
 
