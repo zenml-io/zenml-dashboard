@@ -1,0 +1,106 @@
+---
+name: Codex Comment
+on:
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: codex-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  check-team-member:
+    name: Validate Codex commenter
+    runs-on: ubuntu-latest
+    if: |
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@codex') &&
+      github.actor != 'github-actions[bot]'
+    outputs:
+      is-team-member: ${{ steps.check.outputs.is-member }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+      - name: Check if actor is on OSS team
+        id: check
+        run: |
+          ACTOR="${{ github.actor }}"
+          if grep -q "@${ACTOR}" .github/teams.yml; then
+            echo "is-member=true" >> "$GITHUB_OUTPUT"
+            echo "✅ $ACTOR is a team member"
+          else
+            echo "is-member=false" >> "$GITHUB_OUTPUT"
+            echo "❌ $ACTOR is not a team member"
+          fi
+
+  run-codex:
+    name: Run Codex
+    runs-on: ubuntu-latest
+    needs: check-team-member
+    if: |
+      needs.check-team-member.result == 'success' &&
+      needs.check-team-member.outputs.is-team-member == 'true'
+    permissions:
+      contents: read
+    outputs:
+      final_message: ${{ steps.run_codex.outputs.final-message }}
+    steps:
+      - name: Checkout PR merge commit
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ref: refs/pull/${{ github.event.issue.number }}/merge
+      - name: Fetch base and head refs
+        run: |
+          git fetch --no-tags origin \
+            ${{ github.event.issue.pull_request.base.ref }} \
+            +refs/pull/${{ github.event.issue.number }}/head \
+            +refs/pull/${{ github.event.issue.number }}/merge
+      - name: Run Codex
+        id: run_codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: |
+            You are Codex assisting on pull request #${{ github.event.issue.number }} in ${{ github.repository }}.
+            Base SHA: ${{ github.event.issue.pull_request.base.sha }}
+            Head SHA: ${{ github.event.issue.pull_request.head.sha }}
+
+            Comment from @${{ github.actor }}:
+            ----
+            ${{ github.event.comment.body }}
+            ----
+
+            Follow the comment instructions precisely and respond with actionable guidance tailored to this PR.
+
+  post-comment:
+    name: Post Codex reply
+    runs-on: ubuntu-latest
+    needs: run-codex
+    if: |
+      needs.run-codex.result == 'success' &&
+      needs.run-codex.outputs.final_message != ''
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Reply with Codex output
+        uses: actions/github-script@v7
+        env:
+          CODEX_FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const body = process.env.CODEX_FINAL_MESSAGE;
+            if (!body) {
+              core.info('No Codex output to post.');
+              return;
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
