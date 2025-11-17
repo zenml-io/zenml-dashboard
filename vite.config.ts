@@ -1,4 +1,5 @@
-import { defineConfig } from "vitest/config";
+/// <reference types="vitest/config" />
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import svgr from "vite-plugin-svgr";
 import prefetchPlugin from "vite-plugin-bundle-prefetch";
