@@ -35,13 +35,19 @@ export function PipelineSnapshotsTable({ params, columns }: Props) {
 	return (
 		<div className="flex flex-col items-center gap-5">
 			<div className="w-full">
-				<DataTable
-					columns={columns}
-					data={data.items}
-					rowSelection={rowSelection}
-					onRowSelectionChange={setRowSelection}
-					getRowId={(row) => row.id}
-				/>
+				{data.items.length ? (
+					<DataTable
+						columns={columns}
+						data={data.items}
+						rowSelection={rowSelection}
+						onRowSelectionChange={setRowSelection}
+						getRowId={(row) => row.id}
+					/>
+				) : (
+					<p className="py-10 text-center text-text-md text-theme-text-secondary">
+						No snapshots found
+					</p>
+				)}
 			</div>
 
 			{data.total_pages > 1 && <Pagination searchParams={params} paginate={data} />}
