@@ -14,6 +14,7 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
 import { BuildItem } from "@/types/pipeline-builds";
 import { extractDockerImageKey } from "@/lib/strings";
+import { sanitizeDockerfile } from "./docker-image";
 
 type Props = {
 	data: BuildItem;
@@ -83,7 +84,8 @@ export function DockerImageCollapsible({ data, displayCopyButton = true }: Props
 							language="dockerfile"
 							fullWidth
 							wrap
-							code={data.dockerfile}
+							code={sanitizeDockerfile(data.dockerfile)}
+							copyCode={data.dockerfile}
 						/>
 					</>
 				)}

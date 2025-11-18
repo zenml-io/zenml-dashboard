@@ -1,4 +1,4 @@
-import { DockerImageCollapsible } from "@/components/runs/detail-tabs/Configuration/DockerImageCollapsible";
+import { DockerImageCollapsible } from "@/components/collapsibles/docker-image-collapsible";
 import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { Deployment } from "@/types/deployments";

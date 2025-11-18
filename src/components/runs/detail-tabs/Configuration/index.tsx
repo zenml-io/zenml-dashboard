@@ -4,7 +4,7 @@ import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { BuildItem, BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { CodeCollapsible } from "./CodeCollapsible";
-import { DockerImageCollapsible } from "./DockerImageCollapsible";
+import { DockerImageCollapsible } from "../../../collapsibles/docker-image-collapsible";
 import { EnvironmentCollapsible } from "./EnvironmentCollapsible";
 import { PipelineParamsCollapsible } from "./ParameterCollapsible";
 type Props = {
