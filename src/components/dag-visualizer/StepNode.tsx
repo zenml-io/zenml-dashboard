@@ -60,7 +60,7 @@ export function StepNodeComponent({ data, selected }: NodeProps<StepNodePayload>
 
 				<div
 					data-failed={isFailed}
-					className="flex flex-1 justify-end border-t border-theme-border-moderate bg-theme-surface-tertiary px-2 py-0.5 text-text-xs data-[failed=true]:border-error-200 data-[failed=true]:bg-error-50 data-[failed=true]:text-theme-text-error"
+					className="flex flex-1 justify-end border-t border-theme-border-moderate bg-theme-surface-tertiary px-2 py-0.5 text-text-xs text-theme-text-secondary data-[failed=true]:border-error-200 data-[failed=true]:bg-error-50 data-[failed=true]:text-theme-text-error"
 				>
 					{(() => {
 						if (isFailed) {
