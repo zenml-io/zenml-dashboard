@@ -107,6 +107,9 @@ function StackName() {
 				placeholder="zenml-stack"
 				{...register("stackName")}
 			/>
+			<p className="text-text-xs text-theme-text-secondary">
+				The stack name must be unique and cannot match an existing stack.
+			</p>
 			{errors.stackName && (
 				<p className="text-text-xs text-red-500">{errors.stackName.message?.toString()}</p>
 			)}
