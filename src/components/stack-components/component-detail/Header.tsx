@@ -114,32 +114,6 @@ function ComponentType({ componentId }: Props) {
 	);
 }
 
-// function ComponentDetailDropdown({ componentId }: Props) {
-// 	const navigate = useNavigate();
-// 	return (
-// 		<DropdownMenu>
-// 			<DropdownMenuTrigger asChild>
-// 				<Button
-// 					intent="secondary"
-// 					emphasis="minimal"
-// 					className="flex aspect-square items-center justify-center"
-// 				>
-// 					<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
-// 				</Button>
-// 			</DropdownMenuTrigger>
-// 			<DropdownMenuContent align="end" sideOffset={7}>
-// 				<DropdownMenuItem
-// 					onSelect={() => navigate(routes.components.edit(componentId))}
-// 					className="cursor-pointer space-x-2"
-// 				>
-// 					<Edit className="h-3 w-3 fill-neutral-400" />
-// 					<p>Edit</p>
-// 				</DropdownMenuItem>
-// 			</DropdownMenuContent>
-// 		</DropdownMenu>
-// 	);
-// }
-
 function ComponentEditButton({ componentId }: Props) {
 	return (
 		<Button asChild type="button" size="sm" intent="primary" emphasis="subtle">

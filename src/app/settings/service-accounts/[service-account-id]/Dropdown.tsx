@@ -1,7 +1,7 @@
-import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import Rotate from "@/assets/icons/refresh.svg?react";
 import DeleteIcon from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
 	AlertDialog,
 	DropdownMenu,
@@ -46,8 +46,10 @@ export default function ApiKeyDropdown({
 				</DeleteAlertContent>
 			</AlertDialog>
 			<DropdownMenu>
-				<DropdownMenuTrigger>
-					<HorizontalDots className="h-5 w-5 fill-theme-text-secondary" />
+				<DropdownMenuTrigger asChild>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open API key actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem

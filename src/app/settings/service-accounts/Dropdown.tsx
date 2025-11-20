@@ -1,9 +1,8 @@
-import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import DeleteIcon from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
 	AlertDialog,
-	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -38,13 +37,9 @@ export default function ServiceAccountsDropdown({
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						intent="secondary"
-						emphasis="minimal"
-						className="flex aspect-square items-center justify-center p-0"
-					>
-						<HorizontalDots className="h-5 w-5 shrink-0 fill-theme-text-secondary" />
-					</Button>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open service account actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<DeleteIcon />}>
