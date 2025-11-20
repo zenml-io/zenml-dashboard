@@ -6,13 +6,13 @@ describe("returns the correct items based on the deployment type", () => {
 	test("doesnt return connect step for local deployment", () => {
 		const isLocal = true;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual(["pipeline_run", "snapshot_deployed"]);
+		expect(items).toEqual(["pipeline_run", "pipeline_deployed"]);
 	});
 
 	test("includes the connect step for non-local deployments", () => {
 		const isLocal = false;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual(["device_verified", "pipeline_run", "snapshot_deployed"]);
+		expect(items).toEqual(["device_verified", "pipeline_run", "pipeline_deployed"]);
 	});
 });
 
