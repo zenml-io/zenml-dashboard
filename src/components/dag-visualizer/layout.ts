@@ -87,6 +87,8 @@ export async function getLayoutedItems(
 		return {
 			...node,
 			style: {
+				// Disable pointer events on node container to prevent false selections
+				// Interactive children re-enable events via BaseNode's [&>*]:pointer-events-auto
 				pointerEvents: "none"
 			},
 			position: {
