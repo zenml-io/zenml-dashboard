@@ -32,7 +32,7 @@ function OnboardingSetupListContent({ onboarding, isLocalServer }: Props) {
 	const { getItem, isFinished } = getOnboardingSetup(onboarding, isLocalServer);
 	const connectStep = getItem("device_verified");
 	const pipelineStep = getItem("pipeline_run");
-	const deployStep = getItem("snapshot_deployed");
+	const deployStep = getItem("pipeline_deployed");
 	const isInitialFinished = useRef(isFinished);
 
 	useEffect(() => {

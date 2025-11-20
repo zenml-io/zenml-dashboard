@@ -4,7 +4,7 @@ export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
 	return [
 		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
 		"pipeline_run",
-		"snapshot_deployed"
+		"pipeline_deployed"
 	];
 }
 
