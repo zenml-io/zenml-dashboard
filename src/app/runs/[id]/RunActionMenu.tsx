@@ -24,26 +24,24 @@ export function RunActionsMenu({ runId }: Props) {
 	return (
 		<>
 			<DeleteRunAlert setOpen={setDeleteOpen} open={deleteOpen} />
-			<DropdownMenu modal={dropdownOpen} open={dropdownOpen} onOpenChange={setDropdownOpen}>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<DropdownTriggerButton size="sm">
-							<span className="sr-only">Open run actions</span>
-						</DropdownTriggerButton>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent className="z-10" align="end" sideOffset={1}>
-						<DropdownMenuItem asChild className="space-x-2">
-							<Link to={routes.projects.runs.createSnapshot(runId)}>
-								<Plus className="h-3 w-3 fill-neutral-400" />
-								<p>New Snapshot</p>
-							</Link>
-						</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => setDeleteOpen(true)} className="space-x-2">
-							<Trash className="h-3 w-3 fill-neutral-400" />
-							<p>Delete</p>
-						</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+			<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+				<DropdownMenuTrigger asChild>
+					<DropdownTriggerButton size="sm">
+						<span className="sr-only">Open run actions</span>
+					</DropdownTriggerButton>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent className="z-10" align="end" sideOffset={1}>
+					<DropdownMenuItem asChild className="space-x-2">
+						<Link to={routes.projects.runs.createSnapshot(runId)}>
+							<Plus className="h-3 w-3 fill-neutral-400" />
+							<p>New Snapshot</p>
+						</Link>
+					</DropdownMenuItem>
+					<DropdownMenuItem onClick={() => setDeleteOpen(true)} className="space-x-2">
+						<Trash className="h-3 w-3 fill-neutral-400" />
+						<p>Delete</p>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
 			</DropdownMenu>
 		</>
 	);
