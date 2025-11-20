@@ -9,7 +9,10 @@ export function BaseNode({ children }: PropsWithChildren) {
 				type="target"
 				position={Position.Top}
 			/>
-			<div className="flex w-[300px] items-center justify-center">{children}</div>
+			{/* Disable pointer events on node container, re-enable on interactive children */}
+			<div className="flex w-[300px] items-center justify-center [&>*]:pointer-events-auto">
+				{children}
+			</div>
 			<Handle
 				isConnectable={false}
 				type="source"

@@ -1,4 +1,11 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import Redirect from "@/assets/icons/redirect.svg?react";
+import Docker from "@/assets/icons/services/docker.svg?react";
+import { Codesnippet } from "@/components/CodeSnippet";
+import { CopyButton } from "@/components/CopyButton";
+import { KeyValue } from "@/components/KeyValue";
+import { extractDockerImageKey } from "@/lib/strings";
+import { BuildItem } from "@/types/pipeline-builds";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -7,14 +14,7 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import Docker from "@/assets/icons/services/docker.svg?react";
-import Redirect from "@/assets/icons/redirect.svg?react";
-import { CopyButton } from "@/components/CopyButton";
-import { Codesnippet } from "@/components/CodeSnippet";
-import { KeyValue } from "@/components/KeyValue";
-import { BuildItem } from "@/types/pipeline-builds";
-import { extractDockerImageKey } from "@/lib/strings";
-import { sanitizeDockerfile } from "./docker-image";
+import { DockerfileSnippet } from "./dockerfile-snippet";
 
 type Props = {
 	data: BuildItem;
@@ -76,19 +76,7 @@ export function DockerImageCollapsible({ data, displayCopyButton = true }: Props
 						}
 					/>
 				</dl>
-				{data.dockerfile && (
-					<>
-						<p className="mb-2 mt-5 text-theme-text-secondary">Dockerfile</p>
-						<Codesnippet
-							highlightCode
-							language="dockerfile"
-							fullWidth
-							wrap
-							code={sanitizeDockerfile(data.dockerfile)}
-							copyCode={data.dockerfile}
-						/>
-					</>
-				)}
+				{data.dockerfile && <DockerfileSnippet dockerfile={data.dockerfile} />}
 				{data.requirements && (
 					<>
 						<p className="mb-2 mt-5 text-theme-text-secondary">Requirements</p>
