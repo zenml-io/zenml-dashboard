@@ -1,11 +1,11 @@
-import Help from "@/assets/icons/help.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
 import { getLoginCommand } from "@/lib/login-command";
 import { OnboardingStep } from "@/types/onboarding";
-import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { OnboardingHelpBox } from "./helpbox";
 import { PipelineSnippet } from "./pipeline-snippet";
 import { SetProject } from "./set-project";
 
@@ -51,22 +51,7 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Run the training pipeline.</p>
 					<Codesnippet code="python run.py" />
 				</div>
-				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
-					<div className="flex items-center gap-[10px]">
-						<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-teal-25">
-							<Help className="h-5 w-5 fill-teal-400" />
-						</div>
-						<p>Do you need help?</p>
-					</div>
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
-						href="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline"
-					>
-						Browse our docs
-					</a>
-				</Box>
+				<OnboardingHelpBox href="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline" />
 			</div>
 		</ChecklistItem>
 	);
@@ -89,23 +74,7 @@ export function DeployPipeline({ active, completed, hasDownstreamStep }: Onboard
 					</p>
 				</div>
 				<Codesnippet code="zenml pipeline deploy run.hello_pipeline" />
-				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
-					<div className="flex items-center gap-[10px]">
-						<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-teal-25">
-							<Help className="h-5 w-5 fill-teal-400" />
-						</div>
-						<p>Do you need help?</p>
-					</div>
-
-					<a
-						target="_blank"
-						rel="noopener noreferrer"
-						className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
-						href="https://docs.zenml.io/concepts/deployment"
-					>
-						Browse our docs
-					</a>
-				</Box>
+				<OnboardingHelpBox href="https://docs.zenml.io/concepts/deployment" />
 			</div>
 		</ChecklistItem>
 	);
