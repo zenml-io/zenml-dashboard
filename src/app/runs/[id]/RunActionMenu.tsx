@@ -26,7 +26,7 @@ export function RunActionsMenu({ runId }: Props) {
 			<DeleteRunAlert setOpen={setDeleteOpen} open={deleteOpen} />
 			<DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
 				<DropdownMenuTrigger asChild>
-					<DropdownTriggerButton size="sm">
+					<DropdownTriggerButton>
 						<span className="sr-only">Open run actions</span>
 					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
