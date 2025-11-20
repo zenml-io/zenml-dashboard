@@ -1,4 +1,5 @@
 import { ServiceAccountAvatar } from "@/components/avatars/service-account-avatar";
+import { ActionCell } from "@/components/tables/action-cell";
 import { routes } from "@/router/routes";
 import { ServiceAccount } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
@@ -94,9 +95,9 @@ export function getServiceAccountColumns(): ColumnDef<ServiceAccount>[] {
 			header: "",
 			cell: ({ row }) => {
 				return (
-					<div className="flex items-center justify-end">
+					<ActionCell>
 						<ServiceAccountsDropdown serviceAccountId={row.original.id} />
-					</div>
+					</ActionCell>
 				);
 			}
 		}

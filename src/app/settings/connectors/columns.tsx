@@ -4,6 +4,7 @@ import { ConnectorTypeTooltip } from "@/components/service-connectors/connector-
 import { ExpiryDate } from "@/components/service-connectors/expiry";
 import { ResourceNameTooltip } from "@/components/service-connectors/resource-name-tooltip";
 import { ResourceTypeTooltip } from "@/components/service-connectors/resource-type-tooltip";
+import { ActionCell } from "@/components/tables/action-cell";
 import { extractResourceTypes } from "@/lib/service-connectors";
 import { routes } from "@/router/routes";
 import { ServiceConnector } from "@/types/service-connectors";
@@ -140,9 +141,9 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 				header: "",
 				cell: ({ row }) => {
 					return (
-						<div className="flex items-center justify-end">
+						<ActionCell>
 							<ConnectorDropdown id={row.original.id} />
-						</div>
+						</ActionCell>
 					);
 				}
 			}

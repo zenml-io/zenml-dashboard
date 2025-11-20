@@ -1,6 +1,7 @@
 import { AdminBadge } from "@/components/admin-badge";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { ActionCell } from "@/components/tables/action-cell";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
@@ -69,9 +70,9 @@ export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 						cell: ({ getValue }) => {
 							const { id, name } = getValue() as { id: string; name: string };
 							return (
-								<div className="flex items-center justify-end">
+								<ActionCell>
 									<MembersDropdown name={name} userId={id} />
-								</div>
+								</ActionCell>
 							);
 						}
 					} as ColumnDef<User>

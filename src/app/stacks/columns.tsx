@@ -2,6 +2,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { StackSheet } from "@/components/stacks/Sheet";
+import { ActionCell } from "@/components/tables/action-cell";
 import { Stack } from "@/types/stack";
 import { ColumnDef } from "@tanstack/react-table";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
@@ -72,9 +73,9 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 			cell: ({ getValue }) => {
 				const { id, name } = getValue<{ name: string; id: string }>();
 				return (
-					<div className="flex items-center justify-end">
+					<ActionCell>
 						<StackActionsMenu name={name} id={id} />
-					</div>
+					</ActionCell>
 				);
 			}
 		}

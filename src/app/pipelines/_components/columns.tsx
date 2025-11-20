@@ -6,6 +6,7 @@ import {
 	getExecutionStatusColor,
 	getExecutionStatusTagColor
 } from "@/components/ExecutionStatus";
+import { ActionCell } from "@/components/tables/action-cell";
 import { routes } from "@/router/routes";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Pipeline } from "@/types/pipelines";
@@ -133,9 +134,9 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 			},
 			cell: ({ row }) => {
 				return (
-					<div className="flex items-center justify-end">
+					<ActionCell>
 						<PipelineDropdown id={row.original.id} />
-					</div>
+					</ActionCell>
 				);
 			}
 		}

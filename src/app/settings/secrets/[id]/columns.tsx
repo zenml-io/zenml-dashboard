@@ -1,5 +1,6 @@
 import EyeIcon from "@/assets/icons/eye.svg?react";
 import KeyIcon from "@/assets/icons/key-icon.svg?react";
+import { ActionCell } from "@/components/tables/action-cell";
 import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react"; // Import useState for local state
 import { SecretTooltip } from "../SecretTooltip";
@@ -63,9 +64,9 @@ secret.secret_values["${row.original.key}"]
 			id: "actions",
 			header: "",
 			cell: ({ row }) => (
-				<div className="flex items-center justify-end">
+				<ActionCell>
 					<SecretTableDropDown secretId={secretId} keyName={row.original.key} />
-				</div>
+				</ActionCell>
 			)
 		}
 	];

@@ -3,6 +3,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { ComponentSheet } from "@/components/stack-components/component-sheet";
 import { ComponentBadge } from "@/components/stack-components/ComponentBadge";
+import { ActionCell } from "@/components/tables/action-cell";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { StackComponent } from "@/types/components";
@@ -141,9 +142,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 			header: "",
 			cell: ({ row }) => {
 				return (
-					<div className="flex items-center justify-end">
+					<ActionCell>
 						<ComponentDropdown id={row.original.id} />
-					</div>
+					</ActionCell>
 				);
 			}
 		}
