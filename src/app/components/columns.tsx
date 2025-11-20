@@ -140,7 +140,11 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 			id: "admin_actions",
 			header: "",
 			cell: ({ row }) => {
-				return <ComponentDropdown id={row.original.id} />;
+				return (
+					<div className="flex items-center justify-end">
+						<ComponentDropdown id={row.original.id} />
+					</div>
+				);
 			}
 		}
 	];

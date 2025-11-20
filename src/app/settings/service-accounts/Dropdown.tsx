@@ -3,6 +3,7 @@ import DeleteIcon from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import {
 	AlertDialog,
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -36,8 +37,14 @@ export default function ServiceAccountsDropdown({
 			</AlertDialog>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger>
-					<HorizontalDots className="h-5 w-5 fill-theme-text-secondary" />
+				<DropdownMenuTrigger asChild>
+					<Button
+						intent="secondary"
+						emphasis="minimal"
+						className="flex aspect-square items-center justify-center p-0"
+					>
+						<HorizontalDots className="h-5 w-5 shrink-0 fill-theme-text-secondary" />
+					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<DeleteIcon />}>

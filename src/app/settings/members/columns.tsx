@@ -68,7 +68,11 @@ export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 						},
 						cell: ({ getValue }) => {
 							const { id, name } = getValue() as { id: string; name: string };
-							return <MembersDropdown name={name} userId={id} />;
+							return (
+								<div className="flex items-center justify-end">
+									<MembersDropdown name={name} userId={id} />
+								</div>
+							);
 						}
 					} as ColumnDef<User>
 				]

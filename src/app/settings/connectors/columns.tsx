@@ -139,7 +139,11 @@ export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] 
 				id: "admin_actions",
 				header: "",
 				cell: ({ row }) => {
-					return <ConnectorDropdown id={row.original.id} />;
+					return (
+						<div className="flex items-center justify-end">
+							<ConnectorDropdown id={row.original.id} />
+						</div>
+					);
 				}
 			}
 		],

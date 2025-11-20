@@ -132,7 +132,11 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 				width: "5%"
 			},
 			cell: ({ row }) => {
-				return <PipelineDropdown id={row.original.id} />;
+				return (
+					<div className="flex items-center justify-end">
+						<PipelineDropdown id={row.original.id} />
+					</div>
+				);
 			}
 		}
 	];

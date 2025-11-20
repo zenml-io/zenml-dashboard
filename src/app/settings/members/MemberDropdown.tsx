@@ -2,6 +2,7 @@ import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import SlashCircle from "@/assets/icons/slash-circle.svg?react";
 import {
 	AlertDialog,
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -24,8 +25,14 @@ export default function MembersDropdown({ userId, name }: Props) {
 			</AlertDialog>
 
 			<DropdownMenu>
-				<DropdownMenuTrigger>
-					<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
+				<DropdownMenuTrigger asChild>
+					<Button
+						intent="secondary"
+						emphasis="minimal"
+						className="flex aspect-square items-center justify-center p-0"
+					>
+						<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
+					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<SlashCircle />}>

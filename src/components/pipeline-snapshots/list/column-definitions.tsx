@@ -185,7 +185,11 @@ export function createSnapshotAdminActionsColumn(): ColumnDef<PipelineSnapshot> 
 		cell: ({ row }) => {
 			const snapshotId = row.original.id;
 
-			return <PipelineSnapshotActions snapshotId={snapshotId} />;
+			return (
+				<div className="flex items-center justify-end">
+					<PipelineSnapshotActions snapshotId={snapshotId} />
+				</div>
+			);
 		}
 	};
 }

@@ -189,7 +189,11 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			width: "5%"
 		},
 		cell: ({ row }) => {
-			return <RunDropdown id={row.original.id} />;
+			return (
+				<div className="flex items-center justify-end">
+					<RunDropdown id={row.original.id} />
+				</div>
+			);
 		}
 	}
 ];

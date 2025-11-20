@@ -81,10 +81,14 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		accessorFn: (row) => String(row.id),
 		cell: ({ row, getValue }) => {
 			const secretId = getValue() as string;
-			return row.original.resources?.user?.body?.is_admin ? (
-				<SecretsDropdown secretId={secretId} />
-			) : (
-				<p className="text-sm text-theme-text-secondary">No Actions</p>
+			return (
+				<div className="flex items-center justify-end">
+					{row.original.resources?.user?.body?.is_admin ? (
+						<SecretsDropdown secretId={secretId} />
+					) : (
+						<p className="text-sm text-theme-text-secondary">No Actions</p>
+					)}
+				</div>
 			);
 		}
 	}

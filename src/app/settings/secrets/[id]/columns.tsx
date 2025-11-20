@@ -62,7 +62,11 @@ secret.secret_values["${row.original.key}"]
 		{
 			id: "actions",
 			header: "",
-			cell: ({ row }) => <SecretTableDropDown secretId={secretId} keyName={row.original.key} />
+			cell: ({ row }) => (
+				<div className="flex items-center justify-end">
+					<SecretTableDropDown secretId={secretId} keyName={row.original.key} />
+				</div>
+			)
 		}
 	];
 }

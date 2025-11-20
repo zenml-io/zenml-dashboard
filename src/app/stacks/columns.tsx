@@ -71,7 +71,11 @@ export function useStackColumns(): ColumnDef<Stack>[] {
 			accessorFn: (row) => ({ name: row.name, id: row.id }),
 			cell: ({ getValue }) => {
 				const { id, name } = getValue<{ name: string; id: string }>();
-				return <StackActionsMenu name={name} id={id} />;
+				return (
+					<div className="flex items-center justify-end">
+						<StackActionsMenu name={name} id={id} />
+					</div>
+				);
 			}
 		}
 	];
