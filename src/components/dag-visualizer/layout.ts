@@ -86,6 +86,9 @@ export async function getLayoutedItems(
 		const layoutNode = layout.children?.find((n) => n.id === node.id);
 		return {
 			...node,
+			style: {
+				pointerEvents: "none"
+			},
 			position: {
 				x: layoutNode?.x ?? 0,
 				y: layoutNode?.y ?? 0
