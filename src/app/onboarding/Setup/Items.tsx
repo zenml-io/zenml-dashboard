@@ -58,24 +58,53 @@ export function RunFirstPipeline({ active, completed, hasDownstreamStep }: Onboa
 						</div>
 						<p>Do you need help?</p>
 					</div>
-					<div className="flex items-center gap-1">
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							className={buttonVariants({ intent: "secondary", emphasis: "subtle", size: "md" })}
-							href="https://github.com/zenml-io/zenml/blob/main/examples/quickstart/README.md"
-						>
-							Open the Readme
-						</a>
-						<a
-							target="_blank"
-							rel="noopener noreferrer"
-							className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
-							href="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline"
-						>
-							Browse our docs
-						</a>
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
+						href="https://docs.zenml.io/user-guides/starter-guide/create-an-ml-pipeline"
+					>
+						Browse our docs
+					</a>
+				</Box>
+			</div>
+		</ChecklistItem>
+	);
+}
+
+export function DeployPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
+	return (
+		<ChecklistItem
+			active={active}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
+			title="Deploy your pipeline (2 min)"
+		>
+			<div className="flex flex-col gap-5">
+				<div className="space-y-1">
+					<p>Deploy the pipeline.</p>
+					<p className="text-text-sm text-theme-text-secondary">
+						By deploying your pipeline, you will get access to an API endpoint, that can be invoked
+						to run your pipeline.
+					</p>
+				</div>
+				<Codesnippet code="zenml pipeline deploy run.hello_pipeline" />
+				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
+					<div className="flex items-center gap-[10px]">
+						<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-teal-25">
+							<Help className="h-5 w-5 fill-teal-400" />
+						</div>
+						<p>Do you need help?</p>
 					</div>
+
+					<a
+						target="_blank"
+						rel="noopener noreferrer"
+						className={buttonVariants({ intent: "primary", emphasis: "subtle", size: "md" })}
+						href="https://docs.zenml.io/concepts/deployment"
+					>
+						Browse our docs
+					</a>
 				</Box>
 			</div>
 		</ChecklistItem>

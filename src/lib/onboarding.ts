@@ -1,7 +1,11 @@
 import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
 
 export function getSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
-	return [...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]), "pipeline_run"];
+	return [
+		...(isLocal ? [] : ["device_verified" as OnboardingChecklistItemName]),
+		"pipeline_run",
+		"snapshot_deployed"
+	];
 }
 
 const finalStep: OnboardingChecklistItemName = "oss_onboarding_completed";

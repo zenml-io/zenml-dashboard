@@ -6,13 +6,13 @@ describe("returns the correct items based on the deployment type", () => {
 	test("doesnt return connect step for local deployment", () => {
 		const isLocal = true;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual(["pipeline_run"]);
+		expect(items).toEqual(["pipeline_run", "snapshot_deployed"]);
 	});
 
 	test("includes the connect step for non-local deployments", () => {
 		const isLocal = false;
 		const items = getSetupItems(isLocal);
-		expect(items).toEqual(["device_verified", "pipeline_run"]);
+		expect(items).toEqual(["device_verified", "pipeline_run", "snapshot_deployed"]);
 	});
 });
 
@@ -75,11 +75,11 @@ describe("checks if the correct length is returned", () => {
 	test("returns correct value for local starter setup", () => {
 		const isLocal = true;
 		const items = getOnboardingLength(isLocal);
-		expect(items).toBe(1);
+		expect(items).toBe(2);
 	});
 	test("returns correct value for non-local starter setup", () => {
 		const isLocal = false;
 		const items = getOnboardingLength(isLocal);
-		expect(items).toBe(2);
+		expect(items).toBe(3);
 	});
 });

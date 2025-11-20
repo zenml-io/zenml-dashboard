@@ -7,7 +7,7 @@ import { OnboardingResponse } from "@/types/onboarding";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
+import { ConnectZenMLStep, DeployPipeline, RunFirstPipeline } from "./Items";
 
 export function OnboardingSetupList() {
 	const onboarding = useOnboarding({ refetchInterval: 5000 });
@@ -32,6 +32,7 @@ function OnboardingSetupListContent({ onboarding, isLocalServer }: Props) {
 	const { getItem, isFinished } = getOnboardingSetup(onboarding, isLocalServer);
 	const connectStep = getItem("device_verified");
 	const pipelineStep = getItem("pipeline_run");
+	const deployStep = getItem("snapshot_deployed");
 	const isInitialFinished = useRef(isFinished);
 
 	useEffect(() => {
@@ -56,6 +57,13 @@ function OnboardingSetupListContent({ onboarding, isLocalServer }: Props) {
 					active={pipelineStep.isActive}
 					completed={pipelineStep.isCompleted}
 					hasDownstreamStep={pipelineStep.hasDownStreamStep}
+				/>
+			</li>
+			<li>
+				<DeployPipeline
+					active={deployStep.isActive}
+					completed={deployStep.isCompleted}
+					hasDownstreamStep={deployStep.hasDownStreamStep}
 				/>
 			</li>
 		</ul>
