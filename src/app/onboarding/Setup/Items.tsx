@@ -67,10 +67,10 @@ export function DeployPipeline({ active, completed, hasDownstreamStep }: Onboard
 		>
 			<div className="flex flex-col gap-5">
 				<div className="space-y-1">
-					<p>Deploy the pipeline.</p>
+					<p>Deploy the pipeline</p>
 					<p className="text-text-sm text-theme-text-secondary">
-						By deploying your pipeline, you will get access to an API endpoint, that can be invoked
-						to run your pipeline.
+						Deploying your pipeline provides you with an API endpoint that you can call to trigger a
+						pipeline run.
 					</p>
 				</div>
 				<Codesnippet code="zenml pipeline deploy run.hello_pipeline" />
