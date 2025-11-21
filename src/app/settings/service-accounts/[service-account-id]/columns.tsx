@@ -1,11 +1,12 @@
 import KeyIcon from "@/assets/icons/key-icon.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
+import { ActionCell } from "@/components/tables/action-cell";
 import { is1yearOld, is6monthsOld, prepareBackendTimestamp } from "@/lib/dates";
 import { ApiKey } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "@zenml-io/react-component-library/components/client";
 import ApiKeyDropdown from "./Dropdown";
 import ToggleActiveApiKey from "./ToggleApiKey";
-import { Checkbox } from "@zenml-io/react-component-library/components/client";
 
 export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 	return [
@@ -130,9 +131,9 @@ export function getServiceAccountDetailColumn(): ColumnDef<ApiKey>[] {
 				const serviceAccountId = row.original.body?.service_account.id;
 				if (!serviceAccountId) return null;
 				return (
-					<div className="flex items-center justify-end">
+					<ActionCell>
 						<ApiKeyDropdown serviceAccountId={serviceAccountId} apiKeyId={row.original.id} />
-					</div>
+					</ActionCell>
 				);
 			}
 		}

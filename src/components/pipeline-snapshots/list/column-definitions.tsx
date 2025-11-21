@@ -5,14 +5,15 @@ import { DeploymentStatusTag } from "@/components/deployments/deployment-status-
 import { DisplayDate } from "@/components/DisplayDate";
 import { getExecutionStatusTagColor, getRunIconColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { ActionCell } from "@/components/tables/action-cell";
 import { routes } from "@/router/routes";
+import { getFirstUuidSegment } from "@/lib/strings";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox, Tag } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotActions } from "../table-actions";
-import { getFirstUuidSegment } from "@/lib/strings";
-import { PipelineLink } from "@/components/pipelines/pipeline-link";
 
 export function createSnapshotCheckColumn(): ColumnDef<PipelineSnapshot> {
 	return {
@@ -185,7 +186,11 @@ export function createSnapshotAdminActionsColumn(): ColumnDef<PipelineSnapshot> 
 		cell: ({ row }) => {
 			const snapshotId = row.original.id;
 
-			return <PipelineSnapshotActions snapshotId={snapshotId} />;
+			return (
+				<ActionCell>
+					<PipelineSnapshotActions snapshotId={snapshotId} />
+				</ActionCell>
+			);
 		}
 	};
 }

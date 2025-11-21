@@ -2,6 +2,7 @@ import LockIcon from "@/assets/icons/Lock.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
+import { ActionCell } from "@/components/tables/action-cell";
 import { getSecretSnippet } from "@/lib/code-snippets";
 import { routes } from "@/router/routes";
 import { SecretNamespace } from "@/types/secret";
@@ -81,10 +82,14 @@ export const secretsColumns: ColumnDef<SecretNamespace>[] = [
 		accessorFn: (row) => String(row.id),
 		cell: ({ row, getValue }) => {
 			const secretId = getValue() as string;
-			return row.original.resources?.user?.body?.is_admin ? (
-				<SecretsDropdown secretId={secretId} />
-			) : (
-				<p className="text-sm text-theme-text-secondary">No Actions</p>
+			return (
+				<ActionCell>
+					{row.original.resources?.user?.body?.is_admin ? (
+						<SecretsDropdown secretId={secretId} />
+					) : (
+						<p className="text-sm text-theme-text-secondary">No Actions</p>
+					)}
+				</ActionCell>
 			);
 		}
 	}

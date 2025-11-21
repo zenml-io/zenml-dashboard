@@ -1,6 +1,6 @@
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
 	AlertDialog,
 	DropdownMenu,
@@ -35,8 +35,10 @@ export function PipelineDropdown({ id }: Props) {
 				</DeleteAlertContent>
 			</AlertDialog>
 			<DropdownMenu>
-				<DropdownMenuTrigger>
-					<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
+				<DropdownMenuTrigger asChild>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open pipeline actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<Trash />}>

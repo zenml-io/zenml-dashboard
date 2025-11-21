@@ -1,13 +1,12 @@
-import HorizontalDots from "@/assets/icons/dots-horizontal.svg?react";
 import Settings from "@/assets/icons/settings.svg?react";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
+import { routes } from "@/router/routes";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library";
-import { routes } from "@/router/routes";
-import { Button } from "@zenml-io/react-component-library/components/server";
 import { Link } from "react-router-dom";
 import { DefaultProjectHandler } from "./set-default-project";
 
@@ -18,14 +17,9 @@ export function ProjectMenu({ projectId }: Props) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button
-					className="z-20 flex aspect-square size-6 shrink-0 items-center justify-center bg-white p-0"
-					intent="secondary"
-					emphasis="bold"
-					size="sm"
-				>
-					<HorizontalDots className="h-5 w-5 fill-theme-text-secondary" />
-				</Button>
+				<DropdownTriggerButton className="z-20 bg-white">
+					<span className="sr-only">Open project actions</span>
+				</DropdownTriggerButton>
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent className="z-10" align="end" sideOffset={1}>

@@ -1,8 +1,7 @@
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import EditIcon from "@/assets/icons/edit.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
-	Button,
 	Dialog,
 	DropdownMenu,
 	DropdownMenuContent,
@@ -33,13 +32,9 @@ export default function SecretsDropdown({ secretId }: { secretId: string }) {
 			</Dialog>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						intent="secondary"
-						emphasis="minimal"
-						className="flex aspect-square items-center justify-center p-0"
-					>
-						<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
-					</Button>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open secret actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem

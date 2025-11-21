@@ -1,9 +1,8 @@
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
 	AlertDialog,
-	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
@@ -39,13 +38,9 @@ export function RunDropdown({ id }: Props) {
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						intent="secondary"
-						emphasis="minimal"
-						className="flex aspect-square items-center justify-center p-0"
-					>
-						<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
-					</Button>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open run actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem onSelect={() => setDeleteDialogOpen(true)} icon={<Trash />}>
