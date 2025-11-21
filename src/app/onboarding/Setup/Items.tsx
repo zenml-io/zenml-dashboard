@@ -23,7 +23,7 @@ export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: Onboa
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
 					<Codesnippet
-						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}"`}
+						code={`uv pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}"`}
 					/>
 				</div>
 				<div>
