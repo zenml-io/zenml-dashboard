@@ -36,6 +36,7 @@ export function PipelineRunsTable({ params, columns }: Props) {
 				<DataTable
 					rowSelection={rowSelection}
 					onRowSelectionChange={setRowSelection}
+					getRowId={(row) => row.id}
 					columns={columns}
 					data={data.items}
 				/>
