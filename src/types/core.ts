@@ -5458,6 +5458,8 @@ export type components = {
 			user?: string | null;
 			/** The name of the Flavor. */
 			name: string;
+			/** The display name of the Flavor. */
+			display_name?: string | null;
 			/** The type of the Flavor. */
 			type: components["schemas"]["StackComponentType"];
 			/** The JSON schema of this flavor's corresponding configuration. */
@@ -5529,6 +5531,8 @@ export type components = {
 			user_id?: string | null;
 			/** The type of the Flavor. */
 			type: components["schemas"]["StackComponentType"];
+			/** The display name of the Flavor. */
+			display_name: string;
 			/** The name of the integration that the Flavor belongs to. */
 			integration: string | null;
 			/** The path to the module which contains this Flavor. */
@@ -5577,6 +5581,8 @@ export type components = {
 		FlavorUpdate: {
 			/** The name of the Flavor. */
 			name?: string | null;
+			/** The display name of the Flavor. */
+			display_name?: string | null;
 			/** The type of the Flavor. */
 			type?: components["schemas"]["StackComponentType"] | null;
 			/** The JSON schema of this flavor's corresponding configuration. */
@@ -13715,6 +13721,7 @@ export type operations = {
 				scope_user?: string | null;
 				user?: string | null;
 				name?: string | null;
+				display_name?: string | null;
 				type?: string | null;
 				integration?: string | null;
 			};
