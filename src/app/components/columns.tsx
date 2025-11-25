@@ -90,9 +90,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 		{
 			id: "flavor",
 			header: "Flavor",
-			accessorFn: (row) => row.body?.flavor_name,
+			accessorFn: (row) => row.resources?.flavor?.body?.display_name,
 			cell: ({ row }) => {
-				const flavor = row.original.body?.flavor_name;
+				const flavor = row.original.resources?.flavor?.body?.display_name;
 				return (
 					<Tag
 						rounded={false}
