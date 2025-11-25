@@ -126,7 +126,10 @@ jobs:
             Documentation & Testing:
             - Cross-check docs (README, CLAUDE.md, AGENTS.md) when user flows/components change.
             - Confirm env vars and OpenAPI types are updated where applicable.
-            - Recommend test coverage (unit/e2e) for critical flows.
+            - Testing (keep concise—avoid verbose or generic suggestions):
+              * Only suggest tests directly relevant to the specific changes in this PR
+              * For UI changes, suggest 1-2 specific manual testing steps
+              * Do NOT recommend comprehensive test suites or patterns unrelated to the PR scope
 
             Output Instructions:
             - Start with a summary of what the PR achieves.
