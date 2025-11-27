@@ -4031,6 +4031,8 @@ export type components = {
 			metadata?: {
 				[key: string]: unknown;
 			} | null;
+			/** The number of items in the artifact version if it is sequence-like. This should only be set for artifacts that can be split into parts, like lists or arrays. */
+			item_count?: number | null;
 		};
 		/**
 		 * ArtifactVersionResponse
@@ -4094,6 +4096,8 @@ export type components = {
 			artifact_store_id?: string | null;
 			/** The content hash of the artifact version. */
 			content_hash?: string | null;
+			/** The number of items in the artifact version if it is sequence-like. This should only be set for artifacts that can be split into parts, like lists or arrays. */
+			item_count?: number | null;
 		};
 		/**
 		 * ArtifactVersionResponseMetadata
@@ -5622,6 +5626,10 @@ export type components = {
 			step_name: string;
 			/** Output Name */
 			output_name: string;
+			/** Chunk Index */
+			chunk_index?: number | null;
+			/** Chunk Size */
+			chunk_size?: number | null;
 		};
 		/**
 		 * LoadedVisualization
@@ -10053,6 +10061,12 @@ export type components = {
 			 */
 			permission_denied?: boolean;
 			input_type: components["schemas"]["StepRunInputArtifactType"];
+			/** The index of the input artifact in the step run. */
+			index?: number | null;
+			/** The index of the chunk in the input artifact. */
+			chunk_index?: number | null;
+			/** The size of the chunk in the input artifact. */
+			chunk_size?: number | null;
 		};
 		/**
 		 * StepRunRequest
@@ -10296,6 +10310,11 @@ export type components = {
 			};
 			/** Invocation Id */
 			invocation_id: string;
+			/**
+			 * Enable Heartbeat
+			 * @default false
+			 */
+			enable_heartbeat?: boolean;
 		};
 		/**
 		 * StepSpec
@@ -10314,6 +10333,11 @@ export type components = {
 			};
 			/** Invocation Id */
 			invocation_id: string;
+			/**
+			 * Enable Heartbeat
+			 * @default false
+			 */
+			enable_heartbeat?: boolean;
 		};
 		/**
 		 * Tag
