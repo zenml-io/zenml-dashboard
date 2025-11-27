@@ -91,7 +91,9 @@ function ComponentIcon({ componentId }: Props) {
 	if (component.isPending) return <Skeleton className="h-5 w-5" />;
 	return (
 		<img
-			className="h-5 w-5"
+			width={24}
+			height={24}
+			className="shrink-0"
 			src={sanitizeUrl(component.data.body?.logo_url || "")}
 			alt={`Icon of component ${component.data.name}`}
 		/>
