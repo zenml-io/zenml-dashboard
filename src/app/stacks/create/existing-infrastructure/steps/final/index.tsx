@@ -87,7 +87,7 @@ function StackComponentItem({ component }: { component: StackComponent }) {
 				<FlavorIcon
 					width={24}
 					height={24}
-					flavor={component.body?.flavor_name || ""}
+					flavor={component.resources?.flavor.name || ""}
 					type={component.body?.type || "orchestrator"}
 				/>
 				<div>
