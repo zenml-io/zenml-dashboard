@@ -30,7 +30,7 @@ jobs:
       needs.check-team-member.outputs.is-team-member == 'true' &&
       github.actor != 'github-actions[bot]' &&
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, '@claude /full-review')
+      contains(github.event.comment.body, '/claude /full-review')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     concurrency:
@@ -127,11 +127,11 @@ jobs:
               - If component APIs changed, check for updates to JSDoc comments or usage examples.
               - If new environment variables added, ensure .env.example is updated.
               - If OpenAPI types changed (src/types/core.ts), verify it was generated not hand-edited.
-            - Testing requirements:
-              - Unit tests (*.spec.ts) for new utilities in src/lib/
-              - E2E tests (e2e-tests/) for new user flows
-              - Suggest test coverage for critical business logic
-              - Verify test commands: pnpm test:unit, pnpm test:e2e, pnpm lint, pnpm build
+            - Testing guidance (keep concise—avoid verbose or generic suggestions):
+              - Only suggest tests directly relevant to the specific changes in this PR
+              - Briefly note if new utilities in src/lib/ lack a *.spec.ts file
+              - For UI changes, suggest 1-2 specific manual testing steps the author can perform
+              - Do NOT suggest comprehensive test suites or generic test patterns unrelated to the PR scope
             - If migration or breaking changes are introduced, recommend adding explicit notes.
             
             Review Format:

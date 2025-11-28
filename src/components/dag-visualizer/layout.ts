@@ -86,6 +86,11 @@ export async function getLayoutedItems(
 		const layoutNode = layout.children?.find((n) => n.id === node.id);
 		return {
 			...node,
+			style: {
+				// Disable pointer events on node container to prevent false selections
+				// Interactive children re-enable events via BaseNode's [&>*]:pointer-events-auto
+				pointerEvents: "none"
+			},
 			position: {
 				x: layoutNode?.x ?? 0,
 				y: layoutNode?.y ?? 0

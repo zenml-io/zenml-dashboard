@@ -83,7 +83,7 @@ function BasicParams({ componentId }: Props) {
 									src={sanitizeUrl(component.body?.logo_url || "")}
 									alt="Flavor Icon of Component"
 								/>
-								<p className="truncate">{component.body?.flavor_name}</p>
+								<p className="truncate">{component.resources?.flavor?.body?.display_name}</p>
 							</Tag>
 						}
 					/>

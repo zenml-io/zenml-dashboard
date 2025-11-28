@@ -1,13 +1,12 @@
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { DeleteConnectorAlert } from "@/components/service-connectors/delete-connector";
+import { DropdownTriggerButton } from "@/components/dropdown-trigger-button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Button } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
 import { useConnectorBulkDelete } from "./selector-context";
 
@@ -33,13 +32,9 @@ export function ConnectorDropdown({ id }: Props) {
 			/>
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button
-						intent="secondary"
-						emphasis="minimal"
-						className="flex aspect-square items-center justify-center p-0"
-					>
-						<DotsIcon className="h-4 w-4 shrink-0 fill-theme-text-tertiary" />
-					</Button>
+					<DropdownTriggerButton>
+						<span className="sr-only">Open connector actions</span>
+					</DropdownTriggerButton>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align="end" sideOffset={7}>
 					<DropdownMenuItem

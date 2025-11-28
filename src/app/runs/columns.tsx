@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { ActionCell } from "@/components/tables/action-cell";
 import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
@@ -189,7 +190,11 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			width: "5%"
 		},
 		cell: ({ row }) => {
-			return <RunDropdown id={row.original.id} />;
+			return (
+				<ActionCell>
+					<RunDropdown id={row.original.id} />
+				</ActionCell>
+			);
 		}
 	}
 ];

@@ -23,6 +23,8 @@ export function ConfiguratinStep({ flavor, type, handleBack }: Props) {
 		navigate(routes.components.detail(id));
 	}
 
+	const flavorName = flavor.body?.display_name ?? snakeCaseToTitleCase(flavor.name);
+
 	return (
 		<>
 			<Wizard.Header className="flex items-center gap-2">
@@ -36,7 +38,7 @@ export function ConfiguratinStep({ flavor, type, handleBack }: Props) {
 					<span className="sr-only">Go step back</span>
 				</Button>
 				<span>
-					Configure your {snakeCaseToTitleCase(flavor.name)} {snakeCaseToTitleCase(type)}
+					Configure your {flavorName} {snakeCaseToTitleCase(type)}
 				</span>
 			</Wizard.Header>
 			<Wizard.Body className="p-0">

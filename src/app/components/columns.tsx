@@ -3,6 +3,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { ComponentSheet } from "@/components/stack-components/component-sheet";
 import { ComponentBadge } from "@/components/stack-components/ComponentBadge";
+import { ActionCell } from "@/components/tables/action-cell";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { StackComponent } from "@/types/components";
@@ -89,9 +90,9 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 		{
 			id: "flavor",
 			header: "Flavor",
-			accessorFn: (row) => row.body?.flavor_name,
+			accessorFn: (row) => row.resources?.flavor?.body?.display_name,
 			cell: ({ row }) => {
-				const flavor = row.original.body?.flavor_name;
+				const flavor = row.original.resources?.flavor?.body?.display_name;
 				return (
 					<Tag
 						rounded={false}
@@ -140,7 +141,11 @@ export function getComponentList(): ColumnDef<StackComponent>[] {
 			id: "admin_actions",
 			header: "",
 			cell: ({ row }) => {
-				return <ComponentDropdown id={row.original.id} />;
+				return (
+					<ActionCell>
+						<ComponentDropdown id={row.original.id} />
+					</ActionCell>
+				);
 			}
 		}
 	];

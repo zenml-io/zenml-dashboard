@@ -1,3 +1,4 @@
+import RunIcon from "@/assets/icons/terminal.svg?react";
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
 import { DagControls } from "@/components/dag-visualizer/Controls";
 import { ElkEdge } from "@/components/dag-visualizer/elk-edge";
@@ -7,6 +8,7 @@ import { PreviewStepNode } from "@/components/dag-visualizer/PreviewStep";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { TriggeredRunNode } from "@/components/dag-visualizer/TriggeredRunNode";
+import { EmptyState } from "@/components/EmptyState";
 import { Dag } from "@/types/dag-visualizer";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 import ReactFlow, { NodeTypes } from "reactflow";
@@ -35,6 +37,17 @@ const customNodes: NodeTypes = {
 export function DAG({ dagData, refetchHandler, setActiveView }: Props) {
 	const { nodes, edges, onNodesChange, onEdgesChange, initialRender, topMostNode, shouldFitView } =
 		useDag(dagData);
+
+	if (dagData.nodes.length === 0) {
+		return (
+			<EmptyState icon={<RunIcon className="h-[120px] w-[120px] fill-neutral-300" />}>
+				<div className="space-y-2 text-center">
+					<p className="text-display-xs font-semibold">No steps to display</p>
+					<p className="text-base text-neutral-500">There are no steps to display for this run.</p>
+				</div>
+			</EmptyState>
+		);
+	}
 
 	if (initialRender)
 		return (

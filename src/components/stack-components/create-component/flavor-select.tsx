@@ -29,6 +29,7 @@ export function SelectFlavorList({ type, setSelectedFlavor }: Props) {
 							onClick={() => setSelectedFlavor(flavor)}
 							id={flavor.id}
 							name={flavor.name}
+							displayName={flavor.body?.display_name ?? undefined}
 							logoUrl={flavor.body?.logo_url ?? undefined}
 						/>
 					</li>
@@ -41,12 +42,14 @@ export function SelectFlavorList({ type, setSelectedFlavor }: Props) {
 type FlavorListItemItemProps = {
 	id: string;
 	name: string;
+	displayName?: string;
 	logoUrl?: string;
 	type: StackComponentType;
 	onClick?: () => void;
 };
 
-function FlavorListItem({ name, logoUrl, onClick, type }: FlavorListItemItemProps) {
+function FlavorListItem({ name, logoUrl, onClick, type, displayName }: FlavorListItemItemProps) {
+	const flavorName = displayName ?? snakeCaseToTitleCase(name);
 	return (
 		<Button
 			onClick={onClick}
@@ -68,7 +71,7 @@ function FlavorListItem({ name, logoUrl, onClick, type }: FlavorListItemItemProp
 					type={type}
 				/>
 			)}
-			<span className="min-w-0 truncate">{snakeCaseToTitleCase(name)}</span>
+			<span className="min-w-0 truncate">{flavorName}</span>
 		</Button>
 	);
 }

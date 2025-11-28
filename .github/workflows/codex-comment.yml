@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, '@codex') &&
+      contains(github.event.comment.body, '/codex') &&
       github.actor != 'github-actions[bot]'
     outputs:
       is-team-member: ${{ steps.check.outputs.is-member }}
@@ -62,7 +62,7 @@ jobs:
         id: mode
         run: |
           COMMENT="${{ github.event.comment.body }}"
-          if echo "$COMMENT" | grep -qi '@codex /full-review'; then
+          if echo "$COMMENT" | grep -qi '/codex /full-review'; then
             echo "mode=full-review" >> "$GITHUB_OUTPUT"
           else
             echo "mode=comment" >> "$GITHUB_OUTPUT"
@@ -126,7 +126,10 @@ jobs:
             Documentation & Testing:
             - Cross-check docs (README, CLAUDE.md, AGENTS.md) when user flows/components change.
             - Confirm env vars and OpenAPI types are updated where applicable.
-            - Recommend test coverage (unit/e2e) for critical flows.
+            - Testing (keep concise—avoid verbose or generic suggestions):
+              * Only suggest tests directly relevant to the specific changes in this PR
+              * For UI changes, suggest 1-2 specific manual testing steps
+              * Do NOT recommend comprehensive test suites or patterns unrelated to the PR scope
 
             Output Instructions:
             - Start with a summary of what the PR achieves.
