@@ -33,3 +33,4 @@ urls.txt
 
 # Claude Code
 .claude/
+!.claude/output-styles/
