@@ -322,3 +322,17 @@ When using AI tools with this codebase:
 3. Style with Tailwind CSS utility classes
 4. Export from component file (avoid barrel exports)
 5. Prefer focused components, forward transient props where helpful, and remove `console.log` statements once debugging is complete.
+
+## Git Conventions
+
+### PR Titles
+
+- Use plain, descriptive titles without conventional commit prefixes (no `feat:`, `fix:`, `ci:`, etc.)
+- Good: "Add workflow to require release label on PRs"
+- Bad: "ci: add workflow to require release label on PRs"
+
+### Labels
+
+All PRs should have one of the following release labels:
+- `release-notes` - for user-facing changes that should appear in the changelog
+- `no-release-notes` - for internal changes (refactoring, tests, CI, etc.)
