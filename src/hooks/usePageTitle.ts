@@ -60,7 +60,7 @@ export function usePageTitle(): void {
 		// Components detail/edit/create
 		if (is(routes.components.detail(":componentId"))) return "Component";
 		if (is(routes.components.edit(":componentId"))) return "Component";
-		if (is(routes.components.create)) return "Components";
+		if (is(routes.components.create)) return "Create Component";
 
 		// Project-scoped: Pipelines and detail sub-tabs
 		if (is(routes.projects.pipelines.overview)) return "Pipelines";
@@ -95,7 +95,8 @@ export function usePageTitle(): void {
 		if (is(routes.projects.settings.repositories.overview)) return "Repositories";
 		if (is(routes.projects.settings.profile)) return "Profile Settings";
 
-		return undefined;
+		// Catch-all for 404/unmatched routes
+		return "Page Not Found";
 	}, [pathname]);
 
 	useEffect(() => {
