@@ -20,6 +20,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
+import { RunIndexPrefix } from "@/components/runs/run-index-prefix";
 import { RunDropdown } from "../../../runs/RunDropdown";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
@@ -56,13 +57,15 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			accessorFn: (row) => ({
 				name: row.name,
 				id: row.id,
-				status: row.body?.status
+				status: row.body?.status,
+				index: row.body?.index
 			}),
 			cell: ({ getValue }) => {
-				const { name, status, id } = getValue<{
+				const { name, status, id, index } = getValue<{
 					name: PipelineRun["name"];
 					id: PipelineRun["id"];
 					status: PipelineRunBody["status"];
+					index: PipelineRunBody["index"];
 				}>();
 
 				return (
@@ -74,7 +77,10 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 									to={routes.projects.runs.detail(id)}
 									className="grid grid-cols-1 items-center gap-1"
 								>
-									<h2 className="truncate text-text-md font-semibold">{name}</h2>
+									<h2 className="truncate text-text-md font-semibold">
+										<RunIndexPrefix index={index} />
+										{name}
+									</h2>
 								</Link>
 								<TooltipProvider>
 									<Tooltip>

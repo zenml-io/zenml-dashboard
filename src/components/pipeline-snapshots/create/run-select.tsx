@@ -1,5 +1,6 @@
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import { getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { RunIndexPrefix } from "@/components/runs/run-index-prefix";
 import { allPipelineRunsInfinite } from "@/data/pipeline-runs/all-pipeline-runs-query";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -69,13 +70,21 @@ export function RunSelect({ run }: Props) {
 							<ScrollArea viewportClassName="max-h-[300px]">
 								{run && (
 									<SelectItem value={run.id}>
-										<RunSelectItemContent name={run.name} status={run.body?.status ?? null} />
+										<RunSelectItemContent
+											name={run.name}
+											status={run.body?.status ?? null}
+											index={run.body?.index}
+										/>
 									</SelectItem>
 								)}
 								{!run &&
 									runs.map((run) => (
 										<SelectItem key={run.id} value={run.id}>
-											<RunSelectItemContent name={run.name} status={run.body?.status ?? null} />
+											<RunSelectItemContent
+												name={run.name}
+												status={run.body?.status ?? null}
+												index={run.body?.index}
+											/>
 										</SelectItem>
 									))}
 							</ScrollArea>
@@ -108,11 +117,22 @@ export function RunSelect({ run }: Props) {
 	);
 }
 
-function RunSelectItemContent({ name, status }: { name: string; status: ExecutionStatus | null }) {
+function RunSelectItemContent({
+	name,
+	status,
+	index
+}: {
+	name: string;
+	status: ExecutionStatus | null;
+	index?: number;
+}) {
 	return (
 		<div className="flex items-center gap-1 text-text-md">
 			<RunIcon className={`h-4 w-4 shrink-0 ${getExecutionStatusColor(status)}`} />
-			<div className="truncate">{name}</div>
+			<div className="truncate">
+				<RunIndexPrefix index={index} />
+				{name}
+			</div>
 		</div>
 	);
 }

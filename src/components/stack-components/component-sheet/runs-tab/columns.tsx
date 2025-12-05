@@ -12,6 +12,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Link } from "react-router-dom";
+import { RunIndexPrefix } from "@/components/runs/run-index-prefix";
 
 export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{
@@ -20,13 +21,15 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		accessorFn: (row) => ({
 			id: row.id,
 			name: row.name,
-			status: row.body?.status
+			status: row.body?.status,
+			index: row.body?.index
 		}),
 		cell: ({ getValue }) => {
-			const { name, status, id } = getValue<{
+			const { name, status, id, index } = getValue<{
 				id: string;
 				name: string;
 				status: ExecutionStatus;
+				index?: number;
 			}>();
 			return (
 				<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
@@ -38,6 +41,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 								className="grid grid-cols-1 items-center gap-1"
 							>
 								<span className="truncate text-text-md font-semibold text-theme-text-primary">
+									<RunIndexPrefix index={index} />
 									{name}
 								</span>
 							</Link>
