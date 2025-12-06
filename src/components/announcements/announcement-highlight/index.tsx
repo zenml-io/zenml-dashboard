@@ -81,7 +81,7 @@ export function AnnouncementHighlight() {
 							</ul>
 						</div>
 						<Markdown
-							className="prose text-theme-text-secondary"
+							className="prose max-h-[200px] overflow-y-auto text-theme-text-secondary"
 							markdown={currentItem.description}
 						/>
 					</div>
