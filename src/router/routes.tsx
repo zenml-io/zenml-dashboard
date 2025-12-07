@@ -73,6 +73,7 @@ export const routes = {
 		apiTokens: "/settings/api-tokens",
 		general: "/settings/general",
 		members: `/settings/members`,
+		mcp: "/settings/mcp",
 		notifications: "/settings/notifications",
 		profile: `/settings/profile`,
 		secrets: { overview: "/settings/secrets", detail: (id: string) => `/settings/secrets/${id}` },

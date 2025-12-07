@@ -53,6 +53,7 @@ const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 // Settings
 const Settings = lazy(() => import("@/layouts/settings/settings-layout/layout"));
 const Notifications = lazy(() => import("@/app/settings/notifications/page"));
+const MCPSettings = lazy(() => import("@/app/settings/mcp/page"));
 
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const ConnectorConfig = lazy(() => import("@/app/settings/connectors/[id]/configuration/page"));
@@ -156,6 +157,10 @@ export const router = createBrowserRouter([
 									{
 										element: withProtectedRoute(<APITokens />),
 										path: "api-tokens"
+									},
+									{
+										element: withProtectedRoute(<MCPSettings />),
+										path: "mcp"
 									},
 									{
 										element: withProtectedRoute(<Secrets />),

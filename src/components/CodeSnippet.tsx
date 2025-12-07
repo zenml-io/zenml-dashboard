@@ -10,7 +10,7 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
-	language?: "python" | "bash" | "ts" | "dockerfile";
+	language?: "python" | "bash" | "ts" | "dockerfile" | "json";
 	copyCode?: string;
 	exceptionCodeLine?: number;
 };
@@ -59,7 +59,10 @@ export function Codesnippet({
 					)}
 				>
 					{highlightCode ? (
-						<CodeHighlighter language={language} code={code} />
+						<CodeHighlighter
+							language={language as "python" | "bash" | "ts" | "dockerfile"}
+							code={code}
+						/>
 					) : (
 						<code>{code}</code>
 					)}
