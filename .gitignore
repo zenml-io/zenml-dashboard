@@ -34,3 +34,6 @@ urls.txt
 # Claude Code
 .claude/*
 !.claude/output-styles/
+
+# X-Squad
+design/
