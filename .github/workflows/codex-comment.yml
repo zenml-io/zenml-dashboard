@@ -142,28 +142,33 @@ jobs:
     name: Post Codex reply
     runs-on: ubuntu-latest
     needs: run-codex
-    if: |
-      needs.run-codex.result == 'success' &&
-      needs.run-codex.outputs.final_message != ''
+    if: always() && needs.run-codex.result == 'success'
     permissions:
       issues: write
       pull-requests: write
     steps:
-      - name: Reply with Codex output
-        uses: actions/github-script@v7
+      - name: Debug outputs
+        run: |
+          echo "Final message length: ${#FINAL_MESSAGE}"
+          echo "Issue number: ${{ github.event.issue.number }}"
         env:
-          CODEX_FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
+          FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
+      - name: Reply with Codex output
+        if: needs.run-codex.outputs.final_message
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const body = process.env.CODEX_FINAL_MESSAGE;
-            if (!body) {
+            const body = `${{ needs.run-codex.outputs.final_message }}`;
+            if (!body || body.trim() === '') {
               core.info('No Codex output to post.');
               return;
             }
+            console.log('Posting comment with length:', body.length);
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
+              issue_number: ${{ github.event.issue.number }},
               body
             });
+            console.log('Comment posted successfully');

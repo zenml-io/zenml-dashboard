@@ -32,4 +32,8 @@ dist-ssr
 urls.txt
 
 # Claude Code
-.claude/
+.claude/*
+!.claude/output-styles/
+
+# X-Squad
+design/

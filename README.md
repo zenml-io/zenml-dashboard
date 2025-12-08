@@ -19,6 +19,8 @@
    ·
    <a href="https://zenml.io/roadmap">Roadmap</a>
    ·
+   <a href="https://docs.zenml.io/changelog">Changelog</a>
+   ·
     <a href="https://github.com/zenml-io/zenml-dashboard/issues">Report Bug</a>
    ·
    <a href="https://zenml.io/discussion">Vote New Features</a>
