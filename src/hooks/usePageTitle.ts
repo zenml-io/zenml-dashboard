@@ -100,6 +100,6 @@ export function usePageTitle(): void {
 	}, [pathname]);
 
 	useEffect(() => {
-		document.title = baseTitle ? `${baseTitle} - ZenML Dashboard` : "ZenML Dashboard";
+		document.title = `${baseTitle} - ZenML Dashboard`;
 	}, [baseTitle]);
 }
