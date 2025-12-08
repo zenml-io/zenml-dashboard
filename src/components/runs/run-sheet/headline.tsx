@@ -2,7 +2,7 @@ import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "../../ExecutionStatus";
-import { RunIndexPrefix } from "../run-index-prefix";
+import { RunName } from "../run-name";
 
 type Props = {
 	runId: string;
@@ -24,8 +24,7 @@ export function RunSheetHeadline({ runId }: Props) {
 		<div className="flex items-center gap-1 overflow-hidden border-b border-b-theme-border-moderate bg-theme-surface-primary p-5">
 			<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 			<p className="min-w-0 truncate text-display-xs font-semibold">
-				<RunIndexPrefix index={index} />
-				{name}
+				<RunName name={name} index={index} />
 			</p>
 			<ExecutionStatusIcon className="h-5 w-5 shrink-0" status={status} />
 		</div>

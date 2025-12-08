@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { RunName } from "@/components/runs/run-name";
 import { ActionCell } from "@/components/tables/action-cell";
 import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
@@ -19,7 +20,6 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Link } from "react-router-dom";
-import { RunIndexPrefix } from "@/components/runs/run-index-prefix";
 import { RunDropdown } from "./RunDropdown";
 
 export const runsColumns: ColumnDef<PipelineRun>[] = [
@@ -72,8 +72,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 								className="grid grid-cols-1 items-center gap-1"
 							>
 								<span className="truncate text-text-md font-semibold text-theme-text-primary">
-									<RunIndexPrefix index={index} />
-									{name}
+									<RunName name={name} index={index} />
 								</span>
 							</Link>
 							<TooltipProvider>

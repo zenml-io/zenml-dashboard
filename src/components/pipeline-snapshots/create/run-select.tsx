@@ -1,6 +1,6 @@
 import RunIcon from "@/assets/icons/terminal.svg?react";
 import { getExecutionStatusColor } from "@/components/ExecutionStatus";
-import { RunIndexPrefix } from "@/components/runs/run-index-prefix";
+import { RunName } from "@/components/runs/run-name";
 import { allPipelineRunsInfinite } from "@/data/pipeline-runs/all-pipeline-runs-query";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -130,8 +130,7 @@ function RunSelectItemContent({
 		<div className="flex items-center gap-1 text-text-md">
 			<RunIcon className={`h-4 w-4 shrink-0 ${getExecutionStatusColor(status)}`} />
 			<div className="truncate">
-				<RunIndexPrefix index={index} />
-				{name}
+				<RunName name={name} index={index} />
 			</div>
 		</div>
 	);
