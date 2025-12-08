@@ -53,7 +53,7 @@ export function AnnouncementHighlight() {
 
 	return (
 		<Dialog open={open} onOpenChange={handleChange}>
-			<DialogContent className="flex max-w-[600px] flex-col overflow-hidden">
+			<DialogContent className="flex max-h-screen max-w-[600px] flex-col overflow-hidden overflow-y-auto">
 				{currentItem.video_url ? (
 					<AnnouncementVideo videoUrl={currentItem.video_url} />
 				) : (
