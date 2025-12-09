@@ -19,7 +19,8 @@ import {
 	ExperimentTrackerSection,
 	ModelDeployerSection,
 	ModelRegistrySection,
-	DeployerSection
+	DeployerSection,
+	LogStoreSection
 } from "@/contents/components";
 
 type Props = {
@@ -115,6 +116,11 @@ function getTooltip(type: StackComponentType): { description: string; link: stri
 			return {
 				description: DeployerSection.description,
 				link: DeployerSection.helpLink
+			};
+		case "log_store":
+			return {
+				description: LogStoreSection.description,
+				link: LogStoreSection.helpLink
 			};
 	}
 }

@@ -45,5 +45,7 @@ export function ComponentIcon({ type, ...rest }: Props) {
 			return <Layout {...rest} />;
 		case "deployer":
 			return <Rocket {...rest} />;
+		case "log_store":
+			return <Rocket {...rest} />;
 	}
 }
