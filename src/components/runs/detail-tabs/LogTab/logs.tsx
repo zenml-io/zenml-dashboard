@@ -2,12 +2,13 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
+import { LogSourceCombobox } from "@/components/logs/log-source-combobox";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
 import { buildInternalLogEntries } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
-import { LogCombobox } from "./combobox";
+
 type Props = {
 	runId: string;
 };
@@ -43,7 +44,7 @@ function LogTabContent({ sources, runId }: { sources: string[]; runId: string })
 				<div className="flex items-center gap-2">
 					<span className="text-theme-text-secondary">Logs source:</span>
 					{sources.length > 1 ? (
-						<LogCombobox
+						<LogSourceCombobox
 							sources={sources}
 							selectedSource={selectedSource}
 							setSelectedSource={setSelectedSource}
