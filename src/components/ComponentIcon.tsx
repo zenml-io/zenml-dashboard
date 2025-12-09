@@ -10,6 +10,7 @@ import MLModel from "@/assets/icons/ml_model.svg?react";
 import Package from "@/assets/icons/package-plus.svg?react";
 import Rocket from "@/assets/icons/rocket.svg?react";
 import Transform from "@/assets/icons/transform.svg?react";
+import LogStore from "@/assets/icons/log-store.svg?react";
 import { StackComponentType } from "@/types/components";
 import { HTMLAttributes } from "react";
 
@@ -46,6 +47,6 @@ export function ComponentIcon({ type, ...rest }: Props) {
 		case "deployer":
 			return <Rocket {...rest} />;
 		case "log_store":
-			return <Rocket {...rest} />;
+			return <LogStore {...rest} />;
 	}
 }
