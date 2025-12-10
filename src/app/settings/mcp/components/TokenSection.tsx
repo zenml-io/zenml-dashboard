@@ -18,6 +18,7 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 
 	const hasToken = Boolean(token);
 	const placeholder = "Paste your API key here";
+	const copyStatusMessage = error ? "Copy failed" : copied ? "Copied" : "";
 
 	const handleCopy = () => {
 		if (!token) return;
@@ -89,17 +90,19 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 								size="sm"
 								onClick={handleCopy}
 								className="flex size-7 items-center justify-center p-0"
+								aria-describedby="token-copy-status"
 							>
 								<span className="sr-only">Copy API key</span>
 								<Copy className="h-4 w-4 fill-neutral-500" />
-								<span className="sr-only">{copied ? "Copied" : "Copy"}</span>
 							</Button>
-							{copied && !error && (
-								<span className="ml-1 text-[11px] text-theme-text-secondary">Copied</span>
-							)}
-							{error && (
-								<span className="ml-1 text-[11px] text-theme-text-secondary">Copy failed</span>
-							)}
+							<span
+								id="token-copy-status"
+								role="status"
+								aria-live="polite"
+								className="ml-1 text-[11px] text-theme-text-secondary"
+							>
+								{copyStatusMessage}
+							</span>
 						</div>
 					)}
 				</div>
