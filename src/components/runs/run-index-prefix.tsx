@@ -1,4 +1,4 @@
-import { formatRunIndex } from "@/lib/runs";
+import { formatRunIndex } from "./runs";
 
 type Props = {
 	index?: number | null;
