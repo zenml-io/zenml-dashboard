@@ -41,10 +41,17 @@ function getMcpEnvDockerArgs(): string[] {
 	return Object.entries(MCP_ENV_VARS).flatMap(([key, value]) => ["-e", `${key}=${value}`]);
 }
 
-// Browser-only Base64-encode JSON using window.btoa
+// Base64-encode JSON, with fallback for Node.js environments (tests)
 function encodeJsonToBase64(value: unknown): string {
 	const json = JSON.stringify(value);
-	return window.btoa(json);
+	if (typeof window !== "undefined" && typeof window.btoa === "function") {
+		return window.btoa(json);
+	}
+	// Fallback for Node.js environments (e.g., tests)
+	if (typeof Buffer !== "undefined") {
+		return Buffer.from(json, "utf-8").toString("base64");
+	}
+	throw new Error("No Base64 encoder available");
 }
 
 function buildDockerArgs(endpointUrl: string, token: string, projectId: string): string[] {
