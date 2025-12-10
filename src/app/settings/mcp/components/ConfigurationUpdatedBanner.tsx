@@ -16,7 +16,7 @@ export function ConfigurationUpdatedBanner({ onDismiss }: ConfigurationUpdatedBa
 				</p>
 			</div>
 
-			<button onClick={onDismiss} aria-label="Dismiss notification">
+			<button type="button" onClick={onDismiss} aria-label="Dismiss notification">
 				<Close className="size-5 fill-current" />
 			</button>
 		</div>

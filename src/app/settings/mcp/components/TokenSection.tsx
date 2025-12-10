@@ -14,7 +14,7 @@ type TokenSectionProps = {
 
 export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 	const [showToken, setShowToken] = useState(false);
-	const { copied, copyToClipboard } = useCopy();
+	const { copied, error, copyToClipboard } = useCopy();
 
 	const hasToken = Boolean(token);
 	const placeholder = "Paste your API key here";
@@ -94,7 +94,12 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 								<Copy className="h-4 w-4 fill-neutral-500" />
 								<span className="sr-only">{copied ? "Copied" : "Copy"}</span>
 							</Button>
-							{copied && <span className="ml-1 text-[11px] text-theme-text-secondary">Copied</span>}
+							{copied && !error && (
+								<span className="ml-1 text-[11px] text-theme-text-secondary">Copied</span>
+							)}
+							{error && (
+								<span className="ml-1 text-[11px] text-theme-text-secondary">Copy failed</span>
+							)}
 						</div>
 					)}
 				</div>

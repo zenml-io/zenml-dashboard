@@ -477,3 +477,21 @@ claude mcp add zenml \\
 		}
 	];
 }
+
+/**
+ * Internal helpers exposed for unit testing. Application code should prefer using getIDEConfigs
+ * and avoid depending directly on these lower-level utilities.
+ */
+export {
+	getProjectIdDockerArgs,
+	getProjectIdBashLine,
+	getProjectIdJqArrayLine,
+	getProjectIdJqEnvLine,
+	getProjectIdEnvFlag,
+	buildDockerArgs,
+	buildVsCodeDeepLink,
+	buildCursorDeepLink,
+	buildVsCodeCliCommand,
+	buildDockerConfig,
+	buildUvConfig
+};

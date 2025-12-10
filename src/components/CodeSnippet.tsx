@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { cn } from "@zenml-io/react-component-library";
 import Copy from "@/assets/icons/copy.svg?react";
+import { useCopy } from "@/lib/copy";
 import { CodeHighlighter } from "./CodeHighlighter";
+import type { CodeLanguage } from "./CodeHighlighter";
 
 type DisplayCodeProps = {
 	code: string;
@@ -10,7 +11,7 @@ type DisplayCodeProps = {
 	highlightCode?: boolean;
 	className?: string;
 	codeClasses?: string;
-	language?: "python" | "bash" | "ts" | "dockerfile" | "json";
+	language?: CodeLanguage;
 	copyCode?: string;
 	exceptionCodeLine?: number;
 };
@@ -26,19 +27,7 @@ export function Codesnippet({
 	copyCode = code,
 	exceptionCodeLine
 }: DisplayCodeProps) {
-	const [copied, setCopied] = useState(false);
-
-	async function copyToClipboard(text: string) {
-		try {
-			await navigator.clipboard.writeText(text);
-			setCopied(true);
-			setTimeout(() => {
-				setCopied(false);
-			}, 2000);
-		} catch (error) {
-			console.error("Failed to copy:", error);
-		}
-	}
+	const { copied, copyToClipboard } = useCopy();
 
 	return (
 		<div className="relative w-full">
@@ -59,10 +48,7 @@ export function Codesnippet({
 					)}
 				>
 					{highlightCode ? (
-						<CodeHighlighter
-							language={language as "python" | "bash" | "ts" | "dockerfile"}
-							code={code}
-						/>
+						<CodeHighlighter language={language} code={code} />
 					) : (
 						<code>{code}</code>
 					)}
@@ -73,7 +59,7 @@ export function Codesnippet({
 						style={{ top: `${24 * exceptionCodeLine + 17}px` }}
 					></div>
 				)}
-				<button onClick={() => copyToClipboard(copyCode)}>
+				<button type="button" onClick={() => copyToClipboard(copyCode)}>
 					{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
 				</button>
 			</div>

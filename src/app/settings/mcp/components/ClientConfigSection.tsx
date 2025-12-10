@@ -7,6 +7,24 @@ import {
 import { getIDEConfigs } from "../config/ide-configs";
 import { IDETabContent } from "./IDETabContent";
 
+function isSafeDeepLinkUrl(rawUrl: string): boolean {
+	if (!rawUrl) {
+		return false;
+	}
+
+	try {
+		const url = new URL(rawUrl);
+
+		if (url.protocol === "javascript:") {
+			return false;
+		}
+
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 type ClientConfigSectionProps = {
 	endpointUrl: string;
 	token: string;
@@ -17,6 +35,10 @@ export function ClientConfigSection({ endpointUrl, token, projectId }: ClientCon
 	const ideConfigs = getIDEConfigs(endpointUrl, token, projectId);
 
 	const handleOpenLink = (url: string) => {
+		if (!isSafeDeepLinkUrl(url)) {
+			return;
+		}
+
 		window.open(url, "_blank", "noopener,noreferrer");
 	};
 
