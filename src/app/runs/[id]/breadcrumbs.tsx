@@ -1,6 +1,6 @@
 import { pipelineBreadcrumb, runBreadcrumb } from "@/components/breadcrumbs/library";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
-import { formatRunName } from "@/lib/runs";
+import { RunName } from "@/components/runs/run-name";
 import { routes } from "@/router/routes";
 import { PipelineRun } from "@/types/pipeline-runs";
 
@@ -19,7 +19,7 @@ export function useRunDetailBreadcrumbs(run?: PipelineRun) {
 						href: routes.projects.pipelines.detail.runs(run.resources.pipeline.id)
 					},
 					{
-						label: formatRunName(run.name, run.body?.index),
+						label: <RunName name={run.name} index={run.body?.index} />,
 						href: "#"
 					}
 				]);
@@ -27,7 +27,7 @@ export function useRunDetailBreadcrumbs(run?: PipelineRun) {
 				setBreadcrumbs([
 					runBreadcrumb,
 					{
-						label: formatRunName(run.name, run.body?.index),
+						label: <RunName name={run.name} index={run.body?.index} />,
 						href: routes.projects.runs.detail(run.id)
 					}
 				]);
