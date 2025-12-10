@@ -1,4 +1,5 @@
 import MetadataIcon from "@/assets/icons/code-square.svg?react";
+import CodeBrowser from "@/assets/icons/code-browser.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import Logs from "@/assets/icons/logs.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
@@ -12,6 +13,7 @@ import { LogsTabBoundary } from "./LogTab/boundary";
 import { LogTab } from "./LogTab/logs";
 import { MetadataTab } from "./Metadata";
 import { OverviewTab } from "./Overview";
+import { SourceCodeTab } from "./SourceCode";
 import { StackTab } from "./Stack";
 
 type RunDetailTabsDisplayProps = {
@@ -38,6 +40,10 @@ export function RunDetailTabsDisplay({
 				<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
 					<TabIcon icon={Logs} />
 					<span>Logs</span>
+				</TabsTrigger>
+				<TabsTrigger className="flex items-center gap-2 text-text-md" value="code">
+					<TabIcon icon={CodeBrowser} />
+					<span>Code</span>
 				</TabsTrigger>
 				<TabsTrigger
 					className="flex items-center gap-2 truncate text-text-md"
@@ -68,6 +74,9 @@ export function RunDetailTabsDisplay({
 			</TabsContent>
 			<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
 				<MetadataTab runId={runId} />
+			</TabsContent>
+			<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
+				<SourceCodeTab runId={runId} />
 			</TabsContent>
 		</Tabs>
 	);
