@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 export type BreadcrumbSegment = {
-	label: string;
+	label: ReactNode;
 	href: string;
 	disabled?: boolean;
 };

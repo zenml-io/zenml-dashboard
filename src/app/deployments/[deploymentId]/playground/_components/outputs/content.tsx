@@ -25,7 +25,8 @@ export function PlaygroundOutputsContent({ outputs, clearOutputs }: Props) {
 					<PlaygroundRunCard
 						success={outputs.success}
 						runId={metadata.run_id || undefined}
-						runName={metadata.run_name || undefined}
+						runName={metadata.run_name || "Unnamed Run"}
+						runIndex={metadata.run_index || undefined}
 						duration={outputs.execution_time}
 					/>
 				</div>

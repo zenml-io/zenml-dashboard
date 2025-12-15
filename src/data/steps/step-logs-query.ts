@@ -3,17 +3,21 @@ import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { fetcher } from "../fetch";
 import { LogResponse } from "@/types/logs";
+import { StepLogsQueryParams } from "@/types/steps";
+import { objectToSearchParams } from "@/lib/url";
 
 type StepLogs = {
 	stepId: string;
+	queries: StepLogsQueryParams;
 };
 
-export function getStepLogsQueryKey({ stepId }: StepLogs) {
-	return ["logs", stepId];
+export function getStepLogsQueryKey({ stepId, queries }: StepLogs) {
+	return ["logs", stepId, queries];
 }
 
-export async function fetchStepLogs({ stepId }: StepLogs) {
-	const url = createApiPath(apiPaths.steps.logs(stepId));
+export async function fetchStepLogs({ stepId, queries }: StepLogs) {
+	const queryString = objectToSearchParams(queries).toString();
+	const url = createApiPath(apiPaths.steps.logs(stepId) + (queryString ? `?${queryString}` : ""));
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {

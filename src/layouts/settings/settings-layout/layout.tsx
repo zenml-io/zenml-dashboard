@@ -37,7 +37,7 @@ export default function SettingsPage() {
 					<VersionDisplay />
 				</div>
 			</div>
-			<div className="w-full">
+			<div className="w-full overflow-x-hidden">
 				<Outlet />
 			</div>
 		</div>

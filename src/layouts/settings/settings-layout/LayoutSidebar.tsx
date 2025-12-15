@@ -57,6 +57,10 @@ export function ServerSettingsMenu() {
 					pathname.startsWith(routes.settings.service_accounts.overview)
 			},
 			{
+				name: "MCP",
+				href: routes.settings.mcp
+			},
+			{
 				name: "Notifications",
 				href: routes.settings.notifications
 			}

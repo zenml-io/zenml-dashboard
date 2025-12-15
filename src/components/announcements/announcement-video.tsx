@@ -9,7 +9,7 @@ export function AnnouncementVideo({ videoUrl, className }: Props) {
 	return (
 		<div className={cn("overflow-hidden", className)}>
 			<iframe
-				className="aspect-video w-full overflow-hidden"
+				className="aspect-video w-full shrink-0 overflow-hidden"
 				src={videoUrl}
 				title="YouTube video player"
 				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
