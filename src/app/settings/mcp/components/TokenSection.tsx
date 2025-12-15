@@ -14,11 +14,11 @@ type TokenSectionProps = {
 
 export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 	const [showToken, setShowToken] = useState(false);
-	const { copied, error, copyToClipboard } = useCopy();
+	const { copied, copyToClipboard } = useCopy();
 
 	const hasToken = Boolean(token);
 	const placeholder = "Paste your API key here";
-	const copyStatusMessage = error ? "Copy failed" : copied ? "Copied" : "";
+	const copyStatusMessage = copied ? "Copied" : "";
 
 	const handleCopy = () => {
 		if (!token) return;

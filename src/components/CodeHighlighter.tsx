@@ -6,8 +6,7 @@ import "prismjs/components/prism-bash";
 import "prismjs/components/prism-json";
 import "@/assets/styles/prism-github-light.css";
 import { useEffect } from "react";
-
-export type CodeLanguage = "python" | "bash" | "ts" | "dockerfile" | "json";
+import type { CodeLanguage } from "@/types/code-highlighting";
 
 type Props = {
 	code: string;

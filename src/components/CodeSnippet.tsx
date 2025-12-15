@@ -2,7 +2,7 @@ import { cn } from "@zenml-io/react-component-library";
 import Copy from "@/assets/icons/copy.svg?react";
 import { useCopy } from "@/lib/copy";
 import { CodeHighlighter } from "./CodeHighlighter";
-import type { CodeLanguage } from "./CodeHighlighter";
+import type { CodeLanguage } from "@/types/code-highlighting";
 
 type DisplayCodeProps = {
 	code: string;
