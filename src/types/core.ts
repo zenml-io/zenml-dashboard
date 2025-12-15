@@ -7407,8 +7407,6 @@ export type components = {
 			 * Format: uuid
 			 */
 			snapshot: string;
-			/** The pipeline associated with the pipeline run. */
-			pipeline?: string | null;
 			/** The orchestrator run ID. */
 			orchestrator_run_id?: string | null;
 			/** The start time of the pipeline run. */
@@ -7487,6 +7485,8 @@ export type components = {
 			in_progress: boolean;
 			/** The reason for the status of the pipeline run. */
 			status_reason?: string | null;
+			/** The unique index of the run within the pipeline. */
+			index: number;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -15380,6 +15380,7 @@ export type operations = {
 				user?: string | null;
 				project?: string | null;
 				name?: string | null;
+				index?: number | null;
 				orchestrator_run_id?: string | null;
 				stack_id?: string | null;
 				schedule_id?: string | null;
@@ -16240,6 +16241,7 @@ export type operations = {
 				user?: string | null;
 				project?: string | null;
 				name?: string | null;
+				index?: number | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;
@@ -23267,6 +23269,7 @@ export type operations = {
 				user?: string | null;
 				project?: string | null;
 				name?: string | null;
+				index?: number | null;
 				orchestrator_run_id?: string | null;
 				pipeline_id?: string | null;
 				stack_id?: string | null;

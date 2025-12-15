@@ -49,6 +49,8 @@ type DeploymentInvocationMetadata = {
 	run_id?: string | null;
 	/** The name of the pipeline run. */
 	run_name?: string | null;
+	/** The index of the pipeline run. */
+	run_index?: number | null;
 	/** The parameters used for the pipeline execution. */
 	parameters_used: {
 		[key: string]: unknown;

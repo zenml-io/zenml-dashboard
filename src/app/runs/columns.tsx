@@ -4,10 +4,11 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { RunName } from "@/components/runs/run-name";
 import { ActionCell } from "@/components/tables/action-cell";
 import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
-import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
+import { PipelineRun } from "@/types/pipeline-runs";
 import { Stack } from "@/types/stack";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library";
@@ -56,12 +57,11 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 			name: row.name,
 			status: row.body?.status
 		}),
-		cell: ({ getValue }) => {
-			const { name, status, id } = getValue<{
-				id: string;
-				name: string;
-				status: ExecutionStatus;
-			}>();
+		cell: ({ row }) => {
+			const { name, id } = row.original;
+			const status = row.original.body?.status;
+			const index = row.original.body?.index;
+
 			return (
 				<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
 					<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
@@ -72,7 +72,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 								className="grid grid-cols-1 items-center gap-1"
 							>
 								<span className="truncate text-text-md font-semibold text-theme-text-primary">
-									{name}
+									<RunName name={name} index={index} />
 								</span>
 							</Link>
 							<TooltipProvider>

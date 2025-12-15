@@ -4,6 +4,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
+import { RunName } from "@/components/runs/run-name";
 import { ActionCell } from "@/components/tables/action-cell";
 import { ScheduleTag } from "@/components/triggers/schedule-tag";
 import { routes } from "@/router/routes";
@@ -56,13 +57,15 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			accessorFn: (row) => ({
 				name: row.name,
 				id: row.id,
-				status: row.body?.status
+				status: row.body?.status,
+				index: row.body?.index
 			}),
 			cell: ({ getValue }) => {
-				const { name, status, id } = getValue<{
+				const { name, status, id, index } = getValue<{
 					name: PipelineRun["name"];
 					id: PipelineRun["id"];
 					status: PipelineRunBody["status"];
+					index: PipelineRunBody["index"];
 				}>();
 
 				return (
@@ -74,7 +77,9 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 									to={routes.projects.runs.detail(id)}
 									className="grid grid-cols-1 items-center gap-1"
 								>
-									<h2 className="truncate text-text-md font-semibold">{name}</h2>
+									<h2 className="truncate text-text-md font-semibold">
+										<RunName name={name} index={index} />
+									</h2>
 								</Link>
 								<TooltipProvider>
 									<Tooltip>
