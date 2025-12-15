@@ -4,10 +4,9 @@ import { InstallationMethodCard } from "./InstallationMethodCard";
 
 type IDETabContentProps = {
 	ide: IDEConfig;
-	onOpenLink: (url: string) => void;
 };
 
-export function IDETabContent({ ide, onOpenLink }: IDETabContentProps) {
+export function IDETabContent({ ide }: IDETabContentProps) {
 	return (
 		<div className="space-y-4">
 			<div className="space-y-1">
@@ -19,11 +18,7 @@ export function IDETabContent({ ide, onOpenLink }: IDETabContentProps) {
 
 			<div className="space-y-3">
 				{ide.methods.map((method, index) => (
-					<InstallationMethodCard
-						key={`${ide.value}-${method.type}-${index}`}
-						method={method}
-						onOpenLink={onOpenLink}
-					/>
+					<InstallationMethodCard key={`${ide.value}-${method.type}-${index}`} method={method} />
 				))}
 			</div>
 

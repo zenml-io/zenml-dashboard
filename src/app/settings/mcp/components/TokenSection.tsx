@@ -4,6 +4,7 @@ import Copy from "@/assets/icons/copy.svg?react";
 import { useCopy } from "@/lib/copy";
 import { routes } from "@/router/routes";
 import { Button, Input } from "@zenml-io/react-component-library/components/server";
+import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -18,7 +19,6 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 
 	const hasToken = Boolean(token);
 	const placeholder = "Paste your API key here";
-	const copyStatusMessage = copied ? "Copied" : "";
 
 	const handleCopy = () => {
 		if (!token) return;
@@ -34,7 +34,7 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 		<div className="space-y-4">
 			<div className="space-y-1">
 				<div className="flex items-center gap-2">
-					<h2 className="text-text-md font-semibold">Add an API key to authenticate MCP clients</h2>
+					<h2 className="text-text-lg font-semibold">Add an API key to authenticate MCP clients</h2>
 				</div>
 				<p className="text-text-sm text-theme-text-secondary">
 					Paste an existing API key created from a Service Account. This key will be used in the
@@ -63,24 +63,23 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 							hasToken ? "pr-24" : ""
 						}`}
 					/>
-					{hasToken && (
-						<div className="absolute right-1 top-1/2 flex -translate-y-1/2 items-center gap-1">
+					{hasToken ? (
+						<div className="absolute right-1 top-1/2 flex -translate-y-1/2 items-center gap-0.5">
 							<Button
 								intent="secondary"
 								emphasis="minimal"
-								size="sm"
 								onClick={() => setShowToken((prev) => !prev)}
-								className="flex size-7 items-center justify-center p-0"
+								className="flex size-5 items-center justify-center p-0"
 							>
 								{showToken ? (
 									<>
-										<span className="sr-only">Hide API key</span>
-										<EyeOff className="h-4 w-4 fill-neutral-500" />
+										<span className="sr-only">Hide token</span>
+										<EyeOff width={16} height={16} className="fill-neutral-500" />
 									</>
 								) : (
 									<>
-										<span className="sr-only">Show API key</span>
-										<Eye className="h-4 w-4 fill-neutral-500" />
+										<span className="sr-only">Show token</span>
+										<Eye width={16} height={16} className="fill-neutral-500" />
 									</>
 								)}
 							</Button>
@@ -89,22 +88,18 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 								emphasis="minimal"
 								size="sm"
 								onClick={handleCopy}
-								className="flex size-7 items-center justify-center p-0"
+								className="flex size-5 items-center justify-center p-0"
 								aria-describedby="token-copy-status"
 							>
-								<span className="sr-only">Copy API key</span>
-								<Copy className="h-4 w-4 fill-neutral-500" />
+								{copied ? (
+									<CheckCircle width={16} height={16} className="shrink-0 fill-neutral-500" />
+								) : (
+									<Copy width={16} height={16} className="shrink-0 fill-neutral-500" />
+								)}
+								<span className="sr-only">{copied ? "Copied" : "Copy"}</span>
 							</Button>
-							<span
-								id="token-copy-status"
-								role="status"
-								aria-live="polite"
-								className="ml-1 text-[11px] text-theme-text-secondary"
-							>
-								{copyStatusMessage}
-							</span>
 						</div>
-					)}
+					) : null}
 				</div>
 
 				{hasToken && (

@@ -4,42 +4,9 @@ import {
 	TabsTrigger,
 	TabsContent
 } from "@zenml-io/react-component-library/components/client";
+import { useMemo } from "react";
 import { getIDEConfigs } from "../config/ide-configs";
 import { IDETabContent } from "./IDETabContent";
-
-type AllowedDeepLinkProtocol = "https:" | "http:" | "vscode:" | "cursor:";
-
-const ALLOWED_DEEP_LINK_PROTOCOLS: ReadonlySet<AllowedDeepLinkProtocol> = new Set([
-	"https:",
-	"http:",
-	"vscode:",
-	"cursor:"
-]);
-
-function isSafeDeepLinkUrl(rawUrl: string): boolean {
-	if (!rawUrl) {
-		return false;
-	}
-
-	try {
-		const url = new URL(rawUrl);
-		const protocol = url.protocol as AllowedDeepLinkProtocol;
-
-		// Only allow explicitly whitelisted protocols
-		if (!ALLOWED_DEEP_LINK_PROTOCOLS.has(protocol)) {
-			return false;
-		}
-
-		// Cursor deep links must target the expected hostname
-		if (protocol === "cursor:" && url.hostname !== "anysphere.cursor-deeplink") {
-			return false;
-		}
-
-		return true;
-	} catch {
-		return false;
-	}
-}
 
 type ClientConfigSectionProps = {
 	endpointUrl: string;
@@ -48,21 +15,16 @@ type ClientConfigSectionProps = {
 };
 
 export function ClientConfigSection({ endpointUrl, token, projectId }: ClientConfigSectionProps) {
-	const ideConfigs = getIDEConfigs(endpointUrl, token, projectId);
-
-	const handleOpenLink = (url: string) => {
-		if (!isSafeDeepLinkUrl(url)) {
-			return;
-		}
-
-		window.open(url, "_blank", "noopener,noreferrer");
-	};
+	const ideConfigs = useMemo(
+		() => getIDEConfigs(endpointUrl, token, projectId),
+		[endpointUrl, token, projectId]
+	);
 
 	return (
 		<div className="space-y-6">
 			<div className="flex flex-col gap-1">
 				<div className="flex items-center gap-2">
-					<h2 className="text-text-md font-semibold">Client Configuration</h2>
+					<h2 className="text-text-lg font-semibold">Client Configuration</h2>
 					<a
 						href="https://docs.zenml.io/user-guides/best-practices/mcp-chat-with-server"
 						target="_blank"
@@ -89,7 +51,7 @@ export function ClientConfigSection({ endpointUrl, token, projectId }: ClientCon
 
 					{ideConfigs.map((ide) => (
 						<TabsContent key={ide.value} value={ide.value} className="mt-0 border-0 p-5">
-							<IDETabContent ide={ide} onOpenLink={handleOpenLink} />
+							<IDETabContent ide={ide} />
 						</TabsContent>
 					))}
 				</Tabs>
