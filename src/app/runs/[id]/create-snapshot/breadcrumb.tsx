@@ -1,5 +1,6 @@
 import { pipelineBreadcrumb, runBreadcrumb } from "@/components/breadcrumbs/library";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { RunName } from "@/components/runs/run-name";
 import { routes } from "@/router/routes";
 import { PipelineRun } from "@/types/pipeline-runs";
 
@@ -21,7 +22,7 @@ export function useCreateSnapshotFromRunBreadcrumbs(run?: PipelineRun) {
 						]
 					: [runBreadcrumb]),
 				{
-					label: run.name || "",
+					label: <RunName name={run.name} index={run.body?.index} />,
 					href: routes.projects.runs.detail(run.id)
 				},
 				{

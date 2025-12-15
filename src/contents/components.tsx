@@ -75,3 +75,8 @@ export const DeployerSection = {
 		"Deployers transform ML pipelines into long-running HTTP services for real-time, on-demand execution through API endpoints.",
 	helpLink: "https://docs.zenml.io/stacks/stack-components/deployers"
 };
+
+export const LogStoreSection = {
+	description: "Log stores are responsible for storing the logs of the pipeline runs.",
+	helpLink: "https://docs.zenml.io/stacks/stack-components/log-stores"
+};

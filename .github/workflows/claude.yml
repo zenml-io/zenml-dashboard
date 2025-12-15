@@ -36,9 +36,9 @@ jobs:
       needs.check-team-member.outputs.is-team-member == 'true' &&
       github.actor != 'github-actions[bot]' &&
       (
-        (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude') && !contains(github.event.comment.body, '/full-review')) ||
-        (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude') && !contains(github.event.comment.body, '/full-review')) ||
-        (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude') && !contains(github.event.review.body, '/full-review')) ||
+        (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+        (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+        (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
         (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
       )
     runs-on: ubuntu-latest
@@ -51,7 +51,7 @@ jobs:
       pull-requests: read
       issues: read
       id-token: write
-      actions: read  # Required for Claude to read CI results on PRs
+      actions: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -65,16 +65,106 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           track_progress: true
-
-          # This allows Claude to read CI results on PRs
           additional_permissions: |
             actions: read
-          # Optional: Give a custom prompt to Claude. If this is not specified, Claude will perform the instructions specified in the comment that tagged it.
-          # prompt: 'Update the pull request description to include a summary of changes.'
+          prompt: |
+            You are a helpful assistant for the ZenML Dashboard (OSS) repository. Help the user with whatever they asked.
 
-          # Optional: Add claude_args to customize behavior and configuration
-          # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
-          # or https://docs.claude.com/en/docs/claude-code/cli-reference for available options
-          claude_args: --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh
-            issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh
-            pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"
+            If the user is asking for a code review (e.g., "@claude /full-review", "@claude review this", or similar), follow the detailed review guidelines below. Otherwise, just help them with their question or request.
+
+            ---
+            CODE REVIEW GUIDELINES (use when reviewing PRs):
+
+            Focus on ensuring the changes are sound, clean, intentional, and void of regressions.
+
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Context:
+            - You can fetch additional PR context via:
+              - gh pr view ${{ github.event.pull_request.number }} --json title,body,author,headRefName,baseRefName,commits
+              - gh pr diff ${{ github.event.pull_request.number }} --name-only
+            - Use the repository's CLAUDE.md and AGENTS.md for conventions and patterns.
+            - This is a Vite + React SPA using TanStack Query, React Router, Tailwind CSS, and TypeScript.
+            - UI components come from @zenml-io/react-component-library (never import from lucide-react).
+
+            Primary Review Goals:
+
+            1) Verify Change Correctness
+               - Confirm the changes achieve their intended purpose
+               - Check for unintended side effects or regressions
+               - Validate edge cases are handled properly
+               - Ensure error paths are covered
+               - Verify accessibility (a11y) considerations for UI changes
+
+            2) Code Quality & Cleanliness
+               - Is the code readable and self-documenting?
+               - Are the changes minimal and focused?
+               - Do they follow existing patterns in the codebase?
+               - Are there any code smells or anti-patterns?
+               - No `type any` usage - proper TypeScript types required
+               - No inline styles - Tailwind utilities only
+               - No console.log statements left in code
+
+            3) Frontend-Specific Quality Checks
+               - Component reusability: Are components focused and composable?
+               - React patterns: Proper hook usage, no rules violations
+               - TanStack Query hygiene:
+                 * Proper query key factories (matching API paths)
+                 * Query invalidation after mutations
+                 * One request per endpoint in src/data/<resource>/
+               - Router discipline: Using routes.tsx helpers, not hard-coded paths
+               - Icons: Using assets/ components, NOT lucide-react imports
+               - Styling: Tailwind utilities, proper use of @zenml-io/react-component-library
+               - Type safety: Using generated types from src/types/core.ts
+               - Performance: Unnecessary re-renders, bundle size impact
+
+            4) Intentionality Check
+               - Does every change have a clear purpose?
+               - Are there any accidental modifications?
+               - Is there dead code being introduced?
+               - Are the commit boundaries logical?
+
+            5) Potential Issues to Flag
+               - Performance degradations (bundle size, unnecessary re-renders)
+               - Security vulnerabilities (XSS, injection, etc.)
+               - Race conditions in async operations
+               - Memory leaks (uncleaned effects, event listeners)
+               - Breaking changes to component APIs or data contracts
+               - Backwards compatibility issues (dashboard supports multiple ZenML versions)
+
+            6) Constructive Suggestions
+               - Alternative approaches that might be cleaner
+               - Opportunities to reduce complexity
+               - Missing test coverage for critical paths
+               - Documentation gaps for complex logic
+               - Accessibility improvements
+
+            Documentation & Testing Review:
+            - Determine if user-facing behavior, APIs, or component interfaces have changed.
+            - Heuristics (run): gh pr diff ${{ github.event.pull_request.number }} --name-only
+              - If changes exist in src/app/, src/components/, or src/lib/ but README.md, CLAUDE.md, or AGENTS.md are not updated, flag as "docs update needed".
+              - If component APIs changed, check for updates to JSDoc comments or usage examples.
+              - If new environment variables added, ensure .env.example is updated.
+              - If OpenAPI types changed (src/types/core.ts), verify it was generated not hand-edited.
+            - Testing guidance (keep concise—avoid verbose or generic suggestions):
+              - Only suggest tests directly relevant to the specific changes in this PR
+              - Briefly note if new utilities in src/lib/ lack a *.spec.ts file
+              - For UI changes, suggest 1-2 specific manual testing steps the author can perform
+              - Do NOT suggest comprehensive test suites or generic test patterns unrelated to the PR scope
+            - If migration or breaking changes are introduced, recommend adding explicit notes.
+
+            Review Format:
+            - Start with a summary of what the changes accomplish.
+            - List any critical issues that must be addressed.
+            - Note minor improvements that would enhance quality.
+            - Acknowledge what's done particularly well.
+            - End with specific, actionable next steps if needed.
+
+            Output Instructions:
+            - Provide detailed feedback using inline-style code references in your comment for specific issues (quote file paths and line ranges when possible).
+            - Use top-level comments for general observations or praise.
+            - Use `gh pr comment` to post your review comment to the PR.
+
+            Be constructive and helpful in your feedback.
+          claude_args: --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"

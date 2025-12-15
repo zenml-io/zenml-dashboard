@@ -2,6 +2,7 @@ import RunIcon from "@/assets/icons/terminal.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { RunName } from "@/components/runs/run-name";
 import { routes } from "@/router/routes";
 import { ExecutionStatus, PipelineRun } from "@/types/pipeline-runs";
 import { ColumnDef } from "@tanstack/react-table";
@@ -20,13 +21,15 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 		accessorFn: (row) => ({
 			id: row.id,
 			name: row.name,
-			status: row.body?.status
+			status: row.body?.status,
+			index: row.body?.index
 		}),
 		cell: ({ getValue }) => {
-			const { name, status, id } = getValue<{
+			const { name, status, id, index } = getValue<{
 				id: string;
 				name: string;
 				status: ExecutionStatus;
+				index?: number;
 			}>();
 			return (
 				<div className="group/copybutton flex min-w-[10rem] items-center gap-2">
@@ -38,7 +41,7 @@ export const runsColumns: ColumnDef<PipelineRun>[] = [
 								className="grid grid-cols-1 items-center gap-1"
 							>
 								<span className="truncate text-text-md font-semibold text-theme-text-primary">
-									{name}
+									<RunName name={name} index={index} />
 								</span>
 							</Link>
 							<TooltipProvider>

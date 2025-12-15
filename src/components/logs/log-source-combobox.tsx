@@ -22,7 +22,7 @@ type Props = {
 	setSelectedSource: (source: string) => void;
 };
 
-export function LogCombobox({ sources, selectedSource, setSelectedSource }: Props) {
+export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }: Props) {
 	const [open, setOpen] = useState(false);
 
 	return (
