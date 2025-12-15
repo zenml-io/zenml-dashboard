@@ -3,12 +3,14 @@ import "prismjs/components/prism-python";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-docker";
 import "prismjs/components/prism-bash";
+import "prismjs/components/prism-json";
 import "@/assets/styles/prism-github-light.css";
 import { useEffect } from "react";
+import type { CodeLanguage } from "@/types/code-highlighting";
 
 type Props = {
 	code: string;
-	language?: "python" | "bash" | "ts" | "dockerfile";
+	language?: CodeLanguage;
 };
 
 export function CodeHighlighter({ code, language = "python" }: Props) {
