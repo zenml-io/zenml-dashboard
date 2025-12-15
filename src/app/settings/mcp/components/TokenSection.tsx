@@ -60,7 +60,7 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 						onChange={(e) => onTokenChange(e.target.value || null)}
 						placeholder={placeholder}
 						className={`w-full border-theme-border-moderate bg-theme-surface-tertiary font-mono text-text-md text-theme-text-secondary sm:w-[440px] ${
-							hasToken ? "pr-24" : ""
+							hasToken && "pr-11"
 						}`}
 					/>
 					{hasToken ? (
@@ -86,7 +86,6 @@ export function TokenSection({ token, onTokenChange }: TokenSectionProps) {
 							<Button
 								intent="secondary"
 								emphasis="minimal"
-								size="sm"
 								onClick={handleCopy}
 								className="flex size-5 items-center justify-center p-0"
 								aria-describedby="token-copy-status"
