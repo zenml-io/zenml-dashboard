@@ -2584,6 +2584,7 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
+		 *     source: The source of the logs to get. Default is "step".
 		 *
 		 * Returns:
 		 *     List of log entries.
@@ -5643,6 +5644,11 @@ export type components = {
 		/**
 		 * LogEntry
 		 * @description A structured log entry with parsed information.
+		 *
+		 * This is used in two distinct ways:
+		 *     1. If we are using the artifact log store, we save the
+		 *     entries as JSON-serialized LogEntry's in the artifact store.
+		 *     2. When queried, the server returns logs as a list of LogEntry's.
 		 */
 		LogEntry: {
 			/**
@@ -5713,18 +5719,22 @@ export type components = {
 		 * @description Request model for logs.
 		 */
 		LogsRequest: {
-			/** The uri of the logs file */
-			uri: string;
+			/**
+			 * The unique id.
+			 * Format: uuid
+			 */
+			id?: string;
+			/** The URI of the logs file (for artifact store logs) */
+			uri?: string | null;
 			/**
 			 * The source of the logs file
 			 * @default
 			 */
 			source?: string;
-			/**
-			 * The artifact store ID to associate the logs with.
-			 * Format: uuid
-			 */
-			artifact_store_id: string;
+			/** The artifact store ID (for artifact store logs) */
+			artifact_store_id?: string | null;
+			/** The log store ID that collected these logs */
+			log_store_id?: string | null;
 		};
 		/**
 		 * LogsResponse
@@ -5763,8 +5773,8 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
-			/** The uri of the logs file */
-			uri: string;
+			/** The URI of the logs file (for artifact store logs) */
+			uri?: string | null;
 			/** The source of the logs file */
 			source: string;
 		};
@@ -5783,11 +5793,10 @@ export type components = {
 			 * @description When this is set, step_run_id should be set to None.
 			 */
 			pipeline_run_id?: string | null;
-			/**
-			 * The artifact store ID to associate the logs with.
-			 * Format: uuid
-			 */
-			artifact_store_id: string;
+			/** The artifact store ID that collected these logs */
+			artifact_store_id?: string | null;
+			/** The log store ID that collected these logs */
+			log_store_id?: string | null;
 		};
 		/**
 		 * LogsResponseResources
@@ -9481,6 +9490,7 @@ export type components = {
 			| "experiment_tracker"
 			| "feature_store"
 			| "image_builder"
+			| "log_store"
 			| "model_deployer"
 			| "orchestrator"
 			| "step_operator"
@@ -9820,6 +9830,12 @@ export type components = {
 			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
 			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
+			 * Heartbeat Healthy Threshold
+			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to the maximum value (30 minutes).
+			 * @default 30
+			 */
+			heartbeat_healthy_threshold?: number;
+			/**
 			 * Outputs
 			 * @default {}
 			 */
@@ -9954,6 +9970,12 @@ export type components = {
 			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
 			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
+			 * Heartbeat Healthy Threshold
+			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to the maximum value (30 minutes).
+			 * @default 30
+			 */
+			heartbeat_healthy_threshold?: number;
+			/**
 			 * Outputs
 			 * @default {}
 			 */
@@ -10009,6 +10031,7 @@ export type components = {
 			 * Format: date-time
 			 */
 			latest_heartbeat: string;
+			pipeline_run_status?: components["schemas"]["ExecutionStatus"] | null;
 		};
 		/**
 		 * StepRetryConfig
@@ -10217,8 +10240,6 @@ export type components = {
 			source_code?: string | null;
 			/** The exception information of the step run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
-			/** Logs associated with this step run. */
-			logs?: components["schemas"]["LogsResponse"] | null;
 			/**
 			 * The snapshot associated with the step run.
 			 * Format: uuid
@@ -10248,6 +10269,10 @@ export type components = {
 		StepRunResponseResources: {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
+			/** Logs associated with this step run. */
+			logs?: components["schemas"]["LogsResponse"] | null;
+			/** Logs associated with this step run. */
+			log_collection?: components["schemas"]["LogsResponse"][] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** The input artifact versions of the step run. */
 			inputs?: {
@@ -10286,6 +10311,8 @@ export type components = {
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** The time at which this step run should not be used for cached results anymore. */
 			cache_expires_at?: string | null;
+			/** New logs to add to the step run. */
+			add_logs?: components["schemas"]["LogsRequest"][] | null;
 		};
 		/**
 		 * StepRuntime
@@ -20914,6 +20941,7 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
+	 *     source: The source of the logs to get. Default is "step".
 	 *
 	 * Returns:
 	 *     List of log entries.
@@ -20923,6 +20951,9 @@ export type operations = {
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
+			query?: {
+				source?: string;
+			};
 			path: {
 				step_id: string;
 			};
