@@ -258,6 +258,9 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The visualization of the artifact version.
+		 *
+		 * Raises:
+		 *     KeyError: If the artifact version has no artifact store.
 		 */
 		get: operations["get_artifact_visualization_api_v1_artifact_versions__artifact_version_id__visualize_get"];
 	};
@@ -271,6 +274,9 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The download token for the artifact data.
+		 *
+		 * Raises:
+		 *     KeyError: If the artifact version has no artifact store.
 		 */
 		get: operations["get_artifact_download_token_api_v1_artifact_versions__artifact_version_id__download_token_get"];
 	};
@@ -285,6 +291,9 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The artifact data.
+		 *
+		 * Raises:
+		 *     KeyError: If the artifact version has no artifact store.
 		 */
 		get: operations["download_artifact_data_api_v1_artifact_versions__artifact_version_id__data_get"];
 	};
@@ -1154,22 +1163,6 @@ export type paths = {
 		 *     pipeline_id: ID of the pipeline to delete.
 		 */
 		delete: operations["delete_pipeline_api_v1_pipelines__pipeline_id__delete"];
-	};
-	"/api/v1/pipelines/{pipeline_id}/runs": {
-		/**
-		 * List Pipeline Runs
-		 * @description Get pipeline runs according to query filters.
-		 *
-		 * Args:
-		 *     pipeline_run_filter_model: Filter model used for pagination, sorting,
-		 *         filtering
-		 *     hydrate: Flag deciding whether to hydrate the output model(s)
-		 *         by including metadata fields in the response.
-		 *
-		 * Returns:
-		 *     The pipeline runs according to query filters.
-		 */
-		get: operations["list_pipeline_runs_api_v1_pipelines__pipeline_id__runs_get"];
 	};
 	"/api/v1/pipeline_builds": {
 		/**
@@ -7573,8 +7566,6 @@ export type components = {
 			/** Tags associated with the pipeline run. */
 			tags: components["schemas"]["TagResponse"][];
 			/** Logs associated with this pipeline run. */
-			logs?: components["schemas"]["LogsResponse"] | null;
-			/** Logs associated with this pipeline run. */
 			log_collection?: components["schemas"]["LogsResponse"][] | null;
 			/**
 			 * Curated visualizations associated with the pipeline run.
@@ -7661,6 +7652,8 @@ export type components = {
 			name?: boolean | string | null;
 			/** The description of the snapshot. */
 			description?: string | null;
+			/** The source code of the pipeline function or class. */
+			source_code?: string | null;
 			/** Whether to replace the existing snapshot with the same name. */
 			replace?: boolean | null;
 			/** Tags of the snapshot. */
@@ -7754,6 +7747,8 @@ export type components = {
 		PipelineSnapshotResponseMetadata: {
 			/** The description of the snapshot. */
 			description?: string | null;
+			/** The source code of the pipeline function or class. */
+			source_code?: string | null;
 			/** The run name template for runs created using this snapshot. */
 			run_name_template: string;
 			/** The pipeline configuration for this snapshot. */
@@ -10270,8 +10265,6 @@ export type components = {
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
 			/** Logs associated with this step run. */
-			logs?: components["schemas"]["LogsResponse"] | null;
-			/** Logs associated with this step run. */
 			log_collection?: components["schemas"]["LogsResponse"][] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** The input artifact versions of the step run. */
@@ -11998,6 +11991,9 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The visualization of the artifact version.
+	 *
+	 * Raises:
+	 *     KeyError: If the artifact version has no artifact store.
 	 */
 	get_artifact_visualization_api_v1_artifact_versions__artifact_version_id__visualize_get: {
 		parameters: {
@@ -12050,6 +12046,9 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The download token for the artifact data.
+	 *
+	 * Raises:
+	 *     KeyError: If the artifact version has no artifact store.
 	 */
 	get_artifact_download_token_api_v1_artifact_versions__artifact_version_id__download_token_get: {
 		parameters: {
@@ -12100,6 +12099,9 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The artifact data.
+	 *
+	 * Raises:
+	 *     KeyError: If the artifact version has no artifact store.
 	 */
 	download_artifact_data_api_v1_artifact_versions__artifact_version_id__data_get: {
 		parameters: {
@@ -15348,100 +15350,6 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	/**
-	 * List Pipeline Runs
-	 * @description Get pipeline runs according to query filters.
-	 *
-	 * Args:
-	 *     pipeline_run_filter_model: Filter model used for pagination, sorting,
-	 *         filtering
-	 *     hydrate: Flag deciding whether to hydrate the output model(s)
-	 *         by including metadata fields in the response.
-	 *
-	 * Returns:
-	 *     The pipeline runs according to query filters.
-	 */
-	list_pipeline_runs_api_v1_pipelines__pipeline_id__runs_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
-				scope_user?: string | null;
-				user?: string | null;
-				project?: string | null;
-				name?: string | null;
-				index?: number | null;
-				orchestrator_run_id?: string | null;
-				stack_id?: string | null;
-				schedule_id?: string | null;
-				build_id?: string | null;
-				snapshot_id?: string | null;
-				code_repository_id?: string | null;
-				template_id?: string | null;
-				source_snapshot_id?: string | null;
-				model_version_id?: string | null;
-				linked_to_model_version_id?: string | null;
-				status?: string | null;
-				in_progress?: boolean | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				unlisted?: boolean | null;
-				pipeline_name?: string | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				code_repository?: string | null;
-				model?: string | null;
-				stack_component?: string | null;
-				templatable?: boolean | null;
-				triggered_by_step_run_id?: string | null;
-				triggered_by_deployment_id?: string | null;
-			};
-			path: {
-				pipeline_id: string | null;
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				content: {
-					"application/json": components["schemas"]["Page_PipelineRunResponse_"];
 				};
 			};
 			/** @description Unauthorized */
