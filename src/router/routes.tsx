@@ -24,7 +24,8 @@ export const routes = {
 			manual: "/stacks/create/manual",
 			existingInfra: "/stacks/create/existing-infrastructure",
 			terraform: "/stacks/create/terraform"
-		}
+		},
+		edit: (stackId: string) => `/stacks/${stackId}/edit`
 	},
 	projects: {
 		overview: "/projects",
