@@ -18,7 +18,7 @@ export function useExpireCache(stepId: string) {
 		},
 		onSuccess() {
 			queryClient.invalidateQueries({
-				queryKey: ["steps"]
+				queryKey: ["steps", stepId]
 			});
 		}
 	});
