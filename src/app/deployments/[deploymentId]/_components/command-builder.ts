@@ -69,6 +69,9 @@ export function buildPythonCommand({
 		const args = Object.entries(defaultBody)
 			.map(([key, value]) => {
 				const formattedValue = JSON.stringify(value);
+				if (formattedValue === "null") {
+					return `    ${key}=None`;
+				}
 				return `    ${key}=${formattedValue}`;
 			})
 			.join(",\n");

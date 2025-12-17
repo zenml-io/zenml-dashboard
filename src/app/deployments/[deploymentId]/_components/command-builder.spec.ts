@@ -307,7 +307,7 @@ describe("build invocation python command", () => {
 				defaultBody: body
 			});
 
-			expect(result).toContain("optional=null");
+			expect(result).toContain("optional=None");
 		});
 	});
 
