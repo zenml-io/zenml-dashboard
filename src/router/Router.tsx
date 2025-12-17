@@ -83,6 +83,7 @@ const ComponentEdit = lazy(() => import("@/app/components/[componentId]/edit/pag
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const CreateStack = lazy(() => import("@/app/stacks/create/page"));
+const EditStacksLayout = lazy(() => import("@/app/stacks/[stackId]/edit/layout"));
 const StackEdit = lazy(() => import("@/app/stacks/[stackId]/edit/page"));
 const CreateStackNewInfra = lazy(() => import("@/app/stacks/create/new-infrastructure/page"));
 const CreateStackManually = lazy(() => import("@/app/stacks/create/manual/page"));
@@ -392,8 +393,14 @@ export const router = createBrowserRouter([
 					},
 					{
 						errorElement: <PageBoundary />,
-						path: routes.stacks.edit(":stackId"),
-						element: withProtectedRoute(<StackEdit />)
+						element: <EditStacksLayout />,
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.stacks.edit(":stackId"),
+								element: withProtectedRoute(<StackEdit />)
+							}
+						]
 					},
 					{
 						element: <CreateStacksLayout />,
