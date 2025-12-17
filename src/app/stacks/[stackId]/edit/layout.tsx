@@ -3,7 +3,6 @@ import { PageHeader } from "@/components/PageHeader";
 import { Outlet } from "react-router-dom";
 
 export default function EditStacksLayout() {
-	// useStackCreateBreadcrumbs();
 	return (
 		<div className="flex h-full flex-col">
 			<PageHeader>

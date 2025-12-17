@@ -5,12 +5,15 @@ import { Spinner } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { transformStackToFormData } from "./transform-component-data";
 import { UpdateForm } from "./update-form";
+import { useStackUpdateBreadcrumbs } from "./use-breadcrumbs";
 
 export default function StackEditPage() {
 	const { stackId } = useParams() as { stackId: string };
 	const stack = useQuery({
 		...stackQueries.stackDetail(stackId)
 	});
+
+	useStackUpdateBreadcrumbs(stack.data?.name);
 
 	if (stack.isPending) {
 		return (
