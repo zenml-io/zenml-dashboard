@@ -42,6 +42,7 @@ export async function updateStack({ stackId, payload }: UpdateStackParams): Prom
 
 export function useUpdateStack(options?: UseMutationOptions<Stack, FetchError, UpdateStackParams>) {
 	return useMutation<Stack, FetchError, UpdateStackParams, unknown>({
+		mutationKey: ["stacks", "update"],
 		...options,
 		mutationFn: async ({ payload, stackId }: UpdateStackParams) => {
 			return updateStack({ payload, stackId });

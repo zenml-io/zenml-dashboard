@@ -1,7 +1,8 @@
+import { stackQueries } from "@/data/stacks";
 import { useIsMutating } from "@tanstack/react-query";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
 import { useFormContext } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 type StackFormButtonBarProps = {
 	cancelRoute: string;
@@ -17,7 +18,7 @@ export function StackFormButtonBar({
 	const {
 		formState: { isSubmitting }
 	} = useFormContext();
-	const isMutating = !!useIsMutating({ mutationKey: ["stack"] });
+	const isMutating = !!useIsMutating({ mutationKey: stackQueries.all });
 	const isDisabled = isSubmitting || isMutating || isLoading;
 
 	return (

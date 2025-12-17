@@ -1,7 +1,8 @@
-import { createApiPath, apiPaths } from "../api";
 import { FetchError } from "@/lib/fetch-error";
-import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { Stack, StackRequest } from "@/types/stack";
+import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { apiPaths, createApiPath } from "../api";
+import { fetcher } from "../fetch";
 
 type CreateStackParams = {
 	payload: StackRequest;
@@ -10,9 +11,8 @@ type CreateStackParams = {
 export async function createStack({ payload }: CreateStackParams): Promise<Stack> {
 	const url = createApiPath(apiPaths.stacks.all);
 
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "POST",
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/json"
 		},
@@ -42,6 +42,7 @@ export function useCreateStack(
 	options?: UseMutationOptions<Stack, FetchError, CreateStackParams, any>
 ) {
 	return useMutation<Stack, FetchError, CreateStackParams, unknown>({
+		mutationKey: ["stacks", "create"],
 		...options,
 		mutationFn: async ({ payload }: CreateStackParams) => {
 			return createStack({ payload });
