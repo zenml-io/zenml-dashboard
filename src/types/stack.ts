@@ -10,6 +10,8 @@ export type StackListQueryParams = NonNullable<
 	operations["list_stacks_api_v1_stacks_get"]["parameters"]["query"]
 >;
 
+export type StackUpdateRequest = components["schemas"]["StackUpdate"];
+
 // Stack deployments
 
 export type StackDeploymentInfo = components["schemas"]["StackDeploymentInfo"];

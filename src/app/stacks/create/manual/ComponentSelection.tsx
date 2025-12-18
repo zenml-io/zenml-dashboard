@@ -4,7 +4,7 @@ import { InlineAvatar } from "@/components/InlineAvatar";
 import { componentQueries } from "@/data/components";
 import { snakeCaseToLowerCase, snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
-import { StackComponentType } from "@/types/components";
+import { StackComponent, StackComponentType } from "@/types/components";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button, Input, Spinner } from "@zenml-io/react-component-library/components/server";
@@ -17,12 +17,15 @@ import { CreateComponentDialog } from "./create-component-modal";
 import { FormType } from "./schema";
 import { stackComponentTypes } from "@/lib/constants";
 
-export function ComponentsSelection() {
+type ComponentsSectionProps = {
+	initialComponents?: Record<string, StackComponent[]>;
+};
+export function ComponentsSelection({ initialComponents }: ComponentsSectionProps) {
 	return (
 		<>
 			{stackComponentTypes.map((type) => (
 				<TabsContent className="space-y-5 p-5" key={type} value={type}>
-					<ComponentTabContent type={type} />
+					<ComponentTabContent type={type} initialComponents={initialComponents} />
 				</TabsContent>
 			))}
 			<TabsContent className="h-full" value="">
@@ -36,8 +39,9 @@ export function ComponentsSelection() {
 
 type Props = {
 	type: StackComponentType;
+	initialComponent?: StackComponent;
 };
-function ComponentList({ type, search }: Props & { search: string }) {
+function ComponentList({ type, search, initialComponent }: Props & { search: string }) {
 	const componentsList = useInfiniteQuery({
 		...componentQueries.componentListInfinite({
 			sort_by: "desc:updated",
@@ -56,11 +60,30 @@ function ComponentList({ type, search }: Props & { search: string }) {
 			</div>
 		);
 
+	const loadedComponentIds = new Set(
+		componentsList.data.pages.flatMap((page) => page.items.map((comp) => comp.id))
+	);
+
+	// Check if initial component is in loaded pages
+	const initialNotInList =
+		initialComponent?.id && !loadedComponentIds.has(initialComponent.id) && !search;
+
+	// Extract selectedId once
+	const selectedId = watch(`components.${type}.id`);
+
+	// Combine initial component (if not in list) with paginated components
+	const allComponents = [
+		...(initialNotInList && initialComponent ? [initialComponent] : []),
+		...componentsList.data.pages.flatMap((page) => page.items)
+	];
+
 	return (
-		<div className="space-y-1">
+		<div className="space-y-1 pb-3">
 			<ul className="space-y-1">
-				{componentsList.data.pages.map((page) =>
-					page.items.map((comp) => (
+				{allComponents.map((comp) => {
+					const isSelected = selectedId === comp.id;
+					const showMetadata = loadedComponentIds.has(comp.id);
+					return (
 						<li key={comp.id}>
 							<Controller
 								name={`components.${type}.id`}
@@ -68,9 +91,7 @@ function ComponentList({ type, search }: Props & { search: string }) {
 								render={({ field: { onChange, ...restField } }) => (
 									<RadioItemLabel
 										className="justify-between bg-theme-surface-primary font-medium"
-										data-state={
-											watch(`components.${type}.id`) === comp.id ? "selected" : "unselected"
-										}
+										data-state={isSelected ? "selected" : "unselected"}
 										htmlFor={comp.id}
 									>
 										<div className="flex min-w-0 items-center gap-2">
@@ -84,7 +105,7 @@ function ComponentList({ type, search }: Props & { search: string }) {
 													setValue(`components.${type}.logoUrl`, comp.body?.logo_url || "");
 													onChange(e);
 												}}
-												checked={watch(`components.${type}.id`) === comp.id}
+												checked={isSelected}
 												name={type}
 											/>
 											<img
@@ -93,7 +114,6 @@ function ComponentList({ type, search }: Props & { search: string }) {
 												width={24}
 												height={24}
 											/>
-
 											<div className="min-w-0 truncate">
 												<div className="truncate font-semibold">{comp.name}</div>
 												<div className="truncate text-text-xs text-theme-text-secondary">
@@ -101,26 +121,28 @@ function ComponentList({ type, search }: Props & { search: string }) {
 												</div>
 											</div>
 										</div>
-										<div className="flex items-center gap-2 text-text-sm">
-											{comp.resources?.user && (
-												<InlineAvatar
-													avatarUrl={comp.resources.user.body?.avatar_url ?? undefined}
-													username={comp.resources.user.name}
-													isServiceAccount={!!comp.resources.user.body?.is_service_account}
-												/>
-											)}
-											{comp.body?.updated && (
-												<div className="whitespace-nowrap text-theme-text-secondary">
-													<DisplayDate short dateString={comp.body.updated} />
-												</div>
-											)}
-										</div>
+										{showMetadata && (
+											<div className="flex items-center gap-2 text-text-sm">
+												{comp.resources?.user && (
+													<InlineAvatar
+														avatarUrl={comp.resources.user.body?.avatar_url ?? undefined}
+														username={comp.resources.user.name}
+														isServiceAccount={!!comp.resources.user.body?.is_service_account}
+													/>
+												)}
+												{comp.body?.updated && (
+													<div className="whitespace-nowrap text-theme-text-secondary">
+														<DisplayDate short dateString={comp.body.updated} />
+													</div>
+												)}
+											</div>
+										)}
 									</RadioItemLabel>
 								)}
 							/>
 						</li>
-					))
-				)}
+					);
+				})}
 			</ul>
 			<CreateComponentDialog type={type} />
 			{componentsList.hasNextPage && (
@@ -163,11 +185,18 @@ function ComponentHeader({ type }: Props) {
 	);
 }
 
-function ComponentTabContent({ type }: Props) {
+type ComponentTabContentProps = Props & {
+	initialComponents?: Record<string, StackComponent[]>;
+};
+
+function ComponentTabContent({ type, initialComponents }: ComponentTabContentProps) {
 	const [search, setSearch] = useState("");
 	const { watch, setValue } = useFormContext<FormType>();
 
 	const component = watch(`components.${type}`);
+
+	// Get the initial component for this type
+	const initialComponent = initialComponents?.[type]?.[0];
 
 	useEffect(() => {
 		if (component && !component.id) {
@@ -179,7 +208,7 @@ function ComponentTabContent({ type }: Props) {
 		<>
 			<ComponentHeader type={type} />
 			<Search search={search} setSearch={setSearch} />
-			<ComponentList search={search} type={type} />
+			<ComponentList initialComponent={initialComponent} search={search} type={type} />
 		</>
 	);
 }

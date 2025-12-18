@@ -3,13 +3,13 @@ import AlertTriangle from "@/assets/icons/alert-triangle.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import { cn } from "@zenml-io/react-component-library";
 import { VariantProps, cva } from "class-variance-authority";
-import { HTMLAttributes, PropsWithChildren } from "react";
+import { HTMLAttributes, PropsWithChildren, ReactNode } from "react";
 
 const infoBoxVariants = cva("flex items-center text-text-sm rounded-md border px-4 py-3", {
 	variants: {
 		intent: {
 			primary: "border-primary-400 bg-primary-25",
-			warning: "bg-[#FFF6EA] border-theme-border-moderate",
+			warning: "border-warning-300 text-warning-900 bg-warning-50",
 			neutral: "border-theme-border-moderate",
 			error: "bg-error-50 border-error-300"
 		}
@@ -18,13 +18,23 @@ const infoBoxVariants = cva("flex items-center text-text-sm rounded-md border px
 		intent: "primary"
 	}
 });
-type Props = HTMLAttributes<HTMLDivElement> & VariantProps<typeof infoBoxVariants>;
+type Props = HTMLAttributes<HTMLDivElement> &
+	VariantProps<typeof infoBoxVariants> & {
+		button?: ReactNode;
+	};
 
-export function InfoBox({ children, className, intent, ...rest }: PropsWithChildren<Props>) {
+export function InfoBox({
+	children,
+	className,
+	intent,
+	button,
+	...rest
+}: PropsWithChildren<Props>) {
 	return (
 		<div {...rest} className={cn(infoBoxVariants({ intent }), className)}>
 			<PrimitiveIcon intent={intent} />
 			<div className="w-full min-w-0">{children}</div>
+			{button && <div className="ml-auto">{button}</div>}
 		</div>
 	);
 }

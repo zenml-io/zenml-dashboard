@@ -19,7 +19,7 @@ export const RadioItemLabel = forwardRef<HTMLLabelElement, HTMLProps<HTMLLabelEl
 RadioItemLabel.displayName = "RadioItemLabel";
 
 export const RadioItem = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
-	({ className, type, ...rest }, ref) => {
+	({ className, ...rest }, ref) => {
 		return (
 			<input
 				type="radio"

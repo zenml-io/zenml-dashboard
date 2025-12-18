@@ -13,6 +13,7 @@ import {
 	Avatar,
 	AvatarFallback,
 	Box,
+	Button,
 	Sheet,
 	SheetTrigger,
 	Skeleton
@@ -23,7 +24,7 @@ import { CopyButton } from "../../CopyButton";
 import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
-import { UpdateStackDialog } from "./update-stacks-dialog";
+import { UpdateButtonContent } from "@/components/buttons/update-button-content";
 
 type Props = {
 	stackId: string;
@@ -81,7 +82,11 @@ function StackHeadline({ stackId }: Props) {
 				</div>
 			</div>
 			<div className="flex items-center gap-2">
-				<UpdateStackDialog name={stack.data.name} />
+				<Button asChild type="button" size="sm" intent="primary" emphasis="subtle">
+					<Link to={routes.stacks.edit(stackId)}>
+						<UpdateButtonContent />
+					</Link>
+				</Button>
 			</div>
 		</div>
 	);
@@ -108,7 +113,7 @@ function ComponentList({ stackId }: Props) {
 		if (integrations.length >= 1) {
 			setIntegrations((prev) => Array.from(new Set([...prev, ...integrations])));
 		}
-	}, [stack.data]);
+	}, [stack.data, setIntegrations]);
 
 	if (stack.isError) return null;
 	if (stack.isPending)

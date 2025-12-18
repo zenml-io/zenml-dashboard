@@ -11,7 +11,7 @@ export type ProviderForm = z.infer<typeof providerFormSchema>;
 
 export const configurationSchema = z.object({
 	region: z.string().trim().min(1),
-	stackName: stackNameSchema
+	stackName: stackNameSchema()
 });
 
 export type ConfigurationForm = z.infer<typeof configurationSchema>;

@@ -51,7 +51,7 @@ export function useManualStack() {
 	}
 
 	const form = useForm<FormType>({
-		resolver: zodResolver(formSchema),
+		resolver: zodResolver(formSchema()),
 		defaultValues: {
 			components: {
 				alerter: null,

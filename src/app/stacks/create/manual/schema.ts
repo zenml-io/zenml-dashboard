@@ -19,13 +19,14 @@ const typeSchema = stackComponentTypes.reduce(
 	>
 );
 
-export const formSchema = z.object({
-	stackName: stackNameSchema,
-	components: z.object({
-		...typeSchema,
-		orchestrator: componentSchema,
-		artifact_store: componentSchema
-	})
-});
+export const formSchema = (currentName?: string) =>
+	z.object({
+		stackName: stackNameSchema(currentName),
+		components: z.object({
+			...typeSchema,
+			orchestrator: componentSchema,
+			artifact_store: componentSchema
+		})
+	});
 
-export type FormType = z.infer<typeof formSchema>;
+export type FormType = z.infer<ReturnType<typeof formSchema>>;
