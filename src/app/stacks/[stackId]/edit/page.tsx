@@ -10,7 +10,8 @@ import { useStackUpdateBreadcrumbs } from "./use-breadcrumbs";
 export default function StackEditPage() {
 	const { stackId } = useParams() as { stackId: string };
 	const stack = useQuery({
-		...stackQueries.stackDetail(stackId)
+		...stackQueries.stackDetail(stackId),
+		throwOnError: true
 	});
 
 	useStackUpdateBreadcrumbs(stack.data?.name);

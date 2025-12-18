@@ -18,6 +18,7 @@ import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
+import { StackPageBoundary } from "@/app/stacks/[stackId]/stack-page-boundary";
 
 const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -396,7 +397,7 @@ export const router = createBrowserRouter([
 						element: <EditStacksLayout />,
 						children: [
 							{
-								errorElement: <PageBoundary />,
+								errorElement: <StackPageBoundary />,
 								path: routes.stacks.edit(":stackId"),
 								element: withProtectedRoute(<StackEdit />)
 							}

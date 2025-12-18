@@ -1,4 +1,3 @@
-import { InfoBox } from "@/components/Infobox";
 import { AddComponentsGrid } from "@/components/stacks/edit-create/add-component-grid";
 import { StackFormButtonBar } from "@/components/stacks/edit-create/button-bar";
 import { StackNameInput } from "@/components/stacks/edit-create/stack-name-input";
@@ -13,6 +12,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { ComponentsSelection } from "../../create/manual/ComponentSelection";
 import { formSchema, FormType } from "../../create/manual/schema";
 import { useUpdateStackHook } from "./use-update-stack";
+import { UpdateStackWarningBanner } from "./update-warning-banner";
 
 type UpdateFormProps = {
 	stackId: string;
@@ -35,19 +35,14 @@ export function UpdateForm({ stackId, stack, initialFormData }: UpdateFormProps)
 				<form onSubmit={form.handleSubmit(updateExistingStack)} className="h-full">
 					<PanelGroup direction="horizontal" className="h-full !flex-col md:!flex-row">
 						<Panel className="!overflow-y-auto" defaultSize={50} minSize={33}>
-							<div className="p-5 pb-0">
-								<InfoBox intent="warning">
-									<p className="text-text-sm">
-										You are about to update this stack. This will affect all the associated
-										pipelines.
-									</p>
-								</InfoBox>
+							<div className="flex h-full flex-1 flex-col">
+								<UpdateStackWarningBanner />
+								<ComponentsSelection
+									initialComponents={
+										stack.metadata?.components as Record<string, StackComponent[]> | undefined
+									}
+								/>
 							</div>
-							<ComponentsSelection
-								initialComponents={
-									stack.metadata?.components as Record<string, StackComponent[]> | undefined
-								}
-							/>
 						</Panel>
 						<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
 						<Panel
