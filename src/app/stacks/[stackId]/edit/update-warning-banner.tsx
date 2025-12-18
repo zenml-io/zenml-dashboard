@@ -35,7 +35,11 @@ export function UpdateStackWarningBanner() {
 						Change how historical runs display (they'll show the new configuration, not the
 						original)
 					</li>
-					<li>Potentially break scheduled runs that depend on modified or removed components</li>
+					<li>Potentially break existing schedules runs that rely on existing stack components</li>
+					<li>
+						Potentially break existing Docker images for scheduled pipelines due to missing stack
+						component dependencies
+					</li>
 					<li>Apply immediately to all future pipeline executions</li>
 				</ul>
 			</InfoBox>
