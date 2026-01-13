@@ -47,7 +47,7 @@ export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 					startIndex: found,
 					endIndex: found + query.length
 				});
-				start = found + 1;
+				start = found + query.length;
 			}
 		});
 

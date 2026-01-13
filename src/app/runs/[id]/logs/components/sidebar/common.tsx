@@ -38,3 +38,17 @@ export function PipelineRunLogSidebarItem({
 		</div>
 	);
 }
+
+type EmptyStateProps = {
+	message: string;
+};
+
+export function PipelineRunLogSidebarEmptyState({ message }: EmptyStateProps) {
+	return (
+		<div className="flex flex-1 px-3 pb-5">
+			<div className="flex w-full flex-1 flex-col items-center justify-center gap-2 rounded-md border border-dashed border-theme-border-moderate text-center">
+				<p className="text-text-sm text-theme-text-secondary">{message}</p>
+			</div>
+		</div>
+	);
+}

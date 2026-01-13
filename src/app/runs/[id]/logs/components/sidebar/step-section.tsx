@@ -8,11 +8,17 @@ import { useSelectedStep } from "../use-selected-step";
 import { useRef } from "react";
 import { useVirtualizedList } from "./use-virtualized-list";
 import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
-import { PipelineRunLogSidebarItem } from "./common";
+import { PipelineRunLogSidebarEmptyState, PipelineRunLogSidebarItem } from "./common";
 import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
 import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
+import { StatusFilter } from "./common-types";
 
-export function PipelineRunLogsSidebarStepList() {
+type Props = {
+	searchTerm: string;
+	statusFilter: StatusFilter;
+};
+
+export function PipelineRunLogsSidebarStepList({ searchTerm, statusFilter }: Props) {
 	const params = useParams() as { runId: string };
 	const { runId } = params;
 	const dagQuery = usePipelineRunDag(
@@ -57,16 +63,18 @@ export function PipelineRunLogsSidebarStepList() {
 	});
 
 	if (realSteps.length === 0) {
-		return (
-			<div className="flex flex-1 px-3 pb-5">
-				<div className="flex w-full flex-1 flex-col items-center justify-center gap-2 rounded-md border border-dashed border-theme-border-moderate text-center">
-					<p className="text-text-sm text-theme-text-secondary">No steps found.</p>
-				</div>
-			</div>
-		);
+		return <PipelineRunLogSidebarEmptyState message="No steps found." />;
 	}
 
-	return <PipelineRunLogsSidebarStepVirtualizedList steps={realSteps} runStatus={dag.status} />;
+	const filteredSteps = realSteps
+		.filter((step) => step.name.toLowerCase().includes(searchTerm.toLowerCase()))
+		.filter((step) => statusFilter === "all" || step.metadata.status === statusFilter);
+
+	if (filteredSteps.length === 0) {
+		return <PipelineRunLogSidebarEmptyState message="No steps match your filters." />;
+	}
+
+	return <PipelineRunLogsSidebarStepVirtualizedList steps={filteredSteps} runStatus={dag.status} />;
 }
 
 function PipelineRunLogsSidebarStepVirtualizedList({

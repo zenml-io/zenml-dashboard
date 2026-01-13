@@ -30,7 +30,6 @@ export function useSelectedStep(): string | null {
 	const validationResult = stepIdSchema.safeParse(stepParam);
 
 	if (!validationResult.success) {
-		console.warn(`Invalid step ID in URL: ${stepParam}`, validationResult.error);
 		return null; // Invalid UUID, fallback to run selection
 	}
 
