@@ -1,7 +1,7 @@
 import Search from "@/assets/icons/search.svg?react";
 import { sanitizeSearchValue } from "@/lib/search";
 import { objectToSearchParams } from "@/lib/url";
-import { Input } from "@zenml-io/react-component-library";
+import { cn, Input } from "@zenml-io/react-component-library";
 import debounce from "lodash.debounce";
 import { InputHTMLAttributes, forwardRef, useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -16,7 +16,7 @@ type Props = {
 export const SearchField = forwardRef<
 	HTMLInputElement,
 	InputHTMLAttributes<HTMLInputElement> & Props
->(({ searchParams, searchContains = true, inMemoryHandler, ...rest }, ref) => {
+>(({ searchParams, searchContains = true, inMemoryHandler, className, ...rest }, ref) => {
 	const navigate = useNavigate();
 	const [existingParams] = useSearchParams();
 
@@ -67,7 +67,7 @@ export const SearchField = forwardRef<
 	return (
 		<div className="relative">
 			<Input
-				className="pl-[36px]"
+				className={cn("pl-[36px]", className)}
 				{...rest}
 				ref={ref}
 				value={searchQuery}

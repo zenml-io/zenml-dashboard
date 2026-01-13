@@ -1,6 +1,7 @@
-import { useState, useMemo, useCallback } from "react";
+"use client";
+
 import { LogEntryInternal } from "@/types/logs";
-import React from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 export interface SearchMatch {
 	logIndex: number;
@@ -12,154 +13,124 @@ export interface SearchMatch {
 export interface UseLogSearchReturn {
 	searchQuery: string;
 	setSearchQuery: (query: string) => void;
-	caseSensitive: boolean;
-	setCaseSensitive: (caseSensitive: boolean) => void;
-	filteredLogs: LogEntryInternal[];
 	matches: SearchMatch[];
 	currentMatchIndex: number;
 	totalMatches: number;
-	goToNextMatch: () => void;
-	goToPreviousMatch: () => void;
-	clearSearch: () => void;
+	goToNextMatch: () => number;
+	goToPreviousMatch: () => number;
 	highlightText: (text: string, logIndex: number) => React.ReactNode;
 }
 
 export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
-	const [searchQuery, setSearchQuery] = useState("");
-	const [caseSensitive, setCaseSensitive] = useState(false);
+	const [searchQuery, setSearchQueryState] = useState("");
 	const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
-	// Filter logs and find matches
-	const { filteredLogs, matches } = useMemo(() => {
-		if (!searchQuery.trim()) {
-			return { filteredLogs: logs, matches: [] };
-		}
+	// Find all matches across logs (case-insensitive)
+	const matches = useMemo(() => {
+		const query = searchQuery.trim().toLowerCase();
+		if (!query) return [];
 
-		const query = caseSensitive ? searchQuery : searchQuery.toLowerCase();
-		const filtered: LogEntryInternal[] = [];
 		const allMatches: SearchMatch[] = [];
 
-		logs.forEach((log) => {
-			const searchText = caseSensitive ? log.message : log.message.toLowerCase();
-			const matchIndices: number[] = [];
+		logs.forEach((log, logIndex) => {
+			const text = log.message.toLowerCase();
+			let start = 0;
+			let matchIndex = 0;
 
-			// Find all occurrences of the search query in the log message
-			let startIndex = 0;
-			while (startIndex < searchText.length) {
-				const foundIndex = searchText.indexOf(query, startIndex);
-				if (foundIndex === -1) break;
+			while (start < text.length) {
+				const found = text.indexOf(query, start);
+				if (found === -1) break;
 
-				matchIndices.push(foundIndex);
-				startIndex = foundIndex + 1;
-			}
-
-			// If matches found, add log to filtered results and record matches
-			if (matchIndices.length > 0) {
-				filtered.push(log);
-
-				matchIndices.forEach((matchStart, matchIndex) => {
-					allMatches.push({
-						logIndex: filtered.length - 1, // Index in filtered array
-						matchIndex,
-						startIndex: matchStart,
-						endIndex: matchStart + query.length
-					});
+				allMatches.push({
+					logIndex,
+					matchIndex: matchIndex++,
+					startIndex: found,
+					endIndex: found + query.length
 				});
+				start = found + 1;
 			}
 		});
 
-		return { filteredLogs: filtered, matches: allMatches };
-	}, [logs, searchQuery, caseSensitive]);
-
-	// Reset current match index when search changes
-	useMemo(() => {
-		setCurrentMatchIndex(0);
-	}, []);
+		return allMatches;
+	}, [logs, searchQuery]);
 
 	const totalMatches = matches.length;
 
-	const goToNextMatch = useCallback(() => {
-		if (totalMatches > 0) {
-			setCurrentMatchIndex((prev) => (prev + 1) % totalMatches);
-		}
-	}, [totalMatches]);
+	// Clamp index to valid range
+	const safeIndex = totalMatches === 0 ? 0 : Math.min(currentMatchIndex, totalMatches - 1);
 
-	const goToPreviousMatch = useCallback(() => {
-		if (totalMatches > 0) {
-			setCurrentMatchIndex((prev) => (prev - 1 + totalMatches) % totalMatches);
-		}
-	}, [totalMatches]);
-
-	const clearSearch = useCallback(() => {
-		setSearchQuery("");
+	const setSearchQuery = useCallback((q: string) => {
+		setSearchQueryState(q);
 		setCurrentMatchIndex(0);
 	}, []);
 
-	// Function to highlight search terms in text
+	const goToNextMatch = useCallback(() => {
+		if (totalMatches === 0) return -1;
+		const next = (safeIndex + 1) % totalMatches;
+		setCurrentMatchIndex(next);
+		return next;
+	}, [totalMatches, safeIndex]);
+
+	const goToPreviousMatch = useCallback(() => {
+		if (totalMatches === 0) return -1;
+		const prev = (safeIndex - 1 + totalMatches) % totalMatches;
+		setCurrentMatchIndex(prev);
+		return prev;
+	}, [totalMatches, safeIndex]);
+
+	// Highlight search terms in text
 	const highlightText = useCallback(
 		(text: string, logIndex: number): React.ReactNode => {
-			if (!searchQuery.trim()) {
-				return text;
-			}
+			if (!searchQuery.trim()) return text;
+
+			const logMatches = matches.filter((m) => m.logIndex === logIndex);
+			if (logMatches.length === 0) return text;
 
 			const parts: React.ReactNode[] = [];
-			let lastIndex = 0;
+			let lastEnd = 0;
 
-			// Find all matches in this specific log
-			const logMatches = matches.filter((match) => match.logIndex === logIndex);
-
-			logMatches.forEach((match, index) => {
-				// Add text before the match
-				if (match.startIndex > lastIndex) {
-					parts.push(text.slice(lastIndex, match.startIndex));
+			logMatches.forEach((match, i) => {
+				if (match.startIndex > lastEnd) {
+					parts.push(text.slice(lastEnd, match.startIndex));
 				}
 
-				// Add highlighted match
-				const isCurrentMatch =
+				const isActive =
 					matches.findIndex(
 						(m) => m.logIndex === match.logIndex && m.matchIndex === match.matchIndex
-					) === currentMatchIndex;
+					) === safeIndex;
 
-				const highlightClass = isCurrentMatch
-					? "bg-warning-200 text-warning-900"
-					: "bg-warning-100 text-warning-800";
+				const className = isActive
+					? "bg-warning-200 text-warning-900 inline-block rounded-sm px-1"
+					: "bg-warning-100 text-warning-800 inline-block rounded-sm px-1";
 
 				parts.push(
 					React.createElement(
 						"span",
-						{
-							key: `match-${logIndex}-${index}`,
-							className: `${highlightClass} inline-block rounded-sm px-1`
-						},
+						{ key: `${logIndex}-${i}`, className },
 						text.slice(match.startIndex, match.endIndex)
 					)
 				);
 
-				lastIndex = match.endIndex;
+				lastEnd = match.endIndex;
 			});
 
-			// Add remaining text after last match
-			if (lastIndex < text.length) {
-				parts.push(text.slice(lastIndex));
+			if (lastEnd < text.length) {
+				parts.push(text.slice(lastEnd));
 			}
 
-			return parts.length > 0 ? parts : text;
+			return parts;
 		},
-		[searchQuery, matches, currentMatchIndex]
+		[searchQuery, matches, safeIndex]
 	);
 
 	return {
 		searchQuery,
 		setSearchQuery,
-		caseSensitive,
-		setCaseSensitive,
-		filteredLogs,
 		matches,
-		currentMatchIndex,
+		currentMatchIndex: safeIndex,
 		totalMatches,
 		goToNextMatch,
 		goToPreviousMatch,
-		clearSearch,
 		highlightText
 	};
 }

@@ -1,94 +1,86 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
 import { LogEntryInternal } from "@/types/logs"; // Assuming types are in src/types/logs.ts
-import { Button, Input } from "@zenml-io/react-component-library/components/server";
-import React, { useCallback, useState } from "react";
-import { EmptyStateLogs } from "./empty-state-logs";
+import { Button } from "@zenml-io/react-component-library/components/server";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import LogLine from "./log-line"; // Import the LogLine component
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
 import { useLogLevelFilter } from "./use-loglevel-filter";
-import { useLogPageInput } from "./use-logpage-input";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface EnhancedLogsViewerProps {
 	logs: LogEntryInternal[];
 	reloadLogs: () => void;
-	itemsPerPage?: number; // Optional prop for items per page
+	fallbackMessage: ReactNode;
+	sourceSwitcher?: ReactNode;
 }
-
-const DEFAULT_ITEMS_PER_PAGE = 100;
 
 export function EnhancedLogsViewer({
 	logs,
 	reloadLogs,
-	itemsPerPage = DEFAULT_ITEMS_PER_PAGE
+	fallbackMessage,
+	sourceSwitcher
 }: EnhancedLogsViewerProps) {
-	const [currentPage, setCurrentPageState] = useState(1);
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
+	const parentRef = useRef<HTMLDivElement>(null);
+	const didInitialScrollRef = useRef(false);
 
-	const {
-		filteredLogs: filteredLogsByLogLevel,
-		selectedLogLevel,
-		setSelectedLogLevel
-	} = useLogLevelFilter(logs);
+	const { filteredLogs, setSelectedLogLevel, selectedLogLevel } = useLogLevelFilter(logs);
 
+	// Search functionality on filtered logs
 	const {
 		searchQuery,
 		setSearchQuery,
-		filteredLogs: searchAndFilteredLogs,
+		matches,
 		currentMatchIndex,
 		totalMatches,
 		goToNextMatch,
 		goToPreviousMatch,
 		highlightText
-	} = useLogSearch(filteredLogsByLogLevel);
+	} = useLogSearch(filteredLogs);
 
-	// Use search + filtered logs for pagination
-	const logsToDisplay = searchAndFilteredLogs;
+	// Set up virtualizer with dynamic height measurement
+	const virtualizer = useVirtualizer({
+		overscan: 10,
+		count: filteredLogs.length,
+		getScrollElement: () => parentRef.current,
+		estimateSize: () => 32 // estimated single-line height
+	});
 
-	// Reset to first page when search or filters change
+	const virtualItems = virtualizer.getVirtualItems();
+	const hasLogs = logs.length > 0;
 
-	const totalPages = Math.ceil(logsToDisplay.length / itemsPerPage);
-	const startIndex = (currentPage - 1) * itemsPerPage;
-	const endIndex = startIndex + itemsPerPage;
-	const currentLogs = logsToDisplay.slice(startIndex, endIndex);
+	// Remeasure all items when text wrap changes
+	useEffect(() => {
+		virtualizer.measure();
+	}, [textWrapEnabled, virtualizer]);
 
-	const { form } = useLogPageInput(currentPage, totalPages);
+	// Scroll to bottom only on initial render (once logs are available)
+	useEffect(() => {
+		if (didInitialScrollRef.current || filteredLogs.length === 0) return;
+		didInitialScrollRef.current = true;
+		virtualizer.scrollToIndex(filteredLogs.length - 1, { align: "end" });
+	}, [filteredLogs.length, virtualizer]);
 
-	const setCurrentPage = useCallback(
-		(page: number) => {
-			setCurrentPageState(page);
-			form.setValue("page", page);
-		},
-		[form]
-	);
+	// Wrappers that scroll to the new match after navigation
+	const handleNextMatch = useCallback(() => {
+		const nextIdx = goToNextMatch();
+		if (nextIdx >= 0 && matches[nextIdx]) {
+			virtualizer.scrollToIndex(matches[nextIdx].logIndex, { align: "center" });
+		}
+	}, [goToNextMatch, matches, virtualizer]);
 
-	function handlePageSubmit(data: { page: number }) {
-		setCurrentPage(data.page);
-	}
-
-	React.useEffect(() => {
-		setCurrentPage(1);
-	}, [searchQuery]);
-
-	const handlePreviousPage = () => {
-		setCurrentPage(Math.max(currentPage - 1, 1));
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage(Math.min(currentPage + 1, totalPages));
-	};
-
-	const handleFirstPage = () => {
-		setCurrentPage(1);
-	};
-
-	const handleLastPage = () => {
-		setCurrentPage(totalPages);
-	};
+	const handlePreviousMatch = useCallback(() => {
+		const prevIdx = goToPreviousMatch();
+		if (prevIdx >= 0 && matches[prevIdx]) {
+			virtualizer.scrollToIndex(matches[prevIdx].logIndex, { align: "center" });
+		}
+	}, [goToPreviousMatch, matches, virtualizer]);
 
 	const handleCopyAllLogs = () => {
 		const logText = getOriginalLogText(logs);
+
 		navigator.clipboard.writeText(logText).catch((err) => {
 			console.error("Failed to copy logs:", err);
 		});
@@ -111,11 +103,12 @@ export function EnhancedLogsViewer({
 		setTextWrapEnabled((prev) => !prev);
 	};
 
-	// Empty state - no logs at all
-	if (!logs || searchAndFilteredLogs.length === 0) {
+	if (!hasLogs) {
 		return (
-			<div className="flex h-full flex-col space-y-5">
+			<div className="flex flex-1 flex-col space-y-5">
 				<LogToolbar
+					hasLogs={false}
+					sourceSwitcher={sourceSwitcher}
 					logLevel={selectedLogLevel}
 					setLogLevel={setSelectedLogLevel}
 					onSearchChange={setSearchQuery}
@@ -125,20 +118,19 @@ export function EnhancedLogsViewer({
 					searchQuery={searchQuery}
 					currentMatchIndex={currentMatchIndex}
 					totalMatches={totalMatches}
-					onPreviousMatch={goToPreviousMatch}
-					onNextMatch={goToNextMatch}
+					onPreviousMatch={handlePreviousMatch}
+					onNextMatch={handleNextMatch}
 				/>
-
-				<div className="flex-1 overflow-hidden">
-					<EmptyStateLogs title="No logs found" subtitle="No logs available to display." />
-				</div>
+				<div className="flex-1">{fallbackMessage}</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className="flex h-full flex-col space-y-5">
+		<div className="flex flex-1 flex-col space-y-5">
 			<LogToolbar
+				hasLogs
+				sourceSwitcher={sourceSwitcher}
 				logLevel={selectedLogLevel}
 				setLogLevel={setSelectedLogLevel}
 				onSearchChange={setSearchQuery}
@@ -148,135 +140,79 @@ export function EnhancedLogsViewer({
 				searchQuery={searchQuery}
 				currentMatchIndex={currentMatchIndex}
 				totalMatches={totalMatches}
-				onPreviousMatch={goToPreviousMatch}
-				onNextMatch={goToNextMatch}
+				onPreviousMatch={handlePreviousMatch}
+				onNextMatch={handleNextMatch}
 			/>
 
-			<div className="flex-1 overflow-hidden rounded-md border border-theme-border-moderate">
-				{/* Fixed header - always same width */}
-				<div className="sticky top-0 z-10 bg-theme-surface-tertiary">
-					{/* Table-style header with fixed structure */}
-					<div className="flex w-full min-w-[600px] space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary">
-						{/* Type column header - match LogLine badge area */}
-						<div className="flex w-12 flex-shrink-0 items-center">
-							<span className="text-text-sm font-semibold">Type</span>
-						</div>
-
-						{/* Time column header - match LogLine timestamp width */}
-						<div className="w-[178px] flex-shrink-0">
-							<span className="text-text-sm font-semibold">Time</span>
-						</div>
-
-						{/* Event column header - flexible but consistent */}
-						<div className="flex min-w-0 flex-1 items-center justify-between">
-							<span className="text-text-sm font-semibold">Event</span>
-						</div>
-						<div className="flex flex-shrink-0 items-center">
-							{" "}
-							{/* Text wrap toggle button */}
-							<Button
-								onClick={handleToggleTextWrap}
-								size="sm"
-								emphasis="subtle"
-								intent="secondary"
-								className="ml-2 h-5 w-5 rounded-sm bg-theme-surface-primary p-0.25"
-								title={textWrapEnabled ? "Unwrap text" : "Wrap text"}
-							>
-								{textWrapEnabled ? (
-									<Collapse className="h-4 w-4 shrink-0 text-theme-text-tertiary hover:text-theme-text-secondary" />
-								) : (
-									<Expand className="h-4 w-4 shrink-0 fill-theme-text-tertiary hover:fill-theme-text-secondary" />
-								)}
-							</Button>
-						</div>
+			<div className="flex flex-1 flex-col overflow-hidden">
+				{/* Fixed header */}
+				<div className="flex w-full min-w-[600px] space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary">
+					<div className="flex w-12 flex-shrink-0 items-center">
+						<span className="text-text-sm font-semibold">Type</span>
+					</div>
+					<div className="w-[178px] flex-shrink-0">
+						<span className="text-text-sm font-semibold">Time</span>
+					</div>
+					<div className="flex min-w-0 flex-1 items-center justify-between">
+						<span className="text-text-sm font-semibold">Event</span>
+					</div>
+					<div className="flex flex-shrink-0 items-center">
+						<Button
+							onClick={handleToggleTextWrap}
+							size="sm"
+							emphasis="subtle"
+							intent="secondary"
+							className="ml-2 h-5 w-5 rounded-sm bg-theme-surface-primary p-0.25"
+							title={textWrapEnabled ? "Collapse text" : "Expand text"}
+						>
+							{textWrapEnabled ? (
+								<Collapse className="h-4 w-4 shrink-0 text-theme-text-tertiary hover:text-theme-text-secondary" />
+							) : (
+								<Expand className="h-4 w-4 shrink-0 fill-theme-text-tertiary hover:fill-theme-text-secondary" />
+							)}
+						</Button>
 					</div>
 				</div>
 
-				{/* Scrollable content - behavior changes based on text wrap */}
-				<div className="flex-1 overflow-x-auto overflow-y-auto">
-					<div className={textWrapEnabled ? "min-w-full" : "flex w-full min-w-full"}>
-						{/* Logs content */}
-						<div className="flex-1 bg-theme-surface-primary">
-							{currentLogs.map((entry, index) => {
-								// Calculate the actual log index in the filtered logs array
-								const actualLogIndex = startIndex + index;
-
+				{/* Virtualized scrollable content */}
+				<div ref={parentRef} className="flex-1 overflow-auto contain-strict">
+					<div
+						style={{
+							height: virtualizer.getTotalSize(),
+							width: "100%",
+							position: "relative"
+						}}
+					>
+						<div
+							style={{
+								position: "absolute",
+								top: 0,
+								left: 0,
+								width: "fit-content",
+								minWidth: "100%",
+								transform: `translateY(${virtualItems[0]?.start ?? 0}px)`
+							}}
+						>
+							{virtualItems.map((virtualRow) => {
+								const entry = filteredLogs[virtualRow.index];
 								return (
-									<LogLine
-										key={entry.id}
-										entry={entry}
-										searchTerm={searchQuery}
-										textWrapEnabled={textWrapEnabled}
-										highlightedMessage={highlightText(entry.message, actualLogIndex)}
-									/>
+									<div
+										key={virtualRow.key}
+										data-index={virtualRow.index}
+										ref={virtualizer.measureElement}
+									>
+										<LogLine
+											entry={entry}
+											searchTerm={searchQuery}
+											textWrapEnabled={textWrapEnabled}
+											highlightedMessage={highlightText(entry.message, virtualRow.index)}
+										/>
+									</div>
 								);
 							})}
 						</div>
 					</div>
 				</div>
-
-				{/* Pagination - only show when there are multiple pages */}
-				{totalPages > 1 && (
-					<div className="border-t border-theme-border-minimal bg-theme-surface-secondary px-4 py-3">
-						<div className="flex items-center justify-between">
-							<div className="text-sm text-theme-text-secondary">
-								Showing {startIndex + 1} to{" "}
-								{Math.min(startIndex + itemsPerPage, logsToDisplay.length)} of{" "}
-								{logsToDisplay.length} logs
-							</div>
-							<div className="flex items-center space-x-2">
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleFirstPage}
-									disabled={currentPage === 1}
-								>
-									First
-								</Button>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handlePreviousPage}
-									disabled={currentPage === 1}
-								>
-									Previous
-								</Button>
-								<form
-									onSubmit={form.handleSubmit(handlePageSubmit)}
-									className="text-sm flex items-center gap-1 text-theme-text-secondary"
-								>
-									Page
-									<Input {...form.register("page")} className="w-10" />
-									of {totalPages}
-								</form>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleNextPage}
-									disabled={currentPage === totalPages}
-								>
-									Next
-								</Button>
-								<Button
-									className="bg-theme-surface-primary"
-									size="md"
-									intent="secondary"
-									emphasis="subtle"
-									onClick={handleLastPage}
-									disabled={currentPage === totalPages}
-								>
-									Last
-								</Button>
-							</div>
-						</div>
-					</div>
-				)}
 			</div>
 		</div>
 	);

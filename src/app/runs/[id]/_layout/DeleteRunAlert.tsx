@@ -3,9 +3,9 @@ import Tick from "@/assets/icons/tick-circle.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlertDialog, useToast } from "@zenml-io/react-component-library";
 import { useNavigate, useParams } from "react-router-dom";
-import { DeleteAlertContent, DeleteAlertContentBody } from "../../../components/DeleteAlertDialog";
-import { useDeleteRun } from "../../../data/pipeline-runs/delete-run";
-import { routes } from "../../../router/routes";
+import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
+import { useDeleteRun } from "@/data/pipeline-runs/delete-run";
+import { routes } from "@/router/routes";
 
 type Props = {
 	open: boolean;

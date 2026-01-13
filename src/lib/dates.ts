@@ -9,15 +9,8 @@ export function calculateTimeDifference(start_time?: string, end_time?: string) 
 		return "";
 	}
 
-	// Calculate the difference in milliseconds
-	const diffInMilliseconds = Math.abs(endTime.getTime() - startTime.getTime());
-
-	// Convert milliseconds to minutes and seconds
-	const minutes = Math.floor(diffInMilliseconds / (1000 * 60));
-	const seconds = Math.floor((diffInMilliseconds % (1000 * 60)) / 1000);
-
-	// Format the result
-	return `${minutes}min ${seconds}s`;
+	const diffInSeconds = Math.abs(endTime.getTime() - startTime.getTime()) / 1000;
+	return secondsToTimeString(diffInSeconds);
 }
 
 export function is6monthsOld(date: Date) {

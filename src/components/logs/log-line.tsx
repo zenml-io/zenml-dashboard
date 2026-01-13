@@ -3,6 +3,7 @@ import { LOG_LEVEL_NAMES } from "@/lib/logs";
 import { LogEntryInternal, LoggingLevel } from "@/types/logs";
 import React from "react";
 import { CopyButton } from "../CopyButton";
+import { cn } from "@zenml-io/react-component-library/utilities";
 
 interface LogLineProps {
 	entry: LogEntryInternal;
@@ -10,6 +11,7 @@ interface LogLineProps {
 	isCurrentMatch?: boolean;
 	textWrapEnabled?: boolean;
 	highlightedMessage?: React.ReactNode;
+	className?: string;
 }
 
 const getLogLevelColor = (level: LoggingLevel | undefined): string => {
@@ -47,7 +49,8 @@ export function LogLine({
 	searchTerm,
 	isCurrentMatch,
 	textWrapEnabled,
-	highlightedMessage
+	highlightedMessage,
+	className
 }: LogLineProps) {
 	const { timestamp, level, message, originalEntry } = entry;
 	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
@@ -78,16 +81,20 @@ export function LogLine({
 	};
 
 	return (
-		<div className="group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm font-normal transition-colors hover:bg-theme-surface-secondary">
+		<div
+			className={cn(
+				"group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal bg-theme-surface-primary px-4 py-1 font-mono text-text-sm font-normal transition-colors hover:bg-theme-surface-tertiary",
+				className
+			)}
+		>
+			{" "}
 			{/* Compact log level badge */}
 			<div className="flex max-h-6 w-12 flex-shrink-0 items-center">
 				<div className={`h-4 w-[2px] rounded-sm ${levelColorClass} mr-2`}></div>
 				<span className="text-xs text-theme-text-tertiary">{LOG_LEVEL_NAMES[level ?? 20]}</span>
 			</div>
-
 			{/* Timestamp */}
 			<div className="w-[178px] flex-shrink-0 text-theme-text-secondary">{formattedTimestamp}</div>
-
 			{/* Message */}
 			<div
 				className={`flex-1 text-theme-text-primary ${
@@ -96,7 +103,6 @@ export function LogLine({
 			>
 				{highlightedMessage || highlightSearchTerm(message)}
 			</div>
-
 			{/* Compact copy button - appears on hover, doesn't change height */}
 			<div className="flex flex-shrink-0 items-center">
 				<CopyButton copyText={originalEntry} copyTitle="Copy log line" />
