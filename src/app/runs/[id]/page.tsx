@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { RunsDetailHeader } from "./Header";
 import { RunsDetailTabs, TabsHeader } from "./detail-tabs";
 import { ExpandPanelButton, GlobalDagControls } from "./expand-panel-button";
 import { PipelineVisualization } from "./pipeline-viz";
@@ -30,29 +29,26 @@ export default function RunDetailPage() {
 	}
 
 	return (
-		<div className="flex h-full flex-1 flex-col overflow-hidden">
-			<RunsDetailHeader />
-			<PanelGroup direction="horizontal" className="relative">
-				<Panel minSize={25} defaultSize={50}>
-					<PipelineVisualization runId={runId} />
-					<GlobalDagControls>
-						<ExpandPanelButton isCollapsed={isCollapsed} handlePanelToggle={expandPanel} />
-					</GlobalDagControls>
-				</Panel>
-				<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
-				<Panel
-					collapsible
-					ref={ref}
-					className="!overflow-y-auto"
-					minSize={25}
-					defaultSize={50}
-					onCollapse={() => setIsCollapsed(true)}
-					onExpand={() => setIsCollapsed(false)}
-				>
-					<TabsHeader handlePanelToggle={collapsePanel} />
-					<RunsDetailTabs />
-				</Panel>
-			</PanelGroup>
-		</div>
+		<PanelGroup direction="horizontal" className="relative">
+			<Panel minSize={25} defaultSize={50}>
+				<PipelineVisualization runId={runId} />
+				<GlobalDagControls>
+					<ExpandPanelButton isCollapsed={isCollapsed} handlePanelToggle={expandPanel} />
+				</GlobalDagControls>
+			</Panel>
+			<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />
+			<Panel
+				collapsible
+				ref={ref}
+				className="flex flex-col !overflow-y-auto"
+				minSize={25}
+				defaultSize={50}
+				onCollapse={() => setIsCollapsed(true)}
+				onExpand={() => setIsCollapsed(false)}
+			>
+				<TabsHeader handlePanelToggle={collapsePanel} />
+				<RunsDetailTabs />
+			</Panel>
+		</PanelGroup>
 	);
 }

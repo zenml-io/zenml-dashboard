@@ -40,33 +40,7 @@ export function StepLogsTab({ stepId }: Props) {
 function StepLogsTabContent({ sources, stepId }: { sources: string[]; stepId: string }) {
 	const defaultSource = sources.includes("step") ? "step" : sources[0];
 	const [selectedSource, setSelectedSource] = useState<string>(defaultSource);
-	return (
-		<section className="space-y-5">
-			{sources.length > 0 && (
-				<div className="flex items-center gap-2">
-					<span className="text-theme-text-secondary">Logs source:</span>
-					{sources.length > 1 ? (
-						<LogSourceCombobox
-							sources={sources}
-							selectedSource={selectedSource}
-							setSelectedSource={setSelectedSource}
-						/>
-					) : (
-						<span className="font-semibold capitalize">{selectedSource}</span>
-					)}
-				</div>
-			)}
-			<StepLogDisplay selectedSource={selectedSource} stepId={stepId} />
-		</section>
-	);
-}
 
-type StepLogDisplayProps = {
-	selectedSource: string;
-	stepId: string;
-};
-
-function StepLogDisplay({ selectedSource, stepId }: StepLogDisplayProps) {
 	const stepLogs = useStepLogs({ stepId, queries: { source: selectedSource } });
 
 	const parsedLogs = useMemo(() => {
@@ -80,19 +54,28 @@ function StepLogDisplay({ selectedSource, stepId }: StepLogDisplayProps) {
 		return <ErrorFallback err={stepLogs.error} />;
 	}
 
-	const logs = stepLogs.data;
-	if (logs.length === 0) {
-		return (
-			<EmptyStateLogs
-				title="This step has no logs"
-				subtitle="It looks like there are no logs associated with this step"
-			/>
-		);
-	}
-
 	return (
-		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={parsedLogs} reloadLogs={() => stepLogs.refetch()} />
-		</div>
+		<EnhancedLogsViewer
+			fallbackMessage={
+				<EmptyStateLogs
+					title="This step has no logs"
+					subtitle="It looks like there are no logs associated with this step"
+				/>
+			}
+			sourceSwitcher={
+				sources.length > 1 ? (
+					<div className="space-y-0.5">
+						<span className="text-text-sm text-theme-text-secondary">Source</span>
+						<LogSourceCombobox
+							sources={sources}
+							selectedSource={selectedSource}
+							setSelectedSource={setSelectedSource}
+						/>
+					</div>
+				) : undefined
+			}
+			logs={parsedLogs}
+			reloadLogs={() => stepLogs.refetch()}
+		/>
 	);
 }

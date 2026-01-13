@@ -27,7 +27,7 @@ export function RunDetailTabsDisplay({
 	handleTabChage
 }: RunDetailTabsDisplayProps) {
 	return (
-		<Tabs value={selectedTab} onValueChange={handleTabChage}>
+		<Tabs value={selectedTab} onValueChange={handleTabChage} className="flex flex-1 flex-col">
 			<ScrollingTabsList>
 				<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
 					<TabIcon icon={Info} />
@@ -65,9 +65,11 @@ export function RunDetailTabsDisplay({
 				<StackTab runId={runId} />
 			</TabsContent>
 			<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-				<ErrorBoundary fallbackRender={LogsTabBoundary}>
-					<LogTab runId={runId} />
-				</ErrorBoundary>
+				<div className="flex h-full flex-1 flex-col">
+					<ErrorBoundary fallbackRender={LogsTabBoundary}>
+						<LogTab runId={runId} />
+					</ErrorBoundary>
+				</div>
 			</TabsContent>
 			<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
 				<ConfigurationTab runId={runId} />

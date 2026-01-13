@@ -34,8 +34,9 @@ const PipelineDetailDeployments = lazy(
 	() => import("@/app/pipelines/[pipelineId]/deployments/page")
 );
 
+import { RunDetailLayout } from "@/app/runs/[id]/_layout/layout";
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
-
+const RunLogsPage = lazy(() => import("@/app/runs/[id]/logs/page"));
 // Snapshots
 const GlobalSnapshots = lazy(() => import("@/app/snapshots/page"));
 const SnapshotDetail = lazy(() => import("@/app/snapshots/[snapshotId]/page"));
@@ -362,9 +363,21 @@ export const router = createBrowserRouter([
 					// Runs
 					{
 						errorElement: <PageBoundary />,
-						path: routes.projects.runs.detail(":runId"),
-						element: withProtectedRoute(<RunDetail />)
+						element: withProtectedRoute(<RunDetailLayout />),
+						children: [
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.runs.detail(":runId"),
+								element: withProtectedRoute(<RunDetail />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.runs.detailLogs(":runId"),
+								element: withProtectedRoute(<RunLogsPage />)
+							}
+						]
 					},
+
 					{
 						errorElement: <PageBoundary />,
 						path: routes.projects.runs.createSnapshot(":runId"),
