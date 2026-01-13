@@ -15,6 +15,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 	Input,
+	ScrollArea,
 	useToast
 } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
@@ -172,78 +173,81 @@ export function EditSecret({ secretId, isSecretNameEditable }: EditSecretProps) 
 							</div>
 						</div>
 					</div>
-					{fields.map((field, index) => (
-						<div key={field.id} className="flex flex-row items-center space-x-1">
-							<div className="relative flex-grow">
-								<Controller
-									name={`keysValues.${index}.key`}
-									control={control}
-									render={({ field }) => (
-										<Input {...field} className="mb-2 w-full" required placeholder="key" />
-									)}
-								/>
-							</div>
-							<div className="relative flex-grow">
-								<div className="relative">
+					<ScrollArea viewportClassName="max-h-[35vh]">
+						{fields.map((field, index) => (
+							<div key={field.id} className="flex flex-row items-center space-x-1">
+								<div className="relative flex-grow">
 									<Controller
-										name={`keysValues.${index}.value`}
+										name={`keysValues.${index}.key`}
 										control={control}
 										render={({ field }) => (
-											<Input
-												{...field}
-												className="mb-2 w-full pr-10"
-												required
-												placeholder="•••••••••"
-												type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
-											/>
+											<Input {...field} className="mb-2 w-full" required placeholder="key" />
 										)}
 									/>
-									<button
-										type="button"
-										onClick={() => togglePasswordVisibility(index)}
-										className="absolute inset-y-1 right-0 flex items-center pb-1 pr-3"
-									>
-										<EyeIcon className="h-4 w-4 flex-shrink-0" />
-									</button>
+								</div>
+								<div className="relative flex-grow">
+									<div className="relative">
+										<Controller
+											name={`keysValues.${index}.value`}
+											control={control}
+											render={({ field }) => (
+												<Input
+													{...field}
+													className="mb-2 w-full pr-10"
+													required
+													placeholder="•••••••••"
+													type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
+												/>
+											)}
+										/>
+										<button
+											type="button"
+											onClick={() => togglePasswordVisibility(index)}
+											className="absolute inset-y-1 right-0 flex items-center pb-1 pr-3"
+										>
+											<EyeIcon className="h-4 w-4 flex-shrink-0" />
+										</button>
+									</div>
+								</div>
+								<div className="flex items-center">
+									{index === fields.length - 1 && (
+										<Button
+											type="button"
+											intent="primary"
+											emphasis="subtle"
+											onClick={addKeyValuePair}
+											className="mb-2 flex h-7 w-7 items-center justify-center"
+										>
+											<Plus className="flex-shrink-0 fill-primary-600" />
+										</Button>
+									)}
+									{index !== fields.length - 1 && (
+										<Button
+											type="button"
+											intent="secondary"
+											emphasis="minimal"
+											onClick={() => remove(index)}
+											className="mb-2 h-7 w-7 items-center justify-center"
+										>
+											<Trash className="flex-shrink-0 fill-theme-text-secondary" />
+										</Button>
+									)}
 								</div>
 							</div>
-							<div className="flex items-center">
-								{index === fields.length - 1 && (
-									<Button
-										type="button"
-										intent="primary"
-										emphasis="subtle"
-										onClick={addKeyValuePair}
-										className="mb-2 flex h-7 w-7 items-center justify-center"
-									>
-										<Plus className="flex-shrink-0 fill-primary-600" />
-									</Button>
-								)}
-								{index !== fields.length - 1 && (
-									<Button
-										type="button"
-										intent="secondary"
-										emphasis="minimal"
-										onClick={() => remove(index)}
-										className="mb-2 h-7 w-7 items-center justify-center"
-									>
-										<Trash className="flex-shrink-0 fill-theme-text-secondary" />
-									</Button>
-								)}
-							</div>
-						</div>
-					))}
-					{fields.length === 0 && (
-						<Button
-							type="button"
-							intent="primary"
-							emphasis="subtle"
-							onClick={addKeyValuePair}
-							className="mb-2 flex h-7 w-7 items-center justify-center"
-						>
-							<Plus className="flex-shrink-0 fill-primary-600" />
-						</Button>
-					)}
+						))}
+
+						{fields.length === 0 && (
+							<Button
+								type="button"
+								intent="primary"
+								emphasis="subtle"
+								onClick={addKeyValuePair}
+								className="mb-2 flex h-7 w-7 items-center justify-center"
+							>
+								<Plus className="flex-shrink-0 fill-primary-600" />
+							</Button>
+						)}
+					</ScrollArea>
 				</div>
 			</form>
 

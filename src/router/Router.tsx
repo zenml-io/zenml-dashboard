@@ -18,6 +18,7 @@ import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { withProtectedRoute } from "./ProtectedRoute";
 import { queryClient } from "./queryclient";
 import { routes } from "./routes";
+import { StackPageBoundary } from "@/app/stacks/[stackId]/stack-page-boundary";
 
 const Overview = lazy(() => import("@/app/overview/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -84,6 +85,8 @@ const ComponentEdit = lazy(() => import("@/app/components/[componentId]/edit/pag
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const CreateStack = lazy(() => import("@/app/stacks/create/page"));
+const EditStacksLayout = lazy(() => import("@/app/stacks/[stackId]/edit/layout"));
+const StackEdit = lazy(() => import("@/app/stacks/[stackId]/edit/page"));
 const CreateStackNewInfra = lazy(() => import("@/app/stacks/create/new-infrastructure/page"));
 const CreateStackManually = lazy(() => import("@/app/stacks/create/manual/page"));
 const CreateStackExistingInfra = lazy(
@@ -136,6 +139,7 @@ export const router = createBrowserRouter([
 								path: routes.stacks.overview,
 								element: withProtectedRoute(<Stacks />)
 							},
+
 							{
 								errorElement: <PageBoundary />,
 								path: routes.components.overview,
@@ -401,7 +405,17 @@ export const router = createBrowserRouter([
 						path: routes.components.create,
 						element: withProtectedRoute(<ComponentCreate />)
 					},
-
+					{
+						errorElement: <PageBoundary />,
+						element: <EditStacksLayout />,
+						children: [
+							{
+								errorElement: <StackPageBoundary />,
+								path: routes.stacks.edit(":stackId"),
+								element: withProtectedRoute(<StackEdit />)
+							}
+						]
+					},
 					{
 						element: <CreateStacksLayout />,
 						children: [
