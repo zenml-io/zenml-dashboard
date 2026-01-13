@@ -5,33 +5,36 @@ import { routes } from "@/router/routes";
 import { PipelineRun } from "@/types/pipeline-runs";
 
 import { useEffect } from "react";
+import { useActivePipelineRunTab } from "./use-active-pipeline-run-tab";
 
 export function useRunDetailBreadcrumbs(run?: PipelineRun) {
 	const { setBreadcrumbs } = useBreadcrumbsContext();
+	const activeTab = useActivePipelineRunTab();
 
 	useEffect(() => {
-		if (run) {
-			if (run.resources?.pipeline) {
-				setBreadcrumbs([
+		if (!run) return;
+
+		const pipeline = run.resources?.pipeline;
+
+		const baseCrumbs = pipeline
+			? [
 					pipelineBreadcrumb,
 					{
-						label: run.resources.pipeline.name || "",
-						href: routes.projects.pipelines.detail.runs(run.resources.pipeline.id)
-					},
-					{
-						label: <RunName name={run.name} index={run.body?.index} />,
-						href: "#"
+						label: pipeline.name || "",
+						href: routes.projects.pipelines.detail.runs(pipeline.id)
 					}
-				]);
-			} else {
-				setBreadcrumbs([
-					runBreadcrumb,
-					{
-						label: <RunName name={run.name} index={run.body?.index} />,
-						href: routes.projects.runs.detail(run.id)
-					}
-				]);
-			}
-		}
-	}, [setBreadcrumbs, run]);
+				]
+			: [runBreadcrumb];
+
+		setBreadcrumbs([
+			...baseCrumbs,
+			{
+				label: <RunName name={run.name} index={run.body?.index} />,
+				href: routes.projects.runs.detail(run.id)
+			},
+			...(activeTab === "logs"
+				? [{ label: "Logs", href: routes.projects.runs.detailLogs(run.id) }]
+				: [])
+		]);
+	}, [setBreadcrumbs, run, activeTab]);
 }

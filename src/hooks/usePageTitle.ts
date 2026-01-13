@@ -79,6 +79,7 @@ export function usePageTitle(): void {
 		if (is(routes.projects.runs.overview)) return "Pipeline Runs";
 		if (is(routes.projects.runs.detail(":runId"))) return "Run";
 		if (is(routes.projects.runs.createSnapshot(":runId"))) return "Create Snapshot";
+		if (is(routes.projects.runs.detailLogs(":runId"))) return "Run Logs";
 
 		// Project-scoped: Deployments
 		if (is(routes.projects.deployments.overview)) return "Deployments";
