@@ -18,7 +18,7 @@ export function SnapshotDetailRunsContent() {
 
 	const searchParams: PipelineRunOvervieweParams = {
 		source_snapshot_id: snapshotId,
-
+		sort_by: "desc:updated",
 		...params
 	};
 
