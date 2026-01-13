@@ -2,6 +2,7 @@ import EyeIcon from "@/assets/icons/eye.svg?react";
 import Plus from "@/assets/icons/plus.svg?react";
 import Trash from "@/assets/icons/trash.svg?react";
 import { useCreateSecretMutation } from "@/data/secrets/create-secret-query";
+import { useCurrentUser } from "@/data/users/current-user-query";
 import { isFetchError } from "@/lib/fetch-error";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
@@ -15,13 +16,13 @@ import {
 	DialogTitle,
 	DialogTrigger,
 	Input,
+	ScrollArea,
+	Skeleton,
 	useToast
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { secretFormSchema, SecretFormType } from "./form-schema";
-import { useCurrentUser } from "@/data/users/current-user-query";
-import { Skeleton } from "@zenml-io/react-component-library";
 export function AddSecretDialog() {
 	const [open, setOpen] = useState(false);
 	const userQuery = useCurrentUser();
@@ -142,69 +143,70 @@ export function AddSecret({
 							</div>
 						</div>
 					</div>
-
-					{fields.map((field, index) => (
-						<div key={field.id} className="flex flex-row items-center space-x-1">
-							<div className="relative flex-grow">
-								<Controller
-									name={`keysValues.${index}.key`}
-									control={control}
-									render={({ field }) => (
-										<Input {...field} className="mb-2 w-full" required placeholder="key" />
-									)}
-								/>
-							</div>
-							<div className="relative flex-grow">
-								<div className="relative">
+					<ScrollArea viewportClassName="max-h-[35vh]">
+						{fields.map((field, index) => (
+							<div key={field.id} className="flex flex-row items-center space-x-1">
+								<div className="relative flex-grow">
 									<Controller
-										name={`keysValues.${index}.value`}
+										name={`keysValues.${index}.key`}
 										control={control}
 										render={({ field }) => (
-											<Input
-												{...field}
-												className="mb-2 w-full pr-10"
-												required
-												placeholder="•••••••••"
-												type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
-											/>
+											<Input {...field} className="mb-2 w-full" required placeholder="key" />
 										)}
 									/>
-									<button
-										type="button"
-										onClick={() => {
-											const showPassword = watch(`keysValues.${index}.showPassword`);
-											setValue(`keysValues.${index}.showPassword`, !showPassword);
-										}}
-										className="absolute inset-y-1 right-0 flex items-center pb-1 pr-3"
-									>
-										<EyeIcon className="h-4 w-4 flex-shrink-0" />
-									</button>
+								</div>
+								<div className="relative flex-grow">
+									<div className="relative">
+										<Controller
+											name={`keysValues.${index}.value`}
+											control={control}
+											render={({ field }) => (
+												<Input
+													{...field}
+													className="mb-2 w-full pr-10"
+													required
+													placeholder="•••••••••"
+													type={watch(`keysValues.${index}.showPassword`) ? "text" : "password"}
+												/>
+											)}
+										/>
+										<button
+											type="button"
+											onClick={() => {
+												const showPassword = watch(`keysValues.${index}.showPassword`);
+												setValue(`keysValues.${index}.showPassword`, !showPassword);
+											}}
+											className="absolute inset-y-1 right-0 flex items-center pb-1 pr-3"
+										>
+											<EyeIcon className="h-4 w-4 flex-shrink-0" />
+										</button>
+									</div>
+								</div>
+								<div className="flex items-center">
+									{index === fields.length - 1 && (
+										<Button
+											intent="primary"
+											emphasis="subtle"
+											onClick={() => append({ key: "", value: "" })}
+											className="mb-2 flex h-7 w-7 items-center justify-center"
+										>
+											<Plus className="flex-shrink-0 fill-primary-600" />
+										</Button>
+									)}
+									{index !== fields.length - 1 && (
+										<Button
+											intent="secondary"
+											emphasis="minimal"
+											onClick={() => remove(index)}
+											className="mb-2 h-7 w-7 items-center justify-center"
+										>
+											<Trash className="flex-shrink-0 fill-theme-text-secondary" />
+										</Button>
+									)}
 								</div>
 							</div>
-							<div className="flex items-center">
-								{index === fields.length - 1 && (
-									<Button
-										intent="primary"
-										emphasis="subtle"
-										onClick={() => append({ key: "", value: "" })}
-										className="mb-2 flex h-7 w-7 items-center justify-center"
-									>
-										<Plus className="flex-shrink-0 fill-primary-600" />
-									</Button>
-								)}
-								{index !== fields.length - 1 && (
-									<Button
-										intent="secondary"
-										emphasis="minimal"
-										onClick={() => remove(index)}
-										className="mb-2 h-7 w-7 items-center justify-center"
-									>
-										<Trash className="flex-shrink-0 fill-theme-text-secondary" />
-									</Button>
-								)}
-							</div>
-						</div>
-					))}
+						))}
+					</ScrollArea>
 				</div>
 			</form>
 			<DialogFooter className="gap-[10px]">

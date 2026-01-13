@@ -25,6 +25,7 @@ import { Key, KeyValue, Value } from "../../KeyValue";
 import { RepoBadge } from "../../repositories/RepoBadge";
 import { AuthRequired } from "../../runs/auth-required";
 import { StepStatusTooltip } from "./step-status-tooltip";
+import { StepCacheExpiry } from "./StepCacheExpiry";
 
 type Props = {
 	stepId: string;
@@ -153,6 +154,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						</div>
 					}
 				/>
+				<KeyValue label="Cache expiration" value={<StepCacheExpiry step={data} />} />
 				{data.resources?.user ? (
 					<KeyValue
 						label="Author"

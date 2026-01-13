@@ -32,6 +32,7 @@ export function usePageTitle(): void {
 		if (is(routes.stacks.create.manual)) return "Create Stack: Manual";
 		if (is(routes.stacks.create.existingInfra)) return "Create Stack: Existing Infrastructure";
 		if (is(routes.stacks.create.terraform)) return "Create Stack: Terraform";
+		if (is(routes.stacks.edit(":stackId"))) return "Update Stack";
 		if (is(routes.components.overview)) return "Components";
 
 		// Non-project Settings: match specific routes first so they don't get shadowed by the generic prefix check.
@@ -79,6 +80,7 @@ export function usePageTitle(): void {
 		if (is(routes.projects.runs.overview)) return "Pipeline Runs";
 		if (is(routes.projects.runs.detail(":runId"))) return "Run";
 		if (is(routes.projects.runs.createSnapshot(":runId"))) return "Create Snapshot";
+		if (is(routes.projects.runs.detailLogs(":runId"))) return "Run Logs";
 
 		// Project-scoped: Deployments
 		if (is(routes.projects.deployments.overview)) return "Deployments";

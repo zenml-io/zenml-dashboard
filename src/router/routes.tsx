@@ -24,13 +24,15 @@ export const routes = {
 			manual: "/stacks/create/manual",
 			existingInfra: "/stacks/create/existing-infrastructure",
 			terraform: "/stacks/create/terraform"
-		}
+		},
+		edit: (stackId: string) => `/stacks/${stackId}/edit`
 	},
 	projects: {
 		overview: "/projects",
 		runs: {
 			overview: "/projects/default/runs",
 			detail: (id: string) => `/projects/default/runs/${id}`,
+			detailLogs: (id: string) => `/projects/default/runs/${id}/logs`,
 			createSnapshot: (id: string) => `/projects/default/runs/${id}/create-snapshot`
 		},
 		pipelines: {

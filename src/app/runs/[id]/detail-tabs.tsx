@@ -34,7 +34,7 @@ export function RunsDetailTabs() {
 	}
 
 	return (
-		<div className="flex flex-col gap-5 p-5">
+		<div className="flex flex-1 flex-col p-5">
 			<RunDetailTabsDisplay
 				runId={runId}
 				selectedTab={selectedTab}

@@ -2,11 +2,12 @@ name: Notify Changelog Repo
 
 on:
   release:
-    types: [published]
+    # 'published' fires on initial creation, 'released' fires when prerelease → full release
+    types: [published, released]
   workflow_dispatch:
     inputs:
       release_tag:
-        description: 'Release tag (e.g., 0.92.0)'
+        description: 'Release tag (e.g., v0.92.0)'
         required: true
         type: string
 

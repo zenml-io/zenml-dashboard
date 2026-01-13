@@ -17,7 +17,13 @@ export function SheetHeadline({ stepId }: Props) {
 	const runQuery = usePipelineRun({ runId });
 
 	if (stepQuery.isPending || runQuery.isPending) {
-		return <Skeleton className="h-6 w-[200px]" />;
+		return (
+			<div className="flex items-center gap-1">
+				<Skeleton className="size-5 shrink-0 rounded-sm" />
+				<Skeleton className="h-5 w-[150px]" />
+				<Skeleton className="h-4 w-[80px] rounded-rounded" />
+			</div>
+		);
 	}
 
 	if (stepQuery.error || runQuery.error) return null;

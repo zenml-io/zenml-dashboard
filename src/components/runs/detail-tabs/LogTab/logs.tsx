@@ -33,37 +33,15 @@ export function LogTab({ runId }: Props) {
 			/>
 		);
 
-	return <LogTabContent sources={sources} runId={runId} />;
-}
-
-function LogTabContent({ sources, runId }: { sources: string[]; runId: string }) {
-	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
-	return (
-		<section className="space-y-5">
-			{sources.length > 0 && (
-				<div className="flex items-center gap-2">
-					<span className="text-theme-text-secondary">Logs source:</span>
-					{sources.length > 1 ? (
-						<LogSourceCombobox
-							sources={sources}
-							selectedSource={selectedSource}
-							setSelectedSource={setSelectedSource}
-						/>
-					) : (
-						<span className="font-semibold capitalize">{selectedSource}</span>
-					)}
-				</div>
-			)}
-			<LogDisplay selectedSource={selectedSource} runId={runId} />
-		</section>
-	);
+	return <LogDisplay sources={sources} runId={runId} />;
 }
 
 type LogTabContentProps = {
-	selectedSource: string;
+	sources: string[];
 	runId: string;
 };
-function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
+function LogDisplay({ sources, runId }: LogTabContentProps) {
+	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
 	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
 
 	const parsedLogs = useMemo(() => {
@@ -77,19 +55,28 @@ function LogDisplay({ selectedSource, runId }: LogTabContentProps) {
 		return <ErrorFallback err={runLogs.error} />;
 	}
 
-	const logs = runLogs.data;
-	if (logs.length === 0) {
-		return (
-			<EmptyStateLogs
-				title="This pipeline run has no logs"
-				subtitle="It looks like there are no logs associated with this pipeline run"
-			/>
-		);
-	}
-
 	return (
-		<div className="h-full w-full">
-			<EnhancedLogsViewer logs={parsedLogs} reloadLogs={() => runLogs.refetch()} />
-		</div>
+		<EnhancedLogsViewer
+			fallbackMessage={
+				<EmptyStateLogs
+					title="This pipeline run has no logs"
+					subtitle="It looks like there are no logs associated with this pipeline run"
+				/>
+			}
+			sourceSwitcher={
+				sources.length > 1 ? (
+					<div className="space-y-0.5">
+						<span className="text-text-sm text-theme-text-secondary">Source</span>
+						<LogSourceCombobox
+							sources={sources}
+							selectedSource={selectedSource}
+							setSelectedSource={setSelectedSource}
+						/>
+					</div>
+				) : undefined
+			}
+			logs={parsedLogs}
+			reloadLogs={() => runLogs.refetch()}
+		/>
 	);
 }
