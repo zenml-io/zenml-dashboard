@@ -288,6 +288,12 @@ When using AI tools with this codebase:
 2. Point to the data fetching patterns in `src/data/`
 3. Note that many patterns are shared with zenml-cloud-ui (check that repo for reference implementations)
 
+### Plan & Review (Agentic Work)
+- For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, similar existing flows, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
+- **Avoid style thrash:** do not fall into repeated "make it look right" loops of tiny Tailwind/CSS nudges. If you notice multiple iterations where the diff is mostly styling tweaks, stop and re-anchor to the plan and design tokens.
+- Ask for a single authoritative reference (screenshot/spec) and explicit acceptance criteria before continuing visual polish. Prefer correcting tokens/variants/layout primitives over adding scattered one-off overrides.
+- If a visual change seems to require touching unrelated components or adding arbitrary pixel constants, treat that as a sign the approach is wrong and escalate for human guidance instead of continuing to iterate blindly.
+
 ### Common Patterns
 
 - **One-time secrets**: Display token/key once after creation, never show again
