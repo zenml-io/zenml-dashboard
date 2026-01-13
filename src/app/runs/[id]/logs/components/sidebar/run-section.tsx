@@ -32,8 +32,8 @@ export function PipelineRunLogsSidebarRunItem() {
 	const run = runQuery.data;
 
 	const duration =
-		run?.metadata?.start_time && run?.metadata?.end_time
-			? calculateTimeDifference(run?.metadata?.start_time, run?.metadata?.end_time)
+		run.metadata?.start_time && run.metadata?.end_time
+			? calculateTimeDifference(run.metadata.start_time, run.metadata.end_time)
 			: null;
 
 	return (
