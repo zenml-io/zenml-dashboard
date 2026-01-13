@@ -1515,6 +1515,16 @@ export type paths = {
 		 */
 		get: operations["run_logs_api_v1_runs__run_id__logs_get"];
 	};
+	"/api/v1/runs/{run_id}/disable_heartbeat": {
+		/**
+		 * Disable Run Heartbeat
+		 * @description Disables heartbeats for a run.
+		 *
+		 * Args:
+		 *     run_id: ID of the run.
+		 */
+		put: operations["disable_run_heartbeat_api_v1_runs__run_id__disable_heartbeat_put"];
+	};
 	"/api/v1/run-metadata": {
 		/**
 		 * Create Run Metadata
@@ -1661,6 +1671,7 @@ export type paths = {
 		 *
 		 * Args:
 		 *     schedule_id: ID of the schedule to delete.
+		 *     soft: Soft deletion will archive the schedule.
 		 */
 		delete: operations["delete_schedule_api_v1_schedules__schedule_id__delete"];
 	};
@@ -2538,9 +2549,6 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The step heartbeat response (id, status, last_heartbeat).
-		 *
-		 * Raises:
-		 *     HTTPException: If the step is finished raises with 422 status code.
 		 */
 		put: operations["update_heartbeat_api_v1_steps__step_run_id__heartbeat_put"];
 	};
@@ -5429,9 +5437,9 @@ export type components = {
 		ExecutionStatus:
 			| "initializing"
 			| "provisioning"
+			| "running"
 			| "failed"
 			| "completed"
-			| "running"
 			| "cached"
 			| "retrying"
 			| "retried"
@@ -7151,6 +7159,8 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/** Enable Heartbeat */
+			enable_heartbeat?: boolean | null;
 			/**
 			 * Environment
 			 * @default {}
@@ -7221,6 +7231,8 @@ export type components = {
 			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
 			enable_step_logs?: boolean | null;
+			/** Enable Heartbeat */
+			enable_heartbeat?: boolean | null;
 			/**
 			 * Environment
 			 * @default {}
@@ -7540,6 +7552,8 @@ export type components = {
 			is_templatable?: boolean;
 			/** Trigger information for the pipeline run. */
 			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
+			/** Enable heartbeat flag for run. */
+			enable_heartbeat: boolean;
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -8436,6 +8450,8 @@ export type components = {
 			catchup?: boolean;
 			/** Run Once Start Time */
 			run_once_start_time?: string | null;
+			/** Is Archived */
+			is_archived: boolean;
 		};
 		/**
 		 * ScheduleResponseMetadata
@@ -8472,6 +8488,8 @@ export type components = {
 			name?: string | null;
 			/** Cron Expression */
 			cron_expression?: string | null;
+			/** Active */
+			active?: boolean | null;
 		};
 		/**
 		 * SecretRequest
@@ -9826,7 +9844,7 @@ export type components = {
 			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Heartbeat Healthy Threshold
-			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to the maximum value (30 minutes).
+			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to 30 minutes.
 			 * @default 30
 			 */
 			heartbeat_healthy_threshold?: number;
@@ -9966,7 +9984,7 @@ export type components = {
 			runtime?: components["schemas"]["StepRuntime"] | null;
 			/**
 			 * Heartbeat Healthy Threshold
-			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to the maximum value (30 minutes).
+			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to 30 minutes.
 			 * @default 30
 			 */
 			heartbeat_healthy_threshold?: number;
@@ -10027,6 +10045,8 @@ export type components = {
 			 */
 			latest_heartbeat: string;
 			pipeline_run_status?: components["schemas"]["ExecutionStatus"] | null;
+			/** Heartbeat Enabled */
+			heartbeat_enabled: boolean;
 		};
 		/**
 		 * StepRetryConfig
@@ -10213,6 +10233,8 @@ export type components = {
 			substitutions?: {
 				[key: string]: unknown;
 			};
+			/** The applied heartbeat healthiness threshold */
+			heartbeat_threshold?: number | null;
 		};
 		/**
 		 * StepRunResponseMetadata
@@ -16192,7 +16214,6 @@ export type operations = {
 				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
-				unlisted?: boolean | null;
 				pipeline_name?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
@@ -16851,6 +16872,58 @@ export type operations = {
 		};
 	};
 	/**
+	 * Disable Run Heartbeat
+	 * @description Disables heartbeats for a run.
+	 *
+	 * Args:
+	 *     run_id: ID of the run.
+	 */
+	disable_run_heartbeat_api_v1_runs__run_id__disable_heartbeat_put: {
+		parameters: {
+			path: {
+				run_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
 	 * Create Run Metadata
 	 * @description Creates run metadata.
 	 *
@@ -17234,6 +17307,7 @@ export type operations = {
 				catchup?: boolean | null;
 				name?: string | null;
 				run_once_start_time?: string | null;
+				is_archived?: boolean;
 			};
 		};
 		responses: {
@@ -17440,9 +17514,13 @@ export type operations = {
 	 *
 	 * Args:
 	 *     schedule_id: ID of the schedule to delete.
+	 *     soft: Soft deletion will archive the schedule.
 	 */
 	delete_schedule_api_v1_schedules__schedule_id__delete: {
 		parameters: {
+			query: {
+				soft: boolean;
+			};
 			path: {
 				schedule_id: string;
 			};
@@ -20700,9 +20778,6 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The step heartbeat response (id, status, last_heartbeat).
-	 *
-	 * Raises:
-	 *     HTTPException: If the step is finished raises with 422 status code.
 	 */
 	update_heartbeat_api_v1_steps__step_run_id__heartbeat_put: {
 		parameters: {
@@ -23224,7 +23299,6 @@ export type operations = {
 				in_progress?: boolean | null;
 				start_time?: string | null;
 				end_time?: string | null;
-				unlisted?: boolean | null;
 				pipeline_name?: string | null;
 				pipeline?: string | null;
 				stack?: string | null;
@@ -23356,6 +23430,7 @@ export type operations = {
 				catchup?: boolean | null;
 				name?: string | null;
 				run_once_start_time?: string | null;
+				is_archived?: boolean;
 			};
 			path: {
 				project_name_or_id: string | null;
