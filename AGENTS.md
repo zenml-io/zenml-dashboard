@@ -71,6 +71,12 @@
 - `src/contents` stores legacy static copy; prefer deriving text from components and avoid growing this folder unless required.
 - Remove debug `console` statements before committing.
 
+## Planning & Review (Agentic Work)
+- For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, existing patterns to reuse, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
+- **Avoid style thrash:** if you find yourself repeatedly nudging Tailwind/CSS to make something "look right" (especially across multiple commits), pause and reassess against the spec and existing design tokens/components.
+- Treat widespread or unrelated styling edits as a blocker: if a visual fix requires touching multiple unrelated components, adding arbitrary pixel constants, or layering overrides, stop and ask for an authoritative reference (screenshot/spec) or escalate to [@Cahllagerfeld](https://github.com/Cahllagerfeld) rather than continuing to iterate.
+- Prefer fixing the abstraction (token/variant/layout primitive) over local one-off overrides.
+
 ## Scope Guardrails
 
 - **Workspace-level resources only:** This repo implements workspace-level service accounts. User-level API keys are out of scope.
