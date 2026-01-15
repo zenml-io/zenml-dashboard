@@ -57,12 +57,19 @@ export function LogToolbar({
 					<div className="flex w-full flex-wrap items-center justify-between gap-2">
 						{/* Left side - Search and Filter controls */}
 						<div className="flex items-center gap-2">
-							<SearchField
-								className="border-neutral-300"
-								searchParams={{}}
-								inMemoryHandler={onSearchChange}
-								placeholder="Search logs..."
-							/>
+							<form
+								onSubmit={(e) => {
+									e.preventDefault();
+									if (totalMatches > 0) onNextMatch?.();
+								}}
+							>
+								<SearchField
+									className="border-neutral-300"
+									searchParams={{}}
+									inMemoryHandler={onSearchChange}
+									placeholder="Search logs..."
+								/>
+							</form>
 
 							{/* Search controls */}
 							{searchQuery && (
@@ -73,7 +80,7 @@ export function LogToolbar({
 											: "No matches"}
 									</span>
 									<Button
-										className="aspect-square"
+										className="aspect-square items-center justify-center"
 										size="sm"
 										emphasis="minimal"
 										onClick={onPreviousMatch}
@@ -83,7 +90,7 @@ export function LogToolbar({
 										<ArrowLeft className="h-4 w-4 shrink-0 rotate-90 fill-theme-text-tertiary" />
 									</Button>
 									<Button
-										className="aspect-square"
+										className="flex aspect-square items-center justify-center"
 										size="sm"
 										emphasis="minimal"
 										onClick={onNextMatch}

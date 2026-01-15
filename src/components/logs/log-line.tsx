@@ -1,16 +1,18 @@
 import { prepareBackendTimestamp } from "@/lib/dates";
 import { LOG_LEVEL_NAMES } from "@/lib/logs";
 import { LogEntryInternal, LoggingLevel } from "@/types/logs";
+import { cn } from "@zenml-io/react-component-library/utilities";
 import React from "react";
 import { CopyButton } from "../CopyButton";
-import { cn } from "@zenml-io/react-component-library/utilities";
+import { MatchRange } from "./use-log-search";
 
 interface LogLineProps {
 	entry: LogEntryInternal;
-	searchTerm?: string;
-	isCurrentMatch?: boolean;
 	textWrapEnabled?: boolean;
-	highlightedMessage?: React.ReactNode;
+	/** Match ranges for this log line (stable when search query unchanged) */
+	matchRanges?: MatchRange[];
+	/** Index of the active match within this log (-1 if no active match here) */
+	activeMatchIndex?: number;
 	className?: string;
 }
 
@@ -44,40 +46,53 @@ const formatTimestamp = (timestamp: string | number): string => {
 	});
 };
 
-export function LogLine({
+export const LogLine = React.memo(function Logline({
 	entry,
-	searchTerm,
-	isCurrentMatch,
 	textWrapEnabled,
-	highlightedMessage,
+	matchRanges,
+	activeMatchIndex = -1,
 	className
 }: LogLineProps) {
 	const { timestamp, level, message, originalEntry } = entry;
 	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
 	const levelColorClass = getLogLevelColor(level ?? undefined);
 
-	const highlightSearchTerm = (text: string) => {
-		if (!searchTerm) return text;
+	// Render message with highlighted matches
+	const renderMessage = () => {
+		if (!matchRanges || matchRanges.length === 0) {
+			return message;
+		}
 
-		const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
-		const parts = text.split(regex);
+		const parts: React.ReactNode[] = [];
+		let lastEnd = 0;
 
-		return parts.map((part, index) => {
-			// Check if this part matches the search term (case-insensitive)
-			if (part.toLowerCase() === searchTerm.toLowerCase()) {
-				return (
-					<span
-						key={index}
-						className={`${
-							isCurrentMatch ? "bg-warning-200 text-warning-900" : "bg-warning-100 text-warning-800"
-						} inline-block rounded-sm px-1`}
-					>
-						{part}
-					</span>
-				);
+		matchRanges.forEach((range, i) => {
+			// Add text before this match
+			if (range.start > lastEnd) {
+				parts.push(message.slice(lastEnd, range.start));
 			}
-			return part;
+
+			// Determine if this match is the active one
+			const isActive = i === activeMatchIndex;
+			const highlightClass = isActive
+				? "bg-warning-200 text-warning-900 inline-block rounded-sm px-1"
+				: "bg-warning-100 text-warning-800 inline-block rounded-sm px-1";
+
+			parts.push(
+				<span key={i} className={highlightClass}>
+					{message.slice(range.start, range.end)}
+				</span>
+			);
+
+			lastEnd = range.end;
 		});
+
+		// Add remaining text after last match
+		if (lastEnd < message.length) {
+			parts.push(message.slice(lastEnd));
+		}
+
+		return parts;
 	};
 
 	return (
@@ -101,7 +116,7 @@ export function LogLine({
 					textWrapEnabled ? "min-w-0 whitespace-pre-wrap break-words" : "whitespace-nowrap"
 				}`}
 			>
-				{highlightedMessage || highlightSearchTerm(message)}
+				{renderMessage()}
 			</div>
 			{/* Compact copy button - appears on hover, doesn't change height */}
 			<div className="flex flex-shrink-0 items-center">
@@ -109,6 +124,6 @@ export function LogLine({
 			</div>
 		</div>
 	);
-}
+});
 
 export default LogLine;
