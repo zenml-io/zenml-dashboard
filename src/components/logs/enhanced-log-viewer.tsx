@@ -1,13 +1,13 @@
 import Collapse from "@/assets/icons/collapse-text.svg?react";
 import Expand from "@/assets/icons/expand-full.svg?react";
 import { LogEntryInternal } from "@/types/logs"; // Assuming types are in src/types/logs.ts
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import LogLine from "./log-line"; // Import the LogLine component
 import { LogToolbar } from "./toolbar";
 import { useLogSearch } from "./use-log-search";
 import { useLogLevelFilter } from "./use-loglevel-filter";
-import { useVirtualizer } from "@tanstack/react-virtual";
 
 interface EnhancedLogsViewerProps {
 	logs: LogEntryInternal[];
@@ -37,12 +37,14 @@ export function EnhancedLogsViewer({
 		totalMatches,
 		goToNextMatch,
 		goToPreviousMatch,
-		highlightText
+		matchesByLogIndex,
+		activeMatchLogIndex,
+		activeMatchWithinLog
 	} = useLogSearch(filteredLogs);
 
 	// Set up virtualizer with dynamic height measurement
 	const virtualizer = useVirtualizer({
-		overscan: 10,
+		overscan: 20,
 		count: filteredLogs.length,
 		getScrollElement: () => parentRef.current,
 		estimateSize: () => 32 // estimated single-line height
@@ -60,21 +62,36 @@ export function EnhancedLogsViewer({
 	useEffect(() => {
 		if (didInitialScrollRef.current || filteredLogs.length === 0) return;
 		didInitialScrollRef.current = true;
-		virtualizer.scrollToIndex(filteredLogs.length - 1, { align: "end" });
+		requestAnimationFrame(() => {
+			virtualizer.scrollToIndex(filteredLogs.length - 1, { align: "end" });
+		});
 	}, [filteredLogs.length, virtualizer]);
+
+	// After search produces results, scroll to the first match
+	useEffect(() => {
+		if (matches.length > 0 && matches[0]) {
+			requestAnimationFrame(() => {
+				virtualizer.scrollToIndex(matches[0].logIndex, { align: "center" });
+			});
+		}
+	}, [matches, virtualizer]);
 
 	// Wrappers that scroll to the new match after navigation
 	const handleNextMatch = useCallback(() => {
 		const nextIdx = goToNextMatch();
 		if (nextIdx >= 0 && matches[nextIdx]) {
-			virtualizer.scrollToIndex(matches[nextIdx].logIndex, { align: "center" });
+			requestAnimationFrame(() => {
+				virtualizer.scrollToIndex(matches[nextIdx].logIndex, { align: "center" });
+			});
 		}
 	}, [goToNextMatch, matches, virtualizer]);
 
 	const handlePreviousMatch = useCallback(() => {
 		const prevIdx = goToPreviousMatch();
 		if (prevIdx >= 0 && matches[prevIdx]) {
-			virtualizer.scrollToIndex(matches[prevIdx].logIndex, { align: "center" });
+			requestAnimationFrame(() => {
+				virtualizer.scrollToIndex(matches[prevIdx].logIndex, { align: "center" });
+			});
 		}
 	}, [goToPreviousMatch, matches, virtualizer]);
 
@@ -194,18 +211,20 @@ export function EnhancedLogsViewer({
 							}}
 						>
 							{virtualItems.map((virtualRow) => {
-								const entry = filteredLogs[virtualRow.index];
+								const logIndex = virtualRow.index;
+								const entry = filteredLogs[logIndex];
+								const matchRanges = matchesByLogIndex.get(logIndex);
+								// Only pass activeMatchIndex if this log contains the active match
+								const activeMatchIndex =
+									logIndex === activeMatchLogIndex ? activeMatchWithinLog : -1;
+
 								return (
-									<div
-										key={virtualRow.key}
-										data-index={virtualRow.index}
-										ref={virtualizer.measureElement}
-									>
+									<div key={virtualRow.key} data-index={logIndex} ref={virtualizer.measureElement}>
 										<LogLine
 											entry={entry}
-											searchTerm={searchQuery}
 											textWrapEnabled={textWrapEnabled}
-											highlightedMessage={highlightText(entry.message, virtualRow.index)}
+											matchRanges={matchRanges}
+											activeMatchIndex={activeMatchIndex}
 										/>
 									</div>
 								);
