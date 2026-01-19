@@ -28,7 +28,12 @@ export function DownloadSnapshotCodeButton({ snapshotId }: Props) {
 	}
 
 	return (
-		<Button onClick={handleDownload} disabled={isPending} type="button">
+		<Button
+			aria-label="Download snapshot code"
+			onClick={handleDownload}
+			disabled={isPending}
+			type="button"
+		>
 			Download
 		</Button>
 	);

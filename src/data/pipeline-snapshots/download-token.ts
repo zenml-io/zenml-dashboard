@@ -40,7 +40,7 @@ export async function fetchSnapshotDownloadToken({
 export function useSnapshotDownloadToken(
 	options?: UseMutationOptions<string, FetchError, GetDownloadTokenParams>
 ) {
-	return useMutation<string, FetchError, GetDownloadTokenParams, unknown>({
+	return useMutation<string, FetchError, GetDownloadTokenParams>({
 		...options,
 		mutationFn: async (params: GetDownloadTokenParams) => {
 			return fetchSnapshotDownloadToken(params);
