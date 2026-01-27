@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import openapiTS from "openapi-typescript";
+import openapiTS, { astToString } from "openapi-typescript";
 
 // Logging function with emojis
 function log(message, emoji) {
@@ -9,15 +9,17 @@ function log(message, emoji) {
 async function generateTypes(baseUrl) {
 	log("Script started.", "✨");
 
-	const output = await openapiTS(`${baseUrl}/openapi.json`, {
+	const ast = await openapiTS(new URL(`${baseUrl}/openapi.json`), {
 		exportType: true,
+		defaultNonNullable: false,
 		transform: (schema) => {
 			customTransformer(schema);
 		}
 	});
 
 	log("Writing output to file...", "📝");
-	fs.writeFileSync("./src/types/core.ts", output);
+	const contents = astToString(ast);
+	fs.writeFileSync("./src/types/core.ts", contents);
 
 	log("Script completed successfully.", "✅");
 }
