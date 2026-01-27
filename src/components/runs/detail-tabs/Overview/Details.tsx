@@ -6,6 +6,7 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, KeyValue, Value } from "@/components/KeyValue";
+import { DownloadSnapshotCodeButton } from "@/components/pipeline-snapshots/download-snapshot-code-button";
 import { SnapshotLink } from "@/components/pipeline-snapshots/snapshot-link";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
 import { RepoBadge } from "@/components/repositories/RepoBadge";
@@ -60,6 +61,9 @@ export function Details({ runId }: Props) {
 	const sourceSnapshot = data.resources?.source_snapshot;
 	const deploymentId = data.metadata?.trigger_info?.deployment_id;
 	const schedule = data.resources?.schedule;
+
+	const codePath = data.metadata?.code_path;
+	const snapshotId = data.resources?.snapshot?.id;
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
@@ -166,25 +170,30 @@ export function Details({ runId }: Props) {
 					</Value>
 					{schedule && <KeyValue label="Triggered by" value={<ScheduleTag />} />}
 					<Key className={data.metadata?.code_path ? "col-span-3" : ""}>
-						<div className="flex items-center space-x-0.5 truncate">
-							<span>Code Path</span>
-							<TooltipProvider>
-								<Tooltip>
-									<TooltipTrigger className="cursor-default">
-										<Info className="h-3 w-3 fill-theme-text-secondary" />
-										<span className="sr-only">Info</span>
-									</TooltipTrigger>
-									<TooltipContent className="w-full max-w-md whitespace-normal">
-										Path to where code was uploaded in the artifact store. Only set on a pipeline
-										with a non-local orchestrator and if Repository/Commit is not set
-									</TooltipContent>
-								</Tooltip>
-							</TooltipProvider>
+						<div className="flex w-full items-center justify-between">
+							<div className="flex items-center space-x-0.5 truncate">
+								<span>Code Path</span>
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default">
+											<Info className="h-3 w-3 fill-theme-text-secondary" />
+											<span className="sr-only">Info</span>
+										</TooltipTrigger>
+										<TooltipContent className="w-full max-w-md whitespace-normal">
+											Path to where code was uploaded in the artifact store. Only set on a pipeline
+											with a non-local orchestrator and if Repository/Commit is not set
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</div>
+							{snapshotId && codePath ? (
+								<DownloadSnapshotCodeButton snapshotId={snapshotId} />
+							) : null}
 						</div>
 					</Key>
 					<Value className={data.metadata?.code_path ? "col-span-3 h-auto" : ""}>
 						{data.metadata?.code_path ? (
-							<Codesnippet className="overflow-hidden" code={data.metadata.code_path} />
+							<Codesnippet fullWidth className="overflow-hidden" code={data.metadata.code_path} />
 						) : (
 							"Not available"
 						)}
