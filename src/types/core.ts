@@ -291,9 +291,6 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The artifact data.
-		 *
-		 * Raises:
-		 *     KeyError: If the artifact version has no artifact store.
 		 */
 		get: operations["download_artifact_data_api_v1_artifact_versions__artifact_version_id__data_get"];
 	};
@@ -1345,6 +1342,39 @@ export type paths = {
 		 *     snapshot_id: ID of the snapshot to delete.
 		 */
 		delete: operations["delete_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__delete"];
+	};
+	"/api/v1/pipeline_snapshots/{snapshot_id}/download-token": {
+		/**
+		 * Get Snapshot Code Download Token
+		 * @description Get a download token for the snapshot code.
+		 *
+		 * Args:
+		 *     snapshot_id: ID of the snapshot for which to get the code.
+		 *
+		 * Returns:
+		 *     The download token for the snapshot code.
+		 *
+		 * Raises:
+		 *     ValueError: If the snapshot has no code path or stack.
+		 */
+		get: operations["get_snapshot_code_download_token_api_v1_pipeline_snapshots__snapshot_id__download_token_get"];
+	};
+	"/api/v1/pipeline_snapshots/{snapshot_id}/code": {
+		/**
+		 * Download Snapshot Code
+		 * @description Download the snapshot code.
+		 *
+		 * Args:
+		 *     snapshot_id: ID of the snapshot for which to get the code.
+		 *     token: The token to authenticate the code download.
+		 *
+		 * Returns:
+		 *     The snapshot code.
+		 *
+		 * Raises:
+		 *     ValueError: If the snapshot has no code path or stack.
+		 */
+		get: operations["download_snapshot_code_api_v1_pipeline_snapshots__snapshot_id__code_get"];
 	};
 	"/api/v1/runs": {
 		/**
@@ -5420,8 +5450,9 @@ export type components = {
 		ExceptionInfo: {
 			/** The traceback of the exception. */
 			traceback: string;
-			/** The line number of the step code that raised the exception. */
-			step_code_line?: number | null;
+			/** The line number of the user code that raised the exception. */
+			user_code_line?: number | null;
+			[key: string]: unknown;
 		};
 		/**
 		 * ExecutionMode
@@ -7446,6 +7477,8 @@ export type components = {
 			tags?: (string | components["schemas"]["Tag"])[] | null;
 			/** Logs of the pipeline run. */
 			logs?: components["schemas"]["LogsRequest"] | null;
+			/** The exception information of the pipeline run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -7554,6 +7587,8 @@ export type components = {
 			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
 			/** Enable heartbeat flag for run. */
 			enable_heartbeat: boolean;
+			/** The exception information of the pipeline run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -7612,6 +7647,8 @@ export type components = {
 			is_finished?: boolean | null;
 			/** Orchestrator Run Id */
 			orchestrator_run_id?: string | null;
+			/** The exception information of the pipeline run. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -12121,9 +12158,6 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The artifact data.
-	 *
-	 * Raises:
-	 *     KeyError: If the artifact version has no artifact store.
 	 */
 	download_artifact_data_api_v1_artifact_versions__artifact_version_id__data_get: {
 		parameters: {
@@ -16126,6 +16160,120 @@ export type operations = {
 	 */
 	delete_pipeline_snapshot_api_v1_pipeline_snapshots__snapshot_id__delete: {
 		parameters: {
+			path: {
+				snapshot_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Snapshot Code Download Token
+	 * @description Get a download token for the snapshot code.
+	 *
+	 * Args:
+	 *     snapshot_id: ID of the snapshot for which to get the code.
+	 *
+	 * Returns:
+	 *     The download token for the snapshot code.
+	 *
+	 * Raises:
+	 *     ValueError: If the snapshot has no code path or stack.
+	 */
+	get_snapshot_code_download_token_api_v1_pipeline_snapshots__snapshot_id__download_token_get: {
+		parameters: {
+			path: {
+				snapshot_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": string;
+				};
+			};
+			/** @description Bad Request */
+			400: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Download Snapshot Code
+	 * @description Download the snapshot code.
+	 *
+	 * Args:
+	 *     snapshot_id: ID of the snapshot for which to get the code.
+	 *     token: The token to authenticate the code download.
+	 *
+	 * Returns:
+	 *     The snapshot code.
+	 *
+	 * Raises:
+	 *     ValueError: If the snapshot has no code path or stack.
+	 */
+	download_snapshot_code_api_v1_pipeline_snapshots__snapshot_id__code_get: {
+		parameters: {
+			query: {
+				token: string;
+			};
 			path: {
 				snapshot_id: string;
 			};

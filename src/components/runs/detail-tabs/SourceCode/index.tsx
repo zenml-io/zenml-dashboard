@@ -2,6 +2,7 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { EmptyState } from "@/components/EmptyState";
+import { ErrorTracebackCollapsible } from "@/components/error-traceback-collapsible";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
@@ -32,6 +33,8 @@ export function SourceCodeTab({ runId }: Props) {
 	});
 
 	const snapshotId = run?.resources?.snapshot?.id;
+
+	const traceback = run?.metadata?.exception_info?.traceback;
 
 	const {
 		data: snapshot,
@@ -81,8 +84,16 @@ export function SourceCodeTab({ runId }: Props) {
 
 	return (
 		<div className="flex flex-col gap-5">
+			{traceback && <ErrorTracebackCollapsible traceback={traceback} />}
 			<CollapsibleCard initialOpen title="Pipeline Code">
-				<Codesnippet fullWidth highlightCode wrap language="python" code={sourceCode} />
+				<Codesnippet
+					fullWidth
+					highlightCode
+					wrap
+					language="python"
+					exceptionCodeLine={run?.metadata?.exception_info?.user_code_line ?? undefined}
+					code={sourceCode}
+				/>
 			</CollapsibleCard>
 		</div>
 	);
