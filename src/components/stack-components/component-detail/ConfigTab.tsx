@@ -24,8 +24,9 @@ export function ComponentConfigTab({ componentId }: Props) {
 			<div>
 				<BasicParams componentId={componentId} />
 			</div>
-			<div>
+			<div className="space-y-5">
 				<ConfigCollapsible componentId={componentId} />
+				<ComponentLabels componentId={componentId} />
 			</div>
 		</section>
 	);
@@ -137,4 +138,17 @@ function ConfigCollapsible({ componentId }: Props) {
 			data={component.data.metadata?.configuration}
 		/>
 	);
+}
+
+function ComponentLabels({ componentId }: Props) {
+	const component = useComponent(componentId);
+
+	if (component.isError) return null;
+	if (component.isPending) return <Skeleton className="h-[150px] w-full" />;
+
+	const labels = component.data.metadata?.labels;
+
+	if (!labels || Object.keys(labels).length === 0) return null;
+
+	return <NestedCollapsible intent="primary" isInitialOpen title="Labels" data={labels} />;
 }

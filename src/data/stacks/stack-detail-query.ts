@@ -12,7 +12,7 @@ export function getPipelineRunDetailQueryKey({ stackId }: StackDetailArgs) {
 	return ["stacks", stackId];
 }
 
-export async function fetchStack({ stackId }: StackDetailArgs) {
+export async function fetchStack({ stackId }: StackDetailArgs): Promise<Stack> {
 	const url = createApiPath(apiPaths.stacks.detail(stackId));
 	const res = await fetcher(url, {
 		method: "GET",
