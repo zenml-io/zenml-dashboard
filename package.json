@@ -79,7 +79,7 @@
 		"eslint-plugin-react-refresh": "^0.4.26",
 		"husky": "^9.1.7",
 		"lint-staged": "^15.5.0",
-		"openapi-typescript": "^6.7.6",
+		"openapi-typescript": "^7.10.1",
 		"postcss": "^8.5.6",
 		"prettier": "^3.7.4",
 		"prettier-plugin-tailwindcss": "^0.7.2",
