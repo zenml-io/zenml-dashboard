@@ -43,7 +43,9 @@ export const apiPaths = {
 	},
 	pipeline_snapshots: {
 		list: "/pipeline_snapshots",
-		detail: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}`
+		detail: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}`,
+		downloadToken: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}/download-token`,
+		code: (snapshotId: string) => `/pipeline_snapshots/${snapshotId}/code`
 	},
 	code_repositories: {
 		all: "/code_repositories",
