@@ -1,6 +1,7 @@
 import Copy from "@/assets/icons/copy.svg?react";
 import { getStepSnippet } from "@/lib/code-snippets";
 import { secondsToTimeString } from "@/lib/dates";
+import { isRunningStatus } from "@/lib/execution-status";
 import { StepNodePayload } from "@/types/dag-visualizer";
 import { clsx } from "clsx";
 import { memo } from "react";
@@ -8,6 +9,7 @@ import { NodeProps } from "reactflow";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../ExecutionStatus";
 import { BaseNode } from "./BaseNode";
 import { CopyNodeButton } from "./NodeCopyButton";
+import { ElapsedTime } from "./elapsed-time";
 import { getIsStatusUnknown } from "./layout/status";
 import { useSheetContext } from "./sheet-context";
 
@@ -65,6 +67,9 @@ export function StepNodeComponent({ data, selected }: NodeProps<StepNodePayload>
 					{(() => {
 						if (isFailed) {
 							return "Execution failed";
+						}
+						if (isRunningStatus(data.status) && data.start_time) {
+							return <ElapsedTime startTime={data.start_time} />;
 						}
 						if (data.duration === undefined || data.duration === null) {
 							return "N/A";
