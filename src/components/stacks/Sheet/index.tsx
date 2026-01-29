@@ -25,6 +25,7 @@ import { Numberbox } from "../../NumberBox";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { IntegrationsContextProvider, useIntegrationsContext } from "./IntegrationsContext";
 import { UpdateButtonContent } from "@/components/buttons/update-button-content";
+import { NestedCollapsible } from "@/components/NestedCollapsible";
 
 type Props = {
 	stackId: string;
@@ -45,6 +46,7 @@ export function StackSheet({
 					<StackHeadline stackId={stackId} />
 					<StackSetCommand name={stackName} />
 					<ComponentList stackId={stackId} />
+					<StackLabels stackId={stackId} />
 				</IntegrationsContextProvider>
 			</ResizableSheetContent>
 		</Sheet>
@@ -178,7 +180,7 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 
 	return (
 		<section className="px-5 pt-5">
-			<CollapsibleCard title={<span className="text-text-lg">Set this stack</span>} initialOpen>
+			<CollapsibleCard title="Set this stack" initialOpen>
 				<ul className="space-y-5">
 					<li className="space-y-2">
 						<div className="flex items-center gap-2">
@@ -216,6 +218,28 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 					)}
 				</ul>
 			</CollapsibleCard>
+		</section>
+	);
+}
+
+function StackLabels({ stackId }: Props) {
+	const stack = useQuery({ ...stackQueries.stackDetail(stackId) });
+
+	if (stack.isError) return null;
+	if (stack.isPending)
+		return (
+			<section className="px-5">
+				<Skeleton className="h-[150px] w-full" />
+			</section>
+		);
+
+	const labels = stack.data.metadata?.labels;
+
+	if (!labels || Object.keys(labels).length === 0) return null;
+
+	return (
+		<section className="px-5">
+			<NestedCollapsible intent="primary" isInitialOpen title="Labels" data={labels} />
 		</section>
 	);
 }
