@@ -1,7 +1,13 @@
 "use client";
 
 import { LogEntryInternal } from "@/types/logs";
-import React, { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+
+/** Match range within a single log line (stable data for memoization) */
+export interface MatchRange {
+	start: number;
+	end: number;
+}
 
 export interface SearchMatch {
 	logIndex: number;
@@ -18,7 +24,12 @@ export interface UseLogSearchReturn {
 	totalMatches: number;
 	goToNextMatch: () => number;
 	goToPreviousMatch: () => number;
-	highlightText: (text: string, logIndex: number) => React.ReactNode;
+	/** Map of log index -> array of match ranges (stable reference when query unchanged) */
+	matchesByLogIndex: Map<number, MatchRange[]>;
+	/** Log index that contains the currently active match, or -1 if none */
+	activeMatchLogIndex: number;
+	/** Index within the log's matches that is active (0-based), or -1 */
+	activeMatchWithinLog: number;
 }
 
 export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
@@ -78,50 +89,22 @@ export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 		return prev;
 	}, [totalMatches, safeIndex]);
 
-	// Highlight search terms in text
-	const highlightText = useCallback(
-		(text: string, logIndex: number): React.ReactNode => {
-			if (!searchQuery.trim()) return text;
+	// Group matches by log index for efficient lookup
+	// This map is stable when searchQuery is unchanged (only depends on matches)
+	const matchesByLogIndex = useMemo(() => {
+		const byLog = new Map<number, MatchRange[]>();
+		matches.forEach((match) => {
+			const existing = byLog.get(match.logIndex) || [];
+			existing.push({ start: match.startIndex, end: match.endIndex });
+			byLog.set(match.logIndex, existing);
+		});
+		return byLog;
+	}, [matches]);
 
-			const logMatches = matches.filter((m) => m.logIndex === logIndex);
-			if (logMatches.length === 0) return text;
-
-			const parts: React.ReactNode[] = [];
-			let lastEnd = 0;
-
-			logMatches.forEach((match, i) => {
-				if (match.startIndex > lastEnd) {
-					parts.push(text.slice(lastEnd, match.startIndex));
-				}
-
-				const isActive =
-					matches.findIndex(
-						(m) => m.logIndex === match.logIndex && m.matchIndex === match.matchIndex
-					) === safeIndex;
-
-				const className = isActive
-					? "bg-warning-200 text-warning-900 inline-block rounded-sm px-1"
-					: "bg-warning-100 text-warning-800 inline-block rounded-sm px-1";
-
-				parts.push(
-					React.createElement(
-						"span",
-						{ key: `${logIndex}-${i}`, className },
-						text.slice(match.startIndex, match.endIndex)
-					)
-				);
-
-				lastEnd = match.endIndex;
-			});
-
-			if (lastEnd < text.length) {
-				parts.push(text.slice(lastEnd));
-			}
-
-			return parts;
-		},
-		[searchQuery, matches, safeIndex]
-	);
+	// Compute which log contains the active match and which match within that log
+	const activeMatch = matches[safeIndex];
+	const activeMatchLogIndex = activeMatch?.logIndex ?? -1;
+	const activeMatchWithinLog = activeMatch?.matchIndex ?? -1;
 
 	return {
 		searchQuery,
@@ -131,6 +114,8 @@ export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 		totalMatches,
 		goToNextMatch,
 		goToPreviousMatch,
-		highlightText
+		matchesByLogIndex,
+		activeMatchLogIndex,
+		activeMatchWithinLog
 	};
 }
