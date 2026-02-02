@@ -8,7 +8,7 @@
 		"dev": "vite",
 		"format": "prettier  --write .",
 		"generate:types": "node scripts/types.js",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"lint": "eslint . --report-unused-disable-directives --max-warnings 0",
 		"prepare": "husky",
 		"preview": "vite preview",
 		"test:e2e": "playwright test",
