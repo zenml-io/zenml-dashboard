@@ -27,7 +27,7 @@ export function TimelineList({
 	const virtualizer = useVirtualizer({
 		count,
 		getScrollElement: () => parentRef.current,
-		estimateSize: () => 120
+		estimateSize: () => 36
 	});
 
 	const items = virtualizer.getVirtualItems();
