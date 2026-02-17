@@ -65,7 +65,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          codex-args: --allowed-tools "mcp__github_inline_comment__create_inline_comment,Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"
           prompt: |
             You are Codex assisting on pull request #${{ github.event.issue.number }} in ${{ github.repository }}.
 
