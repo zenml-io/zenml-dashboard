@@ -35,6 +35,7 @@ export default defineConfig([
 			globals: globals.browser
 		},
 		rules: {
+			"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 			"no-mixed-spaces-and-tabs": "off",
 			"@typescript-eslint/no-explicit-any": "warn",
 			"@typescript-eslint/no-unused-vars": [
@@ -45,13 +46,6 @@ export default defineConfig([
 					caughtErrorsIgnorePattern: "^_"
 				}
 			]
-		}
-	},
-	// Override for files that export constants only (not React components)
-	{
-		files: ["src/router/routes.tsx"],
-		rules: {
-			"react-refresh/only-export-components": "off"
 		}
 	}
 ]);
