@@ -52,6 +52,14 @@ export function LoginForm() {
 		mutation.mutate({ username: data.username.trim(), password: data.password });
 	}
 
+	function handleUsernameKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		// When user presses Enter on username field, focus the password field
+		if (e.key === "Enter") {
+			e.preventDefault();
+			document.getElementById(passwordId)?.focus();
+		}
+	}
+
 	return (
 		<form onSubmit={handleSubmit(login)} className="space-y-5">
 			<div className="space-y-2">
@@ -59,7 +67,12 @@ export function LoginForm() {
 					<label htmlFor={usernameId} className="text-text-sm">
 						Username
 					</label>
-					<Input {...register("username")} id={usernameId} className="w-full" />
+					<Input
+						{...register("username")}
+						id={usernameId}
+						className="w-full"
+						onKeyDown={handleUsernameKeyDown}
+					/>
 				</div>
 				<div className="space-y-0.5">
 					<label htmlFor={passwordId} className="text-text-sm">
