@@ -1,3 +1,4 @@
+import { prepareBackendTimestamp } from "@/lib/dates";
 import { LogEntry, LogEntryInternal, LoggingLevel, LogResponse } from "@/types/logs";
 
 export function unchunkLogEntries(entries: LogEntry[]): LogEntry[] {
@@ -47,14 +48,73 @@ export function unchunkLogEntries(entries: LogEntry[]): LogEntry[] {
 	return merged;
 }
 
-export function buildInternalLogEntries(logEntry: LogResponse): LogEntryInternal[] {
+/**
+ * Regex that matches the legacy `[sandbox:stdout] ` / `[sandbox:stderr] `
+ * prefix that older backends prepend to sandbox log messages.
+ */
+const LEGACY_SANDBOX_PREFIX_RE = /^\[sandbox:(?:stdout|stderr)\]\s?/;
+
+/**
+ * Strips the legacy `[sandbox:stdout]` / `[sandbox:stderr]` prefix from a
+ * message when the log already belongs to a structurally identified sandbox
+ * source. For non-sandbox sources the message is returned unchanged.
+ */
+export function stripLegacySandboxPrefix(message: string, source: string): string {
+	if (source !== "sandbox") return message;
+	return message.replace(LEGACY_SANDBOX_PREFIX_RE, "");
+}
+
+type BuildOpts = {
+	/** The log stream source label (e.g. "step", "sandbox"). Defaults to "step". */
+	source?: string;
+};
+
+export function buildInternalLogEntries(
+	logEntry: LogResponse,
+	opts?: BuildOpts
+): LogEntryInternal[] {
+	const source = opts?.source ?? "step";
 	const merged = unchunkLogEntries(logEntry);
 	return merged.map((log) => {
-		const originalMessage = `[${LOG_LEVEL_NAMES[log.level || 20]}] [${log.timestamp}] ${
-			log.message
-		}`;
-		return { ...log, originalEntry: originalMessage };
+		const cleanMessage = stripLegacySandboxPrefix(log.message ?? "", source);
+		const originalMessage = `[${LOG_LEVEL_NAMES[log.level || 20]}] [${log.timestamp}] ${cleanMessage}`;
+		// Pull session_id from the log entry if the backend provides it
+		const sessionId = (log as Record<string, unknown>).session_id as string | null | undefined;
+		return {
+			...log,
+			message: cleanMessage,
+			originalEntry: originalMessage,
+			source,
+			session_id: sessionId ?? null
+		};
 	});
+}
+
+/**
+ * Builds a merged, time-sorted array of internal log entries from multiple
+ * sources. Each source's raw entries are unchunked independently (to prevent
+ * cross-source chunk corruption) before being merged and sorted by timestamp.
+ */
+export function buildMergedInternalLogEntries(
+	sourceEntries: Array<{ source: string; entries: LogResponse }>
+): LogEntryInternal[] {
+	const allInternal: LogEntryInternal[] = [];
+	for (const { source, entries } of sourceEntries) {
+		allInternal.push(...buildInternalLogEntries(entries, { source }));
+	}
+
+	// Stable sort by timestamp — entries without timestamps sort to the end
+	allInternal.sort((a, b) => {
+		if (!a.timestamp && !b.timestamp) return 0;
+		if (!a.timestamp) return 1;
+		if (!b.timestamp) return -1;
+		return (
+			prepareBackendTimestamp(a.timestamp).getTime() -
+			prepareBackendTimestamp(b.timestamp).getTime()
+		);
+	});
+
+	return allInternal;
 }
 
 export const LOG_LEVEL_NAMES: Record<LoggingLevel, string> = {

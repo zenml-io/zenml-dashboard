@@ -2,10 +2,10 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogSourceCombobox } from "@/components/logs/log-source-combobox";
+import { ALL_SOURCES, LogSourceCombobox } from "@/components/logs/log-source-combobox";
 import { useStepDetail } from "@/data/steps/step-detail-query";
-import { useStepLogs } from "@/data/steps/step-logs-query";
-import { buildInternalLogEntries } from "@/lib/logs";
+import { useStepLogs, useStepLogsForSources } from "@/data/steps/step-logs-query";
+import { buildInternalLogEntries, buildMergedInternalLogEntries } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
 
@@ -21,10 +21,13 @@ export function StepLogsTab({ stepId }: Props) {
 
 	const logs = data.resources?.log_collection;
 
-	const sources =
-		logs
-			?.map((log) => log.body?.source)
-			.filter((source): source is string => source != null && source !== undefined) ?? [];
+	const sources = Array.from(
+		new Set(
+			logs
+				?.map((log) => log.body?.source)
+				.filter((source): source is string => source != null && source !== undefined) ?? []
+		)
+	);
 
 	if (sources.length < 1)
 		return (
@@ -41,17 +44,42 @@ function StepLogsTabContent({ sources, stepId }: { sources: string[]; stepId: st
 	const defaultSource = sources.includes("step") ? "step" : sources[0];
 	const [selectedSource, setSelectedSource] = useState<string>(defaultSource);
 
-	const stepLogs = useStepLogs({ stepId, queries: { source: selectedSource } });
+	const isAllSources = selectedSource === ALL_SOURCES;
+
+	// Single-source fetch (used when a specific source is selected)
+	const stepLogs = useStepLogs(
+		{ stepId, queries: { source: selectedSource } },
+		{ enabled: !isAllSources }
+	);
+
+	// Multi-source fan-out fetch (used when "All Sources" is selected)
+	const multiLogs = useStepLogsForSources({
+		stepId,
+		sources,
+		enabled: isAllSources
+	});
 
 	const parsedLogs = useMemo(() => {
+		if (isAllSources) {
+			return buildMergedInternalLogEntries(
+				Object.entries(multiLogs.dataBySource).map(([source, entries]) => ({
+					source,
+					entries
+				}))
+			);
+		}
 		if (!stepLogs.data) return [];
-		return buildInternalLogEntries(stepLogs.data);
-	}, [stepLogs.data]);
+		return buildInternalLogEntries(stepLogs.data, { source: selectedSource });
+	}, [isAllSources, multiLogs.dataBySource, stepLogs.data, selectedSource]);
 
-	if (stepLogs.isPending) return <LoadingLogs />;
+	const isPending = isAllSources ? multiLogs.isPending : stepLogs.isPending;
+	const isError = isAllSources ? multiLogs.isError : stepLogs.isError;
+	const error = isAllSources ? null : stepLogs.error;
 
-	if (stepLogs.isError) {
-		return <ErrorFallback err={stepLogs.error} />;
+	if (isPending) return <LoadingLogs />;
+
+	if (isError) {
+		return error ? <ErrorFallback err={error} /> : <p>Error loading logs</p>;
 	}
 
 	return (
@@ -74,8 +102,15 @@ function StepLogsTabContent({ sources, stepId }: { sources: string[]; stepId: st
 					</div>
 				) : undefined
 			}
+			showSourceColumns={isAllSources}
 			logs={parsedLogs}
-			reloadLogs={() => stepLogs.refetch()}
+			reloadLogs={() => {
+				if (isAllSources) {
+					multiLogs.refetchAll();
+				} else {
+					stepLogs.refetch();
+				}
+			}}
 		/>
 	);
 }

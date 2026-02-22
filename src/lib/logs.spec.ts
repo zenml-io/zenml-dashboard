@@ -1,6 +1,12 @@
 import { LogEntry } from "@/types/logs";
 import { describe, expect, it } from "vitest";
-import { buildInternalLogEntries, LOG_LEVEL_NAMES, unchunkLogEntries } from "./logs";
+import {
+	buildInternalLogEntries,
+	buildMergedInternalLogEntries,
+	LOG_LEVEL_NAMES,
+	stripLegacySandboxPrefix,
+	unchunkLogEntries
+} from "./logs";
 
 describe("unchunkLogEntries", () => {
 	it("returns empty array for non-array or empty input", () => {
@@ -175,6 +181,32 @@ describe("unchunkLogEntries", () => {
 	});
 });
 
+describe("stripLegacySandboxPrefix", () => {
+	it("strips [sandbox:stdout] prefix for sandbox source", () => {
+		expect(stripLegacySandboxPrefix("[sandbox:stdout] hello world", "sandbox")).toBe("hello world");
+	});
+
+	it("strips [sandbox:stderr] prefix for sandbox source", () => {
+		expect(stripLegacySandboxPrefix("[sandbox:stderr] error occurred", "sandbox")).toBe(
+			"error occurred"
+		);
+	});
+
+	it("strips prefix without trailing space", () => {
+		expect(stripLegacySandboxPrefix("[sandbox:stdout]message", "sandbox")).toBe("message");
+	});
+
+	it("does not strip prefix for non-sandbox sources", () => {
+		expect(stripLegacySandboxPrefix("[sandbox:stdout] hello", "step")).toBe(
+			"[sandbox:stdout] hello"
+		);
+	});
+
+	it("returns message unchanged when no prefix is present", () => {
+		expect(stripLegacySandboxPrefix("plain message", "sandbox")).toBe("plain message");
+	});
+});
+
 describe("buildInternalLogEntries", () => {
 	it("builds originalEntry using level mapping and merged message", () => {
 		const chunked: LogEntry[] = [
@@ -219,5 +251,111 @@ describe("buildInternalLogEntries", () => {
 		const internal = buildInternalLogEntries(logs);
 		expect(internal).toHaveLength(1);
 		expect(internal[0].originalEntry.startsWith("[INFO] ")).toBe(true);
+	});
+
+	it("defaults source to 'step' when no opts provided", () => {
+		const logs: LogEntry[] = [{ id: "s", timestamp: 1, level: 20 as any, message: "hi" } as any];
+		const internal = buildInternalLogEntries(logs);
+		expect(internal[0].source).toBe("step");
+		expect(internal[0].session_id).toBeNull();
+	});
+
+	it("sets source from opts and strips sandbox prefix", () => {
+		const logs: LogEntry[] = [
+			{ id: "s", timestamp: 1, level: 20 as any, message: "[sandbox:stdout] hello" } as any
+		];
+		const internal = buildInternalLogEntries(logs, { source: "sandbox" });
+		expect(internal[0].source).toBe("sandbox");
+		expect(internal[0].message).toBe("hello");
+	});
+
+	it("preserves session_id from backend LogEntry when present", () => {
+		const logs: LogEntry[] = [
+			{ id: "s", timestamp: 1, level: 20 as any, message: "hi", session_id: "sess-123" } as any
+		];
+		const internal = buildInternalLogEntries(logs, { source: "sandbox" });
+		expect(internal[0].session_id).toBe("sess-123");
+	});
+});
+
+describe("buildMergedInternalLogEntries", () => {
+	it("merges entries from multiple sources sorted by timestamp", () => {
+		const stepEntries: LogEntry[] = [
+			{ id: "s1", timestamp: "2025-01-01T00:00:02", level: 20 as any, message: "step log" } as any
+		];
+		const sandboxEntries: LogEntry[] = [
+			{
+				id: "sb1",
+				timestamp: "2025-01-01T00:00:01",
+				level: 20 as any,
+				message: "sandbox log"
+			} as any,
+			{
+				id: "sb2",
+				timestamp: "2025-01-01T00:00:03",
+				level: 20 as any,
+				message: "[sandbox:stdout] tagged log"
+			} as any
+		];
+
+		const merged = buildMergedInternalLogEntries([
+			{ source: "step", entries: stepEntries },
+			{ source: "sandbox", entries: sandboxEntries }
+		]);
+
+		expect(merged).toHaveLength(3);
+		// Sorted by timestamp: sandbox(01) -> step(02) -> sandbox(03)
+		expect(merged[0].source).toBe("sandbox");
+		expect(merged[0].message).toBe("sandbox log");
+		expect(merged[1].source).toBe("step");
+		expect(merged[1].message).toBe("step log");
+		expect(merged[2].source).toBe("sandbox");
+		// Legacy prefix stripped for sandbox source
+		expect(merged[2].message).toBe("tagged log");
+	});
+
+	it("returns empty array when no sources provided", () => {
+		expect(buildMergedInternalLogEntries([])).toEqual([]);
+	});
+
+	it("unchunks per-source independently before merging", () => {
+		const stepChunks: LogEntry[] = [
+			{
+				id: "x",
+				timestamp: "2025-01-01T00:00:01",
+				level: 20 as any,
+				message: "step-",
+				chunk_index: 0,
+				total_chunks: 2
+			} as any,
+			{
+				id: "x",
+				timestamp: "2025-01-01T00:00:01",
+				level: 20 as any,
+				message: "part2",
+				chunk_index: 1,
+				total_chunks: 2
+			} as any
+		];
+		const sandboxEntries: LogEntry[] = [
+			{
+				id: "x",
+				timestamp: "2025-01-01T00:00:02",
+				level: 20 as any,
+				message: "sandbox-only"
+			} as any
+		];
+
+		const merged = buildMergedInternalLogEntries([
+			{ source: "step", entries: stepChunks },
+			{ source: "sandbox", entries: sandboxEntries }
+		]);
+
+		// Step chunks should be merged into one entry, sandbox entry passes through
+		expect(merged).toHaveLength(2);
+		expect(merged[0].message).toBe("step-part2");
+		expect(merged[0].source).toBe("step");
+		expect(merged[1].message).toBe("sandbox-only");
+		expect(merged[1].source).toBe("sandbox");
 	});
 });
