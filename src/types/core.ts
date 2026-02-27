@@ -1299,6 +1299,42 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
+	"/api/v1/logs/{logs_id}/entries": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Logs Entries
+		 * @description Get log entries for a logs response.
+		 *
+		 *     Args:
+		 *         logs_id: ID of the logs response to get the log entries for.
+		 *         filter_: Filters for the log entries retrieval.
+		 *         limit: Maximum number of entries to return.
+		 *         before: Cursor token to fetch older entries.
+		 *         after: Cursor token to fetch newer entries.
+		 *
+		 *     Returns:
+		 *         The log entries for the logs entity.
+		 *
+		 *     Raises:
+		 *         IllegalOperationError: If the logs are not associated with a
+		 *             pipeline run or step run before fetching.
+		 *         ValueError: If `limit` is not positive or if both `before` and `after` are set.
+		 *         NotImplementedError: If the log store could not be instantiated.
+		 */
+		get: operations["get_logs_entries_api_v1_logs__logs_id__entries_get"];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/models": {
 		parameters: {
 			query?: never;
@@ -7506,11 +7542,6 @@ export type components = {
 		/**
 		 * LogEntry
 		 * @description A structured log entry with parsed information.
-		 *
-		 *     This is used in two distinct ways:
-		 *         1. If we are using the artifact log store, we save the
-		 *         entries as JSON-serialized LogEntry's in the artifact store.
-		 *         2. When queried, the server returns logs as a list of LogEntry's.
 		 */
 		LogEntry: {
 			/**
@@ -7576,6 +7607,27 @@ export type components = {
 		 * @enum {string}
 		 */
 		LogicalOperators: "or" | "and";
+		/**
+		 * LogsEntriesResponse
+		 * @description Response model for a paginated logs entries request.
+		 */
+		LogsEntriesResponse: {
+			/**
+			 * Items
+			 * @description Log entries ordered from newest to oldest.
+			 */
+			items?: components["schemas"]["LogEntry"][];
+			/**
+			 * Before
+			 * @description Opaque token to fetch entries older than the oldest entry in `items`.
+			 */
+			before?: string | null;
+			/**
+			 * After
+			 * @description Opaque token to fetch entries newer than the newest entry in `items`.
+			 */
+			after?: string | null;
+		};
 		/**
 		 * LogsRequest
 		 * @description Request model for logs.
@@ -16492,6 +16544,79 @@ export interface operations {
 			};
 		};
 	};
+	get_logs_entries_api_v1_logs__logs_id__entries_get: {
+		parameters: {
+			query?: {
+				/** @description Maximum number of entries to return. */
+				limit?: number;
+				/** @description Opaque cursor token to fetch older entries. */
+				before?: string | null;
+				/** @description Opaque cursor token to fetch newer entries. */
+				after?: string | null;
+				/** @description Search query to match against log entry content. */
+				search?: string | null;
+				/** @description Minimum log level filter. Accepts level name (e.g. `INFO`) or numeric value (e.g. `20`). */
+				level?: string | null;
+				/** @description Lower timestamp bound (inclusive). */
+				since?: string | null;
+				/** @description Upper timestamp bound (inclusive). */
+				until?: string | null;
+			};
+			header?: never;
+			path: {
+				logs_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["LogsEntriesResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
 	list_models_api_v1_models_get: {
 		parameters: {
 			query?: {
@@ -19263,6 +19388,7 @@ export interface operations {
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
+				version?: number | string | null;
 				exclude_retried?: boolean | null;
 				cache_expires_at?: string | null;
 				cache_expired?: boolean | null;
@@ -23777,6 +23903,7 @@ export interface operations {
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
+				version?: number | string | null;
 				exclude_retried?: boolean | null;
 				cache_expires_at?: string | null;
 				cache_expired?: boolean | null;
