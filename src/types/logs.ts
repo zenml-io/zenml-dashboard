@@ -8,6 +8,7 @@ export type LogResponse = LogEntry[];
 
 export type LogEntryInternal = LogEntry & {
 	originalEntry: string;
+	formattedTimestamp: string | null;
 };
 
 export type RunLogsQueryParams = NonNullable<

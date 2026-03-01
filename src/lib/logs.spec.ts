@@ -199,6 +199,7 @@ describe("buildInternalLogEntries", () => {
 		const internal = buildInternalLogEntries(chunked);
 		expect(internal).toHaveLength(1);
 		expect(internal[0].message).toBe("error happened");
+		expect(internal[0].formattedTimestamp).toMatch(/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/);
 		const levelName = LOG_LEVEL_NAMES[40];
 		expect(internal[0].originalEntry).toBe(
 			`[${levelName}] [${chunked[0].timestamp}] ${internal[0].message}`

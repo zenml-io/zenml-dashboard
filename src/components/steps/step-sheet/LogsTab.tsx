@@ -1,8 +1,8 @@
 import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
-import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
+import { LogSourceOption } from "@/components/logs/log-source-combobox";
+import { LogViewer2 } from "@/components/logs/logviewer-2";
 import { logQueries } from "@/data/logs";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { buildInternalLogEntries } from "@/lib/logs";
@@ -41,7 +41,7 @@ export function StepLogsTab({ stepId }: Props) {
 }
 
 function StepLogsTabContent({ sources }: { sources: LogSourceOption[] }) {
-	const [selectedSourceId, setSelectedSourceId] = useState<string>(sources[0].value);
+	const [selectedSourceId] = useState<string>(sources[1].value);
 
 	const stepLogs = useInfiniteQuery({
 		...logQueries.logEntriesInfinite({ logsId: selectedSourceId })
@@ -58,28 +58,5 @@ function StepLogsTabContent({ sources }: { sources: LogSourceOption[] }) {
 		return <ErrorFallback err={stepLogs.error} />;
 	}
 
-	return (
-		<EnhancedLogsViewer
-			fallbackMessage={
-				<EmptyStateLogs
-					title="This step has no logs"
-					subtitle="It looks like there are no logs associated with this step"
-				/>
-			}
-			sourceSwitcher={
-				sources.length > 1 ? (
-					<div className="space-y-0.5">
-						<span className="text-text-sm text-theme-text-secondary">Source</span>
-						<LogSourceCombobox
-							options={sources}
-							selectedValue={selectedSourceId}
-							onValueChange={setSelectedSourceId}
-						/>
-					</div>
-				) : undefined
-			}
-			logs={parsedLogs}
-			reloadLogs={() => stepLogs.refetch()}
-		/>
-	);
+	return <LogViewer2 logs={parsedLogs} />;
 }
