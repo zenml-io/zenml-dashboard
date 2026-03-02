@@ -3,19 +3,25 @@ import { cn } from "@zenml-io/react-component-library/utilities";
 import { Virtuoso } from "react-virtuoso";
 import { LOG_VIEWER_2_GRID_COLUMNS_CLASS } from "./layout";
 import { LogLine } from "./log-line";
+import { EmptyStateLogs } from "../empty-state-logs";
 
 type LogViewer2VirtuosoProps = {
 	logs: LogEntryInternal[];
 };
 
 export function LogViewer2Virtuoso({ logs }: LogViewer2VirtuosoProps) {
+	if (logs.length < 1) {
+		return (
+			<div className="flex flex-1 flex-col">
+				<EmptyStateLogs title="No logs found" subtitle="No logs found" />
+			</div>
+		);
+	}
+
 	return (
-		<div className="flex flex-1 flex-col overflow-hidden rounded-md border border-theme-border-moderate">
+		<div className="flex flex-1 flex-col">
 			<Header />
 			<Virtuoso
-				startReached={() => {
-					console.log("start reached");
-				}}
 				initialTopMostItemIndex={Math.max(logs.length - 1, 0)}
 				followOutput="auto"
 				minOverscanItemCount={8}

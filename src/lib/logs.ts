@@ -89,3 +89,12 @@ export const LOG_LEVEL_NAMES: Record<LoggingLevel, string> = {
 	40: "ERROR",
 	50: "CRITICAL"
 } as const;
+
+export const LOG_LEVELS = {
+	UNKNOWN: 0,
+	DEBUG: 10,
+	INFO: 20,
+	WARNING: 30,
+	ERROR: 40,
+	CRITICAL: 50
+} as const;
