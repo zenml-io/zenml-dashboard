@@ -7283,6 +7283,7 @@ export type components = {
 			| "failed"
 			| "completed"
 			| "cached"
+			| "skipped"
 			| "retrying"
 			| "retried"
 			| "stopped"
@@ -7583,11 +7584,8 @@ export type components = {
 		LogsRequest: {
 			/** The id of the user that created this resource. Set automatically by the server. */
 			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
+			/** The project to which this resource belongs. */
+			project?: string | null;
 			/**
 			 * The unique id.
 			 * Format: uuid
@@ -9114,6 +9112,16 @@ export type components = {
 			cache_policy?: components["schemas"]["CachePolicy-Input"] | null;
 			/** Name */
 			name: string;
+			/**
+			 * Steps To Skip
+			 * @default []
+			 */
+			steps_to_skip?: string[];
+			/**
+			 * Skip Successful Steps
+			 * @default false
+			 */
+			skip_successful_steps?: boolean;
 		};
 		/**
 		 * PipelineConfiguration
@@ -9186,6 +9194,16 @@ export type components = {
 			cache_policy?: components["schemas"]["CachePolicy-Output"] | null;
 			/** Name */
 			name: string;
+			/**
+			 * Steps To Skip
+			 * @default []
+			 */
+			steps_to_skip?: string[];
+			/**
+			 * Skip Successful Steps
+			 * @default false
+			 */
+			skip_successful_steps?: boolean;
 		};
 		/**
 		 * PipelineRequest
@@ -9346,6 +9364,8 @@ export type components = {
 			logs?: string | components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the pipeline run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The original run ID for a replayed run. */
+			original_run_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -9488,6 +9508,8 @@ export type components = {
 			 * @default []
 			 */
 			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
+			/** The original run that was replayed to create this run. */
+			original_run?: components["schemas"]["PipelineRunResponse"] | null;
 		} & {
 			[key: string]: unknown;
 		};
@@ -19263,6 +19285,7 @@ export interface operations {
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
+				version?: number | string | null;
 				exclude_retried?: boolean | null;
 				cache_expires_at?: string | null;
 				cache_expired?: boolean | null;
@@ -23777,6 +23800,7 @@ export interface operations {
 				original_step_run_id?: string | null;
 				model_version_id?: string | null;
 				model?: string | null;
+				version?: number | string | null;
 				exclude_retried?: boolean | null;
 				cache_expires_at?: string | null;
 				cache_expired?: boolean | null;

@@ -1,11 +1,7 @@
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
-import RunIcon from "@/assets/icons/terminal.svg?react";
 import { CopyButton } from "@/components/CopyButton";
-import {
-	ExecutionStatusIcon,
-	getExecutionStatusColor,
-	getExecutionStatusTagColor
-} from "@/components/ExecutionStatus";
+import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { RunStatusTag } from "@/components/runs/run-status-tag";
 import { ActionCell } from "@/components/tables/action-cell";
 import { routes } from "@/router/routes";
 import { ExecutionStatus } from "@/types/pipeline-runs";
@@ -13,7 +9,6 @@ import { Pipeline } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import {
 	Checkbox,
-	Tag,
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
@@ -111,19 +106,7 @@ export function getPipelineColumns(): ColumnDef<Pipeline>[] {
 
 				if (!runId || !status) return <div>No run</div>;
 
-				return (
-					<Link to={routes.projects.runs.detail(runId)}>
-						<Tag
-							emphasis="subtle"
-							rounded={false}
-							className="inline-flex items-center gap-0.5"
-							color={getExecutionStatusTagColor(status)}
-						>
-							<RunIcon className={`h-3 w-3 fill-current`} />
-							{runId?.split("-")[0]}
-						</Tag>
-					</Link>
-				);
+				return <RunStatusTag runId={runId} status={status} />;
 			}
 		},
 		{

@@ -6,6 +6,7 @@ import QuestionMark from "@/assets/icons/help.svg?react";
 import Retried from "@/assets/icons/retried.svg?react";
 import Running from "@/assets/icons/running.svg?react";
 import Stopped from "@/assets/icons/stopped.svg?react";
+import Skipped from "@/assets/icons/skipped.svg?react";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { BadgeProps, TagProps, cn } from "@zenml-io/react-component-library";
 import { RerunningWrapper } from "./icons/rerunning-wrapper";
@@ -21,6 +22,7 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 		case "provisioning":
 			return "fill-primary-400";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
@@ -41,8 +43,10 @@ export function getExecutionStatusBgColor(status?: ExecutionStatus | "unknown" |
 		case "failed":
 			return "bg-error-500";
 		case "initializing":
+		case "provisioning":
 			return "bg-primary-400";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
@@ -66,6 +70,7 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "un
 		case "provisioning":
 			return "bg-primary-50";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
@@ -91,6 +96,7 @@ export function getExecutionStatusTagColor(
 		case "provisioning":
 			return "purple";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
@@ -123,6 +129,8 @@ export function ExecutionStatusIcon({
 			return <Initializing className={classNames} />;
 		case "cached":
 			return <Cached className={classNames} />;
+		case "skipped":
+			return <Skipped className={classNames} />;
 		case "unknown":
 			return <QuestionMark className={classNames} />;
 		case "stopped":
@@ -154,6 +162,7 @@ export function getBadgeColor(status?: ExecutionStatus | "unknown"): BadgeProps[
 		case "completed":
 			return "green";
 		case "cached":
+		case "skipped":
 			return "grey";
 		case "unknown":
 			return "blue";
@@ -169,6 +178,7 @@ export function getRunIconColor(status?: ExecutionStatus) {
 		case "retrying":
 			return "fill-orange-700";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
