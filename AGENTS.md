@@ -24,7 +24,7 @@
 - `pnpm build` — run `tsc` and `vite build` into `dist/`; follow with `pnpm preview` for production smoke tests.
 - `pnpm test:unit` — execute Vitest suites; add `-- --watch` during local development.
 - `pnpm test:e2e` — run Playwright journeys from `e2e-tests/`; tweak device coverage in `playwright.config.ts`.
-- `pnpm lint` / `pnpm format` — enforce ESLint and Prettier; both run automatically via Husky pre-commit hooks.
+- `pnpm lint` / `pnpm format` — enforce Oxlint and Prettier; both run automatically via Husky pre-commit hooks.
 - `pnpm generate:types -- http://localhost:8237` — regenerate OpenAPI-derived types after backend schema changes; ensure the ZenML server is running locally first.
 
 ## Coding Style & Naming Conventions
@@ -72,6 +72,7 @@
 - Remove debug `console` statements before committing.
 
 ## Planning & Review (Agentic Work)
+
 - For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, existing patterns to reuse, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
 - **Avoid style thrash:** if you find yourself repeatedly nudging Tailwind/CSS to make something "look right" (especially across multiple commits), pause and reassess against the spec and existing design tokens/components.
 - Treat widespread or unrelated styling edits as a blocker: if a visual fix requires touching multiple unrelated components, adding arbitrary pixel constants, or layering overrides, stop and ask for an authoritative reference (screenshot/spec) or escalate to [@Cahllagerfeld](https://github.com/Cahllagerfeld) rather than continuing to iterate.
