@@ -1,20 +1,18 @@
 import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
-import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DeploymentStatusTag } from "@/components/deployments/deployment-status-tag";
 import { DisplayDate } from "@/components/DisplayDate";
-import { getExecutionStatusTagColor, getRunIconColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { RunStatusTag } from "@/components/runs/run-status-tag";
 import { ActionCell } from "@/components/tables/action-cell";
-import { routes } from "@/router/routes";
 import { getFirstUuidSegment } from "@/lib/strings";
+import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox, Tag } from "@zenml-io/react-component-library";
+import { Checkbox } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotActions } from "../table-actions";
-import { RunStatusTag } from "@/components/runs/run-status-tag";
 
 export function createSnapshotCheckColumn(): ColumnDef<PipelineSnapshot> {
 	return {
