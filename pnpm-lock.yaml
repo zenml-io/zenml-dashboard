@@ -170,10 +170,10 @@ importers:
         specifier: ^15.5.0
         version: 15.5.0
       openapi-typescript:
-        specifier: ^7.10.1
-        version: 7.10.1(typescript@5.9.3)
+        specifier: ^7.13.0
+        version: 7.13.0(typescript@5.9.3)
       oxlint:
-        specifier: ^1.0.0
+        specifier: ^1.51.0
         version: 1.51.0
       postcss:
         specifier: ^8.5.6
@@ -1171,14 +1171,14 @@ packages:
       react: '>=17'
       react-dom: '>=17'
 
-  '@redocly/ajv@8.17.2':
-    resolution: {integrity: sha512-rcbDZOfXAgGEJeJ30aWCVVJvxV9ooevb/m1/SFblO2qHs4cqTk178gx7T/vdslf57EA4lTofrwsq5K8rxK9g+g==}
+  '@redocly/ajv@8.11.2':
+    resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
 
-  '@redocly/config@0.22.2':
-    resolution: {integrity: sha512-roRDai8/zr2S9YfmzUfNhKjOF0NdcOIqF7bhf4MVC5UxpjIysDjyudvlAiVbpPHp3eDRWbdzUgtkK1a7YiDNyQ==}
+  '@redocly/config@0.22.0':
+    resolution: {integrity: sha512-gAy93Ddo01Z3bHuVdPWfCwzgfaYgMdaZPcfL7JZ7hWJoK9V0lXDbigTWkhiPFAaLWzbOJ+kbUQG1+XwIm0KRGQ==}
 
-  '@redocly/openapi-core@1.34.6':
-    resolution: {integrity: sha512-2+O+riuIUgVSuLl3Lyh5AplWZyVMNuG2F98/o6NrutKJfW4/GTZdPpZlIphS0HGgcOHgmWcCSHj+dWFlZaGSHw==}
+  '@redocly/openapi-core@1.34.10':
+    resolution: {integrity: sha512-XCBR/9WHJ0cpezuunHMZjuFMl4KqUo7eiFwzrQrvm7lTXt0EBd3No8UY+9OyzXpDfreGEMMtxmaLZ+ksVw378g==}
     engines: {node: '>=18.17.0', npm: '>=9.5.0'}
 
   '@remix-run/router@1.23.2':
@@ -2046,9 +2046,6 @@ packages:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
     engines: {node: '>=8.6.0'}
 
-  fast-uri@3.1.0:
-    resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
-
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
 
@@ -2459,8 +2456,8 @@ packages:
     resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
     hasBin: true
 
-  minimatch@5.1.6:
-    resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
+  minimatch@5.1.9:
+    resolution: {integrity: sha512-7o1wEA2RyMP7Iu7GNba9vc0RWWGACJOCZBJX2GJWip0ikV+wcOsgVuY9uE8CPiyQhkGFSlhuSkZPavN7u1c2Fw==}
     engines: {node: '>=10'}
 
   monaco-editor@0.55.1:
@@ -2513,8 +2510,8 @@ packages:
   ono@4.0.11:
     resolution: {integrity: sha512-jQ31cORBFE6td25deYeD80wxKBMj+zBmHTrVxnc6CKhx8gho6ipmWM5zj/oeoqioZ99yqBls9Z/9Nss7J26G2g==}
 
-  openapi-typescript@7.10.1:
-    resolution: {integrity: sha512-rBcU8bjKGGZQT4K2ekSTY2Q5veOQbVG/lTKZ49DeCyT9z62hM2Vj/LLHjDHC9W7LJG8YMHcdXpRZDqC1ojB/lw==}
+  openapi-typescript@7.13.0:
+    resolution: {integrity: sha512-EFP392gcqXS7ntPvbhBzbF8TyBA+baIYEm791Hy5YkjDYKTnk/Tn5OQeKm5BIZvJihpp8Zzr4hzx0Irde1LNGQ==}
     hasBin: true
     peerDependencies:
       typescript: ^5.x
@@ -3088,6 +3085,9 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
+
+  uri-js-replace@1.0.1:
+    resolution: {integrity: sha512-W+C9NWNLFOoBI2QWDp4UT9pv65r2w5Cx+3sTYFvtMdDBxkKt1syCqsUdSFAChbEe1uK5TfS04wt/nGwmaeIQ0g==}
 
   use-callback-ref@1.3.3:
     resolution: {integrity: sha512-jQL3lRnocaFtu3V00JToYz/4QkNWswxijDaCVNZRiRTO3HQDLsdu1ZtmIUvV4yPp+rvWm5j0y0TG/S61cuijTg==}
@@ -4194,24 +4194,24 @@ snapshots:
       - '@types/react'
       - immer
 
-  '@redocly/ajv@8.17.2':
+  '@redocly/ajv@8.11.2':
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.0
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
+      uri-js-replace: 1.0.1
 
-  '@redocly/config@0.22.2': {}
+  '@redocly/config@0.22.0': {}
 
-  '@redocly/openapi-core@1.34.6(supports-color@10.2.2)':
+  '@redocly/openapi-core@1.34.10(supports-color@10.2.2)':
     dependencies:
-      '@redocly/ajv': 8.17.2
-      '@redocly/config': 0.22.2
+      '@redocly/ajv': 8.11.2
+      '@redocly/config': 0.22.0
       colorette: 1.4.0
       https-proxy-agent: 7.0.6(supports-color@10.2.2)
       js-levenshtein: 1.1.6
       js-yaml: 4.1.1
-      minimatch: 5.1.6
+      minimatch: 5.1.9
       pluralize: 8.0.0
       yaml-ast-parser: 0.0.43
     transitivePeerDependencies:
@@ -5047,8 +5047,6 @@ snapshots:
       merge2: 1.4.1
       micromatch: 4.0.8
 
-  fast-uri@3.1.0: {}
-
   fastq@1.17.1:
     dependencies:
       reusify: 1.0.4
@@ -5643,7 +5641,7 @@ snapshots:
 
   mini-svg-data-uri@1.4.4: {}
 
-  minimatch@5.1.6:
+  minimatch@5.1.9:
     dependencies:
       brace-expansion: 2.0.2
 
@@ -5693,9 +5691,9 @@ snapshots:
     dependencies:
       format-util: 1.0.5
 
-  openapi-typescript@7.10.1(typescript@5.9.3):
+  openapi-typescript@7.13.0(typescript@5.9.3):
     dependencies:
-      '@redocly/openapi-core': 1.34.6(supports-color@10.2.2)
+      '@redocly/openapi-core': 1.34.10(supports-color@10.2.2)
       ansi-colors: 4.1.3
       change-case: 5.4.4
       parse-json: 8.3.0
@@ -6291,6 +6289,8 @@ snapshots:
       browserslist: 4.28.1
       escalade: 3.2.0
       picocolors: 1.1.1
+
+  uri-js-replace@1.0.1: {}
 
   use-callback-ref@1.3.3(@types/react@18.3.11)(react@18.3.1):
     dependencies:
