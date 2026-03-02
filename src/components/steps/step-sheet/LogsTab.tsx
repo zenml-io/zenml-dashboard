@@ -2,7 +2,7 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { LoadingLogs } from "@/components/logs/loading-logs";
 import { LogSourceOption } from "@/components/logs/log-source-combobox";
-import { LogViewer2 } from "@/components/logs/logviewer-2";
+import { LogViewer2Virtuoso } from "@/components/logs/logviewer-2";
 import { logQueries } from "@/data/logs";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { buildInternalLogEntries } from "@/lib/logs";
@@ -58,5 +58,5 @@ function StepLogsTabContent({ sources }: { sources: LogSourceOption[] }) {
 		return <ErrorFallback err={stepLogs.error} />;
 	}
 
-	return <LogViewer2 logs={parsedLogs} />;
+	return <LogViewer2Virtuoso logs={parsedLogs} />;
 }

@@ -1,16 +1,16 @@
+import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { getRealSteps } from "@/components/dag-visualizer/node-types";
+import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
+import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
 import { prepareBackendTimestamp, secondsToTimeString } from "@/lib/dates";
 import { RawStepNode } from "@/types/dag-visualizer";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
+import React from "react";
 import { Link, useParams } from "react-router-dom";
+import { type Components, Virtuoso } from "react-virtuoso";
 import { useSelectedStep } from "../use-selected-step";
-import { useRef } from "react";
-import { useVirtualizedList } from "./use-virtualized-list";
-import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { PipelineRunLogSidebarEmptyState, PipelineRunLogSidebarItem } from "./common";
-import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
-import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
 import { StatusFilter } from "./common-types";
 
 type Props = {
@@ -85,68 +85,50 @@ function PipelineRunLogsSidebarStepVirtualizedList({
 	runStatus: ExecutionStatus;
 }) {
 	const selectedStepId = useSelectedStep();
-	const parentRef = useRef<HTMLDivElement>(null);
-
-	// Use virtualized list hook
-	const {
-		virtualizer,
-		virtualItems: items,
-		totalSize,
-		startOffset
-	} = useVirtualizedList(steps, parentRef);
 
 	return (
-		<div ref={parentRef} className="flex-1 overflow-auto">
-			<div
-				style={{
-					height: totalSize,
-					width: "100%",
-					position: "relative"
+		<div className="flex-1 overflow-auto">
+			<Virtuoso
+				components={{
+					List
 				}}
-			>
-				<div
-					className="space-y-1 px-3 pb-5"
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 0,
-						width: "100%",
-						transform: `translateY(${startOffset}px)`
-					}}
-				>
-					{items.map((virtualRow) => {
-						const step = steps[virtualRow.index];
-						const isActive = selectedStepId === step.id;
-						const isStatusUnknown = getIsStatusUnknown(step.metadata.status, runStatus);
-						const duration =
-							step.metadata.duration !== undefined && step.metadata.duration !== null
-								? secondsToTimeString(step.metadata.duration)
-								: null;
+				minOverscanItemCount={8}
+				data={steps}
+				itemContent={(_, step) => {
+					const isActive = selectedStepId === step.id;
+					const isStatusUnknown = getIsStatusUnknown(step.metadata.status, runStatus);
+					const duration =
+						step.metadata.duration !== undefined && step.metadata.duration !== null
+							? secondsToTimeString(step.metadata.duration)
+							: null;
 
-						return (
-							<div
-								key={virtualRow.key}
-								data-index={virtualRow.index}
-								ref={virtualizer.measureElement}
-							>
-								<Link to={`?step=${step.id}`}>
-									<PipelineRunLogSidebarItem
-										duration={duration}
-										icon={
-											<ExecutionStatusIcon
-												className="size-4 shrink-0"
-												status={isStatusUnknown ? "unknown" : step.metadata.status}
-											/>
-										}
-										title={step.name}
-										isActive={isActive}
-									/>
-								</Link>
-							</div>
-						);
-					})}
-				</div>
-			</div>
+					return (
+						<div>
+							<Link to={`?step=${step.id}`}>
+								<PipelineRunLogSidebarItem
+									duration={duration}
+									icon={
+										<ExecutionStatusIcon
+											className="size-4 shrink-0"
+											status={isStatusUnknown ? "unknown" : step.metadata.status}
+										/>
+									}
+									title={step.name}
+									isActive={isActive}
+								/>
+							</Link>
+						</div>
+					);
+				}}
+			/>
 		</div>
 	);
 }
+
+const List: Components["List"] = React.forwardRef(({ style, children, ...props }, ref) => {
+	return (
+		<div style={style} ref={ref} className="space-y-1 px-3 pb-5" {...props}>
+			{children}
+		</div>
+	);
+});
