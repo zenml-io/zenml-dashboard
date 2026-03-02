@@ -7709,12 +7709,6 @@ export type components = {
 			uri?: string | null;
 			/** The source of the logs file */
 			source: string;
-		};
-		/**
-		 * LogsResponseMetadata
-		 * @description Response metadata for logs.
-		 */
-		LogsResponseMetadata: {
 			/**
 			 * Step ID to associate the logs with.
 			 * @description When this is set, pipeline_run_id should be set to None.
@@ -7730,6 +7724,11 @@ export type components = {
 			/** The log store ID that collected these logs */
 			log_store_id?: string | null;
 		};
+		/**
+		 * LogsResponseMetadata
+		 * @description Response metadata for logs.
+		 */
+		LogsResponseMetadata: Record<string, never>;
 		/**
 		 * LogsResponseResources
 		 * @description Class for all resource models associated with the Logs entity.
