@@ -25,12 +25,12 @@ export const logQueries = {
 						after: pageParam.after
 					}
 				}),
-			getPreviousPageParam: (lastPage) => {
-				const before = lastPage.before ?? "";
+			getPreviousPageParam: (page) => {
+				const before = page.before ?? "";
 				return before ? { before, after: undefined } : undefined;
 			},
-			getNextPageParam: (firstPage) => {
-				const after = firstPage.after ?? "";
+			getNextPageParam: (page) => {
+				const after = page.after ?? "";
 				return after ? { before: undefined, after } : undefined;
 			},
 			initialPageParam: {

@@ -7,10 +7,11 @@ import { LogLevelSelect } from "@/components/logs/log-level-select";
 import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
 import { LogViewer2Virtuoso } from "@/components/logs/logviewer-2";
 import { LogViewerToolbar } from "@/components/logs/logviewer-2/log-viewer-toolbar";
+import { useVirtuosoPrependAnchor } from "@/components/logs/logviewer-2/use-virtuoso-prepend-anchor";
 import { logQueries } from "@/data/logs";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { buildInternalLogEntries, LOG_LEVELS } from "@/lib/logs";
-import { LogEntriesQueryParams, LoggingLevel } from "@/types/logs";
+import { LogEntriesQueryParams, LogEntriesResponse, LoggingLevel } from "@/types/logs";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
@@ -116,6 +117,14 @@ function LogRenderer({ queries, selectedSourceId }: LogProps) {
 		})
 	});
 
+	const { firstItemIndex, loadOlderItems } = useVirtuosoPrependAnchor<LogEntriesResponse>({
+		pages: stepLogs.data?.pages,
+		hasPreviousPage: stepLogs.hasPreviousPage,
+		isFetchingPreviousPage: stepLogs.isFetchingPreviousPage,
+		fetchPreviousPage: () => stepLogs.fetchPreviousPage(),
+		getPageItemCount: (page) => page.items?.length ?? 0
+	});
+
 	const parsedLogs = useMemo(() => {
 		if (!stepLogs.data) return [];
 		return buildInternalLogEntries(stepLogs.data.pages.flatMap((page) => page.items ?? []));
@@ -127,7 +136,14 @@ function LogRenderer({ queries, selectedSourceId }: LogProps) {
 		return <ErrorFallback err={stepLogs.error} />;
 	}
 
-	return <LogViewer2Virtuoso logs={parsedLogs} />;
+	return (
+		<LogViewer2Virtuoso
+			firstItemIndex={firstItemIndex}
+			isLoadingPrevious={stepLogs.isFetchingPreviousPage}
+			loadOlderLogs={loadOlderItems}
+			logs={parsedLogs}
+		/>
+	);
 }
 
 function RefreshLogsButton({ queries, selectedSourceId }: LogProps) {
