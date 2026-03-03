@@ -1230,6 +1230,32 @@ export type paths = {
 		patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
 		trace?: never;
 	};
+	"/api/v1/logs": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		/**
+		 * Create Logs
+		 * @description Create a new log model.
+		 *
+		 *     Args:
+		 *         logs: The log model to create.
+		 *
+		 *     Returns:
+		 *         The created log model.
+		 */
+		post: operations["create_logs_api_v1_logs_post"];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/logs/{logs_id}": {
 		parameters: {
 			query?: never;
@@ -1239,18 +1265,33 @@ export type paths = {
 		};
 		/**
 		 * Get Logs
-		 * @description Returns the requested logs.
+		 * @description Returns the requested log model.
 		 *
 		 *     Args:
-		 *         logs_id: ID of the logs.
+		 *         logs_id: ID of the log model.
 		 *         hydrate: Flag deciding whether to hydrate the output model(s)
 		 *             by including metadata fields in the response.
 		 *
 		 *     Returns:
-		 *         The requested logs.
+		 *         The requested log model.
+		 *
+		 *     Raises:
+		 *         IllegalOperationError: If the logs are not associated
+		 *             with a pipeline run or step run before fetching.
 		 */
 		get: operations["get_logs_api_v1_logs__logs_id__get"];
-		put?: never;
+		/**
+		 * Update Logs
+		 * @description Update an existing log model.
+		 *
+		 *     Args:
+		 *         logs_id: ID of the log model to update.
+		 *         logs_update: Update to apply to the log model.
+		 *
+		 *     Returns:
+		 *         The updated log model.
+		 */
+		put: operations["update_logs_api_v1_logs__logs_id__put"];
 		post?: never;
 		delete?: never;
 		options?: never;
@@ -7540,6 +7581,13 @@ export type components = {
 		 * @description Request model for logs.
 		 */
 		LogsRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
 			/**
 			 * The unique id.
 			 * Format: uuid
@@ -7556,6 +7604,10 @@ export type components = {
 			artifact_store_id?: string | null;
 			/** The log store ID that collected these logs */
 			log_store_id?: string | null;
+			/** The pipeline run ID to associate the logs with. */
+			pipeline_run_id?: string | null;
+			/** The step run ID to associate the logs with. */
+			step_run_id?: string | null;
 		};
 		/**
 		 * LogsResponse
@@ -7594,6 +7646,13 @@ export type components = {
 			 * Format: date-time
 			 */
 			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
 			/** The URI of the logs file (for artifact store logs) */
 			uri?: string | null;
 			/** The source of the logs file */
@@ -7624,7 +7683,20 @@ export type components = {
 		 * @description Class for all resource models associated with the Logs entity.
 		 */
 		LogsResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+		} & {
 			[key: string]: unknown;
+		};
+		/**
+		 * LogsUpdate
+		 * @description Update model for logs.
+		 */
+		LogsUpdate: {
+			/** The pipeline run ID to associate the logs with. */
+			pipeline_run_id?: string | null;
+			/** The step run ID to associate the logs with. */
+			step_run_id?: string | null;
 		};
 		/**
 		 * MetadataResourceTypes
@@ -9271,7 +9343,7 @@ export type components = {
 			/** Tags of the pipeline run. */
 			tags?: (string | components["schemas"]["Tag"])[] | null;
 			/** Logs of the pipeline run. */
-			logs?: components["schemas"]["LogsRequest"] | null;
+			logs?: string | components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the pipeline run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 		};
@@ -12005,7 +12077,7 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** Logs associated with this step run. */
-			logs?: components["schemas"]["LogsRequest"] | null;
+			logs?: string | components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the step run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** The dynamic configuration of the step run. */
@@ -16238,6 +16310,66 @@ export interface operations {
 			};
 		};
 	};
+	create_logs_api_v1_logs_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["LogsRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["LogsResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
 	get_logs_api_v1_logs__logs_id__get: {
 		parameters: {
 			query?: {
@@ -16250,6 +16382,68 @@ export interface operations {
 			cookie?: never;
 		};
 		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["LogsResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	update_logs_api_v1_logs__logs_id__put: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				logs_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["LogsUpdate"];
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
