@@ -29,6 +29,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { DeploymentTag } from "./deployment-tag";
+import { RunStatusTag } from "../../run-status-tag";
 
 type Props = {
 	runId: string;
@@ -123,6 +124,14 @@ export function Details({ runId }: Props) {
 						) : (
 							"Not available"
 						)}
+					</Value>
+					<Key>Replay of</Key>
+					<Value>
+						{(() => {
+							const originalRun = data.resources?.original_run;
+							if (!originalRun?.body) return "Not available";
+							return <RunStatusTag runId={originalRun.id} status={originalRun.body.status} />;
+						})()}
 					</Value>
 					<KeyValue
 						label="Snapshot"

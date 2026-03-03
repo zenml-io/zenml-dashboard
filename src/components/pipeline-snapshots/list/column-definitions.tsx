@@ -1,17 +1,16 @@
 import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
-import RunIcon from "@/assets/icons/terminal-square.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DeploymentStatusTag } from "@/components/deployments/deployment-status-tag";
 import { DisplayDate } from "@/components/DisplayDate";
-import { getExecutionStatusTagColor, getRunIconColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { PipelineLink } from "@/components/pipelines/pipeline-link";
+import { RunStatusTag } from "@/components/runs/run-status-tag";
 import { ActionCell } from "@/components/tables/action-cell";
-import { routes } from "@/router/routes";
 import { getFirstUuidSegment } from "@/lib/strings";
+import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox, Tag } from "@zenml-io/react-component-library";
+import { Checkbox } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotActions } from "../table-actions";
 
@@ -125,20 +124,7 @@ export function createSnapshotLatestRunColumn(): ColumnDef<PipelineSnapshot> {
 			const status = row.original.resources?.latest_run_status;
 			if (!runId || !status) return <div>No run</div>;
 
-			return (
-				<Link to={routes.projects.runs.detail(runId)}>
-					<Tag
-						emphasis="subtle"
-						rounded={false}
-						className="inline-flex items-center gap-0.5"
-						color={getExecutionStatusTagColor(status)}
-					>
-						<RunIcon className={`h-3 w-3 ${getRunIconColor(status)}`} />
-
-						{runId?.split("-")[0]}
-					</Tag>
-				</Link>
-			);
+			return <RunStatusTag runId={runId} status={status} />;
 		}
 	};
 }
