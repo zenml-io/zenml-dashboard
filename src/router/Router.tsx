@@ -96,6 +96,7 @@ const CreateTerraform = lazy(() => import("@/app/stacks/create/terraform/page"))
 
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
+const Triggers = lazy(() => import("@/app/triggers/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
 const Survey = lazy(() => import("@/app/survey/page"));
@@ -250,6 +251,11 @@ export const router = createBrowserRouter([
 								errorElement: <PageBoundary />,
 								path: routes.projects.models.overview,
 								element: withProtectedRoute(<Models />)
+							},
+							{
+								errorElement: <PageBoundary />,
+								path: routes.projects.triggers.overview,
+								element: withProtectedRoute(<Triggers />)
 							},
 							{
 								errorElement: <PageBoundary />,
