@@ -92,6 +92,7 @@ export function usePageTitle(): void {
 		// Project-scoped: Other tabs
 		if (is(routes.projects.models.overview)) return "Models";
 		if (is(routes.projects.artifacts.overview)) return "Artifacts";
+		if (is(routes.projects.triggers.overview)) return "Triggers";
 
 		// Project-scoped settings
 		if (is(routes.projects.settings.repositories.overview)) return "Repositories";
