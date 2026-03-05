@@ -5,8 +5,8 @@ import { routes } from "@/router/routes";
 import { LoginFormType, loginFormSchema } from "@/types/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, useToast } from "@zenml-io/react-component-library";
-import { useId, useRef } from "react";
-import { useForm, type UseFormRegisterReturn } from "react-hook-form";
+import { useId } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function LoginForm() {
@@ -16,7 +16,6 @@ export function LoginForm() {
 
 	const usernameId = useId();
 	const passwordId = useId();
-	const passwordRef = useRef<HTMLInputElement | null>(null);
 
 	const [searchParams] = useSearchParams();
 	const redirect = searchParams.get("redirect");
@@ -25,6 +24,7 @@ export function LoginForm() {
 	const {
 		register,
 		handleSubmit,
+		setFocus,
 		formState: { isValid }
 	} = useForm<LoginFormType>({
 		resolver: zodResolver(loginFormSchema),
@@ -53,9 +53,6 @@ export function LoginForm() {
 		mutation.mutate({ username: data.username.trim(), password: data.password });
 	}
 
-	const { ref: passwordRegisterRef, ...passwordRegisterRest }: UseFormRegisterReturn =
-		register("password");
-
 	return (
 		<form onSubmit={handleSubmit(login)} className="space-y-5">
 			<div className="space-y-2">
@@ -70,7 +67,7 @@ export function LoginForm() {
 						onKeyDown={(e) => {
 							if (e.key === "Enter") {
 								e.preventDefault();
-								passwordRef.current?.focus();
+								setFocus("password");
 							}
 						}}
 					/>
@@ -79,16 +76,7 @@ export function LoginForm() {
 					<label htmlFor={passwordId} className="text-text-sm">
 						Password
 					</label>
-					<Input
-						{...passwordRegisterRest}
-						ref={(el) => {
-							passwordRegisterRef(el);
-							passwordRef.current = el;
-						}}
-						id={passwordId}
-						type="password"
-						className="w-full"
-					/>
+					<Input {...register("password")} id={passwordId} type="password" className="w-full" />
 				</div>
 			</div>
 			<Button disabled={!isValid} className="w-full text-center" size="md">
