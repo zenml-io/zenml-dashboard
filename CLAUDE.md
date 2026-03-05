@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm install          # Install dependencies (uses pnpm, not yarn!)
 pnpm dev             # Start development server (default port 5173)
 pnpm build           # Build for production (tsc + vite build)
-pnpm lint            # Run ESLint
+pnpm lint            # Run Oxlint
 pnpm format          # Format code with Prettier
 ```
 
@@ -117,7 +117,6 @@ src/
 All API interactions follow a consistent pattern using TanStack Query:
 
 1. **Query files** (e.g., `pipeline-run-detail-query.ts`) export:
-
    - `getXQueryKey()` - Query key factory function
    - `fetchX()` - Async fetcher function
    - `useX()` - React Query hook
@@ -289,6 +288,7 @@ When using AI tools with this codebase:
 3. Note that many patterns are shared with zenml-cloud-ui (check that repo for reference implementations)
 
 ### Plan & Review (Agentic Work)
+
 - For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, similar existing flows, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
 - **Avoid style thrash:** do not fall into repeated "make it look right" loops of tiny Tailwind/CSS nudges. If you notice multiple iterations where the diff is mostly styling tweaks, stop and re-anchor to the plan and design tokens.
 - Ask for a single authoritative reference (screenshot/spec) and explicit acceptance criteria before continuing visual polish. Prefer correcting tokens/variants/layout primitives over adding scattered one-off overrides.
@@ -340,5 +340,6 @@ When using AI tools with this codebase:
 ### Labels
 
 All PRs should have one of the following release labels:
+
 - `release-notes` - for user-facing changes that should appear in the changelog
 - `no-release-notes` - for internal changes (refactoring, tests, CI, etc.)
