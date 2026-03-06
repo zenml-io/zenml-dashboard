@@ -26,8 +26,6 @@ const jsonStyles = {
 export function JSONVisualization({ content }: Props) {
 	const json = parseJSON(content);
 
-	console.log(json);
-	console.log(content);
 	return (
 		<JsonView
 			data={json as object}
