@@ -13,6 +13,8 @@ interface LogLineProps {
 	matchRanges?: MatchRange[];
 	/** Index of the active match within this log (-1 if no active match here) */
 	activeMatchIndex?: number;
+	/** When true, render Source and Session cells. */
+	showSourceColumns?: boolean;
 	className?: string;
 }
 
@@ -46,16 +48,26 @@ const formatTimestamp = (timestamp: string | number): string => {
 	});
 };
 
+const SOURCE_BADGE_STYLES: Record<string, string> = {
+	step: "bg-blue-100 text-blue-700",
+	sandbox: "bg-purple-100 text-purple-700"
+};
+
+const getSourceBadgeClass = (source: string): string =>
+	SOURCE_BADGE_STYLES[source] ?? "bg-neutral-100 text-neutral-600";
+
 export const LogLine = React.memo(function Logline({
 	entry,
 	textWrapEnabled,
 	matchRanges,
 	activeMatchIndex = -1,
+	showSourceColumns = false,
 	className
 }: LogLineProps) {
-	const { timestamp, level, message, originalEntry } = entry;
+	const { timestamp, level, message, originalEntry, source, session_id } = entry;
 	const formattedTimestamp = timestamp ? formatTimestamp(timestamp) : "";
 	const levelColorClass = getLogLevelColor(level ?? undefined);
+	const isSandbox = source === "sandbox";
 
 	// Render message with highlighted matches
 	const renderMessage = () => {
@@ -98,7 +110,10 @@ export const LogLine = React.memo(function Logline({
 	return (
 		<div
 			className={cn(
-				"group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal bg-theme-surface-primary px-4 py-1 font-mono text-text-sm font-normal transition-colors hover:bg-theme-surface-tertiary",
+				"group/copybutton flex w-full items-start space-x-3 border-b border-theme-border-minimal px-4 py-1 font-mono text-text-sm font-normal transition-colors",
+				isSandbox
+					? "border-l-2 border-l-purple-400 bg-purple-50/40 hover:bg-purple-50/70"
+					: "bg-theme-surface-primary hover:bg-theme-surface-tertiary",
 				className
 			)}
 		>
@@ -110,6 +125,32 @@ export const LogLine = React.memo(function Logline({
 			</div>
 			{/* Timestamp */}
 			<div className="w-[178px] flex-shrink-0 text-theme-text-secondary">{formattedTimestamp}</div>
+			{/* Source badge */}
+			{showSourceColumns && (
+				<>
+					<div className="w-[90px] flex-shrink-0">
+						<span
+							className={cn(
+								"px-1.5 text-xs inline-block rounded-sm py-0.5 font-medium capitalize",
+								getSourceBadgeClass(source)
+							)}
+						>
+							{source}
+						</span>
+					</div>
+					{/* Session ID */}
+					<div className="w-[180px] flex-shrink-0">
+						{session_id ? (
+							<span
+								className="text-xs truncate font-mono text-theme-text-tertiary"
+								title={session_id}
+							>
+								{session_id}
+							</span>
+						) : null}
+					</div>
+				</>
+			)}
 			{/* Message */}
 			<div
 				className={`flex-1 text-theme-text-primary ${

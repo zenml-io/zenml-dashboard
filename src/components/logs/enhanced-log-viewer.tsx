@@ -14,13 +14,16 @@ interface EnhancedLogsViewerProps {
 	reloadLogs: () => void;
 	fallbackMessage: ReactNode;
 	sourceSwitcher?: ReactNode;
+	/** When true, show Source and Session columns in the log table. */
+	showSourceColumns?: boolean;
 }
 
 export function EnhancedLogsViewer({
 	logs,
 	reloadLogs,
 	fallbackMessage,
-	sourceSwitcher
+	sourceSwitcher,
+	showSourceColumns = false
 }: EnhancedLogsViewerProps) {
 	const [textWrapEnabled, setTextWrapEnabled] = useState(true);
 	const parentRef = useRef<HTMLDivElement>(null);
@@ -163,13 +166,25 @@ export function EnhancedLogsViewer({
 
 			<div className="flex flex-1 flex-col overflow-hidden">
 				{/* Fixed header */}
-				<div className="flex w-full min-w-[600px] space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary">
+				<div
+					className={`flex w-full ${showSourceColumns ? "min-w-[820px]" : "min-w-[600px]"} space-x-3 bg-theme-surface-tertiary px-4 py-1 font-medium text-theme-text-secondary`}
+				>
 					<div className="flex w-12 flex-shrink-0 items-center">
 						<span className="text-text-sm font-semibold">Type</span>
 					</div>
 					<div className="w-[178px] flex-shrink-0">
 						<span className="text-text-sm font-semibold">Time</span>
 					</div>
+					{showSourceColumns && (
+						<>
+							<div className="w-[90px] flex-shrink-0">
+								<span className="text-text-sm font-semibold">Source</span>
+							</div>
+							<div className="w-[180px] flex-shrink-0">
+								<span className="text-text-sm font-semibold">Session</span>
+							</div>
+						</>
+					)}
 					<div className="flex min-w-0 flex-1 items-center justify-between">
 						<span className="text-text-sm font-semibold">Event</span>
 					</div>
@@ -225,6 +240,7 @@ export function EnhancedLogsViewer({
 											textWrapEnabled={textWrapEnabled}
 											matchRanges={matchRanges}
 											activeMatchIndex={activeMatchIndex}
+											showSourceColumns={showSourceColumns}
 										/>
 									</div>
 								);
