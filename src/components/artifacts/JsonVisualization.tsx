@@ -24,22 +24,25 @@ const jsonStyles = {
 };
 
 export function JSONVisualization({ content }: Props) {
-	const json = parseJSON(content);
+	const data = parseJSON(content);
+
+	if (!isJsonObject(data)) {
+		return <pre className={jsonStyles.container}>{String(data)}</pre>;
+	}
 
 	return (
-		<JsonView
-			data={json as object}
-			shouldExpandNode={allExpanded}
-			clickToExpandNode
-			style={jsonStyles}
-		/>
+		<JsonView data={data} shouldExpandNode={allExpanded} clickToExpandNode style={jsonStyles} />
 	);
+}
 
-	function parseJSON(content: string): unknown {
-		try {
-			return JSON.parse(content);
-		} catch {
-			return content;
-		}
+function isJsonObject(value: unknown): value is object | unknown[] {
+	return typeof value === "object" && value !== null;
+}
+
+function parseJSON(content: string): unknown {
+	try {
+		return JSON.parse(content);
+	} catch {
+		return content;
 	}
 }
