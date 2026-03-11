@@ -4,9 +4,8 @@ import "react-json-view-lite/dist/index.css";
 
 const jsonStyles = {
 	...defaultStyles,
-	container:
-		"rounded-md overflow-x-auto border border-theme-border-moderate bg-theme-surface-primary p-4 font-mono text-text-sm leading-tight",
-	basicChildStyle: "ml-4 my-0",
+	container: "font-mono text-text-sm leading-tight",
+	basicChildStyle: "my-0",
 	label: "text-theme-text-secondary mr-1",
 	clickableLabel: "text-theme-text-secondary mr-1 cursor-pointer",
 	nullValue: "text-theme-text-tertiary italic",
@@ -19,19 +18,31 @@ const jsonStyles = {
 	expandIcon: `${defaultStyles.expandIcon} !text-neutral-500`,
 	collapseIcon: `${defaultStyles.collapseIcon} !text-neutral-500`,
 	punctuation: `${defaultStyles.punctuation} !text-neutral-500`,
-	childFieldsContainer: "border-l border-theme-border-minimal ml-1 pl-0",
+	childFieldsContainer: "border-l border-theme-border-minimal ml-2 pl-0",
 	quotesForFieldNames: true
 };
+
+const containerClassName =
+	"overflow-x-auto rounded-md border border-theme-border-moderate bg-theme-surface-primary";
+const contentClassName = "inline-block min-w-full p-2";
 
 export function JSONVisualization({ content }: Props) {
 	const data = parseJSON(content);
 
 	if (!isJsonObject(data)) {
-		return <pre className={jsonStyles.container}>{String(data)}</pre>;
+		return (
+			<div className={containerClassName}>
+				<pre className={`${contentClassName} ${jsonStyles.container}`}>{String(data)}</pre>
+			</div>
+		);
 	}
 
 	return (
-		<JsonView data={data} shouldExpandNode={allExpanded} clickToExpandNode style={jsonStyles} />
+		<div className={containerClassName}>
+			<div className={contentClassName}>
+				<JsonView data={data} shouldExpandNode={allExpanded} clickToExpandNode style={jsonStyles} />
+			</div>
+		</div>
 	);
 }
 
