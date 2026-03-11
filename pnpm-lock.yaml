@@ -102,6 +102,9 @@ importers:
       react-joyride:
         specifier: ^2.9.3
         version: 2.9.3(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-json-view-lite:
+        specifier: ^2.5.0
+        version: 2.5.0(react@18.3.1)
       react-markdown:
         specifier: ^9.1.0
         version: 9.1.0(@types/react@18.3.11)(react@18.3.1)
@@ -3001,6 +3004,12 @@ packages:
     peerDependencies:
       react: 15 - 18
       react-dom: 15 - 18
+
+  react-json-view-lite@2.5.0:
+    resolution: {integrity: sha512-tk7o7QG9oYyELWHL8xiMQ8x4WzjCzbWNyig3uexmkLb54r8jO0yH3WCWx8UZS0c49eSA4QUmG5caiRJ8fAn58g==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
 
   react-markdown@9.1.0:
     resolution: {integrity: sha512-xaijuJB0kzGiUdG7nc2MOMDUDBWPyGAjZtUrow9XxUeua8IqeP+VlIfAZ3bphpcLTnSZXz6z9jcVC/TCwbfgdw==}
@@ -6489,6 +6498,10 @@ snapshots:
       type-fest: 4.41.0
     transitivePeerDependencies:
       - '@types/react'
+
+  react-json-view-lite@2.5.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react-markdown@9.1.0(@types/react@18.3.11)(react@18.3.1):
     dependencies:
