@@ -1,6 +1,7 @@
 import Check from "@/assets/icons/check.svg?react";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import Logs from "@/assets/icons/logs.svg?react";
+import { LogSourceOption } from "@/types/logs";
 import {
 	Button,
 	Command,
@@ -15,11 +16,6 @@ import {
 	PopoverTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-
-export interface LogSourceOption {
-	value: string;
-	label: string;
-}
 
 type Props = {
 	options: LogSourceOption[];

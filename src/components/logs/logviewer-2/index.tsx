@@ -1,24 +1,57 @@
+import type { MatchRange } from "@/components/logs/use-log-search";
 import { LogEntryInternal } from "@/types/logs";
 import { cn } from "@zenml-io/react-component-library/utilities";
-import { Virtuoso } from "react-virtuoso";
+import { useEffect, useMemo, useRef } from "react";
+import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { LOG_VIEWER_2_GRID_COLUMNS_CLASS } from "./layout";
 import { LogLine } from "./log-line";
 import { EmptyStateLogs } from "../empty-state-logs";
 import { Spinner } from "@zenml-io/react-component-library/components/server";
 
-type LogViewer2VirtuosoProps = {
+type VirtuosoLogsViewerProps = {
 	logs: LogEntryInternal[];
 	firstItemIndex: number;
 	loadOlderLogs: () => void;
 	isLoadingPrevious: boolean;
+
+	/** Search query */
+	searchQuery?: string;
+	currentMatchIndex?: number;
+	totalMatches?: number;
+	matchesByLogIndex?: Map<number, MatchRange[]>;
+	activeMatchLogIndex?: number;
+	activeMatchWithinLog?: number;
 };
 
-export function LogViewer2Virtuoso({
+export function VirtuosoLogsViewer({
 	logs,
 	firstItemIndex,
 	loadOlderLogs,
-	isLoadingPrevious
-}: LogViewer2VirtuosoProps) {
+	isLoadingPrevious,
+	searchQuery,
+	currentMatchIndex = 0,
+	totalMatches = 0,
+	matchesByLogIndex,
+	activeMatchLogIndex = -1,
+	activeMatchWithinLog = -1
+}: VirtuosoLogsViewerProps) {
+	const virtuosoRef = useRef<VirtuosoHandle>(null);
+
+	const activeListIndex = useMemo(() => {
+		if (totalMatches < 1 || activeMatchLogIndex < 0) return -1;
+		return activeMatchLogIndex;
+	}, [activeMatchLogIndex, totalMatches]);
+
+	useEffect(() => {
+		if (activeListIndex < 0) return;
+		requestAnimationFrame(() => {
+			virtuosoRef.current?.scrollToIndex({
+				index: activeListIndex,
+				align: "center"
+			});
+		});
+	}, [activeListIndex, currentMatchIndex, searchQuery]);
+
 	if (logs.length < 1) {
 		return (
 			<div className="flex flex-1 flex-col">
@@ -31,6 +64,7 @@ export function LogViewer2Virtuoso({
 		<div className="flex flex-1 flex-col">
 			<Header />
 			<Virtuoso
+				ref={virtuosoRef}
 				firstItemIndex={firstItemIndex}
 				initialTopMostItemIndex={Math.max(logs.length - 1, 0)}
 				followOutput="auto"
@@ -45,7 +79,16 @@ export function LogViewer2Virtuoso({
 				minOverscanItemCount={8}
 				data={logs}
 				computeItemKey={(_, entry) => entry.id ?? entry.timestamp ?? ""}
-				itemContent={(_, data) => <LogLine entry={data} />}
+				itemContent={(absoluteIndex, data) => {
+					const relativeIndex = absoluteIndex - firstItemIndex;
+					return (
+						<LogLine
+							entry={data}
+							matchRanges={matchesByLogIndex?.get(relativeIndex)}
+							activeMatchIndex={relativeIndex === activeMatchLogIndex ? activeMatchWithinLog : -1}
+						/>
+					);
+				}}
 			/>
 		</div>
 	);

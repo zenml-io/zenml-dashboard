@@ -1,20 +1,10 @@
-import Refresh from "@/assets/icons/refresh.svg?react";
-import { DebouncedInput } from "@/components/debounced-input";
-import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
-import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogLevelSelect } from "@/components/logs/log-level-select";
-import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
-import { LogViewer2Virtuoso } from "@/components/logs/logviewer-2";
-import { LogViewerToolbar } from "@/components/logs/logviewer-2/log-viewer-toolbar";
-import { useVirtuosoPrependAnchor } from "@/components/logs/logviewer-2/use-virtuoso-prepend-anchor";
-import { logQueries } from "@/data/logs";
+import { ClientSideLogsViewer } from "@/components/logs/logviewer-2/client-side-logs-viewer";
+import { ServerSideLogsViewer } from "@/components/logs/logviewer-2/server-side-logsviewer";
 import { useStepDetail } from "@/data/steps/step-detail-query";
-import { buildInternalLogEntries, LOG_LEVELS } from "@/lib/logs";
-import { LogEntriesQueryParams, LogEntriesResponse, LoggingLevel } from "@/types/logs";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { LogSourceOption } from "@/types/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type Props = {
 	stepId: string;
@@ -31,7 +21,8 @@ export function StepLogsTab({ stepId }: Props) {
 	const sources: LogSourceOption[] = logs.map((log) => {
 		return {
 			value: log.id,
-			label: log.body?.source ?? log.id
+			label: log.body?.source ?? log.id,
+			hasLogStore: !!log.body?.log_store_id
 		};
 	});
 
@@ -48,120 +39,25 @@ export function StepLogsTab({ stepId }: Props) {
 
 function StepLogsTabContent({ sources }: { sources: LogSourceOption[] }) {
 	const [selectedSourceId, setSelectedSourceId] = useState<string>(sources[0].value);
-	const [selectedLogLevel, setSelectedLogLevel] = useState<LoggingLevel>(LOG_LEVELS.INFO);
-	const [searchQuery, setSearchQuery] = useState<string | null>(null);
 
-	const queries: LogEntriesQueryParams = {
-		level: selectedLogLevel.toString(),
-		search: searchQuery
-	};
+	const selectedSource = sources.find((source) => source.value === selectedSourceId);
 
-	return (
-		<div className="flex flex-1 flex-col space-y-5">
-			<LogViewerToolbar.Root>
-				<LogViewerToolbar.SourceSwitcher>
-					<LogSourceCombobox
-						options={sources}
-						selectedValue={selectedSourceId}
-						onValueChange={setSelectedSourceId}
-					/>
-				</LogViewerToolbar.SourceSwitcher>
+	if (!selectedSource) return null;
 
-				<LogViewerToolbar.Content>
-					<LogViewerToolbar.Left>
-						<LogViewerToolbar.Search
-							onSubmit={(event) => {
-								event.preventDefault();
-							}}
-						>
-							<DebouncedInput
-								debounceMs={1000}
-								className="border-neutral-300"
-								value={searchQuery ?? ""}
-								onChange={(value) => {
-									if (value === "") setSearchQuery(null);
-									setSearchQuery(value);
-								}}
-								placeholder="Search logs..."
-							/>
-						</LogViewerToolbar.Search>
-						<LogViewerToolbar.Filters>
-							<LogLevelSelect
-								value={selectedLogLevel.toString()}
-								onValueChange={(value) => setSelectedLogLevel(Number(value) as LoggingLevel)}
-							/>
-						</LogViewerToolbar.Filters>
-					</LogViewerToolbar.Left>
-					<LogViewerToolbar.Right>
-						<LogViewerToolbar.Actions>
-							<RefreshLogsButton queries={queries} selectedSourceId={selectedSourceId} />
-						</LogViewerToolbar.Actions>
-					</LogViewerToolbar.Right>
-				</LogViewerToolbar.Content>
-			</LogViewerToolbar.Root>
-			<LogRenderer selectedSourceId={selectedSourceId} queries={queries} />
-		</div>
-	);
-}
-
-type LogProps = {
-	queries: LogEntriesQueryParams;
-	selectedSourceId: string;
-};
-
-function LogRenderer({ queries, selectedSourceId }: LogProps) {
-	const stepLogs = useInfiniteQuery({
-		...logQueries.logEntriesInfinite({
-			logsId: selectedSourceId,
-			queries: queries
-		})
-	});
-
-	const { firstItemIndex, loadOlderItems } = useVirtuosoPrependAnchor<LogEntriesResponse>({
-		pages: stepLogs.data?.pages,
-		hasPreviousPage: stepLogs.hasPreviousPage,
-		isFetchingPreviousPage: stepLogs.isFetchingPreviousPage,
-		fetchPreviousPage: () => stepLogs.fetchPreviousPage(),
-		getPageItemCount: (page) => page.items?.length ?? 0
-	});
-
-	const parsedLogs = useMemo(() => {
-		if (!stepLogs.data) return [];
-		return buildInternalLogEntries(stepLogs.data.pages.flatMap((page) => page.items ?? []));
-	}, [stepLogs.data]);
-
-	if (stepLogs.isPending) return <LoadingLogs />;
-
-	if (stepLogs.isError) {
-		return <ErrorFallback err={stepLogs.error} />;
-	}
+	if (selectedSource.hasLogStore)
+		return (
+			<ServerSideLogsViewer
+				selectedSource={selectedSource}
+				sources={sources}
+				setSelectedSourceId={setSelectedSourceId}
+			/>
+		);
 
 	return (
-		<LogViewer2Virtuoso
-			firstItemIndex={firstItemIndex}
-			isLoadingPrevious={stepLogs.isFetchingPreviousPage}
-			loadOlderLogs={loadOlderItems}
-			logs={parsedLogs}
+		<ClientSideLogsViewer
+			selectedSource={selectedSource}
+			sources={sources}
+			setSelectedSourceId={setSelectedSourceId}
 		/>
-	);
-}
-
-function RefreshLogsButton({ queries, selectedSourceId }: LogProps) {
-	const stepLogs = useInfiniteQuery({
-		...logQueries.logEntriesInfinite({
-			logsId: selectedSourceId,
-			queries: queries
-		})
-	});
-
-	return (
-		<LogViewerToolbar.IconButton
-			className="text-theme-text-primary"
-			disabled={stepLogs.isFetching}
-			tooltip="Reload logs"
-			onClick={() => stepLogs.refetch()}
-		>
-			<Refresh className="h-4 w-4 fill-current" />
-		</LogViewerToolbar.IconButton>
 	);
 }

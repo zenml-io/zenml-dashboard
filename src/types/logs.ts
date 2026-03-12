@@ -23,4 +23,5 @@ export type LogEntriesQueryParams = NonNullable<
 export type LogSourceOption = {
 	value: string;
 	label: string;
+	hasLogStore: boolean;
 };
