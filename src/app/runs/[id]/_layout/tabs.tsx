@@ -18,8 +18,6 @@ export function PipelineRunDetailTabs() {
 	const { runId } = useParams() as { runId: string };
 	const activeTab = useActivePipelineRunTab();
 
-	console.log(activeTab);
-
 	return (
 		<Tabs value={activeTab}>
 			<ScrollArea>
