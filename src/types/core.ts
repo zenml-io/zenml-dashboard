@@ -45,104 +45,6 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
-	"/api/v1/actions": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Actions
-		 * @description List actions.
-		 *
-		 *     Args:
-		 *         action_filter_model: Filter model used for pagination, sorting,
-		 *             filtering.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Returns:
-		 *         Page of actions.
-		 */
-		get: operations["list_actions_api_v1_actions_get"];
-		put?: never;
-		/**
-		 * Create Action
-		 * @description Creates an action.
-		 *
-		 *     Args:
-		 *         action: Action to create.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action handler for flavor/type is not valid.
-		 *
-		 *     Returns:
-		 *         The created action.
-		 */
-		post: operations["create_action_api_v1_actions_post"];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/actions/{action_id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Action
-		 * @description Returns the requested action.
-		 *
-		 *     Args:
-		 *         action_id: ID of the action.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action handler for flavor/type is not valid.
-		 *
-		 *     Returns:
-		 *         The requested action.
-		 */
-		get: operations["get_action_api_v1_actions__action_id__get"];
-		/**
-		 * Update Action
-		 * @description Update an action.
-		 *
-		 *     Args:
-		 *         action_id: ID of the action to update.
-		 *         action_update: The action update.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action handler for flavor/type is not valid.
-		 *
-		 *     Returns:
-		 *         The updated action.
-		 */
-		put: operations["update_action_api_v1_actions__action_id__put"];
-		post?: never;
-		/**
-		 * Delete Action
-		 * @description Delete an action.
-		 *
-		 *     Args:
-		 *         action_id: ID of the action.
-		 *         force: Flag deciding whether to force delete the action.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action handler for flavor/type is not valid.
-		 */
-		delete: operations["delete_action_api_v1_actions__action_id__delete"];
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
 	"/api/v1/artifacts": {
 		parameters: {
 			query?: never;
@@ -955,166 +857,6 @@ export type paths = {
 		 *         visualization_id: The ID of the curated visualization to delete.
 		 */
 		delete: operations["delete_curated_visualization_api_v1_curated_visualizations__visualization_id__delete"];
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/plugin-flavors": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Flavors
-		 * @description Returns all event flavors.
-		 *
-		 *     Args:
-		 *         type: The type of Plugin
-		 *         subtype: The subtype of the plugin
-		 *         page: Page for pagination (offset +1)
-		 *         size: Page size for pagination
-		 *         hydrate: Whether to hydrate the response bodies
-		 *
-		 *     Returns:
-		 *         A page of flavors.
-		 */
-		get: operations["list_flavors_api_v1_plugin_flavors_get"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/plugin-flavors/{name}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Flavor
-		 * @description Returns the requested flavor.
-		 *
-		 *     Args:
-		 *         name: Name of the flavor.
-		 *         type: Type of Plugin
-		 *         subtype: Subtype of Plugin
-		 *
-		 *     Returns:
-		 *         The requested flavor response.
-		 */
-		get: operations["get_flavor_api_v1_plugin_flavors__name__get"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/event-sources": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Event Sources
-		 * @description Returns all event_sources.
-		 *
-		 *     Args:
-		 *         event_source_filter_model: Filter model used for pagination, sorting,
-		 *             filtering.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Returns:
-		 *         All event_sources.
-		 */
-		get: operations["list_event_sources_api_v1_event_sources_get"];
-		put?: never;
-		/**
-		 * Create Event Source
-		 * @description Creates an event source.
-		 *
-		 *     Args:
-		 *         event_source: EventSource to register.
-		 *
-		 *     Returns:
-		 *         The created event source.
-		 *
-		 *     Raises:
-		 *         ValueError: If the plugin for an event source is not a valid event
-		 *             source plugin.
-		 */
-		post: operations["create_event_source_api_v1_event_sources_post"];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/event-sources/{event_source_id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Event Source
-		 * @description Returns the requested event_source.
-		 *
-		 *     Args:
-		 *         event_source_id: ID of the event_source.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Returns:
-		 *         The requested event_source.
-		 *
-		 *     Raises:
-		 *         ValueError: If the plugin for an event source is not a valid event
-		 *             source plugin.
-		 */
-		get: operations["get_event_source_api_v1_event_sources__event_source_id__get"];
-		/**
-		 * Update Event Source
-		 * @description Updates an event_source.
-		 *
-		 *     Args:
-		 *         event_source_id: Name of the event_source.
-		 *         event_source_update: EventSource to use for the update.
-		 *
-		 *     Returns:
-		 *         The updated event_source.
-		 *
-		 *     Raises:
-		 *         ValueError: If the plugin for an event source is not a valid event
-		 *             source plugin.
-		 */
-		put: operations["update_event_source_api_v1_event_sources__event_source_id__put"];
-		post?: never;
-		/**
-		 * Delete Event Source
-		 * @description Deletes a event_source.
-		 *
-		 *     Args:
-		 *         event_source_id: Name of the event_source.
-		 *         force: Flag deciding whether to force delete the event source.
-		 *
-		 *     Raises:
-		 *         ValueError: If the plugin for an event source is not a valid event
-		 *             source plugin.
-		 */
-		delete: operations["delete_event_source_api_v1_event_sources__event_source_id__delete"];
 		options?: never;
 		head?: never;
 		patch?: never;
@@ -4188,97 +3930,6 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
-	"/api/v1/triggers": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Triggers
-		 * @description Returns all triggers.
-		 *
-		 *     Args:
-		 *         trigger_filter_model: Filter model used for pagination, sorting,
-		 *             filtering.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Returns:
-		 *         All triggers.
-		 */
-		get: operations["list_triggers_api_v1_triggers_get"];
-		put?: never;
-		/**
-		 * Create Trigger
-		 * @description Creates a trigger.
-		 *
-		 *     Args:
-		 *         trigger: Trigger to register.
-		 *
-		 *     Returns:
-		 *         The created trigger.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action flavor/subtype combination is not actually a webhook event source
-		 */
-		post: operations["create_trigger_api_v1_triggers_post"];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/triggers/{trigger_id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Trigger
-		 * @description Returns the requested trigger.
-		 *
-		 *     Args:
-		 *         trigger_id: ID of the trigger.
-		 *         hydrate: Flag deciding whether to hydrate the output model(s)
-		 *             by including metadata fields in the response.
-		 *
-		 *     Returns:
-		 *         The requested trigger.
-		 */
-		get: operations["get_trigger_api_v1_triggers__trigger_id__get"];
-		/**
-		 * Update Trigger
-		 * @description Updates a trigger.
-		 *
-		 *     Args:
-		 *         trigger_id: Name of the trigger.
-		 *         trigger_update: Trigger to use for the update.
-		 *
-		 *     Returns:
-		 *         The updated trigger.
-		 *
-		 *     Raises:
-		 *         ValueError: If the action flavor/subtype combination is not actually a webhook event source
-		 */
-		put: operations["update_trigger_api_v1_triggers__trigger_id__put"];
-		post?: never;
-		/**
-		 * Delete Trigger
-		 * @description Deletes a trigger.
-		 *
-		 *     Args:
-		 *         trigger_id: Name of the trigger.
-		 */
-		delete: operations["delete_trigger_api_v1_triggers__trigger_id__delete"];
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
 	"/api/v1/users": {
 		parameters: {
 			query?: never;
@@ -4481,41 +4132,6 @@ export type paths = {
 		 */
 		put: operations["update_myself_api_v1_current_user_put"];
 		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/v1/webhooks/{event_source_id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Webhook
-		 * @description Webhook to receive events from external event sources.
-		 *
-		 *     Args:
-		 *         event_source_id: The event_source_id
-		 *         request: The request object
-		 *         background_tasks: Background task handler
-		 *         raw_body: The raw request body
-		 *
-		 *     Returns:
-		 *         Static dict stating that event is received.
-		 *
-		 *     Raises:
-		 *         AuthorizationException: If the Event Source does not exist.
-		 *         KeyError: If no appropriate Plugin found in the plugin registry
-		 *         ValueError: If the id of the Event Source is not actually a webhook event source
-		 *         WebhookInactiveError: In case this webhook has been deactivated
-		 */
-		post: operations["webhook_api_v1_webhooks__event_source_id__post"];
 		delete?: never;
 		options?: never;
 		head?: never;
@@ -5378,6 +4994,124 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
+	"/api/v1/triggers": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * List Triggers
+		 * @description Gets a list of triggers.
+		 *
+		 *     Args:
+		 *         trigger_filter_model: Filter model used for pagination, sorting,
+		 *             filtering
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *
+		 *     Returns:
+		 *         List of trigger objects.
+		 */
+		get: operations["list_triggers_api_v1_triggers_get"];
+		put?: never;
+		/**
+		 * Create Trigger
+		 * @description Creates a trigger.
+		 *
+		 *     Args:
+		 *         trigger: The trigger to create.
+		 *
+		 *     Returns:
+		 *         The created trigger.
+		 */
+		post: operations["create_trigger_api_v1_triggers_post"];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/triggers/{trigger_id}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Trigger
+		 * @description Gets a specific trigger using its unique id.
+		 *
+		 *     Args:
+		 *         trigger_id: ID of the trigger to retrieve.
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *
+		 *     Returns:
+		 *         A specific trigger object.
+		 */
+		get: operations["get_trigger_api_v1_triggers__trigger_id__get"];
+		/**
+		 * Update Trigger
+		 * @description Updates the attributes on a specific trigger using its unique id.
+		 *
+		 *     Args:
+		 *         trigger_id: ID of the trigger to update.
+		 *         trigger_update: the model containing the attributes to update.
+		 *
+		 *     Returns:
+		 *         The updated trigger object.
+		 */
+		put: operations["update_trigger_api_v1_triggers__trigger_id__put"];
+		post?: never;
+		/**
+		 * Delete Trigger
+		 * @description Deletes a specific trigger using its unique id.
+		 *
+		 *     Args:
+		 *         trigger_id: ID of the trigger to delete.
+		 *         soft: Soft deletion will archive the trigger.
+		 */
+		delete: operations["delete_trigger_api_v1_triggers__trigger_id__delete"];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/triggers/{trigger_id}/pipeline_snapshots/{snapshot_id}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/**
+		 * Attach Trigger To Snapshot
+		 * @description Attaches a trigger to a snapshot.
+		 *
+		 *     Args:
+		 *         trigger_id: The ID of the trigger.
+		 *         snapshot_id: The ID of the snapshot.
+		 */
+		put: operations["attach_trigger_to_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__put"];
+		post?: never;
+		/**
+		 * Detach Trigger From Snapshot
+		 * @description Detaches a trigger from a snapshot.
+		 *
+		 *     Args:
+		 *         trigger_id: The ID of the trigger.
+		 *         snapshot_id: The ID of the snapshot.
+		 */
+		delete: operations["detach_trigger_from_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__delete"];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/users/{user_name_or_id}/activate": {
 		parameters: {
 			query?: never;
@@ -5521,139 +5255,6 @@ export type components = {
 		 * @enum {string}
 		 */
 		APITokenType: "generic" | "workload";
-		/**
-		 * ActionRequest
-		 * @description Model for creating a new action.
-		 */
-		ActionRequest: {
-			/** The id of the user that created this resource. Set automatically by the server. */
-			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
-			/** The name of the action. */
-			name: string;
-			/**
-			 * The description of the action
-			 * @default
-			 */
-			description?: string;
-			/** The flavor of the action. */
-			flavor: string;
-			/** The subtype of the action. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
-			/** The configuration for the action. */
-			configuration: {
-				[key: string]: unknown;
-			};
-			/**
-			 * The service account that is used to execute the action.
-			 * Format: uuid
-			 */
-			service_account_id: string;
-			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number | null;
-		};
-		/**
-		 * ActionResponse
-		 * @description Response model for actions.
-		 */
-		ActionResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["ActionResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ActionResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["ActionResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-			/** The name of the action. */
-			name: string;
-		};
-		/**
-		 * ActionResponseBody
-		 * @description Response body for actions.
-		 */
-		ActionResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-			/** The user id. */
-			user_id?: string | null;
-			/**
-			 * The project id.
-			 * Format: uuid
-			 */
-			project_id: string;
-			/** The flavor of the action. */
-			flavor: string;
-			/** The subtype of the action. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
-		};
-		/**
-		 * ActionResponseMetadata
-		 * @description Response metadata for actions.
-		 */
-		ActionResponseMetadata: {
-			/**
-			 * The description of the action.
-			 * @default
-			 */
-			description?: string;
-			/** The configuration for the action. */
-			configuration: {
-				[key: string]: unknown;
-			};
-			/** The time window in minutes for which the service account is authorized to execute the action. */
-			auth_window: number;
-		};
-		/**
-		 * ActionResponseResources
-		 * @description Class for all resource models associated with the action entity.
-		 */
-		ActionResponseResources: {
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** The service account that is used to execute the action. */
-			service_account: components["schemas"]["UserResponse"];
-		} & {
-			[key: string]: unknown;
-		};
-		/**
-		 * ActionUpdate
-		 * @description Update model for actions.
-		 */
-		ActionUpdate: {
-			/** The new name for the action. */
-			name?: string | null;
-			/** The new description for the action. */
-			description?: string | null;
-			/** The configuration for the action. */
-			configuration?: {
-				[key: string]: unknown;
-			} | null;
-			/** The service account that is used to execute the action. */
-			service_account_id?: string | null;
-			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number | null;
-		};
 		/**
 		 * ArtifactConfig
 		 * @description Artifact configuration class.
@@ -6120,41 +5721,6 @@ export type components = {
 			max_expiration_seconds?: number | null;
 			/** The default number of seconds that the authentication session is valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
 			default_expiration_seconds?: number | null;
-		};
-		/**
-		 * BasePluginFlavorResponse
-		 * @description Base response for all Plugin Flavors.
-		 */
-		BasePluginFlavorResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["BasePluginResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["BasePluginResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["BasePluginResponseResources"] | null;
-			/** Name of the flavor. */
-			name: string;
-			/** Type of the plugin. */
-			type: components["schemas"]["PluginType"];
-			/** Subtype of the plugin. */
-			subtype: components["schemas"]["PluginSubType"];
-		};
-		/**
-		 * BasePluginResponseBody
-		 * @description Response body for plugins.
-		 */
-		BasePluginResponseBody: Record<string, never>;
-		/**
-		 * BasePluginResponseMetadata
-		 * @description Response metadata for plugins.
-		 */
-		BasePluginResponseMetadata: Record<string, never>;
-		/**
-		 * BasePluginResponseResources
-		 * @description Response resources for plugins.
-		 */
-		BasePluginResponseResources: {
-			[key: string]: unknown;
 		};
 		/**
 		 * BaseResponseMetadata
@@ -7166,130 +6732,6 @@ export type components = {
 			detail?: unknown | null;
 		};
 		/**
-		 * EventSourceRequest
-		 * @description BaseModel for all event sources.
-		 */
-		EventSourceRequest: {
-			/** The id of the user that created this resource. Set automatically by the server. */
-			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
-			/** The name of the event source. */
-			name: string;
-			/** The flavor of event source. */
-			flavor: string;
-			/** The plugin subtype of the event source. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
-			/**
-			 * The description of the event source.
-			 * @default
-			 */
-			description?: string;
-			/** The event source configuration. */
-			configuration: {
-				[key: string]: unknown;
-			};
-		};
-		/**
-		 * EventSourceResponse
-		 * @description Response model for event sources.
-		 */
-		EventSourceResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["EventSourceResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["EventSourceResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["EventSourceResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-			/** The name of the event source. */
-			name: string;
-		};
-		/**
-		 * EventSourceResponseBody
-		 * @description ResponseBody for event sources.
-		 */
-		EventSourceResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-			/** The user id. */
-			user_id?: string | null;
-			/**
-			 * The project id.
-			 * Format: uuid
-			 */
-			project_id: string;
-			/** The flavor of event source. */
-			flavor: string;
-			/** The plugin subtype of the event source. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
-			/** Whether the event source is active. */
-			is_active: boolean;
-		};
-		/**
-		 * EventSourceResponseMetadata
-		 * @description Response metadata for event sources.
-		 */
-		EventSourceResponseMetadata: {
-			/**
-			 * The description of the event source.
-			 * @default
-			 */
-			description?: string;
-			/** The event source configuration. */
-			configuration: {
-				[key: string]: unknown;
-			};
-		};
-		/**
-		 * EventSourceResponseResources
-		 * @description Class for all resource models associated with the code repository entity.
-		 */
-		EventSourceResponseResources: {
-			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"] | null;
-			/** The triggers configured with this event source. */
-			triggers: components["schemas"]["Page_TriggerResponse_"];
-		} & {
-			[key: string]: unknown;
-		};
-		/**
-		 * EventSourceUpdate
-		 * @description Update model for event sources.
-		 */
-		EventSourceUpdate: {
-			/** The updated name of the event source. */
-			name?: string | null;
-			/** The updated description of the event source. */
-			description?: string | null;
-			/** The updated event source configuration. */
-			configuration?: {
-				[key: string]: unknown;
-			} | null;
-			/** The status of the event source. */
-			is_active?: boolean | null;
-		};
-		/**
 		 * ExceptionInfo
 		 * @description Exception information.
 		 */
@@ -7319,6 +6761,7 @@ export type components = {
 			| "failed"
 			| "completed"
 			| "cached"
+			| "skipped"
 			| "retrying"
 			| "retried"
 			| "stopped"
@@ -7635,11 +7078,8 @@ export type components = {
 		LogsRequest: {
 			/** The id of the user that created this resource. Set automatically by the server. */
 			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
+			/** The project to which this resource belongs. */
+			project?: string | null;
 			/**
 			 * The unique id.
 			 * Format: uuid
@@ -8567,19 +8007,6 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["APIKeyResponse"][];
 		};
-		/** Page[ActionResponse] */
-		Page_ActionResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["ActionResponse"][];
-		};
 		/** Page[ArtifactResponse] */
 		Page_ArtifactResponse_: {
 			/** Index */
@@ -8605,19 +8032,6 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["ArtifactVersionResponse"][];
-		};
-		/** Page[BasePluginFlavorResponse] */
-		Page_BasePluginFlavorResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["BasePluginFlavorResponse"][];
 		};
 		/** Page[CodeRepositoryResponse] */
 		Page_CodeRepositoryResponse_: {
@@ -8657,19 +8071,6 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["DeploymentResponse"][];
-		};
-		/** Page[EventSourceResponse] */
-		Page_EventSourceResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["EventSourceResponse"][];
 		};
 		/** Page[FlavorResponse] */
 		Page_FlavorResponse_: {
@@ -8840,6 +8241,19 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ScheduleResponse"][];
 		};
+		/** Page[ScheduleTriggerResponse] */
+		Page_ScheduleTriggerResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["ScheduleTriggerResponse"][];
+		};
 		/** Page[SecretResponse] */
 		Page_SecretResponse_: {
 			/** Index */
@@ -8930,32 +8344,6 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["TagResponse"][];
-		};
-		/** Page[TriggerExecutionResponse] */
-		Page_TriggerExecutionResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["TriggerExecutionResponse"][];
-		};
-		/** Page[TriggerResponse] */
-		Page_TriggerResponse_: {
-			/** Index */
-			index: number;
-			/** Max Size */
-			max_size: number;
-			/** Total Pages */
-			total_pages: number;
-			/** Total */
-			total: number;
-			/** Items */
-			items: components["schemas"]["TriggerResponse"][];
 		};
 		/** Page[UserResponse] */
 		Page_UserResponse_: {
@@ -9165,6 +8553,16 @@ export type components = {
 			cache_policy?: components["schemas"]["CachePolicy-Input"] | null;
 			/** Name */
 			name: string;
+			/**
+			 * Steps To Skip
+			 * @default []
+			 */
+			steps_to_skip?: string[];
+			/**
+			 * Skip Successful Steps
+			 * @default false
+			 */
+			skip_successful_steps?: boolean;
 		};
 		/**
 		 * PipelineConfiguration
@@ -9237,6 +8635,16 @@ export type components = {
 			cache_policy?: components["schemas"]["CachePolicy-Output"] | null;
 			/** Name */
 			name: string;
+			/**
+			 * Steps To Skip
+			 * @default []
+			 */
+			steps_to_skip?: string[];
+			/**
+			 * Skip Successful Steps
+			 * @default false
+			 */
+			skip_successful_steps?: boolean;
 		};
 		/**
 		 * PipelineRequest
@@ -9387,8 +8795,6 @@ export type components = {
 			orchestrator_environment?: {
 				[key: string]: unknown;
 			};
-			/** ID of the trigger execution that triggered this run. */
-			trigger_execution_id?: string | null;
 			/** Trigger information for the pipeline run. */
 			trigger_info?: components["schemas"]["PipelineRunTriggerInfo"] | null;
 			/** Tags of the pipeline run. */
@@ -9397,6 +8803,8 @@ export type components = {
 			logs?: string | components["schemas"]["LogsRequest"] | null;
 			/** The exception information of the pipeline run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The original run ID for a replayed run. */
+			original_run_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -9527,8 +8935,6 @@ export type components = {
 			schedule?: components["schemas"]["ScheduleResponse"] | null;
 			/** The code reference that was used for this run. */
 			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
-			/** The trigger execution that triggered this run. */
-			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
 			model_version?: components["schemas"]["ModelVersionResponse"] | null;
 			/** Tags associated with the pipeline run. */
 			tags: components["schemas"]["TagResponse"][];
@@ -9539,6 +8945,10 @@ export type components = {
 			 * @default []
 			 */
 			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
+			/** The trigger that generated this pipeline run. */
+			trigger?: components["schemas"]["ScheduleTriggerResponse"] | null;
+			/** The original run that was replayed to create this run. */
+			original_run?: components["schemas"]["PipelineRunResponse"] | null;
 		} & {
 			[key: string]: unknown;
 		};
@@ -9914,18 +9324,6 @@ export type components = {
 			remove_tags?: string[] | null;
 		};
 		/**
-		 * PluginSubType
-		 * @description All possible types of Plugins.
-		 * @enum {string}
-		 */
-		PluginSubType: "webhook" | "pipeline_run";
-		/**
-		 * PluginType
-		 * @description All possible types of Plugins.
-		 * @enum {string}
-		 */
-		PluginType: "event_source" | "action";
-		/**
 		 * ProjectRequest
 		 * @description Request model for projects.
 		 */
@@ -10262,54 +9660,6 @@ export type components = {
 			remove_tags?: string[] | null;
 		};
 		/**
-		 * Schedule
-		 * @description Class for defining a pipeline schedule.
-		 *
-		 *     Attributes:
-		 *         name: Optional name to give to the schedule. If not set, a default name
-		 *             will be generated based on the pipeline name and the current date
-		 *             and time.
-		 *         cron_expression: Cron expression for the pipeline schedule. If a value
-		 *             for this is set it takes precedence over the start time + interval.
-		 *         start_time: When the schedule should start. If this is a datetime object
-		 *             without any timezone, it is treated as a datetime in the local
-		 *             timezone.
-		 *         end_time: When the schedule should end. If this is a datetime object
-		 *             without any timezone, it is treated as a datetime in the local
-		 *             timezone.
-		 *         interval_second: datetime timedelta indicating the seconds between two
-		 *             recurring runs for a periodic schedule.
-		 *         catchup: Whether the recurring run should catch up if behind schedule.
-		 *             For example, if the recurring run is paused for a while and
-		 *             re-enabled afterward. If catchup=True, the scheduler will catch
-		 *             up on (backfill) each missed interval. Otherwise, it only
-		 *             schedules the latest interval if more than one interval is ready to
-		 *             be scheduled. Usually, if your pipeline handles backfill
-		 *             internally, you should turn catchup off to avoid duplicate backfill.
-		 *         run_once_start_time: When to run the pipeline once. If this is a
-		 *             datetime object without any timezone, it is treated as a datetime
-		 *             in the local timezone.
-		 */
-		Schedule: {
-			/** Name */
-			name?: string | null;
-			/** Cron Expression */
-			cron_expression?: string | null;
-			/** Start Time */
-			start_time?: string | null;
-			/** End Time */
-			end_time?: string | null;
-			/** Interval Second */
-			interval_second?: string | null;
-			/**
-			 * Catchup
-			 * @default false
-			 */
-			catchup?: boolean;
-			/** Run Once Start Time */
-			run_once_start_time?: string | null;
-		};
-		/**
 		 * ScheduleRequest
 		 * @description Request model for schedules.
 		 */
@@ -10437,6 +9787,176 @@ export type components = {
 			user?: components["schemas"]["UserResponse"] | null;
 		} & {
 			[key: string]: unknown;
+		};
+		/**
+		 * ScheduleTriggerRequest
+		 * @description Class representing a ScheduleTrigger request.
+		 */
+		ScheduleTriggerRequest: {
+			/** Cron Expression */
+			cron_expression?: string | null;
+			/**
+			 * Interval
+			 * @description Scheduling option: Execute on intervals of N seconds after start time.
+			 */
+			interval?: number | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/**
+			 * Run Once Start Time
+			 * @description Scheduling option: Execute once on selected start time.
+			 */
+			run_once_start_time?: string | null;
+			/**
+			 * Name
+			 * @description The name of the trigger.
+			 */
+			name: string;
+			/** Active */
+			active: boolean;
+			type: components["schemas"]["TriggerType"];
+			/**
+			 * @description How to handle concurrently running triggers (pipeline runs generated from the same trigger & snapshot).
+			 * @default skip
+			 */
+			concurrency?: components["schemas"]["TriggerRunConcurrency"];
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			flavor: components["schemas"]["TriggerFlavor"];
+		};
+		/**
+		 * ScheduleTriggerResponse
+		 * @description Class representing a ScheduleTrigger response.
+		 */
+		ScheduleTriggerResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["ScheduleTriggerResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["TriggerResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["TriggerResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+		};
+		/**
+		 * ScheduleTriggerResponseBody
+		 * @description Class representing a ScheduleTrigger response body.
+		 */
+		ScheduleTriggerResponseBody: {
+			/**
+			 * Name
+			 * @description The name of the trigger.
+			 */
+			name: string;
+			/** Active */
+			active: boolean;
+			type: components["schemas"]["TriggerType"];
+			/**
+			 * @description How to handle concurrently running triggers (pipeline runs generated from the same trigger & snapshot).
+			 * @default skip
+			 */
+			concurrency?: components["schemas"]["TriggerRunConcurrency"];
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/** Is Archived */
+			is_archived: boolean;
+			flavor: components["schemas"]["TriggerFlavor"];
+			/** Cron Expression */
+			cron_expression?: string | null;
+			/**
+			 * Interval
+			 * @description Scheduling option: Execute on intervals of N seconds after start time.
+			 */
+			interval?: number | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/**
+			 * Run Once Start Time
+			 * @description Scheduling option: Execute once on selected start time.
+			 */
+			run_once_start_time?: string | null;
+			/** Next Occurrence */
+			next_occurrence?: string | null;
+		};
+		/**
+		 * ScheduleTriggerUpdate
+		 * @description Class representing a ScheduleTrigger update.
+		 */
+		ScheduleTriggerUpdate: {
+			/** Cron Expression */
+			cron_expression?: string | null;
+			/**
+			 * Interval
+			 * @description Scheduling option: Execute on intervals of N seconds after start time.
+			 */
+			interval?: number | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/**
+			 * Run Once Start Time
+			 * @description Scheduling option: Execute once on selected start time.
+			 */
+			run_once_start_time?: string | null;
+			/**
+			 * Name
+			 * @description The name of the trigger.
+			 */
+			name: string;
+			/** Active */
+			active: boolean;
+			/**
+			 * Type
+			 * @default schedule
+			 * @constant
+			 */
+			type?: "schedule";
+			/**
+			 * @description How to handle concurrently running triggers (pipeline runs generated from the same trigger & snapshot).
+			 * @default skip
+			 */
+			concurrency?: components["schemas"]["TriggerRunConcurrency"];
+			/**
+			 * Flavor
+			 * @default native schedule
+			 * @constant
+			 */
+			flavor?: "native schedule";
+			/** Next Occurrence */
+			next_occurrence?: string | null;
 		};
 		/**
 		 * ScheduleUpdate
@@ -12557,207 +12077,40 @@ export type components = {
 			| "pipeline_snapshot"
 			| "deployment";
 		/**
-		 * TriggerExecutionResponse
-		 * @description Response model for trigger executions.
+		 * TriggerFlavor
+		 * @description Enum representing trigger flavors.
+		 * @enum {string}
 		 */
-		TriggerExecutionResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["TriggerExecutionResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["TriggerExecutionResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["TriggerExecutionResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-		};
-		/**
-		 * TriggerExecutionResponseBody
-		 * @description Response body for trigger executions.
-		 */
-		TriggerExecutionResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-		};
-		/**
-		 * TriggerExecutionResponseMetadata
-		 * @description Response metadata for trigger executions.
-		 */
-		TriggerExecutionResponseMetadata: {
-			/**
-			 * Event Metadata
-			 * @default {}
-			 */
-			event_metadata?: {
-				[key: string]: unknown;
-			};
-		};
-		/**
-		 * TriggerExecutionResponseResources
-		 * @description Class for all resource models associated with the trigger entity.
-		 */
-		TriggerExecutionResponseResources: {
-			/** The event source that activates this trigger. */
-			trigger: components["schemas"]["TriggerResponse"];
-		} & {
-			[key: string]: unknown;
-		};
-		/**
-		 * TriggerRequest
-		 * @description Model for creating a new trigger.
-		 */
-		TriggerRequest: {
-			/** The id of the user that created this resource. Set automatically by the server. */
-			user?: string | null;
-			/**
-			 * The project to which this resource belongs.
-			 * Format: uuid
-			 */
-			project: string;
-			/** The name of the trigger. */
-			name: string;
-			/**
-			 * The description of the trigger
-			 * @default
-			 */
-			description?: string;
-			/**
-			 * The action that is executed by this trigger.
-			 * Format: uuid
-			 */
-			action_id: string;
-			/** The schedule for the trigger. Either a schedule or an event source is required. */
-			schedule?: components["schemas"]["Schedule"] | null;
-			/** The event source that activates this trigger. Either a schedule or an event source is required. */
-			event_source_id?: string | null;
-			/** Filter applied to events that activate this trigger. Only set if the trigger is activated by an event source. */
-			event_filter?: {
-				[key: string]: unknown;
-			} | null;
-		};
-		/**
-		 * TriggerResponse
-		 * @description Response model for models.
-		 */
-		TriggerResponse: {
-			/** The body of the resource. */
-			body?: components["schemas"]["TriggerResponseBody"] | null;
-			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["TriggerResponseMetadata"] | null;
-			/** The resources related to this resource. */
-			resources?: components["schemas"]["TriggerResponseResources"] | null;
-			/**
-			 * The unique resource id.
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Permission Denied
-			 * @default false
-			 */
-			permission_denied?: boolean;
-			/** The name of the trigger */
-			name: string;
-		};
-		/**
-		 * TriggerResponseBody
-		 * @description Response body for triggers.
-		 */
-		TriggerResponseBody: {
-			/**
-			 * The timestamp when this resource was created.
-			 * Format: date-time
-			 */
-			created: string;
-			/**
-			 * The timestamp when this resource was last updated.
-			 * Format: date-time
-			 */
-			updated: string;
-			/** The user id. */
-			user_id?: string | null;
-			/**
-			 * The project id.
-			 * Format: uuid
-			 */
-			project_id: string;
-			/** The flavor of the action that is executed by this trigger. */
-			action_flavor: string;
-			/** The subtype of the action that is executed by this trigger. */
-			action_subtype: string;
-			/** The flavor of the event source that activates this trigger. Not set if the trigger is activated by a schedule. */
-			event_source_flavor?: string | null;
-			/** The subtype of the event source that activates this trigger. Not set if the trigger is activated by a schedule. */
-			event_source_subtype?: string | null;
-			/** Whether the trigger is active. */
-			is_active: boolean;
-		};
+		TriggerFlavor: "native schedule";
 		/**
 		 * TriggerResponseMetadata
 		 * @description Response metadata for triggers.
 		 */
-		TriggerResponseMetadata: {
-			/**
-			 * The description of the trigger.
-			 * @default
-			 */
-			description?: string;
-			/** The event that activates this trigger. Not set if the trigger is activated by a schedule. */
-			event_filter?: {
-				[key: string]: unknown;
-			} | null;
-			/** The schedule that activates this trigger. Not set if the trigger is activated by an event source. */
-			schedule?: components["schemas"]["Schedule"] | null;
-		};
+		TriggerResponseMetadata: Record<string, never>;
 		/**
 		 * TriggerResponseResources
-		 * @description Class for all resource models associated with the trigger entity.
+		 * @description Class for all resource models associated with the schedule entity.
 		 */
 		TriggerResponseResources: {
-			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
-			/** The action that is executed by this trigger. */
-			action: components["schemas"]["ActionResponse"];
-			/** The event source that activates this trigger. Not set if the trigger is activated by a schedule. */
-			event_source?: components["schemas"]["EventSourceResponse"] | null;
-			/** The executions of this trigger. */
-			executions: components["schemas"]["Page_TriggerExecutionResponse_"];
+			/** Snapshots */
+			snapshots?: components["schemas"]["PipelineSnapshotResponse"][] | null;
+			latest_run?: components["schemas"]["PipelineRunResponse"] | null;
 		} & {
 			[key: string]: unknown;
 		};
 		/**
-		 * TriggerUpdate
-		 * @description Update model for triggers.
+		 * TriggerRunConcurrency
+		 * @description Enum representing trigger run concurrency.
+		 * @enum {string}
 		 */
-		TriggerUpdate: {
-			/** The new name for the trigger. */
-			name?: string | null;
-			/** The new description for the trigger. */
-			description?: string | null;
-			/** New filter applied to events that activate this trigger. Only valid if the trigger is already configured to be activated by an event source. */
-			event_filter?: {
-				[key: string]: unknown;
-			} | null;
-			/** The updated schedule for the trigger. Only valid if the trigger is already configured to be activated by a schedule. */
-			schedule?: components["schemas"]["Schedule"] | null;
-			/** The new status of the trigger. */
-			is_active?: boolean | null;
-		};
+		TriggerRunConcurrency: "skip" | "submit";
+		/**
+		 * TriggerType
+		 * @description Enum representing fundamental trigger types.
+		 * @enum {string}
+		 */
+		TriggerType: "schedule";
 		/**
 		 * UserRequest
 		 * @description Request model for users.
@@ -13036,319 +12389,6 @@ export interface operations {
 				};
 				content: {
 					"application/json": string;
-				};
-			};
-		};
-	};
-	list_actions_api_v1_actions_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				scope_user?: string | null;
-				user?: string | null;
-				project?: string | null;
-				name?: string | null;
-				flavor?: string | null;
-				plugin_subtype?: string | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["Page_ActionResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	create_action_api_v1_actions_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["ActionRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ActionResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	get_action_api_v1_actions__action_id__get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-			};
-			header?: never;
-			path: {
-				action_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ActionResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	update_action_api_v1_actions__action_id__put: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				action_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["ActionUpdate"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ActionResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	delete_action_api_v1_actions__action_id__delete: {
-		parameters: {
-			query?: {
-				force?: boolean;
-			};
-			header?: never;
-			path: {
-				action_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 		};
@@ -15531,442 +14571,6 @@ export interface operations {
 			};
 			/** @description Unauthorized */
 			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	list_flavors_api_v1_plugin_flavors_get: {
-		parameters: {
-			query: {
-				type: components["schemas"]["PluginType"];
-				subtype: components["schemas"]["PluginSubType"];
-				page?: number;
-				size?: number;
-				hydrate?: boolean;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["Page_BasePluginFlavorResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	get_flavor_api_v1_plugin_flavors__name__get: {
-		parameters: {
-			query: {
-				type: components["schemas"]["PluginType"];
-				subtype: components["schemas"]["PluginSubType"];
-			};
-			header?: never;
-			path: {
-				name: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["BasePluginFlavorResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	list_event_sources_api_v1_event_sources_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				scope_user?: string | null;
-				user?: string | null;
-				project?: string | null;
-				name?: string | null;
-				flavor?: string | null;
-				plugin_subtype?: string | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["Page_EventSourceResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	create_event_source_api_v1_event_sources_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["EventSourceRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["EventSourceResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	get_event_source_api_v1_event_sources__event_source_id__get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-			};
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["EventSourceResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	update_event_source_api_v1_event_sources__event_source_id__put: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["EventSourceUpdate"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["EventSourceResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	delete_event_source_api_v1_event_sources__event_source_id__delete: {
-		parameters: {
-			query?: {
-				force?: boolean;
-			};
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
 				headers: {
 					[name: string]: unknown;
 				};
@@ -18331,6 +16935,7 @@ export interface operations {
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
+				trigger_id?: string | null;
 			};
 			header?: never;
 			path?: never;
@@ -18593,6 +17198,7 @@ export interface operations {
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
+				trigger_id?: string | null;
 			};
 			header?: never;
 			path?: never;
@@ -19063,6 +17669,7 @@ export interface operations {
 				templatable?: boolean | null;
 				triggered_by_step_run_id?: string | null;
 				triggered_by_deployment_id?: string | null;
+				trigger_id?: string | null;
 			};
 			header?: never;
 			path?: never;
@@ -24938,322 +23545,6 @@ export interface operations {
 			};
 		};
 	};
-	list_triggers_api_v1_triggers_get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-				sort_by?: string;
-				logical_operator?: components["schemas"]["LogicalOperators"];
-				page?: number;
-				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				scope_user?: string | null;
-				user?: string | null;
-				project?: string | null;
-				name?: string | null;
-				event_source_id?: string | null;
-				action_id?: string | null;
-				is_active?: boolean | null;
-				action_flavor?: string | null;
-				action_subtype?: string | null;
-				event_source_flavor?: string | null;
-				event_source_subtype?: string | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["Page_TriggerResponse_"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	create_trigger_api_v1_triggers_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["TriggerRequest"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["TriggerResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Conflict */
-			409: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	get_trigger_api_v1_triggers__trigger_id__get: {
-		parameters: {
-			query?: {
-				hydrate?: boolean;
-			};
-			header?: never;
-			path: {
-				trigger_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["TriggerResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	update_trigger_api_v1_triggers__trigger_id__put: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				trigger_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": components["schemas"]["TriggerUpdate"];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["TriggerResponse"];
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	delete_trigger_api_v1_triggers__trigger_id__delete: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				trigger_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": unknown;
-				};
-			};
-			/** @description Unauthorized */
-			401: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Forbidden */
-			403: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Not Found */
-			404: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-			/** @description Unprocessable Entity */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
 	list_users_api_v1_users_get: {
 		parameters: {
 			query?: {
@@ -25716,39 +24007,6 @@ export interface operations {
 				};
 				content: {
 					"application/json": components["schemas"]["ErrorModel"];
-				};
-			};
-		};
-	};
-	webhook_api_v1_webhooks__event_source_id__post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						[key: string]: unknown;
-					};
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": components["schemas"]["HTTPValidationError"];
 				};
 			};
 		};
@@ -26436,6 +24694,7 @@ export interface operations {
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
+				trigger_id?: string | null;
 			};
 			header?: never;
 			path: {
@@ -26876,6 +25135,7 @@ export interface operations {
 				templatable?: boolean | null;
 				triggered_by_step_run_id?: string | null;
 				triggered_by_deployment_id?: string | null;
+				trigger_id?: string | null;
 			};
 			header?: never;
 			path: {
@@ -27924,6 +26184,443 @@ export interface operations {
 			};
 			/** @description Unauthorized */
 			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	list_triggers_api_v1_triggers_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				name?: string | null;
+				active?: boolean | null;
+				is_archived?: boolean;
+				flavor?: components["schemas"]["TriggerFlavor"] | string | null;
+				type?: components["schemas"]["TriggerType"] | string | null;
+				next_occurrence?: string | null;
+				concurrency?: components["schemas"]["TriggerRunConcurrency"] | null;
+				pipeline_id?: string | null;
+				snapshot_id?: string | null;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["Page_ScheduleTriggerResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	create_trigger_api_v1_triggers_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ScheduleTriggerRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ScheduleTriggerResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	get_trigger_api_v1_triggers__trigger_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			header?: never;
+			path: {
+				trigger_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ScheduleTriggerResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	update_trigger_api_v1_triggers__trigger_id__put: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				trigger_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ScheduleTriggerUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ScheduleTriggerResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	delete_trigger_api_v1_triggers__trigger_id__delete: {
+		parameters: {
+			query: {
+				soft: boolean;
+			};
+			header?: never;
+			path: {
+				trigger_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	attach_trigger_to_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__put: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				trigger_id: string;
+				snapshot_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	detach_trigger_from_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__delete: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				trigger_id: string;
+				snapshot_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
 				headers: {
 					[name: string]: unknown;
 				};
