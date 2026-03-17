@@ -2133,6 +2133,109 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
+	"/api/v1/run_wait_conditions": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * List Wait Conditions
+		 * @description List wait conditions across runs.
+		 *
+		 *     Args:
+		 *         run_wait_condition_filter_model: Filter model.
+		 *         hydrate: Whether to hydrate metadata/resources.
+		 *         auth_context: Request auth context.
+		 *
+		 *     Returns:
+		 *         A page of wait conditions.
+		 */
+		get: operations["list_wait_conditions_api_v1_run_wait_conditions_get"];
+		put?: never;
+		/**
+		 * Create Run Wait Condition
+		 * @description Create a wait condition for a run.
+		 *
+		 *     Args:
+		 *         run_wait_condition: Wait condition creation payload.
+		 *
+		 *     Returns:
+		 *         The created wait condition.
+		 */
+		post: operations["create_run_wait_condition_api_v1_run_wait_conditions_post"];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/run_wait_conditions/{run_wait_condition_id}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Run Wait Condition
+		 * @description Get a wait condition by ID.
+		 *
+		 *     Args:
+		 *         run_wait_condition_id: Wait condition ID.
+		 *         hydrate: Whether to hydrate metadata/resources.
+		 *
+		 *     Returns:
+		 *         The requested wait condition.
+		 */
+		get: operations["get_run_wait_condition_api_v1_run_wait_conditions__run_wait_condition_id__get"];
+		/**
+		 * Update Run Wait Condition Lease
+		 * @description Update a wait condition polling lease.
+		 *
+		 *     Args:
+		 *         run_wait_condition_id: Wait condition ID.
+		 *         lease_update: Lease refresh payload.
+		 *
+		 *     Returns:
+		 *         The current wait condition status after attempting the lease update.
+		 */
+		put: operations["update_run_wait_condition_lease_api_v1_run_wait_conditions__run_wait_condition_id__put"];
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/run_wait_conditions/{run_wait_condition_id}/resolve": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		/**
+		 * Resolve Run Wait Condition
+		 * @description Resolve a run wait condition.
+		 *
+		 *     Args:
+		 *         run_wait_condition_id: Wait condition ID.
+		 *         resolve_request: Resolution payload.
+		 *
+		 *     Returns:
+		 *         The resolved wait condition.
+		 */
+		put: operations["resolve_run_wait_condition_api_v1_run_wait_conditions__run_wait_condition_id__resolve_put"];
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/run_templates": {
 		parameters: {
 			query?: never;
@@ -6702,6 +6805,10 @@ export type components = {
 		ExceptionInfo: {
 			/** The traceback of the exception. */
 			traceback: string;
+			/** The source path of the exception class. */
+			source?: string | null;
+			/** The exception message. */
+			message?: string | null;
 			/** The line number of the user code that raised the exception. */
 			user_code_line?: number | null;
 		} & {
@@ -6728,6 +6835,8 @@ export type components = {
 			| "skipped"
 			| "retrying"
 			| "retried"
+			| "paused"
+			| "resuming"
 			| "stopped"
 			| "stopping";
 		/**
@@ -7148,7 +7257,8 @@ export type components = {
 			| "step_run"
 			| "artifact_version"
 			| "model_version"
-			| "schedule";
+			| "schedule"
+			| "wait_condition";
 		/**
 		 * MetadataTypeEnum
 		 * @description String Enum of all possible types that metadata can have.
@@ -8177,6 +8287,19 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["RunTemplateResponse"][];
 		};
+		/** Page[RunWaitConditionResponse] */
+		Page_RunWaitConditionResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["RunWaitConditionResponse"][];
+		};
 		/** Page[ScheduleResponse] */
 		Page_ScheduleResponse_: {
 			/** Index */
@@ -8898,6 +9021,8 @@ export type components = {
 			trigger?: components["schemas"]["ScheduleTriggerResponse"] | null;
 			/** The original run that was replayed to create this run. */
 			original_run?: components["schemas"]["PipelineRunResponse"] | null;
+			/** The active pending wait condition associated with this run. */
+			active_wait_condition?: components["schemas"]["RunWaitConditionResponse"] | null;
 		} & {
 			[key: string]: unknown;
 		};
@@ -8919,10 +9044,6 @@ export type components = {
 			status?: components["schemas"]["ExecutionStatus"] | null;
 			/** The reason for the status of the pipeline run. */
 			status_reason?: string | null;
-			/** End Time */
-			end_time?: string | null;
-			/** Whether the pipeline run is finished. */
-			is_finished?: boolean | null;
 			/** Orchestrator Run Id */
 			orchestrator_run_id?: string | null;
 			/** The exception information of the pipeline run. */
@@ -9608,6 +9729,188 @@ export type components = {
 			/** Tags to remove from the run template. */
 			remove_tags?: string[] | null;
 		};
+		/**
+		 * RunWaitConditionLeaseMode
+		 * @description Supported lease update modes for wait-condition polling.
+		 * @enum {string}
+		 */
+		RunWaitConditionLeaseMode: "refresh" | "finalize" | "abandon";
+		/**
+		 * RunWaitConditionLeaseUpdate
+		 * @description Lease update model for wait conditions.
+		 */
+		RunWaitConditionLeaseUpdate: {
+			/** Poller Instance Id */
+			poller_instance_id: string;
+			/**
+			 * Poller Lease Expires At
+			 * Format: date-time
+			 */
+			poller_lease_expires_at: string;
+			/** @default refresh */
+			mode?: components["schemas"]["RunWaitConditionLeaseMode"];
+		};
+		/**
+		 * RunWaitConditionRequest
+		 * @description Request model for creating wait conditions.
+		 */
+		RunWaitConditionRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The pipeline run ID this condition belongs to.
+			 * Format: uuid
+			 */
+			run: string;
+			/** The name of the wait condition. */
+			name: string;
+			/** The wait condition type. */
+			type: components["schemas"]["RunWaitConditionType"];
+			/** Optional question shown to external actors. */
+			question?: string | null;
+			/** Optional JSON Schema describing the expected output value. */
+			data_schema?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Metadata of the wait condition.
+			 * @default {}
+			 */
+			metadata?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * RunWaitConditionResolution
+		 * @description Resolution outcomes for resolved wait conditions.
+		 * @enum {string}
+		 */
+		RunWaitConditionResolution: "continue" | "abort";
+		/**
+		 * RunWaitConditionResolveRequest
+		 * @description Request model for resolving wait conditions.
+		 */
+		RunWaitConditionResolveRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/** Resolution semantic for the waiting branch. */
+			resolution: components["schemas"]["RunWaitConditionResolution"];
+			/** Optional resolved result value. */
+			result?: unknown | null;
+		};
+		/**
+		 * RunWaitConditionResponse
+		 * @description Response model for run wait conditions.
+		 */
+		RunWaitConditionResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["RunWaitConditionResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["RunWaitConditionResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["RunWaitConditionResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the wait condition. */
+			name: string;
+		};
+		/**
+		 * RunWaitConditionResponseBody
+		 * @description Body model for wait condition responses.
+		 */
+		RunWaitConditionResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/** The wait condition type. */
+			type: components["schemas"]["RunWaitConditionType"];
+			/** The current condition status. */
+			status: components["schemas"]["RunWaitConditionStatus"];
+			/** Last lease/poll refresh timestamp. */
+			last_polled_at?: string | null;
+			/** Instance ID of the active poller. */
+			poller_instance_id?: string | null;
+			/** Lease expiration timestamp for poll liveness. */
+			poller_lease_expires_at?: string | null;
+			/** Timestamp when the condition was resolved. */
+			resolved_at?: string | null;
+			/** User that resolved the condition. */
+			resolved_by_user_id?: string | null;
+		};
+		/**
+		 * RunWaitConditionResponseMetadata
+		 * @description Metadata model for wait condition responses.
+		 */
+		RunWaitConditionResponseMetadata: {
+			/** User-facing question text. */
+			question?: string | null;
+			/**
+			 * Metadata of the wait condition.
+			 * @default {}
+			 */
+			run_metadata?: {
+				[key: string]: unknown;
+			};
+			/** Optional JSON schema. */
+			data_schema?: {
+				[key: string]: unknown;
+			} | null;
+			/** Optional condition resolution. */
+			resolution?: components["schemas"]["RunWaitConditionResolution"] | null;
+			/** Optional resolved result value. */
+			result?: unknown | null;
+		};
+		/**
+		 * RunWaitConditionResponseResources
+		 * @description Resource model for wait condition responses.
+		 */
+		RunWaitConditionResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** Pipeline run associated with this wait condition. */
+			run: components["schemas"]["PipelineRunResponse"];
+		} & {
+			[key: string]: unknown;
+		};
+		/**
+		 * RunWaitConditionStatus
+		 * @description Lifecycle states for a wait condition.
+		 * @enum {string}
+		 */
+		RunWaitConditionStatus: "pending" | "resolved";
+		/**
+		 * RunWaitConditionType
+		 * @description Supported wait condition types.
+		 * @enum {string}
+		 */
+		RunWaitConditionType: "external_input";
 		/**
 		 * ScheduleRequest
 		 * @description Request model for schedules.
@@ -11292,6 +11595,7 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			step_type?: components["schemas"]["StepType"] | null;
 			/** Template */
 			template?: string | null;
 			/**
@@ -11434,6 +11738,7 @@ export type components = {
 			};
 			/** Name */
 			name: string;
+			step_type?: components["schemas"]["StepType"] | null;
 			/** Template */
 			template?: string | null;
 			/**
@@ -11649,6 +11954,8 @@ export type components = {
 			 * Format: uuid
 			 */
 			project_id: string;
+			/** The type of the step. */
+			type?: components["schemas"]["StepType"] | null;
 			/** The status of the step. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The version of the step run. */
@@ -11795,6 +12102,10 @@ export type components = {
 			 * @default false
 			 */
 			enable_heartbeat?: boolean;
+			/** Parameter Spec */
+			parameter_spec?: {
+				[key: string]: unknown;
+			} | null;
 		};
 		/**
 		 * StepSpec
@@ -11818,7 +12129,17 @@ export type components = {
 			 * @default false
 			 */
 			enable_heartbeat?: boolean;
+			/** Parameter Spec */
+			parameter_spec?: {
+				[key: string]: unknown;
+			} | null;
 		};
+		/**
+		 * StepType
+		 * @description All supported step types.
+		 * @enum {string}
+		 */
+		StepType: "tool_call" | "llm_call";
 		/**
 		 * Tag
 		 * @description A model representing a tag.
@@ -18406,6 +18727,325 @@ export interface operations {
 			};
 			/** @description Conflict */
 			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	list_wait_conditions_api_v1_run_wait_conditions_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				pipeline_run?: string | null;
+				type?: string | null;
+				status?: string | null;
+				name?: string | null;
+				resolved_by?: string | null;
+				resolved_at?: string | null;
+				resolution?: string | null;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["Page_RunWaitConditionResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	create_run_wait_condition_api_v1_run_wait_conditions_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["RunWaitConditionRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["RunWaitConditionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	get_run_wait_condition_api_v1_run_wait_conditions__run_wait_condition_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			header?: never;
+			path: {
+				run_wait_condition_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["RunWaitConditionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	update_run_wait_condition_lease_api_v1_run_wait_conditions__run_wait_condition_id__put: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				run_wait_condition_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["RunWaitConditionLeaseUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["RunWaitConditionStatus"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	resolve_run_wait_condition_api_v1_run_wait_conditions__run_wait_condition_id__resolve_put: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				run_wait_condition_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["RunWaitConditionResolveRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["RunWaitConditionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
 				headers: {
 					[name: string]: unknown;
 				};

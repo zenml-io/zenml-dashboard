@@ -1,8 +1,8 @@
+import { JsonSchemaEditor } from "@/components/JsonSchemaEditor";
 import { JSONSchemaDefinition } from "@/types/forms";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { Button } from "@zenml-io/react-component-library";
 import { Controller } from "react-hook-form";
-import { PlaygroundEditor } from "./editor";
 import { useInvokeForm } from "./invoke-form";
 
 type Props = {
@@ -28,8 +28,8 @@ export function PlaygroundInputs({ snapshot, submitDeployment, isInvoking, deplo
 						control={form.control}
 						name="parameters"
 						render={({ field }) => (
-							<PlaygroundEditor
-								deploymentId={deploymentId}
+							<JsonSchemaEditor
+								modelId={deploymentId}
 								jsonSchema={jsonSchema}
 								value={field.value}
 								onChange={field.onChange}

@@ -27,7 +27,8 @@ export function PipelineRunLogsSidebarStepList({ searchTerm, statusFilter }: Pro
 			refetchInterval: (e) =>
 				e.state.data?.status === "running" ||
 				e.state.data?.status === "initializing" ||
-				e.state.data?.status === "provisioning"
+				e.state.data?.status === "provisioning" ||
+				e.state.data?.status === "resuming"
 					? 3000
 					: false
 		}
