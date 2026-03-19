@@ -1,13 +1,21 @@
 import { JSONSchemaDefinition } from "@/types/forms";
-import Editor, { EditorProps, OnMount } from "@monaco-editor/react";
+import Editor, { EditorProps, OnMount, OnValidate } from "@monaco-editor/react";
 import { cn } from "@zenml-io/react-component-library";
 
 type Props = EditorProps & {
 	modelId: string;
 	jsonSchema: JSONSchemaDefinition;
+	onValidationChange?: (hasErrors: boolean) => void;
 };
 
-export function JsonSchemaEditor({ jsonSchema, value, onChange, modelId, className }: Props) {
+export function JsonSchemaEditor({
+	jsonSchema,
+	value,
+	onChange,
+	modelId,
+	className,
+	onValidationChange
+}: Props) {
 	const fileMatch = `${modelId}.json`;
 
 	const handleEditorMount: OnMount = (_editor, monaco) => {
@@ -25,6 +33,10 @@ export function JsonSchemaEditor({ jsonSchema, value, onChange, modelId, classNa
 		});
 	};
 
+	const handleValidate: OnValidate = (markers) => {
+		const hasIssues = markers.length > 0;
+		onValidationChange?.(hasIssues);
+	};
 	return (
 		<Editor
 			theme="github-light"
@@ -35,6 +47,7 @@ export function JsonSchemaEditor({ jsonSchema, value, onChange, modelId, classNa
 			options={{ minimap: { enabled: false } }}
 			className={cn("h-full border border-theme-border-moderate", className)}
 			onMount={handleEditorMount}
+			onValidate={handleValidate}
 		/>
 	);
 }

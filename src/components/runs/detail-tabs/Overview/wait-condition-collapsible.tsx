@@ -43,6 +43,7 @@ type WaitConditionContentProps = {
 function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 	const { toast } = useToast();
 	const [open, setOpen] = useState(true);
+	const [hasSchemaErrors, setHasSchemaErrors] = useState(false);
 	const {
 		data: waitCondition,
 		isError,
@@ -101,8 +102,6 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 
 	const schema = waitCondition.metadata?.data_schema;
 
-	console.log(schema);
-
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen} className="border-warning-300">
 			<CollapsibleHeader>
@@ -133,6 +132,7 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 						formId={formId}
 						waitConditionId={waitConditionId}
 						handleSubmit={handleContinue}
+						onValidationChange={setHasSchemaErrors}
 					/>
 				) : null}
 
@@ -146,7 +146,7 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 						Abort
 					</Button>
 					<Button
-						disabled={resolveMutation.isPending}
+						disabled={resolveMutation.isPending || (schema ? hasSchemaErrors : false)}
 						type={schema ? "submit" : "button"}
 						form={schema ? formId : undefined}
 						intent="primary"
@@ -165,13 +165,15 @@ type WaitConditionFormProps = {
 	formId: string;
 	waitConditionId: string;
 	handleSubmit: (values: WaitConditionFormValues) => void;
+	onValidationChange: (hasErrors: boolean) => void;
 };
 
 function WaitConditionForm({
 	schema,
 	formId,
 	waitConditionId,
-	handleSubmit
+	handleSubmit,
+	onValidationChange
 }: WaitConditionFormProps) {
 	const defaultValues = JSONSchemaFaker.generate(schema);
 	const form = useForm<WaitConditionFormValues>({
@@ -195,6 +197,7 @@ function WaitConditionForm({
 							jsonSchema={schema}
 							value={field.value}
 							onChange={field.onChange}
+							onValidationChange={onValidationChange}
 						/>
 					)}
 				/>
