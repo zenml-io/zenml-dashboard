@@ -133,6 +133,7 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 						waitConditionId={waitConditionId}
 						handleSubmit={handleContinue}
 						onValidationChange={setHasSchemaErrors}
+						useGeneratedSchemaDefaults={false}
 					/>
 				) : null}
 
@@ -166,20 +167,35 @@ type WaitConditionFormProps = {
 	waitConditionId: string;
 	handleSubmit: (values: WaitConditionFormValues) => void;
 	onValidationChange: (hasErrors: boolean) => void;
+	useGeneratedSchemaDefaults?: boolean;
 };
+
+function getInitialSchemaValue(
+	schema: JSONSchemaDefinition,
+	useGeneratedSchemaDefaults = false
+): string | undefined {
+	const initialValue =
+		schema.default !== undefined
+			? schema.default
+			: useGeneratedSchemaDefaults
+				? JSONSchemaFaker.generate(schema)
+				: undefined;
+
+	return initialValue === undefined ? undefined : JSON.stringify(initialValue, null, "\t");
+}
 
 function WaitConditionForm({
 	schema,
 	formId,
 	waitConditionId,
 	handleSubmit,
-	onValidationChange
+	onValidationChange,
+	useGeneratedSchemaDefaults = false
 }: WaitConditionFormProps) {
-	const defaultValues = JSONSchemaFaker.generate(schema);
 	const form = useForm<WaitConditionFormValues>({
 		resolver: zodResolver(waitConditionFormSchema),
 		defaultValues: {
-			result: defaultValues ? JSON.stringify(defaultValues, null, "\t") : undefined
+			result: getInitialSchemaValue(schema, useGeneratedSchemaDefaults)
 		}
 	});
 
