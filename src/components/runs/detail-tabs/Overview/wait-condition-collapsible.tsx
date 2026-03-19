@@ -15,7 +15,6 @@ import {
 	Skeleton,
 	useToast
 } from "@zenml-io/react-component-library";
-import { JSONSchemaFaker } from "json-schema-faker";
 import { useId, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { waitConditionFormSchema, WaitConditionFormValues } from "./wait-condition-form-schema";
@@ -104,7 +103,7 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen} className="border-warning-300">
-			<CollapsibleHeader>
+			<CollapsibleHeader className="bg-warning-50">
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<CollapsibleChevron open={open} />
 					<p id="wait-condition-collapsible" className="font-medium text-warning-900">
@@ -133,7 +132,6 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 						waitConditionId={waitConditionId}
 						handleSubmit={handleContinue}
 						onValidationChange={setHasSchemaErrors}
-						useGeneratedSchemaDefaults={false}
 					/>
 				) : null}
 
@@ -167,19 +165,10 @@ type WaitConditionFormProps = {
 	waitConditionId: string;
 	handleSubmit: (values: WaitConditionFormValues) => void;
 	onValidationChange: (hasErrors: boolean) => void;
-	useGeneratedSchemaDefaults?: boolean;
 };
 
-function getInitialSchemaValue(
-	schema: JSONSchemaDefinition,
-	useGeneratedSchemaDefaults = false
-): string | undefined {
-	const initialValue =
-		schema.default !== undefined
-			? schema.default
-			: useGeneratedSchemaDefaults
-				? JSONSchemaFaker.generate(schema)
-				: undefined;
+function getInitialSchemaValue(schema: JSONSchemaDefinition): string | undefined {
+	const initialValue = schema.default !== undefined ? schema.default : undefined;
 
 	return initialValue === undefined ? undefined : JSON.stringify(initialValue, null, "\t");
 }
@@ -189,13 +178,12 @@ function WaitConditionForm({
 	formId,
 	waitConditionId,
 	handleSubmit,
-	onValidationChange,
-	useGeneratedSchemaDefaults = false
+	onValidationChange
 }: WaitConditionFormProps) {
 	const form = useForm<WaitConditionFormValues>({
 		resolver: zodResolver(waitConditionFormSchema),
 		defaultValues: {
-			result: getInitialSchemaValue(schema, useGeneratedSchemaDefaults)
+			result: getInitialSchemaValue(schema)
 		}
 	});
 

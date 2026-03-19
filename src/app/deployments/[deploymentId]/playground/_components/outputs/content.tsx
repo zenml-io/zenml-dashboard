@@ -1,5 +1,5 @@
-import "@/monaco-setup";
 import { PlaygroundOutputsPreviewVisualization } from "@/components/deployments/playground/preview-visualization";
+import "@/monaco-setup";
 import { DeploymentInvocationResponse } from "@/types/deployment-invocations";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
