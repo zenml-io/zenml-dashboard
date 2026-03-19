@@ -24,6 +24,7 @@ export function LoginForm() {
 	const {
 		register,
 		handleSubmit,
+		setFocus,
 		formState: { isValid }
 	} = useForm<LoginFormType>({
 		resolver: zodResolver(loginFormSchema),
@@ -59,7 +60,17 @@ export function LoginForm() {
 					<label htmlFor={usernameId} className="text-text-sm">
 						Username
 					</label>
-					<Input {...register("username")} id={usernameId} className="w-full" />
+					<Input
+						{...register("username")}
+						id={usernameId}
+						className="w-full"
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								e.preventDefault();
+								setFocus("password");
+							}
+						}}
+					/>
 				</div>
 				<div className="space-y-0.5">
 					<label htmlFor={passwordId} className="text-text-sm">

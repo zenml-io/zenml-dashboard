@@ -1,13 +1,22 @@
 import { JSONSchemaDefinition } from "@/types/forms";
-import Editor, { EditorProps, OnMount } from "@monaco-editor/react";
+import Editor, { EditorProps, OnMount, OnValidate } from "@monaco-editor/react";
+import { cn } from "@zenml-io/react-component-library";
 
 type Props = EditorProps & {
-	deploymentId: string;
+	modelId: string;
 	jsonSchema: JSONSchemaDefinition;
+	onValidationChange?: (hasErrors: boolean) => void;
 };
 
-export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: Props) {
-	const fileMatch = `${deploymentId}.json`;
+export function JsonSchemaEditor({
+	jsonSchema,
+	value,
+	onChange,
+	modelId,
+	className,
+	onValidationChange
+}: Props) {
+	const fileMatch = `${modelId}.json`;
 
 	const handleEditorMount: OnMount = (_editor, monaco) => {
 		// Configure JSON language defaults with schema validation
@@ -16,7 +25,7 @@ export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: 
 			validate: true,
 			schemas: [
 				{
-					uri: `deployment-input-schema-${deploymentId}.json`,
+					uri: `model-input-schema-${modelId}.json`,
 					fileMatch: [fileMatch],
 					schema: jsonSchema
 				}
@@ -24,6 +33,10 @@ export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: 
 		});
 	};
 
+	const handleValidate: OnValidate = (markers) => {
+		const hasIssues = markers.length > 0;
+		onValidationChange?.(hasIssues);
+	};
 	return (
 		<Editor
 			theme="github-light"
@@ -32,8 +45,9 @@ export function PlaygroundEditor({ jsonSchema, value, onChange, deploymentId }: 
 			onChange={onChange}
 			language="json"
 			options={{ minimap: { enabled: false } }}
-			className="h-full border border-theme-border-moderate"
+			className={cn("h-full border border-theme-border-moderate", className)}
 			onMount={handleEditorMount}
+			onValidate={handleValidate}
 		/>
 	);
 }
