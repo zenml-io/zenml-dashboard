@@ -8635,6 +8635,13 @@ export type components = {
 			 * @default false
 			 */
 			skip_successful_steps?: boolean;
+			/**
+			 * Step Input Overrides
+			 * @default {}
+			 */
+			step_input_overrides?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * PipelineConfiguration
@@ -8717,6 +8724,13 @@ export type components = {
 			 * @default false
 			 */
 			skip_successful_steps?: boolean;
+			/**
+			 * Step Input Overrides
+			 * @default {}
+			 */
+			step_input_overrides?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * PipelineRequest
@@ -11818,7 +11832,7 @@ export type components = {
 		 * @description All possible types of a step run input artifact.
 		 * @enum {string}
 		 */
-		StepRunInputArtifactType: "step_output" | "manual" | "external" | "lazy";
+		StepRunInputArtifactType: "step_output" | "manual" | "external" | "lazy" | "override";
 		/**
 		 * StepRunInputResponse
 		 * @description Response model for step run inputs.
