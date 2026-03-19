@@ -15,7 +15,6 @@ import {
 	Skeleton,
 	useToast
 } from "@zenml-io/react-component-library";
-import { JSONSchemaFaker } from "json-schema-faker";
 import { useId, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { waitConditionFormSchema, WaitConditionFormValues } from "./wait-condition-form-schema";
@@ -104,7 +103,7 @@ function WaitConditionContent({ waitConditionId }: WaitConditionContentProps) {
 
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen} className="border-warning-300">
-			<CollapsibleHeader>
+			<CollapsibleHeader className="bg-warning-50">
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<CollapsibleChevron open={open} />
 					<p id="wait-condition-collapsible" className="font-medium text-warning-900">
@@ -168,6 +167,12 @@ type WaitConditionFormProps = {
 	onValidationChange: (hasErrors: boolean) => void;
 };
 
+function getInitialSchemaValue(schema: JSONSchemaDefinition): string | undefined {
+	const initialValue = schema.default !== undefined ? schema.default : undefined;
+
+	return initialValue === undefined ? undefined : JSON.stringify(initialValue, null, "\t");
+}
+
 function WaitConditionForm({
 	schema,
 	formId,
@@ -175,11 +180,10 @@ function WaitConditionForm({
 	handleSubmit,
 	onValidationChange
 }: WaitConditionFormProps) {
-	const defaultValues = JSONSchemaFaker.generate(schema);
 	const form = useForm<WaitConditionFormValues>({
 		resolver: zodResolver(waitConditionFormSchema),
 		defaultValues: {
-			result: defaultValues ? JSON.stringify(defaultValues, null, "\t") : undefined
+			result: getInitialSchemaValue(schema)
 		}
 	});
 
