@@ -51,6 +51,10 @@ export const apiPaths = {
 		all: "/code_repositories",
 		detail: (codeRepositoryId: string) => `/code_repositories/${codeRepositoryId}`
 	},
+	run_wait_conditions: {
+		detail: (runWaitConditionId: string) => `/run_wait_conditions/${runWaitConditionId}`,
+		resolve: (runWaitConditionId: string) => `/run_wait_conditions/${runWaitConditionId}/resolve`
+	},
 	stackDeployment: {
 		info: "/stack-deployment/info",
 		config: "/stack-deployment/config",
