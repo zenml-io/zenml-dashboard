@@ -8,6 +8,10 @@ export type LogResponse = LogEntry[];
 
 export type LogEntryInternal = LogEntry & {
 	originalEntry: string;
+	/** The log stream source (e.g. "step", "sandbox"). Defaults to "step". */
+	source: string;
+	/** Optional sandbox session ID, present when the log came from a sandbox. */
+	session_id?: string | null;
 };
 
 export type RunLogsQueryParams = NonNullable<
