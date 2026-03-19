@@ -1,12 +1,13 @@
+import { PlaygroundOutputsPreviewVisualization } from "@/components/deployments/playground/preview-visualization";
+import "@/monaco-setup";
 import { DeploymentInvocationResponse } from "@/types/deployment-invocations";
 import Editor from "@monaco-editor/react";
+import { useState } from "react";
 import { PlaygroundEmptyState } from "../error";
 import { PlaygroundOutputsFooter } from "./footer";
 import { PlaygroundOutputsHeader } from "./header";
 import { PlaygroundRunCard } from "./run-card";
-import { useState } from "react";
 import { PlaygroundOutputsView } from "./types";
-import { PlaygroundOutputsPreviewVisualization } from "@/components/deployments/playground/preview-visualization";
 
 type Props = {
 	outputs: DeploymentInvocationResponse;
