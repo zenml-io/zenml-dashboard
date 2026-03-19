@@ -1,3 +1,4 @@
+import "@/monaco-setup";
 import { JSONSchemaDefinition } from "@/types/forms";
 import Editor, { EditorProps, OnMount, OnValidate } from "@monaco-editor/react";
 import { cn } from "@zenml-io/react-component-library";
