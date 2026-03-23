@@ -211,7 +211,7 @@ function StackSetCommand({ name }: StackSetCommandProps) {
 								<Codesnippet
 									codeClasses="whitespace-pre-wrap"
 									wrap
-									code={`zenml integration install ${integrations.join(" ")}`}
+									code={`zenml integration install ${integrations.join(" ")} --uv`}
 								/>
 							</div>
 						</li>

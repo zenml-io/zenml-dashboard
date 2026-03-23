@@ -6,6 +6,9 @@ import QuestionMark from "@/assets/icons/help.svg?react";
 import Retried from "@/assets/icons/retried.svg?react";
 import Running from "@/assets/icons/running.svg?react";
 import Stopped from "@/assets/icons/stopped.svg?react";
+import Skipped from "@/assets/icons/skipped.svg?react";
+import PauseCircle from "@/assets/icons/pause-circle.svg?react";
+import Resume from "@/assets/icons/resume.svg?react";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { BadgeProps, TagProps, cn } from "@zenml-io/react-component-library";
 import { RerunningWrapper } from "./icons/rerunning-wrapper";
@@ -19,11 +22,14 @@ export function getExecutionStatusColor(status?: ExecutionStatus | "unknown" | n
 			return "fill-error-500";
 		case "initializing":
 		case "provisioning":
+		case "resuming":
 			return "fill-primary-400";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
+		case "paused":
 			return "fill-neutral-400";
 		case "running":
 		case "retrying":
@@ -41,11 +47,15 @@ export function getExecutionStatusBgColor(status?: ExecutionStatus | "unknown" |
 		case "failed":
 			return "bg-error-500";
 		case "initializing":
+		case "provisioning":
+		case "resuming":
 			return "bg-primary-400";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
+		case "paused":
 			return "bg-neutral-400";
 		case "running":
 		case "retrying":
@@ -64,11 +74,14 @@ export function getExecutionStatusBackgroundColor(status?: ExecutionStatus | "un
 			return "bg-error-50";
 		case "initializing":
 		case "provisioning":
+		case "resuming":
 			return "bg-primary-50";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
 		case "retried":
+		case "paused":
 			return "bg-theme-surface-tertiary";
 		case "running":
 		case "retrying":
@@ -89,10 +102,13 @@ export function getExecutionStatusTagColor(
 			return "red";
 		case "initializing":
 		case "provisioning":
+		case "resuming":
 			return "purple";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
+		case "paused":
 		case "retried":
 			return "grey";
 		case "unknown":
@@ -123,12 +139,18 @@ export function ExecutionStatusIcon({
 			return <Initializing className={classNames} />;
 		case "cached":
 			return <Cached className={classNames} />;
+		case "skipped":
+			return <Skipped className={classNames} />;
 		case "unknown":
 			return <QuestionMark className={classNames} />;
 		case "stopped":
 			return <Stopped className={classNames} />;
 		case "retried":
 			return <Retried className={classNames} />;
+		case "paused":
+			return <PauseCircle className={classNames} />;
+		case "resuming":
+			return <Resume className={classNames} />;
 		case "retrying":
 			return <RerunningWrapper className={`${classNames} overflow-visible`} isSpinning />;
 		case "running":
@@ -150,10 +172,13 @@ export function getBadgeColor(status?: ExecutionStatus | "unknown"): BadgeProps[
 			return "red";
 		case "retrying":
 		case "running":
+		case "resuming":
 			return "yellow";
 		case "completed":
 			return "green";
 		case "cached":
+		case "skipped":
+		case "paused":
 			return "grey";
 		case "unknown":
 			return "blue";
@@ -167,10 +192,13 @@ export function getRunIconColor(status?: ExecutionStatus) {
 	switch (status) {
 		case "running":
 		case "retrying":
+		case "resuming":
 			return "fill-orange-700";
 		case "cached":
+		case "skipped":
 		case "stopped":
 		case "stopping":
+		case "paused":
 		case "retried":
 			return "fill-theme-text-secondary";
 		case "completed":

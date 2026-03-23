@@ -16,6 +16,7 @@ type TabValues =
 	| "runs"
 	| "artifacts"
 	| "models"
+	| "triggers"
 	| "settings"
 	| "snapshots"
 	| "deployments";
@@ -40,6 +41,9 @@ export function ProjectTabs() {
 				break;
 			case "models":
 				navigate(routes.projects.models.overview);
+				break;
+			case "triggers":
+				navigate(routes.projects.triggers.overview);
 				break;
 			case "snapshots":
 				navigate(routes.projects.snapshots.overview);
@@ -71,6 +75,9 @@ export function ProjectTabs() {
 					</TabsTrigger>
 					<TabsTrigger value="models">
 						<span>Models</span>
+					</TabsTrigger>
+					<TabsTrigger value="triggers">
+						<span>Triggers</span>
 					</TabsTrigger>
 					<TabsTrigger value="settings">
 						<span>Settings</span>

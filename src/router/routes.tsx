@@ -60,6 +60,9 @@ export const routes = {
 					`/projects/default/deployments/${deploymentId}/playground`
 			}
 		},
+		triggers: {
+			overview: "/projects/default/triggers"
+		},
 		models: {
 			overview: "/projects/default/models"
 		},
