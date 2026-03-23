@@ -20,6 +20,7 @@ export default defineConfig([
 		"pnpm-lock.yaml",
 		"yarn.lock",
 		"scripts/types.js",
+		"**/*.spec.ts",
 		"src/types/core.ts" // Auto-generated from OpenAPI
 	]),
 	{
@@ -35,6 +36,23 @@ export default defineConfig([
 			globals: globals.browser
 		},
 		rules: {
+			// React Compiler rules (not used in this project) — see https://github.com/oxc-project/oxc/issues/1022
+			"react-hooks/component-hook-factories": "off",
+			"react-hooks/config": "off",
+			"react-hooks/error-boundaries": "off",
+			"react-hooks/gating": "off",
+			"react-hooks/globals": "off",
+			"react-hooks/immutability": "off",
+			"react-hooks/incompatible-library": "off",
+			"react-hooks/preserve-manual-memoization": "off",
+			"react-hooks/purity": "off",
+			"react-hooks/refs": "off",
+			"react-hooks/set-state-in-effect": "off",
+			"react-hooks/set-state-in-render": "off",
+			"react-hooks/static-components": "off",
+			"react-hooks/unsupported-syntax": "off",
+			"react-hooks/use-memo": "off",
+			// Other rules
 			"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 			"no-mixed-spaces-and-tabs": "off",
 			"@typescript-eslint/no-explicit-any": "warn",
@@ -46,6 +64,12 @@ export default defineConfig([
 					caughtErrorsIgnorePattern: "^_"
 				}
 			]
+		}
+	},
+	{
+		files: ["src/router/**/*.{ts,tsx}"],
+		rules: {
+			"react-refresh/only-export-components": "off"
 		}
 	}
 ]);
