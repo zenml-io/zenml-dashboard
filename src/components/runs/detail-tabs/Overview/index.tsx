@@ -1,7 +1,7 @@
 import { AlertPanels } from "./AlertPanels";
 import { Details } from "./Details";
 import { OrchestratorCollapsible } from "./Orchestrator";
-import { ProgressCollapsible } from "./Progress";
+import { ProgressCollapsible } from "./Progress/Progress";
 import { ScheduleCollapsible } from "./schedule";
 import { WaitConditionCollapsible } from "./wait-condition-collapsible";
 type Props = {
