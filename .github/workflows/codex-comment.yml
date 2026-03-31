@@ -20,9 +20,10 @@ jobs:
       is-team-member: ${{ steps.check.outputs.is-member }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 1
+          persist-credentials: false
       - name: Check if actor is on team
         id: check
         run: |
@@ -48,10 +49,11 @@ jobs:
       final_message: ${{ steps.codex.outputs.final-message }}
     steps:
       - name: Checkout PR merge commit
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
           ref: refs/pull/${{ github.event.issue.number }}/merge
+          persist-credentials: false
       - name: Fetch base and head refs
         run: |
           git fetch --no-tags origin \
@@ -60,7 +62,7 @@ jobs:
             +refs/pull/${{ github.event.issue.number }}/merge
       - name: Run Codex
         id: codex
-        uses: openai/codex-action@v1
+        uses: openai/codex-action@c25d10f3f498316d4b2496cc4c6dd58057a7b031 # v1
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
@@ -130,7 +132,7 @@ jobs:
           FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
       - name: Reply with Codex output
         if: needs.run-codex.outputs.final_message
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
