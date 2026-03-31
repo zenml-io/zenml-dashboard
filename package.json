@@ -95,8 +95,7 @@
 	},
 	"pnpm": {
 		"overrides": {
-			"dompurify": "^3.3.2",
-			"flatted": "^3.4.2"
+			"dompurify": "^3.3.2"
 		}
 	}
 }
