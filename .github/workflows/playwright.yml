@@ -9,8 +9,10 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: lts/*
       - name: Install dependencies
@@ -19,7 +21,7 @@ jobs:
         run: pnpm exec playwright install --with-deps
       - name: Run Playwright tests
         run: pnpm exec playwright test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: playwright-report

@@ -1,0 +1,22 @@
+# Supply chain security settings (pnpm v10+)
+# See: https://pnpm.io/supply-chain-security
+
+# Allowlist packages that can run lifecycle scripts (postinstall, etc.)
+# pnpm v10 disables these by default; only esbuild needs its postinstall
+# to download the platform-specific binary.
+onlyBuiltDependencies:
+  - "@swc/core"
+  - esbuild
+
+# Ignore packages published less than 7 days ago (10080 minutes).
+# This protects against supply chain attacks where a compromised maintainer
+# publishes a malicious version — most get detected and yanked within days.
+minimumReleaseAge: 10080
+
+# Block transitive dependencies from using git repos or tarball URLs.
+# These bypass the registry and can't be audited by release-age checks.
+blockExoticSubdeps: true
+
+# Block a new version if its trust level (e.g., provenance, signing) is
+# weaker than the previous release. Catches credential compromise scenarios.
+trustPolicy: no-downgrade
