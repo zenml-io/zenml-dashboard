@@ -29,10 +29,7 @@ type ProgressContentProps = {
 
 function ProgressContent({ counts, total }: ProgressContentProps) {
 	return (
-		<CollapsibleCard
-			initialOpen
-			title={<span className="text-text-lg font-semibold">Progress</span>}
-		>
+		<CollapsibleCard initialOpen title="Progress">
 			<SegmentedProgressBar counts={counts} />
 			<div className="mt-3 flex flex-wrap items-start gap-5">
 				<div className="flex flex-col gap-1 border-r border-theme-border-moderate pr-5">
