@@ -34,14 +34,20 @@ export function CollapsibleCard({
 	const [open, setOpen] = useState(initialOpen);
 	return (
 		<CollapsiblePanel className={className} open={open} onOpenChange={setOpen}>
-			<CollapsibleHeader intent={intent} className={headerClassName}>
-				<CollapsibleTrigger className="flex flex-1 items-center gap-[10px]">
-					<CollapsibleChevron open={open} />
-					{title}
-				</CollapsibleTrigger>
+			<CollapsibleTrigger asChild>
+				<CollapsibleHeader intent={intent} className={cn("cursor-pointer", headerClassName)}>
+					<div className="flex flex-1 items-center gap-[10px]">
+						<CollapsibleChevron open={open} />
+						{title}
+					</div>
 
-				{headerChildren}
-			</CollapsibleHeader>
+					{headerChildren && (
+						<div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+							{headerChildren}
+						</div>
+					)}
+				</CollapsibleHeader>
+			</CollapsibleTrigger>
 
 			<CollapsibleContent
 				className={cn(
