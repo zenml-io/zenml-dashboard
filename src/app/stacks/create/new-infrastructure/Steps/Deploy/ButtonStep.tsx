@@ -64,7 +64,9 @@ export function DeploymentButton({
 
 	function handleClick() {
 		const timestamp = new Date().toISOString().slice(0, -1);
-		setTimestampBool && setTimestamp(timestamp);
+		if (setTimestampBool) {
+			setTimestamp(timestamp);
+		}
 		setWizardData({
 			location: data.location || "",
 			provider: data.provider || "aws",
