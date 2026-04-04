@@ -1,13 +1,10 @@
-import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
-import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
-import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogSourceCombobox } from "@/components/logs/log-source-combobox";
+import { ClientSideLogsViewer } from "@/components/logs/logviewer-2/client-side-logs-viewer";
+import { ServerSideLogsViewer } from "@/components/logs/logviewer-2/server-side-logsviewer";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { useRunLogs } from "@/data/pipeline-runs/run-logs";
-import { buildInternalLogEntries } from "@/lib/logs";
+import { LogSourceOption } from "@/types/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 type Props = {
 	runId: string;
@@ -18,12 +15,15 @@ export function LogTab({ runId }: Props) {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return <p>Error loading logs</p>;
 
-	const logs = data.resources?.log_collection;
+	const logs = data.resources?.log_collection ?? [];
 
-	const sources =
-		logs
-			?.map((log) => log.body?.source)
-			.filter((source): source is string => source != null && source != undefined) ?? [];
+	const sources: LogSourceOption[] = logs.map((log) => {
+		return {
+			value: log.id,
+			label: log.body?.source ?? log.id,
+			hasLogStore: !!log.body?.log_store_id
+		};
+	});
 
 	if (sources.length < 1)
 		return (
@@ -33,50 +33,33 @@ export function LogTab({ runId }: Props) {
 			/>
 		);
 
-	return <LogDisplay sources={sources} runId={runId} />;
+	return <LogDisplay sources={sources} />;
 }
 
 type LogTabContentProps = {
-	sources: string[];
-	runId: string;
+	sources: LogSourceOption[];
 };
-function LogDisplay({ sources, runId }: LogTabContentProps) {
-	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
-	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
+function LogDisplay({ sources }: LogTabContentProps) {
+	const [selectedSourceId, setSelectedSourceId] = useState<string>(sources[0].value);
 
-	const parsedLogs = useMemo(() => {
-		if (!runLogs.data) return [];
-		return buildInternalLogEntries(runLogs.data);
-	}, [runLogs.data]);
+	const selectedSource = sources.find((source) => source.value === selectedSourceId);
 
-	if (runLogs.isPending) return <LoadingLogs />;
+	if (!selectedSource) return null;
 
-	if (runLogs.isError) {
-		return <ErrorFallback err={runLogs.error} />;
-	}
+	if (selectedSource.hasLogStore)
+		return (
+			<ServerSideLogsViewer
+				selectedSource={selectedSource}
+				sources={sources}
+				setSelectedSourceId={setSelectedSourceId}
+			/>
+		);
 
 	return (
-		<EnhancedLogsViewer
-			fallbackMessage={
-				<EmptyStateLogs
-					title="This pipeline run has no logs"
-					subtitle="It looks like there are no logs associated with this pipeline run"
-				/>
-			}
-			sourceSwitcher={
-				sources.length > 1 ? (
-					<div className="space-y-0.5">
-						<span className="text-text-sm text-theme-text-secondary">Source</span>
-						<LogSourceCombobox
-							sources={sources}
-							selectedSource={selectedSource}
-							setSelectedSource={setSelectedSource}
-						/>
-					</div>
-				) : undefined
-			}
-			logs={parsedLogs}
-			reloadLogs={() => runLogs.refetch()}
+		<ClientSideLogsViewer
+			selectedSource={selectedSource}
+			sources={sources}
+			setSelectedSourceId={setSelectedSourceId}
 		/>
 	);
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { LogEntryInternal } from "@/types/logs";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 /** Match range within a single log line (stable data for memoization) */
 export interface MatchRange {
@@ -17,8 +17,6 @@ export interface SearchMatch {
 }
 
 export interface UseLogSearchReturn {
-	searchQuery: string;
-	setSearchQuery: (query: string) => void;
 	matches: SearchMatch[];
 	currentMatchIndex: number;
 	totalMatches: number;
@@ -32,8 +30,7 @@ export interface UseLogSearchReturn {
 	activeMatchWithinLog: number;
 }
 
-export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
-	const [searchQuery, setSearchQueryState] = useState("");
+export function useLogSearch(logs: LogEntryInternal[], searchQuery: string): UseLogSearchReturn {
 	const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
 
 	// Find all matches across logs (case-insensitive)
@@ -70,10 +67,9 @@ export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 	// Clamp index to valid range
 	const safeIndex = totalMatches === 0 ? 0 : Math.min(currentMatchIndex, totalMatches - 1);
 
-	const setSearchQuery = useCallback((q: string) => {
-		setSearchQueryState(q);
+	useEffect(() => {
 		setCurrentMatchIndex(0);
-	}, []);
+	}, [searchQuery]);
 
 	const goToNextMatch = useCallback(() => {
 		if (totalMatches === 0) return -1;
@@ -107,8 +103,6 @@ export function useLogSearch(logs: LogEntryInternal[]): UseLogSearchReturn {
 	const activeMatchWithinLog = activeMatch?.matchIndex ?? -1;
 
 	return {
-		searchQuery,
-		setSearchQuery,
 		matches,
 		currentMatchIndex: safeIndex,
 		totalMatches,

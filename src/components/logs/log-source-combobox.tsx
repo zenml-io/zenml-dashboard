@@ -1,6 +1,7 @@
-import Logs from "@/assets/icons/logs.svg?react";
 import Check from "@/assets/icons/check.svg?react";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import Logs from "@/assets/icons/logs.svg?react";
+import { LogSourceOption } from "@/types/logs";
 import {
 	Button,
 	Command,
@@ -17,13 +18,16 @@ import {
 import { useState } from "react";
 
 type Props = {
-	sources: string[];
-	selectedSource: string;
-	setSelectedSource: (source: string) => void;
+	options: LogSourceOption[];
+	selectedValue: string;
+	onValueChange: (value: string) => void;
 };
 
-export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }: Props) {
+export function LogSourceCombobox(props: Props) {
 	const [open, setOpen] = useState(false);
+	const { options, selectedValue, onValueChange } = props;
+	const selectedLabel =
+		options.find((option) => option.value === selectedValue)?.label ?? selectedValue;
 
 	return (
 		<Popover modal open={open} onOpenChange={setOpen}>
@@ -34,32 +38,30 @@ export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }
 					className="flex items-center gap-0.5 bg-theme-surface-primary capitalize"
 					size="md"
 				>
-					{selectedSource}
+					{selectedLabel}
 					<ChevronDown width={24} height={24} className="fill-text-primary shrink-0" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="px-0" align="start">
-				<Command defaultValue={selectedSource} className="rounded-sharp">
+				<Command defaultValue={selectedLabel} className="rounded-sharp">
 					<CommandInput className="m-0" placeholder="Search sources...">
 						<Input className="w-full" inputSize="sm" />
 					</CommandInput>
 					<CommandList>
 						<CommandEmpty>No source found.</CommandEmpty>
 						<CommandGroup className="max-h-[300px] overflow-y-auto">
-							{sources.map((s) => {
-								const name = s.split("/").pop();
+							{options.map((option) => {
 								return (
 									<CommandItem
-										keywords={[name ?? ""]}
 										className="group capitalize data-[selected=true]:rounded-sharp"
-										key={s}
-										value={s}
+										key={option.value}
+										value={option.label}
 										onSelect={() => {
-											setSelectedSource(s);
+											onValueChange(option.value);
 											setOpen(false);
 										}}
 									>
-										{s === selectedSource ? (
+										{option.value === selectedValue ? (
 											<Check
 												width={16}
 												height={16}
@@ -72,7 +74,7 @@ export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }
 												className="shrink-0 fill-theme-text-tertiary group-data-[selected=true]:fill-theme-text-brand"
 											/>
 										)}
-										{name}
+										{option.label}
 									</CommandItem>
 								);
 							})}

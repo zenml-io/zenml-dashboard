@@ -1,4 +1,24 @@
 import { LogEntry, LogEntryInternal, LoggingLevel, LogResponse } from "@/types/logs";
+import { prepareBackendTimestamp } from "./dates";
+
+const LOG_TIMESTAMP_FORMATTER = new Intl.DateTimeFormat("sv-SE", {
+	year: "numeric",
+	month: "2-digit",
+	day: "2-digit",
+	hour: "2-digit",
+	minute: "2-digit",
+	second: "2-digit",
+	hour12: false
+});
+
+function formatLogTimestamp(timestamp: string | number | undefined): string {
+	if (timestamp === undefined || timestamp === null || timestamp === "") return "";
+
+	const date = prepareBackendTimestamp(timestamp);
+	if (Number.isNaN(date.getTime())) return "";
+
+	return LOG_TIMESTAMP_FORMATTER.format(date);
+}
 
 export function unchunkLogEntries(entries: LogEntry[]): LogEntry[] {
 	if (!Array.isArray(entries) || entries.length === 0) return [];
@@ -53,7 +73,11 @@ export function buildInternalLogEntries(logEntry: LogResponse): LogEntryInternal
 		const originalMessage = `[${LOG_LEVEL_NAMES[log.level || 20]}] [${log.timestamp}] ${
 			log.message
 		}`;
-		return { ...log, originalEntry: originalMessage };
+		return {
+			...log,
+			originalEntry: originalMessage,
+			formattedTimestamp: log.timestamp ? formatLogTimestamp(log.timestamp) : null
+		};
 	});
 }
 
@@ -64,4 +88,13 @@ export const LOG_LEVEL_NAMES: Record<LoggingLevel, string> = {
 	30: "WARNING",
 	40: "ERROR",
 	50: "CRITICAL"
+} as const;
+
+export const LOG_LEVELS = {
+	UNKNOWN: 0,
+	DEBUG: 10,
+	INFO: 20,
+	WARNING: 30,
+	ERROR: 40,
+	CRITICAL: 50
 } as const;
