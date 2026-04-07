@@ -22,14 +22,15 @@ jobs:
           persist-credentials: false
       - name: Check if actor is team member
         id: check
+        env:
+          ACTOR: ${{ github.actor }}
         run: |
-          ACTOR="${{ github.actor }}"
-          if grep -q "@${ACTOR}" .github/teams.yml; then
-            echo "is-member=true" >> $GITHUB_OUTPUT
-            echo "✅ $ACTOR is a team member"
+          if grep -qF "'@${ACTOR}'" .github/teams.yml; then
+            echo "is-member=true" >> "$GITHUB_OUTPUT"
+            echo "✅ ${ACTOR} is a team member"
           else
-            echo "is-member=false" >> $GITHUB_OUTPUT
-            echo "❌ $ACTOR is not a team member"
+            echo "is-member=false" >> "$GITHUB_OUTPUT"
+            echo "❌ ${ACTOR} is not a team member"
           fi
   claude:
     needs: check-team-member
