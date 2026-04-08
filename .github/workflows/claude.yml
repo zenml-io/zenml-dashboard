@@ -16,19 +16,21 @@ jobs:
       is-team-member: ${{ steps.check.outputs.is-member }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 1
+          persist-credentials: false
       - name: Check if actor is team member
         id: check
+        env:
+          ACTOR: ${{ github.actor }}
         run: |
-          ACTOR="${{ github.actor }}"
-          if grep -q "@${ACTOR}" .github/teams.yml; then
-            echo "is-member=true" >> $GITHUB_OUTPUT
-            echo "✅ $ACTOR is a team member"
+          if grep -qF "'@${ACTOR}'" .github/teams.yml; then
+            echo "is-member=true" >> "$GITHUB_OUTPUT"
+            echo "✅ ${ACTOR} is a team member"
           else
-            echo "is-member=false" >> $GITHUB_OUTPUT
-            echo "❌ $ACTOR is not a team member"
+            echo "is-member=false" >> "$GITHUB_OUTPUT"
+            echo "❌ ${ACTOR} is not a team member"
           fi
   claude:
     needs: check-team-member
@@ -54,12 +56,13 @@ jobs:
       actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 1
+          persist-credentials: false
       - name: Run Claude Code
         id: claude
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@88c168b39e7e64da0286d812b6e9fbebb6708185 # v1
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         with:
