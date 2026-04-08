@@ -2,6 +2,7 @@ import { VirtualizedItem } from "@/lib/timeline/types";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef } from "react";
+import { useTimelineColumnWidth } from "../hooks/use-timeline-column-width";
 import { TimelineListItem } from "./timeline-list-item";
 import {
 	PlaceholderListItem,
@@ -31,6 +32,7 @@ export function TimelineList({
 	});
 
 	const items = virtualizer.getVirtualItems();
+	const colWidth = useTimelineColumnWidth(timelineItems);
 
 	return (
 		<div ref={parentRef} className="flex-1 overflow-auto p-3 contain-strict">
@@ -43,13 +45,16 @@ export function TimelineList({
 			>
 				<div
 					className="divide-y divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary"
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 0,
-						width: "100%",
-						transform: `translateY(${items[0]?.start ?? 0}px)`
-					}}
+					style={
+						{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							transform: `translateY(${items[0]?.start ?? 0}px)`,
+							"--timeline-col-width": colWidth !== undefined ? `${colWidth}px` : "240px"
+						} as React.CSSProperties
+					}
 				>
 					{items.map((virtualRow) => {
 						const filteredItem = timelineItems[virtualRow.index];

@@ -20,19 +20,21 @@ jobs:
       is-team-member: ${{ steps.check.outputs.is-member }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 1
+          persist-credentials: false
       - name: Check if actor is on team
         id: check
+        env:
+          ACTOR: ${{ github.actor }}
         run: |
-          ACTOR="${{ github.actor }}"
-          if grep -q "@${ACTOR}" .github/teams.yml; then
+          if grep -qF "'@${ACTOR}'" .github/teams.yml; then
             echo "is-member=true" >> "$GITHUB_OUTPUT"
-            echo "✅ $ACTOR is a team member"
+            echo "✅ ${ACTOR} is a team member"
           else
             echo "is-member=false" >> "$GITHUB_OUTPUT"
-            echo "❌ $ACTOR is not a team member"
+            echo "❌ ${ACTOR} is not a team member"
           fi
 
   run-codex:
@@ -48,10 +50,11 @@ jobs:
       final_message: ${{ steps.codex.outputs.final-message }}
     steps:
       - name: Checkout PR merge commit
-        uses: actions/checkout@v5
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
         with:
           fetch-depth: 0
           ref: refs/pull/${{ github.event.issue.number }}/merge
+          persist-credentials: false
       - name: Fetch base and head refs
         run: |
           git fetch --no-tags origin \
@@ -60,7 +63,7 @@ jobs:
             +refs/pull/${{ github.event.issue.number }}/merge
       - name: Run Codex
         id: codex
-        uses: openai/codex-action@v1
+        uses: openai/codex-action@c25d10f3f498316d4b2496cc4c6dd58057a7b031 # v1
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
@@ -130,11 +133,14 @@ jobs:
           FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
       - name: Reply with Codex output
         if: needs.run-codex.outputs.final_message
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const body = `${{ needs.run-codex.outputs.final_message }}`;
+            const body = process.env.FINAL_MESSAGE;
             if (!body || body.trim() === '') {
               core.info('No Codex output to post.');
               return;
@@ -143,7 +149,7 @@ jobs:
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: ${{ github.event.issue.number }},
+              issue_number: parseInt(process.env.ISSUE_NUMBER, 10),
               body
             });
             console.log('Comment posted successfully');

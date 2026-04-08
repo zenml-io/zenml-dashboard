@@ -5162,6 +5162,11 @@ export type paths = {
 		 *     Args:
 		 *         trigger_id: The ID of the trigger.
 		 *         snapshot_id: The ID of the snapshot.
+		 *         run_configuration: Configuration for the follow-up trigger runs.
+		 *         allow_replace: Allow replacement if attachment already exists.
+		 *
+		 *     Raises:
+		 *         IllegalOperationError: If the trigger is already attached to the snapshot.
 		 */
 		put: operations["attach_trigger_to_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__put"];
 		post?: never;
@@ -8431,6 +8436,39 @@ export type components = {
 			items: components["schemas"]["UserResponse"][];
 		};
 		/**
+		 * PartialArtifactConfiguration
+		 * @description Class representing a partial input/output artifact configuration.
+		 */
+		PartialArtifactConfiguration: {
+			/** Materializer Source */
+			materializer_source?: components["schemas"]["Source"][] | null;
+			default_materializer_source?: components["schemas"]["Source"] | null;
+			artifact_config?: components["schemas"]["ArtifactConfig"] | null;
+		};
+		/**
+		 * PipelineBuildBase
+		 * @description Base model for pipeline builds.
+		 */
+		PipelineBuildBase: {
+			/**
+			 * The images of this build.
+			 * @default {}
+			 */
+			images?: {
+				[key: string]: unknown;
+			};
+			/** Whether the build images are stored in a container registry or locally. */
+			is_local: boolean;
+			/** Whether any image of the build contains user code. */
+			contains_code: boolean;
+			/** The version of ZenML used for this build. */
+			zenml_version?: string | null;
+			/** The Python version used for this build. */
+			python_version?: string | null;
+			/** The duration of the build in seconds. */
+			duration?: number | null;
+		};
+		/**
 		 * PipelineBuildRequest
 		 * @description Request model for pipelines builds.
 		 */
@@ -8828,6 +8866,129 @@ export type components = {
 			visualizations?: components["schemas"]["CuratedVisualizationResponse"][];
 		} & {
 			[key: string]: unknown;
+		};
+		/**
+		 * PipelineRunConfiguration
+		 * @description Class for pipeline run configurations.
+		 */
+		PipelineRunConfiguration: {
+			/**
+			 * Run Name
+			 * @description The name of the pipeline run.
+			 */
+			run_name?: string | null;
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for all steps of the pipeline run.
+			 */
+			enable_cache?: boolean | null;
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to enable metadata for the output artifacts of all steps of the pipeline run.
+			 */
+			enable_artifact_metadata?: boolean | null;
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of all steps of the pipeline run.
+			 */
+			enable_artifact_visualization?: boolean | null;
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for all steps of the pipeline run.
+			 */
+			enable_step_logs?: boolean | null;
+			/**
+			 * Enable Pipeline Logs
+			 * @description Whether to enable pipeline logs for the pipeline run.
+			 */
+			enable_pipeline_logs?: boolean | null;
+			/**
+			 * Enable Heartbeat
+			 * @description Whether to enable heartbeat for all steps of the pipeline run
+			 */
+			enable_heartbeat?: boolean | null;
+			/** @description The schedule on which to run the pipeline. */
+			schedule?: components["schemas"]["Schedule"] | null;
+			/**
+			 * Build
+			 * @description The build to use for the pipeline run.
+			 */
+			build?: components["schemas"]["PipelineBuildBase"] | string | null;
+			/**
+			 * Steps
+			 * @description Configurations for the steps of the pipeline run.
+			 */
+			steps?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Settings
+			 * @description Settings for the pipeline run.
+			 */
+			settings?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Environment
+			 * @description The environment for all steps of the pipeline run.
+			 */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Secrets
+			 * @description The secrets for all steps of the pipeline run.
+			 */
+			secrets?: string[] | null;
+			/**
+			 * Tags
+			 * @description Tags to apply to the pipeline run.
+			 */
+			tags?: (string | components["schemas"]["Tag"])[] | null;
+			/**
+			 * Extra
+			 * @description Extra configurations for the pipeline run.
+			 */
+			extra?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The model to use for the pipeline run. */
+			model?: components["schemas"]["Model"] | null;
+			/**
+			 * Parameters
+			 * @description Parameters for the pipeline function.
+			 */
+			parameters?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The retry configuration for all steps of the pipeline run. */
+			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/** @description The failure hook source for all steps of the pipeline run. */
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The init hook source for the pipeline run. */
+			init_hook_source?: components["schemas"]["Source"] | null;
+			/**
+			 * Init Hook Kwargs
+			 * @description The init hook args for the pipeline run.
+			 */
+			init_hook_kwargs?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The cleanup hook source for the pipeline run. */
+			cleanup_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for all steps of the pipeline run. */
+			success_hook_source?: components["schemas"]["Source"] | null;
+			/**
+			 * Substitutions
+			 * @description The substitutions for the pipeline run.
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The cache policy for all steps of the pipeline run. */
+			cache_policy?: components["schemas"]["CachePolicy-Input"] | null;
+			/** @description The execution mode for the pipeline run. */
+			execution_mode?: components["schemas"]["ExecutionMode"] | null;
 		};
 		/**
 		 * PipelineRunDAG
@@ -9925,6 +10086,54 @@ export type components = {
 		 * @enum {string}
 		 */
 		RunWaitConditionType: "external_input";
+		/**
+		 * Schedule
+		 * @description Class for defining a pipeline schedule.
+		 *
+		 *     Attributes:
+		 *         name: Optional name to give to the schedule. If not set, a default name
+		 *             will be generated based on the pipeline name and the current date
+		 *             and time.
+		 *         cron_expression: Cron expression for the pipeline schedule. If a value
+		 *             for this is set it takes precedence over the start time + interval.
+		 *         start_time: When the schedule should start. If this is a datetime object
+		 *             without any timezone, it is treated as a datetime in the local
+		 *             timezone.
+		 *         end_time: When the schedule should end. If this is a datetime object
+		 *             without any timezone, it is treated as a datetime in the local
+		 *             timezone.
+		 *         interval_second: datetime timedelta indicating the seconds between two
+		 *             recurring runs for a periodic schedule.
+		 *         catchup: Whether the recurring run should catch up if behind schedule.
+		 *             For example, if the recurring run is paused for a while and
+		 *             re-enabled afterward. If catchup=True, the scheduler will catch
+		 *             up on (backfill) each missed interval. Otherwise, it only
+		 *             schedules the latest interval if more than one interval is ready to
+		 *             be scheduled. Usually, if your pipeline handles backfill
+		 *             internally, you should turn catchup off to avoid duplicate backfill.
+		 *         run_once_start_time: When to run the pipeline once. If this is a
+		 *             datetime object without any timezone, it is treated as a datetime
+		 *             in the local timezone.
+		 */
+		Schedule: {
+			/** Name */
+			name?: string | null;
+			/** Cron Expression */
+			cron_expression?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Interval Second */
+			interval_second?: string | null;
+			/**
+			 * Catchup
+			 * @default false
+			 */
+			catchup?: boolean;
+			/** Run Once Start Time */
+			run_once_start_time?: string | null;
+		};
 		/**
 		 * ScheduleRequest
 		 * @description Request model for schedules.
@@ -11785,6 +11994,109 @@ export type components = {
 			};
 		};
 		/**
+		 * StepConfigurationUpdate
+		 * @description Class for step configuration updates.
+		 */
+		StepConfigurationUpdate: {
+			/**
+			 * Enable Cache
+			 * @description Whether to enable cache for the step.
+			 */
+			enable_cache?: boolean | null;
+			/**
+			 * Enable Artifact Metadata
+			 * @description Whether to store metadata for the output artifacts of the step.
+			 */
+			enable_artifact_metadata?: boolean | null;
+			/**
+			 * Enable Artifact Visualization
+			 * @description Whether to enable visualizations for the output artifacts of the step.
+			 */
+			enable_artifact_visualization?: boolean | null;
+			/**
+			 * Enable Step Logs
+			 * @description Whether to enable logs for the step.
+			 */
+			enable_step_logs?: boolean | null;
+			/**
+			 * Step Operator
+			 * @description The step operator to use for the step.
+			 */
+			step_operator?: boolean | string | null;
+			/**
+			 * Experiment Tracker
+			 * @description The experiment tracker to use for the step.
+			 */
+			experiment_tracker?: boolean | string | null;
+			/**
+			 * Parameters
+			 * @description Parameters for the step function.
+			 */
+			parameters?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Settings
+			 * @description Settings for the step.
+			 */
+			settings?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Environment
+			 * @description The environment for the step.
+			 */
+			environment?: {
+				[key: string]: unknown;
+			} | null;
+			/**
+			 * Secrets
+			 * @description The secrets for the step.
+			 */
+			secrets?: string[] | null;
+			/**
+			 * Extra
+			 * @description Extra configurations for the step.
+			 */
+			extra?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The failure hook source for the step. */
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The success hook source for the step. */
+			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The model to use for the step. */
+			model?: components["schemas"]["Model"] | null;
+			/** @description The retry configuration for the step. */
+			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/**
+			 * Substitutions
+			 * @description The substitutions for the step.
+			 */
+			substitutions?: {
+				[key: string]: unknown;
+			} | null;
+			/** @description The cache policy for the step. */
+			cache_policy?: components["schemas"]["CachePolicy-Input"] | null;
+			/** @description The step runtime. If not configured, the step will run inline unless a step operator or docker/resource settings are configured. This is only applicable for dynamic pipelines. */
+			runtime?: components["schemas"]["StepRuntime"] | null;
+			/**
+			 * Heartbeat Healthy Threshold
+			 * @description The amount of time (in minutes) that a running step has not received heartbeat and is considered healthy. By default, set to 30 minutes.
+			 * @default 30
+			 */
+			heartbeat_healthy_threshold?: number;
+			/** @description The group information for the step. */
+			group?: components["schemas"]["GroupInfo"] | null;
+			/**
+			 * Outputs
+			 * @default {}
+			 */
+			outputs?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
 		 * StepHeartbeatResponse
 		 * @description Light-weight model for Step Heartbeat responses.
 		 */
@@ -12377,8 +12689,16 @@ export type components = {
 		 */
 		TriggerResponseResources: {
 			user?: components["schemas"]["UserResponse"] | null;
-			/** Snapshots */
-			snapshots?: components["schemas"]["PipelineSnapshotResponse"][] | null;
+			/**
+			 * Snapshots
+			 * @default []
+			 */
+			snapshots?: components["schemas"]["PipelineSnapshotResponse"][];
+			/**
+			 * Executable Snapshots
+			 * @default []
+			 */
+			executable_snapshots?: components["schemas"]["PipelineSnapshotResponse"][];
 			latest_run?: components["schemas"]["PipelineRunResponse"] | null;
 		} & {
 			[key: string]: unknown;
@@ -18770,6 +19090,7 @@ export interface operations {
 				id?: string | null;
 				created?: string | null;
 				updated?: string | null;
+				run_metadata?: string[] | null;
 				scope_user?: string | null;
 				user?: string | null;
 				project?: string | null;
@@ -19424,7 +19745,7 @@ export interface operations {
 				catchup?: boolean | null;
 				name?: string | null;
 				run_once_start_time?: string | null;
-				is_archived?: boolean;
+				is_archived?: boolean | null;
 			};
 			header?: never;
 			path?: never;
@@ -25790,7 +26111,7 @@ export interface operations {
 				catchup?: boolean | null;
 				name?: string | null;
 				run_once_start_time?: string | null;
-				is_archived?: boolean;
+				is_archived?: boolean | null;
 			};
 			header?: never;
 			path: {
@@ -27062,7 +27383,9 @@ export interface operations {
 	};
 	attach_trigger_to_snapshot_api_v1_triggers__trigger_id__pipeline_snapshots__snapshot_id__put: {
 		parameters: {
-			query?: never;
+			query?: {
+				allow_replace?: boolean;
+			};
 			header?: never;
 			path: {
 				trigger_id: string;
@@ -27070,7 +27393,11 @@ export interface operations {
 			};
 			cookie?: never;
 		};
-		requestBody?: never;
+		requestBody?: {
+			content: {
+				"application/json": components["schemas"]["PipelineRunConfiguration"] | null;
+			};
+		};
 		responses: {
 			/** @description Successful Response */
 			200: {
