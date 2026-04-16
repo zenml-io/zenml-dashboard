@@ -7,22 +7,9 @@ import {
 	ProInfoBadge,
 	ProWrapper
 } from "@/components/pro/ProCta";
-import { useTourContext } from "@/components/tour/TourContext";
-import { useEffect } from "react";
 import { CommandSection } from "./Fragments";
 
 export default function ModelsPage() {
-	const {
-		setTourState,
-		tourState: { tourActive }
-	} = useTourContext();
-
-	useEffect(() => {
-		if (tourActive) {
-			setTourState((prev) => ({ ...prev, run: true, stepIndex: prev.stepIndex }));
-		}
-	}, [tourActive]);
-
 	return (
 		<div>
 			<div className="layout-container space-y-5 py-5">
