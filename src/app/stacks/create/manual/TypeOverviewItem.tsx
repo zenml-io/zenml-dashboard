@@ -13,7 +13,7 @@ export function TypeOverviewItem({ type }: Props) {
 	} = useFormContext<FormType>();
 
 	const component = watch(`components.${type}`);
-	const isComponentFilledout = component && component.id;
+	const isComponentFilledout = component && component.length > 0;
 
 	return (
 		<div
@@ -31,15 +31,30 @@ export function TypeOverviewItem({ type }: Props) {
 function SelectedContent({ type }: Props) {
 	const { watch } = useFormContext<FormType>();
 	const component = watch(`components.${type}`);
-	const isComponentFilledout = component && component.id;
+	const isComponentFilledout = component && component.length > 0;
+	const isMultipleComponents = component.length > 1;
 
 	if (!isComponentFilledout) return null;
 
 	return (
 		<div className="flex flex-col items-center gap-2 text-text-sm">
-			<img width={24} height={24} src={component.logoUrl} alt={`Icon of ${component.name}`} />
+			<ul className="flex flex-wrap gap-1">
+				{component.map((c) => (
+					<li key={c.id}>
+						<img
+							width={24}
+							height={24}
+							src={c.logoUrl}
+							className="shrink-0 object-contain"
+							alt={`Icon of ${c.name}`}
+						/>
+					</li>
+				))}
+			</ul>
 			<div className="space-y-0.25">
-				<div className="text-theme-text-primary">{component.name}</div>
+				<div className="text-theme-text-primary">
+					{isMultipleComponents ? `${component.length} Components` : component[0].name}
+				</div>
 				<div className="text-text-xs text-theme-text-tertiary">{snakeCaseToTitleCase(type)}</div>
 			</div>
 		</div>

@@ -9,7 +9,7 @@ import { Tabs } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { ComponentsSelection } from "../../create/manual/ComponentSelection";
+import { ComponentsSelection } from "../../create/manual/ComponentsSelection";
 import { formSchema, FormType } from "../../create/manual/schema";
 import { useUpdateStackHook } from "./use-update-stack";
 import { UpdateStackWarningBanner } from "./update-warning-banner";

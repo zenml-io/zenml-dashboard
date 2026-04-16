@@ -8,35 +8,35 @@ export function transformStackToFormData(
 	componentTypes: StackComponentType[]
 ): FormType | null {
 	const components = extractComponents(
-		stack.metadata?.components as Record<string, StackComponent[]> | undefined
+		stack.metadata?.components as Record<StackComponentType, StackComponent[]> | undefined
 	);
 
-	const formComponents = componentTypes.reduce(
+	const formComponents = componentTypes.reduce<FormType["components"]>(
 		(acc, type) => {
-			acc[type] = null;
+			acc[type] = [];
 			return acc;
 		},
-		{} as Record<string, { id: string; name: string; logoUrl: string } | null>
+		{} as FormType["components"]
 	);
 
 	components.forEach((comp) => {
 		const type = comp.body?.type;
 		if (type && type in formComponents) {
-			formComponents[type] = {
+			formComponents[type].push({
 				id: comp.id,
 				name: comp.name,
 				logoUrl: comp.body?.logo_url || ""
-			};
+			});
 		}
 	});
 
 	// Return null if required components are missing - caller should handle this gracefully
-	if (!formComponents.orchestrator || !formComponents.artifact_store) {
+	if (formComponents.orchestrator.length === 0 || formComponents.artifact_store.length === 0) {
 		return null;
 	}
 
 	return {
 		stackName: stack.name,
-		components: formComponents as FormType["components"]
+		components: formComponents
 	};
 }

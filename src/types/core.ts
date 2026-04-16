@@ -925,8 +925,6 @@ export type paths = {
 		 * Update Flavor
 		 * @description Updates a flavor.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         flavor_id: ID of the flavor to update.
 		 *         flavor_update: Flavor update.
@@ -3220,8 +3218,8 @@ export type paths = {
 		 *         access to and consumable from UI/CLI.
 		 *
 		 *     Raises:
-		 *         ValueError: If both connector_info and connector_uuid are provided.
-		 *         ValueError: If neither connector_info nor connector_uuid are provided.
+		 *         ValueError: If both connector_info and connector_uuid are provided,
+		 *             or if neither connector_info nor connector_uuid are provided.
 		 */
 		post: operations["get_resources_based_on_service_connector_info_api_v1_service_connectors_full_stack_resources_post"];
 		delete?: never;
@@ -3686,7 +3684,6 @@ export type paths = {
 		 *
 		 *     Args:
 		 *         step: The run step to create.
-		 *         _: Authentication context.
 		 *
 		 *     Returns:
 		 *         The created run step.
@@ -4024,8 +4021,6 @@ export type paths = {
 		 * Create User
 		 * @description Creates a user.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         user: User to create.
 		 *         auth_context: Authentication context.
@@ -4233,8 +4228,6 @@ export type paths = {
 		 * @deprecated
 		 * @description Creates a project based on the requestBody.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         project_request: Project to create.
 		 *
@@ -4260,8 +4253,6 @@ export type paths = {
 		 * @deprecated
 		 * @description Get a project for given name.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project.
 		 *         hydrate: Flag deciding whether to hydrate the output model(s)
@@ -4275,8 +4266,6 @@ export type paths = {
 		 * Update Project
 		 * @deprecated
 		 * @description Get a project for given name.
-		 *
-		 *     # noqa: DAR401
 		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project to update.
@@ -4312,8 +4301,6 @@ export type paths = {
 		 * Get Project Statistics
 		 * @deprecated
 		 * @description Gets statistics of a project.
-		 *
-		 *     # noqa: DAR401
 		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project to get statistics for.
@@ -4967,8 +4954,6 @@ export type paths = {
 		 * Create Project
 		 * @description Creates a project based on the requestBody.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         project_request: Project to create.
 		 *
@@ -4993,8 +4978,6 @@ export type paths = {
 		 * Get Project
 		 * @description Get a project for given name.
 		 *
-		 *     # noqa: DAR401
-		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project.
 		 *         hydrate: Flag deciding whether to hydrate the output model(s)
@@ -5007,8 +4990,6 @@ export type paths = {
 		/**
 		 * Update Project
 		 * @description Get a project for given name.
-		 *
-		 *     # noqa: DAR401
 		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project to update.
@@ -5042,8 +5023,6 @@ export type paths = {
 		/**
 		 * Get Project Statistics
 		 * @description Gets statistics of a project.
-		 *
-		 *     # noqa: DAR401
 		 *
 		 *     Args:
 		 *         project_name_or_id: Name or ID of the project to get statistics for.
