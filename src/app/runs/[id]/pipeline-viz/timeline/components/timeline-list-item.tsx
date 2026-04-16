@@ -45,7 +45,10 @@ export function TimelineListItem({
 				data-selected={isSelected}
 				className="flex items-center text-text-sm transition-colors duration-200 data-[selected=true]:bg-theme-surface-tertiary group-data-[state=open]:border-b"
 			>
-				<div className="flex w-full max-w-[240px] items-center gap-1 border-r border-theme-border-moderate px-3 py-1">
+				<div
+					style={{ width: "min(var(--timeline-col-width, 240px), 50%)" }}
+					className="flex shrink-0 items-center gap-1 border-r border-theme-border-moderate px-3 py-1"
+				>
 					<TooltipProvider>
 						{hasArtifacts ? (
 							<Collapsible.Trigger>

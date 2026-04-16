@@ -141,7 +141,9 @@ export function ProductTour() {
 				stepIndex: prev.stepIndex + 1,
 				run: data?.next ? false : true
 			}));
-			data?.next && navigate(data.next);
+			if (data?.next) {
+				navigate(data.next);
+			}
 
 			if (index === size - 1) {
 				navigate(routes.onboarding);
