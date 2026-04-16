@@ -147,7 +147,7 @@ function LogIconButton({
 }) {
 	return (
 		<Tooltip delayDuration={200}>
-			<TooltipTrigger>
+			<TooltipTrigger asChild>
 				<Button
 					size="md"
 					emphasis="subtle"
