@@ -1,6 +1,7 @@
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { StackComponentType } from "@/types/components";
+import { Badge } from "@zenml-io/react-component-library";
 import { useFormContext } from "react-hook-form";
 import { FormType } from "./schema";
 
@@ -28,6 +29,8 @@ export function TypeOverviewItem({ type }: Props) {
 	);
 }
 
+const MAX_VISIBLE_ICONS = 3;
+
 function SelectedContent({ type }: Props) {
 	const { watch } = useFormContext<FormType>();
 	const component = watch(`components.${type}`);
@@ -35,11 +38,14 @@ function SelectedContent({ type }: Props) {
 	if (!component || component.length === 0) return null;
 
 	const isMultipleComponents = component.length > 1;
+	const hasOverflow = component.length > MAX_VISIBLE_ICONS;
+	const visibleComponents = hasOverflow ? component.slice(0, MAX_VISIBLE_ICONS - 1) : component;
+	const overflowCount = component.length - visibleComponents.length;
 
 	return (
 		<div className="flex flex-col items-center gap-2 text-text-sm">
-			<ul className="flex flex-wrap gap-1">
-				{component.map((c) => (
+			<ul className="flex flex-nowrap items-center gap-1">
+				{visibleComponents.map((c) => (
 					<li key={c.id}>
 						<img
 							width={24}
@@ -50,6 +56,13 @@ function SelectedContent({ type }: Props) {
 						/>
 					</li>
 				))}
+				{hasOverflow && (
+					<li aria-label={`${overflowCount} more components`}>
+						<Badge rounded={false} color="light-grey">
+							+{overflowCount}
+						</Badge>
+					</li>
+				)}
 			</ul>
 			<div className="space-y-0.25">
 				<div className="text-theme-text-primary">
