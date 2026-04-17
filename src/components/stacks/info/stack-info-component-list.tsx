@@ -66,11 +66,7 @@ export function StackInfoComponentList({ stack, objectConfig, stepConfig }: Prop
 
 				return (
 					<li key={type} className="w-full">
-						<StackInfoComponentListItem
-							isInactive={!isStackComponentActiveInStep(components[0], components, stepConfig)}
-							component={components[0]}
-							objectConfig={objectConfig}
-						/>
+						<StackInfoComponentListItem component={components[0]} objectConfig={objectConfig} />
 					</li>
 				);
 			})}
