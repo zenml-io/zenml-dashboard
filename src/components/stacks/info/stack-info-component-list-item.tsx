@@ -25,7 +25,7 @@ export function StackInfoComponentListItem({
 	isNested = false,
 	isInactive = false
 }: Props) {
-	const nameKey = `${component.body?.flavor_name}:${component.name}`;
+	const nameKey = `${component.body?.type}:${component.name}`;
 	const typeKey = `${component.body?.type}.${component.body?.flavor_name}`;
 	const settings = objectConfig?.[nameKey] ?? objectConfig?.[typeKey] ?? undefined;
 
