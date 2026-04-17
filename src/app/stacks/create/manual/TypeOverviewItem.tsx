@@ -31,10 +31,10 @@ export function TypeOverviewItem({ type }: Props) {
 function SelectedContent({ type }: Props) {
 	const { watch } = useFormContext<FormType>();
 	const component = watch(`components.${type}`);
-	const isComponentFilledout = component && component.length > 0;
-	const isMultipleComponents = component.length > 1;
 
-	if (!isComponentFilledout) return null;
+	if (!component || component.length === 0) return null;
+
+	const isMultipleComponents = component.length > 1;
 
 	return (
 		<div className="flex flex-col items-center gap-2 text-text-sm">
