@@ -1,31 +1,45 @@
 import { ComponentIcon } from "@/components/ComponentIcon";
+import { CopyMetadataButton } from "@/components/copy-metadata-button";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { isObject } from "@/lib/type-guards";
 import { sanitizeUrl } from "@/lib/url";
 import { routes } from "@/router/routes";
 import { StackComponent, StackComponentType } from "@/types/components";
-import { Box } from "@zenml-io/react-component-library/components/server";
+import { Badge, Box } from "@zenml-io/react-component-library/components/server";
+import { cn } from "@zenml-io/react-component-library/utilities";
+import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { NestedCollapsible } from "../../NestedCollapsible";
-import { CopyMetadataButton } from "@/components/copy-metadata-button";
-import { PropsWithChildren } from "react";
 
 type Props = {
 	component: StackComponent;
 	objectConfig: Record<string, unknown>;
+	isDefault?: boolean;
+	isNested?: boolean;
+	isInactive?: boolean;
 };
-export function StackInfoComponentListItem({ component, objectConfig }: Props) {
-	const keyName = `${component.body?.type}.${component.body?.flavor_name}`;
-	const settings = objectConfig?.[keyName] ?? undefined;
+export function StackInfoComponentListItem({
+	component,
+	objectConfig,
+	isDefault = false,
+	isNested = false,
+	isInactive = false
+}: Props) {
+	const nameKey = `${component.body?.flavor_name}:${component.name}`;
+	const typeKey = `${component.body?.type}.${component.body?.flavor_name}`;
+	const settings = objectConfig?.[nameKey] ?? objectConfig?.[typeKey] ?? undefined;
 
 	const isValidObject = isObject(settings);
 
-	if (!isValidObject || Object.keys(settings).length === 0) {
+	if (!isValidObject || Object.keys(settings).length === 0 || isInactive) {
 		return (
 			<Link to={routes.components.detail(component.id)}>
 				<Box className="flex w-full items-center gap-[10px] bg-theme-surface-secondary px-5 py-3 text-left">
 					<div className="size-5 shrink-0" />
 					<ComponentCollapsibleHeader
+						isDefault={isDefault}
+						isNested={isNested}
+						isInactive={isInactive}
 						componentLogoUrl={component.body?.logo_url ?? undefined}
 						componentName={component.name}
 						componentType={component.body?.type ?? "orchestrator"}
@@ -45,6 +59,9 @@ export function StackInfoComponentListItem({ component, objectConfig }: Props) {
 			headerChildren={
 				<div className="relative flex w-full items-center justify-between gap-3 text-left">
 					<ComponentCollapsibleHeader
+						isDefault={isDefault}
+						isNested={isNested}
+						isInactive={isInactive}
 						componentLogoUrl={component.body?.logo_url ?? undefined}
 						componentName={component.name}
 						componentType={component.body?.type ?? "orchestrator"}
@@ -66,19 +83,32 @@ type ComponentCollapsibleHeaderProps = {
 	componentName: string;
 	componentLogoUrl: string | undefined;
 	componentType: StackComponentType;
+	isDefault: boolean;
+	isNested: boolean;
+	isInactive: boolean;
 };
 
 function ComponentCollapsibleHeader({
 	componentLogoUrl,
 	componentName,
 	componentType,
-	children
+	children,
+	isDefault,
+	isNested,
+	isInactive
 }: PropsWithChildren<ComponentCollapsibleHeaderProps>) {
 	return (
-		<div className="grid w-full max-w-full grid-cols-3 items-center gap-2">
-			<div className="col-span-1 truncate text-theme-text-secondary">
-				{snakeCaseToTitleCase(componentType)}
-			</div>
+		<div
+			className={cn(
+				"grid w-full max-w-full grid-cols-3 items-center gap-2",
+				isInactive && "opacity-30"
+			)}
+		>
+			{!isNested && (
+				<div className="col-span-1 truncate text-theme-text-secondary">
+					{snakeCaseToTitleCase(componentType)}
+				</div>
+			)}
 			<div className="col-span-2 flex items-center justify-between gap-2">
 				<div className="flex items-center gap-2 overflow-hidden">
 					{componentLogoUrl ? (
@@ -91,7 +121,19 @@ function ComponentCollapsibleHeader({
 					) : (
 						<ComponentIcon type={componentType} />
 					)}
-					<p className="truncate">{componentName}</p>
+					<div className="flex items-center gap-1">
+						<p className="truncate">{componentName}</p>
+						{isDefault && (
+							<Badge className="rounded-sm" size="xs" color="purple">
+								Default
+							</Badge>
+						)}
+						{isInactive && (
+							<Badge className="rounded-sm" size="xs" color="light-grey">
+								Inactive
+							</Badge>
+						)}
+					</div>
 				</div>
 				{children}
 			</div>

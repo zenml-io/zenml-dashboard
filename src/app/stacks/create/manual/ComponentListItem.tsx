@@ -2,8 +2,8 @@ import { DisplayDate } from "@/components/DisplayDate";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { sanitizeUrl } from "@/lib/url";
 import { StackComponent, StackComponentType } from "@/types/components";
-import { Checkbox, Tag } from "@zenml-io/react-component-library";
-import { Badge, Button } from "@zenml-io/react-component-library/components/server";
+import { Checkbox } from "@zenml-io/react-component-library";
+import { Badge } from "@zenml-io/react-component-library/components/server";
 import { ReactNode } from "react";
 import { RadioItem, RadioItemLabel } from "../components/RadioItem";
 

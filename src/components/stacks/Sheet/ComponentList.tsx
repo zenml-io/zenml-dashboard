@@ -1,7 +1,6 @@
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { stackQueries } from "@/data/stacks";
-import { extractComponents } from "@/lib/components";
-import { stackComponentTypes } from "@/lib/constants";
+import { extractComponents, getSortedComponentTypeEntries } from "@/lib/components";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { routes } from "@/router/routes";
@@ -56,13 +55,7 @@ export function ComponentList({ stackId }: Props) {
 
 	if (!componentsList) return null;
 
-	const sortedEntries = Object.entries(componentsList).sort(([a], [b]) => {
-		const ia = stackComponentTypes.indexOf(a as StackComponentType);
-		const ib = stackComponentTypes.indexOf(b as StackComponentType);
-		return (
-			(ia === -1 ? stackComponentTypes.length : ia) - (ib === -1 ? stackComponentTypes.length : ib)
-		);
-	});
+	const sortedEntries = getSortedComponentTypeEntries(componentsList);
 
 	return (
 		<ul className="space-y-5 p-5">
