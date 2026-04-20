@@ -12,6 +12,8 @@ jobs:
   check-team-member:
     name: Validate Codex commenter
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     if: |
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '/codex') &&
@@ -46,6 +48,8 @@ jobs:
       needs.check-team-member.outputs.is-team-member == 'true'
     permissions:
       contents: read
+      pull-requests: read
+      issues: read
     outputs:
       final_message: ${{ steps.codex.outputs.final-message }}
     steps:
@@ -56,11 +60,31 @@ jobs:
           ref: refs/pull/${{ github.event.issue.number }}/merge
           persist-credentials: false
       - name: Fetch base and head refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
         run: |
+          set -euo pipefail
+
+          case "$PR_NUMBER" in
+            ""|*[!0-9]*)
+              echo "Invalid PR number: $PR_NUMBER" >&2
+              exit 1
+              ;;
+          esac
+
+          BASE_REF="$(gh pr view "$PR_NUMBER" --json baseRefName --jq '.baseRefName')"
+          if [ -z "$BASE_REF" ]; then
+            echo "Unable to resolve base ref for PR #$PR_NUMBER" >&2
+            exit 1
+          fi
+
+          git check-ref-format --branch "$BASE_REF" >/dev/null
+
           git fetch --no-tags origin \
-            ${{ github.event.issue.pull_request.base.ref }} \
-            +refs/pull/${{ github.event.issue.number }}/head \
-            +refs/pull/${{ github.event.issue.number }}/merge
+            "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}" \
+            "+refs/pull/${PR_NUMBER}/head:refs/remotes/pull/${PR_NUMBER}/head" \
+            "+refs/pull/${PR_NUMBER}/merge:refs/remotes/pull/${PR_NUMBER}/merge"
       - name: Run Codex
         id: codex
         uses: openai/codex-action@c25d10f3f498316d4b2496cc4c6dd58057a7b031 # v1
@@ -123,7 +147,6 @@ jobs:
     if: always() && needs.run-codex.result == 'success'
     permissions:
       issues: write
-      pull-requests: write
     steps:
       - name: Debug outputs
         run: |
