@@ -26,6 +26,7 @@ jobs:
       - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: 24
+          package-manager-cache: false
 
       - name: Install pnpm
         uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
@@ -57,7 +58,7 @@ jobs:
           sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
 
       - name: Release to GitHub
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1 # zizmor: ignore[superfluous-actions] preserves existing release behavior; refactoring to gh CLI is out of scope.
         with:
           files: |
             zenml-dashboard.tar.gz
