@@ -2,7 +2,7 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogSourceCombobox } from "@/components/logs/log-source-combobox";
+import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { useStepLogs } from "@/data/steps/step-logs-query";
 import { buildInternalLogEntries } from "@/lib/logs";
@@ -19,12 +19,12 @@ export function StepLogsTab({ stepId }: Props) {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return <p>Error loading logs</p>;
 
-	const logs = data.resources?.log_collection;
+	const logs = data.resources?.log_collection ?? [];
 
-	const sources =
-		logs
-			?.map((log) => log.body?.source)
-			.filter((source): source is string => source != null && source !== undefined) ?? [];
+	const sources: LogSourceOption[] = logs?.map((log) => ({
+		label: log.body?.source ?? "",
+		value: log.id
+	}));
 
 	if (sources.length < 1)
 		return (
@@ -37,11 +37,11 @@ export function StepLogsTab({ stepId }: Props) {
 	return <StepLogsTabContent sources={sources} stepId={stepId} />;
 }
 
-function StepLogsTabContent({ sources, stepId }: { sources: string[]; stepId: string }) {
-	const defaultSource = sources.includes("step") ? "step" : sources[0];
+function StepLogsTabContent({ sources, stepId }: { sources: LogSourceOption[]; stepId: string }) {
+	const defaultSource = sources.find((s) => s.label === "step")?.value ?? sources[0].value;
 	const [selectedSource, setSelectedSource] = useState<string>(defaultSource);
 
-	const stepLogs = useStepLogs({ stepId, queries: { source: selectedSource } });
+	const stepLogs = useStepLogs({ stepId, queries: { logs_id: selectedSource } });
 
 	const parsedLogs = useMemo(() => {
 		if (!stepLogs.data) return [];

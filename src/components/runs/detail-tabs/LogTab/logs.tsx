@@ -2,7 +2,7 @@ import { ErrorFallback } from "@/components/Error";
 import { EmptyStateLogs } from "@/components/logs/empty-state-logs";
 import { EnhancedLogsViewer } from "@/components/logs/enhanced-log-viewer";
 import { LoadingLogs } from "@/components/logs/loading-logs";
-import { LogSourceCombobox } from "@/components/logs/log-source-combobox";
+import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useRunLogs } from "@/data/pipeline-runs/run-logs";
 import { buildInternalLogEntries } from "@/lib/logs";
@@ -18,12 +18,12 @@ export function LogTab({ runId }: Props) {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return <p>Error loading logs</p>;
 
-	const logs = data.resources?.log_collection;
+	const logs = data.resources?.log_collection ?? [];
 
-	const sources =
-		logs
-			?.map((log) => log.body?.source)
-			.filter((source): source is string => source != null && source != undefined) ?? [];
+	const sources: LogSourceOption[] = logs?.map((log) => ({
+		label: log.body?.source ?? "",
+		value: log.id
+	}));
 
 	if (sources.length < 1)
 		return (
@@ -37,12 +37,12 @@ export function LogTab({ runId }: Props) {
 }
 
 type LogTabContentProps = {
-	sources: string[];
+	sources: LogSourceOption[];
 	runId: string;
 };
 function LogDisplay({ sources, runId }: LogTabContentProps) {
-	const [selectedSource, setSelectedSource] = useState<string>(sources[0]);
-	const runLogs = useRunLogs({ runId, queries: { source: selectedSource } });
+	const [selectedSource, setSelectedSource] = useState<string>(sources[0].value);
+	const runLogs = useRunLogs({ runId, queries: { logs_id: selectedSource } });
 
 	const parsedLogs = useMemo(() => {
 		if (!runLogs.data) return [];
