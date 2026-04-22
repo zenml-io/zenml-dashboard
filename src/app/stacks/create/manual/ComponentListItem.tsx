@@ -75,19 +75,28 @@ type MultiProps = {
 	onMakeDefault?: () => void;
 };
 
-export function ComponentListItemMulti({
-	comp,
-	isSelected,
-	showMetadata,
-	onToggle,
+function getNameAddon({
 	isDefault,
+	isSelected,
 	onMakeDefault
-}: MultiProps) {
-	const nameAddon = isDefault ? (
-		<Badge size="sm" className="rounded-sm font-semibold" color="light-purple">
-			Default
-		</Badge>
-	) : isSelected && onMakeDefault ? (
+}: {
+	isDefault?: boolean;
+	isSelected: boolean;
+	onMakeDefault?: () => void;
+}): ReactNode {
+	if (isDefault) {
+		return (
+			<Badge size="sm" className="rounded-sm font-semibold" color="light-purple">
+				Default
+			</Badge>
+		);
+	}
+
+	if (!isSelected || !onMakeDefault) {
+		return null;
+	}
+
+	return (
 		<button
 			type="button"
 			onClick={(e) => {
@@ -100,7 +109,18 @@ export function ComponentListItemMulti({
 				Set as default
 			</Badge>
 		</button>
-	) : null;
+	);
+}
+
+export function ComponentListItemMulti({
+	comp,
+	isSelected,
+	showMetadata,
+	onToggle,
+	isDefault,
+	onMakeDefault
+}: MultiProps) {
+	const nameAddon = getNameAddon({ isDefault, isSelected, onMakeDefault });
 
 	return (
 		<ComponentListItemRow

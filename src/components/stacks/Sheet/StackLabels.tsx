@@ -1,7 +1,7 @@
 import { NestedCollapsible } from "@/components/NestedCollapsible";
 import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@zenml-io/react-component-library";
+import { Box, Skeleton } from "@zenml-io/react-component-library";
 
 type Props = {
 	stackId: string;
@@ -10,7 +10,12 @@ type Props = {
 export function StackLabels({ stackId }: Props) {
 	const stack = useQuery({ ...stackQueries.stackDetail(stackId) });
 
-	if (stack.isError) return null;
+	if (stack.isError)
+		return (
+			<section className="px-5">
+				<Box className="p-5">Failed to load stack labels</Box>
+			</section>
+		);
 	if (stack.isPending)
 		return (
 			<section className="px-5">

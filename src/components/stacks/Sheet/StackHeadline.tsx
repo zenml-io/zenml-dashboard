@@ -13,7 +13,12 @@ type Props = {
 export function StackHeadline({ stackId }: Props) {
 	const stack = useQuery({ ...stackQueries.stackDetail(stackId) });
 
-	if (stack.isError) return null;
+	if (stack.isError)
+		return (
+			<p className="border-b border-theme-border-moderate bg-theme-surface-primary p-5">
+				Failed to load stack headline
+			</p>
+		);
 	if (stack.isPending)
 		return (
 			<div className="p-5">
