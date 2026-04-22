@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { stackComponentTypes } from "@/lib/constants";
 import { StackComponent, StackComponentType } from "@/types/components";
 import {
+	extractComponents,
 	getSortedComponentTypeEntries,
 	getStackComponentTypeOrder,
 	isStackComponentActiveInStep,
@@ -134,5 +135,36 @@ describe("isStackComponentActiveInStep", () => {
 				expect(isStackComponentActiveInStep(second, list, { experiment_tracker })).toBe(false);
 			}
 		});
+	});
+});
+
+describe("extractComponents", () => {
+	test("returns empty array for undefined input", () => {
+		expect(extractComponents(undefined)).toEqual([]);
+	});
+
+	test("flattens component arrays across all keys", () => {
+		const orchestrator = sc({ id: "orch-1", name: "Orchestrator", type: "orchestrator" });
+		const artifactStore = sc({ id: "as-1", name: "Artifact Store", type: "artifact_store" });
+		const stepOperator = sc({ id: "so-1", name: "Step Operator", type: "step_operator" });
+
+		const result = extractComponents({
+			orchestrator: [orchestrator],
+			artifact_store: [artifactStore, stepOperator]
+		});
+
+		expect(result).toEqual([orchestrator, artifactStore, stepOperator]);
+	});
+
+	test("ignores non-array values in input object", () => {
+		const orchestrator = sc({ id: "orch-1", name: "Orchestrator", type: "orchestrator" });
+
+		const result = extractComponents({
+			orchestrator: [orchestrator],
+			artifact_store: "invalid" as unknown as StackComponent[],
+			step_operator: null as unknown as StackComponent[]
+		});
+
+		expect(result).toEqual([orchestrator]);
 	});
 });

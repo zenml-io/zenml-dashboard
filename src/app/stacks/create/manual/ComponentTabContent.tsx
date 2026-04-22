@@ -1,10 +1,10 @@
 import { ComponentIcon } from "@/components/ComponentIcon";
+import { DebouncedInput } from "@/components/debounced-input";
 import { snakeCaseToLowerCase, snakeCaseToTitleCase } from "@/lib/strings";
 import { StackComponent, StackComponentType } from "@/types/components";
 import { useState } from "react";
-import { ComponentTooltip } from "./ComponentsTooltip";
 import { ComponentList } from "./ComponentList";
-import { ComponentSearch } from "./ComponentSearch";
+import { ComponentTooltip } from "./ComponentsTooltip";
 
 type ComponentTabContentProps = {
 	type: StackComponentType;
@@ -34,7 +34,7 @@ export function ComponentTabContent({ type, initialComponents }: ComponentTabCon
 	return (
 		<>
 			<ComponentHeader type={type} />
-			<ComponentSearch search={search} setSearch={setSearch} />
+			<DebouncedInput placeholder="Search..." value={search} onChange={setSearch} />
 			<ComponentList initialComponents={typedInitialComponents} search={search} type={type} />
 		</>
 	);

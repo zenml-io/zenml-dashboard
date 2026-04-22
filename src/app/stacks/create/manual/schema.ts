@@ -40,7 +40,7 @@ export const MULTI_COMPONENT_TYPES: StackComponentType[] = [
 	"alerter",
 	"experiment_tracker",
 	"step_operator"
-];
+] as const;
 
 export function isMultiComponentType(type: StackComponentType): boolean {
 	return MULTI_COMPONENT_TYPES.includes(type);

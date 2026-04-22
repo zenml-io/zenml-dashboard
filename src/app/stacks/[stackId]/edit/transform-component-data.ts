@@ -1,5 +1,5 @@
 import { extractComponents } from "@/lib/components";
-import { StackComponent, StackComponentType } from "@/types/components";
+import { StackComponentType } from "@/types/components";
 import { Stack } from "@/types/stack";
 import { FormType } from "../../create/manual/schema";
 
@@ -7,9 +7,7 @@ export function transformStackToFormData(
 	stack: Stack,
 	componentTypes: StackComponentType[]
 ): FormType | null {
-	const components = extractComponents(
-		stack.metadata?.components as Record<StackComponentType, StackComponent[]> | undefined
-	);
+	const components = extractComponents(stack.metadata?.components);
 
 	const formComponents = componentTypes.reduce<FormType["components"]>(
 		(acc, type) => {
