@@ -13,3 +13,5 @@ export type LogEntryInternal = LogEntry & {
 export type RunLogsQueryParams = NonNullable<
 	operations["run_logs_api_v1_runs__run_id__logs_get"]["parameters"]["query"]
 >;
+
+export type LogsResponse = components["schemas"]["LogsResponse"];

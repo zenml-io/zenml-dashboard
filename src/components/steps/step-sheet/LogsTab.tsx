@@ -5,7 +5,7 @@ import { LoadingLogs } from "@/components/logs/loading-logs";
 import { LogSourceCombobox, LogSourceOption } from "@/components/logs/log-source-combobox";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { useStepLogs } from "@/data/steps/step-logs-query";
-import { buildInternalLogEntries } from "@/lib/logs";
+import { buildInternalLogEntries, buildLogSourceOptions } from "@/lib/logs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useMemo, useState } from "react";
 
@@ -21,10 +21,7 @@ export function StepLogsTab({ stepId }: Props) {
 
 	const logs = data.resources?.log_collection ?? [];
 
-	const sources: LogSourceOption[] = logs?.map((log) => ({
-		label: log.body?.source ?? "",
-		value: log.id
-	}));
+	const sources: LogSourceOption[] = buildLogSourceOptions(logs);
 
 	if (sources.length < 1)
 		return (
