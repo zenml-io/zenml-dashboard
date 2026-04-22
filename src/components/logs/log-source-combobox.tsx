@@ -16,8 +16,13 @@ import {
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 
+export type LogSourceOption = {
+	label: string;
+	value: string;
+};
+
 type Props = {
-	sources: string[];
+	sources: LogSourceOption[];
 	selectedSource: string;
 	setSelectedSource: (source: string) => void;
 };
@@ -25,16 +30,18 @@ type Props = {
 export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }: Props) {
 	const [open, setOpen] = useState(false);
 
+	const selectedLabel = sources.find((s) => s.value === selectedSource)?.label ?? selectedSource;
+
 	return (
 		<Popover modal open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
 				<Button
 					intent="secondary"
 					emphasis="subtle"
-					className="flex items-center gap-0.5 bg-theme-surface-primary capitalize"
+					className="flex items-center gap-0.5 whitespace-nowrap bg-theme-surface-primary capitalize"
 					size="md"
 				>
-					{selectedSource}
+					{selectedLabel}
 					<ChevronDown width={24} height={24} className="fill-text-primary shrink-0" />
 				</Button>
 			</PopoverTrigger>
@@ -46,20 +53,19 @@ export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }
 					<CommandList>
 						<CommandEmpty>No source found.</CommandEmpty>
 						<CommandGroup className="max-h-[300px] overflow-y-auto">
-							{sources.map((s) => {
-								const name = s.split("/").pop();
+							{sources.map(({ label, value }) => {
 								return (
 									<CommandItem
-										keywords={[name ?? ""]}
+										keywords={[label]}
 										className="group capitalize data-[selected=true]:rounded-sharp"
-										key={s}
-										value={s}
+										key={value}
+										value={value}
 										onSelect={() => {
-											setSelectedSource(s);
+											setSelectedSource(value);
 											setOpen(false);
 										}}
 									>
-										{s === selectedSource ? (
+										{value === selectedSource ? (
 											<Check
 												width={16}
 												height={16}
@@ -72,7 +78,7 @@ export function LogSourceCombobox({ sources, selectedSource, setSelectedSource }
 												className="shrink-0 fill-theme-text-tertiary group-data-[selected=true]:fill-theme-text-brand"
 											/>
 										)}
-										{name}
+										{label}
 									</CommandItem>
 								);
 							})}
