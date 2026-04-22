@@ -7,6 +7,12 @@ export type StepComponentConfig = Pick<
 	"step_operator" | "experiment_tracker"
 >;
 
+const stackComponentTypeSet = new Set<string>(stackComponentTypes);
+
+function isStackComponentType(type: string): type is StackComponentType {
+	return stackComponentTypeSet.has(type);
+}
+
 /**
  * Whether a stack component is active for a given step.
  * When no `stepConfig` is provided, every component is treated as active.
@@ -52,7 +58,8 @@ export function isStackComponentActiveInStep(
  * unknown types sort after all known types.
  */
 export function getStackComponentTypeOrder(type: string): number {
-	const index = stackComponentTypes.indexOf(type as StackComponentType);
+	if (!isStackComponentType(type)) return stackComponentTypes.length;
+	const index = stackComponentTypes.indexOf(type);
 	return index === -1 ? stackComponentTypes.length : index;
 }
 

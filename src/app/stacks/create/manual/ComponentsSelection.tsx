@@ -1,10 +1,10 @@
 import { stackComponentTypes } from "@/lib/constants";
-import { StackComponent, StackComponentType } from "@/types/components";
+import { StackComponent } from "@/types/components";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { ComponentTabContent } from "./ComponentTabContent";
 
 type ComponentsSectionProps = {
-	initialComponents?: Record<StackComponentType, StackComponent[]>;
+	initialComponents?: Record<string, StackComponent[]>;
 };
 
 export function ComponentsSelection({ initialComponents }: ComponentsSectionProps) {

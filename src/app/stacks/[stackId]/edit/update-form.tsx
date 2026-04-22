@@ -2,7 +2,6 @@ import { AddComponentsGrid } from "@/components/stacks/edit-create/add-component
 import { StackFormButtonBar } from "@/components/stacks/edit-create/button-bar";
 import { StackNameInput } from "@/components/stacks/edit-create/stack-name-input";
 import { routes } from "@/router/routes";
-import { StackComponent } from "@/types/components";
 import { Stack } from "@/types/stack";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tabs } from "@radix-ui/react-tabs";
@@ -37,11 +36,7 @@ export function UpdateForm({ stackId, stack, initialFormData }: UpdateFormProps)
 						<Panel className="!overflow-y-auto" defaultSize={50} minSize={33}>
 							<div className="flex h-full flex-1 flex-col">
 								<UpdateStackWarningBanner />
-								<ComponentsSelection
-									initialComponents={
-										stack.metadata?.components as Record<string, StackComponent[]> | undefined
-									}
-								/>
+								<ComponentsSelection initialComponents={stack.metadata?.components} />
 							</div>
 						</Panel>
 						<PanelResizeHandle className="w-[1px] bg-theme-border-moderate transition-colors duration-200 data-[resize-handle-state=drag]:bg-theme-border-bold data-[resize-handle-state=hover]:bg-theme-border-bold" />

@@ -8,7 +8,7 @@ import { ComponentTooltip } from "./ComponentsTooltip";
 
 type ComponentTabContentProps = {
 	type: StackComponentType;
-	initialComponents?: Record<StackComponentType, StackComponent[]>;
+	initialComponents?: Record<string, StackComponent[]>;
 };
 
 function ComponentHeader({ type }: { type: StackComponentType }) {

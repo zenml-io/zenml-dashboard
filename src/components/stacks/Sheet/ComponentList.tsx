@@ -4,7 +4,7 @@ import { extractComponents, getSortedComponentTypeEntries } from "@/lib/componen
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { sanitizeUrl } from "@/lib/url";
 import { routes } from "@/router/routes";
-import { StackComponent, StackComponentType } from "@/types/components";
+import { StackComponent } from "@/types/components";
 import { useQuery } from "@tanstack/react-query";
 import { Badge, Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
@@ -24,9 +24,7 @@ export function ComponentList({ stackId }: Props) {
 	useEffect(() => {
 		if (!stack.data) return;
 
-		const components = extractComponents(
-			stack.data.metadata?.components as Record<string, StackComponent[]> | undefined
-		);
+		const components = extractComponents(stack.data.metadata?.components);
 
 		const integrations = components
 			.map((component) => component.body?.integration)
@@ -48,10 +46,7 @@ export function ComponentList({ stackId }: Props) {
 			</div>
 		);
 
-	const componentsList = stack.data.metadata?.components as Record<
-		StackComponentType,
-		StackComponent[]
-	>;
+	const componentsList = stack.data.metadata?.components;
 
 	if (!componentsList) return null;
 

@@ -28,9 +28,7 @@ export function FinalStep() {
 
 	const stackData = stack.data;
 
-	const components = extractComponents(
-		stack.data.metadata?.components as Record<string, StackComponent[]> | undefined
-	);
+	const components = extractComponents(stackData.metadata?.components);
 
 	return (
 		<WizardStep.Wrapper>
@@ -96,7 +94,7 @@ function StackComponentItem({ component }: { component: StackComponent }) {
 				</div>
 			</div>
 			<ComponentBadge type={component.body?.type || "alerter"}>
-				{snakeCaseToTitleCase(component.body?.type as string)}
+				{snakeCaseToTitleCase(component.body?.type || "")}
 			</ComponentBadge>
 		</div>
 	);
