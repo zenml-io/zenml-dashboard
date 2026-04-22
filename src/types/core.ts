@@ -5398,6 +5398,31 @@ export type paths = {
 		patch?: never;
 		trace?: never;
 	};
+	"/api/v1/triggers/{trigger_id}/dispatch_state": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		get?: never;
+		put?: never;
+		post?: never;
+		/**
+		 * Clear Trigger Dispatch Error
+		 * @description Clears recorded dispatch errors for one or all trigger snapshots.
+		 *
+		 *     Args:
+		 *         trigger_id: The ID of the trigger.
+		 *         snapshot_id: Optional snapshot ID. If omitted all trigger snapshot
+		 *             dispatch errors are cleared.
+		 */
+		delete: operations["clear_trigger_dispatch_error_api_v1_triggers__trigger_id__dispatch_state_delete"];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/supported-events": {
 		parameters: {
 			query?: never;
@@ -13349,7 +13374,7 @@ export type components = {
 		 * @description All supported step types.
 		 * @enum {string}
 		 */
-		StepType: "tool_call" | "llm_call";
+		StepType: "tool_call" | "llm_call" | "memory_call";
 		/**
 		 * Tag
 		 * @description A model representing a tag.
@@ -13557,6 +13582,18 @@ export type components = {
 			| "pipeline_snapshot"
 			| "deployment";
 		/**
+		 * TriggerDispatchErrorSeverity
+		 * @description Severity levels for trigger dispatch errors.
+		 * @enum {string}
+		 */
+		TriggerDispatchErrorSeverity: "Minor" | "Major" | "Critical";
+		/**
+		 * TriggerDispatchStatusCode
+		 * @description User-facing dispatch status values for trigger-snapshot execution.
+		 * @enum {string}
+		 */
+		TriggerDispatchStatusCode: "SUCCESS" | "SKIPPED_CONCURRENCY" | "ERROR";
+		/**
 		 * TriggerExecutionInfo
 		 * @description Class representing a trigger execution information.
 		 */
@@ -13592,6 +13629,10 @@ export type components = {
 			 */
 			executable_snapshots?: components["schemas"]["PipelineSnapshotResponse"][];
 			latest_run?: components["schemas"]["PipelineRunResponse"] | null;
+			/** Snapshot Dispatch States */
+			snapshot_dispatch_states?: {
+				[key: string]: components["schemas"]["TriggerSnapshotDispatchState"];
+			};
 		} & {
 			[key: string]: unknown;
 		};
@@ -13601,6 +13642,54 @@ export type components = {
 		 * @enum {string}
 		 */
 		TriggerRunConcurrency: "skip" | "submit";
+		/**
+		 * TriggerSnapshotDispatchState
+		 * @description User-facing trigger dispatch state stored on trigger-snapshot links.
+		 *
+		 *     Persisted only for paths where a concrete ``(trigger_id, snapshot_id)``
+		 *     association row exists; unattributable exits stay in structured logs.
+		 */
+		TriggerSnapshotDispatchState: {
+			last_status: components["schemas"]["TriggerDispatchStatusCode"];
+			/**
+			 * Last Status At
+			 * @description Timestamp of the latest recorded status transition.
+			 */
+			last_status_at?: string | null;
+			/**
+			 * Last Error Message
+			 * @description Friendly user-facing message describing the latest error.
+			 */
+			last_error_message?: string | null;
+			/**
+			 * Last Error Type
+			 * @description Implementation-level error classifier.
+			 */
+			last_error_type?: string | null;
+			/** @description Severity level of the latest error. */
+			last_error_severity?: components["schemas"]["TriggerDispatchErrorSeverity"] | null;
+			/**
+			 * Last Error Stack Trace
+			 * @description Stack trace accompanying the last error
+			 */
+			last_error_stack_trace?: string | null;
+			/**
+			 * Last Error At
+			 * @description Timestamp of the last error in the current consecutive error-type streak.
+			 */
+			last_error_at?: string | null;
+			/**
+			 * First Error At
+			 * @description Timestamp of the first error in the current consecutive error-type streak.
+			 */
+			first_error_at?: string | null;
+			/**
+			 * Last Error Count
+			 * @description Number of times the latest error type occurred consecutively.
+			 * @default 0
+			 */
+			last_error_count?: number;
+		};
 		/**
 		 * TriggerType
 		 * @description Enum representing fundamental trigger types.
@@ -29185,6 +29274,66 @@ export interface operations {
 			path: {
 				trigger_id: string;
 				snapshot_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	clear_trigger_dispatch_error_api_v1_triggers__trigger_id__dispatch_state_delete: {
+		parameters: {
+			query?: {
+				snapshot_id?: string | null;
+			};
+			header?: never;
+			path: {
+				trigger_id: string;
 			};
 			cookie?: never;
 		};
