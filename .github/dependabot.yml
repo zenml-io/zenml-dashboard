@@ -9,9 +9,6 @@ updates:
       timezone: "Europe/Amsterdam"
     cooldown:
       default-days: 7
-      semver-major-days: 30
-      semver-minor-days: 7
-      semver-patch-days: 3
     open-pull-requests-limit: 5
     commit-message:
       prefix: "ci"
