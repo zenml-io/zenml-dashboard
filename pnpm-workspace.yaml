@@ -1,12 +1,19 @@
 # Supply chain security settings (pnpm v10+)
 # See: https://pnpm.io/supply-chain-security
 
+overrides:
+  dompurify: "^3.3.2"
+
+ignoredBuiltDependencies:
+  - reo-census
+
 # Allowlist packages that can run lifecycle scripts (postinstall, etc.)
 # pnpm v10 disables these by default; only esbuild needs its postinstall
 # to download the platform-specific binary.
 onlyBuiltDependencies:
   - "@swc/core"
   - esbuild
+  - lefthook
 
 # Ignore packages published less than 7 days ago (10080 minutes).
 # This protects against supply chain attacks where a compromised maintainer
