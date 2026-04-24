@@ -12,6 +12,8 @@ on:
 jobs:
   check-team-member:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       is-team-member: ${{ steps.check.outputs.is-member }}
     steps:

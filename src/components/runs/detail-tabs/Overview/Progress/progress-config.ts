@@ -43,6 +43,7 @@ function categorizeStatus(status: ExecutionStatus): ProgressCategory {
 		case "initializing":
 		case "provisioning":
 		case "resuming":
+		case "queued":
 		case "paused":
 			return "pending";
 		case "running":
@@ -52,6 +53,8 @@ function categorizeStatus(status: ExecutionStatus): ProgressCategory {
 		case "stopped":
 		case "stopping":
 		case "retried":
+		case "cancelled":
+		case "cancelling":
 			return "failed";
 	}
 }

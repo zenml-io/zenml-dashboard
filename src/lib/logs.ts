@@ -1,4 +1,5 @@
-import { LogEntry, LogEntryInternal, LoggingLevel, LogResponse } from "@/types/logs";
+import { LogSourceOption } from "@/components/logs/log-source-combobox";
+import { LogEntry, LogEntryInternal, LoggingLevel, LogResponse, LogsResponse } from "@/types/logs";
 
 export function unchunkLogEntries(entries: LogEntry[]): LogEntry[] {
 	if (!Array.isArray(entries) || entries.length === 0) return [];
@@ -65,3 +66,36 @@ export const LOG_LEVEL_NAMES: Record<LoggingLevel, string> = {
 	40: "ERROR",
 	50: "CRITICAL"
 } as const;
+
+/**
+ * Maps a list of `LogsResponse` entries to `LogSourceOption[]` for the log source combobox.
+ * The label is always the last segment of the `body.source` path (falling back to the full source).
+ * The value is either the log's `id` (>= 0.95.0) or the raw `body.source` string (< 0.95.0).
+ */
+export function buildLogSourceOptions(logs: LogsResponse[] | null | undefined): LogSourceOption[] {
+	const options =
+		logs
+			?.filter(
+				(log): log is LogsResponse & { body: { source: string } } =>
+					log.body?.source != null && log.body.source !== undefined
+			)
+			.map((log) => {
+				const source = log.body.source;
+				return {
+					value: log.id,
+					label: source.split("/").pop() ?? source
+				};
+			}) ?? [];
+
+	const labelCounts = options.reduce<Record<string, number>>((acc, { label }) => {
+		acc[label] = (acc[label] ?? 0) + 1;
+		return acc;
+	}, {});
+
+	const seen: Record<string, number> = {};
+	return options.map((option) => {
+		if (labelCounts[option.label] <= 1) return option;
+		seen[option.label] = (seen[option.label] ?? 0) + 1;
+		return { ...option, label: `${option.label} #${seen[option.label]}` };
+	});
+}
