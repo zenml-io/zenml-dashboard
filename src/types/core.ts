@@ -9453,6 +9453,8 @@ export type components = {
 			status_reason?: string | null;
 			/** The unique index of the run within the pipeline. */
 			index: number;
+			/** The ID of the pipeline this run is associated with. */
+			pipeline_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -9518,8 +9520,6 @@ export type components = {
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** Extra information for trigger execution like upstream_run_id etc. */
 			trigger_execution_info?: components["schemas"]["TriggerExecutionInfo"] | null;
-			/** The ID of the pipeline this run is associated with. */
-			pipeline_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseResources
@@ -11163,6 +11163,11 @@ export type components = {
 			 */
 			run_once_start_time?: string | null;
 			/**
+			 * Max Runs
+			 * @description Maximum number of runs to execute with this schedule.
+			 */
+			max_runs?: number | null;
+			/**
 			 * Name
 			 * @description The name of the trigger.
 			 */
@@ -11277,6 +11282,11 @@ export type components = {
 			 * @description Scheduling option: Execute once on selected start time.
 			 */
 			run_once_start_time?: string | null;
+			/**
+			 * Max Runs
+			 * @description Maximum number of runs to execute with this schedule.
+			 */
+			max_runs?: number | null;
 			/** Next Occurrence */
 			next_occurrence?: string | null;
 		};
@@ -11301,6 +11311,11 @@ export type components = {
 			 * @description Scheduling option: Execute once on selected start time.
 			 */
 			run_once_start_time?: string | null;
+			/**
+			 * Max Runs
+			 * @description Maximum number of runs to execute with this schedule.
+			 */
+			max_runs?: number | null;
 			/**
 			 * Name
 			 * @description The name of the trigger.
@@ -13592,7 +13607,7 @@ export type components = {
 		 * @description User-facing dispatch status values for trigger-snapshot execution.
 		 * @enum {string}
 		 */
-		TriggerDispatchStatusCode: "SUCCESS" | "SKIPPED_CONCURRENCY" | "ERROR";
+		TriggerDispatchStatusCode: "SUCCESS" | "SKIPPED_CONCURRENCY" | "SKIPPED_MAX_RUNS" | "ERROR";
 		/**
 		 * TriggerExecutionInfo
 		 * @description Class representing a trigger execution information.
