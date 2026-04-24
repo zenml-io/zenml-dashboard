@@ -30,12 +30,12 @@ export function AddComponentsGrid() {
 							<TabsTrigger className="group/trigger w-full" value={type}>
 								<TypeOverviewItem type={type} />
 							</TabsTrigger>
-							{watch(`components.${type}.id`) && (
+							{watch(`components.${type}`)?.length > 0 && (
 								<button
 									type="button"
 									onClick={(e) => {
 										e.preventDefault();
-										setValue(`components.${type}`, null);
+										setValue(`components.${type}`, []);
 									}}
 									className="absolute right-[-12px] top-[-12px] flex aspect-square h-[28px] w-[28px] items-center justify-center rounded-rounded bg-theme-surface-primary"
 								>

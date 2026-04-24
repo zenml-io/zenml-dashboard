@@ -1,5 +1,6 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { StackInfoFull } from "@/components/stacks/info/stack-info-full";
+import { StepComponentConfig } from "@/lib/components";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
@@ -34,14 +35,30 @@ export function StackTab({ stepId }: Props) {
 			</EmptyState>
 		);
 
-	return <StackTabContent objectConfig={config} stackId={stackId} />;
+	const stepMetadataConfig = step.data.metadata?.config;
+
+	return (
+		<StackTabContent
+			objectConfig={config}
+			stackId={stackId}
+			stepConfig={
+				stepMetadataConfig
+					? {
+							step_operator: stepMetadataConfig.step_operator,
+							experiment_tracker: stepMetadataConfig.experiment_tracker
+						}
+					: undefined
+			}
+		/>
+	);
 }
 
 type StackTabContentProps = {
 	stackId: string;
 	objectConfig: Record<string, unknown>;
+	stepConfig?: StepComponentConfig;
 };
-function StackTabContent({ stackId, objectConfig }: StackTabContentProps) {
+function StackTabContent({ stackId, objectConfig, stepConfig }: StackTabContentProps) {
 	const { data, isError, isPending } = useStack({ stackId: stackId });
 
 	if (isPending) return <Skeleton className="h-[250px] w-full" />;
@@ -50,5 +67,5 @@ function StackTabContent({ stackId, objectConfig }: StackTabContentProps) {
 		return <p>Failed to fetch Stack</p>;
 	}
 
-	return <StackInfoFull stack={data} objectConfig={objectConfig} />;
+	return <StackInfoFull stack={data} objectConfig={objectConfig} stepConfig={stepConfig} />;
 }

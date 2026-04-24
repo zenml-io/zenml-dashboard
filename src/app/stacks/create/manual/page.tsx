@@ -2,7 +2,7 @@ import { Tabs } from "@radix-ui/react-tabs";
 import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import { ComponentsSelection } from "./ComponentSelection";
+import { ComponentsSelection } from "./ComponentsSelection";
 import { TypeOverview } from "./TypeOverview";
 import { useManualStack } from "./useManualStack";
 
