@@ -15,7 +15,7 @@ jobs:
       issues: read
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -58,7 +58,7 @@ jobs:
           sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
 
       - name: Release to GitHub
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1 # zizmor: ignore[superfluous-actions] preserves existing release behavior; refactoring to gh CLI is out of scope.
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v1 # zizmor: ignore[superfluous-actions] preserves existing release behavior; refactoring to gh CLI is out of scope.
         with:
           files: |
             zenml-dashboard.tar.gz
