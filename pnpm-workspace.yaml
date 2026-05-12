@@ -8,6 +8,9 @@ onlyBuiltDependencies:
   - "@swc/core"
   - esbuild
 
+overrides:
+  "dompurify": "^3.4.0"
+
 # Ignore packages published less than 7 days ago (10080 minutes).
 # This protects against supply chain attacks where a compromised maintainer
 # publishes a malicious version — most get detected and yanked within days.

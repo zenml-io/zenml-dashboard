@@ -88,13 +88,8 @@
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.58.1",
-		"vite": "^8.0.8",
+		"vite": "^8.0.10",
 		"vite-plugin-svgr": "^5.2.0",
-		"vitest": "^4.1.4"
-	},
-	"pnpm": {
-		"overrides": {
-			"dompurify": "^3.3.2"
-		}
+		"vitest": "^4.1.5"
 	}
 }
