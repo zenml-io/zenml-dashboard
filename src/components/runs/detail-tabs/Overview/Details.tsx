@@ -58,6 +58,7 @@ export function Details({ runId }: Props) {
 
 	const statusReason = data.body?.status_reason;
 	const executionMode = data.metadata?.config.execution_mode;
+	const parentRun = data.resources?.parent_run;
 
 	const sourceSnapshot = data.resources?.source_snapshot;
 	const deploymentId = data.metadata?.trigger_info?.deployment_id;
@@ -133,6 +134,16 @@ export function Details({ runId }: Props) {
 							return <RunStatusTag runId={originalRun.id} status={originalRun.body.status} />;
 						})()}
 					</Value>
+					<KeyValue
+						label="Parent Run"
+						value={
+							parentRun && parentRun.body ? (
+								<RunStatusTag runId={parentRun.id} status={parentRun.body?.status} />
+							) : (
+								"Not available"
+							)
+						}
+					/>
 					<KeyValue
 						label="Snapshot"
 						value={
