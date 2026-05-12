@@ -9398,6 +9398,10 @@ export type components = {
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
 			/** The original run ID for a replayed run. */
 			original_run_id?: string | null;
+			/** The parent run ID for a nested child pipeline run. */
+			parent_run_id?: string | null;
+			/** Stable per-parent identifier of the child pipeline call that produced this child run. */
+			child_key?: string | null;
 		};
 		/**
 		 * PipelineRunResponse
@@ -9455,6 +9459,10 @@ export type components = {
 			index: number;
 			/** The ID of the pipeline this run is associated with. */
 			pipeline_id?: string | null;
+			/** Stable per-parent identifier of the child pipeline call that produced this child run. */
+			child_key?: string | null;
+			/** The ID of the top-level parent run of this run's nesting tree. */
+			root_run_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -9557,8 +9565,14 @@ export type components = {
 				| null;
 			/** The original run that was replayed to create this run. */
 			original_run?: components["schemas"]["PipelineRunResponse"] | null;
+			/** The parent run that launched this run as a child pipeline. */
+			parent_run?: components["schemas"]["PipelineRunResponse"] | null;
 			/** The active pending wait condition associated with this run. */
 			active_wait_condition?: components["schemas"]["RunWaitConditionResponse"] | null;
+			/** Pipeline output artifact versions keyed by output name. */
+			outputs?: {
+				[key: string]: components["schemas"]["ArtifactVersionResponse"];
+			};
 		} & {
 			[key: string]: unknown;
 		};
@@ -9584,6 +9598,10 @@ export type components = {
 			orchestrator_run_id?: string | null;
 			/** The exception information of the pipeline run. */
 			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** Pipeline output artifact version IDs keyed by output name. */
+			outputs?: {
+				[key: string]: string;
+			} | null;
 			/** New tags to add to the pipeline run. */
 			add_tags?: string[] | null;
 			/** Tags to remove from the pipeline run. */
@@ -19216,6 +19234,8 @@ export interface operations {
 				triggered_by_step_run_id?: string | null;
 				triggered_by_deployment_id?: string | null;
 				trigger_id?: string | null;
+				parent_run_id?: string | null;
+				root_runs_only?: boolean | null;
 			};
 			header?: never;
 			path?: never;
@@ -27004,6 +27024,8 @@ export interface operations {
 				triggered_by_step_run_id?: string | null;
 				triggered_by_deployment_id?: string | null;
 				trigger_id?: string | null;
+				parent_run_id?: string | null;
+				root_runs_only?: boolean | null;
 			};
 			header?: never;
 			path: {

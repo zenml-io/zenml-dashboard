@@ -12,7 +12,7 @@
 - Application code lives in `src/`: flows under `src/app`, shared UI in `src/components`, and utilities with co-located specs in `src/lib`.
 - Route folders mirror URL paths; dynamic segments use square-bracket names (e.g., `src/app/stacks/[stackId]/page.tsx`). Page-specific components live next to their page files.
 - Pages always live inside a `page.tsx` file and must default export the page component.
-- Providers (`src/context`), reusable hooks (`src/hooks`), assets (`src/assets`), and seed data (`src/data`) support features; static files ship from `public/`, Playwright suites reside in `e2e-tests/`, and API typings regenerate with `pnpm generate:types`.
+- Providers (`src/context`), reusable hooks (`src/hooks`), assets (`src/assets`), and seed data (`src/data`) support features; static files ship from `public/`, Playwright configuration lives in `playwright.config.ts`, and API typings regenerate with `pnpm generate:types`.
 - Layouts live in `src/layouts`, always render `<Outlet />`, and are wired through the lazy `src/router/Router.tsx`. Route definitions must be registered in `src/router/routes.tsx`—never hard-code href strings.
 - Contexts that are reused belong in `src/context`; page-locked contexts/components can stay beside their usage.
 - Global helpers sit in `src/lib` (organized by concern like `src/lib/strings`) and should have matching `*.spec.ts` coverage.
@@ -23,8 +23,8 @@
 - `pnpm dev` — start the Vite dev server (http://localhost:5173) with hot reload.
 - `pnpm build` — run `tsc` and `vite build` into `dist/`; follow with `pnpm preview` for production smoke tests.
 - `pnpm test:unit` — execute Vitest suites; add `-- --watch` during local development.
-- `pnpm test:e2e` — run Playwright journeys from `e2e-tests/`; tweak device coverage in `playwright.config.ts`.
-- `pnpm lint` / `pnpm format` — enforce ESLint and Prettier; both run automatically via Husky pre-commit hooks.
+- `pnpm test:e2e` — run Playwright using `playwright.config.ts` (currently configured with `testDir: "./tests"` even though a legacy example still exists under `e2e-tests/`); tweak device coverage in that config.
+- `pnpm lint` / `pnpm format` — run full-repo ESLint and Prettier manually. Husky runs `lint-staged` on commit, which formats/fixes staged JS/TS/CSS files but is not a substitute for the full commands.
 - `pnpm generate:types -- http://localhost:8237` — regenerate OpenAPI-derived types after backend schema changes; ensure the ZenML server is running locally first.
 
 ## Coding Style & Naming Conventions
@@ -42,7 +42,7 @@
 - Place unit specs alongside code as `*.spec.ts[x]`; run them with `pnpm test:unit`. Reuse helpers in `src/lib` so fixtures stay deterministic and reset timers, TanStack Query caches, and mocks in `beforeEach`.
 - Only test TypeScript modules—avoid standalone component test harnesses and instead abstract business logic into `.ts` helpers with Vitest coverage.
 - Focus Vitest coverage on TS business logic—component-specific behavior should be exercised via page-level integration tests rather than standalone component harnesses.
-- Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
+- Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; check `playwright.config.ts` before adding tests so new specs land in the directory Playwright actually scans. Keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
 
 ## Data Fetching & Mutations
 
@@ -72,6 +72,7 @@
 - Remove debug `console` statements before committing.
 
 ## Planning & Review (Agentic Work)
+
 - For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, existing patterns to reuse, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
 - **Avoid style thrash:** if you find yourself repeatedly nudging Tailwind/CSS to make something "look right" (especially across multiple commits), pause and reassess against the spec and existing design tokens/components.
 - Treat widespread or unrelated styling edits as a blocker: if a visual fix requires touching multiple unrelated components, adding arbitrary pixel constants, or layering overrides, stop and ask for an authoritative reference (screenshot/spec) or escalate to [@Cahllagerfeld](https://github.com/Cahllagerfeld) rather than continuing to iterate.
@@ -81,7 +82,7 @@
 
 - **Workspace-level resources only:** This repo implements workspace-level service accounts. User-level API keys are out of scope.
 - **Icons:** Reuse existing icon components; **do not** import from `lucide-react` (AI tools default to this incorrectly).
-- **OSS vs Pro:** The OSS dashboard omits list filtering, tagging, models/artifacts, and UI-triggered snapshots, but uniquely supports user/server activation flows and in-workspace user management. Never promise Pro-only abilities here.
+- **OSS vs Pro:** This dashboard may include CTA/fallback pages for Pro-only areas such as models, artifacts, and triggers, but those are not full OSS feature implementations unless backed by current routes, data modules, and backend support. Snapshot creation UI does exist, so inspect the current route/data flow before assuming snapshot-related work is Pro-only. OSS uniquely supports user/server activation flows and in-workspace user management.
 - **Backend coupling:** The dashboard is bundled with the FastAPI-based ZenML server—API calls always hit the paired backend domain.
 
 ## Common Implementation Patterns
@@ -90,7 +91,7 @@
 - **One-time secrets**: Display token/key once after creation in a dialog, never persist in UI state
 - **Query invalidation**: After mutations (create/update/delete), invalidate TanStack Query cache to refetch data
 - **Component reuse**: Check `src/components/` for existing patterns before creating new components
-- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+- **Type safety**: Use generated types from `src/types/core.ts`; avoid `any`
 - **React Router discipline**: Keep navigation hooked into `src/router/routes.tsx` helpers; lazy routes reside under `src/router/Router.tsx`.
 - **Transient props**: Accept and forward `HTMLAttributes` when building primitives so downstream consumers can extend them.
 - **Memoization**: Use `useCallback`/`useMemo` where prop stability or expensive derived data matters.
