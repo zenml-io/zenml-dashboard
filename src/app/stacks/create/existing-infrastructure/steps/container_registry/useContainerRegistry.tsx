@@ -67,6 +67,12 @@ export function useContainerRegistries() {
 			};
 		});
 		setData(updatedData);
+		if (
+			!updatedData.registryConfig ||
+			!updatedData.orchestratorConfig ||
+			!updatedData.artifactStoreConfig
+		)
+			return;
 		mutate({
 			payload: {
 				name: updatedData.stackName || Math.random().toString(36).substring(7),

@@ -31,20 +31,15 @@ export function useManualStack() {
 	});
 
 	function createManualStack(data: FormType) {
-		// filter out null from data.components object
-		const components = Object.entries(data.components).reduce(
-			(acc, [key, value]) => {
-				if (value) {
-					acc[key] = [value.id];
-				}
-				return acc;
-			},
-			{} as Record<string, [string]>
+		const components = Object.fromEntries(
+			Object.entries(data.components)
+				.filter(([, items]) => items.length > 0)
+				.map(([type, items]) => [type, items.map((item) => item.id)])
 		);
 
 		const payload: StackRequest = {
 			name: data.stackName,
-			components: components
+			components
 		};
 
 		createStack.mutate({ payload });
@@ -54,20 +49,20 @@ export function useManualStack() {
 		resolver: zodResolver(formSchema()),
 		defaultValues: {
 			components: {
-				alerter: null,
-				orchestrator: {},
-				annotator: null,
-				artifact_store: {},
-				container_registry: null,
-				data_validator: null,
-				experiment_tracker: null,
-				feature_store: null,
-				model_registry: null,
-				image_builder: null,
-				model_deployer: null,
-				step_operator: null,
-				deployer: null,
-				log_store: null
+				alerter: [],
+				orchestrator: [],
+				annotator: [],
+				artifact_store: [],
+				container_registry: [],
+				data_validator: [],
+				experiment_tracker: [],
+				feature_store: [],
+				model_registry: [],
+				image_builder: [],
+				model_deployer: [],
+				step_operator: [],
+				deployer: [],
+				log_store: []
 			},
 			stackName: ""
 		}

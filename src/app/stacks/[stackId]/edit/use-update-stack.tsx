@@ -1,11 +1,13 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { useUpdateStack } from "@/data/stacks/update-stack";
-import { useQueryClient } from "@tanstack/react-query";
-import { FormType } from "../../create/manual/schema";
+import { stackComponentTypes } from "@/lib/constants";
 import { stackQueries } from "@/data/stacks";
-import { useNavigate } from "react-router-dom";
+import { useUpdateStack } from "@/data/stacks/update-stack";
 import { routes } from "@/router/routes";
+import { StackComponentType } from "@/types/components";
+import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
+import { useNavigate } from "react-router-dom";
+import { FormType } from "../../create/manual/schema";
 
 export function useUpdateStackHook(stackId: string) {
 	const { toast } = useToast();
@@ -28,14 +30,13 @@ export function useUpdateStackHook(stackId: string) {
 	});
 
 	function updateExistingStack(data: FormType) {
-		const components = Object.entries(data.components).reduce(
-			(acc, [key, value]) => {
-				if (value) {
-					acc[key] = [value.id];
-				}
+		const components = stackComponentTypes.reduce<Partial<Record<StackComponentType, string[]>>>(
+			(acc, type) => {
+				const ids = data.components[type].map((component) => component.id);
+				if (ids.length > 0) acc[type] = ids;
 				return acc;
 			},
-			{} as Record<string, [string]>
+			{}
 		);
 
 		updateStack.mutate({

@@ -1,6 +1,11 @@
 import { LogEntry } from "@/types/logs";
 import { describe, expect, it } from "vitest";
-import { buildInternalLogEntries, LOG_LEVEL_NAMES, unchunkLogEntries } from "./logs";
+import {
+	buildInternalLogEntries,
+	buildLogSourceOptions,
+	LOG_LEVEL_NAMES,
+	unchunkLogEntries
+} from "./logs";
 
 describe("unchunkLogEntries", () => {
 	it("returns empty array for non-array or empty input", () => {
@@ -219,5 +224,66 @@ describe("buildInternalLogEntries", () => {
 		const internal = buildInternalLogEntries(logs);
 		expect(internal).toHaveLength(1);
 		expect(internal[0].originalEntry.startsWith("[INFO] ")).toBe(true);
+	});
+});
+
+describe("buildLogSourceOptions", () => {
+	it("returns an empty array for nullish input", () => {
+		expect(buildLogSourceOptions(null)).toEqual([]);
+		expect(buildLogSourceOptions(undefined)).toEqual([]);
+	});
+
+	it("builds options from source paths and keeps id as value", () => {
+		const logs = [
+			{
+				id: "id-1",
+				body: { source: "/var/logs/worker/main.log" }
+			},
+			{
+				id: "id-2",
+				body: { source: "api/server.log" }
+			},
+			{
+				id: "id-3",
+				body: { source: "stdout" }
+			}
+		] as any;
+
+		expect(buildLogSourceOptions(logs)).toEqual([
+			{ value: "id-1", label: "main.log" },
+			{ value: "id-2", label: "server.log" },
+			{ value: "id-3", label: "stdout" }
+		]);
+	});
+
+	it("filters out logs with missing source and suffixes duplicate labels in order", () => {
+		const logs = [
+			{
+				id: "1",
+				body: { source: "/service-a/stdout" }
+			},
+			{
+				id: "2",
+				body: { source: "/service-b/stdout" }
+			},
+			{
+				id: "3",
+				body: { source: "/service-c/stderr" }
+			},
+			{
+				id: "4",
+				body: {}
+			},
+			{
+				id: "5",
+				body: { source: null }
+			}
+		] as any;
+
+		expect(buildLogSourceOptions(logs)).toEqual([
+			{ value: "1", label: "stdout #1" },
+			{ value: "2", label: "stdout #2" },
+			{ value: "3", label: "stderr" }
+		]);
 	});
 });
