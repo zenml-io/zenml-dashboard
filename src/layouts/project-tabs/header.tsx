@@ -3,7 +3,7 @@ import { ProjectTabs } from "./tabs";
 export function ProjectHeader() {
 	return (
 		<section className="overflow-x-hidden border-b border-theme-border-moderate bg-theme-surface-primary">
-			<div className="mx-auto w-full max-w-screen-xl space-y-3 px-5 pt-5 lg:px-[80px]">
+			<div className="mx-auto w-full max-w-[1440px] space-y-3 px-5 pt-5 lg:px-[80px]">
 				<NameSection />
 				<ProjectTabs />
 			</div>

@@ -5,7 +5,7 @@ export default function PipelineDetailLayout() {
 	return (
 		<div>
 			<PipelineDetailHeader />
-			<section className="mx-auto w-full max-w-screen-xl p-5 lg:px-[80px]">
+			<section className="mx-auto w-full max-w-[1440px] p-5 lg:px-[80px]">
 				<Outlet />
 			</section>
 		</div>

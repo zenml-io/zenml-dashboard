@@ -4,7 +4,7 @@ export function ProjectTabsLayout() {
 	return (
 		<div>
 			<ProjectHeader />
-			<div className="mx-auto w-full max-w-screen-xl p-5 lg:px-[80px]">
+			<div className="mx-auto w-full max-w-[1440px] p-5 lg:px-[80px]">
 				<Outlet />
 			</div>
 		</div>
