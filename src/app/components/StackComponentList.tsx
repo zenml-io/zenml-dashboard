@@ -64,7 +64,7 @@ export function StackComponentList({ fixedQueryParams, displayCreateComponent = 
 				</div>
 
 				<div className="flex flex-col items-center gap-5">
-					<div className="w-full">
+					<div className="w-full overflow-x-auto">
 						{data ? (
 							<DataTable
 								getRowId={(row) => row.id}

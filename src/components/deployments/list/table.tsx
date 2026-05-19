@@ -34,7 +34,7 @@ export function PipelineDeploymentsTable({ params, columns }: Props) {
 
 	return (
 		<div className="flex flex-col items-center gap-5">
-			<div className="w-full">
+			<div className="w-full overflow-x-auto">
 				<DataTable
 					columns={columns}
 					data={data.items}

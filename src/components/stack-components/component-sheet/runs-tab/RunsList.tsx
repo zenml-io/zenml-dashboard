@@ -52,7 +52,7 @@ export function RunsList({ componentId }: Props) {
 					</div>
 				</div>
 				<div className="flex flex-col items-center gap-5">
-					<div className="w-full">
+					<div className="w-full overflow-x-auto">
 						{data ? (
 							<DataTable columns={runsColumns} data={data.items} />
 						) : (

@@ -10,7 +10,7 @@ export function ConnectorSuccessTable({ connector }: Props) {
 	return (
 		<section className="flex flex-col gap-5">
 			<div className="flex flex-col items-center gap-5">
-				<div className="w-full">
+				<div className="w-full overflow-x-auto">
 					<DataTable columns={columns} data={[connector]} />
 				</div>
 			</div>

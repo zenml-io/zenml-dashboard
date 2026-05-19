@@ -30,7 +30,7 @@ export default function MembersTable() {
 				{currentUser.body?.is_admin && <AddMemberDialog />}
 			</div>
 			<div className="flex flex-col items-center gap-5">
-				<div className="w-full">
+				<div className="w-full overflow-x-auto">
 					{data ? (
 						<DataTable
 							columns={columns({ isAdmin: currentUser.body?.is_admin })}

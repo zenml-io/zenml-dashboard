@@ -54,7 +54,7 @@ export default function SecretDetailTable({ secretId }: { secretId: string }) {
 					/>
 				</Dialog>
 			</div>
-			<div className="w-full">
+			<div className="w-full overflow-x-auto">
 				<DataTable
 					columns={getSecretDetailColumn(secretId, secretDetail.data.name)}
 					data={filteredData}
