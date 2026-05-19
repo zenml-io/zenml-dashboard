@@ -6,7 +6,7 @@ export function NonProjectScopedLayout() {
 		<div className="relative flex-1">
 			<Header />
 			<FloatingProgressLink />
-			<div className="px-5 lg:px-[80px]">
+			<div className="mx-auto w-full max-w-screen-xl px-5 lg:px-[80px]">
 				<Outlet />
 			</div>
 		</div>
