@@ -52,12 +52,10 @@ To get started with the ZenML Dashboard, follow these steps:
 
 2. **Install Pnpm:**
 
-   - The project uses pnpm v10 as the package manager. pnpm v11 is not yet supported
-     (it introduced trust-downgrade checks that conflict with some dependencies).
-     Install it with:
+   - The project uses pnpm v11 as the package manager. Install it with:
 
      ```bash
-     npm install -g pnpm@10
+     npm install -g pnpm@11
      ```
 
      Alternatively, if you use [corepack](https://nodejs.org/api/corepack.html), run

@@ -7,6 +7,7 @@
 onlyBuiltDependencies:
   - "@swc/core"
   - esbuild
+  - reo-census
 
 # Ignore packages published less than 7 days ago (10080 minutes).
 # This protects against supply chain attacks where a compromised maintainer
@@ -24,5 +25,28 @@ trustPolicy: no-downgrade
 # Override transitive dependency versions.
 # Moved here from the "pnpm" field in package.json, which pnpm v10+ no longer reads
 # (it silently ignores overrides placed there and emits a [WARN] on every install).
+#
+# Pins below are trust-downgrade workarounds: each pinned version is the last one
+# where trust evidence (provenance attestation or npm signature) did not regress.
+# The flagged versions had no trust evidence while their predecessors did, which
+# triggers trustPolicy: no-downgrade. Re-evaluate when newer trusted versions ship.
 overrides:
   dompurify: "^3.4.0"
+  undici-types: "^6.25.0"    # 6.21.0 had no trust evidence; 6.25.0 is clean
+  tailwind-merge: "2.5.5"    # 2.6.0+ lost attestations; 2.5.5 is the last clean 2.x
+  semver: "6.3.0"            # 6.3.1 had no trust evidence; 6.3.0 is clean
+
+# Both fields are intentionally present — this is a workaround for a pnpm v10 migration quirk:
+#
+# - onlyBuiltDependencies is the v9/v10 field that actually does the work. Removing it and
+#   relying solely on allowBuilds produced ERR_PNPM_IGNORED_BUILDS in practice.
+#
+# - allowBuilds is a newer field pnpm v10 keeps injecting as a migration hint. With placeholder
+#   values it regenerates the section on every install. Setting real booleans here stops that.
+#
+# Once pnpm stabilizes allowBuilds as a working replacement, drop onlyBuiltDependencies and
+# keep only allowBuilds.
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+  reo-census: true
