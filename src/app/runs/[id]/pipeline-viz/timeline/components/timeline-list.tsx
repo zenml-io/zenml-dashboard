@@ -28,7 +28,7 @@ export function TimelineList({
 	const virtualizer = useVirtualizer({
 		count,
 		getScrollElement: () => parentRef.current,
-		estimateSize: () => 36
+		estimateSize: () => 38
 	});
 
 	const items = virtualizer.getVirtualItems();
@@ -44,7 +44,7 @@ export function TimelineList({
 				}}
 			>
 				<div
-					className="divide-y divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary"
+					className="overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary"
 					style={
 						{
 							position: "absolute",
@@ -59,8 +59,10 @@ export function TimelineList({
 					{items.map((virtualRow) => {
 						const filteredItem = timelineItems[virtualRow.index];
 						const type = filteredItem.type;
+						const isLastItem = virtualRow.index === count - 1;
 						return (
 							<div
+								className={isLastItem ? undefined : "border-b border-theme-border-moderate"}
 								key={virtualRow.key}
 								data-index={virtualRow.index}
 								ref={virtualizer.measureElement}

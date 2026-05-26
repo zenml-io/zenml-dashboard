@@ -8,9 +8,6 @@ onlyBuiltDependencies:
   - "@swc/core"
   - esbuild
 
-overrides:
-  "dompurify": "^3.4.0"
-
 # Ignore packages published less than 7 days ago (10080 minutes).
 # This protects against supply chain attacks where a compromised maintainer
 # publishes a malicious version — most get detected and yanked within days.
@@ -23,3 +20,9 @@ blockExoticSubdeps: true
 # Block a new version if its trust level (e.g., provenance, signing) is
 # weaker than the previous release. Catches credential compromise scenarios.
 trustPolicy: no-downgrade
+
+# Override transitive dependency versions.
+# Moved here from the "pnpm" field in package.json, which pnpm v10+ no longer reads
+# (it silently ignores overrides placed there and emits a [WARN] on every install).
+overrides:
+  dompurify: "^3.4.0"
