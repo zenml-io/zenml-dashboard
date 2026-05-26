@@ -1,6 +1,7 @@
 import { ComponentIcon } from "@/components/ComponentIcon";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { StackComponentType } from "@/types/components";
+import { Badge } from "@zenml-io/react-component-library";
 import { useFormContext } from "react-hook-form";
 import { FormType } from "./schema";
 
@@ -13,7 +14,7 @@ export function TypeOverviewItem({ type }: Props) {
 	} = useFormContext<FormType>();
 
 	const component = watch(`components.${type}`);
-	const isComponentFilledout = component && component.id;
+	const isComponentFilledout = component && component.length > 0;
 
 	return (
 		<div
@@ -28,18 +29,45 @@ export function TypeOverviewItem({ type }: Props) {
 	);
 }
 
+const MAX_VISIBLE_ICONS = 3;
+
 function SelectedContent({ type }: Props) {
 	const { watch } = useFormContext<FormType>();
 	const component = watch(`components.${type}`);
-	const isComponentFilledout = component && component.id;
 
-	if (!isComponentFilledout) return null;
+	if (!component || component.length === 0) return null;
+
+	const isMultipleComponents = component.length > 1;
+	const hasOverflow = component.length > MAX_VISIBLE_ICONS;
+	const visibleComponents = hasOverflow ? component.slice(0, MAX_VISIBLE_ICONS - 1) : component;
+	const overflowCount = component.length - visibleComponents.length;
 
 	return (
 		<div className="flex flex-col items-center gap-2 text-text-sm">
-			<img width={24} height={24} src={component.logoUrl} alt={`Icon of ${component.name}`} />
+			<ul className="flex flex-nowrap items-center gap-1">
+				{visibleComponents.map((c) => (
+					<li key={c.id}>
+						<img
+							width={24}
+							height={24}
+							src={c.logoUrl}
+							className="shrink-0 object-contain"
+							alt={`Icon of ${c.name}`}
+						/>
+					</li>
+				))}
+				{hasOverflow && (
+					<li aria-label={`${overflowCount} more components`}>
+						<Badge rounded={false} color="light-grey">
+							+{overflowCount}
+						</Badge>
+					</li>
+				)}
+			</ul>
 			<div className="space-y-0.25">
-				<div className="text-theme-text-primary">{component.name}</div>
+				<div className="text-theme-text-primary">
+					{isMultipleComponents ? `${component.length} Components` : component[0].name}
+				</div>
 				<div className="text-text-xs text-theme-text-tertiary">{snakeCaseToTitleCase(type)}</div>
 			</div>
 		</div>

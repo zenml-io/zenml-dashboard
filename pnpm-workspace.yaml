@@ -1,9 +1,5 @@
 # Supply chain security settings (pnpm v10+)
 # See: https://pnpm.io/supply-chain-security
-
-overrides:
-  dompurify: "^3.3.2"
-
 ignoredBuiltDependencies:
   - reo-census
 
@@ -27,3 +23,9 @@ blockExoticSubdeps: true
 # Block a new version if its trust level (e.g., provenance, signing) is
 # weaker than the previous release. Catches credential compromise scenarios.
 trustPolicy: no-downgrade
+
+# Override transitive dependency versions.
+# Moved here from the "pnpm" field in package.json, which pnpm v10+ no longer reads
+# (it silently ignores overrides placed there and emits a [WARN] on every install).
+overrides:
+  dompurify: "^3.4.0"

@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Essential Commands
 
 ```bash
-pnpm install          # Install dependencies (uses pnpm, not yarn!)
+pnpm install          # Install dependencies — requires pnpm v10 (v11 not yet supported)
 pnpm dev             # Start development server (default port 5173)
 pnpm build           # Build for production (tsc + vite build)
 pnpm lint            # Run ESLint
@@ -48,8 +48,10 @@ pnpm vitest watch
 **Single e2e test file:**
 
 ```bash
-pnpm playwright test e2e-tests/example.spec.ts
+pnpm playwright test path/to/spec.ts
 ```
+
+Playwright uses `playwright.config.ts` as the source of truth. At the moment that config points to `testDir: "./tests"` even though a legacy example file remains under `e2e-tests/`, so check the config before adding or running a specific e2e spec.
 
 ## General OSS Practices
 
@@ -99,7 +101,7 @@ src/
 ├── data/               # Data fetching layer (React Query hooks and fetchers)
 ├── types/              # TypeScript types (generated and custom)
 ├── lib/                # Utility functions and business logic
-├── context/            # Gloabl and reused React contexts (Auth, Schema, Wizard, etc.)
+├── context/            # Global and reused React contexts (Auth, Schema, Wizard, etc.)
 ├── router/             # Router configuration and route definitions
 ├── hooks/              # Custom React hooks
 └── assets/             # Icons, images, and global styles
@@ -117,7 +119,6 @@ src/
 All API interactions follow a consistent pattern using TanStack Query:
 
 1. **Query files** (e.g., `pipeline-run-detail-query.ts`) export:
-
    - `getXQueryKey()` - Query key factory function
    - `fetchX()` - Async fetcher function
    - `useX()` - React Query hook
@@ -248,7 +249,7 @@ Vite build is configured to split chunks by library:
 
 ### E2E Tests
 
-- Located in `e2e-tests/` directory
+- Directory is controlled by `playwright.config.ts`; currently it points at `./tests`, while `e2e-tests/` still contains a legacy example.
 - Use Playwright for browser automation
 - Test against built preview server (port 4173)
 - Configured to run on chromium, firefox, and webkit
@@ -266,7 +267,7 @@ Vite build is configured to split chunks by library:
 3. **No standalone use:** This dashboard is designed to work with the ZenML Server backend
 4. **Backwards compatibility:** Consider that users may be running different ZenML Server versions
 5. **Scope: Workspace-level resources only:** This dashboard implements workspace-level service accounts. User-level API keys are out of scope for this repository.
-6. **OSS vs Pro parity:** The OSS dashboard intentionally omits list filtering, tagging, model/artifact management, and UI-triggered snapshot runs. It uniquely supports server activation, user activation, and workspace-level user management, so never promise Pro-only functionality here.
+6. **OSS vs Pro parity:** The OSS dashboard may show CTA/fallback pages for Pro-only areas such as models, artifacts, and triggers, but those pages are not full OSS implementations unless the current routes, data modules, and backend support say otherwise. Snapshot creation UI exists, so inspect the current flow before treating all snapshot work as Pro-only. The OSS dashboard uniquely supports server activation, user activation, and workspace-level user management.
 
 ## Assets & Content
 
@@ -289,6 +290,7 @@ When using AI tools with this codebase:
 3. Note that many patterns are shared with zenml-cloud-ui (check that repo for reference implementations)
 
 ### Plan & Review (Agentic Work)
+
 - For non-trivial changes, start with a short Markdown plan/spec (scope, files to touch, similar existing flows, acceptance criteria) and get [@Cahllagerfeld](https://github.com/Cahllagerfeld) to review it before implementation.
 - **Avoid style thrash:** do not fall into repeated "make it look right" loops of tiny Tailwind/CSS nudges. If you notice multiple iterations where the diff is mostly styling tweaks, stop and re-anchor to the plan and design tokens.
 - Ask for a single authoritative reference (screenshot/spec) and explicit acceptance criteria before continuing visual polish. Prefer correcting tokens/variants/layout primitives over adding scattered one-off overrides.
@@ -299,7 +301,7 @@ When using AI tools with this codebase:
 - **One-time secrets**: Display token/key once after creation, never show again
 - **Query invalidation**: After mutations, invalidate related TanStack Query queries to trigger refetch
 - **Component reuse**: Check `src/components/` before creating new components
-- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+- **Type safety**: Use generated types from `src/types/core.ts`; avoid `any`
 - **Transient props**: Primitive components should forward `HTMLAttributes` props so callers can pass native attributes/refs.
 - **Memoization**: Reach for `useCallback`/`useMemo` to keep props stable when children are memoized.
 - **Routing discipline**: Reference `src/router/routes.tsx` helpers instead of hard-coded strings, and mirror URLs with `[param]` directories under `src/app/`.
@@ -340,5 +342,6 @@ When using AI tools with this codebase:
 ### Labels
 
 All PRs should have one of the following release labels:
+
 - `release-notes` - for user-facing changes that should appear in the changelog
 - `no-release-notes` - for internal changes (refactoring, tests, CI, etc.)

@@ -12,6 +12,8 @@ jobs:
   check-team-member:
     name: Validate Codex commenter
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     if: |
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '/codex') &&
@@ -20,7 +22,7 @@ jobs:
       is-team-member: ${{ steps.check.outputs.is-member }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 1
           persist-credentials: false
@@ -46,24 +48,46 @@ jobs:
       needs.check-team-member.outputs.is-team-member == 'true'
     permissions:
       contents: read
+      pull-requests: read
+      issues: read
     outputs:
       final_message: ${{ steps.codex.outputs.final-message }}
     steps:
       - name: Checkout PR merge commit
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           ref: refs/pull/${{ github.event.issue.number }}/merge
           persist-credentials: false
       - name: Fetch base and head refs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.issue.number }}
         run: |
+          set -euo pipefail
+
+          case "$PR_NUMBER" in
+            ""|*[!0-9]*)
+              echo "Invalid PR number: $PR_NUMBER" >&2
+              exit 1
+              ;;
+          esac
+
+          BASE_REF="$(gh pr view "$PR_NUMBER" --json baseRefName --jq '.baseRefName')"
+          if [ -z "$BASE_REF" ]; then
+            echo "Unable to resolve base ref for PR #$PR_NUMBER" >&2
+            exit 1
+          fi
+
+          git check-ref-format --branch "$BASE_REF" >/dev/null
+
           git fetch --no-tags origin \
-            ${{ github.event.issue.pull_request.base.ref }} \
-            +refs/pull/${{ github.event.issue.number }}/head \
-            +refs/pull/${{ github.event.issue.number }}/merge
+            "+refs/heads/${BASE_REF}:refs/remotes/origin/${BASE_REF}" \
+            "+refs/pull/${PR_NUMBER}/head:refs/remotes/pull/${PR_NUMBER}/head" \
+            "+refs/pull/${PR_NUMBER}/merge:refs/remotes/pull/${PR_NUMBER}/merge"
       - name: Run Codex
         id: codex
-        uses: openai/codex-action@c25d10f3f498316d4b2496cc4c6dd58057a7b031 # v1
+        uses: openai/codex-action@e0fdf01220eb9a88167c4898839d273e3f2609d1 # v1.8
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
@@ -123,7 +147,6 @@ jobs:
     if: always() && needs.run-codex.result == 'success'
     permissions:
       issues: write
-      pull-requests: write
     steps:
       - name: Debug outputs
         run: |
@@ -133,7 +156,7 @@ jobs:
           FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
       - name: Reply with Codex output
         if: needs.run-codex.outputs.final_message
-        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         env:
           FINAL_MESSAGE: ${{ needs.run-codex.outputs.final_message }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}

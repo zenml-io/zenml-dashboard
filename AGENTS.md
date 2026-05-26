@@ -12,7 +12,7 @@
 - Application code lives in `src/`: flows under `src/app`, shared UI in `src/components`, and utilities with co-located specs in `src/lib`.
 - Route folders mirror URL paths; dynamic segments use square-bracket names (e.g., `src/app/stacks/[stackId]/page.tsx`). Page-specific components live next to their page files.
 - Pages always live inside a `page.tsx` file and must default export the page component.
-- Providers (`src/context`), reusable hooks (`src/hooks`), assets (`src/assets`), and seed data (`src/data`) support features; static files ship from `public/`, Playwright suites reside in `e2e-tests/`, and API typings regenerate with `pnpm generate:types`.
+- Providers (`src/context`), reusable hooks (`src/hooks`), assets (`src/assets`), and seed data (`src/data`) support features; static files ship from `public/`, Playwright configuration lives in `playwright.config.ts`, and API typings regenerate with `pnpm generate:types`.
 - Layouts live in `src/layouts`, always render `<Outlet />`, and are wired through the lazy `src/router/Router.tsx`. Route definitions must be registered in `src/router/routes.tsx`—never hard-code href strings.
 - Contexts that are reused belong in `src/context`; page-locked contexts/components can stay beside their usage.
 - Global helpers sit in `src/lib` (organized by concern like `src/lib/strings`) and should have matching `*.spec.ts` coverage.
@@ -42,7 +42,7 @@
 - Place unit specs alongside code as `*.spec.ts[x]`; run them with `pnpm test:unit`. Reuse helpers in `src/lib` so fixtures stay deterministic and reset timers, TanStack Query caches, and mocks in `beforeEach`.
 - Only test TypeScript modules—avoid standalone component test harnesses and instead abstract business logic into `.ts` helpers with Vitest coverage.
 - Focus Vitest coverage on TS business logic—component-specific behavior should be exercised via page-level integration tests rather than standalone component harnesses.
-- Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
+- Reserve Playwright (`pnpm test:e2e`) for end-to-end flows and smoke coverage; check `playwright.config.ts` before adding tests so new specs land in the directory Playwright actually scans. Keep component snapshots and accessibility assertions in Vitest using `@testing-library/react`.
 
 ## Data Fetching & Mutations
 
@@ -82,7 +82,7 @@
 
 - **Workspace-level resources only:** This repo implements workspace-level service accounts. User-level API keys are out of scope.
 - **Icons:** Reuse existing icon components; **do not** import from `lucide-react` (AI tools default to this incorrectly).
-- **OSS vs Pro:** The OSS dashboard omits list filtering, tagging, models/artifacts, and UI-triggered snapshots, but uniquely supports user/server activation flows and in-workspace user management. Never promise Pro-only abilities here.
+- **OSS vs Pro:** This dashboard may include CTA/fallback pages for Pro-only areas such as models, artifacts, and triggers, but those are not full OSS feature implementations unless backed by current routes, data modules, and backend support. Snapshot creation UI does exist, so inspect the current route/data flow before assuming snapshot-related work is Pro-only. OSS uniquely supports user/server activation flows and in-workspace user management.
 - **Backend coupling:** The dashboard is bundled with the FastAPI-based ZenML server—API calls always hit the paired backend domain.
 
 ## Common Implementation Patterns
@@ -91,7 +91,7 @@
 - **One-time secrets**: Display token/key once after creation in a dialog, never persist in UI state
 - **Query invalidation**: After mutations (create/update/delete), invalidate TanStack Query cache to refetch data
 - **Component reuse**: Check `src/components/` for existing patterns before creating new components
-- **Type safety**: Use generated types from `src/types/core.ts`, avoid `type any`
+- **Type safety**: Use generated types from `src/types/core.ts`; avoid `any`
 - **React Router discipline**: Keep navigation hooked into `src/router/routes.tsx` helpers; lazy routes reside under `src/router/Router.tsx`.
 - **Transient props**: Accept and forward `HTMLAttributes` when building primitives so downstream consumers can extend them.
 - **Memoization**: Use `useCallback`/`useMemo` where prop stability or expensive derived data matters.
