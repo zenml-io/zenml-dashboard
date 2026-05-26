@@ -3,6 +3,7 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
+	"packageManager": "pnpm@10.33.4",
 	"scripts": {
 		"build": "tsc && vite build",
 		"dev": "vite",
@@ -92,10 +93,5 @@
 		"vite-plugin-bundle-prefetch": "^0.0.4",
 		"vite-plugin-svgr": "^4.5.0",
 		"vitest": "^4.1.2"
-	},
-	"pnpm": {
-		"overrides": {
-			"dompurify": "^3.4.0"
-		}
 	}
 }
