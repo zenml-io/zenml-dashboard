@@ -10,6 +10,7 @@ updates:
     cooldown:
       default-days: 7
     open-pull-requests-limit: 5
+    target-branch: "staging"
     commit-message:
       prefix: "ci"
       include: "scope"
