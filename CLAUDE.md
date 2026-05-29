@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Essential Commands
 
 ```bash
-pnpm install          # Install dependencies (uses pnpm, not yarn!)
+pnpm install          # Install dependencies — requires pnpm v10 (v11 not yet supported)
 pnpm dev             # Start development server (default port 5173)
 pnpm build           # Build for production (tsc + vite build)
 pnpm lint            # Run ESLint
