@@ -62,7 +62,8 @@ export function useManualStack() {
 				model_deployer: [],
 				step_operator: [],
 				deployer: [],
-				log_store: []
+				log_store: [],
+				sandbox: []
 			},
 			stackName: ""
 		}

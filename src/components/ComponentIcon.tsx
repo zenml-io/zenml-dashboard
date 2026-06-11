@@ -11,6 +11,7 @@ import Package from "@/assets/icons/package-plus.svg?react";
 import Rocket from "@/assets/icons/rocket.svg?react";
 import Transform from "@/assets/icons/transform.svg?react";
 import LogStore from "@/assets/icons/log-store.svg?react";
+import SquareDashedBottomCode from "@/assets/icons/square-dashbed-code.svg?react";
 import { StackComponentType } from "@/types/components";
 import { HTMLAttributes } from "react";
 
@@ -48,5 +49,7 @@ export function ComponentIcon({ type, ...rest }: Props) {
 			return <Rocket {...rest} />;
 		case "log_store":
 			return <LogStore {...rest} />;
+		case "sandbox":
+			return <SquareDashedBottomCode {...rest} />;
 	}
 }

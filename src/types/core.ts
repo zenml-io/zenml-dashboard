@@ -970,6 +970,81 @@ export type paths = {
 		patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
 		trace?: never;
 	};
+	"/api/v1/hook_invocations": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * List Hook Invocations
+		 * @description Get hook invocations according to query filters.
+		 *
+		 *     Args:
+		 *         hook_invocation_filter_model: Filter model used for pagination, sorting,
+		 *             filtering.
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *         auth_context: Authentication context.
+		 *
+		 *     Returns:
+		 *         The hook invocations according to query filters.
+		 */
+		get: operations["list_hook_invocations_api_v1_hook_invocations_get"];
+		put?: never;
+		/**
+		 * Create Hook Invocation
+		 * @description Create a hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation: The hook invocation to create.
+		 *
+		 *     Returns:
+		 *         The created hook invocation.
+		 */
+		post: operations["create_hook_invocation_api_v1_hook_invocations_post"];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/hook_invocations/{hook_invocation_id}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Hook Invocation
+		 * @description Get one specific hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation_id: ID of the hook invocation to get.
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *
+		 *     Returns:
+		 *         The hook invocation.
+		 */
+		get: operations["get_hook_invocation_api_v1_hook_invocations__hook_invocation_id__get"];
+		put?: never;
+		post?: never;
+		/**
+		 * Delete Hook Invocation
+		 * @description Delete a hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation_id: ID of the hook invocation to delete.
+		 */
+		delete: operations["delete_hook_invocation_api_v1_hook_invocations__hook_invocation_id__delete"];
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	"/api/v1/logs": {
 		parameters: {
 			query?: never;
@@ -7425,6 +7500,162 @@ export type components = {
 			detail?: components["schemas"]["ValidationError"][];
 		};
 		/**
+		 * HookInvocationRequest
+		 * @description Request model for hook invocations.
+		 */
+		HookInvocationRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The ID of the hook invocation.
+			 * Format: uuid
+			 */
+			id?: string;
+			/** The type of the hook invocation. */
+			hook_type: components["schemas"]["HookType"];
+			/** The name of the hook invocation. */
+			name?: string | null;
+			/** The status of the hook invocation. */
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * The start time of the hook invocation.
+			 * Format: date-time
+			 */
+			start_time: string;
+			/** The end time of the hook invocation. */
+			end_time?: string | null;
+			/** The source of the hook function. */
+			source?: string | null;
+			/**
+			 * The ID of the pipeline run that this hook invocation belongs to.
+			 * Format: uuid
+			 */
+			pipeline_run_id: string;
+			/** The ID of the step run that this hook invocation belongs to. */
+			step_run_id?: string | null;
+			/** The IDs of the output artifact versions of the hook invocation. */
+			outputs?: {
+				[key: string]: string[];
+			};
+			/** The exception information of the hook invocation. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The ID of the logs entry to link to the hook invocation. */
+			logs_id?: string | null;
+		};
+		/**
+		 * HookInvocationResponse
+		 * @description Response model for hook invocations.
+		 */
+		HookInvocationResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["HookInvocationResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["HookInvocationResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["HookInvocationResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the hook invocation. */
+			name?: string | null;
+		};
+		/**
+		 * HookInvocationResponseBody
+		 * @description Response body for hook invocations.
+		 */
+		HookInvocationResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/** The type of the hook invocation. */
+			hook_type: components["schemas"]["HookType"];
+			/** The status of the hook invocation. */
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * The start time of the hook invocation.
+			 * Format: date-time
+			 */
+			start_time: string;
+			/** The end time of the hook invocation. */
+			end_time?: string | null;
+			/**
+			 * The ID of the pipeline run that this hook invocation belongs to.
+			 * Format: uuid
+			 */
+			pipeline_run_id: string;
+			/** The ID of the step run that this hook invocation belongs to. */
+			step_run_id?: string | null;
+		};
+		/**
+		 * HookInvocationResponseMetadata
+		 * @description Response metadata for hook invocations.
+		 */
+		HookInvocationResponseMetadata: {
+			/** The source of the hook function. */
+			source?: string | null;
+			/** The exception information of the hook invocation. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+		};
+		/**
+		 * HookInvocationResponseResources
+		 * @description Class for all resource models associated with the hook invocation entity.
+		 */
+		HookInvocationResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** The output artifact versions of the hook invocation. */
+			outputs?: {
+				[key: string]: components["schemas"]["ArtifactVersionResponse"][];
+			};
+			/** Logs associated with this hook invocation. */
+			log_collection?: components["schemas"]["LogsResponse"][] | null;
+		} & {
+			[key: string]: unknown;
+		};
+		/**
+		 * HookType
+		 * @description Hook types.
+		 * @enum {string}
+		 */
+		HookType:
+			| "run_start"
+			| "run_success"
+			| "run_failure"
+			| "run_end"
+			| "run_pause"
+			| "run_resume"
+			| "step_start"
+			| "step_end"
+			| "step_success"
+			| "step_failure"
+			| "custom";
+		/**
 		 * InputSpec
 		 * @description Step input specification.
 		 */
@@ -7549,6 +7780,8 @@ export type components = {
 			pipeline_run_id?: string | null;
 			/** The step run ID to associate the logs with. */
 			step_run_id?: string | null;
+			/** The hook invocation ID to associate the logs with. */
+			hook_invocation_id?: string | null;
 		};
 		/**
 		 * LogsResponse
@@ -7618,6 +7851,8 @@ export type components = {
 			artifact_store_id?: string | null;
 			/** The log store ID that collected these logs */
 			log_store_id?: string | null;
+			/** The hook invocation ID to associate the logs with. */
+			hook_invocation_id?: string | null;
 		};
 		/**
 		 * LogsResponseResources
@@ -8588,6 +8823,19 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["FlavorResponse"][];
 		};
+		/** Page[HookInvocationResponse] */
+		Page_HookInvocationResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["HookInvocationResponse"][];
+		};
 		/** Page[ModelResponse] */
 		Page_ModelResponse_: {
 			/** Index */
@@ -9122,6 +9370,10 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			start_hook_source?: components["schemas"]["Source"] | null;
+			end_hook_source?: components["schemas"]["Source"] | null;
+			pause_hook_source?: components["schemas"]["Source"] | null;
+			resume_hook_source?: components["schemas"]["Source"] | null;
 			init_hook_source?: components["schemas"]["Source"] | null;
 			/** Init Hook Kwargs */
 			init_hook_kwargs?: {
@@ -9211,14 +9463,18 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
-			failure_hook_source?: components["schemas"]["Source"] | null;
-			success_hook_source?: components["schemas"]["Source"] | null;
-			init_hook_source?: components["schemas"]["Source"] | null;
+			failure_hook_source?: unknown | null;
+			success_hook_source?: unknown | null;
+			start_hook_source?: unknown | null;
+			end_hook_source?: unknown | null;
+			pause_hook_source?: unknown | null;
+			resume_hook_source?: unknown | null;
+			init_hook_source?: unknown | null;
 			/** Init Hook Kwargs */
 			init_hook_kwargs?: {
 				[key: string]: unknown;
 			} | null;
-			cleanup_hook_source?: components["schemas"]["Source"] | null;
+			cleanup_hook_source?: unknown | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -9448,8 +9704,6 @@ export type components = {
 			} | null;
 			/** @description The retry configuration for all steps of the pipeline run. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
-			/** @description The failure hook source for all steps of the pipeline run. */
-			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The init hook source for the pipeline run. */
 			init_hook_source?: components["schemas"]["Source"] | null;
 			/**
@@ -9461,8 +9715,18 @@ export type components = {
 			} | null;
 			/** @description The cleanup hook source for the pipeline run. */
 			cleanup_hook_source?: components["schemas"]["Source"] | null;
-			/** @description The success hook source for all steps of the pipeline run. */
+			/** @description Failure hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Success hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Start hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description End hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			end_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Pause hook source. Static pipelines ignore it. Dynamic pipelines run it once at the run level when the run pauses. */
+			pause_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Resume hook source. Static pipelines ignore it. Dynamic pipelines run it once at the run level when a paused run resumes. */
+			resume_hook_source?: components["schemas"]["Source"] | null;
 			/**
 			 * Substitutions
 			 * @description The substitutions for the pipeline run.
@@ -9632,7 +9896,7 @@ export type components = {
 			linked_to_model_version_id?: string | null;
 			/**
 			 * Status
-			 * @description Name of the Pipeline Run
+			 * @description Status of the Pipeline Run
 			 */
 			status?: string | null;
 			/**
@@ -12867,7 +13131,8 @@ export type components = {
 			| "orchestrator"
 			| "step_operator"
 			| "model_registry"
-			| "deployer";
+			| "deployer"
+			| "sandbox";
 		/**
 		 * StackDeploymentConfig
 		 * @description Configuration about a stack deployment.
@@ -13192,6 +13457,10 @@ export type components = {
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -13332,9 +13601,13 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** @description The failure hook source for the step. */
-			failure_hook_source?: components["schemas"]["Source"] | null;
+			failure_hook_source?: unknown | null;
 			/** @description The success hook source for the step. */
-			success_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: unknown | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: unknown | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: unknown | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -13478,6 +13751,10 @@ export type components = {
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -17095,6 +17372,259 @@ export interface operations {
 			query?: never;
 			header?: never;
 			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	list_hook_invocations_api_v1_hook_invocations_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_user?: string | null;
+				user?: string | null;
+				project?: string | null;
+				pipeline_run_id?: string | null;
+				step_run_id?: string | null;
+				hook_type?: string | null;
+				name?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["Page_HookInvocationResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	create_hook_invocation_api_v1_hook_invocations_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["HookInvocationRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["HookInvocationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	get_hook_invocation_api_v1_hook_invocations__hook_invocation_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			header?: never;
+			path: {
+				hook_invocation_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["HookInvocationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	delete_hook_invocation_api_v1_hook_invocations__hook_invocation_id__delete: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				hook_invocation_id: string;
+			};
 			cookie?: never;
 		};
 		requestBody?: never;

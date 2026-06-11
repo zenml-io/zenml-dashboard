@@ -16,7 +16,8 @@ export const stackComponentTypes: StackComponentType[] = [
 	"data_validator",
 	"image_builder",
 	"model_registry",
-	"log_store"
+	"log_store",
+	"sandbox"
 ] as const;
 
 export const COLLAPSE_STRING_THRESHOLD_CHARACTERS = 100; // characters
