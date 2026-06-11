@@ -54,14 +54,14 @@ export function getSkippedBuildImageFromStepConfig(step: Step | undefined): Buil
 export function resolveStepDockerImageDisplay(
 	buildImage: BuildItem | undefined,
 	skippedBuildImage: BuildItem | null
-): BuildItem | undefined {
+): { item: BuildItem | undefined; displayCopyButton: boolean } {
 	if (!buildImage) {
-		return undefined;
+		return { item: undefined, displayCopyButton: false };
 	}
 
 	if (skippedBuildImage && buildImage.image !== skippedBuildImage.image) {
-		return skippedBuildImage;
+		return { item: skippedBuildImage, displayCopyButton: true };
 	}
 
-	return buildImage;
+	return { item: buildImage, displayCopyButton: false };
 }

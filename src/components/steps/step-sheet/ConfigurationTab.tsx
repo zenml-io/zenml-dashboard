@@ -41,8 +41,10 @@ export function StepConfigTab({ stepId }: Props) {
 
 	const buildImage = getStepBuildImage(stepName, buildData?.metadata?.images);
 	const skippedBuildImage = getSkippedBuildImageFromStepConfig(data);
-	const dockerImage = resolveStepDockerImageDisplay(buildImage, skippedBuildImage);
-
+	const { item: dockerImage, displayCopyButton } = resolveStepDockerImageDisplay(
+		buildImage,
+		skippedBuildImage
+	);
 	if (isError) {
 		return <ErrorFallback err={error} />;
 	}
@@ -62,7 +64,9 @@ export function StepConfigTab({ stepId }: Props) {
 				data={data.metadata?.config?.parameters as AnyDict}
 				title="Parameters"
 			/>
-			{dockerImage ? <DockerImageCollapsible data={dockerImage} /> : null}
+			{dockerImage ? (
+				<DockerImageCollapsible data={dockerImage} displayCopyButton={displayCopyButton} />
+			) : null}
 			<CodeSnippetCard id={data.id} />
 			<NestedCollapsible
 				isInitialOpen
