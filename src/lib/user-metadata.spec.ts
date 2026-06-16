@@ -52,9 +52,9 @@ describe("parseUserMetadata", () => {
 		expect(parseUserMetadata("invalid")).toEqual({});
 	});
 
-	test("coerces invalid field types to empty defaults", () => {
-		expect(parseUserMetadata({ primary_role: 123 })).toEqual({ primary_role: "" });
-		expect(parseUserMetadata({ infra_type: true })).toEqual({ infra_type: "" });
+	test("coerces invalid field types to schema fallbacks", () => {
+		expect(parseUserMetadata({ primary_role: 123 })).toEqual({ primary_role: "ml_engineer" });
+		expect(parseUserMetadata({ infra_type: true })).toEqual({ infra_type: "local" });
 		expect(parseUserMetadata({ awareness_channels: "not-an-array" })).toEqual({
 			awareness_channels: []
 		});
@@ -73,7 +73,7 @@ describe("parseUserMetadata", () => {
 			})
 		).toEqual({
 			primary_role: "ml_engineer",
-			infra_type: "",
+			infra_type: "local",
 			finished_onboarding_survey: true
 		});
 	});
