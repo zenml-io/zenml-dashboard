@@ -1,12 +1,16 @@
-import { DockerImageCollapsible } from "@/components/collapsibles/docker-image-collapsible";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
+import { DockerImageCollapsible } from "@/components/collapsibles/docker-image-collapsible";
 import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { getStepSnippet } from "@/lib/code-snippets";
+import {
+	getSkippedBuildImageFromStepConfig,
+	getStepBuildImage,
+	resolveStepDockerImageDisplay
+} from "@/lib/docker-images";
 import { AnyDict } from "@/types/common";
-import { BuildItemMap } from "@/types/pipeline-builds";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 import { ErrorFallback } from "../../Error";
@@ -35,39 +39,12 @@ export function StepConfigTab({ stepId }: Props) {
 
 	const stepName = data?.name;
 
-	const findIndexImage = () => {
-		const dockerImages = buildData?.metadata?.images;
-
-		if (!dockerImages) {
-			return null;
-		}
-
-		if (stepName) {
-			// First check if a step operator image exists for this step
-			for (const key in dockerImages) {
-				if (key.startsWith(`${stepName}.`)) {
-					return key;
-				}
-			}
-
-			// Check if an image for this step exists
-			if (dockerImages[stepName]) {
-				return stepName;
-			}
-		}
-
-		// Default to orchestrator if no step-specific image is found
-		if (dockerImages["orchestrator"]) {
-			return "orchestrator";
-		}
-
-		return null;
-	};
-
-	const indexImage = findIndexImage();
-
-	const dataImage = indexImage && (buildData?.metadata?.images as BuildItemMap)?.[indexImage];
-
+	const buildImage = getStepBuildImage(stepName, buildData?.metadata?.images);
+	const skippedBuildImage = getSkippedBuildImageFromStepConfig(data);
+	const { item: dockerImage, displayCopyButton } = resolveStepDockerImageDisplay(
+		buildImage,
+		skippedBuildImage
+	);
 	if (isError) {
 		return <ErrorFallback err={error} />;
 	}
@@ -87,7 +64,9 @@ export function StepConfigTab({ stepId }: Props) {
 				data={data.metadata?.config?.parameters as AnyDict}
 				title="Parameters"
 			/>
-			{dataImage ? <DockerImageCollapsible data={dataImage} /> : null}
+			{dockerImage ? (
+				<DockerImageCollapsible data={dockerImage} displayCopyButton={displayCopyButton} />
+			) : null}
 			<CodeSnippetCard id={data.id} />
 			<NestedCollapsible
 				isInitialOpen

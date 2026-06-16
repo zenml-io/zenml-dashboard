@@ -25,6 +25,14 @@ export function Markdown({ className, markdown }: Props) {
 			const sanitized = src ? sanitizeUrl(src) : undefined;
 			if (!sanitized || sanitized.startsWith("unsafe:")) return null;
 			return <img {...props} src={sanitized} alt={alt ?? ""} />;
+		},
+		table({ node, ...props }) {
+			void node;
+			return (
+				<div className="overflow-x-auto">
+					<table {...props} />
+				</div>
+			);
 		}
 	};
 

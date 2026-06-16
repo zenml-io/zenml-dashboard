@@ -1,27 +1,28 @@
-import {
-	TooltipProvider,
-	Tooltip,
-	TooltipTrigger,
-	TooltipContent
-} from "@zenml-io/react-component-library/components/client";
-import { StackComponentType } from "@/types/components";
 import InfoIcon from "@/assets/icons/info.svg?react";
 import {
 	AlerterSection,
 	AnnotatorSection,
-	OrchestratorSection,
-	StepOperatorSection,
-	FeatureStoreSection,
 	ArtifactStoreSection,
-	ImageBuilderSection,
 	ContainerRegistrySection,
 	DataValidatorSection,
+	DeployerSection,
 	ExperimentTrackerSection,
+	FeatureStoreSection,
+	ImageBuilderSection,
+	LogStoreSection,
 	ModelDeployerSection,
 	ModelRegistrySection,
-	DeployerSection,
-	LogStoreSection
+	OrchestratorSection,
+	SandboxSection,
+	StepOperatorSection
 } from "@/contents/components";
+import { StackComponentType } from "@/types/components";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library/components/client";
 
 type Props = {
 	type: StackComponentType;
@@ -121,6 +122,11 @@ function getTooltip(type: StackComponentType): { description: string; link: stri
 			return {
 				description: LogStoreSection.description,
 				link: LogStoreSection.helpLink
+			};
+		case "sandbox":
+			return {
+				description: SandboxSection.description,
+				link: SandboxSection.helpLink
 			};
 	}
 }

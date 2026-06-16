@@ -80,3 +80,8 @@ export const LogStoreSection = {
 	description: "Log stores are responsible for storing the logs of the pipeline runs.",
 	helpLink: "https://docs.zenml.io/stacks/stack-components/log-stores"
 };
+
+export const SandboxSection = {
+	description: "Sandboxes provide isolated environments in which users can execute code safely.",
+	helpLink: "https://docs.zenml.io/stacks/stack-components/sandboxes"
+};
