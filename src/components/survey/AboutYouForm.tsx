@@ -9,8 +9,8 @@ import { Controller, useForm } from "react-hook-form";
 import { aboutYouFormSchema, AboutYouFormType } from "./form-schemas";
 
 type AboutYouFormProps = {
-	primaryRole?: string;
-	infraType?: string;
+	primaryRole?: AboutYouFormType["primaryRole"];
+	infraType?: AboutYouFormType["infraType"];
 	submitHandler: (data: AboutYouFormType) => void;
 };
 
@@ -83,8 +83,8 @@ export function AboutYouForm({ primaryRole, infraType, submitHandler }: AboutYou
 	} = useForm<AboutYouFormType>({
 		resolver: zodResolver(aboutYouFormSchema),
 		defaultValues: {
-			primaryRole: primaryRole || "",
-			infraType: infraType || ""
+			primaryRole,
+			infraType
 		}
 	});
 

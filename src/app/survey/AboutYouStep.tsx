@@ -3,15 +3,15 @@ import { AboutYouForm } from "@/components/survey/AboutYouForm";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
+import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useSurveyUserContext } from "./SurveyUserContext";
-import { UserMetadata } from "@/types/user";
 import { AboutYouFormType } from "@/components/survey/form-schemas";
 
 type Props = {
-	primaryRole?: string;
-	infraType?: string;
+	primaryRole?: UserMetadata["primary_role"];
+	infraType?: UserMetadata["infra_type"];
 };
 
 export function AboutYouStep({ primaryRole, infraType }: Props) {
@@ -39,10 +39,12 @@ export function AboutYouStep({ primaryRole, infraType }: Props) {
 
 	function handleAboutYouSubmit({ primaryRole, infraType }: AboutYouFormType) {
 		const updateMetadata: UserMetadata = {
-			primary_role: primaryRole,
-			infra_type: infraType,
 			finished_onboarding_survey: true
 		};
+
+		if (primaryRole) updateMetadata.primary_role = primaryRole;
+		if (infraType) updateMetadata.infra_type = infraType;
+
 		mutate({ ...user, user_metadata: { ...user.user_metadata, ...updateMetadata } });
 	}
 

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { INFRA_TYPE_OPTIONS, PRIMARY_ROLE_OPTIONS } from "@/types/user";
 import { updatePasswordBaseFormSchema } from "../password/UpdatePasswordSchemas";
 
 // Account Details
@@ -42,14 +43,13 @@ export function getSetPasswordStepSchema(withUsername: boolean = false) {
 		});
 }
 
-const setPasswordStepSchema = getSetPasswordStepSchema();
-export type SetPasswordStepType = z.infer<typeof setPasswordStepSchema>;
+export type SetPasswordStepType = z.infer<ReturnType<typeof getSetPasswordStepSchema>>;
 
 // About you
 
 export const aboutYouFormSchema = z.object({
-	primaryRole: z.string().min(1),
-	infraType: z.string().min(1)
+	primaryRole: z.enum(PRIMARY_ROLE_OPTIONS).optional(),
+	infraType: z.enum(INFRA_TYPE_OPTIONS).optional()
 });
 
 export type AboutYouFormType = z.infer<typeof aboutYouFormSchema>;

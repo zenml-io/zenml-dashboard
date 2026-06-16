@@ -46,10 +46,12 @@ export function AboutYouStep({ userId, setUsername }: Props) {
 
 	function handleAboutYouSubmit({ primaryRole, infraType }: AboutYouFormType) {
 		const updateMetadata: UserMetadata = {
-			primary_role: primaryRole,
-			infra_type: infraType,
 			finished_onboarding_survey: true
 		};
+
+		if (primaryRole) updateMetadata.primary_role = primaryRole;
+		if (infraType) updateMetadata.infra_type = infraType;
+
 		mutate({
 			userId,
 			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
