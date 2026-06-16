@@ -105,11 +105,12 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 }
 
 export function VisualizationErrorFallback({ error }: FallbackProps) {
+	const errorMessage = error instanceof Error ? error.message : "Unknown error";
 	return (
 		<EmptyState icon={<Barchart className="h-[120px] w-[120px] fill-neutral-300" />}>
 			<div className="text-center">
 				<p className="mb-2 text-display-xs font-semibold">Something went wrong</p>
-				<p className="text-lg text-theme-text-secondary">{error.message}</p>
+				<p className="text-lg text-theme-text-secondary">{errorMessage}</p>
 			</div>
 		</EmptyState>
 	);

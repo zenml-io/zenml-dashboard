@@ -23,8 +23,8 @@
 - `pnpm dev` — start the Vite dev server (http://localhost:5173) with hot reload.
 - `pnpm build` — run `tsc` and `vite build` into `dist/`; follow with `pnpm preview` for production smoke tests.
 - `pnpm test:unit` — execute Vitest suites; add `-- --watch` during local development.
-- `pnpm test:e2e` — run Playwright using `playwright.config.ts` (currently configured with `testDir: "./tests"` even though a legacy example still exists under `e2e-tests/`); tweak device coverage in that config.
-- `pnpm lint` / `pnpm format` — run full-repo ESLint and Prettier manually. Husky runs `lint-staged` on commit, which formats/fixes staged JS/TS/CSS files but is not a substitute for the full commands.
+- `pnpm test:e2e` — run Playwright journeys from `e2e-tests/`; tweak device coverage in `playwright.config.ts`.
+- `pnpm lint` / `pnpm format` — enforce ESLint and Prettier; both run automatically via lefthook pre-commit hooks.
 - `pnpm generate:types -- http://localhost:8237` — regenerate OpenAPI-derived types after backend schema changes; ensure the ZenML server is running locally first.
 
 ## Coding Style & Naming Conventions

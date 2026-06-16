@@ -6,11 +6,11 @@ import {
 	useContext,
 	useState
 } from "react";
-import { ZodSchema } from "zod";
+import { ZodObject, ZodRawShape } from "zod";
 
 type SchemaContextType = {
-	schema: ZodSchema;
-	setSchema: Dispatch<SetStateAction<ZodSchema>>;
+	schema: ZodObject<ZodRawShape>;
+	setSchema: Dispatch<SetStateAction<ZodObject<ZodRawShape>>>;
 	defaultValues: Record<string, any>;
 	setDefaultValues: Dispatch<SetStateAction<Record<string, any>>>;
 };
@@ -18,10 +18,10 @@ type SchemaContextType = {
 const SchemaContext = createContext<SchemaContextType | null>(null);
 
 type Props = {
-	initialSchema: ZodSchema;
+	initialSchema: ZodObject<ZodRawShape>;
 };
 export function SchemaProvider({ children, initialSchema }: PropsWithChildren<Props>) {
-	const [schema, setSchema] = useState<ZodSchema>(initialSchema);
+	const [schema, setSchema] = useState<ZodObject<ZodRawShape>>(initialSchema);
 	const [defaultValues, setDefaultValues] = useState<Record<string, any>>({});
 	return (
 		<SchemaContext.Provider value={{ schema, setSchema, defaultValues, setDefaultValues }}>

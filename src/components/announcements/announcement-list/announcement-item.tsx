@@ -31,7 +31,11 @@ export function AnnouncementItem({ item }: { item: Announcement }) {
 					))}
 				</ul>
 			</div>
-			{item.description && <Markdown className="prose">{item.description}</Markdown>}
+			{item.description && (
+				<div className="prose">
+					<Markdown>{item.description}</Markdown>
+				</div>
+			)}
 			{(item.learn_more_url || item.docs_url) && (
 				<AnnouncementLinks
 					docs_url={item.docs_url}

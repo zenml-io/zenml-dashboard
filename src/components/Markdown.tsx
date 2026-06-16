@@ -37,8 +37,10 @@ export function Markdown({ className, markdown }: Props) {
 	};
 
 	return (
-		<ReactMarkdown className={className} remarkPlugins={[remarkGfm]} components={components}>
-			{markdown}
-		</ReactMarkdown>
+		<div className={className}>
+			<ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+				{markdown}
+			</ReactMarkdown>
+		</div>
 	);
 }

@@ -17,7 +17,7 @@ export function ConfigurationStep() {
 	const { setCurrentStep } = useWizardContext();
 
 	const form = useForm<ConfigurationForm>({
-		resolver: zodResolver(configurationSchema, { async: true }),
+		resolver: zodResolver(configurationSchema),
 		defaultValues: { region: data.location || "", stackName: data.stackName || "" }
 	});
 
