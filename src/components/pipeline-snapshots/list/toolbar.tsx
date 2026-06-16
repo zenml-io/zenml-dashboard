@@ -4,14 +4,14 @@ import { useSnapshotSelectorContext } from "@/components/pipeline-snapshots/sele
 import { SearchField } from "@/components/SearchField";
 import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { routes } from "@/router/routes";
-import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
+import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { PipelineSnapshotsButtonGroup } from "./button-group";
 
 type Props = {
-	params: PipelineRunOvervieweParams;
+	params: PipelineSnapshotListQueryParams;
 	displayCreateButton?: boolean;
 };
 
