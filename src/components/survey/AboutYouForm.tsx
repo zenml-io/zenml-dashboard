@@ -1,7 +1,8 @@
 import CloudIcon from "@/assets/icons/cloud.svg?react";
-import LaptopIcon from "@/assets/icons/laptop.svg?react";
 import InfoIcon from "@/assets/icons/help.svg?react";
+import LaptopIcon from "@/assets/icons/laptop.svg?react";
 import KubernetesIcon from "@/assets/icons/server.svg?react";
+import { INFRA_TYPE_OPTIONS, PRIMARY_ROLE_OPTIONS } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, cn } from "@zenml-io/react-component-library";
 import { Controller, useForm } from "react-hook-form";
@@ -16,7 +17,10 @@ type AboutYouFormProps = {
 // Legacy primary_role values to account for if we normalize persisted metadata later:
 // "ML Engineer / Data Scientist", "Platform Engineer / MLOps Engineer",
 // "AI Engineer", "Engineering Lead / Tech Lead", "other".
-const RoleOptions = [
+const RoleOptions: {
+	label: string;
+	value: (typeof PRIMARY_ROLE_OPTIONS)[number];
+}[] = [
 	{
 		label: "ML Engineer",
 		value: "ml_engineer"
@@ -39,7 +43,12 @@ const RoleOptions = [
 	}
 ] as const;
 
-const InfraTypeOptions = [
+const InfraTypeOptions: {
+	label: string;
+	description: string;
+	value: (typeof INFRA_TYPE_OPTIONS)[number];
+	icon: typeof LaptopIcon;
+}[] = [
 	{
 		label: "My Laptop",
 		description: "Start local, no infra needed",
@@ -55,7 +64,7 @@ const InfraTypeOptions = [
 	{
 		label: "Cloud",
 		description: "AWS, GCP, Azure, etc.",
-		value: "docker",
+		value: "cloud",
 		icon: CloudIcon
 	},
 	{
