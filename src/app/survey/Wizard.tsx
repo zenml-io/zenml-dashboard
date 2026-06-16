@@ -3,10 +3,10 @@ import StepDisplay from "@/components/survey/StepDisplay";
 import { SuccessStep } from "@/components/survey/SuccessStep";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useCurrentUser } from "@/data/users/current-user-query";
+import { getUserMetadata } from "@/lib/user-metadata";
 import { Skeleton } from "@zenml-io/react-component-library";
+import { AboutYouStep } from "./AboutYouStep";
 import { AccountDetailsStep } from "./AccountDetailsStep";
-import { AiChallengesStep } from "./ai-challenge-step";
-import { PrimaryRoleStep } from "./primary-role-step";
 import { SurveyUserProvider } from "./SurveyUserContext";
 
 export function SurveyWizard() {
@@ -16,15 +16,23 @@ export function SurveyWizard() {
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-[300px]" />;
 
+	const metadata = getUserMetadata(data);
+
 	return (
 		<>
 			<SurveyUserProvider>
-				<StepDisplay stepAmount={4} />
-				{surveyStep === 1 && <AccountDetailsStep user={data} />}
-				{surveyStep === 2 && <PrimaryRoleStep user={data} />}
-				{surveyStep === 3 && <AiChallengesStep />}
-				{surveyStep === 4 && <SlackStep />}
-				{surveyStep === 5 && (
+				<StepDisplay stepAmount={3} />
+				{surveyStep === 1 && (
+					<AccountDetailsStep
+						fullName={data.body?.full_name}
+						email={data.metadata?.email ?? undefined}
+					/>
+				)}
+				{surveyStep === 2 && (
+					<AboutYouStep primaryRole={metadata.primary_role} infraType={metadata.infra_type} />
+				)}
+				{surveyStep === 3 && <SlackStep />}
+				{surveyStep === 4 && (
 					<SuccessStep
 						subHeader="Your ZenML account is now updated"
 						displayBody={false}

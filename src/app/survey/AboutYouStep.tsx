@@ -1,15 +1,20 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { AiChallengesForm } from "@/components/survey/ai-challenge";
+import { AboutYouForm } from "@/components/survey/AboutYouForm";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
-import { AiChallengesFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useSurveyUserContext } from "./SurveyUserContext";
+import { UserMetadata } from "@/types/user";
+import { AboutYouFormType } from "@/components/survey/form-schemas";
 
-export function AiChallengesStep() {
+type Props = {
+	primaryRole?: string;
+	infraType?: string;
+};
+
+export function AboutYouStep({ primaryRole, infraType }: Props) {
 	const { user } = useSurveyUserContext();
 	const { setSurveyStep } = useSurveyContext();
 	const { toast } = useToast();
@@ -32,14 +37,20 @@ export function AiChallengesStep() {
 		}
 	});
 
-	function handleAiChallengesSubmit({ biggestChallenge, aiTypes }: AiChallengesFormType) {
+	function handleAboutYouSubmit({ primaryRole, infraType }: AboutYouFormType) {
 		const updateMetadata: UserMetadata = {
-			ai_types_working_with: aiTypes,
-			biggest_ai_challenges: biggestChallenge,
+			primary_role: primaryRole,
+			infra_type: infraType,
 			finished_onboarding_survey: true
 		};
 		mutate({ ...user, user_metadata: { ...user.user_metadata, ...updateMetadata } });
 	}
 
-	return <AiChallengesForm submitHandler={handleAiChallengesSubmit} />;
+	return (
+		<AboutYouForm
+			primaryRole={primaryRole}
+			infraType={infraType}
+			submitHandler={handleAboutYouSubmit}
+		/>
+	);
 }

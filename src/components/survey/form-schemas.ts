@@ -17,49 +17,6 @@ export const accountDetailsFormSchema = z
 
 export type AccountDetailForm = z.infer<typeof accountDetailsFormSchema>;
 
-// Primary Role
-export const primaryRoleFormSchema = z
-	.object({
-		primaryRole: z.string().min(1),
-		otherVal: z.string().optional()
-	})
-	.refine((data) => {
-		if (data.primaryRole === "other") {
-			return data.otherVal !== "";
-		}
-		return true;
-	});
-
-export type PrimaryRoleFormType = z.infer<typeof primaryRoleFormSchema>;
-
-// Types of AI
-export const aiChallengesFormSchema = z
-	.object({
-		aiTypes: z
-			.enum([
-				"traditional_ml",
-				"deep_learning",
-				"computer_vision",
-				"llm_and_foundation_models",
-				"ai_agents_and_workflows",
-				"hybrid_applications"
-			])
-			.array()
-			.min(1),
-		biggestChallenge: z.string().array().optional()
-	})
-	.refine((data) => {
-		const hasLlmOrAgents = data.aiTypes.some(
-			(type) => type === "llm_and_foundation_models" || type === "ai_agents_and_workflows"
-		);
-		if (hasLlmOrAgents) {
-			return data.biggestChallenge?.length ?? 0 > 0;
-		}
-		return true;
-	});
-
-export type AiChallengesFormType = z.infer<typeof aiChallengesFormSchema>;
-
 // Server Name
 export const ServerNameFormSchema = z.object({
 	serverName: z.string().optional()
@@ -87,3 +44,12 @@ export function getSetPasswordStepSchema(withUsername: boolean = false) {
 
 const setPasswordStepSchema = getSetPasswordStepSchema();
 export type SetPasswordStepType = z.infer<typeof setPasswordStepSchema>;
+
+// About you
+
+export const aboutYouFormSchema = z.object({
+	primaryRole: z.string().min(1),
+	infraType: z.string().min(1)
+});
+
+export type AboutYouFormType = z.infer<typeof aboutYouFormSchema>;
