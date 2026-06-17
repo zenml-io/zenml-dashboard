@@ -18,7 +18,8 @@ export const PRIMARY_ROLE_OPTIONS = [
 	"platform_engineer",
 	"ai_engineer",
 	"engineering_lead",
-	"student"
+	"student",
+	"other"
 ] as const;
 
 export const INFRA_TYPE_OPTIONS = ["local", "kubernetes", "cloud", "not_sure_yet"] as const;

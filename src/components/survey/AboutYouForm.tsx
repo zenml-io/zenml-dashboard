@@ -40,6 +40,10 @@ const RoleOptions: {
 	{
 		label: "Student",
 		value: "student"
+	},
+	{
+		label: "Other",
+		value: "other"
 	}
 ] as const;
 
