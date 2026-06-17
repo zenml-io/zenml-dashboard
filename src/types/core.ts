@@ -359,6 +359,7 @@ export type paths = {
 		 *         An access token or a redirect response.
 		 *
 		 *     Raises:
+		 *         CredentialsNotValid: If the credentials are invalid.
 		 *         ValueError: If the grant type is invalid.
 		 */
 		post: operations["token_api_v1_login_post"];
@@ -968,6 +969,81 @@ export type paths = {
 		 *         None if successful. Raises an exception otherwise.
 		 */
 		patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
+		trace?: never;
+	};
+	"/api/v1/hook_invocations": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * List Hook Invocations
+		 * @description Get hook invocations according to query filters.
+		 *
+		 *     Args:
+		 *         hook_invocation_filter_model: Filter model used for pagination, sorting,
+		 *             filtering.
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *         auth_context: Authentication context.
+		 *
+		 *     Returns:
+		 *         The hook invocations according to query filters.
+		 */
+		get: operations["list_hook_invocations_api_v1_hook_invocations_get"];
+		put?: never;
+		/**
+		 * Create Hook Invocation
+		 * @description Create a hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation: The hook invocation to create.
+		 *
+		 *     Returns:
+		 *         The created hook invocation.
+		 */
+		post: operations["create_hook_invocation_api_v1_hook_invocations_post"];
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
+	"/api/v1/hook_invocations/{hook_invocation_id}": {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Hook Invocation
+		 * @description Get one specific hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation_id: ID of the hook invocation to get.
+		 *         hydrate: Flag deciding whether to hydrate the output model(s)
+		 *             by including metadata fields in the response.
+		 *
+		 *     Returns:
+		 *         The hook invocation.
+		 */
+		get: operations["get_hook_invocation_api_v1_hook_invocations__hook_invocation_id__get"];
+		put?: never;
+		post?: never;
+		/**
+		 * Delete Hook Invocation
+		 * @description Delete a hook invocation.
+		 *
+		 *     Args:
+		 *         hook_invocation_id: ID of the hook invocation to delete.
+		 */
+		delete: operations["delete_hook_invocation_api_v1_hook_invocations__hook_invocation_id__delete"];
+		options?: never;
+		head?: never;
+		patch?: never;
 		trace?: never;
 	};
 	"/api/v1/logs": {
@@ -5726,7 +5802,7 @@ export type components = {
 			/** Name */
 			name?: string | null;
 			/** Version */
-			version?: number | string | null;
+			version?: string | number | null;
 			/** Tags */
 			tags?: string[] | null;
 			/** Run Metadata */
@@ -7425,6 +7501,162 @@ export type components = {
 			detail?: components["schemas"]["ValidationError"][];
 		};
 		/**
+		 * HookInvocationRequest
+		 * @description Request model for hook invocations.
+		 */
+		HookInvocationRequest: {
+			/** The id of the user that created this resource. Set automatically by the server. */
+			user?: string | null;
+			/**
+			 * The project to which this resource belongs.
+			 * Format: uuid
+			 */
+			project: string;
+			/**
+			 * The ID of the hook invocation.
+			 * Format: uuid
+			 */
+			id?: string;
+			/** The type of the hook invocation. */
+			hook_type: components["schemas"]["HookType"];
+			/** The name of the hook invocation. */
+			name?: string | null;
+			/** The status of the hook invocation. */
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * The start time of the hook invocation.
+			 * Format: date-time
+			 */
+			start_time: string;
+			/** The end time of the hook invocation. */
+			end_time?: string | null;
+			/** The source of the hook function. */
+			source?: string | null;
+			/**
+			 * The ID of the pipeline run that this hook invocation belongs to.
+			 * Format: uuid
+			 */
+			pipeline_run_id: string;
+			/** The ID of the step run that this hook invocation belongs to. */
+			step_run_id?: string | null;
+			/** The IDs of the output artifact versions of the hook invocation. */
+			outputs?: {
+				[key: string]: string[];
+			};
+			/** The exception information of the hook invocation. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+			/** The ID of the logs entry to link to the hook invocation. */
+			logs_id?: string | null;
+		};
+		/**
+		 * HookInvocationResponse
+		 * @description Response model for hook invocations.
+		 */
+		HookInvocationResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["HookInvocationResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["HookInvocationResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["HookInvocationResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the hook invocation. */
+			name?: string | null;
+		};
+		/**
+		 * HookInvocationResponseBody
+		 * @description Response body for hook invocations.
+		 */
+		HookInvocationResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user id. */
+			user_id?: string | null;
+			/**
+			 * The project id.
+			 * Format: uuid
+			 */
+			project_id: string;
+			/** The type of the hook invocation. */
+			hook_type: components["schemas"]["HookType"];
+			/** The status of the hook invocation. */
+			status: components["schemas"]["ExecutionStatus"];
+			/**
+			 * The start time of the hook invocation.
+			 * Format: date-time
+			 */
+			start_time: string;
+			/** The end time of the hook invocation. */
+			end_time?: string | null;
+			/**
+			 * The ID of the pipeline run that this hook invocation belongs to.
+			 * Format: uuid
+			 */
+			pipeline_run_id: string;
+			/** The ID of the step run that this hook invocation belongs to. */
+			step_run_id?: string | null;
+		};
+		/**
+		 * HookInvocationResponseMetadata
+		 * @description Response metadata for hook invocations.
+		 */
+		HookInvocationResponseMetadata: {
+			/** The source of the hook function. */
+			source?: string | null;
+			/** The exception information of the hook invocation. */
+			exception_info?: components["schemas"]["ExceptionInfo"] | null;
+		};
+		/**
+		 * HookInvocationResponseResources
+		 * @description Class for all resource models associated with the hook invocation entity.
+		 */
+		HookInvocationResponseResources: {
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** The output artifact versions of the hook invocation. */
+			outputs?: {
+				[key: string]: components["schemas"]["ArtifactVersionResponse"][];
+			};
+			/** Logs associated with this hook invocation. */
+			log_collection?: components["schemas"]["LogsResponse"][] | null;
+		} & {
+			[key: string]: unknown;
+		};
+		/**
+		 * HookType
+		 * @description Hook types.
+		 * @enum {string}
+		 */
+		HookType:
+			| "run_start"
+			| "run_success"
+			| "run_failure"
+			| "run_end"
+			| "run_pause"
+			| "run_resume"
+			| "step_start"
+			| "step_end"
+			| "step_success"
+			| "step_failure"
+			| "custom";
+		/**
 		 * InputSpec
 		 * @description Step input specification.
 		 */
@@ -7549,6 +7781,8 @@ export type components = {
 			pipeline_run_id?: string | null;
 			/** The step run ID to associate the logs with. */
 			step_run_id?: string | null;
+			/** The hook invocation ID to associate the logs with. */
+			hook_invocation_id?: string | null;
 		};
 		/**
 		 * LogsResponse
@@ -7618,6 +7852,8 @@ export type components = {
 			artifact_store_id?: string | null;
 			/** The log store ID that collected these logs */
 			log_store_id?: string | null;
+			/** The hook invocation ID to associate the logs with. */
+			hook_invocation_id?: string | null;
 		};
 		/**
 		 * LogsResponseResources
@@ -8588,6 +8824,19 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["FlavorResponse"][];
 		};
+		/** Page[HookInvocationResponse] */
+		Page_HookInvocationResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["HookInvocationResponse"][];
+		};
 		/** Page[ModelResponse] */
 		Page_ModelResponse_: {
 			/** Index */
@@ -9122,6 +9371,10 @@ export type components = {
 			};
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			success_hook_source?: components["schemas"]["Source"] | null;
+			start_hook_source?: components["schemas"]["Source"] | null;
+			end_hook_source?: components["schemas"]["Source"] | null;
+			pause_hook_source?: components["schemas"]["Source"] | null;
+			resume_hook_source?: components["schemas"]["Source"] | null;
 			init_hook_source?: components["schemas"]["Source"] | null;
 			/** Init Hook Kwargs */
 			init_hook_kwargs?: {
@@ -9211,14 +9464,18 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
-			failure_hook_source?: components["schemas"]["Source"] | null;
-			success_hook_source?: components["schemas"]["Source"] | null;
-			init_hook_source?: components["schemas"]["Source"] | null;
+			failure_hook_source?: unknown | null;
+			success_hook_source?: unknown | null;
+			start_hook_source?: unknown | null;
+			end_hook_source?: unknown | null;
+			pause_hook_source?: unknown | null;
+			resume_hook_source?: unknown | null;
+			init_hook_source?: unknown | null;
 			/** Init Hook Kwargs */
 			init_hook_kwargs?: {
 				[key: string]: unknown;
 			} | null;
-			cleanup_hook_source?: components["schemas"]["Source"] | null;
+			cleanup_hook_source?: unknown | null;
 			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
@@ -9448,8 +9705,6 @@ export type components = {
 			} | null;
 			/** @description The retry configuration for all steps of the pipeline run. */
 			retry?: components["schemas"]["StepRetryConfig"] | null;
-			/** @description The failure hook source for all steps of the pipeline run. */
-			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The init hook source for the pipeline run. */
 			init_hook_source?: components["schemas"]["Source"] | null;
 			/**
@@ -9461,8 +9716,18 @@ export type components = {
 			} | null;
 			/** @description The cleanup hook source for the pipeline run. */
 			cleanup_hook_source?: components["schemas"]["Source"] | null;
-			/** @description The success hook source for all steps of the pipeline run. */
+			/** @description Failure hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Success hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Start hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description End hook source. Static pipelines propagate it to each step as a default. Dynamic pipelines run it once at the run level. */
+			end_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Pause hook source. Static pipelines ignore it. Dynamic pipelines run it once at the run level when the run pauses. */
+			pause_hook_source?: components["schemas"]["Source"] | null;
+			/** @description Resume hook source. Static pipelines ignore it. Dynamic pipelines run it once at the run level when a paused run resumes. */
+			resume_hook_source?: components["schemas"]["Source"] | null;
 			/**
 			 * Substitutions
 			 * @description The substitutions for the pipeline run.
@@ -9523,32 +9788,27 @@ export type components = {
 			 * Id
 			 * @description Id for this resource
 			 */
-			id?: string | null;
+			id?: string | string[] | null;
 			/**
 			 * Created
 			 * @description Created
 			 */
-			created?: string | null;
+			created?: string | string[] | null;
 			/**
 			 * Updated
 			 * @description Updated
 			 */
-			updated?: string | null;
+			updated?: string | string[] | null;
 			/**
 			 * Run Metadata
 			 * @description The run_metadata to filter the pipeline runs by.
 			 */
-			run_metadata?: string[] | null;
-			/**
-			 * Tag
-			 * @description Tag to apply to the filter query.
-			 */
-			tag?: string | null;
+			run_metadata?: string | string[] | null;
 			/**
 			 * Tags
 			 * @description Tags to apply to the filter query.
 			 */
-			tags?: string[] | null;
+			tags?: string | string[] | null;
 			/**
 			 * Scope User
 			 * @description The user to scope this query to.
@@ -9558,7 +9818,7 @@ export type components = {
 			 * User
 			 * @description Name/ID of the user that created the entity.
 			 */
-			user?: string | null;
+			user?: string | string[] | null;
 			/**
 			 * Project
 			 * @description Name/ID of the project which the search is scoped to. This field must always be set and is always applied in addition to the other filters, regardless of the value of the logical_operator field.
@@ -9568,73 +9828,73 @@ export type components = {
 			 * Name
 			 * @description Name of the Pipeline Run
 			 */
-			name?: string | null;
+			name?: string | string[] | null;
 			/**
 			 * Index
 			 * @description The unique index of the run within the pipeline.
 			 */
-			index?: number | null;
+			index?: number | string | (number | string)[] | null;
 			/**
 			 * Orchestrator Run Id
 			 * @description Name of the Pipeline Run within the orchestrator
 			 */
-			orchestrator_run_id?: string | null;
+			orchestrator_run_id?: string | string[] | null;
 			/**
 			 * Pipeline Id
 			 * @description Pipeline associated with the Pipeline Run
 			 */
-			pipeline_id?: string | null;
+			pipeline_id?: string | string[] | null;
 			/**
 			 * Stack Id
 			 * @description Stack used for the Pipeline Run
 			 */
-			stack_id?: string | null;
+			stack_id?: string | string[] | null;
 			/**
 			 * Schedule Id
 			 * @description Schedule that triggered the Pipeline Run
 			 */
-			schedule_id?: string | null;
+			schedule_id?: string | string[] | null;
 			/**
 			 * Build Id
 			 * @description Build used for the Pipeline Run
 			 */
-			build_id?: string | null;
+			build_id?: string | string[] | null;
 			/**
 			 * Snapshot Id
 			 * @description Snapshot used for the Pipeline Run
 			 */
-			snapshot_id?: string | null;
+			snapshot_id?: string | string[] | null;
 			/**
 			 * Code Repository Id
 			 * @description Code repository used for the Pipeline Run
 			 */
-			code_repository_id?: string | null;
+			code_repository_id?: string | string[] | null;
 			/**
 			 * Template Id
 			 * @deprecated
 			 * @description DEPRECATED: Template used for the pipeline run.
 			 */
-			template_id?: string | null;
+			template_id?: string | string[] | null;
 			/**
 			 * Source Snapshot Id
 			 * @description Source snapshot used for the pipeline run.
 			 */
-			source_snapshot_id?: string | null;
+			source_snapshot_id?: string | string[] | null;
 			/**
 			 * Model Version Id
 			 * @description Model version associated with the pipeline run.
 			 */
-			model_version_id?: string | null;
+			model_version_id?: string | string[] | null;
 			/**
 			 * Linked To Model Version Id
 			 * @description Filter by model version linked to the pipeline run. The difference to `model_version_id` is that this filter will not only include pipeline runs which are directly linked to the model version, but also if any step run is linked to the model version.
 			 */
-			linked_to_model_version_id?: string | null;
+			linked_to_model_version_id?: string | string[] | null;
 			/**
 			 * Status
-			 * @description Name of the Pipeline Run
+			 * @description Status of the Pipeline Run
 			 */
-			status?: string | null;
+			status?: string | string[] | null;
 			/**
 			 * In Progress
 			 * @description Whether the pipeline run is in progress.
@@ -9644,42 +9904,42 @@ export type components = {
 			 * Start Time
 			 * @description Start time for this run
 			 */
-			start_time?: string | null;
+			start_time?: string | string[] | null;
 			/**
 			 * End Time
 			 * @description End time for this run
 			 */
-			end_time?: string | null;
+			end_time?: string | string[] | null;
 			/**
 			 * Pipeline Name
 			 * @description Name of the pipeline associated with the run
 			 */
-			pipeline_name?: string | null;
+			pipeline_name?: string | string[] | null;
 			/**
 			 * Pipeline
 			 * @description Name/ID of the pipeline associated with the run.
 			 */
-			pipeline?: string | null;
+			pipeline?: string | string[] | null;
 			/**
 			 * Stack
 			 * @description Name/ID of the stack associated with the run.
 			 */
-			stack?: string | null;
+			stack?: string | string[] | null;
 			/**
 			 * Code Repository
 			 * @description Name/ID of the code repository associated with the run.
 			 */
-			code_repository?: string | null;
+			code_repository?: string | string[] | null;
 			/**
 			 * Model
 			 * @description Name/ID of the model associated with the run.
 			 */
-			model?: string | null;
+			model?: string | string[] | null;
 			/**
 			 * Stack Component
 			 * @description Name/ID of the stack component associated with the run.
 			 */
-			stack_component?: string | null;
+			stack_component?: string | string[] | null;
 			/**
 			 * Templatable
 			 * @description Whether the run is templatable.
@@ -9689,22 +9949,22 @@ export type components = {
 			 * Triggered By Step Run Id
 			 * @description The ID of the step run that triggered this pipeline run.
 			 */
-			triggered_by_step_run_id?: string | null;
+			triggered_by_step_run_id?: string | string[] | null;
 			/**
 			 * Triggered By Deployment Id
 			 * @description The ID of the deployment that triggered this pipeline run.
 			 */
-			triggered_by_deployment_id?: string | null;
+			triggered_by_deployment_id?: string | string[] | null;
 			/**
 			 * Trigger Id
 			 * @description The ID of the trigger that generated this pipeline run.
 			 */
-			trigger_id?: string | null;
+			trigger_id?: string | string[] | null;
 			/**
 			 * Parent Run Id
 			 * @description The parent run ID for nested child pipeline runs.
 			 */
-			parent_run_id?: string | null;
+			parent_run_id?: string | string[] | null;
 			/**
 			 * Root Runs Only
 			 * @description Whether to include only root runs. Ignored if False.
@@ -12867,7 +13127,8 @@ export type components = {
 			| "orchestrator"
 			| "step_operator"
 			| "model_registry"
-			| "deployer";
+			| "deployer"
+			| "sandbox";
 		/**
 		 * StackDeploymentConfig
 		 * @description Configuration about a stack deployment.
@@ -13192,6 +13453,10 @@ export type components = {
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -13262,6 +13527,8 @@ export type components = {
 			client_lazy_loaders?: {
 				[key: string]: components["schemas"]["ClientLazyLoader"];
 			};
+			/** Command */
+			command?: string[] | null;
 		};
 		/**
 		 * StepConfiguration
@@ -13332,9 +13599,13 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** @description The failure hook source for the step. */
-			failure_hook_source?: components["schemas"]["Source"] | null;
+			failure_hook_source?: unknown | null;
 			/** @description The success hook source for the step. */
-			success_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: unknown | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: unknown | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: unknown | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -13405,6 +13676,8 @@ export type components = {
 			client_lazy_loaders?: {
 				[key: string]: components["schemas"]["ClientLazyLoader"];
 			};
+			/** Command */
+			command?: string[] | null;
 		};
 		/**
 		 * StepConfigurationUpdate
@@ -13478,6 +13751,10 @@ export type components = {
 			failure_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The success hook source for the step. */
 			success_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The start hook source for the step. */
+			start_hook_source?: components["schemas"]["Source"] | null;
+			/** @description The end hook source for the step. */
+			end_hook_source?: components["schemas"]["Source"] | null;
 			/** @description The model to use for the step. */
 			model?: components["schemas"]["Model"] | null;
 			/** @description The retry configuration for the step. */
@@ -14524,7 +14801,7 @@ export type components = {
 		 * @description Enum representing the source type.
 		 * @enum {string}
 		 */
-		zenml__enums__SourceType: "pipeline" | "pipeline_run";
+		zenml__enums__SourceType: "pipeline" | "pipeline_run" | "pipeline_snapshot";
 	};
 	responses: never;
 	parameters: never;
@@ -14582,15 +14859,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				has_custom_name?: boolean | null;
 			};
 			header?: never;
@@ -14894,29 +15170,28 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				artifact?: string | null;
-				artifact_id?: string | null;
-				version?: string | null;
-				version_number?: number | string | null;
-				uri?: string | null;
-				materializer?: string | null;
-				type?: string | null;
-				data_type?: string | null;
-				artifact_store_id?: string | null;
-				model_version_id?: string | null;
+				artifact?: string | string[] | null;
+				artifact_id?: string | string[] | null;
+				version?: string | string[] | null;
+				version_number?: number | string | (number | string)[] | null;
+				uri?: string | string[] | null;
+				materializer?: string | string[] | null;
+				type?: string | string[] | null;
+				data_type?: string | string[] | null;
+				artifact_store_id?: string | string[] | null;
+				model_version_id?: string | string[] | null;
 				only_unused?: boolean | null;
 				has_custom_name?: boolean | null;
-				model?: string | null;
-				pipeline_run?: string | null;
+				model?: string | string[] | null;
+				pipeline_run?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -15675,17 +15950,21 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				expires?: string | null;
-				client_id?: string | null;
-				status?: components["schemas"]["OAuthDeviceStatus"] | string | null;
+				user?: string | string[] | null;
+				expires?: string | string[] | null;
+				client_id?: string | string[] | null;
+				status?:
+					| components["schemas"]["OAuthDeviceStatus"]
+					| string
+					| (components["schemas"]["OAuthDeviceStatus"] | string)[]
+					| null;
 				trusted_device?: boolean | string | null;
-				failed_auth_attempts?: number | string | null;
-				last_login?: string | null;
+				failed_auth_attempts?: number | string | (number | string)[] | null;
+				last_login?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -15947,13 +16226,13 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -16258,20 +16537,19 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				url?: string | null;
-				status?: string | null;
-				pipeline?: string | null;
-				snapshot_id?: string | null;
-				deployer_id?: string | null;
+				name?: string | string[] | null;
+				url?: string | string[] | null;
+				status?: string | string[] | null;
+				pipeline?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
+				deployer_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -16787,15 +17065,15 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				display_name?: string | null;
-				type?: string | null;
-				integration?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				display_name?: string | string[] | null;
+				type?: string | string[] | null;
+				integration?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -17146,6 +17424,259 @@ export interface operations {
 			};
 		};
 	};
+	list_hook_invocations_api_v1_hook_invocations_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				scope_user?: string | null;
+				user?: string | string[] | null;
+				project?: string | null;
+				pipeline_run_id?: string | string[] | null;
+				step_run_id?: string | string[] | null;
+				hook_type?: string | string[] | null;
+				name?: string | string[] | null;
+				status?: string | string[] | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+			};
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["Page_HookInvocationResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	create_hook_invocation_api_v1_hook_invocations_post: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["HookInvocationRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["HookInvocationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	get_hook_invocation_api_v1_hook_invocations__hook_invocation_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			header?: never;
+			path: {
+				hook_invocation_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["HookInvocationResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	delete_hook_invocation_api_v1_hook_invocations__hook_invocation_id__delete: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				hook_invocation_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
 	create_logs_api_v1_logs_post: {
 		parameters: {
 			query?: never;
@@ -17336,15 +17867,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -17649,19 +18179,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				number?: number | null;
-				stage?: string | components["schemas"]["ModelStages"] | null;
-				model?: string | null;
+				name?: string | string[] | null;
+				number?: number | string | (number | string)[] | null;
+				stage?:
+					| components["schemas"]["ModelStages"]
+					| string
+					| (components["schemas"]["ModelStages"] | string)[]
+					| null;
+				model?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -17727,19 +18260,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				number?: number | null;
-				stage?: string | components["schemas"]["ModelStages"] | null;
-				model?: string | null;
+				name?: string | string[] | null;
+				number?: number | string | (number | string)[] | null;
+				stage?:
+					| components["schemas"]["ModelStages"]
+					| string
+					| (components["schemas"]["ModelStages"] | string)[]
+					| null;
+				model?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -18223,17 +18759,17 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				model_version_id?: string | null;
-				artifact_version_id?: string | null;
-				artifact_name?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				artifact_version_id?: string | string[] | null;
+				artifact_name?: string | string[] | null;
 				only_data_artifacts?: boolean | null;
 				only_model_artifacts?: boolean | null;
 				only_deployment_artifacts?: boolean | null;
 				has_custom_name?: boolean | null;
-				user?: string | null;
+				user?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -18338,13 +18874,13 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				model_version_id?: string | null;
-				pipeline_run_id?: string | null;
-				pipeline_run_name?: string | null;
-				user?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				pipeline_run_id?: string | string[] | null;
+				pipeline_run_name?: string | string[] | null;
+				user?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -18450,15 +18986,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				latest_run_status?: string | null;
 				latest_run_user?: string | null;
 			};
@@ -18766,22 +19301,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
-				container_registry_id?: string | null;
+				pipeline_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				container_registry_id?: string | string[] | null;
 				is_local?: boolean | null;
 				contains_code?: boolean | null;
-				zenml_version?: string | null;
-				python_version?: string | null;
-				checksum?: string | null;
-				stack_checksum?: string | null;
-				duration?: number | string | null;
+				zenml_version?: string | string[] | null;
+				python_version?: string | string[] | null;
+				checksum?: string | string[] | null;
+				stack_checksum?: string | string[] | null;
+				duration?: number | string | (number | string)[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -19025,21 +19560,20 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				named_only?: boolean | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				build_id?: string | null;
-				schedule_id?: string | null;
-				source_snapshot_id?: string | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
+				build_id?: string | string[] | null;
+				schedule_id?: string | string[] | null;
+				source_snapshot_id?: string | string[] | null;
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
@@ -19288,21 +19822,20 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				named_only?: boolean | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				build_id?: string | null;
-				schedule_id?: string | null;
-				source_snapshot_id?: string | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
+				build_id?: string | string[] | null;
+				schedule_id?: string | string[] | null;
+				source_snapshot_id?: string | string[] | null;
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
@@ -19742,43 +20275,42 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				index?: number | null;
-				orchestrator_run_id?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
-				schedule_id?: string | null;
-				build_id?: string | null;
-				snapshot_id?: string | null;
-				code_repository_id?: string | null;
-				template_id?: string | null;
-				source_snapshot_id?: string | null;
-				model_version_id?: string | null;
-				linked_to_model_version_id?: string | null;
-				status?: string | null;
+				name?: string | string[] | null;
+				index?: number | string | (number | string)[] | null;
+				orchestrator_run_id?: string | string[] | null;
+				pipeline_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				schedule_id?: string | string[] | null;
+				build_id?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
+				code_repository_id?: string | string[] | null;
+				template_id?: string | string[] | null;
+				source_snapshot_id?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				linked_to_model_version_id?: string | string[] | null;
+				status?: string | string[] | null;
 				in_progress?: boolean | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				pipeline_name?: string | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				code_repository?: string | null;
-				model?: string | null;
-				stack_component?: string | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				pipeline_name?: string | string[] | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
+				code_repository?: string | string[] | null;
+				model?: string | string[] | null;
+				stack_component?: string | string[] | null;
 				templatable?: boolean | null;
-				triggered_by_step_run_id?: string | null;
-				triggered_by_deployment_id?: string | null;
-				trigger_id?: string | null;
-				parent_run_id?: string | null;
+				triggered_by_step_run_id?: string | string[] | null;
+				triggered_by_deployment_id?: string | string[] | null;
+				trigger_id?: string | string[] | null;
+				parent_run_id?: string | string[] | null;
 				root_runs_only?: boolean | null;
 			};
 			header?: never;
@@ -20146,27 +20678,27 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				code_hash?: string | null;
-				cache_key?: string | null;
-				status?: string | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				pipeline_run_id?: string | null;
-				snapshot_id?: string | null;
-				original_step_run_id?: string | null;
-				model_version_id?: string | null;
-				model?: string | null;
-				version?: number | string | null;
+				name?: string | string[] | null;
+				code_hash?: string | string[] | null;
+				cache_key?: string | string[] | null;
+				status?: string | string[] | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				pipeline_run_id?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
+				original_step_run_id?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				model?: string | string[] | null;
+				version?: number | string | (number | string)[] | null;
 				exclude_retried?: boolean | null;
-				cache_expires_at?: string | null;
+				cache_expires_at?: string | string[] | null;
 				cache_expired?: boolean | null;
 			};
 			header?: never;
@@ -20881,20 +21413,20 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				pipeline_run?: string | null;
-				type?: string | null;
-				status?: string | null;
-				name?: string | null;
-				resolved_by?: string | null;
-				resolved_at?: string | null;
-				resolution?: string | null;
+				pipeline_run?: string | string[] | null;
+				type?: string | string[] | null;
+				status?: string | string[] | null;
+				name?: string | string[] | null;
+				resolved_by?: string | string[] | null;
+				resolved_at?: string | string[] | null;
+				resolution?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -21202,22 +21734,21 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				hidden?: boolean | null;
-				pipeline_id?: string | null;
-				build_id?: string | null;
-				stack_id?: string | null;
-				code_repository_id?: string | null;
-				pipeline?: string | null;
-				stack?: string | null;
+				pipeline_id?: string | string[] | null;
+				build_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				code_repository_id?: string | string[] | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -21523,22 +22054,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				orchestrator_id?: string | null;
+				pipeline_id?: string | string[] | null;
+				orchestrator_id?: string | string[] | null;
 				active?: boolean | null;
-				cron_expression?: string | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				interval_second?: number | null;
+				cron_expression?: string | string[] | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				interval_second?: number | string | (number | string)[] | null;
 				catchup?: boolean | null;
-				name?: string | null;
-				run_once_start_time?: string | null;
+				name?: string | string[] | null;
+				run_once_start_time?: string | string[] | null;
 				is_archived?: boolean | null;
 			};
 			header?: never;
@@ -21846,12 +22377,12 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
 				private?: boolean | null;
 			};
 			header?: never;
@@ -22627,13 +23158,13 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				name?: string | null;
-				description?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				name?: string | string[] | null;
+				description?: string | string[] | null;
 				active?: boolean | string | null;
-				external_user_id?: string | null;
+				external_user_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -22891,15 +23422,15 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				service_account?: string | null;
-				name?: string | null;
-				description?: string | null;
+				name?: string | string[] | null;
+				description?: string | string[] | null;
 				active?: boolean | string | null;
-				last_login?: string | null;
-				last_rotated?: string | null;
+				last_login?: string | string[] | null;
+				last_rotated?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -23220,14 +23751,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				connector_type?: string | null;
-				auth_method?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				connector_type?: string | string[] | null;
+				auth_method?: string | string[] | null;
 				resource_type?: string | null;
 				resource_id?: string | null;
 				labels_str?: string | null;
@@ -23361,14 +23892,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				connector_type?: string | null;
-				auth_method?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				connector_type?: string | string[] | null;
+				auth_method?: string | string[] | null;
 				resource_type?: string | null;
 				resource_id?: string | null;
 				labels_str?: string | null;
@@ -23986,21 +24517,21 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				type?: string | null;
-				flavor?: string | null;
+				name?: string | string[] | null;
+				type?: string | string[] | null;
+				flavor?: string | string[] | null;
 				config?: string | null;
-				pipeline_name?: string | null;
-				pipeline_step_name?: string | null;
+				pipeline_name?: string | string[] | null;
+				pipeline_step_name?: string | string[] | null;
 				running?: boolean | null;
-				model_version_id?: string | null;
-				pipeline_run_id?: string | null;
+				model_version_id?: string | string[] | null;
+				pipeline_run_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -24451,15 +24982,15 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				description?: string | null;
-				component_id?: string | null;
-				component?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				description?: string | string[] | null;
+				component_id?: string | string[] | null;
+				component?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -24765,17 +25296,17 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				scope_type?: string | null;
-				name?: string | null;
-				flavor?: string | null;
-				type?: string | null;
-				connector_id?: string | null;
-				stack_id?: string | null;
+				name?: string | string[] | null;
+				flavor?: string | string[] | null;
+				type?: string | string[] | null;
+				connector_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -25136,27 +25667,27 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				code_hash?: string | null;
-				cache_key?: string | null;
-				status?: string | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				pipeline_run_id?: string | null;
-				snapshot_id?: string | null;
-				original_step_run_id?: string | null;
-				model_version_id?: string | null;
-				model?: string | null;
-				version?: number | string | null;
+				name?: string | string[] | null;
+				code_hash?: string | string[] | null;
+				cache_key?: string | string[] | null;
+				status?: string | string[] | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				pipeline_run_id?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
+				original_step_run_id?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				model?: string | string[] | null;
+				version?: number | string | (number | string)[] | null;
 				exclude_retried?: boolean | null;
-				cache_expires_at?: string | null;
+				cache_expires_at?: string | string[] | null;
 				cache_expired?: boolean | null;
 			};
 			header?: never;
@@ -25648,15 +26179,23 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				color?: components["schemas"]["ColorVariants"] | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				color?:
+					| components["schemas"]["ColorVariants"]
+					| string
+					| (components["schemas"]["ColorVariants"] | string)[]
+					| null;
 				exclusive?: boolean | null;
-				resource_type?: components["schemas"]["TaggableResourceTypes"] | null;
+				resource_type?:
+					| components["schemas"]["TaggableResourceTypes"]
+					| string
+					| (components["schemas"]["TaggableResourceTypes"] | string)[]
+					| null;
 			};
 			header?: never;
 			path?: never;
@@ -26199,15 +26738,15 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				name?: string | null;
-				full_name?: string | null;
-				email?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				name?: string | string[] | null;
+				full_name?: string | string[] | null;
+				email?: string | string[] | null;
 				active?: boolean | string | null;
 				email_opted_in?: boolean | string | null;
-				external_user_id?: string | null;
+				external_user_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -26665,11 +27204,11 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				name?: string | null;
-				display_name?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				name?: string | string[] | null;
+				display_name?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -26976,13 +27515,13 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -27198,22 +27737,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
-				container_registry_id?: string | null;
+				pipeline_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				container_registry_id?: string | string[] | null;
 				is_local?: boolean | null;
 				contains_code?: boolean | null;
-				zenml_version?: string | null;
-				python_version?: string | null;
-				checksum?: string | null;
-				stack_checksum?: string | null;
-				duration?: number | string | null;
+				zenml_version?: string | string[] | null;
+				python_version?: string | string[] | null;
+				checksum?: string | string[] | null;
+				stack_checksum?: string | string[] | null;
+				duration?: number | string | (number | string)[] | null;
 			};
 			header?: never;
 			path: {
@@ -27322,21 +27861,20 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				named_only?: boolean | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				build_id?: string | null;
-				schedule_id?: string | null;
-				source_snapshot_id?: string | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
+				build_id?: string | string[] | null;
+				schedule_id?: string | string[] | null;
+				source_snapshot_id?: string | string[] | null;
 				runnable?: boolean | null;
 				deployable?: boolean | null;
 				deployed?: boolean | null;
@@ -27449,15 +27987,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				latest_run_status?: string | null;
 				latest_run_user?: string | null;
 			};
@@ -27621,22 +28158,21 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				hidden?: boolean | null;
-				pipeline_id?: string | null;
-				build_id?: string | null;
-				stack_id?: string | null;
-				code_repository_id?: string | null;
-				pipeline?: string | null;
-				stack?: string | null;
+				pipeline_id?: string | string[] | null;
+				build_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				code_repository_id?: string | string[] | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -27746,43 +28282,42 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				run_metadata?: string[] | null;
-				tag?: string | null;
-				tags?: string[] | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				run_metadata?: string | string[] | null;
+				tags?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
-				index?: number | null;
-				orchestrator_run_id?: string | null;
-				pipeline_id?: string | null;
-				stack_id?: string | null;
-				schedule_id?: string | null;
-				build_id?: string | null;
-				snapshot_id?: string | null;
-				code_repository_id?: string | null;
-				template_id?: string | null;
-				source_snapshot_id?: string | null;
-				model_version_id?: string | null;
-				linked_to_model_version_id?: string | null;
-				status?: string | null;
+				name?: string | string[] | null;
+				index?: number | string | (number | string)[] | null;
+				orchestrator_run_id?: string | string[] | null;
+				pipeline_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
+				schedule_id?: string | string[] | null;
+				build_id?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
+				code_repository_id?: string | string[] | null;
+				template_id?: string | string[] | null;
+				source_snapshot_id?: string | string[] | null;
+				model_version_id?: string | string[] | null;
+				linked_to_model_version_id?: string | string[] | null;
+				status?: string | string[] | null;
 				in_progress?: boolean | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				pipeline_name?: string | null;
-				pipeline?: string | null;
-				stack?: string | null;
-				code_repository?: string | null;
-				model?: string | null;
-				stack_component?: string | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				pipeline_name?: string | string[] | null;
+				pipeline?: string | string[] | null;
+				stack?: string | string[] | null;
+				code_repository?: string | string[] | null;
+				model?: string | string[] | null;
+				stack_component?: string | string[] | null;
 				templatable?: boolean | null;
-				triggered_by_step_run_id?: string | null;
-				triggered_by_deployment_id?: string | null;
-				trigger_id?: string | null;
-				parent_run_id?: string | null;
+				triggered_by_step_run_id?: string | string[] | null;
+				triggered_by_deployment_id?: string | string[] | null;
+				trigger_id?: string | string[] | null;
+				parent_run_id?: string | string[] | null;
 				root_runs_only?: boolean | null;
 			};
 			header?: never;
@@ -27892,22 +28427,22 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				pipeline_id?: string | null;
-				orchestrator_id?: string | null;
+				pipeline_id?: string | string[] | null;
+				orchestrator_id?: string | string[] | null;
 				active?: boolean | null;
-				cron_expression?: string | null;
-				start_time?: string | null;
-				end_time?: string | null;
-				interval_second?: number | null;
+				cron_expression?: string | string[] | null;
+				start_time?: string | string[] | null;
+				end_time?: string | string[] | null;
+				interval_second?: number | string | (number | string)[] | null;
 				catchup?: boolean | null;
-				name?: string | null;
-				run_once_start_time?: string | null;
+				name?: string | string[] | null;
+				run_once_start_time?: string | string[] | null;
 				is_archived?: boolean | null;
 			};
 			header?: never;
@@ -28071,14 +28606,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				connector_type?: string | null;
-				auth_method?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				connector_type?: string | string[] | null;
+				auth_method?: string | string[] | null;
 				resource_type?: string | null;
 				resource_id?: string | null;
 				labels_str?: string | null;
@@ -28195,14 +28730,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				connector_type?: string | null;
-				auth_method?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				connector_type?: string | string[] | null;
+				auth_method?: string | string[] | null;
 				resource_type?: string | null;
 				resource_id?: string | null;
 				labels_str?: string | null;
@@ -28320,17 +28855,17 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				scope_type?: string | null;
-				name?: string | null;
-				flavor?: string | null;
-				type?: string | null;
-				connector_id?: string | null;
-				stack_id?: string | null;
+				name?: string | string[] | null;
+				flavor?: string | string[] | null;
+				type?: string | string[] | null;
+				connector_id?: string | string[] | null;
+				stack_id?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -28439,15 +28974,15 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
-				description?: string | null;
-				component_id?: string | null;
-				component?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
+				description?: string | string[] | null;
+				component_id?: string | string[] | null;
+				component?: string | string[] | null;
 			};
 			header?: never;
 			path: {
@@ -28556,11 +29091,11 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
-				name?: string | null;
-				display_name?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
+				name?: string | string[] | null;
+				display_name?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -28867,12 +29402,12 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				name?: string | null;
+				user?: string | string[] | null;
+				name?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -29175,14 +29710,14 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
-				pool_id?: string | null;
-				component_id?: string | null;
-				priority?: number | string | null;
+				user?: string | string[] | null;
+				pool_id?: string | string[] | null;
+				component_id?: string | string[] | null;
+				priority?: number | string | (number | string)[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -29485,17 +30020,21 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				preemptible?: boolean | null;
-				component_id?: string | null;
-				step_run_id?: string | null;
-				preemption_initiated_by_id?: string | null;
-				status?: components["schemas"]["ResourceRequestStatus"] | string | null;
-				pipeline_run_id?: string | null;
+				component_id?: string | string[] | null;
+				step_run_id?: string | string[] | null;
+				preemption_initiated_by_id?: string | string[] | null;
+				status?:
+					| components["schemas"]["ResourceRequestStatus"]
+					| string
+					| (components["schemas"]["ResourceRequestStatus"] | string)[]
+					| null;
+				pipeline_run_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;
@@ -29676,21 +30215,33 @@ export interface operations {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string | null;
-				created?: string | null;
-				updated?: string | null;
+				id?: string | string[] | null;
+				created?: string | string[] | null;
+				updated?: string | string[] | null;
 				scope_user?: string | null;
-				user?: string | null;
+				user?: string | string[] | null;
 				project?: string | null;
-				name?: string | null;
+				name?: string | string[] | null;
 				active?: boolean | null;
 				is_archived?: boolean;
-				flavor?: components["schemas"]["TriggerFlavor"] | string | null;
-				type?: components["schemas"]["TriggerType"] | string | null;
-				next_occurrence?: string | null;
-				concurrency?: components["schemas"]["TriggerRunConcurrency"] | null;
-				pipeline_id?: string | null;
-				snapshot_id?: string | null;
+				flavor?:
+					| components["schemas"]["TriggerFlavor"]
+					| string
+					| (components["schemas"]["TriggerFlavor"] | string)[]
+					| null;
+				type?:
+					| components["schemas"]["TriggerType"]
+					| string
+					| (components["schemas"]["TriggerType"] | string)[]
+					| null;
+				next_occurrence?: string | string[] | null;
+				concurrency?:
+					| components["schemas"]["TriggerRunConcurrency"]
+					| string
+					| (components["schemas"]["TriggerRunConcurrency"] | string)[]
+					| null;
+				pipeline_id?: string | string[] | null;
+				snapshot_id?: string | string[] | null;
 			};
 			header?: never;
 			path?: never;

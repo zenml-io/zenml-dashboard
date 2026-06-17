@@ -6,7 +6,7 @@ import { useTourContext } from "./TourContext";
 import { useNavigate } from "react-router-dom";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { getCurrentUserKey, useCurrentUser } from "@/data/users/current-user-query";
-import { UserMetadata } from "@/types/user";
+import { getUserMetadata } from "@/lib/user-metadata";
 import { useQueryClient } from "@tanstack/react-query";
 import { StartTourDialog } from "./StartTourDialog";
 import SettingsPreview from "@/assets/images/product-tour/settings_preview.webp";
@@ -134,6 +134,8 @@ export function ProductTour() {
 
 	if (currentUser.isPending || currentUser.isError) return null;
 
+	const userMetadata = getUserMetadata(currentUser.data);
+
 	function handleTourCallback({ type, index, size, step: { data } }: CallBackProps) {
 		if (([EVENTS.STEP_AFTER] as string[]).includes(type)) {
 			setTourState((prev) => ({
@@ -157,21 +159,21 @@ export function ProductTour() {
 			}));
 			updateUser.mutate({
 				user_metadata: {
-					...(currentUser.data?.metadata?.user_metadata as UserMetadata),
-					...({ overview_tour_done: true } as UserMetadata)
+					...userMetadata,
+					overview_tour_done: true
 				}
 			});
 		}
 	}
-	if (!(currentUser.data.metadata?.user_metadata as UserMetadata)?.overview_tour_done) {
+	if (!userMetadata.overview_tour_done) {
 		return (
 			<>
 				<StartTourDialog
 					skipFunction={() =>
 						updateUser.mutate({
 							user_metadata: {
-								...(currentUser.data?.metadata?.user_metadata as UserMetadata),
-								...({ overview_tour_done: true } as UserMetadata)
+								...userMetadata,
+								overview_tour_done: true
 							}
 						})
 					}

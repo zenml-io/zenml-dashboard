@@ -25,4 +25,4 @@ trustPolicy: no-downgrade
 # Moved here from the "pnpm" field in package.json, which pnpm v10+ no longer reads
 # (it silently ignores overrides placed there and emits a [WARN] on every install).
 overrides:
-  dompurify: "^3.4.0"
+  dompurify: "^3.4.8"
