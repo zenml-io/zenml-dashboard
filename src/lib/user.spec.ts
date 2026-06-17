@@ -50,6 +50,18 @@ describe("check user onboarding", () => {
 		});
 		expect(checkUserOnboarding(user)).toBeTruthy();
 	});
+
+	test("should return false if finished_onboarding_survey is true", () => {
+		const user: User = createUser({
+			metadata: {
+				user_metadata: {
+					finished_onboarding_survey: true,
+					awareness_channels: []
+				}
+			}
+		});
+		expect(checkUserOnboarding(user)).toBeFalsy();
+	});
 });
 
 describe("returns correct username", () => {

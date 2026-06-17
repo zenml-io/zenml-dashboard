@@ -1,21 +1,21 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { AiChallengesForm } from "@/components/survey/ai-challenge";
-import { AiChallengesFormType } from "@/components/survey/form-schemas";
-import { useActivateUser } from "@/data/users/activate-user-mutation";
-import { useToast } from "@zenml-io/react-component-library";
-import { useActivationContext } from "./ActivationContext";
-import { UserMetadata } from "@/types/user";
+import { AboutYouForm } from "@/components/survey/AboutYouForm";
+import { AboutYouFormType } from "@/components/survey/form-schemas";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
-import { useLoginMutation } from "@/data/session/login-mutation";
 import { useAuthContext } from "@/context/AuthContext";
+import { useLoginMutation } from "@/data/session/login-mutation";
+import { useActivateUser } from "@/data/users/activate-user-mutation";
+import { UserMetadata } from "@/types/user";
+import { useToast } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction } from "react";
+import { useActivationContext } from "./ActivationContext";
 
 type Props = {
 	userId: string;
 	setUsername: Dispatch<SetStateAction<string>>;
 };
 
-export function AiChallengesStep({ userId, setUsername }: Props) {
+export function AboutYouStep({ userId, setUsername }: Props) {
 	const { newUser } = useActivationContext();
 	const { setAuthState } = useAuthContext();
 	const { setSurveyStep } = useSurveyContext();
@@ -44,17 +44,19 @@ export function AiChallengesStep({ userId, setUsername }: Props) {
 		}
 	});
 
-	function handleAiChallengesSubmit({ aiTypes, biggestChallenge }: AiChallengesFormType) {
+	function handleAboutYouSubmit({ primaryRole, infraType }: AboutYouFormType) {
 		const updateMetadata: UserMetadata = {
-			ai_types_working_with: aiTypes,
-			biggest_ai_challenges: biggestChallenge,
 			finished_onboarding_survey: true
 		};
+
+		if (primaryRole) updateMetadata.primary_role = primaryRole;
+		if (infraType) updateMetadata.infra_type = infraType;
+
 		mutate({
 			userId,
 			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
 		});
 	}
 
-	return <AiChallengesForm submitHandler={handleAiChallengesSubmit} />;
+	return <AboutYouForm submitHandler={handleAboutYouSubmit} />;
 }
