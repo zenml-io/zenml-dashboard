@@ -36,8 +36,84 @@ describe("filterTimelineItems", () => {
 			}
 		];
 
-		const result = filterTimelineItems(items, "");
+		const result = filterTimelineItems(items, "", "all");
 		expect(result).toEqual(items);
+	});
+
+	it("filters timeline items by status and excludes non-step rows", () => {
+		const items: VirtualizedItem[] = [
+			{
+				type: "timeline" as const,
+				item: createMockTimelineItem({
+					step: {
+						...createMockTimelineItem().step,
+						name: "Data Processing",
+						metadata: { ...createMockTimelineItem().step.metadata, status: "completed" }
+					}
+				})
+			},
+			{ type: "separator" as const },
+			{ type: "placeholder" as const, item: createMockPlaceholderStep("Pending Step", "ph-1") },
+			{
+				type: "timeline" as const,
+				item: createMockTimelineItem({
+					step: {
+						...createMockTimelineItem().step,
+						name: "Model Training",
+						metadata: { ...createMockTimelineItem().step.metadata, status: "failed" }
+					}
+				})
+			}
+		];
+
+		const result = filterTimelineItems(items, "", "failed");
+
+		expect(result).toHaveLength(1);
+		expect(result[0].type).toBe("timeline");
+		if (result[0].type === "timeline") {
+			expect(result[0].item.step.name).toBe("Model Training");
+		}
+	});
+
+	it("combines status filtering with search", () => {
+		const items: VirtualizedItem[] = [
+			{
+				type: "timeline" as const,
+				item: createMockTimelineItem({
+					step: {
+						...createMockTimelineItem().step,
+						name: "Data Processing",
+						metadata: { ...createMockTimelineItem().step.metadata, status: "failed" }
+					}
+				})
+			},
+			{
+				type: "timeline" as const,
+				item: createMockTimelineItem({
+					step: {
+						...createMockTimelineItem().step,
+						name: "Model Training",
+						metadata: { ...createMockTimelineItem().step.metadata, status: "failed" }
+					}
+				})
+			},
+			{
+				type: "timeline" as const,
+				item: createMockTimelineItem({
+					step: {
+						...createMockTimelineItem().step,
+						name: "Data Validation",
+						metadata: { ...createMockTimelineItem().step.metadata, status: "completed" }
+					}
+				})
+			}
+		];
+
+		const result = filterTimelineItems(items, "data", "failed");
+
+		expect(
+			result.filter((i): i is VirtualizedStep => i.type === "timeline").map((i) => i.item.step.name)
+		).toEqual(["Data Processing"]);
 	});
 
 	it("filters by step name (case-insensitive) on timeline items", () => {
@@ -64,7 +140,7 @@ describe("filterTimelineItems", () => {
 			{ type: "separator" as const }
 		];
 
-		const result = filterTimelineItems(items, "data");
+		const result = filterTimelineItems(items, "data", "all");
 		expect(
 			result.filter((i): i is VirtualizedStep => i.type === "timeline").map((i) => i.item.step.name)
 		).toEqual(["Data Processing", "Data Validation"]);
@@ -89,7 +165,7 @@ describe("filterTimelineItems", () => {
 			}
 		];
 
-		const result = filterTimelineItems(items, "rawdata");
+		const result = filterTimelineItems(items, "rawdata", "all");
 		expect(
 			result.filter((i): i is VirtualizedStep => i.type === "timeline").map((i) => i.item.step.name)
 		).toEqual(["Step 1"]);
@@ -113,7 +189,7 @@ describe("filterTimelineItems", () => {
 			}
 		];
 
-		const result = filterTimelineItems(items, "modeloutput");
+		const result = filterTimelineItems(items, "modeloutput", "all");
 		expect(
 			result.filter((i): i is VirtualizedStep => i.type === "timeline").map((i) => i.item.step.name)
 		).toEqual(["Step 1"]);
@@ -126,7 +202,7 @@ describe("filterTimelineItems", () => {
 			{ type: "separator" as const }
 		];
 
-		const result = filterTimelineItems(items, "waiting for");
+		const result = filterTimelineItems(items, "waiting for", "all");
 		expect(result.length).toBe(1);
 		if (result[0].type === "placeholder") {
 			expect(result[0].item.name).toBe("Waiting For Data");
@@ -146,7 +222,7 @@ describe("filterTimelineItems", () => {
 			{ type: "placeholder" as const, item: createMockPlaceholderStep("Beta", "ph-1") }
 		];
 
-		const result = filterTimelineItems(items, "a");
+		const result = filterTimelineItems(items, "a", "all");
 		expect(result.find((i) => i.type === "separator")).toBeUndefined();
 	});
 
@@ -162,12 +238,12 @@ describe("filterTimelineItems", () => {
 			{ type: "separator" as const }
 		];
 
-		const result = filterTimelineItems(items, "nonexistent");
+		const result = filterTimelineItems(items, "nonexistent", "all");
 		expect(result).toEqual([]);
 	});
 
 	it("handles empty virtualized items array", () => {
-		const result = filterTimelineItems([], "search");
+		const result = filterTimelineItems([], "search", "all");
 		expect(result).toEqual([]);
 	});
 });

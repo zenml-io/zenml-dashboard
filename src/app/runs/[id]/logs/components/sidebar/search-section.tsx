@@ -1,13 +1,6 @@
 import Search from "@/assets/icons/search.svg?react";
 import { DebouncedInput } from "@/components/debounced-input";
-import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue
-} from "@zenml-io/react-component-library/components/client";
+import { ExecutionStatusFilter } from "@/components/runs/execution-status-filter";
 import { StatusFilter } from "./common-types";
 
 type Props = {
@@ -16,17 +9,6 @@ type Props = {
 	statusFilter: StatusFilter;
 	setStatusFilter: (value: StatusFilter) => void;
 };
-
-const statusOptions: Array<{ value: StatusFilter; label: string }> = [
-	{ value: "all", label: "All" },
-	{ value: "completed", label: "Completed" },
-	{ value: "failed", label: "Failed" },
-	{ value: "running", label: "Running" },
-	{ value: "cached", label: "Cached" },
-	{ value: "stopped", label: "Stopped" },
-	{ value: "retried", label: "Retried" },
-	{ value: "initializing", label: "Initializing" }
-];
 
 export function PipelineRunLogsSidebarSearchSection({
 	searchTerm,
@@ -48,31 +30,11 @@ export function PipelineRunLogsSidebarSearchSection({
 					<Search className="size-4 fill-neutral-400" />
 				</div>
 			</div>
-			<Select
+			<ExecutionStatusFilter
 				value={statusFilter}
-				onValueChange={(value) => setStatusFilter(value as StatusFilter)}
-			>
-				<SelectTrigger className="h-6 flex-1 truncate border border-theme-border-moderate text-text-sm">
-					<span className="truncate">
-						<SelectValue placeholder="All" />
-					</span>
-				</SelectTrigger>
-				<SelectContent>
-					{statusOptions.map((option) => (
-						<SelectItem key={option.value} value={option.value}>
-							<div className="flex items-center gap-2">
-								{option.value !== "all" && (
-									<ExecutionStatusIcon
-										className="size-4 shrink-0 animate-none"
-										status={option.value}
-									/>
-								)}
-								<span className="truncate">{option.label}</span>
-							</div>
-						</SelectItem>
-					))}
-				</SelectContent>
-			</Select>
+				onValueChange={setStatusFilter}
+				className="h-6 flex-1 truncate border border-theme-border-moderate text-text-sm"
+			/>
 		</section>
 	);
 }

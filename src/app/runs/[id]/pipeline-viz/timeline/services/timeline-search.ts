@@ -1,9 +1,22 @@
 import { VirtualizedItem } from "@/lib/timeline/types";
+import type { ExecutionStatusFilterValue } from "@/components/runs/execution-status-filter";
 
-export function filterTimelineItems(timelineItems: VirtualizedItem[], search: string) {
+export function filterTimelineItems(
+	timelineItems: VirtualizedItem[],
+	search: string,
+	statusFilter: ExecutionStatusFilterValue
+) {
 	return timelineItems.filter((timelineItem) => {
+		if (timelineItem.type === "separator") {
+			return statusFilter === "all" && !search.trim();
+		}
+
+		if (statusFilter !== "all") {
+			if (timelineItem.type !== "timeline") return false;
+			if (timelineItem.item.step.metadata.status !== statusFilter) return false;
+		}
+
 		if (!search.trim()) return true;
-		if (timelineItem.type === "separator") return false;
 		const searchLower = search.toLowerCase();
 		if (timelineItem.type === "timeline") {
 			const item = timelineItem.item;

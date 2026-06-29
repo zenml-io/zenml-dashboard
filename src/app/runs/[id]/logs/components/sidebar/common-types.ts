@@ -1,3 +1,3 @@
-import { ExecutionStatus } from "@/types/pipeline-runs";
+import type { ExecutionStatusFilterValue } from "@/components/runs/execution-status-filter";
 
-export type StatusFilter = ExecutionStatus | "all";
+export type StatusFilter = ExecutionStatusFilterValue;
