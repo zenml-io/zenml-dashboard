@@ -1,7 +1,7 @@
 import { getRealSteps } from "@/components/dag-visualizer/node-types";
 import { prepareBackendTimestamp, secondsToTimeString } from "@/lib/dates";
 import { RawStepNode } from "@/types/dag-visualizer";
-import { ExecutionStatus } from "@/types/pipeline-runs";
+import type { ExecutionStatus, ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { Link, useParams } from "react-router-dom";
 import { useSelectedStep } from "../use-selected-step";
@@ -11,11 +11,10 @@ import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { PipelineRunLogSidebarEmptyState, PipelineRunLogSidebarItem } from "./common";
 import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
 import { usePipelineRunDag } from "@/data/pipeline-runs/run-dag";
-import { StatusFilter } from "./common-types";
 
 type Props = {
 	searchTerm: string;
-	statusFilter: StatusFilter;
+	statusFilter: ExecutionStatusFilterValue;
 };
 
 export function PipelineRunLogsSidebarStepList({ searchTerm, statusFilter }: Props) {

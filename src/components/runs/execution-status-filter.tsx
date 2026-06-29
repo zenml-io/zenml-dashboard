@@ -1,5 +1,6 @@
 import { ExecutionStatusIcon } from "@/components/ExecutionStatus";
-import type { ExecutionStatus } from "@/types/pipeline-runs";
+import { EXECUTION_STATUS_FILTER_OPTIONS } from "@/lib/runs/execution-status-filter-options";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import {
 	Select,
 	SelectContent,
@@ -9,19 +10,6 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import { ElementRef, forwardRef } from "react";
-
-export type ExecutionStatusFilterValue = ExecutionStatus | "all";
-
-const STATUS_OPTIONS: Array<{ value: ExecutionStatusFilterValue; label: string }> = [
-	{ value: "all", label: "All" },
-	{ value: "completed", label: "Completed" },
-	{ value: "failed", label: "Failed" },
-	{ value: "running", label: "Running" },
-	{ value: "cached", label: "Cached" },
-	{ value: "stopped", label: "Stopped" },
-	{ value: "retried", label: "Retried" },
-	{ value: "initializing", label: "Initializing" }
-];
 
 type Props = {
 	value: ExecutionStatusFilterValue;
@@ -46,12 +34,12 @@ export const ExecutionStatusFilter = forwardRef<ElementRef<typeof SelectTrigger>
 					</span>
 				</SelectTrigger>
 				<SelectContent>
-					{STATUS_OPTIONS.map((option) => (
+					{EXECUTION_STATUS_FILTER_OPTIONS.map((option) => (
 						<SelectItem key={option.value} value={option.value}>
 							<div className="flex items-center gap-2">
 								{option.value !== "all" && (
 									<ExecutionStatusIcon
-										className="size-4 shrink-0 animate-none"
+										className="size-4 shrink-0 !animate-none"
 										status={option.value}
 									/>
 								)}
@@ -64,3 +52,5 @@ export const ExecutionStatusFilter = forwardRef<ElementRef<typeof SelectTrigger>
 		);
 	}
 );
+
+ExecutionStatusFilter.displayName = "ExecutionStatusFilter";

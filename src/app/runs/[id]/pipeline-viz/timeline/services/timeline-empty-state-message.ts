@@ -1,5 +1,5 @@
 import { TimelineItem } from "@/lib/timeline/types";
-import type { ExecutionStatusFilterValue } from "@/components/runs/execution-status-filter";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 
 export function getEmptyStateMessage(
 	timelineItems: TimelineItem[],

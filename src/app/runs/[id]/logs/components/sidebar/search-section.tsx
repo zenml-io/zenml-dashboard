@@ -1,13 +1,13 @@
 import Search from "@/assets/icons/search.svg?react";
 import { DebouncedInput } from "@/components/debounced-input";
 import { ExecutionStatusFilter } from "@/components/runs/execution-status-filter";
-import { StatusFilter } from "./common-types";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 
 type Props = {
 	searchTerm: string;
 	setSearchTerm: (value: string) => void;
-	statusFilter: StatusFilter;
-	setStatusFilter: (value: StatusFilter) => void;
+	statusFilter: ExecutionStatusFilterValue;
+	setStatusFilter: (value: ExecutionStatusFilterValue) => void;
 };
 
 export function PipelineRunLogsSidebarSearchSection({

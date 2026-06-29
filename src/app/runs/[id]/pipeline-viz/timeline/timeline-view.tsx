@@ -1,6 +1,6 @@
 import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
-import type { ExecutionStatusFilterValue } from "@/components/runs/execution-status-filter";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Dag } from "@/types/dag-visualizer";
 import { useState } from "react";
 import { PiplineRunVisualizationView } from "../types";
