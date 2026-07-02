@@ -2695,6 +2695,7 @@ export type paths = {
 		 *             successfully backed up from the primary secrets store. Setting
 		 *             this flag effectively moves all secrets from the primary secrets
 		 *             store to the backup secrets store.
+		 *         auth_context: Authentication context.
 		 */
 		put: operations["backup_secrets_api_v1_secrets_operations_backup_put"];
 		post?: never;
@@ -2724,6 +2725,7 @@ export type paths = {
 		 *             successfully restored from the backup secrets store. Setting
 		 *             this flag effectively moves all secrets from the backup secrets
 		 *             store to the primary secrets store.
+		 *         auth_context: Authentication context.
 		 */
 		put: operations["restore_secrets_api_v1_secrets_operations_restore_put"];
 		post?: never;
@@ -2946,6 +2948,7 @@ export type paths = {
 		 *
 		 *     Args:
 		 *         service_account: Service account to create.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Returns:
 		 *         The created service account.
@@ -2984,6 +2987,7 @@ export type paths = {
 		 *     Args:
 		 *         service_account_name_or_id: Name or ID of the service account.
 		 *         service_account_update: the service account to use for the update.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Returns:
 		 *         The updated service account.
@@ -3000,6 +3004,7 @@ export type paths = {
 		 *
 		 *     Args:
 		 *         service_account_name_or_id: Name or ID of the service account.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Raises:
 		 *         IllegalOperationError: If the service account was created via external
@@ -3044,6 +3049,7 @@ export type paths = {
 		 *         service_account_id: ID of the service account for which to create the
 		 *             API key.
 		 *         api_key: API key to create.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Returns:
 		 *         The created API key.
@@ -3090,6 +3096,7 @@ export type paths = {
 		 *             belongs.
 		 *         api_key_name_or_id: Name or ID of the API key to update.
 		 *         api_key_update: API key update.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Returns:
 		 *         The updated API key.
@@ -3108,6 +3115,7 @@ export type paths = {
 		 *         service_account_id: ID of the service account to which the API key
 		 *             belongs.
 		 *         api_key_name_or_id: Name or ID of the API key to delete.
+		 *         auth_context: The authentication context.
 		 */
 		delete: operations["delete_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__delete"];
 		options?: never;
@@ -3132,6 +3140,7 @@ export type paths = {
 		 *             belongs.
 		 *         api_key_name_or_id: Name or ID of the API key to rotate.
 		 *         rotate_request: API key rotation request.
+		 *         auth_context: The authentication context.
 		 *
 		 *     Returns:
 		 *         The updated API key.
@@ -9416,6 +9425,15 @@ export type components = {
 					[key: string]: string;
 				};
 			};
+			/**
+			 * Step Default Input Overrides
+			 * @default {}
+			 */
+			step_default_input_overrides?: {
+				[key: string]: {
+					[key: string]: string;
+				};
+			};
 		};
 		/**
 		 * PipelineConfiguration
@@ -9507,6 +9525,15 @@ export type components = {
 			 * @default {}
 			 */
 			step_input_overrides?: {
+				[key: string]: {
+					[key: string]: string;
+				};
+			};
+			/**
+			 * Step Default Input Overrides
+			 * @default {}
+			 */
+			step_default_input_overrides?: {
 				[key: string]: {
 					[key: string]: string;
 				};
@@ -10362,6 +10389,8 @@ export type components = {
 			deployable: boolean;
 			/** Whether this is a snapshot of a dynamic pipeline. */
 			is_dynamic: boolean;
+			/** The ID of the pipeline associated with the snapshot. */
+			pipeline_id?: string | null;
 		};
 		/**
 		 * PipelineSnapshotResponseMetadata
@@ -14446,7 +14475,12 @@ export type components = {
 		 * @description User-facing dispatch status values for trigger-snapshot execution.
 		 * @enum {string}
 		 */
-		TriggerDispatchStatusCode: "SUCCESS" | "SKIPPED_CONCURRENCY" | "SKIPPED_MAX_RUNS" | "ERROR";
+		TriggerDispatchStatusCode:
+			| "SUCCESS"
+			| "SKIPPED_CONCURRENCY"
+			| "SKIPPED_MAX_RUNS"
+			| "SKIPPED_TRIGGER_CYCLE"
+			| "ERROR";
 		/**
 		 * TriggerExecutionInfo
 		 * @description Class representing a trigger execution information.
@@ -14454,6 +14488,8 @@ export type components = {
 		TriggerExecutionInfo: {
 			/** Upstream Run Id */
 			upstream_run_id?: string | null;
+			/** Upstream Pipeline Ids */
+			upstream_pipeline_ids?: string[];
 		};
 		/**
 		 * TriggerFlavor
@@ -14510,6 +14546,13 @@ export type components = {
 			 * @description Timestamp of the latest recorded status transition.
 			 */
 			last_status_at?: string | null;
+			/**
+			 * Last Status Details
+			 * @description Structured details for the latest dispatch status.
+			 */
+			last_status_details?: {
+				[key: string]: unknown;
+			} | null;
 			/**
 			 * Last Error Message
 			 * @description Friendly user-facing message describing the latest error.
