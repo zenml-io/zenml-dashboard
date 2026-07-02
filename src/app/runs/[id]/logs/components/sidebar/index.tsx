@@ -1,12 +1,12 @@
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { useState } from "react";
 import { PipelineRunLogsSidebarRunItem } from "./run-section";
 import { PipelineRunLogsSidebarStepList } from "./step-section";
 import { PipelineRunLogsSidebarSearchSection } from "./search-section";
-import { StatusFilter } from "./common-types";
 
 export function PipelineRunLogsSidebar() {
 	const [searchTerm, setSearchTerm] = useState("");
-	const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+	const [statusFilter, setStatusFilter] = useState<ExecutionStatusFilterValue>("all");
 	return (
 		<div className="flex h-full flex-col bg-theme-surface-primary pt-5">
 			<div className="mb-3 px-3">

@@ -1,6 +1,7 @@
 import { components, operations } from "./core";
 
 export type ExecutionStatus = components["schemas"]["ExecutionStatus"];
+export type ExecutionStatusFilterValue = ExecutionStatus | "all";
 export type PipelineRun = components["schemas"]["PipelineRunResponse"];
 export type PipelineRunBody = components["schemas"]["PipelineRunResponseBody"];
 

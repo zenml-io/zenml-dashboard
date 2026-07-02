@@ -1,6 +1,8 @@
 import Refresh from "@/assets/icons/refresh.svg?react";
 import Search from "@/assets/icons/search.svg?react";
 import { DebouncedInput } from "@/components/debounced-input";
+import { ExecutionStatusFilter } from "@/components/runs/execution-status-filter";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { PiplineRunVisualizationView } from "../../types";
 import { ViewSwitcher } from "../../view-switcher";
@@ -9,12 +11,21 @@ type Props = {
 	setActiveView: (view: PiplineRunVisualizationView) => void;
 	onSearch: (value: string) => void;
 	search: string;
+	statusFilter: ExecutionStatusFilterValue;
+	onStatusFilterChange: (value: ExecutionStatusFilterValue) => void;
 	refetchHandler: () => void;
 };
 
-export function TimelineHeader({ onSearch, search, setActiveView, refetchHandler }: Props) {
+export function TimelineHeader({
+	onSearch,
+	search,
+	statusFilter,
+	onStatusFilterChange,
+	setActiveView,
+	refetchHandler
+}: Props) {
 	return (
-		<div className="flex flex-shrink-0 items-center gap-3 p-3">
+		<div className="flex flex-shrink-0 flex-wrap items-center gap-3 p-3">
 			<div className="relative">
 				<DebouncedInput
 					value={search}
@@ -27,6 +38,11 @@ export function TimelineHeader({ onSearch, search, setActiveView, refetchHandler
 				</div>
 			</div>
 			<ViewSwitcher activeView={"timeline"} setActiveView={setActiveView} />
+			<ExecutionStatusFilter
+				value={statusFilter}
+				onValueChange={onStatusFilterChange}
+				className="h-7 w-[200px] border border-theme-border-moderate"
+			/>
 			<Button
 				className="size-7 bg-theme-surface-primary"
 				onClick={() => {
