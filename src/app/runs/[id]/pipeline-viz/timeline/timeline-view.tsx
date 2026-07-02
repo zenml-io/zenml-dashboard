@@ -1,5 +1,6 @@
 import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
+import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Dag } from "@/types/dag-visualizer";
 import { useState } from "react";
 import { PiplineRunVisualizationView } from "../types";
@@ -20,6 +21,7 @@ type Props = {
 
 export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) {
 	const [search, setSearch] = useState("");
+	const [statusFilter, setStatusFilter] = useState<ExecutionStatusFilterValue>("all");
 	const isRunning = dagData.status === "running";
 
 	const { currentTime } = useRealtimeTimeline(isRunning);
@@ -35,7 +37,7 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 		placeholderSteps
 	});
 
-	const filteredTimelineItems = filterTimelineItems(virtualizedTimelineItems, search);
+	const filteredTimelineItems = filterTimelineItems(virtualizedTimelineItems, search, statusFilter);
 
 	return (
 		<SheetProvider>
@@ -43,6 +45,8 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 				<TimelineHeader
 					onSearch={setSearch}
 					search={search}
+					statusFilter={statusFilter}
+					onStatusFilterChange={setStatusFilter}
 					refetchHandler={refetchHandler}
 					setActiveView={setActiveView}
 				/>
@@ -54,7 +58,7 @@ export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) 
 						totalTimelineSpanMs={totalTimelineSpanMs}
 					/>
 				) : (
-					<TimelineEmptyState {...getEmptyStateMessage(timelineItems, search)} />
+					<TimelineEmptyState {...getEmptyStateMessage(timelineItems, search, statusFilter)} />
 				)}
 			</div>
 			<GlobalSheets />
