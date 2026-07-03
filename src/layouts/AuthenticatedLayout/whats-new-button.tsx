@@ -8,13 +8,9 @@ type Props = {
 
 export default function WhatsNewButton({ openDialog }: Props) {
 	return (
-		<DropdownMenuItem
-			onSelect={() => openDialog()}
-			className="flex items-start gap-0.5 hover:cursor-pointer data-[highlighted]:bg-theme-surface-tertiary"
-			icon={<Speaker />}
-		>
+		<DropdownMenuItem onSelect={() => openDialog()} className="cursor-pointer" icon={<Speaker />}>
 			What's new
-			<AnnouncementIndicator />
+			<AnnouncementIndicator className="ml-0.5 self-start" />
 		</DropdownMenuItem>
 	);
 }
