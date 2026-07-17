@@ -4,7 +4,6 @@ import { InfoBox } from "@/components/Infobox";
 import { serviceAccountQueries, serviceAccountQueryKeys } from "@/data/service-accounts";
 import { useRotateApiKey } from "@/data/service-accounts/rotate-api-key";
 import { isFetchError } from "@/lib/fetch-error";
-import { RotateApi } from "@/types/service-accounts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -26,7 +25,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { buildRotateApiKeyRequest, rotateFormSchema, RotateFormType } from "./rotate-key-form";
 import { ApiKeySuccess } from "./Success";
 
 type RotateKeyProps = {
@@ -35,20 +34,6 @@ type RotateKeyProps = {
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 };
-
-const rotateFormSchema = z
-	.object({
-		enableRetention: z.boolean(),
-		rotateMinutes: z.coerce.number().int().min(1).optional()
-	})
-	.refine((data) => {
-		if (data.enableRetention && !data.rotateMinutes) {
-			return false;
-		}
-		return true;
-	});
-
-type RotateFormType = z.infer<typeof rotateFormSchema>;
 
 export function RotateApiKeyDialog({ serviceAccountId, apiKeyId, open, setOpen }: RotateKeyProps) {
 	const [apikeyValue, setApikeyValue] = useState("");
@@ -108,13 +93,10 @@ function RotateForm({
 	});
 
 	function handleRotateKey(data: RotateFormType) {
-		const updateApiData: RotateApi = {
-			retain_period_minutes: data.rotateMinutes
-		};
 		mutate({
 			serviceAccountId,
 			apiKeyId,
-			body: updateApiData
+			body: buildRotateApiKeyRequest(data)
 		});
 	}
 
