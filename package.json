@@ -72,7 +72,7 @@
 		"@types/prismjs": "^1.26.5",
 		"@types/react": "^18.3.11",
 		"@types/react-dom": "^18.3.1",
-		"@vitejs/plugin-react": "^6.0.2",
+		"@vitejs/plugin-react": "^6.0.4",
 		"autoprefixer": "^10.4.23",
 		"eslint": "^9.39.4",
 		"eslint-plugin-react-hooks": "^7.0.1",
@@ -88,9 +88,9 @@
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.59.4",
-		"vite": "^8.0.16",
+		"vite": "^8.1.5",
 		"vite-plugin-svgr": "^5.2.0",
-		"vitest": "^4.1.8"
+		"vitest": "^4.1.10"
 	},
-	"packageManager": "pnpm@10.33.4"
+	"packageManager": "pnpm@11.18.0"
 }
