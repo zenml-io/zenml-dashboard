@@ -1,10 +1,13 @@
 import { TimelineItem } from "@/lib/timeline/types";
-import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
+import {
+	getTimelineStatusFilterLabel,
+	type TimelineStatusFilterValue
+} from "./timeline-status-filter";
 
 export function getEmptyStateMessage(
 	timelineItems: TimelineItem[],
 	search: string,
-	statusFilter: ExecutionStatusFilterValue
+	statusFilter: TimelineStatusFilterValue
 ) {
 	if (timelineItems.length === 0) {
 		return {
@@ -12,16 +15,19 @@ export function getEmptyStateMessage(
 			description: "This pipeline run doesn't contain any steps to display."
 		};
 	}
+
+	const statusLabel = getTimelineStatusFilterLabel(statusFilter);
+
 	if (search.trim() && statusFilter !== "all") {
 		return {
 			title: "No steps found",
-			description: `No ${statusFilter} steps found that match the search "${search}".`
+			description: `No ${statusLabel} steps found that match the search "${search}".`
 		};
 	}
 	if (statusFilter !== "all") {
 		return {
 			title: "No steps found",
-			description: `No steps found with the status "${statusFilter}".`
+			description: `No steps found with the status "${statusLabel}".`
 		};
 	}
 

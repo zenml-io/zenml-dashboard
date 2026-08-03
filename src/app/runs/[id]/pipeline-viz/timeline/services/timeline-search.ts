@@ -1,17 +1,19 @@
 import { VirtualizedItem } from "@/lib/timeline/types";
-import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
+import type { TimelineStatusFilterValue } from "./timeline-status-filter";
 
 export function filterTimelineItems(
 	timelineItems: VirtualizedItem[],
 	search: string,
-	statusFilter: ExecutionStatusFilterValue
+	statusFilter: TimelineStatusFilterValue
 ) {
 	return timelineItems.filter((timelineItem) => {
 		if (timelineItem.type === "separator") {
 			return statusFilter === "all" && !search.trim();
 		}
 
-		if (statusFilter !== "all") {
+		if (statusFilter === "not_started") {
+			if (timelineItem.type !== "placeholder") return false;
+		} else if (statusFilter !== "all") {
 			if (timelineItem.type !== "timeline") return false;
 			if (timelineItem.item.step.metadata.status !== statusFilter) return false;
 		}

@@ -20,7 +20,7 @@ function createMockPlaceholderStep(name: string, id: string): Node {
 }
 
 describe("virtualizeTimelineItems", () => {
-	it("returns only timeline items when run is not failed", () => {
+	it("returns only timeline items when a completed run has no placeholders", () => {
 		const timelineItems: TimelineItem[] = [
 			createMockTimelineItem({ step: { ...createMockTimelineItem().step, name: "A" } }),
 			createMockTimelineItem({ step: { ...createMockTimelineItem().step, name: "B" } })
@@ -44,6 +44,24 @@ describe("virtualizeTimelineItems", () => {
 			expect(second.item).toBe(timelineItems[1]);
 		}
 	});
+
+	it.each(["cancelled", "stopped"] as const)(
+		"includes not-started steps when the run is %s",
+		(runStatus) => {
+			const placeholders = [createMockPlaceholderStep("Not Started", "not-started")];
+
+			const result = virtualizeTimelineItems({
+				timelineItems: [],
+				runStatus,
+				placeholderSteps: placeholders
+			});
+
+			expect(result).toEqual([
+				{ type: "separator" },
+				{ type: "placeholder", item: placeholders[0] }
+			]);
+		}
+	);
 
 	it("includes separator and placeholders when run failed", () => {
 		const timelineItems: TimelineItem[] = [

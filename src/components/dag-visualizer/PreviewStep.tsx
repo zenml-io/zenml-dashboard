@@ -12,16 +12,20 @@ import { BaseNode } from "./BaseNode";
 
 export function PreviewStepNode({ data }: NodeProps<PreviewNodePayload>) {
 	const isFailed = data.runStatus === "failed";
+	const isCancelled = data.runStatus === "cancelled";
 	const isCompleted = data.runStatus === "completed";
 	const isStopped = data.runStatus === "stopped";
+	const showSkippedIcon = isFailed || isCancelled;
 	return (
 		<BaseNode>
 			<TooltipProvider>
 				<Tooltip>
 					<TooltipTrigger>
 						<div className="flex h-[50px] max-w-[300px] items-center gap-1 rounded-md border border-theme-border-moderate bg-theme-surface-primary p-1 pr-2 opacity-50">
-							<div className={`rounded-sm ${isFailed ? "bg-blue-50" : "bg-warning-50"} p-0.5`}>
-								{isFailed ? (
+							<div
+								className={`rounded-sm ${showSkippedIcon ? "bg-blue-50" : "bg-warning-50"} p-0.5`}
+							>
+								{showSkippedIcon ? (
 									<Minus className="h-4 w-4 shrink-0 fill-blue-500" />
 								) : (
 									<ExecutionStatusIcon
@@ -36,6 +40,8 @@ export function PreviewStepNode({ data }: NodeProps<PreviewNodePayload>) {
 					<TooltipContent className="z-20 max-w-xs text-center">
 						{isFailed ? (
 							<>This step will never start because of an upstream error</>
+						) : isCancelled ? (
+							<>This step was not executed because the run was cancelled</>
 						) : isStopped ? (
 							<>This step was not executed because the run was stopped</>
 						) : (

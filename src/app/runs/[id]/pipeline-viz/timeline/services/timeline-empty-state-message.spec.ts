@@ -50,7 +50,7 @@ describe("getEmptyStateMessage", () => {
 
 		expect(result).toEqual({
 			title: "No steps found",
-			description: 'No steps found with the status "failed".'
+			description: 'No steps found with the status "Failed".'
 		});
 	});
 
@@ -65,7 +65,16 @@ describe("getEmptyStateMessage", () => {
 
 		expect(result).toEqual({
 			title: "No steps found",
-			description: 'No failed steps found that match the search "trainer".'
+			description: 'No Failed steps found that match the search "trainer".'
+		});
+	});
+
+	it("uses the Not started label in status-specific messages", () => {
+		const timelineItems = [createMockTimelineItem()];
+
+		expect(getEmptyStateMessage(timelineItems, "", "not_started")).toEqual({
+			title: "No steps found",
+			description: 'No steps found with the status "Not started".'
 		});
 	});
 });
