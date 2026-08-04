@@ -75,6 +75,23 @@ describe("filterTimelineItems", () => {
 		}
 	});
 
+	it("filters not-started status to placeholder steps only", () => {
+		const items: VirtualizedItem[] = [
+			{
+				type: "timeline",
+				item: createMockTimelineItem({
+					step: { ...createMockTimelineItem().step, name: "Completed Step" }
+				})
+			},
+			{ type: "separator" },
+			{ type: "placeholder", item: createMockPlaceholderStep("Not Started Step", "ph-1") }
+		];
+
+		const result = filterTimelineItems(items, "", "not_started");
+
+		expect(result).toEqual([items[2]]);
+	});
+
 	it("combines status filtering with search", () => {
 		const items: VirtualizedItem[] = [
 			{

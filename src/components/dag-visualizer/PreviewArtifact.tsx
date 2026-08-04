@@ -12,8 +12,10 @@ import { BaseNode } from "./BaseNode";
 
 export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 	const isFailed = data.runStatus === "failed";
+	const isCancelled = data.runStatus === "cancelled";
 	const isCompleted = data.runStatus === "completed";
 	const isStopped = data.runStatus === "stopped";
+	const showSkippedIcon = isFailed || isCancelled;
 	return (
 		<BaseNode>
 			<TooltipProvider>
@@ -21,7 +23,7 @@ export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 					<TooltipTrigger>
 						<div className="flex h-[50px] min-w-0 max-w-[300px] items-center justify-center gap-1 rounded-rounded border border-primary-100 bg-primary-25 p-1 opacity-50">
 							<div className="rounded-rounded bg-primary-50 p-0.5">
-								{isFailed ? (
+								{showSkippedIcon ? (
 									<Minus className="h-4 w-4 shrink-0 fill-primary-400" />
 								) : (
 									<ExecutionStatusIcon
@@ -36,6 +38,8 @@ export function PreviewArtifactNode({ data }: NodeProps<PreviewNodePayload>) {
 					<TooltipContent className="z-20 max-w-xs text-center">
 						{isFailed ? (
 							<>This artifact was not generated because of an upstream error</>
+						) : isCancelled ? (
+							<>This artifact was not created because the run was cancelled</>
 						) : isStopped ? (
 							<>This artifact was not created because the run was stopped</>
 						) : (

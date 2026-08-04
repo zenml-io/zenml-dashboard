@@ -1,6 +1,5 @@
 import { GlobalSheets } from "@/components/dag-visualizer/global-sheets";
 import { SheetProvider } from "@/components/dag-visualizer/sheet-context";
-import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Dag } from "@/types/dag-visualizer";
 import { useState } from "react";
 import { PiplineRunVisualizationView } from "../types";
@@ -11,6 +10,7 @@ import { useRealtimeTimeline } from "./hooks/use-timeline-realtime";
 import { buildTimeline } from "./services/timeline-data-builder";
 import { getEmptyStateMessage } from "./services/timeline-empty-state-message";
 import { filterTimelineItems } from "./services/timeline-search";
+import type { TimelineStatusFilterValue } from "./services/timeline-status-filter";
 import { virtualizeTimelineItems } from "./services/timeline-virtualize-items";
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 
 export function TimelineView({ dagData, setActiveView, refetchHandler }: Props) {
 	const [search, setSearch] = useState("");
-	const [statusFilter, setStatusFilter] = useState<ExecutionStatusFilterValue>("all");
+	const [statusFilter, setStatusFilter] = useState<TimelineStatusFilterValue>("all");
 	const isRunning = dagData.status === "running";
 
 	const { currentTime } = useRealtimeTimeline(isRunning);

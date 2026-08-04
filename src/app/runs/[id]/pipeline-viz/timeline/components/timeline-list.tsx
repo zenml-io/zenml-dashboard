@@ -75,7 +75,7 @@ export function TimelineList({
 										totalTimelineSpanMs={totalTimelineSpanMs}
 									/>
 								)}
-								{type === "separator" && <TimelinePlaceholderSeparator />}
+								{type === "separator" && <TimelinePlaceholderSeparator runStatus={runStatus} />}
 								{type === "placeholder" && (
 									<PlaceholderListItem stepName={filteredItem.item.name} runStatus={runStatus} />
 								)}

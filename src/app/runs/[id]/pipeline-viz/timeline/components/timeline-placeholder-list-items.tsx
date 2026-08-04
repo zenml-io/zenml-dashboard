@@ -8,11 +8,22 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 
-export function TimelinePlaceholderSeparator() {
+function getPlaceholderSeparatorLabel(runStatus: ExecutionStatus) {
+	switch (runStatus) {
+		case "cancelled":
+			return "skipped steps due to cancellation";
+		case "stopped":
+			return "skipped steps due to stop";
+		default:
+			return "skipped steps due to failure";
+	}
+}
+
+export function TimelinePlaceholderSeparator({ runStatus }: { runStatus: ExecutionStatus }) {
 	return (
 		<div className="flex w-full items-center gap-1 bg-theme-surface-secondary px-3 py-1">
 			<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">
-				skipped steps due to failure
+				{getPlaceholderSeparatorLabel(runStatus)}
 			</p>
 		</div>
 	);
@@ -26,6 +37,7 @@ export function PlaceholderListItem({
 	runStatus: ExecutionStatus;
 }) {
 	const isFailed = runStatus === "failed";
+	const isCancelled = runStatus === "cancelled";
 	const isCompleted = runStatus === "completed";
 	const isStopped = runStatus === "stopped";
 	return (
@@ -36,12 +48,12 @@ export function PlaceholderListItem({
 			>
 				<div className="size-3" />
 				<TooltipProvider>
-					{isFailed ? (
-						<Minus className="h-4 w-4 shrink-0 fill-blue-500/50" />
+					{isFailed || isCancelled ? (
+						<Minus className="size-3 shrink-0 fill-blue-500/50" />
 					) : (
 						<ExecutionStatusIcon
 							status={isCompleted ? "completed" : isStopped ? "stopped" : "running"}
-							className="h-4 w-4 fill-theme-text-warning"
+							className="size-3"
 						/>
 					)}
 
