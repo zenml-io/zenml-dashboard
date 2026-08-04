@@ -16,18 +16,19 @@ type Props = {
 
 const iconClasses = "fill-neutral-500 shrink-0";
 
-const MAX_DOT_LENGTH: number = 10;
+/** Fixed mask length — never mirrors the real secret length (avoids layout overflow). */
+const FIXED_MASK_LENGTH = 12;
 
 export function SensitiveValue({ value }: Props) {
 	const [showValue, setShowValue] = useState(false);
 
 	return (
-		<div className="flex min-w-0 items-center gap-0.5 whitespace-normal">
+		<div className="flex w-full min-w-0 items-center gap-0.5">
 			<Button
 				intent="secondary"
 				emphasis="minimal"
 				onClick={() => setShowValue((prev) => !prev)}
-				className="flex aspect-square size-6 items-center justify-center"
+				className="flex aspect-square size-6 shrink-0 items-center justify-center"
 			>
 				{showValue ? (
 					<>
@@ -43,9 +44,11 @@ export function SensitiveValue({ value }: Props) {
 			</Button>
 
 			{showValue ? (
-				<ValueButton value={value} />
+				<div className="min-w-0 flex-1 overflow-hidden">
+					<ValueButton value={value} />
+				</div>
 			) : (
-				<p className="min-w-0">{"•".repeat(Math.min(value.length, MAX_DOT_LENGTH))}</p>
+				<p className="min-w-0 flex-1 truncate">{"•".repeat(FIXED_MASK_LENGTH)}</p>
 			)}
 		</div>
 	);
@@ -54,6 +57,7 @@ export function SensitiveValue({ value }: Props) {
 type ValueButtonProps = {
 	value: string;
 };
+
 function ValueButton({ value }: ValueButtonProps) {
 	const { copied, copyToClipboard } = useCopy();
 	const triggerRef = useRef<HTMLButtonElement>(null);
@@ -68,14 +72,14 @@ function ValueButton({ value }: ValueButtonProps) {
 					}}
 					asChild
 				>
-					<Button
-						intent="secondary"
-						className="block min-w-0 max-w-full truncate text-text-md font-medium"
-						emphasis="minimal"
+					{/* Native button: library Button is `display:flex`, which breaks text-overflow. */}
+					<button
+						type="button"
 						ref={triggerRef}
+						className="w-fit min-w-0 max-w-full truncate rounded-md px-1 py-0.5 text-left text-text-md font-medium text-theme-text-primary hover:bg-neutral-200 active:bg-neutral-300"
 					>
 						{value}
-					</Button>
+					</button>
 				</TooltipTrigger>
 				<TooltipContent
 					onPointerDownOutside={(event) => {
@@ -84,7 +88,7 @@ function ValueButton({ value }: ValueButtonProps) {
 					className="z-50 rounded-md bg-theme-text-primary px-3 py-2 text-text-xs text-theme-text-negative shadow-lg"
 					sideOffset={5}
 				>
-					{copied ? "Copied!" : "Copy to Clipboard"}
+					{copied ? "Copied!" : "Click to copy"}
 				</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>

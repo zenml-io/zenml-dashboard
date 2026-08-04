@@ -1,23 +1,9 @@
-import EyeIcon from "@/assets/icons/eye.svg?react";
 import KeyIcon from "@/assets/icons/key-icon.svg?react";
+import { SensitiveValue } from "@/components/sensitive-value";
 import { ActionCell } from "@/components/tables/action-cell";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react"; // Import useState for local state
 import { SecretTooltip } from "../SecretTooltip";
 import SecretTableDropDown from "./SecretTableDropDown";
-
-const ValueCell: React.FC<{ value: unknown }> = ({ value }) => {
-	const [isVisible, setIsVisible] = useState(false);
-	const valueStr = typeof value === "string" ? value : "";
-	const dots = "•".repeat(valueStr.length);
-
-	return (
-		<div className="flex items-center gap-2 space-x-2">
-			<EyeIcon onClick={() => setIsVisible(!isVisible)} className="h-4 w-4 flex-shrink-0" />
-			<span>{isVisible ? valueStr : dots}</span>
-		</div>
-	);
-};
 
 export function getSecretDetailColumn(
 	secretId: string,
@@ -28,6 +14,10 @@ export function getSecretDetailColumn(
 			id: "key",
 			header: "Key",
 			accessorKey: "key",
+			meta: {
+				width: "40%",
+				className: "overflow-hidden"
+			},
 			cell: ({ row }) => {
 				const code = `from zenml.client import Client
 secret = Client().get_secret("${name}")
@@ -36,19 +26,13 @@ secret = Client().get_secret("${name}")
 secret.secret_values["${row.original.key}"]
 	  `;
 				return (
-					<div className="flex min-w-[10rem] items-center space-x-2">
+					<div className="flex min-w-0 items-center space-x-2">
 						<KeyIcon className="h-5 w-5 shrink-0 fill-primary-400" />
-						<div className="flex flex-col">
-							<div className="flex items-center space-x-1">
-								<div className="flex items-center space-x-1">
-									<div className="grid grid-cols-1">
-										<span className="truncate text-text-md font-semibold text-theme-text-primary">
-											{row.original.key}
-										</span>
-									</div>
-									<SecretTooltip code={code} />
-								</div>
-							</div>
+						<div className="flex min-w-0 items-center space-x-1">
+							<span className="truncate text-text-md font-semibold text-theme-text-primary">
+								{row.original.key}
+							</span>
+							<SecretTooltip code={code} />
 						</div>
 					</div>
 				);
@@ -58,11 +42,22 @@ secret.secret_values["${row.original.key}"]
 			id: "value",
 			header: "Value",
 			accessorKey: "value",
-			cell: ({ row }) => <ValueCell value={row.getValue("value")} />
+			meta: {
+				width: "50%",
+				className: "overflow-hidden"
+			},
+			cell: ({ row }) => {
+				const value = row.getValue("value");
+				return <SensitiveValue value={typeof value === "string" ? value : ""} />;
+			}
 		},
 		{
 			id: "actions",
 			header: "",
+			meta: {
+				width: "10%",
+				className: "w-12"
+			},
 			cell: ({ row }) => (
 				<ActionCell>
 					<SecretTableDropDown secretId={secretId} keyName={row.original.key} />
