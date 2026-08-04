@@ -49,11 +49,11 @@ export function PlaceholderListItem({
 				<div className="size-3" />
 				<TooltipProvider>
 					{isFailed || isCancelled ? (
-						<Minus className="h-4 w-4 shrink-0 fill-blue-500/50" />
+						<Minus className="size-3 shrink-0 fill-blue-500/50" />
 					) : (
 						<ExecutionStatusIcon
 							status={isCompleted ? "completed" : isStopped ? "stopped" : "running"}
-							className="h-4 w-4 fill-theme-text-warning"
+							className="size-3"
 						/>
 					)}
 
