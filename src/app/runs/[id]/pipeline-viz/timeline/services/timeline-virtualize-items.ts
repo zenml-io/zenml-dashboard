@@ -8,6 +8,8 @@ type Args = {
 	placeholderSteps: Node[];
 };
 
+const RUN_STATUSES_WITH_PLACEHOLDER_STEPS: ExecutionStatus[] = ["failed", "cancelled", "stopped"];
+
 export function virtualizeTimelineItems({ timelineItems, runStatus, placeholderSteps }: Args) {
 	const virtualizedItems: VirtualizedItem[] = [];
 
@@ -18,12 +20,10 @@ export function virtualizeTimelineItems({ timelineItems, runStatus, placeholderS
 		});
 	});
 
-	if (runStatus === "failed") {
-		if (placeholderSteps.length > 0) {
-			virtualizedItems.push({
-				type: "separator"
-			});
-		}
+	if (RUN_STATUSES_WITH_PLACEHOLDER_STEPS.includes(runStatus) && placeholderSteps.length > 0) {
+		virtualizedItems.push({
+			type: "separator"
+		});
 
 		placeholderSteps.forEach((item) => {
 			virtualizedItems.push({

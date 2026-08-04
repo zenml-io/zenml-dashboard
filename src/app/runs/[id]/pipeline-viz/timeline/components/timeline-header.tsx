@@ -2,17 +2,20 @@ import Refresh from "@/assets/icons/refresh.svg?react";
 import Search from "@/assets/icons/search.svg?react";
 import { DebouncedInput } from "@/components/debounced-input";
 import { ExecutionStatusFilter } from "@/components/runs/execution-status-filter";
-import type { ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { PiplineRunVisualizationView } from "../../types";
 import { ViewSwitcher } from "../../view-switcher";
+import {
+	TIMELINE_STATUS_FILTER_OPTIONS,
+	type TimelineStatusFilterValue
+} from "../services/timeline-status-filter";
 
 type Props = {
 	setActiveView: (view: PiplineRunVisualizationView) => void;
 	onSearch: (value: string) => void;
 	search: string;
-	statusFilter: ExecutionStatusFilterValue;
-	onStatusFilterChange: (value: ExecutionStatusFilterValue) => void;
+	statusFilter: TimelineStatusFilterValue;
+	onStatusFilterChange: (value: TimelineStatusFilterValue) => void;
 	refetchHandler: () => void;
 };
 
@@ -41,6 +44,7 @@ export function TimelineHeader({
 			<ExecutionStatusFilter
 				value={statusFilter}
 				onValueChange={onStatusFilterChange}
+				options={TIMELINE_STATUS_FILTER_OPTIONS}
 				className="h-7 w-[200px] border border-theme-border-moderate"
 			/>
 			<Button
