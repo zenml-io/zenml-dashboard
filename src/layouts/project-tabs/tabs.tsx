@@ -7,7 +7,7 @@ import {
 	TabsList,
 	TabsTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 // settings is in brackets because of the file structure
 

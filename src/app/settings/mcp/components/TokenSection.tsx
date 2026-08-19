@@ -6,7 +6,7 @@ import { routes } from "@/router/routes";
 import { Button, Input } from "@zenml-io/react-component-library/components/server";
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type TokenSectionProps = {
 	token: string | null;

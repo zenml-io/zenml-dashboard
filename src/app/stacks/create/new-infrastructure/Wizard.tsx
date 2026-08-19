@@ -2,7 +2,7 @@ import { useWizardContext } from "@/context/WizardContext";
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import { CancelButton } from "../components/CancelButton";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { ConfigurationStep } from "./Steps/Configuration";

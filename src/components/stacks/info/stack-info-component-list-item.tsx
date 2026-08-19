@@ -8,7 +8,7 @@ import { StackComponent, StackComponentType } from "@/types/components";
 import { Badge, Box } from "@zenml-io/react-component-library/components/server";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { NestedCollapsible } from "../../NestedCollapsible";
 
 type Props = {

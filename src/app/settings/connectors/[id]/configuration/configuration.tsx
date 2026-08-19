@@ -3,7 +3,7 @@ import { serviceConnectorQueries } from "@/data/service-connectors";
 import { extractAuthMethod } from "@/lib/service-connectors";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function ConfigurationPanel() {
 	const { connectorId } = useParams() as { connectorId: string };

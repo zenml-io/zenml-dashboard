@@ -2,7 +2,7 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import Tick from "@/assets/icons/tick-circle.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlertDialog, useToast } from "@zenml-io/react-component-library";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { DeleteAlertContent, DeleteAlertContentBody } from "@/components/DeleteAlertDialog";
 import { useDeleteRun } from "@/data/pipeline-runs/delete-run";
 import { routes } from "@/router/routes";

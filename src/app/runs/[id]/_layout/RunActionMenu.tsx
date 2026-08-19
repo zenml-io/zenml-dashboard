@@ -9,7 +9,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { DeleteRunAlert } from "./DeleteRunAlert";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "@/router/routes";
 
 type Props = {

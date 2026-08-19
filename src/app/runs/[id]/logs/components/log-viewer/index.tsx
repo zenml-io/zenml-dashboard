@@ -2,7 +2,7 @@ import { LogTab } from "@/components/runs/detail-tabs/LogTab/logs";
 import { RunsDetailHeaderNameSection } from "@/components/runs/runs-detail-header-name-section";
 import { StepLogsTab } from "@/components/steps/step-sheet/LogsTab";
 import { SheetHeadline } from "@/components/steps/step-sheet/sheet-headline";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useSelectedStep } from "../use-selected-step";
 import { PipelineRunLogsViewerHeader } from "./header";
 import { LogViewerSidebarToggleButton } from "./sidebar-toggle-button";

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { RunsDetailHeader } from "./Header";
 
 export function RunDetailLayout() {

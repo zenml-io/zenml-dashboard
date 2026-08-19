@@ -10,7 +10,7 @@ import {
 	DropdownMenuTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useComponentBulkDelete } from "./selector-context";
 type Props = {
 	id: string;

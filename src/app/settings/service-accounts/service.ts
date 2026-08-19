@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 import { ListServiceAccountsParams } from "@/types/service-accounts";
 import { z } from "zod";

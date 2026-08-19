@@ -3,7 +3,7 @@
 ## General Context
 
 - This is a Vite-powered SPA that runs entirely client-side—no SSR considerations.
-- Routing is handled via `react-router-dom`; keep navigation centralized in `src/router` helpers.
+- Routing is handled via `react-router`; keep navigation centralized in `src/router` helpers.
 - The dashboard ships bundled with the FastAPI-based ZenML server, so API calls always target the paired backend instance with shared credentials.
 - Avoid duplicating code: inspect existing implementations (including `zenml-cloud-ui`) before adding new abstractions.
 

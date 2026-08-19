@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { Header } from "./header";
 import { FloatingProgressLink } from "@/components/onboarding/floating-progress-link";
 export function NonProjectScopedLayout() {

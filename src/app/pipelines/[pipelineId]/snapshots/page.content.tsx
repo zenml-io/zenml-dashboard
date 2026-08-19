@@ -1,5 +1,5 @@
 import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { SnapshotTableToolbar } from "@/components/pipeline-snapshots/list/toolbar";
 import { PipelineSnapshotsTable } from "@/components/pipeline-snapshots/list/table";
 import { useSnapshotListQueryParams } from "@/components/pipeline-snapshots/list/use-queryparams";

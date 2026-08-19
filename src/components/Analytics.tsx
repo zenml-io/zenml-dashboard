@@ -6,7 +6,7 @@ import { analyticsServerUrl } from "@/lib/analytics";
 import { routes } from "@/router/routes";
 import { PageEvent, PageEventContext, PageEventPage, PageEventProperties } from "@/types/analytics";
 import { useEffect } from "react";
-import { matchPath, useLocation } from "react-router-dom";
+import { matchPath, useLocation } from "react-router";
 
 const REO_KEY = import.meta.env.VITE_REO_KEY;
 

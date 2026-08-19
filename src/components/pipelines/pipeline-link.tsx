@@ -1,7 +1,7 @@
 import { routes } from "@/router/routes";
 import { cn, Tag } from "@zenml-io/react-component-library";
 import { ComponentPropsWithoutRef } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
 
 type Props = ComponentPropsWithoutRef<typeof Tag> & {

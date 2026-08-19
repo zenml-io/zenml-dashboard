@@ -4,7 +4,7 @@ import { useDeleteStackMutation } from "@/data/stacks/delete-stack";
 import { routes } from "@/router/routes";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function useDeleteStack(stackId: string, closeAlert?: () => void) {
 	const { toast } = useToast();

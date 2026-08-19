@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import Gradient from "@/assets/images/gradient_bg.webp";
 import ZenML from "@/assets/icons/zenml.svg?react";
 

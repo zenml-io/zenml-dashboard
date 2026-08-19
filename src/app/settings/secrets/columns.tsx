@@ -7,7 +7,7 @@ import { getSecretSnippet } from "@/lib/code-snippets";
 import { routes } from "@/router/routes";
 import { SecretNamespace } from "@/types/secret";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import SecretsDropdown from "./SecretsDropdown";
 import { SecretTooltip } from "./SecretTooltip";
 

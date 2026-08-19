@@ -3,7 +3,7 @@ import { RunRefreshGroup } from "@/components/runs/refresh-group";
 import { RunsDetailHeaderNameSection } from "@/components/runs/runs-detail-header-name-section";
 import { RunStopGroup } from "@/components/runs/stop-group";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useRunDetailBreadcrumbs } from "./breadcrumbs";
 import { RunActionsMenu } from "./RunActionMenu";
 import { PipelineRunDetailTabs } from "./tabs";

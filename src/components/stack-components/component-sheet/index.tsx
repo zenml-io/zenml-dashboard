@@ -5,7 +5,7 @@ import { routes } from "@/router/routes";
 import { Sheet, SheetTrigger } from "@zenml-io/react-component-library";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { StackComponentsDetailHeader } from "../component-detail/Header";
 import { StackComponentTabs } from "../component-detail/Tabs";
 import { RunsList } from "./runs-tab/RunsList";

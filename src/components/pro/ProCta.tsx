@@ -2,7 +2,7 @@ import { Badge, Button } from "@zenml-io/react-component-library/components/serv
 import { cn } from "@zenml-io/react-component-library/utilities";
 import Check from "@/assets/icons/check.svg?react";
 import { HTMLAttributes, ImgHTMLAttributes } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "@/router/routes";
 
 export function ProWrapper({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {

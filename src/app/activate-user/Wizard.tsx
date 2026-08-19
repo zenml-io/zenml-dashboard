@@ -4,7 +4,7 @@ import StepDisplay from "@/components/survey/StepDisplay";
 import { SuccessStep } from "@/components/survey/SuccessStep";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { AboutYouStep } from "./AboutYou";
 import { AccountDetailsStep } from "./AccountDetailsStep";
 import { ActivationProvider } from "./ActivationContext";

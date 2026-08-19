@@ -2,7 +2,7 @@ import { getIsStatusUnknown } from "@/components/dag-visualizer/layout/status";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Badge, Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
 	ExecutionStatusIcon,
 	getBadgeColor,

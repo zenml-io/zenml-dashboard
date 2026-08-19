@@ -1,5 +1,5 @@
 import { Box } from "@zenml-io/react-component-library/components/server";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { ConnectorDetailHeader } from "./header";
 import { ResourcesContextProvider } from "./resources-context";
 import { ServiceConnectorTabs } from "./tabs";

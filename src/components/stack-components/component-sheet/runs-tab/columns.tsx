@@ -12,7 +12,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export const runsColumns: ColumnDef<PipelineRun>[] = [
 	{

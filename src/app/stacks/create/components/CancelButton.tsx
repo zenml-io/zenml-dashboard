@@ -1,5 +1,5 @@
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { clearWizardData } from "../new-infrastructure/persist";
 import { routes } from "@/router/routes";
 

@@ -1,6 +1,6 @@
 import { ComponentSelectorContextProvider } from "@/app/components/selector-context";
 import { StackComponentList } from "@/app/components/StackComponentList";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export default function ConnectorComponentPage() {
 	const { connectorId } = useParams() as { connectorId: string };

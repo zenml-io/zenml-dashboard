@@ -4,7 +4,7 @@ import { routes } from "@/router/routes";
 import { ServiceAccount } from "@/types/service-accounts";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import ServiceAccountsDropdown from "./Dropdown";
 import ToggleActiveServiceAccount from "./ToggleServiceAccount";
 

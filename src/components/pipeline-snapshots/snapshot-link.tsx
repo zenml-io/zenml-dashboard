@@ -2,7 +2,7 @@ import SnapshotIcon from "@/assets/icons/snapshot.svg?react";
 import { routes } from "@/router/routes";
 import { Tag } from "@zenml-io/react-component-library";
 import { ComponentProps } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = ComponentProps<typeof Tag> & {
 	snapshotId: string;

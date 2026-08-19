@@ -1,7 +1,7 @@
 import Collapse from "@/assets/icons/collapse.svg?react";
 import { RunDetailTabsDisplay } from "@/components/runs/detail-tabs";
 import { Button } from "@zenml-io/react-component-library";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { useSelectedTab } from "../../../components/runs/detail-tabs/service";
 
 type TabsHeaderProps = {

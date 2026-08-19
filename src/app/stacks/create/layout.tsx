@@ -1,6 +1,6 @@
 import Stack from "@/assets/icons/stack.svg?react";
 import { PageHeader } from "@/components/PageHeader";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { useStackCreateBreadcrumbs } from "./breadcrumb";
 
 export function CreateStacksLayout() {

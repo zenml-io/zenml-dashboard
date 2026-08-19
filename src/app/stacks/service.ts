@@ -1,5 +1,5 @@
 import { StackListQueryParams } from "@/types/stack";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { z } from "zod";
 
 const DEFAULT_PAGE = 1;

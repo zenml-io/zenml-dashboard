@@ -1,6 +1,6 @@
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useConnectorDetailBreadcrumbs } from "./breadcrumbs";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { CopyButton } from "@/components/CopyButton";
 import { useQuery } from "@tanstack/react-query";
 import { serviceConnectorQueries } from "@/data/service-connectors";

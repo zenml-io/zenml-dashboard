@@ -10,7 +10,7 @@ import { NonProjectScopedLayout } from "@/layouts/non-project-scoped/layout";
 import { ProjectTabsLayout } from "@/layouts/project-tabs/layout";
 import { ProjectSettingsLayout } from "@/layouts/settings/project-settings/layout";
 import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";

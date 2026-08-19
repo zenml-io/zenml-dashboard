@@ -3,7 +3,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { PageBoundary } from "@/error-boundaries/PageBoundary";
 import { routes } from "@/router/routes";
 import { Button } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function StackPageBoundary() {
 	return (

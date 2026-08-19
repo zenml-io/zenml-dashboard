@@ -56,7 +56,7 @@ Playwright uses `playwright.config.ts` as the source of truth. At the moment tha
 ## General OSS Practices
 
 - The dashboard is a pure Vite SPA—everything runs client-side, so no SSR plumbing is required.
-- Routing flows through `react-router-dom`; keep navigation centralized in router helpers rather than ad-hoc history calls.
+- Routing flows through `react-router`; keep navigation centralized in router helpers rather than ad-hoc history calls.
 - The OSS dashboard ships alongside the FastAPI ZenML server, so API requests always target the paired backend domain using shared cookies.
 - Avoid duplicating code or inventing hyper-generic abstractions: inspect existing flows (and `zenml-cloud-ui`) before writing new components or helpers.
 - Prefer focused components over catch-all versions; duplicating two purposeful components is often clearer than a single complex abstraction.

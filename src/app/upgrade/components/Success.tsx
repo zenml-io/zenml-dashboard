@@ -2,7 +2,7 @@ import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import { Tick } from "@/components/pro/ProCta";
 import { routes } from "@/router/routes";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const contents = [
 	"Comprehensive documentation to get started",

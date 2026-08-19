@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/EmptyState";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { RunSheetHeadline } from "./headline";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "@/router/routes";
 import Maximize from "@/assets/icons/expand-full.svg?react";
 

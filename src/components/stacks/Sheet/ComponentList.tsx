@@ -8,7 +8,7 @@ import { StackComponent } from "@/types/components";
 import { useQuery } from "@tanstack/react-query";
 import { Badge, Box, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { CopyButton } from "../../CopyButton";
 import { ComponentBadge } from "../../stack-components/ComponentBadge";
 import { useIntegrationsContext } from "./IntegrationsContext";

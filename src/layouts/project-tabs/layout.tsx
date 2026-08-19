@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { ProjectHeader } from "./header";
 export function ProjectTabsLayout() {
 	return (

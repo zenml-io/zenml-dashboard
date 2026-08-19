@@ -1,7 +1,7 @@
 import Transform from "@/assets/icons/transform.svg?react";
 import { routes } from "@/router/routes";
 import { Tag } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = {
 	connectorName: string;

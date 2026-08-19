@@ -14,7 +14,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { PipelineDropdown } from "./PipelineDropdown";
 
 export function getPipelineColumns(): ColumnDef<Pipeline>[] {
