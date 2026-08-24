@@ -1,5 +1,5 @@
 import { StackComponentTabs } from "@/components/stack-components/component-detail/Tabs";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { RunsBody } from "../../runs/RunsBody";
 import { RunsSelectorContextProvider } from "../../runs/RunsSelectorContext";
 import { StackList } from "../../stacks/StackList";

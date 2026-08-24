@@ -4,7 +4,7 @@ import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { clearWizardData, parseWizardData } from "./create/terraform/persist";
 
 type Props = {

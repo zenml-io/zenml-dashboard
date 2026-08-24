@@ -7,7 +7,7 @@ import { StackComponentType } from "@/types/components";
 import { Flavor } from "@/types/flavors";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useId } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router";
 
 type Props = {
 	flavor: Flavor;

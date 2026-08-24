@@ -11,5 +11,9 @@ minimumReleaseAge: 10080
 # Moved here from the "pnpm" field in package.json, which pnpm v10+ no longer reads
 # (it silently ignores overrides placed there and emits a [WARN] on every install).
 overrides:
-  dompurify: "^3.4.12"
-  js-yaml@4: "^4.3.0"
+  brace-expansion@1: "^1.1.18"
+  brace-expansion@2: "^2.1.4"
+  brace-expansion@5: "^5.0.9"
+  dompurify: "^3.4.13"
+  js-yaml@3: "^3.15.1"
+  js-yaml@4: "^4.3.1"

@@ -1,7 +1,7 @@
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import * as Wizard from "@/components/wizard/Wizard";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router";
 import { componentQueries } from "@/data/components";
 import { useQuery } from "@tanstack/react-query";
 import { routes } from "@/router/routes";

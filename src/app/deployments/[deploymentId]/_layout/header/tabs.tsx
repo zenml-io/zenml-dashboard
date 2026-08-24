@@ -10,7 +10,7 @@ import {
 	TabsList,
 	TabsTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { useActiveTab } from "./use-active-tab";
 
 export function DeploymentDetailTabs() {

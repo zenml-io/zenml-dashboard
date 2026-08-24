@@ -11,7 +11,7 @@ import { routes } from "@/router/routes";
 import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { PipelineSnapshotActions } from "../table-actions";
 
 export function createSnapshotCheckColumn(): ColumnDef<PipelineSnapshot> {

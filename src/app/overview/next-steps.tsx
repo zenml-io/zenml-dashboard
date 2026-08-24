@@ -4,7 +4,7 @@ import Calendar from "@/assets/icons/calendar.svg?react";
 import Slack from "@/assets/icons/services/slack.svg?react";
 import { cn } from "@zenml-io/react-component-library/utilities";
 import { routes } from "@/router/routes";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function NextSteps() {
 	return (

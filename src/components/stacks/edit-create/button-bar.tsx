@@ -2,7 +2,7 @@ import { stackQueries } from "@/data/stacks";
 import { useIsMutating } from "@tanstack/react-query";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { useFormContext } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type StackFormButtonBarProps = {
 	cancelRoute: string;

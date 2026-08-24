@@ -8,7 +8,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 
 export function ProjectLink() {
 	const pathname = useLocation().pathname;

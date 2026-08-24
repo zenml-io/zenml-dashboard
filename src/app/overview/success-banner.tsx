@@ -1,6 +1,6 @@
 import CheckCircle from "@/assets/icons/check-circle.svg?react";
 import X from "@/assets/icons/close.svg?react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export function SuccessBanner() {
 	const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { deploymentQueries } from "@/data/deployments";
 import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = {
 	deploymentId: string;

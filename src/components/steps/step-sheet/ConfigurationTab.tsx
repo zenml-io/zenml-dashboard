@@ -12,7 +12,7 @@ import {
 } from "@/lib/docker-images";
 import { AnyDict } from "@/types/common";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { ErrorFallback } from "../../Error";
 import { NestedCollapsible } from "../../NestedCollapsible";
 

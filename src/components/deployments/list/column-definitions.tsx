@@ -9,7 +9,7 @@ import { getFirstUuidSegment } from "@/lib/strings";
 import { routes } from "@/router/routes";
 import { Deployment } from "@/types/deployments";
 import { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function createDeploymentNameColumn(): ColumnDef<Deployment> {
 	return {

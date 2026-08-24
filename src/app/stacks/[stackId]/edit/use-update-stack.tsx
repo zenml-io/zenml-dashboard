@@ -6,7 +6,7 @@ import { routes } from "@/router/routes";
 import { StackComponentType } from "@/types/components";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { FormType } from "../../create/manual/schema";
 
 export function useUpdateStackHook(stackId: string) {

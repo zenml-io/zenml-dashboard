@@ -1,7 +1,7 @@
 import { secretQueries } from "@/data/secrets";
 import { useQuery } from "@tanstack/react-query";
 import { Box } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { CopyButton } from "../../../../components/CopyButton";
 import SecretDetailTable from "./SecretDetailTable";
 import { useSecretDetailBreadcrumbs } from "./breadcrumbs";

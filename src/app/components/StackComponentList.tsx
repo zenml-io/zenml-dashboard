@@ -7,7 +7,7 @@ import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable } from "@zenml-io/react-component-library";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { getComponentList } from "./columns";
 import { useComponentlistQueryParams } from "./service";
 import { StackComponentListParams } from "@/types/components";

@@ -4,7 +4,7 @@ import { useServerSettings } from "@/data/server/get-server-settings";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { checkUserOnboarding } from "@/lib/user";
 import { routes } from "@/router/routes";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { BreadcrumbContextProvider } from "./BreadcrumbsContext";
 import { LocalBanner } from "./LocalBanner";

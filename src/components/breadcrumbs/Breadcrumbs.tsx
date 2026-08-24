@@ -1,6 +1,6 @@
 import Divider from "@/assets/icons/slash-divider.svg?react";
 import { Fragment, useEffect, useState, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 import { BreadcrumbSegment } from "./types";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { dashCaseToTitleCase } from "@/lib/strings";

@@ -1,4 +1,4 @@
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 export function RootBoundary() {

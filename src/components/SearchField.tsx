@@ -4,7 +4,7 @@ import { objectToSearchParams } from "@/lib/url";
 import { cn, Input } from "@zenml-io/react-component-library";
 import debounce from "lodash.debounce";
 import { InputHTMLAttributes, forwardRef, useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 
 type Props = {
 	inMemoryHandler?: (val: string) => void;

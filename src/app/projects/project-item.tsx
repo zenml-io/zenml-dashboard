@@ -17,7 +17,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { Box, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { ProjectMenu } from "./project-menu";
 
 type Props = {

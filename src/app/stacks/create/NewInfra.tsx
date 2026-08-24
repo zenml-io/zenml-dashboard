@@ -12,7 +12,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router";
 import { LocalOverlay } from "./LocalOverlay";
 import * as OptionsCard from "./OptionCard";
 

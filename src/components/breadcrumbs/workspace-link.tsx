@@ -11,7 +11,7 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export function WorkspaceLink() {
 	const server = useServerInfo();

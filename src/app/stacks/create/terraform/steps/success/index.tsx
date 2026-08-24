@@ -3,7 +3,7 @@ import { routes } from "@/router/routes";
 import { Button } from "@zenml-io/react-component-library/components/server";
 import { StackWizardFooter } from "../../../components/WizardFooter";
 import { useCreateTerraformContext } from "../../TerraformContext";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { SuccessList } from "../../../new-infrastructure/Steps/Success/SuccessList";
 
 export function SuccessStep() {

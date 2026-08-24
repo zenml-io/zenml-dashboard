@@ -3,7 +3,7 @@ import { routes } from "@/router/routes";
 import { Button, cn } from "@zenml-io/react-component-library";
 import Joyride, { CallBackProps, EVENTS, Step, TooltipRenderProps } from "react-joyride";
 import { useTourContext } from "./TourContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { getCurrentUserKey, useCurrentUser } from "@/data/users/current-user-query";
 import { getUserMetadata } from "@/lib/user-metadata";

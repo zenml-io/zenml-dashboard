@@ -3,7 +3,7 @@ import { useServerInfo } from "@/data/server/info-query";
 import { getOnboardingSetup } from "@/lib/onboarding";
 import { Box, ProgressBar, RadialProgress, Skeleton } from "@zenml-io/react-component-library";
 import { checkIsLocalServer } from "@/lib/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "@/router/routes";
 import Rocket from "@/assets/icons/rocket.svg?react";
 

@@ -3,7 +3,7 @@ import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function SnapshotStack() {
 	const { snapshotId } = useParams() as {

@@ -3,7 +3,7 @@ import { prepareBackendTimestamp, secondsToTimeString } from "@/lib/dates";
 import { RawStepNode } from "@/types/dag-visualizer";
 import type { ExecutionStatus, ExecutionStatusFilterValue } from "@/types/pipeline-runs";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { useSelectedStep } from "../use-selected-step";
 import { useRef } from "react";
 import { useVirtualizedList } from "./use-virtualized-list";

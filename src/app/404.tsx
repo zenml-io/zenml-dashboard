@@ -1,7 +1,7 @@
 import { Button } from "@zenml-io/react-component-library";
 import { EmptyState } from "../components/EmptyState";
 import Help from "@/assets/icons/help.svg?react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "../router/routes";
 
 export default function Page404() {

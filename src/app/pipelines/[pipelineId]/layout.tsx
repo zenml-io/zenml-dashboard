@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { PipelineDetailHeader } from "./_layout/header";
 
 export default function PipelineDetailLayout() {

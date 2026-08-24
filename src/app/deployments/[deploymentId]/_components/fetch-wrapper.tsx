@@ -3,7 +3,7 @@ import { Deployment } from "@/types/deployments";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { ComponentType } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 type DeploymentDetailWrapperProps = {
 	Component: ComponentType<{ deployment: Deployment }>;

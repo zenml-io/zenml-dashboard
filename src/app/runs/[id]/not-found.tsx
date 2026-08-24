@@ -1,7 +1,7 @@
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { Button } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 export default function RunNotFound() {
 	const navigate = useNavigate();

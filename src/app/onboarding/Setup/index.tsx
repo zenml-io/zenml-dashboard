@@ -6,7 +6,7 @@ import { routes } from "@/router/routes";
 import { OnboardingResponse } from "@/types/onboarding";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ConnectZenMLStep, DeployPipeline, RunFirstPipeline } from "./Items";
 
 export function OnboardingSetupList() {

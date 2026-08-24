@@ -16,7 +16,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
 import { DisplayDate } from "../../DisplayDate";

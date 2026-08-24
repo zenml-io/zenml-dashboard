@@ -6,7 +6,7 @@ import { sanitizeUrl } from "@/lib/url";
 import { routes } from "@/router/routes";
 import { Badge, Button, Skeleton } from "@zenml-io/react-component-library/components/server";
 import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 import { useBreadcrumbsContext } from "../../../layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { CopyButton } from "../../CopyButton";
 import { PageHeader } from "../../PageHeader";

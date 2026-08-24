@@ -4,7 +4,7 @@ import { useUpdateSnapshot } from "@/data/pipeline-snapshots/update-snapshot";
 import { routes } from "@/router/routes";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { CreatePipelineSnapshotFormSchema } from "./form-schema";
 
 export function useSubmitHandler(originalSnapshotId: string | null) {

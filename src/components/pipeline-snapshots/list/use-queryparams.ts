@@ -1,5 +1,5 @@
 import { PipelineSnapshotListQueryParams } from "@/types/pipeline-snapshots";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { z } from "zod";
 
 const DEFAULT_PAGE = 1;

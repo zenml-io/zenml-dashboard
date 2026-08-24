@@ -3,7 +3,7 @@ import { RunName } from "@/components/runs/run-name";
 import { secondsToTimeString } from "@/lib/dates";
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { PlaygroundRunCardAvatar } from "./run-card-avatar";
 
 type Props = {

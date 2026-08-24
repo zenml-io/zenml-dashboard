@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { RunsDetailTabs, TabsHeader } from "./detail-tabs";
 import { ExpandPanelButton, GlobalDagControls } from "./expand-panel-button";
 import { PipelineVisualization } from "./pipeline-viz";

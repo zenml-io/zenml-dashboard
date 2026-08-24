@@ -2,7 +2,7 @@ import { stackQueries } from "@/data/stacks";
 import { stackComponentTypes } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { transformStackToFormData } from "./transform-component-data";
 import { UpdateForm } from "./update-form";
 import { useStackUpdateBreadcrumbs } from "./use-breadcrumbs";
