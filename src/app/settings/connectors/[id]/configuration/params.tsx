@@ -17,7 +17,7 @@ import {
 } from "@zenml-io/react-component-library/components/client";
 import { Skeleton, Tag } from "@zenml-io/react-component-library/components/server";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function BasicParams() {
 	const [open, setOpen] = useState(true);

@@ -5,7 +5,7 @@ import { TabIcon } from "@/components/tab-icon";
 import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
 import { Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { ReactNode, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ComponentConfigTab } from "./ConfigTab";
 import { useSelectedTab } from "./service";
 

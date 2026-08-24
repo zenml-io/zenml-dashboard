@@ -2,7 +2,7 @@ import { ServiceAccountAvatar } from "@/components/avatars/service-account-avata
 import { serviceAccountQueries } from "@/data/service-accounts";
 import { useQuery } from "@tanstack/react-query";
 import { Badge, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useServiceAccountDetailBreadcrumbs } from "./breadcrumb";
 
 export function APIKeyHeader() {

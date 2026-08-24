@@ -3,7 +3,7 @@ import { PipelineSnapshot } from "@/types/pipeline-snapshots";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
 import { ComponentType } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 type SnapshotDetailWrapperProps = {
 	Component: ComponentType<{ snapshot: PipelineSnapshot }>;

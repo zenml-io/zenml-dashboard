@@ -2,7 +2,7 @@ import { PipelineDeploymentsTable } from "@/components/deployments/list/table";
 import { DeploymentsTableToolbar } from "@/components/deployments/list/toolbar";
 import { useDeploymentQueryParams } from "@/components/deployments/list/use-deployment-queryparams";
 import { DeploymentsListQueryParams } from "@/types/deployments";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { usePipelineDeploymentColumns } from "./columns";
 
 export function PipelineDeploymentsContent() {

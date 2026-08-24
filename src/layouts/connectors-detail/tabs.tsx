@@ -11,7 +11,7 @@ import {
 	TabsTrigger
 } from "@zenml-io/react-component-library/components/client";
 import { ReactNode } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 
 export function ServiceConnectorTabs({ children }: { children: ReactNode }) {
 	const navigate = useNavigate();

@@ -11,7 +11,7 @@ import {
 	TabsList,
 	TabsTrigger
 } from "@zenml-io/react-component-library/components/client";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import { useActivePipelineRunTab } from "./use-active-pipeline-run-tab";
 
 export function PipelineRunDetailTabs() {

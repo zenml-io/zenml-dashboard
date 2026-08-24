@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { stackQueries } from "@/data/stacks";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, Skeleton } from "@zenml-io/react-component-library";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function StackHeader() {
 	const { stackId } = useParams() as { stackId: string };

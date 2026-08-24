@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { StackHeader } from "./stack-header";
 
 export default function EditStacksLayout() {

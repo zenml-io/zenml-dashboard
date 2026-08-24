@@ -3,7 +3,7 @@ import { pipelineSnapshotQueries } from "@/data/pipeline-snapshots";
 import { IS_SAFARI } from "@/lib/environment";
 import "@/monaco-setup";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PlaygroundEmptyState, PlaygroundError } from "./_components/error";
 import { PlaygroundLoader } from "./_components/loader";
 import { PlaygroundPageContent } from "./page.content";

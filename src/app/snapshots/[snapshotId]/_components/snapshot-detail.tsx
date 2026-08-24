@@ -14,7 +14,7 @@ import {
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { SnapshotDetailWrapper } from "./fetch-wrapper";
 
 export function SnapshotDetails() {

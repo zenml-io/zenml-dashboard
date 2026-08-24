@@ -4,7 +4,7 @@ import { serviceAccountQueries } from "@/data/service-accounts";
 import { useQuery } from "@tanstack/react-query";
 import { DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useServiceAccountOverviewSearchParams } from "../service";
 import { AddApiKeyDialog } from "./AddApiKeyDialog";
 import { ApiKeyButtonGroup } from "./ButtonGroup";

@@ -1,5 +1,5 @@
 import { Box } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { AddApiKeyDialog } from "./AddApiKeyDialog";
 
 export default function ApiKeyFallback() {

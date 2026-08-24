@@ -27,7 +27,7 @@ import {
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router";
 import { DeploymentTag } from "./deployment-tag";
 import { RunStatusTag } from "../../run-status-tag";
 

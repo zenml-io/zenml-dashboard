@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/breadcrumbs/Breadcrumbs";
 import { ProjectLink } from "@/components/breadcrumbs/project-link";
 import { WorkspaceLink } from "@/components/breadcrumbs/workspace-link";
 import { routes } from "@/router/routes";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { BackButton } from "./back-button";
 import { UserDropdown } from "./UserDropdown";
 

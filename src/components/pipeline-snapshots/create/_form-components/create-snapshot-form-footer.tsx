@@ -1,5 +1,5 @@
 import { Button } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 type Props = {
 	isPending: boolean;

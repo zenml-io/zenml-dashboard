@@ -10,7 +10,7 @@ import { routes } from "@/router/routes";
 import { StackDeploymentProvider } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { StackWizardFooter } from "../../../components/WizardFooter";
 import { clearWizardData } from "../../persist";
 import { useCreateTerraformContext } from "../../TerraformContext";

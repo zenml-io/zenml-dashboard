@@ -19,7 +19,7 @@ import {
 	DropdownMenuTrigger,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import AnnouncementButton from "./whats-new-button";
 import { useAnnouncement } from "./use-announcement";
 import { AnnouncementIndicator } from "@/components/announcements/announcement-indicator";

@@ -1,5 +1,5 @@
 import { StackComponentsDetailHeader } from "@/components/stack-components/component-detail/Header";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router";
 
 export default function ComponentLayout() {
 	const { componentId } = useParams() as { componentId: string };

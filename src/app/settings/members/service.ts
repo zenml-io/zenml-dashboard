@@ -1,5 +1,5 @@
 import { ListUserParams } from "@/types/user";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 import { z } from "zod";
 

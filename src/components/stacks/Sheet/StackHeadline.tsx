@@ -3,7 +3,7 @@ import { stackQueries } from "@/data/stacks";
 import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback, Button, Skeleton } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { CopyButton } from "../../CopyButton";
 
 type Props = {

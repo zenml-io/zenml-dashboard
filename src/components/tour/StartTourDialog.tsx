@@ -7,7 +7,7 @@ import {
 	Button
 } from "@zenml-io/react-component-library";
 import { useTourContext } from "./TourContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { routes } from "@/router/routes";
 import TourImage from "@/assets/images/product-tour/tour-cover.webp";
 

@@ -3,7 +3,7 @@ import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { calculateTimeDifference } from "@/lib/dates";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router";
 import { useSelectedStep } from "../use-selected-step";
 import { PipelineRunLogSidebarItem } from "./common";
 import { ExecutionStatusIcon } from "@/components/ExecutionStatus";

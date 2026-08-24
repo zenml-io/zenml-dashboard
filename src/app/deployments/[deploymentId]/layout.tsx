@@ -1,4 +1,4 @@
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router";
 import { DeploymentDetailHeader } from "./_layout/header";
 
 export default function DeploymentDetailLayout() {

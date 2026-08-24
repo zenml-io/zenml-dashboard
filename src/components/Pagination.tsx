@@ -6,7 +6,7 @@ import Right from "@/assets/icons/chevron-right.svg?react";
 import { objectToSearchParams } from "@/lib/url";
 import { forwardRef } from "react";
 import { cn } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { ResponsePage } from "@/types/common";
 
 type Props = {

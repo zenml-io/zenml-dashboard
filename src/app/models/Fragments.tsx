@@ -1,6 +1,6 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { Box } from "@zenml-io/react-component-library";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
 export function CommandSection() {
 	const [searchParams] = useSearchParams();

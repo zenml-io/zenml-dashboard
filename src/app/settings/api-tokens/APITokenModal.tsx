@@ -16,7 +16,7 @@ import { jwtDecode } from "jwt-decode";
 import { useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import { ErrorBoundary } from "react-error-boundary";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = {
 	token: string;

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { SuccessBanner } from "./success-banner";
 import { SupportResources } from "./support-resources";
 import { Templates } from "./templates";

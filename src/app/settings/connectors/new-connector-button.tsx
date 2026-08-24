@@ -2,7 +2,7 @@ import { Button } from "@zenml-io/react-component-library/components/server";
 import Plus from "@/assets/icons/plus.svg?react";
 import { routes } from "@/router/routes";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 export function NewConnectorButton() {
 	return (
 		<Button size="md" asChild>

@@ -4,7 +4,7 @@ import { urlSchema } from "@/lib/url";
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router";
 
 type Props = {
 	username: string;

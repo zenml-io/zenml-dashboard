@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { z } from "zod";
 
 const tabParamSchema = z.object({

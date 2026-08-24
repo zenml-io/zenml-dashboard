@@ -1,6 +1,6 @@
 import { CreateSnapshotForm } from "@/components/pipeline-snapshots/create/form";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useCreateSnapshotFromRunBreadcrumbs } from "./breadcrumb";
 
 export default function CreateSnapshotFromRunPage() {

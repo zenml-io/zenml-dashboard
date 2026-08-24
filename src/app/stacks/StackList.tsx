@@ -6,7 +6,7 @@ import { stackQueries } from "@/data/stacks";
 import { routes } from "@/router/routes";
 import { useQuery } from "@tanstack/react-query";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useStacklistQueryParams } from "./service";
 import { StackListQueryParams } from "../../types/stack";
 import { useStackColumns } from "./columns";

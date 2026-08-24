@@ -3,7 +3,7 @@ import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/Execu
 import { pipelineQueries } from "@/data/pipelines";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@zenml-io/react-component-library/components/server";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useActiveTab } from "./use-active-tab";
 import { usePipelineDetailRunsBreadcrumbs } from "./use-breadcrumb";
 import { capitalize } from "@/lib/strings";

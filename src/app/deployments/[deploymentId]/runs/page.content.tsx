@@ -3,7 +3,7 @@ import { RunsTableToolbar } from "@/app/pipelines/[pipelineId]/runs/runs-table-t
 import { PipelineRunsTable } from "@/app/pipelines/[pipelineId]/runs/RunsTable";
 import { usePipelineRunParams } from "@/app/pipelines/[pipelineId]/runs/service";
 import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function DeploymentRunsContent() {
 	const params = usePipelineRunParams();

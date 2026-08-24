@@ -1,5 +1,5 @@
 import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { getPipelineDetailColumns } from "./columns";
 import { RunsTableToolbar } from "./runs-table-toolbar";
 import { PipelineRunsTable } from "./RunsTable";

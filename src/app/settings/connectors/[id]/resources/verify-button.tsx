@@ -5,7 +5,7 @@ import { useResourcesContext } from "@/layouts/connectors-detail/resources-conte
 import { useQuery } from "@tanstack/react-query";
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { ReactNode, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { LoadingDialog } from "./loading-dialog";
 
 export function VerifyButton({ children }: { children: ReactNode }) {

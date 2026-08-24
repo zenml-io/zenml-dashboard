@@ -10,7 +10,7 @@ import { TabIcon } from "@/components/tab-icon";
 import { ScrollingTabsList } from "@/components/tabs/scrolling-tabs-list";
 import { Tabs, TabsContent, TabsTrigger } from "@zenml-io/react-component-library";
 import { ErrorBoundary } from "react-error-boundary";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
 import { OrchestratorCard, StepDetailsTab } from "./DetailsTab";

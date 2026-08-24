@@ -2,7 +2,7 @@ import { Button } from "@zenml-io/react-component-library/components/server";
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { useWizardContext } from "@/context/WizardContext";
 import { ButtonHTMLAttributes } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { routes } from "@/router/routes";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement>;

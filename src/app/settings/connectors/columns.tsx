@@ -11,7 +11,7 @@ import { ServiceConnector } from "@/types/service-connectors";
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@zenml-io/react-component-library";
 import { useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { ConnectorDropdown } from "./connector-dropdown";
 
 export function useServiceConnectorListColumns(): ColumnDef<ServiceConnector>[] {

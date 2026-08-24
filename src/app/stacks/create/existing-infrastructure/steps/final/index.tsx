@@ -10,7 +10,7 @@ import { Stack } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Avatar, AvatarFallback } from "@zenml-io/react-component-library/components/client";
 import { Button, Skeleton } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { StackWizardFooter } from "../../../components/WizardFooter";
 import { useExistingInfraContext } from "../../ExistingInfraContext";
 import { FlavorIcon } from "../../FlavorIcon";

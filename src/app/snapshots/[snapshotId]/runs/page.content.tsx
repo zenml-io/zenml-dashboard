@@ -4,7 +4,7 @@ import { PipelineRunsTable } from "@/app/pipelines/[pipelineId]/runs/RunsTable";
 import { usePipelineRunParams } from "@/app/pipelines/[pipelineId]/runs/service";
 import { PipelineRunOvervieweParams } from "@/types/pipeline-runs";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export function SnapshotDetailRunsContent() {
 	const params = usePipelineRunParams();

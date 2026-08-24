@@ -1,7 +1,7 @@
 import { useServerInfo } from "@/data/server/info-query";
 import { routes } from "@/router/routes";
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
 export function RootLayout() {

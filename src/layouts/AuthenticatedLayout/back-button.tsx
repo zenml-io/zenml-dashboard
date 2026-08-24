@@ -1,6 +1,6 @@
 import ArrowLeft from "@/assets/icons/arrow-left.svg?react";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 export function BackButton() {
 	const navigate = useNavigate();

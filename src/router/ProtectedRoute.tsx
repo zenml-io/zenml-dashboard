@@ -1,5 +1,5 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 import { useServerInfo } from "../data/server/info-query";
 import { routes } from "./routes";

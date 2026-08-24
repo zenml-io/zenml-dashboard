@@ -1,7 +1,7 @@
 import * as Wizard from "@/components/wizard/Wizard";
 import { routes } from "@/router/routes";
 import { Button } from "@zenml-io/react-component-library/components/server";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useRegisterConnectorContext } from "../create-context";
 import { ConnectorSuccessBox } from "./success-box";
 import { ConnectorSuccessTable } from "./table";

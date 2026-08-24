@@ -1,7 +1,7 @@
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { DisplayProject } from "./project-display";
 import { routes } from "@/router/routes";
 import { SettingsMenu } from "../Menu";
