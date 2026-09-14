@@ -37,3 +37,18 @@ urls.txt
 
 # X-Squad
 design/
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+.agents
+
+# Playwright
+/playwright/.auth/
